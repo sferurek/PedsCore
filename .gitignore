@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+.next/
+.env
+.env.local
+.DS_Store
+npm-debug.log*
+

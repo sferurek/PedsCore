@@ -1,0 +1,30 @@
+{
+  "name": "pedscore",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @pedscore/web",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "build": "npm run build -w @pedscore/core && npm run build -w @pedscore/web"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "@vitejs/plugin-react": "^4.5.1",
+    "eslint": "^9.28.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^15.15.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1",
+    "vite": "^6.3.5",
+    "vitest": "^4.1.8"
+  }
+}

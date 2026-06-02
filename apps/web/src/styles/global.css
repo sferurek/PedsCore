@@ -1,0 +1,55 @@
+:root {
+  color: #172026;
+  background: #f6f8f7;
+  font-family:
+    "Aptos", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 2rem;
+}
+
+.intro {
+  width: min(100%, 44rem);
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: #34615a;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #102a2d;
+  font-size: clamp(3rem, 12vw, 6rem);
+  line-height: 0.95;
+}
+
+.subtitle {
+  margin: 1rem 0 0;
+  color: #405258;
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  line-height: 1.5;
+}
+
