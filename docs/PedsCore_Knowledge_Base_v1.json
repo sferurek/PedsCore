@@ -1,0 +1,417 @@
+[
+  {
+    "id": "apgar",
+    "name": "Apgar",
+    "specialty": "neonatologia",
+    "type": "score",
+    "population": "recién nacidos en los minutos iniciales tras el parto",
+    "inputs": [
+      {"variable": "frecuencia_cardiaca", "description": "latidos por minuto"},
+      {"variable": "esfuerzo_respiratorio", "description": "movimientos respiratorios"},
+      {"variable": "tono_muscular", "description": "evaluación del tono del recién nacido"},
+      {"variable": "irritabilidad_refleja", "description": "respuesta a estímulos"},
+      {"variable": "color", "description": "coloración de piel y mucosas"}
+    ],
+    "calculation": "Cada variable se puntúa de 0 a 2; la suma total oscila entre 0 y 10",
+    "range": {"min": 0, "max": 10},
+    "interpretation": "8-10 adaptación normal; 4-7 requiere vigilancia; ≤6 indica depresión y posible intervención inmediata",
+    "references": ["474945853518532†L183-L191"],
+    "risk": "bajo",
+    "implementation_difficulty": "baja",
+    "relevance": "esencial"
+  },
+  {
+    "id": "silverman",
+    "name": "Silverman-Andersen",
+    "specialty": "neonatologia",
+    "type": "score",
+    "population": "recién nacidos con distrés respiratorio",
+    "inputs": [
+      {"variable": "movimiento_toracoabdominal", "description": "sincronía entre tórax y abdomen"},
+      {"variable": "retracciones_intercostales", "description": "evidencia de tiraje"},
+      {"variable": "retraccion_xifoidea", "description": "hundimiento a nivel xifoideo"},
+      {"variable": "aleteo_nasal", "description": "dilatación de alas nasales"},
+      {"variable": "quejido_espiratorio", "description": "sonido de quejido durante la espiración"}
+    ],
+    "calculation": "Cada parámetro se puntúa de 0 a 2; se suman para obtener un total de 0 a 10",
+    "range": {"min": 0, "max": 10},
+    "interpretation": "0-3 leve; 4-6 moderado; 7-10 grave",
+    "references": ["147077704063714†L331-L361"],
+    "risk": "bajo",
+    "implementation_difficulty": "baja",
+    "relevance": "esencial"
+  },
+  {
+    "id": "wood_downes",
+    "name": "Wood-Downes-Ferrés",
+    "specialty": "respiratorio",
+    "type": "score",
+    "population": "lactantes con bronquiolitis u obstrucción respiratoria",
+    "inputs": [
+      {"variable": "sibilancias", "description": "ausencia o presencia y grado de sibilancias"},
+      {"variable": "retracciones", "description": "recesión torácica"},
+      {"variable": "entrada_aire", "description": "audición de entrada de aire"},
+      {"variable": "cianosis", "description": "coloración cianótica"},
+      {"variable": "frecuencia_respiratoria", "description": "número de respiraciones por minuto"},
+      {"variable": "frecuencia_cardiaca", "description": "latidos por minuto"}
+    ],
+    "calculation": "Puntuación por variable (ver tabla en referencia) que se suman para obtener un máximo de 17",
+    "range": {"min": 0, "max": 17},
+    "interpretation": "0-3 leve; 4-6 moderado; 7-10 severo; >10 insuficiencia respiratoria",
+    "references": ["962479943341369†L51-L91"],
+    "risk": "bajo",
+    "implementation_difficulty": "media",
+    "relevance": "esencial"
+  },
+  {
+    "id": "ballard",
+    "name": "Dubowitz/Ballard",
+    "specialty": "neonatologia",
+    "type": "score",
+    "population": "recién nacidos para estimación de edad gestacional",
+    "inputs": [
+      {"variable": "madurez_fisica", "description": "textura cutánea, lanugo, surcos plantares, mama, orejas, genitales"},
+      {"variable": "madurez_neuromuscular", "description": "postura, ventana del carpo, retorno del brazo, ángulo poplíteo, signo del pañuelo, talón-oreja"}
+    ],
+    "calculation": "Los ítems se puntúan y la suma se convierte en semanas de gestación",
+    "range": {"min": 20, "max": 44},
+    "interpretation": "Puntaje total corresponde a edad gestacional en semanas",
+    "references": ["220838157962949†L221-L287"],
+    "risk": "bajo",
+    "implementation_difficulty": "media",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "sarnat",
+    "name": "Sarnat y Sarnat",
+    "specialty": "neonatologia",
+    "type": "clasificacion",
+    "population": "recién nacidos con encefalopatía hipóxico‑isquémica",
+    "inputs": [
+      {"variable": "nivel_alerta", "description": "hiperalerta, letárgico o coma"},
+      {"variable": "tono_muscular", "description": "normal, hipotónico, flácido"},
+      {"variable": "convulsiones", "description": "frecuencia de convulsiones"},
+      {"variable": "respiracion", "description": "regular, periódica o apnea"},
+      {"variable": "otros", "description": "reflejos, tamaño pupilar"}
+    ],
+    "calculation": "No se suma; se clasifica en estadio I, II o III según patrón de variables y duración",
+    "range": null,
+    "interpretation": "Estadio I leve; II moderado; III grave; duración <24 h o >48 h influye en pronóstico【938810463459155†L116-L143】",
+    "references": ["938810463459155†L116-L143"],
+    "risk": "medio",
+    "implementation_difficulty": "media",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "thompson_hie",
+    "name": "Thompson HIE",
+    "specialty": "neonatologia",
+    "type": "score",
+    "population": "recién nacidos con encefalopatía hipóxico‑isquémica",
+    "inputs": [
+      {"variable": "tono", "description": "normal, hiper, hipo, flácido"},
+      {"variable": "nivel_conciencia", "description": "alerta, letárgico, coma"},
+      {"variable": "convulsiones", "description": "ausentes, infrecuentes, frecuentes"},
+      {"variable": "postura", "description": "flexión, extensión"},
+      {"variable": "reflejo_moro", "description": "presente o ausente"},
+      {"variable": "prension", "description": "fuerte, débil"},
+      {"variable": "succion", "description": "buena, pobre"},
+      {"variable": "respiracion", "description": "normal, irregular"},
+      {"variable": "fontanela", "description": "normal, abombada"}
+    ],
+    "calculation": "Cada variable se puntúa 0-3; total 0-22",
+    "range": {"min": 0, "max": 22},
+    "interpretation": "0-10 leve; 11-14 moderada; ≥15 severa【110699779049624†L63-L69】【110699779049624†L88-L181】",
+    "references": ["110699779049624†L63-L69", "110699779049624†L88-L181"],
+    "risk": "medio",
+    "implementation_difficulty": "media",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "finnegan",
+    "name": "Finnegan Modificado (NAS)",
+    "specialty": "neonatologia",
+    "type": "score",
+    "population": "recién nacidos expuestos a opiáceos",
+    "inputs": [
+      {"variable": "sintomas_neurologicos", "description": "llanto, sueño, reflejo de Moro, temblores, tono muscular, excoriación, mioclonías, convulsiones"},
+      {"variable": "sintomas_metabolicos", "description": "sudoración, hipertermia, bostezos, moteado, congestión nasal, estornudos, aleteo nasal, frecuencia respiratoria"},
+      {"variable": "sintomas_gastrointestinales", "description": "succión excesiva, alimentación deficiente, regurgitación, vómitos, heces"}
+    ],
+    "calculation": "Se asignan puntos según severidad de cada síntoma; no tiene rango máximo fijo",
+    "range": {"min": 0, "max": null},
+    "interpretation": "Dos puntuaciones ≥12 o tres ≥8 indican tratamiento【467292371492109†L63-L149】",
+    "references": ["467292371492109†L63-L149"],
+    "risk": "medio",
+    "implementation_difficulty": "alta",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "nips",
+    "name": "NIPS (Neonatal Infant Pain Scale)",
+    "specialty": "neonatologia",
+    "type": "escala",
+    "population": "prematuros y neonatos a término",
+    "inputs": [
+      {"variable": "expresion_facial", "description": "relajada o fruncida"},
+      {"variable": "patron_respiratorio", "description": "regular o alterado"},
+      {"variable": "brazos", "description": "relajados o flexionados/extensos"},
+      {"variable": "piernas", "description": "relajadas o flexionadas/extensas"},
+      {"variable": "estado_alarma", "description": "dormido, despierto, agitado"},
+      {"variable": "llanto", "description": "ausente, gemido, llanto vigoroso"}
+    ],
+    "calculation": "Se asignan 0–1 punto a cada parámetro excepto el llanto (0–2); total 0–7",
+    "range": {"min": 0, "max": 7},
+    "interpretation": ">3 indica posible dolor y necesidad de intervención【577530968347707†L143-L165】",
+    "references": ["577530968347707†L143-L165"],
+    "risk": "bajo",
+    "implementation_difficulty": "baja",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "pews",
+    "name": "Pediatric Early Warning Score",
+    "specialty": "urgencias",
+    "type": "score",
+    "population": "niños hospitalizados o en urgencias",
+    "inputs": [
+      {"variable": "comportamiento", "description": "adecuado, dormido, irritable, letárgico/confuso"},
+      {"variable": "cardiovascular", "description": "relleno capilar, color, frecuencia cardíaca"},
+      {"variable": "respiratorio", "description": "frecuencia respiratoria relativa a normalidad, uso de accesorios, FiO₂"},
+      {"variable": "nebulizaciones", "description": "presencia de nebulizaciones frecuentes"},
+      {"variable": "vomitos", "description": "vómitos persistentes"}
+    ],
+    "calculation": "Cada categoría se puntúa de 0 a 3; puntos adicionales por nebulizaciones o vómitos persistentes",
+    "range": {"min": 0, "max": null},
+    "interpretation": "A mayor puntuación, mayor necesidad de monitorización; no hay cutoffs universales【747638898637047†L20-L41】【747638898637047†L25-L37】",
+    "references": ["747638898637047†L20-L41", "747638898637047†L25-L37"],
+    "risk": "medio",
+    "implementation_difficulty": "media",
+    "relevance": "esencial"
+  },
+  {
+    "id": "pram",
+    "name": "PRAM",
+    "specialty": "respiratorio",
+    "type": "score",
+    "population": "niños con asma o broncoespasmo",
+    "inputs": [
+      {"variable": "saturacion_oxigeno", "description": "≥95 %, 92–94 % o <92 %"},
+      {"variable": "retracciones_suprasternal", "description": "presencia/ausencia"},
+      {"variable": "musc_escalenos", "description": "contracción de músculos escalenos"},
+      {"variable": "entrada_aire", "description": "normal, disminuida en bases, disminuida en ápices y bases, mínima"},
+      {"variable": "sibilancias", "description": "ausentes, espiratorias, inspiratorias, audibles sin estetoscopio"}
+    ],
+    "calculation": "Asignar puntos según categorías; total 0–12",
+    "range": {"min": 0, "max": 12},
+    "interpretation": "0–3 leve; 4–7 moderada; 8–12 grave【447101735359577†L29-L53】",
+    "references": ["447101735359577†L29-L53"],
+    "risk": "bajo",
+    "implementation_difficulty": "media",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "westley",
+    "name": "Westley Croup Score",
+    "specialty": "urgencias",
+    "type": "score",
+    "population": "niños con crup",
+    "inputs": [
+      {"variable": "retracciones", "description": "ninguna, leve, moderada, severa"},
+      {"variable": "estridor", "description": "ausente, con agitación, en reposo"},
+      {"variable": "cianosis", "description": "ausente, con agitación, en reposo"},
+      {"variable": "nivel_conciencia", "description": "normal, desorientado"},
+      {"variable": "entrada_aire", "description": "normal, disminuida, marcadamente disminuida"}
+    ],
+    "calculation": "Sumar puntos (0–17) según categorías",
+    "range": {"min": 0, "max": 17},
+    "interpretation": "0–2 leve; 3–5 moderado; 6–11 severo; 12–17 fallo respiratorio inminente【933011918013909†L20-L38】【933011918013909†L30-L38】",
+    "references": ["933011918013909†L20-L38", "933011918013909†L30-L38"],
+    "risk": "bajo",
+    "implementation_difficulty": "media",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "rdai",
+    "name": "RDAI (Respiratory Distress Assessment Instrument)",
+    "specialty": "respiratorio",
+    "type": "score",
+    "population": "lactantes con bronquiolitis",
+    "inputs": [
+      {"variable": "wheezing", "description": "fase espiratoria (none, end 1/2, 3/4, all), fase inspiratoria (none, partial, full), localización (none, segmental, <2/4 campos, difusa)"},
+      {"variable": "retracciones", "description": "supraclavicular, intercostal, subcostal (cada una none, mild, moderate, marked)"}
+    ],
+    "calculation": "Se asignan puntos según grados de sibilancias y retracciones; se suman para un valor total",
+    "range": {"min": 0, "max": null},
+    "interpretation": "Mayor puntuación indica mayor severidad de bronquiolitis【827264942931861†L152-L164】",
+    "references": ["827264942931861†L152-L164"],
+    "risk": "bajo",
+    "implementation_difficulty": "alta",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "sipa",
+    "name": "SIPA",
+    "specialty": "emergencias",
+    "type": "calculadora",
+    "population": "niños con sospecha de shock",
+    "inputs": [
+      {"variable": "frecuencia_cardiaca", "description": "latidos por minuto"},
+      {"variable": "presion_sistolica", "description": "presión arterial sistólica en mmHg"}
+    ],
+    "calculation": "Índice de choque = frecuencia cardiaca / presión sistólica",
+    "range": {"min": 0, "max": null},
+    "interpretation": "Valores superiores a 1.2 (4–6 años), 1.0 (6–12 años) o 0.9 (>12 años) sugieren shock【207165303600994†L119-L130】",
+    "references": ["207165303600994†L117-L130", "207165303600994†L119-L130"],
+    "risk": "medio",
+    "implementation_difficulty": "baja",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "pecarn",
+    "name": "PECARN Traumatismo craneal",
+    "specialty": "urgencias",
+    "type": "regla_clinica",
+    "population": "niños con traumatismo craneal",
+    "inputs": [
+      {"variable": "glasgow", "description": "puntuación de Glasgow"},
+      {"variable": "signos_fractura", "description": "fractura de cráneo palpable o signos de fractura de base"},
+      {"variable": "hematoma_escalar", "description": "hematoma occipital/parietal/temporal"},
+      {"variable": "perdida_conciencia", "description": "duración de la pérdida de conciencia"},
+      {"variable": "conducta_anormal", "description": "comportamiento según padres"},
+      {"variable": "mecanismo", "description": "mecanismo de alta energía"},
+      {"variable": "vomitos", "description": "presencia de vómitos"},
+      {"variable": "dolor_cabeza", "description": "cefalea severa"}
+    ],
+    "calculation": "Algoritmo de decisión basado en presencia/ausencia de factores de riesgo; no hay puntuación numérica",
+    "range": null,
+    "interpretation": "Identifica a niños de bajo riesgo para evitar tomografía【437860562757143†L87-L109】",
+    "references": ["437860562757143†L87-L109"],
+    "risk": "medio",
+    "implementation_difficulty": "media",
+    "relevance": "esencial"
+  },
+  {
+    "id": "flacc",
+    "name": "FLACC",
+    "specialty": "dolor",
+    "type": "escala",
+    "population": "niños entre 2 meses y 7 años",
+    "inputs": [
+      {"variable": "cara", "description": "expresión facial"},
+      {"variable": "piernas", "description": "posición y tono de las piernas"},
+      {"variable": "actividad", "description": "nivel de actividad"},
+      {"variable": "llanto", "description": "intensidad del llanto"},
+      {"variable": "consolabilidad", "description": "respuesta al consuelo"}
+    ],
+    "calculation": "Cada ítem se puntúa 0–2; total 0–10",
+    "range": {"min": 0, "max": 10},
+    "interpretation": "0 sin dolor; 1–3 dolor leve; 4–6 moderado; 7–10 intenso【635225333317716†L81-L116】",
+    "references": ["635225333317716†L81-L116"],
+    "risk": "bajo",
+    "implementation_difficulty": "baja",
+    "relevance": "esencial"
+  },
+  {
+    "id": "cries",
+    "name": "CRIES",
+    "specialty": "dolor",
+    "type": "escala",
+    "population": "neonatos postoperatorios",
+    "inputs": [
+      {"variable": "llanto", "description": "intensidad del llanto"},
+      {"variable": "necesidad_oxigeno", "description": "requerimiento de oxígeno"},
+      {"variable": "constantes_vitales", "description": "aumento de frecuencia cardiaca y tensión arterial"},
+      {"variable": "expresion_facial", "description": "gestos faciales"},
+      {"variable": "sueño", "description": "patrón de sueño"}
+    ],
+    "calculation": "Se asignan 0–2 puntos por ítem; total 0–10",
+    "range": {"min": 0, "max": 10},
+    "interpretation": "≥4 puede indicar dolor significativo【635225333317716†L81-L116】",
+    "references": ["635225333317716†L81-L116"],
+    "risk": "bajo",
+    "implementation_difficulty": "baja",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "cheops",
+    "name": "CHEOPS",
+    "specialty": "dolor",
+    "type": "escala",
+    "population": "niños de 1 a 7 años",
+    "inputs": [
+      {"variable": "llanto", "description": "llanto silencioso, gimoteo, llanto ininterrumpido"},
+      {"variable": "expresion_facial", "description": "sonrisa, neutral, fruncido"},
+      {"variable": "verbalizacion", "description": "ninguna, queja, grito"},
+      {"variable": "tono", "description": "reposo, tenso, rígido"},
+      {"variable": "piernas", "description": "posición normal, inquietud, levantamiento"},
+      {"variable": "estado_despierto", "description": "dormido, despierto, alerta"}
+    ],
+    "calculation": "Puntuación total ≥4 indica dolor【635225333317716†L81-L116】",
+    "range": {"min": 4, "max": 13},
+    "interpretation": "mayor puntuación indica mayor dolor",
+    "references": ["635225333317716†L81-L116"],
+    "risk": "bajo",
+    "implementation_difficulty": "media",
+    "relevance": "opcional"
+  },
+  {
+    "id": "wong_baker",
+    "name": "Wong–Baker Faces",
+    "specialty": "dolor",
+    "type": "escala",
+    "population": "niños mayores de 3 años",
+    "inputs": [
+      {"variable": "seleccion_cara", "description": "elección de rostro según intensidad del dolor"}
+    ],
+    "calculation": "El niño selecciona una cara que representa su dolor, puntuado de 0 a 10",
+    "range": {"min": 0, "max": 10},
+    "interpretation": "0 sin dolor, 10 peor dolor【635225333317716†L81-L116】",
+    "references": ["635225333317716†L81-L116"],
+    "risk": "bajo",
+    "implementation_difficulty": "baja",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "schwartz",
+    "name": "Schwartz revisado",
+    "specialty": "nefrologia",
+    "type": "calculadora",
+    "population": "niños con evaluación de función renal",
+    "inputs": [
+      {"variable": "estatura", "description": "talla en cm"},
+      {"variable": "creatinina", "description": "creatinina sérica"},
+      {"variable": "k", "description": "constante según edad y sexo"}
+    ],
+    "calculation": "eGFR = (k × talla)/creatinina",
+    "range": {"min": 0, "max": null},
+    "interpretation": "Resultado estimado de filtrado glomerular (mL/min/1.73 m²)",
+    "references": [],
+    "risk": "bajo",
+    "implementation_difficulty": "baja",
+    "relevance": "recomendada"
+  },
+  {
+    "id": "cds",
+    "name": "Clinical Dehydration Scale",
+    "specialty": "gastroenterologia",
+    "type": "score",
+    "population": "niños con gastroenteritis",
+    "inputs": [
+      {"variable": "estado_general", "description": "nivel de conciencia"},
+      {"variable": "sed", "description": "presencia de sed"},
+      {"variable": "mucosas", "description": "humedad de mucosas"},
+      {"variable": "lagrimas", "description": "presencia de lágrimas"},
+      {"variable": "ojos_hundidos", "description": "apariencia de ojos"},
+      {"variable": "relleno_capilar", "description": "tiempo de llenado capilar"},
+      {"variable": "signos_vitales", "description": "frecuencia cardíaca y respiratoria"}
+    ],
+    "calculation": "Cada variable se puntúa 0–2; total 0–8",
+    "range": {"min": 0, "max": 8},
+    "interpretation": "0–3 leve; 4–6 moderado; 7–8 grave",
+    "references": [],
+    "risk": "medio",
+    "implementation_difficulty": "media",
+    "relevance": "recomendada"
+  }
+]
