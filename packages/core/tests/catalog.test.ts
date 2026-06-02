@@ -41,7 +41,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toEqual([]);
+    expect(getImplementedTools()).toHaveLength(8);
   });
 
   it("searches by name, acronym, and category", () => {

@@ -73,7 +73,14 @@ export const translations = {
       inactiveCalculation:
         "El calculo automatico aun no esta activo para esta herramienta.",
       completeRequired:
-        "Completa los campos requeridos para preparar el resultado."
+        "Completa los campos requeridos para preparar el resultado.",
+      value: "Valor",
+      interpretation: "Interpretacion",
+      warnings: "Advertencias",
+      trace: "Trazabilidad",
+      noInterpretation:
+        "No hay banda de interpretacion automatica para este resultado.",
+      score: "Puntuacion"
     },
     tables: {
       interpretation: "Tabla de interpretacion",
@@ -182,7 +189,14 @@ export const translations = {
       inactiveCalculation:
         "Automatic calculation is not active for this tool yet.",
       completeRequired:
-        "Complete the required fields to prepare the result."
+        "Complete the required fields to prepare the result.",
+      value: "Value",
+      interpretation: "Interpretation",
+      warnings: "Warnings",
+      trace: "Traceability",
+      noInterpretation:
+        "No automatic interpretation band is available for this result.",
+      score: "Score"
     },
     tables: {
       interpretation: "Interpretation table",

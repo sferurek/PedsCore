@@ -12,6 +12,17 @@ import type {
 
 const githubIssuesUrl = "https://github.com/sferurek/PedsCore/issues";
 
+const implementedToolIds = new Set([
+  "apgar",
+  "silverman_andersen",
+  "flacc",
+  "qtc_bazett",
+  "qtc_fridericia",
+  "qtc_framingham",
+  "qtc_hodges",
+  "bedside_schwartz"
+]);
+
 type ToolSeed = Omit<
   ClinicalToolMetadata,
   "disclaimerRequired" | "issueTemplateUrl" | "references"
@@ -254,7 +265,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     calculationNotes: pendingCalculationNotes,
     inputs: [
       {
-        id: "qt_interval",
+        id: "qt_ms",
         label: { es: "Intervalo QT", en: "QT interval" },
         type: "number",
         required: true,
@@ -264,14 +275,14 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         placeholder: { es: "Introducir QT medido", en: "Enter measured QT" }
       },
       {
-        id: "rr_interval",
-        label: { es: "Intervalo RR", en: "RR interval" },
+        id: "heart_rate_bpm",
+        label: { es: "Frecuencia cardiaca", en: "Heart rate" },
         type: "number",
         required: true,
-        unit: "ms",
+        unit: "bpm",
         min: 0,
         step: 1,
-        placeholder: { es: "Introducir RR medido", en: "Enter measured RR" }
+        placeholder: { es: "Introducir frecuencia cardiaca", en: "Enter heart rate" }
       }
     ]
   },
@@ -280,7 +291,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     calculationNotes: pendingCalculationNotes,
     inputs: [
       {
-        id: "qt_interval",
+        id: "qt_ms",
         label: { es: "Intervalo QT", en: "QT interval" },
         type: "number",
         required: true,
@@ -289,11 +300,11 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         step: 1
       },
       {
-        id: "rr_interval",
-        label: { es: "Intervalo RR", en: "RR interval" },
+        id: "heart_rate_bpm",
+        label: { es: "Frecuencia cardiaca", en: "Heart rate" },
         type: "number",
         required: true,
-        unit: "ms",
+        unit: "bpm",
         min: 0,
         step: 1
       }
@@ -304,7 +315,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     calculationNotes: pendingCalculationNotes,
     inputs: [
       {
-        id: "qt_interval",
+        id: "qt_ms",
         label: { es: "Intervalo QT", en: "QT interval" },
         type: "number",
         required: true,
@@ -313,11 +324,11 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         step: 1
       },
       {
-        id: "rr_interval",
-        label: { es: "Intervalo RR", en: "RR interval" },
+        id: "heart_rate_bpm",
+        label: { es: "Frecuencia cardiaca", en: "Heart rate" },
         type: "number",
         required: true,
-        unit: "ms",
+        unit: "bpm",
         min: 0,
         step: 1
       }
@@ -328,7 +339,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     calculationNotes: pendingCalculationNotes,
     inputs: [
       {
-        id: "qt_interval",
+        id: "qt_ms",
         label: { es: "Intervalo QT", en: "QT interval" },
         type: "number",
         required: true,
@@ -337,7 +348,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         step: 1
       },
       {
-        id: "heart_rate",
+        id: "heart_rate_bpm",
         label: { es: "Frecuencia cardiaca", en: "Heart rate" },
         type: "number",
         required: true,
@@ -352,7 +363,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     calculationNotes: pendingCalculationNotes,
     inputs: [
       {
-        id: "height",
+        id: "height_cm",
         label: { es: "Talla", en: "Height" },
         type: "number",
         required: true,
@@ -361,13 +372,23 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         step: 0.1
       },
       {
-        id: "creatinine",
+        id: "serum_creatinine",
         label: { es: "Creatinina", en: "Creatinine" },
         type: "number",
         required: true,
         unit: "mg/dL",
         min: 0,
         step: 0.01
+      },
+      {
+        id: "creatinine_unit",
+        label: { es: "Unidad de creatinina", en: "Creatinine unit" },
+        type: "select",
+        required: true,
+        options: [
+          option("mg_dl", "mg/dL", "mg/dL"),
+          option("umol_l", "umol/L", "umol/L")
+        ]
       }
     ]
   },
@@ -583,9 +604,17 @@ const tool = (seed: ToolSeed): ClinicalToolMetadata => {
     docRef(`${seed.id}_documentation`, "PedsCore documentation source pending primary reference review", "pending_verification")
   ];
 
+  const calculationStatus = implementedToolIds.has(seed.id)
+    ? "active"
+    : metadata.calculationStatus;
+
   return {
     ...seed,
     ...metadata,
+    implementationStatus: implementedToolIds.has(seed.id)
+      ? "implemented"
+      : seed.implementationStatus,
+    ...(calculationStatus ? { calculationStatus } : {}),
     references,
     sourceTrace: metadata.sourceTrace ?? references,
     disclaimerRequired: true,

@@ -42,6 +42,7 @@ export type EvidenceLevel =
 export type RegulatoryRisk = "low" | "medium" | "high";
 
 export type CalculationStatus =
+  | "active"
   | "not_available"
   | "metadata_ready"
   | "pending_validation"
@@ -104,6 +105,9 @@ export interface CalculationWarning {
 export interface CalculationResult {
   toolId: string;
   score?: number;
+  value?: number;
+  unit?: string;
+  label?: LocalizedText;
   interpretation?: InterpretationBand;
   warnings: CalculationWarning[];
   trace: Array<{

@@ -5,3 +5,4 @@ export const pedsCorePackage = {
 
 export * from "./types.js";
 export * from "./catalog/clinicalTools.js";
+export * from "./calculators/index.js";

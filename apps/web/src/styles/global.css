@@ -612,6 +612,55 @@ dd {
   border-left: 4px solid var(--primary);
 }
 
+.calculated-result {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.result-value {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem;
+  border-radius: var(--radius);
+  background: #edf7f4;
+}
+
+.result-value span {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.result-value strong {
+  color: var(--primary-strong);
+  font-size: clamp(1.8rem, 6vw, 3rem);
+  line-height: 1;
+}
+
+.warning-list {
+  display: grid;
+  gap: 0.5rem;
+  padding-left: 1.25rem;
+  color: var(--amber);
+  font-weight: 700;
+}
+
+.trace-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.trace-list div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
 .table-scroll {
   width: 100%;
   overflow-x: auto;
