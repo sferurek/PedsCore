@@ -72,5 +72,56 @@ describe("clinical tools catalog", () => {
     expect(serializedCatalog).not.toContain("toxic");
     expect(serializedCatalog).not.toContain("toxicol");
   });
-});
 
+  it("keeps input IDs unique within tools that define forms", () => {
+    for (const tool of clinicalTools.filter((item) => item.inputs?.length)) {
+      const inputIds = tool.inputs?.map((input) => input.id) ?? [];
+      expect(uniqueCount(inputIds)).toBe(inputIds.length);
+    }
+  });
+
+  it("requires labels for required inputs and single-choice options", () => {
+    for (const tool of clinicalTools.filter((item) => item.inputs?.length)) {
+      for (const input of tool.inputs ?? []) {
+        if (input.required) {
+          expect(input.label.es.length).toBeGreaterThan(0);
+          expect(input.label.en.length).toBeGreaterThan(0);
+        }
+
+        if (input.type === "single_choice") {
+          expect(input.options?.length).toBeGreaterThan(0);
+          for (const option of input.options ?? []) {
+            expect(option.label.es.length).toBeGreaterThan(0);
+            expect(option.label.en.length).toBeGreaterThan(0);
+          }
+        }
+      }
+    }
+  });
+
+  it("keeps prioritized ready tools prepared or explicitly noted", () => {
+    const prioritizedSlugs = [
+      "apgar",
+      "silverman-andersen",
+      "flacc",
+      "qtc-bazett",
+      "qtc-fridericia",
+      "qtc-framingham",
+      "qtc-hodges",
+      "bedside-schwartz",
+      "pram",
+      "westley-croup-score",
+      "clinical-dehydration-scale",
+      "pecarn-tbi-under-2",
+      "pecarn-tbi-2-or-more"
+    ];
+
+    for (const slug of prioritizedSlugs) {
+      const tool = getToolBySlug(slug);
+      expect(tool).toBeDefined();
+      expect(
+        Boolean(tool?.inputs?.length) || tool?.validationNotes.en.length
+      ).toBe(true);
+    }
+  });
+});

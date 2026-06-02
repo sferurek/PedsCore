@@ -1,10 +1,17 @@
 import type { ClinicalToolMetadata } from "@peds-core/core";
+import { useState } from "react";
 import { DisclaimerBox } from "../components/DisclaimerBox";
+import { DynamicForm } from "../components/DynamicForm";
 import { GitHubFeedbackLink } from "../components/GitHubFeedbackLink";
+import { InterpretationTable } from "../components/InterpretationTable";
 import { ReferenceList } from "../components/ReferenceList";
+import { ResultPanel } from "../components/ResultPanel";
+import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
 import { ToolStatusBadge } from "../components/ToolStatusBadge";
 import { statusDescriptions, translations } from "../i18n/translations";
+import type { FormValues } from "../utils/formState";
+import { getInitialFormState } from "../utils/formState";
 import type { Language } from "../utils/language";
 
 interface ToolPageProps {
@@ -15,6 +22,9 @@ interface ToolPageProps {
 
 export function ToolPage({ language, tool }: ToolPageProps) {
   const t = translations[language];
+  const [formValues, setFormValues] = useState<FormValues>(() =>
+    getInitialFormState(tool)
+  );
 
   return (
     <div className="tool-page">
@@ -46,6 +56,22 @@ export function ToolPage({ language, tool }: ToolPageProps) {
             ) : null}
           </section>
 
+          <DynamicForm
+            language={language}
+            tool={tool}
+            onStateChange={setFormValues}
+          />
+
+          <ResultPanel
+            language={language}
+            tool={tool}
+            values={formValues}
+          />
+
+          <InterpretationTable language={language} tool={tool} />
+
+          <ScoringTable language={language} tool={tool} />
+
           <section className="content-panel">
             <h2>{t.tool.references}</h2>
             <ReferenceList language={language} references={tool.references} />
@@ -63,4 +89,3 @@ export function ToolPage({ language, tool }: ToolPageProps) {
     </div>
   );
 }
-

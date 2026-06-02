@@ -58,6 +58,37 @@ export const translations = {
       noReferences:
         "Esta herramienta requiere revision de fuente primaria antes de activar calculo."
     },
+    form: {
+      title: "Formulario",
+      noActiveForm: "Esta herramienta aun no tiene formulario activo.",
+      privacyNote:
+        "Los valores introducidos permanecen en esta pagina. No se almacenan ni se envian a ningun backend.",
+      required: "Campo requerido",
+      requiredMessage: "Completa este campo requerido.",
+      selectPlaceholder: "Selecciona una opcion"
+    },
+    result: {
+      title: "Resultado",
+      calculationStatus: "Estado de calculo",
+      inactiveCalculation:
+        "El calculo automatico aun no esta activo para esta herramienta.",
+      completeRequired:
+        "Completa los campos requeridos para preparar el resultado."
+    },
+    tables: {
+      interpretation: "Tabla de interpretacion",
+      scoring: "Tabla de variables y puntuacion",
+      range: "Rango",
+      category: "Categoria",
+      variable: "Variable",
+      scoreOrValue: "Puntuacion / valor",
+      description: "Descripcion",
+      pending: "Pendiente de validacion",
+      interpretationPending:
+        "La tabla de interpretacion esta pendiente de validacion.",
+      scoringPending:
+        "La tabla de variables y puntuacion esta pendiente de validacion."
+    },
     pages: {
       aboutTitle: "Sobre PedsCore",
       aboutBody:
@@ -135,6 +166,37 @@ export const translations = {
       feedbackLink: "Open an issue on GitHub",
       noReferences:
         "This tool requires primary source review before calculation is activated."
+    },
+    form: {
+      title: "Form",
+      noActiveForm: "This tool does not have an active form yet.",
+      privacyNote:
+        "Values entered here remain on this page. They are not stored or sent to any backend.",
+      required: "Required field",
+      requiredMessage: "Complete this required field.",
+      selectPlaceholder: "Select an option"
+    },
+    result: {
+      title: "Result",
+      calculationStatus: "Calculation status",
+      inactiveCalculation:
+        "Automatic calculation is not active for this tool yet.",
+      completeRequired:
+        "Complete the required fields to prepare the result."
+    },
+    tables: {
+      interpretation: "Interpretation table",
+      scoring: "Variables and scoring table",
+      range: "Range",
+      category: "Category",
+      variable: "Variable",
+      scoreOrValue: "Score / value",
+      description: "Description",
+      pending: "Pending validation",
+      interpretationPending:
+        "The interpretation table is pending validation.",
+      scoringPending:
+        "The variables and scoring table is pending validation."
     },
     pages: {
       aboutTitle: "About PedsCore",
@@ -320,4 +382,3 @@ export const evidenceLabels: Record<EvidenceLevel, Record<Language, string>> = {
     en: "Pending verification"
   }
 };
-

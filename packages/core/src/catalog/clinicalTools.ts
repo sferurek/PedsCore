@@ -25,14 +25,573 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
   evidenceLevel
 });
 
-const tool = (seed: ToolSeed): ClinicalToolMetadata => ({
-  ...seed,
-  references: seed.references ?? [
-    docRef(`${seed.id}_documentation`, "PedsCore documentation source pending primary reference review", "pending_verification")
-  ],
-  disclaimerRequired: true,
-  issueTemplateUrl: githubIssuesUrl
+const pendingCalculationNotes: LocalizedText = {
+  es: "Formulario preparado para revision. El calculo automatico permanece inactivo hasta completar trazabilidad, fuente primaria y tests clinicos.",
+  en: "Form prepared for review. Automatic calculation remains inactive until traceability, primary source, and clinical tests are complete."
+};
+
+const option = (
+  id: string,
+  es: string,
+  en: string,
+  score?: number,
+  description?: LocalizedText
+) => ({
+  id,
+  label: { es, en },
+  ...(score !== undefined ? { score, value: score } : {}),
+  ...(description ? { description } : {})
 });
+
+const scoreOptions = (prefix: string) => [
+  option(`${prefix}_0`, "0 puntos", "0 points", 0),
+  option(`${prefix}_1`, "1 punto", "1 point", 1),
+  option(`${prefix}_2`, "2 puntos", "2 points", 2)
+];
+
+const booleanOptions = [
+  option("no", "No", "No", undefined, {
+    es: "Criterio ausente",
+    en: "Criterion absent"
+  }),
+  option("yes", "Si", "Yes", undefined, {
+    es: "Criterio presente",
+    en: "Criterion present"
+  })
+];
+
+const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  apgar: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      {
+        id: "heart_rate",
+        label: { es: "Frecuencia cardiaca", en: "Heart rate" },
+        description: {
+          es: "Dominio observacional del test de Apgar.",
+          en: "Observational Apgar domain."
+        },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("below_100", "Menos de 100 lpm", "Less than 100 bpm", 1),
+          option("at_least_100", "100 lpm o mas", "100 bpm or more", 2)
+        ]
+      },
+      {
+        id: "respiratory_effort",
+        label: { es: "Esfuerzo respiratorio", en: "Respiratory effort" },
+        type: "single_choice",
+        required: true,
+        options: scoreOptions("respiratory_effort")
+      },
+      {
+        id: "muscle_tone",
+        label: { es: "Tono muscular", en: "Muscle tone" },
+        type: "single_choice",
+        required: true,
+        options: scoreOptions("muscle_tone")
+      },
+      {
+        id: "reflex_irritability",
+        label: { es: "Irritabilidad refleja", en: "Reflex irritability" },
+        type: "single_choice",
+        required: true,
+        options: scoreOptions("reflex_irritability")
+      },
+      {
+        id: "color",
+        label: { es: "Coloracion", en: "Color" },
+        type: "single_choice",
+        required: true,
+        options: scoreOptions("color")
+      }
+    ],
+    interpretationBands: [
+      {
+        id: "normal_transition",
+        min: 8,
+        max: 10,
+        label: { es: "Adaptacion normal", en: "Normal transition" },
+        description: {
+          es: "Rango documentado en la base de conocimiento; requiere trazabilidad final.",
+          en: "Range documented in the knowledge base; final traceability required."
+        }
+      },
+      {
+        id: "observation",
+        min: 4,
+        max: 7,
+        label: { es: "Vigilancia", en: "Observation" },
+        description: {
+          es: "Rango documentado en la base de conocimiento; requiere trazabilidad final.",
+          en: "Range documented in the knowledge base; final traceability required."
+        }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "apgar_domains",
+        variable: { es: "Cinco dominios", en: "Five domains" },
+        value: "0-2",
+        description: {
+          es: "Frecuencia cardiaca, esfuerzo respiratorio, tono, reflejo y coloracion.",
+          en: "Heart rate, respiratory effort, tone, reflex irritability, and color."
+        }
+      }
+    ]
+  },
+  silverman_andersen: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      "thoracoabdominal_movement",
+      "intercostal_retractions",
+      "xiphoid_retraction",
+      "nasal_flaring",
+      "expiratory_grunt"
+    ].map((id) => ({
+      id,
+      label: {
+        es: id.replaceAll("_", " "),
+        en: id.replaceAll("_", " ")
+      },
+      type: "single_choice" as const,
+      required: true,
+      options: scoreOptions(id)
+    })),
+    interpretationBands: [
+      {
+        id: "mild",
+        min: 0,
+        max: 3,
+        label: { es: "Leve", en: "Mild" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "moderate",
+        min: 4,
+        max: 6,
+        label: { es: "Moderado", en: "Moderate" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "severe",
+        min: 7,
+        max: 10,
+        label: { es: "Grave", en: "Severe" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "silverman_domains",
+        variable: { es: "Cinco signos respiratorios", en: "Five respiratory signs" },
+        value: "0-2",
+        description: {
+          es: "Movimiento toracoabdominal, retracciones, xifoides, aleteo nasal y quejido.",
+          en: "Thoracoabdominal movement, retractions, xiphoid retraction, nasal flaring, and grunt."
+        }
+      }
+    ]
+  },
+  flacc: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: ["face", "legs", "activity", "cry", "consolability"].map((id) => ({
+      id,
+      label: { es: id, en: id },
+      type: "single_choice" as const,
+      required: true,
+      options: scoreOptions(id)
+    })),
+    interpretationBands: [
+      {
+        id: "no_pain",
+        min: 0,
+        max: 0,
+        label: { es: "Sin dolor", en: "No pain" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "mild",
+        min: 1,
+        max: 3,
+        label: { es: "Dolor leve", en: "Mild pain" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "moderate",
+        min: 4,
+        max: 6,
+        label: { es: "Dolor moderado", en: "Moderate pain" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "intense",
+        min: 7,
+        max: 10,
+        label: { es: "Dolor intenso", en: "Severe pain" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "flacc_domains",
+        variable: { es: "Rostro, piernas, actividad, llanto y consolabilidad", en: "Face, legs, activity, cry, and consolability" },
+        value: "0-2",
+        description: {
+          es: "Cada dominio se prepara como opcion 0-2 hasta validacion textual completa.",
+          en: "Each domain is prepared as 0-2 options until full wording validation."
+        }
+      }
+    ]
+  },
+  qtc_bazett: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      {
+        id: "qt_interval",
+        label: { es: "Intervalo QT", en: "QT interval" },
+        type: "number",
+        required: true,
+        unit: "ms",
+        min: 0,
+        step: 1,
+        placeholder: { es: "Introducir QT medido", en: "Enter measured QT" }
+      },
+      {
+        id: "rr_interval",
+        label: { es: "Intervalo RR", en: "RR interval" },
+        type: "number",
+        required: true,
+        unit: "ms",
+        min: 0,
+        step: 1,
+        placeholder: { es: "Introducir RR medido", en: "Enter measured RR" }
+      }
+    ]
+  },
+  qtc_fridericia: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      {
+        id: "qt_interval",
+        label: { es: "Intervalo QT", en: "QT interval" },
+        type: "number",
+        required: true,
+        unit: "ms",
+        min: 0,
+        step: 1
+      },
+      {
+        id: "rr_interval",
+        label: { es: "Intervalo RR", en: "RR interval" },
+        type: "number",
+        required: true,
+        unit: "ms",
+        min: 0,
+        step: 1
+      }
+    ]
+  },
+  qtc_framingham: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      {
+        id: "qt_interval",
+        label: { es: "Intervalo QT", en: "QT interval" },
+        type: "number",
+        required: true,
+        unit: "ms",
+        min: 0,
+        step: 1
+      },
+      {
+        id: "rr_interval",
+        label: { es: "Intervalo RR", en: "RR interval" },
+        type: "number",
+        required: true,
+        unit: "ms",
+        min: 0,
+        step: 1
+      }
+    ]
+  },
+  qtc_hodges: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      {
+        id: "qt_interval",
+        label: { es: "Intervalo QT", en: "QT interval" },
+        type: "number",
+        required: true,
+        unit: "ms",
+        min: 0,
+        step: 1
+      },
+      {
+        id: "heart_rate",
+        label: { es: "Frecuencia cardiaca", en: "Heart rate" },
+        type: "number",
+        required: true,
+        unit: "bpm",
+        min: 0,
+        step: 1
+      }
+    ]
+  },
+  bedside_schwartz: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      {
+        id: "height",
+        label: { es: "Talla", en: "Height" },
+        type: "number",
+        required: true,
+        unit: "cm",
+        min: 0,
+        step: 0.1
+      },
+      {
+        id: "creatinine",
+        label: { es: "Creatinina", en: "Creatinine" },
+        type: "number",
+        required: true,
+        unit: "mg/dL",
+        min: 0,
+        step: 0.01
+      }
+    ]
+  },
+  pram: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      "oxygen_saturation",
+      "suprasternal_retractions",
+      "scalene_muscle_contraction",
+      "air_entry",
+      "wheezing"
+    ].map((id) => ({
+      id,
+      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
+      type: "single_choice" as const,
+      required: true,
+      options: scoreOptions(id)
+    })),
+    interpretationBands: [
+      {
+        id: "mild",
+        min: 0,
+        max: 3,
+        label: { es: "Leve", en: "Mild" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "moderate",
+        min: 4,
+        max: 7,
+        label: { es: "Moderada", en: "Moderate" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "severe",
+        min: 8,
+        max: 12,
+        label: { es: "Grave", en: "Severe" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "pram_domains",
+        variable: { es: "Saturacion, retracciones, escalenos, entrada de aire y sibilancias", en: "Saturation, retractions, scalene muscles, air entry, and wheezing" },
+        value: "0-3",
+        description: {
+          es: "Tabla preparada como estructura; el texto exacto de opciones requiere validacion.",
+          en: "Table prepared as structure; exact option wording requires validation."
+        }
+      }
+    ]
+  },
+  westley_croup: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: ["retractions", "stridor", "cyanosis", "consciousness", "air_entry"].map((id) => ({
+      id,
+      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
+      type: "single_choice" as const,
+      required: true,
+      options: scoreOptions(id)
+    })),
+    interpretationBands: [
+      {
+        id: "mild",
+        min: 0,
+        max: 2,
+        label: { es: "Leve", en: "Mild" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "moderate",
+        min: 3,
+        max: 5,
+        label: { es: "Moderado", en: "Moderate" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "severe",
+        min: 6,
+        max: 11,
+        label: { es: "Severo", en: "Severe" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "westley_domains",
+        variable: { es: "Retracciones, estridor, cianosis, conciencia y entrada de aire", en: "Retractions, stridor, cyanosis, consciousness, and air entry" },
+        value: "0-5",
+        description: {
+          es: "Estructura preparada; los pesos exactos permanecen pendientes de validacion.",
+          en: "Structure prepared; exact weights remain pending validation."
+        }
+      }
+    ]
+  },
+  clinical_dehydration_scale: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      "general_appearance",
+      "eyes",
+      "mucous_membranes",
+      "tears"
+    ].map((id) => ({
+      id,
+      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
+      type: "single_choice" as const,
+      required: true,
+      options: scoreOptions(id)
+    })),
+    interpretationBands: [
+      {
+        id: "mild",
+        min: 0,
+        max: 3,
+        label: { es: "Leve", en: "Mild" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "moderate",
+        min: 4,
+        max: 6,
+        label: { es: "Moderado", en: "Moderate" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "severe",
+        min: 7,
+        max: 8,
+        label: { es: "Grave", en: "Severe" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "cds_domains",
+        variable: { es: "Aspecto, ojos, mucosas y lagrimas", en: "Appearance, eyes, mucous membranes, and tears" },
+        value: "0-2",
+        description: {
+          es: "Dominios preparados para revision de version y redaccion final.",
+          en: "Domains prepared for version review and final wording."
+        }
+      }
+    ]
+  },
+  pecarn_tbi_under_2: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      "gcs_14_or_altered",
+      "palpable_skull_fracture",
+      "occipital_parietal_temporal_hematoma",
+      "loss_of_consciousness_5_seconds",
+      "not_acting_normally",
+      "severe_mechanism"
+    ].map((id) => ({
+      id,
+      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
+      type: "boolean" as const,
+      required: true,
+      options: booleanOptions
+    })),
+    scoringTable: [
+      {
+        id: "pecarn_under_2_criteria",
+        variable: { es: "Criterios PECARN menor de 2 anos", en: "PECARN under 2 criteria" },
+        value: "boolean",
+        description: {
+          es: "Criterios documentados; no se activa algoritmo de decision en este bloque.",
+          en: "Criteria documented; decision algorithm is not activated in this block."
+        }
+      }
+    ]
+  },
+  pecarn_tbi_2_or_more: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      "gcs_14_or_altered",
+      "basilar_skull_fracture_signs",
+      "loss_of_consciousness",
+      "vomiting",
+      "severe_headache",
+      "severe_mechanism"
+    ].map((id) => ({
+      id,
+      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
+      type: "boolean" as const,
+      required: true,
+      options: booleanOptions
+    })),
+    scoringTable: [
+      {
+        id: "pecarn_2_or_more_criteria",
+        variable: { es: "Criterios PECARN 2 anos o mas", en: "PECARN 2 years or older criteria" },
+        value: "boolean",
+        description: {
+          es: "Criterios documentados; no se activa algoritmo de decision en este bloque.",
+          en: "Criteria documented; decision algorithm is not activated in this block."
+        }
+      }
+    ]
+  }
+};
+
+const tool = (seed: ToolSeed): ClinicalToolMetadata => {
+  const metadata = clinicalToolFormMetadata[seed.id] ?? {};
+  const references = seed.references ?? [
+    docRef(`${seed.id}_documentation`, "PedsCore documentation source pending primary reference review", "pending_verification")
+  ];
+
+  return {
+    ...seed,
+    ...metadata,
+    references,
+    sourceTrace: metadata.sourceTrace ?? references,
+    disclaimerRequired: true,
+    issueTemplateUrl: githubIssuesUrl
+  };
+};
 
 const baseValidationNotes: Record<
   "ready" | "pending" | "primary" | "future" | "licensing",

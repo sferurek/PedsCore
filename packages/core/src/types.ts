@@ -41,6 +41,12 @@ export type EvidenceLevel =
 
 export type RegulatoryRisk = "low" | "medium" | "high";
 
+export type CalculationStatus =
+  | "not_available"
+  | "metadata_ready"
+  | "pending_validation"
+  | "future";
+
 export interface Reference {
   id: string;
   title: string;
@@ -52,16 +58,24 @@ export interface Reference {
 export interface ToolOption {
   id: string;
   label: LocalizedText;
+  description?: LocalizedText;
   score?: number;
+  value?: string | number | boolean;
 }
 
 export interface ToolInput {
   id: string;
   label: LocalizedText;
+  description?: LocalizedText;
   type: "single_choice" | "boolean" | "number" | "select" | "multi_select";
   required: boolean;
   unit?: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  placeholder?: LocalizedText;
   options?: ToolOption[];
+  helperText?: LocalizedText;
 }
 
 export interface InterpretationBand {
@@ -70,13 +84,16 @@ export interface InterpretationBand {
   min?: number;
   max?: number;
   description?: LocalizedText;
+  source?: Reference;
 }
 
 export interface ScoringTableRow {
   id: string;
   variable: LocalizedText;
   score?: number;
+  value?: string | number;
   description: LocalizedText;
+  source?: Reference;
 }
 
 export interface CalculationWarning {
@@ -115,6 +132,8 @@ export interface ClinicalToolMetadata {
   inputs?: ToolInput[];
   interpretationBands?: InterpretationBand[];
   scoringTable?: ScoringTableRow[];
+  calculationStatus?: CalculationStatus;
+  calculationNotes?: LocalizedText;
+  sourceTrace?: Reference[];
   issueTemplateUrl?: string;
 }
-

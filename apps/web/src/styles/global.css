@@ -503,6 +503,146 @@ dd {
   font-weight: 800;
 }
 
+.dynamic-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-field {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.form-field.missing {
+  border-color: #c28a2e;
+  background: #fffaf0;
+}
+
+.form-field legend {
+  padding: 0 0.35rem;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.form-field p,
+.field-error {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.field-error {
+  color: var(--amber);
+  font-weight: 800;
+}
+
+.option-grid {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.option-card {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.option-card.selected {
+  border-color: var(--primary);
+  background: #edf7f4;
+}
+
+.option-card input {
+  width: auto;
+  min-height: auto;
+}
+
+.option-card span {
+  font-weight: 800;
+}
+
+.option-card small {
+  color: var(--muted);
+}
+
+.boolean-toggle {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.boolean-toggle button {
+  min-height: 2.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #ffffff;
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.boolean-toggle button.selected {
+  border-color: var(--primary);
+  background: #edf7f4;
+  color: var(--primary-strong);
+}
+
+.number-input {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.number-input span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.result-panel {
+  border-left: 4px solid var(--primary);
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 42rem;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.8rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+td {
+  color: var(--text);
+  line-height: 1.45;
+}
+
 .metadata-panel {
   height: max-content;
 }
@@ -568,6 +708,10 @@ dd {
     grid-template-columns: 1fr auto;
   }
 
+  .option-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .tool-layout {
     grid-template-columns: minmax(0, 1fr) 22rem;
     align-items: start;
@@ -587,4 +731,3 @@ dd {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-
