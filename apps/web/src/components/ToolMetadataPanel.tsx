@@ -18,7 +18,7 @@ export function ToolMetadataPanel({ language, tool }: ToolMetadataPanelProps) {
   const t = translations[language];
 
   return (
-    <section className="metadata-panel">
+    <section className="metadata-panel tool-page-aside">
       <h2>{t.tool.metadata}</h2>
       <dl>
         <div>
@@ -58,4 +58,3 @@ export function ToolMetadataPanel({ language, tool }: ToolMetadataPanelProps) {
     </section>
   );
 }
-

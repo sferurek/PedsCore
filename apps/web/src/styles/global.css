@@ -1618,7 +1618,7 @@ input:focus-visible,
   }
 }
 
-/* Tool page overlap fix: keep metadata in the grid flow at every viewport size. */
+/* Tool page layout: keep metadata in the grid flow at every viewport size. */
 .tool-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -1626,16 +1626,17 @@ input:focus-visible,
   align-items: start;
 }
 
+.tool-page-main,
 .tool-main,
-.tool-main > *,
-.metadata-panel {
+.tool-page-main > *,
+.tool-page-aside {
   min-width: 0;
+  max-width: 100%;
 }
 
-.metadata-panel {
+.tool-page-aside {
   position: static;
   width: 100%;
-  max-width: 100%;
   overflow-wrap: anywhere;
   z-index: auto;
 }
@@ -1645,11 +1646,10 @@ input:focus-visible,
     grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
   }
 
-  .metadata-panel {
+  .tool-page-aside {
     position: sticky;
     top: 6.5rem;
     align-self: start;
-    max-width: 360px;
   }
 }
 
@@ -1658,7 +1658,8 @@ input:focus-visible,
     grid-template-columns: 1fr;
   }
 
-  .metadata-panel {
+  .tool-page-aside {
+    position: static;
     order: -1;
   }
 }

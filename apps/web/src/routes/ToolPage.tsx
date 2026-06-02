@@ -49,7 +49,7 @@ export function ToolPage({ language, tool }: ToolPageProps) {
       </section>
 
       <div className="tool-layout">
-        <div className="tool-main">
+        <div className="tool-main tool-page-main">
           <DisclaimerBox language={language} />
 
           <section className="content-panel">
