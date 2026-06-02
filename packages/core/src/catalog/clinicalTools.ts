@@ -25,7 +25,8 @@ const implementedToolIds = new Set([
   "pram",
   "clinical_dehydration_scale",
   "pecarn_tbi_under_2",
-  "pecarn_tbi_2_or_more"
+  "pecarn_tbi_2_or_more",
+  "sipa"
 ]);
 
 type ToolSeed = Omit<
@@ -44,6 +45,16 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 const pendingCalculationNotes: LocalizedText = {
   es: "Formulario preparado para revision. El calculo automatico permanece inactivo hasta completar trazabilidad, fuente primaria y tests clinicos.",
   en: "Form prepared for review. Automatic calculation remains inactive until traceability, primary source, and clinical tests are complete."
+};
+
+const woodDownesValidationNotes: LocalizedText = {
+  es: "Pendiente de validacion: la documentacion local identifica variables, rango 0-17 e interpretacion general, pero no define de forma inequivoca la version exacta, tabla completa de puntuacion para sibilancias/tiraje/entrada de aire/frecuencia respiratoria/frecuencia cardiaca, puntos de corte por edad ni fuente primaria. No se activa calculo por variantes Wood-Downes-Ferres/Downes.",
+  en: "Pending validation: local documentation identifies variables, 0-17 range, and general interpretation, but does not unambiguously define the exact version, full scoring table for wheezing/retractions/air entry/respiratory rate/heart rate, age cut-offs, or primary source. Calculation is not activated because of Wood-Downes-Ferres/Downes variants."
+};
+
+const pediatricGcsValidationNotes: LocalizedText = {
+  es: "Pendiente de validacion: la documentacion local confirma rango 3-15 y dominios ocular, verbal pediatrico y motor, pero no incluye la tabla verbal pediatrica completa por edad/desarrollo ni criterios de puntuacion suficientes para activar calculo.",
+  en: "Pending validation: local documentation confirms the 3-15 range and eye, pediatric verbal, and motor domains, but does not include the complete pediatric verbal table by age/development or enough scoring criteria to activate calculation."
 };
 
 const option = (
@@ -634,6 +645,80 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       }
     ]
   },
+  sipa: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Calcula indice de shock como frecuencia cardiaca / presion arterial sistolica. La interpretacion solo se activa para rangos de edad con umbrales documentados localmente.",
+      en: "Calculates shock index as heart rate / systolic blood pressure. Interpretation is only enabled for age ranges with locally documented thresholds."
+    },
+    inputs: [
+      {
+        id: "age_years",
+        label: { es: "Edad", en: "Age" },
+        type: "number",
+        required: true,
+        unit: "anos",
+        min: 0,
+        step: 0.1
+      },
+      {
+        id: "heart_rate_bpm",
+        label: { es: "Frecuencia cardiaca", en: "Heart rate" },
+        type: "number",
+        required: true,
+        unit: "bpm",
+        min: 0,
+        step: 1
+      },
+      {
+        id: "systolic_blood_pressure_mm_hg",
+        label: { es: "Presion arterial sistolica", en: "Systolic blood pressure" },
+        type: "number",
+        required: true,
+        unit: "mmHg",
+        min: 0,
+        step: 1
+      }
+    ],
+    scoringTable: [
+      {
+        id: "sipa_formula",
+        variable: { es: "Indice de shock", en: "Shock index" },
+        value: "heart_rate_bpm / systolic_blood_pressure_mm_hg",
+        description: {
+          es: "Formula documentada en la base de conocimiento del proyecto.",
+          en: "Formula documented in the project knowledge base."
+        }
+      },
+      {
+        id: "sipa_4_6",
+        variable: { es: "4 a <6 anos", en: "4 to <6 years" },
+        value: "> 1.2",
+        description: {
+          es: "Umbral documentado para interpretacion trazable.",
+          en: "Documented threshold for traceable interpretation."
+        }
+      },
+      {
+        id: "sipa_6_12",
+        variable: { es: "6 a 12 anos", en: "6 to 12 years" },
+        value: "> 1.0",
+        description: {
+          es: "Umbral documentado para interpretacion trazable.",
+          en: "Documented threshold for traceable interpretation."
+        }
+      },
+      {
+        id: "sipa_over_12",
+        variable: { es: "Mas de 12 anos", en: "Older than 12 years" },
+        value: "> 0.9",
+        description: {
+          es: "Umbral documentado para interpretacion trazable.",
+          en: "Documented threshold for traceable interpretation."
+        }
+      }
+    ]
+  },
   pecarn_tbi_under_2: {
     calculationStatus: "metadata_ready",
     calculationNotes: pendingCalculationNotes,
@@ -802,7 +887,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   ),
   makeTool("combined_apgar", "combined-apgar", "Combined Apgar", "Apgar expandido / Combined Apgar", "Expanded / Combined Apgar", "neonatology", "newborn_transition", "score", "Recien nacidos", "Newborns", "Extension documentada del Apgar para contexto neonatal.", "Documented extension of Apgar for newborn context.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("silverman_andersen", "silverman-andersen", "Silverman-Andersen", "Score de Silverman-Andersen", "Silverman-Andersen Score", "neonatology", "respiratory_distress", "score", "Recien nacidos con dificultad respiratoria", "Newborns with respiratory distress", "Cuantifica dificultad respiratoria neonatal mediante signos clinicos.", "Scores neonatal respiratory distress using clinical signs.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
-  makeTool("wood_downes_ferres", "wood-downes-ferres", "WDF", "Score de Wood-Downes-Ferres", "Wood-Downes-Ferres Score", "respiratory", "bronchiolitis_wheezing", "score", "Lactantes y ninos con bronquiolitis u obstruccion respiratoria segun variante", "Infants and children with bronchiolitis or obstructive respiratory distress depending on variant", "Evalua gravedad de dificultad respiratoria obstructiva.", "Assesses severity of obstructive respiratory distress.", "pending_validation", "pending_verification", "medium"),
+  makeTool("wood_downes_ferres", "wood-downes-ferres", "WDF", "Score de Wood-Downes-Ferres", "Wood-Downes-Ferres Score", "respiratory", "bronchiolitis_wheezing", "score", "Lactantes y ninos con bronquiolitis u obstruccion respiratoria segun variante", "Infants and children with bronchiolitis or obstructive respiratory distress depending on variant", "Evalua gravedad de dificultad respiratoria obstructiva.", "Assesses severity of obstructive respiratory distress.", "pending_validation", "pending_verification", "medium", woodDownesValidationNotes),
   makeTool("ballard", "ballard", "Ballard", "Ballard / New Ballard", "Ballard / New Ballard", "neonatology", "gestational_age", "score", "Recien nacidos con edad gestacional incierta", "Newborns with uncertain gestational age", "Estima edad gestacional con madurez fisica y neuromuscular.", "Estimates gestational age using physical and neuromuscular maturity.", "pending_validation", "pending_verification", "medium"),
   makeTool("dubowitz", "dubowitz", "Dubowitz", "Dubowitz", "Dubowitz Score", "neonatology", "gestational_age", "score", "Recien nacidos", "Newborns", "Herramienta de estimacion de edad gestacional basada en madurez neonatal.", "Gestational age assessment based on neonatal maturity.", "pending_validation", "pending_verification", "medium"),
   makeTool("sarnat", "sarnat", "Sarnat", "Sarnat y Sarnat", "Sarnat Staging", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos con sospecha de encefalopatia hipoxico-isquemica", "Newborns with suspected hypoxic-ischemic encephalopathy", "Clasifica encefalopatia neonatal en estadios clinicos.", "Classifies neonatal encephalopathy into clinical stages.", "pending_validation", "pending_verification", "medium"),
@@ -826,7 +911,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("risc", "risc", "RISC", "RISC", "RISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Score de gravedad de neumonia identificado en recomendaciones.", "Pneumonia severity score identified in recommendations.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("mrisc", "mrisc", "mRISC", "mRISC", "mRISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Variante modificada RISC para neumonia.", "Modified RISC variant for pneumonia.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
-  makeTool("pediatric_gcs", "pediatric-glasgow-coma-scale", "pGCS", "Escala de Coma de Glasgow pediatrica", "Pediatric Glasgow Coma Scale", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Adaptacion pediatrica de apertura ocular, respuesta verbal y motora.", "Pediatric adaptation of eye, verbal, and motor response.", "pending_validation", "pending_verification", "medium"),
+  makeTool("pediatric_gcs", "pediatric-glasgow-coma-scale", "pGCS", "Escala de Coma de Glasgow pediatrica", "Pediatric Glasgow Coma Scale", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Adaptacion pediatrica de apertura ocular, respuesta verbal y motora.", "Pediatric adaptation of eye, verbal, and motor response.", "pending_validation", "pending_verification", "medium", pediatricGcsValidationNotes),
   makeTool("benes", "benes", "Benes", "Benes", "Benes", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Herramienta neurologica alternativa identificada.", "Alternative neurologic assessment tool identified.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("glasgow_adapted", "glasgow-adapted", "Glasgow adaptado", "Glasgow adaptado", "Adapted Glasgow", "neurology", "consciousness", "scale", "Ninos", "Children", "Variante adaptada de Glasgow identificada para revision.", "Adapted Glasgow variant identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("clinical_dehydration_scale", "clinical-dehydration-scale", "CDS", "Clinical Dehydration Scale", "Clinical Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Score clinico de gravedad de deshidratacion.", "Clinical score for dehydration severity.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
@@ -835,7 +920,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pecarn_tbi_2_or_more", "pecarn-tbi-2-or-more", "PECARN >=2", "PECARN TCE 2 anos o mas", "PECARN TBI 2 Years or Older", "emergency", "head_trauma", "clinical_rule", "Ninos de 2 anos o mas con traumatismo craneal", "Children 2 years or older with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
   makeTool("catch_tbi", "catch-tbi", "CATCH", "CATCH", "CATCH", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("chalice_tbi", "chalice-tbi", "CHALICE", "CHALICE", "CHALICE", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
-  makeTool("sipa", "sipa", "SIPA", "Shock Index Pediatric Age-adjusted", "Shock Index Pediatric Age-adjusted", "emergency", "shock", "calculator", "Ninos con posible shock o trauma", "Children with possible shock or trauma", "Indice de shock ajustado por edad.", "Age-adjusted shock index.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
+  makeTool("sipa", "sipa", "SIPA", "Shock Index Pediatric Age-adjusted", "Shock Index Pediatric Age-adjusted", "emergency", "shock", "calculator", "Ninos con posible shock o trauma", "Children with possible shock or trauma", "Indice de shock ajustado por edad.", "Age-adjusted shock index.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready, [docRef("sipa_kb", "PedsCore_Knowledge_Base_v1: SIPA", "pending_verification")]),
   makeTool("regional_sepsis_scores", "regional-sepsis-scores", "Sepsis scores", "Escalas regionales de sepsis", "Regional Sepsis Scores", "emergency", "sepsis", "score", "Ninos con sospecha de sepsis", "Children with suspected sepsis", "Familia de escalas regionales identificada para fases futuras.", "Family of regional scales identified for future phases.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("qtc_bazett", "qtc-bazett", "QTc Bazett", "QTc Bazett", "QTc Bazett", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Bazett.", "QT correction using Bazett formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("qtc_fridericia", "qtc-fridericia", "QTc Fridericia", "QTc Fridericia", "QTc Fridericia", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Fridericia.", "QT correction using Fridericia formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),

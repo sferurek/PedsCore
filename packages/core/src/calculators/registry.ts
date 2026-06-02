@@ -17,6 +17,7 @@ import {
   pecarnUnder2Calculator
 } from "./pecarn.js";
 import { pramCalculator } from "./pram.js";
+import { sipaCalculator } from "./sipa.js";
 import { westleyCroupCalculator } from "./westleyCroup.js";
 
 const calculators = [
@@ -32,7 +33,8 @@ const calculators = [
   pramCalculator,
   clinicalDehydrationScaleCalculator,
   pecarnUnder2Calculator,
-  pecarn2OrMoreCalculator
+  pecarn2OrMoreCalculator,
+  sipaCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

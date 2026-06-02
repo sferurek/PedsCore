@@ -20,7 +20,8 @@ describe("calculator registry", () => {
       "pram",
       "clinical_dehydration_scale",
       "pecarn_tbi_under_2",
-      "pecarn_tbi_2_or_more"
+      "pecarn_tbi_2_or_more",
+      "sipa"
     ]);
     expect(getImplementedTools().map((tool) => tool.id).sort()).toEqual(
       [...implementedCalculatorToolIds].sort()
