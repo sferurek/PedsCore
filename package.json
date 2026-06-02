@@ -1,5 +1,5 @@
 {
-  "name": "pedscore",
+  "name": "peds-core",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,10 +8,10 @@
     "apps/web"
   ],
   "scripts": {
-    "dev": "npm run dev -w @pedscore/web",
+    "dev": "npm run dev -w @peds-core/web",
     "lint": "eslint .",
-    "test": "vitest run",
-    "build": "npm run build -w @pedscore/core && npm run build -w @pedscore/web"
+    "test": "npm run build -w @peds-core/core && vitest run",
+    "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",

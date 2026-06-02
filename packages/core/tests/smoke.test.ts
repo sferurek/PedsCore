@@ -1,9 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { pedscoreCorePackage } from "../src/index";
+import { pedsCorePackage } from "../src/index";
 
-describe("@pedscore/core", () => {
+describe("@peds-core/core", () => {
   it("loads the package scaffold", () => {
-    expect(pedscoreCorePackage.name).toBe("@pedscore/core");
+    expect(pedsCorePackage.name).toBe("@peds-core/core");
   });
 });
-

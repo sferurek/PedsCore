@@ -1,5 +1,5 @@
 {
-  "name": "@pedscore/web",
+  "name": "@peds-core/web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,10 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@pedscore/core": "0.1.0",
+    "@peds-core/core": "0.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {}
 }
-
