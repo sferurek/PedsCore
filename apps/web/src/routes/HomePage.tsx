@@ -57,17 +57,35 @@ export function HomePage({ language, navigate }: HomePageProps) {
           <h1>{t.home.title}</h1>
           <p className="hero-subtitle">{t.home.subtitle}</p>
           <p className="hero-lead">{t.home.lead}</p>
+          <div className="hero-actions">
+            <button
+              className="primary-action"
+              type="button"
+              onClick={() => navigate(makePath(language, "tools"))}
+            >
+              {t.home.allToolsCta}
+            </button>
+            <button
+              className="secondary-action"
+              type="button"
+              onClick={() => navigate(makePath(language, "evidence"))}
+            >
+              {t.home.evidenceCta}
+            </button>
+          </div>
         </div>
         <div className="hero-search-panel">
+          <div className="hero-metric">
+            <strong>{allTools.length}</strong>
+            <span>{t.home.toolsMetric}</span>
+          </div>
           <SearchBar
             label={t.nav.tools}
             placeholder={t.home.searchPlaceholder}
             value={query}
             onChange={setQuery}
           />
-          <p className="catalog-count">
-            {allTools.length} {t.common.tools}
-          </p>
+          <p className="catalog-count">{t.home.lead}</p>
         </div>
       </section>
 
@@ -130,4 +148,3 @@ export function HomePage({ language, navigate }: HomePageProps) {
     </div>
   );
 }
-

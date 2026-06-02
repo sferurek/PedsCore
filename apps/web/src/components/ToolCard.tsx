@@ -48,7 +48,7 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
         </div>
       </dl>
       <button
-        className="text-link"
+        className="card-action"
         type="button"
         onClick={() => navigate(makePath(language, "tools", tool.slug))}
       >
@@ -57,4 +57,3 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
     </article>
   );
 }
-

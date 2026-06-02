@@ -26,6 +26,8 @@ export const translations = {
       featuredTitle: "Herramientas destacadas",
       categoriesTitle: "Categorias",
       allToolsCta: "Ver todas las herramientas",
+      evidenceCta: "Explorar evidencia",
+      toolsMetric: "herramientas catalogadas",
       transparency: [
         "Sin login",
         "Sin almacenamiento de datos clinicos",
@@ -162,6 +164,8 @@ export const translations = {
       featuredTitle: "Featured tools",
       categoriesTitle: "Categories",
       allToolsCta: "View all tools",
+      evidenceCta: "Explore evidence",
+      toolsMetric: "cataloged tools",
       transparency: [
         "No login",
         "No clinical data storage",
