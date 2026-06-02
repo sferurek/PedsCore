@@ -12,7 +12,7 @@ describe("Block 5D validation gate", () => {
     const tool = getToolBySlug("cries");
 
     expect(tool?.implementationStatus).toBe("pending_validation");
-    expect(tool?.validationNotes.en).toContain("exact 0/1/2 option table");
+    expect(tool?.validationNotes.en).toContain("exact 0/1/2 options");
     expect(implementedCalculatorToolIds).not.toContain("cries");
     expect(calculateTool("cries", {}).warnings[0]?.id).toBe("calculator_not_implemented");
   });
