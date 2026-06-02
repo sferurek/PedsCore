@@ -41,7 +41,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(14);
+    expect(getImplementedTools()).toHaveLength(15);
   });
 
   it("searches by name, acronym, and category", () => {
@@ -114,7 +114,8 @@ describe("clinical tools catalog", () => {
       "clinical-dehydration-scale",
       "pecarn-tbi-under-2",
       "pecarn-tbi-2-or-more",
-      "sipa"
+      "sipa",
+      "nips"
     ];
 
     for (const slug of prioritizedSlugs) {

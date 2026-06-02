@@ -26,7 +26,8 @@ const implementedToolIds = new Set([
   "clinical_dehydration_scale",
   "pecarn_tbi_under_2",
   "pecarn_tbi_2_or_more",
-  "sipa"
+  "sipa",
+  "nips"
 ]);
 
 type ToolSeed = Omit<
@@ -55,6 +56,16 @@ const woodDownesValidationNotes: LocalizedText = {
 const pediatricGcsValidationNotes: LocalizedText = {
   es: "Pendiente de validacion: la documentacion local confirma rango 3-15 y dominios ocular, verbal pediatrico y motor, pero no incluye la tabla verbal pediatrica completa por edad/desarrollo ni criterios de puntuacion suficientes para activar calculo.",
   en: "Pending validation: local documentation confirms the 3-15 range and eye, pediatric verbal, and motor domains, but does not include the complete pediatric verbal table by age/development or enough scoring criteria to activate calculation."
+};
+
+const criesValidationNotes: LocalizedText = {
+  es: "Pendiente de validacion: la documentacion local confirma cinco variables, rango 0-10 y umbral >=4, pero no incluye la tabla exacta de opciones 0/1/2 para cada variable. No se activa calculo hasta validar la tabla completa.",
+  en: "Pending validation: local documentation confirms five variables, 0-10 range, and >=4 threshold, but does not include the exact 0/1/2 option table for each variable. Calculation is not activated until the complete table is validated."
+};
+
+const thompsonHieValidationNotes: LocalizedText = {
+  es: "Pendiente de validacion: la documentacion local confirma variables, rango 0-22 e interpretacion leve/moderada/severa, pero indica que algunos items tienen rangos especificos sin detallar la tabla completa de puntuacion. No se activa calculo por sensibilidad clinica.",
+  en: "Pending validation: local documentation confirms variables, 0-22 range, and mild/moderate/severe interpretation, but states that some items have specific ranges without detailing the complete scoring table. Calculation is not activated because of clinical sensitivity."
 };
 
 const option = (
@@ -405,6 +416,127 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
           option("mg_dl", "mg/dL", "mg/dL"),
           option("umol_l", "umol/L", "umol/L")
         ]
+      }
+    ]
+  },
+  nips: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Escala NIPS preparada con seis dominios documentados localmente. El calculo suma 0-1 en cinco dominios y 0-2 en llanto.",
+      en: "NIPS scale prepared with six locally documented domains. Calculation sums 0-1 in five domains and 0-2 in cry."
+    },
+    inputs: [
+      {
+        id: "facial_expression",
+        label: { es: "Expresion facial", en: "Facial expression" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("relaxed", "Relajada", "Relaxed", 0),
+          option("grimace", "Fruncida", "Grimace", 1)
+        ]
+      },
+      {
+        id: "cry",
+        label: { es: "Llanto", en: "Cry" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("whimper", "Gemido", "Whimper", 1),
+          option("vigorous", "Llanto vigoroso", "Vigorous cry", 2)
+        ]
+      },
+      {
+        id: "breathing_patterns",
+        label: { es: "Patron respiratorio", en: "Breathing pattern" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("regular", "Regular", "Regular", 0),
+          option("altered", "Alterado", "Altered", 1)
+        ]
+      },
+      {
+        id: "arms",
+        label: { es: "Brazos", en: "Arms" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("relaxed", "Relajados", "Relaxed", 0),
+          option("flexed_or_extended", "Flexionados o extendidos", "Flexed or extended", 1)
+        ]
+      },
+      {
+        id: "legs",
+        label: { es: "Piernas", en: "Legs" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("relaxed", "Relajadas", "Relaxed", 0),
+          option("flexed_or_extended", "Flexionadas o extendidas", "Flexed or extended", 1)
+        ]
+      },
+      {
+        id: "state_of_arousal",
+        label: { es: "Estado de alerta", en: "State of arousal" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("asleep_or_awake", "Dormido o despierto", "Asleep or awake", 0),
+          option("agitated", "Agitado", "Agitated", 1)
+        ]
+      }
+    ],
+    interpretationBands: [
+      {
+        id: "below_documented_threshold",
+        min: 0,
+        max: 3,
+        label: { es: "Por debajo del umbral documentado", en: "Below documented threshold" },
+        description: {
+          es: "Puntuacion NIPS 0-3 segun la tabla local.",
+          en: "NIPS score 0-3 according to the local table."
+        }
+      },
+      {
+        id: "above_documented_threshold",
+        min: 4,
+        max: 7,
+        label: { es: "Por encima del umbral documentado", en: "Above documented threshold" },
+        description: {
+          es: "Puntuacion NIPS mayor de 3 segun la tabla local.",
+          en: "NIPS score greater than 3 according to the local table."
+        }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "nips_facial_expression",
+        variable: { es: "Expresion facial", en: "Facial expression" },
+        value: "0-1",
+        description: { es: "Relajada 0; fruncida 1.", en: "Relaxed 0; grimace 1." }
+      },
+      {
+        id: "nips_cry",
+        variable: { es: "Llanto", en: "Cry" },
+        value: "0-2",
+        description: { es: "Ausente 0; gemido 1; llanto vigoroso 2.", en: "Absent 0; whimper 1; vigorous cry 2." }
+      },
+      {
+        id: "nips_breathing_patterns",
+        variable: { es: "Patron respiratorio", en: "Breathing pattern" },
+        value: "0-1",
+        description: { es: "Regular 0; alterado 1.", en: "Regular 0; altered 1." }
+      },
+      {
+        id: "nips_arms_legs_arousal",
+        variable: { es: "Brazos, piernas y alerta", en: "Arms, legs, and arousal" },
+        value: "0-1",
+        description: {
+          es: "Dominos documentados localmente como relajado/dormido/despierto frente a flexionado/extendido/agitado.",
+          en: "Domains locally documented as relaxed/asleep/awake versus flexed/extended/agitated."
+        }
       }
     ]
   },
@@ -891,13 +1023,13 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("ballard", "ballard", "Ballard", "Ballard / New Ballard", "Ballard / New Ballard", "neonatology", "gestational_age", "score", "Recien nacidos con edad gestacional incierta", "Newborns with uncertain gestational age", "Estima edad gestacional con madurez fisica y neuromuscular.", "Estimates gestational age using physical and neuromuscular maturity.", "pending_validation", "pending_verification", "medium"),
   makeTool("dubowitz", "dubowitz", "Dubowitz", "Dubowitz", "Dubowitz Score", "neonatology", "gestational_age", "score", "Recien nacidos", "Newborns", "Herramienta de estimacion de edad gestacional basada en madurez neonatal.", "Gestational age assessment based on neonatal maturity.", "pending_validation", "pending_verification", "medium"),
   makeTool("sarnat", "sarnat", "Sarnat", "Sarnat y Sarnat", "Sarnat Staging", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos con sospecha de encefalopatia hipoxico-isquemica", "Newborns with suspected hypoxic-ischemic encephalopathy", "Clasifica encefalopatia neonatal en estadios clinicos.", "Classifies neonatal encephalopathy into clinical stages.", "pending_validation", "pending_verification", "medium"),
-  makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico para gravedad de EHI neonatal.", "Clinical score for neonatal HIE severity.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
+  makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico para gravedad de EHI neonatal.", "Clinical score for neonatal HIE severity.", "pending_validation", "pending_verification", "medium", thompsonHieValidationNotes),
   makeTool("modified_finnegan", "modified-finnegan", "Finnegan", "Finnegan modificado / NAS", "Modified Finnegan NAS Score", "neonatology", "neonatal_abstinence", "score", "Recien nacidos con sospecha de sindrome de abstinencia neonatal", "Newborns with suspected neonatal abstinence syndrome", "Valora signos de abstinencia neonatal.", "Assesses neonatal abstinence signs.", "pending_validation", "pending_verification", "medium"),
   makeTool("eat_sleep_console", "eat-sleep-console", "ESC", "Eat Sleep Console", "Eat Sleep Console", "neonatology", "neonatal_abstinence", "algorithm", "Recien nacidos expuestos a opioides", "Opioid-exposed newborns", "Modelo funcional para seguimiento de abstinencia neonatal.", "Functional model for neonatal withdrawal assessment.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
-  makeTool("nips", "nips", "NIPS", "Neonatal Infant Pain Scale", "Neonatal Infant Pain Scale", "pain", "neonatal_pain", "scale", "Neonatos", "Neonates", "Escala observacional de dolor neonatal.", "Observational neonatal pain scale.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
+  makeTool("nips", "nips", "NIPS", "Neonatal Infant Pain Scale", "Neonatal Infant Pain Scale", "pain", "neonatal_pain", "scale", "Neonatos", "Neonates", "Escala observacional de dolor neonatal.", "Observational neonatal pain scale.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready, [docRef("nips_kb", "PedsCore_Knowledge_Base_v1: NIPS", "pending_verification")]),
   makeTool("pipp", "pipp", "PIPP", "Premature Infant Pain Profile", "Premature Infant Pain Profile", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Escala de dolor neonatal, especialmente en prematuros.", "Neonatal pain scale, especially for preterm infants.", "pending_validation", "pending_verification", "medium"),
   makeTool("pipp_r", "pipp-r", "PIPP-R", "Premature Infant Pain Profile-Revised", "Premature Infant Pain Profile-Revised", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Version revisada de PIPP.", "Revised version of PIPP.", "pending_validation", "pending_verification", "medium"),
-  makeTool("cries", "cries", "CRIES", "CRIES", "CRIES", "pain", "neonatal_pain", "scale", "Neonatos con dolor postoperatorio", "Neonates with postoperative pain", "Escala neonatal de dolor basada en cinco dominios.", "Neonatal pain scale based on five domains.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
+  makeTool("cries", "cries", "CRIES", "CRIES", "CRIES", "pain", "neonatal_pain", "scale", "Neonatos con dolor postoperatorio", "Neonates with postoperative pain", "Escala neonatal de dolor basada en cinco dominios.", "Neonatal pain scale based on five domains.", "pending_validation", "pending_verification", "low", criesValidationNotes),
   makeTool("comfortneo", "comfortneo", "COMFORTneo", "COMFORTneo", "COMFORTneo", "neonatology", "sedation_pain", "scale", "Neonatos en cuidados intensivos", "Neonates in intensive care", "Escala multidimensional de sedacion y dolor neonatal.", "Multidimensional neonatal sedation and pain scale.", "pending_validation", "pending_verification", "medium"),
   makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "pending_verification", "medium"),
   makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
