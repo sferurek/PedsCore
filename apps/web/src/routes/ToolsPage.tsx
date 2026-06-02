@@ -24,8 +24,21 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const categories = [...new Set(allTools.map((tool) => tool.category))].sort();
   const types = [...new Set(allTools.map((tool) => tool.type))].sort();
   const statuses = [
-    ...new Set(allTools.map((tool) => tool.implementationStatus))
-  ].sort();
+    "implemented",
+    "ready_for_implementation",
+    "pending_validation",
+    "needs_primary_reference",
+    "coming_soon",
+    "not_implemented_due_to_licensing"
+  ] satisfies ImplementationStatus[];
+  const statusCounts = new Map<ImplementationStatus, number>();
+
+  for (const tool of allTools) {
+    statusCounts.set(
+      tool.implementationStatus,
+      (statusCounts.get(tool.implementationStatus) ?? 0) + 1
+    );
+  }
   const filteredTools = useMemo(
     () => filterTools(allTools, filters, language),
     [allTools, filters, language]
@@ -99,7 +112,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
             <option value="all">{t.tools.all}</option>
             {statuses.map((status) => (
               <option key={status} value={status}>
-                {statusLabels[status][language]}
+                {statusLabels[status][language]} ({statusCounts.get(status) ?? 0})
               </option>
             ))}
           </select>
@@ -118,4 +131,3 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
     </div>
   );
 }
-

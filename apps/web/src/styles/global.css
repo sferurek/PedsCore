@@ -784,3 +784,90 @@ td {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+.evidence-meta {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin: 1rem 0;
+}
+
+.evidence-meta > div,
+.status-explainer {
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #f8fbfa;
+}
+
+.evidence-help ul,
+.evidence-page ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.75rem 0 1rem;
+  padding-left: 1.25rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.status-explainer-grid {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.status-explainer strong {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.status-explainer p {
+  margin: 0;
+}
+
+.subtle-panel {
+  margin-top: 1rem;
+}
+
+.link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.status-implemented {
+  background: #e2f4ee;
+  color: #0b5a4f;
+}
+
+.status-ready_for_implementation {
+  background: #e7f0ee;
+  color: #264f4a;
+}
+
+.status-pending_validation {
+  background: #f6edd9;
+  color: #775017;
+}
+
+.status-needs_primary_reference {
+  background: #eef1d8;
+  color: #5e641e;
+}
+
+.status-coming_soon {
+  background: #e7eef5;
+  color: #22577a;
+}
+
+.status-not_implemented_due_to_licensing {
+  background: #f1e5e2;
+  color: #783d38;
+}
+
+@media (min-width: 760px) {
+  .status-explainer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

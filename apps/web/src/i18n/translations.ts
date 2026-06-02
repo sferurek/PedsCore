@@ -12,6 +12,7 @@ export const translations = {
     nav: {
       tools: "Herramientas",
       categories: "Categorias",
+      evidence: "Evidencia",
       about: "Sobre PedsCore",
       contribute: "Contribuir",
       disclaimer: "Aviso legal"
@@ -41,6 +42,20 @@ export const translations = {
       status: "Estado",
       all: "Todas",
       empty: "No hay herramientas que coincidan con los filtros."
+    },
+    evidence: {
+      title: "Matriz de evidencia",
+      lead: "PedsCore no activa calculadoras clinicas hasta confirmar fuente primaria, tabla completa, variante exacta, puntos de corte y riesgos de licencia.",
+      whyTitle: "Por que existe esta matriz",
+      whyBody:
+        "La matriz de evidencia documenta por que una herramienta esta implementada, pendiente de validacion o bloqueada por fuente/licencia. Esto evita formulas dudosas y mantiene trazabilidad publica.",
+      statusTitle: "Estados de implementacion",
+      contributeTitle: "Como contribuir evidencia",
+      contributeBody:
+        "Puedes aportar DOI, PMID, enlaces estables, tablas completas, variantes exactas, puntos de corte publicados y notas de licencia mediante GitHub Issues.",
+      docsLink: "Ver docs/evidence en GitHub",
+      submitEvidence: "Proponer evidencia en GitHub",
+      unlockTitle: "Como ayudar a desbloquear esta herramienta"
     },
     tool: {
       metadata: "Ficha tecnica",
@@ -133,6 +148,7 @@ export const translations = {
     nav: {
       tools: "Tools",
       categories: "Categories",
+      evidence: "Evidence",
       about: "About",
       contribute: "Contribute",
       disclaimer: "Disclaimer"
@@ -162,6 +178,20 @@ export const translations = {
       status: "Implementation status",
       all: "All",
       empty: "No tools match the current filters."
+    },
+    evidence: {
+      title: "Evidence matrix",
+      lead: "PedsCore does not activate clinical calculators until primary source, complete table, exact variant, cut-offs, and licensing risks are confirmed.",
+      whyTitle: "Why this matrix exists",
+      whyBody:
+        "The evidence matrix documents why a tool is implemented, pending validation, or blocked by source/licensing gaps. This prevents doubtful formulas and keeps public traceability.",
+      statusTitle: "Implementation statuses",
+      contributeTitle: "How to contribute evidence",
+      contributeBody:
+        "You can provide DOI, PMID, stable links, complete tables, exact variants, published cut-offs, and licensing notes through GitHub Issues.",
+      docsLink: "View docs/evidence on GitHub",
+      submitEvidence: "Submit evidence on GitHub",
+      unlockTitle: "How to help unlock this tool"
     },
     tool: {
       metadata: "Metadata",
@@ -325,7 +355,7 @@ export const statusLabels: Record<
   ImplementationStatus,
   Record<Language, string>
 > = {
-  implemented: { es: "Calculo disponible", en: "Calculation available" },
+  implemented: { es: "Implementada", en: "Implemented" },
   ready_for_implementation: {
     es: "Lista para implementar",
     en: "Ready for implementation"
@@ -338,7 +368,7 @@ export const statusLabels: Record<
     es: "Necesita fuente primaria",
     en: "Needs primary reference"
   },
-  coming_soon: { es: "Planificada", en: "Coming soon" },
+  coming_soon: { es: "Proximamente", en: "Coming soon" },
   not_implemented_due_to_licensing: {
     es: "Revision de licencia",
     en: "Licensing review"

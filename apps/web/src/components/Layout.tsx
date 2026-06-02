@@ -26,8 +26,7 @@ export function Layout({
         onLanguageChange={onLanguageChange}
       />
       <main>{children}</main>
-      <Footer language={language} />
+      <Footer language={language} navigate={navigate} />
     </div>
   );
 }
-

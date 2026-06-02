@@ -6,6 +6,7 @@ import { AboutPage } from "./routes/AboutPage";
 import { CategoryPage } from "./routes/CategoryPage";
 import { ContributePage } from "./routes/ContributePage";
 import { DisclaimerPage } from "./routes/DisclaimerPage";
+import { EvidencePage } from "./routes/EvidencePage";
 import { HomePage } from "./routes/HomePage";
 import { NotFoundPage } from "./routes/NotFoundPage";
 import { ToolPage } from "./routes/ToolPage";
@@ -104,6 +105,10 @@ export function App() {
 
     if (route.kind === "about") {
       return <AboutPage language={language} />;
+    }
+
+    if (route.kind === "evidence") {
+      return <EvidencePage language={language} />;
     }
 
     if (route.kind === "disclaimer") {

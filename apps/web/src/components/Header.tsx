@@ -20,6 +20,7 @@ export function Header({
   const links = [
     { label: t.nav.tools, href: makePath(language, "tools") },
     { label: t.nav.categories, href: `${makePath(language)}#categories` },
+    { label: t.nav.evidence, href: makePath(language, "evidence") },
     { label: t.nav.about, href: makePath(language, "about") },
     { label: t.nav.contribute, href: makePath(language, "contribute") },
     { label: t.nav.disclaimer, href: makePath(language, "disclaimer") }
@@ -63,4 +64,3 @@ export function Header({
     </header>
   );
 }
-

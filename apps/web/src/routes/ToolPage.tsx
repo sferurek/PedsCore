@@ -9,7 +9,18 @@ import { ResultPanel } from "../components/ResultPanel";
 import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
 import { ToolStatusBadge } from "../components/ToolStatusBadge";
-import { statusDescriptions, translations } from "../i18n/translations";
+import {
+  evidenceLabels,
+  riskLabels,
+  statusLabels,
+  translations
+} from "../i18n/translations";
+import {
+  evidenceStatusDescriptions,
+  evidenceStatusTitles,
+  getUnlockActions,
+  hasEvidenceBlock
+} from "../utils/evidenceStatus";
 import type { FormValues } from "../utils/formState";
 import { getInitialFormState } from "../utils/formState";
 import type { Language } from "../utils/language";
@@ -47,14 +58,48 @@ export function ToolPage({ language, tool }: ToolPageProps) {
           </section>
 
           <section className="content-panel">
-            <h2>{t.tool.status}</h2>
-            <p>{statusDescriptions[tool.implementationStatus][language]}</p>
+            <h2>{evidenceStatusTitles[language]}</h2>
+            <p>{evidenceStatusDescriptions[tool.implementationStatus][language]}</p>
+            <dl className="evidence-meta">
+              <div>
+                <dt>{t.common.status}</dt>
+                <dd>{statusLabels[tool.implementationStatus][language]}</dd>
+              </div>
+              <div>
+                <dt>{t.common.evidence}</dt>
+                <dd>{evidenceLabels[tool.evidenceLevel][language]}</dd>
+              </div>
+              <div>
+                <dt>{t.common.risk}</dt>
+                <dd>{riskLabels[tool.regulatoryRisk][language]}</dd>
+              </div>
+            </dl>
+            <p>{tool.validationNotes[language]}</p>
             {tool.implementationStatus !== "implemented" ? (
               <p className="inactive-calculation">
                 {t.tool.automaticCalculationInactive}
               </p>
             ) : null}
           </section>
+
+          {hasEvidenceBlock(tool.implementationStatus) ? (
+            <section className="content-panel evidence-help">
+              <h2>{t.evidence.unlockTitle}</h2>
+              <ul>
+                {getUnlockActions(tool.implementationStatus, language).map((action) => (
+                  <li key={action}>{action}</li>
+                ))}
+              </ul>
+              <a
+                className="primary-link"
+                href="https://github.com/sferurek/PedsCore/issues/new/choose"
+                rel="noreferrer"
+                target="_blank"
+              >
+                {t.evidence.submitEvidence}
+              </a>
+            </section>
+          ) : null}
 
           <DynamicForm
             language={language}

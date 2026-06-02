@@ -6,6 +6,7 @@ export type RouteKind =
   | "tools"
   | "tool"
   | "category"
+  | "evidence"
   | "about"
   | "disclaimer"
   | "contribute"
@@ -68,6 +69,10 @@ export const parseRoute = (path: string): ParsedRoute => {
     return { ...base, kind: "category", category: value };
   }
 
+  if (section === "evidence") {
+    return { ...base, kind: "evidence" };
+  }
+
   if (section === "about") {
     return { ...base, kind: "about" };
   }
@@ -82,4 +87,3 @@ export const parseRoute = (path: string): ParsedRoute => {
 
   return { ...base, kind: "not_found" };
 };
-
