@@ -1617,3 +1617,48 @@ input:focus-visible,
     font-size: 1.15rem;
   }
 }
+
+/* Tool page overlap fix: keep metadata in the grid flow at every viewport size. */
+.tool-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+
+.tool-main,
+.tool-main > *,
+.metadata-panel {
+  min-width: 0;
+}
+
+.metadata-panel {
+  position: static;
+  width: 100%;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  z-index: auto;
+}
+
+@media (min-width: 981px) {
+  .tool-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  }
+
+  .metadata-panel {
+    position: sticky;
+    top: 6.5rem;
+    align-self: start;
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 980px) {
+  .tool-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .metadata-panel {
+    order: -1;
+  }
+}
