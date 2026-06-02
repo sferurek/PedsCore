@@ -34,7 +34,7 @@ describe("App", () => {
     });
     vi.stubGlobal("navigator", { language: "en-US" });
     vi.stubGlobal("window", {
-      location: { pathname: "/en/evidence" },
+      location: { pathname: "/PedsCore/en/evidence" },
       history: {
         pushState: vi.fn(),
         replaceState: vi.fn()

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.json && vite build",
+    "postbuild": "node scripts/create-404.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

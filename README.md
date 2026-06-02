@@ -38,6 +38,21 @@ PedsCore is provided for **educational and informational purposes** for healthca
 
 We welcome contributions!  See **CONTRIBUTING.md** for guidelines on submitting new tools, reporting errors or suggesting improvements.  Please provide references to peer‑reviewed literature or official guidelines when proposing new calculations or modifications.
 
+## GitHub Pages deployment
+
+Expected public URL:
+
+https://sferurek.github.io/PedsCore/
+
+To enable GitHub Pages:
+
+1. Go to **Settings → Pages** in the GitHub repository.
+2. Select **GitHub Actions** under **Build and deployment**.
+3. Push to `main`.
+4. The site will be published at the repository GitHub Pages URL.
+
+The first deployment can take a few minutes after GitHub Pages is enabled.
+
 ## License
 
 The core code is released under the [MIT License](LICENSE).  Documentation is released under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).

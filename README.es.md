@@ -35,6 +35,21 @@ PedsCore es una herramienta **educativa e informativa** destinada a profesionale
 
 Las contribuciones son bienvenidas. Si deseas proponer un nuevo score, reportar un error o aportar referencias, consulta el documento [`CONTRIBUTING.md`](CONTRIBUTING.md). También disponemos de plantillas de *issues* para facilitar la colaboración.
 
+## Despliegue en GitHub Pages
+
+URL pública esperada:
+
+https://sferurek.github.io/PedsCore/
+
+Para activar GitHub Pages:
+
+1. Ir a **Settings → Pages** en el repositorio de GitHub.
+2. En **Build and deployment**, seleccionar **GitHub Actions**.
+3. Hacer push a `main`.
+4. La web se publicará en la URL de GitHub Pages del repositorio.
+
+El primer despliegue puede tardar unos minutos tras activar GitHub Pages.
+
 ## Licencia
 
 El código se distribuye bajo la licencia **MIT**, y la documentación bajo **CC BY 4.0** salvo que se indique lo contrario. Consulta el archivo [`LICENSE`](LICENSE) para más detalles.

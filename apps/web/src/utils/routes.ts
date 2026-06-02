@@ -1,6 +1,26 @@
 import type { Language } from "./language";
 import { isSupportedLanguage } from "./language";
 
+export const appBasePath = "/PedsCore";
+
+const normalizeBasePath = (path: string): string => {
+  if (path === appBasePath) {
+    return "/";
+  }
+
+  if (path.startsWith(`${appBasePath}/`)) {
+    return path.slice(appBasePath.length);
+  }
+
+  return path;
+};
+
+export const toAppPath = (browserPath: string): string =>
+  normalizeBasePath(browserPath) || "/";
+
+export const toBrowserPath = (appPath: string): string =>
+  `${appBasePath}${appPath === "/" ? "" : appPath}`;
+
 export type RouteKind =
   | "home"
   | "tools"
@@ -30,7 +50,7 @@ export const makePath = (
 };
 
 export const parseRoute = (path: string): ParsedRoute => {
-  const segments = path.split("/").filter(Boolean);
+  const segments = toAppPath(path).split("/").filter(Boolean);
   const firstSegment = segments[0];
   const language = firstSegment && isSupportedLanguage(firstSegment)
     ? firstSegment

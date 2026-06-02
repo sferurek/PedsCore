@@ -16,10 +16,10 @@ import {
   languageStorageKey,
   resolveInitialLanguage
 } from "./utils/language";
-import { parseRoute } from "./utils/routes";
+import { parseRoute, toAppPath, toBrowserPath } from "./utils/routes";
 
 export function App() {
-  const [path, setPath] = useState(() => window.location.pathname);
+  const [path, setPath] = useState(() => toAppPath(window.location.pathname));
   const route = useMemo(() => parseRoute(path), [path]);
   const [language, setLanguage] = useState(() =>
     route.language ?? resolveInitialLanguage()
@@ -36,29 +36,30 @@ export function App() {
       return;
     }
 
-    window.history.replaceState(null, "", `/${language}`);
-    setPath(window.location.pathname);
+    const nextPath = `/${language}`;
+    window.history.replaceState(null, "", toBrowserPath(nextPath));
+    setPath(nextPath);
   }, [language, path, route.language]);
 
   useEffect(() => {
-    const handlePopState = () => setPath(window.location.pathname);
+    const handlePopState = () => setPath(toAppPath(window.location.pathname));
     window.addEventListener("popstate", handlePopState);
 
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
   const navigate = (href: string) => {
-    window.history.pushState(null, "", href);
-    setPath(window.location.pathname);
+    window.history.pushState(null, "", toBrowserPath(href));
+    setPath(href);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const changeLanguage = (nextLanguage: "es" | "en") => {
     localStorage.setItem(languageStorageKey, nextLanguage);
     const nextPath = route.withLanguage(nextLanguage);
-    window.history.pushState(null, "", nextPath);
+    window.history.pushState(null, "", toBrowserPath(nextPath));
     setLanguage(nextLanguage);
-    setPath(window.location.pathname);
+    setPath(nextPath);
   };
 
   if (!isSupportedLanguage(language)) {
