@@ -20,7 +20,7 @@ describe("tool filtering", () => {
         query: "PECARN",
         category: "emergency",
         type: "clinical_rule",
-        status: "ready_for_implementation"
+        status: "implemented"
       },
       "en"
     );
@@ -31,4 +31,3 @@ describe("tool filtering", () => {
     ]);
   });
 });
-

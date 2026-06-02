@@ -647,6 +647,10 @@ dd {
   font-weight: 700;
 }
 
+.warning-list.neutral {
+  color: var(--text);
+}
+
 .trace-list {
   display: grid;
   gap: 0.5rem;

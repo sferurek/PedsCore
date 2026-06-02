@@ -66,7 +66,18 @@ function CalculatedResult({ language, result }: CalculatedResultProps) {
             {primaryValue}
             {result.unit ? ` ${result.unit}` : ""}
           </strong>
+          {result.maxScore !== undefined ? (
+            <p>
+              {t.result.maxScore}: {result.maxScore}
+            </p>
+          ) : null}
           {result.label ? <p>{result.label[language]}</p> : null}
+        </div>
+      ) : null}
+      {result.classification ? (
+        <div>
+          <h3>{t.result.classification}</h3>
+          <p>{result.classification[language]}</p>
         </div>
       ) : null}
       <div>
@@ -88,6 +99,20 @@ function CalculatedResult({ language, result }: CalculatedResultProps) {
               <li key={warning.id}>{warning.message[language]}</li>
             ))}
           </ul>
+        </div>
+      ) : null}
+      {result.criteriaMatched ? (
+        <div>
+          <h3>{t.result.criteriaMatched}</h3>
+          {result.criteriaMatched.length > 0 ? (
+            <ul className="warning-list neutral">
+              {result.criteriaMatched.map((criterion) => (
+                <li key={criterion.en}>{criterion[language]}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>{t.result.noCriteriaMatched}</p>
+          )}
         </div>
       ) : null}
       <div>

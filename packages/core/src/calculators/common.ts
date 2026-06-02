@@ -75,6 +75,27 @@ export const getNumber = (
   return null;
 };
 
+export const getBoolean = (
+  input: CalculatorInput,
+  inputId: string
+): boolean | null => {
+  const value = input[inputId];
+
+  if (typeof value === "boolean") {
+    return value;
+  }
+
+  if (value === "yes") {
+    return true;
+  }
+
+  if (value === "no") {
+    return false;
+  }
+
+  return null;
+};
+
 export const findInterpretation = (
   bands: InterpretationBand[] | undefined,
   score: number

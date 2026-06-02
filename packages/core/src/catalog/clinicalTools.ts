@@ -20,7 +20,12 @@ const implementedToolIds = new Set([
   "qtc_fridericia",
   "qtc_framingham",
   "qtc_hodges",
-  "bedside_schwartz"
+  "bedside_schwartz",
+  "westley_croup",
+  "pram",
+  "clinical_dehydration_scale",
+  "pecarn_tbi_under_2",
+  "pecarn_tbi_2_or_more"
 ]);
 
 type ToolSeed = Omit<
@@ -396,18 +401,55 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     calculationStatus: "metadata_ready",
     calculationNotes: pendingCalculationNotes,
     inputs: [
-      "oxygen_saturation",
-      "suprasternal_retractions",
-      "scalene_muscle_contraction",
-      "air_entry",
-      "wheezing"
-    ].map((id) => ({
-      id,
-      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
-      type: "single_choice" as const,
-      required: true,
-      options: scoreOptions(id)
-    })),
+      {
+        id: "suprasternal_retractions",
+        label: { es: "Retracciones suprasternales", en: "Suprasternal retractions" },
+        type: "single_choice",
+        required: true,
+        options: [option("absent", "No", "No", 0), option("present", "Si", "Yes", 2)]
+      },
+      {
+        id: "scalene_muscle_contraction",
+        label: { es: "Contraccion de musculos escalenos", en: "Scalene muscle contraction" },
+        type: "single_choice",
+        required: true,
+        options: [option("absent", "No", "No", 0), option("present", "Si", "Yes", 2)]
+      },
+      {
+        id: "air_entry",
+        label: { es: "Entrada de aire", en: "Air entry" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("normal", "Normal", "Normal", 0),
+          option("decreased_bases", "Disminuida en bases", "Decreased at bases", 1),
+          option("decreased_apex_bases", "Disminuida en apices y bases", "Decreased at apex and bases", 2),
+          option("minimal_absent", "Minima o ausente", "Minimal or absent", 3)
+        ]
+      },
+      {
+        id: "wheezing",
+        label: { es: "Sibilancias", en: "Wheezing" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausentes", "Absent", 0),
+          option("expiratory_only", "Solo espiratorias", "Expiratory only", 1),
+          option("inspiratory_or_expiratory", "Inspiratorias +/- espiratorias", "Inspiratory +/- expiratory", 2),
+          option("audible_or_silent", "Audibles sin estetoscopio o torax silencioso", "Audible without stethoscope or silent chest", 3)
+        ]
+      },
+      {
+        id: "oxygen_saturation",
+        label: { es: "Saturacion de oxigeno", en: "Oxygen saturation" },
+        type: "number",
+        required: true,
+        unit: "%",
+        min: 0,
+        max: 100,
+        step: 1
+      }
+    ],
     interpretationBands: [
       {
         id: "mild",
@@ -446,13 +488,60 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   westley_croup: {
     calculationStatus: "metadata_ready",
     calculationNotes: pendingCalculationNotes,
-    inputs: ["retractions", "stridor", "cyanosis", "consciousness", "air_entry"].map((id) => ({
-      id,
-      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
-      type: "single_choice" as const,
-      required: true,
-      options: scoreOptions(id)
-    })),
+    inputs: [
+      {
+        id: "level_of_consciousness",
+        label: { es: "Nivel de conciencia", en: "Level of consciousness" },
+        type: "single_choice",
+        required: true,
+        options: [option("normal", "Normal", "Normal", 0), option("disoriented", "Desorientado", "Disoriented", 5)]
+      },
+      {
+        id: "cyanosis",
+        label: { es: "Cianosis", en: "Cyanosis" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("with_agitation", "Con agitacion", "With agitation", 4),
+          option("at_rest", "En reposo", "At rest", 5)
+        ]
+      },
+      {
+        id: "stridor",
+        label: { es: "Estridor", en: "Stridor" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("with_agitation", "Con agitacion", "With agitation", 1),
+          option("at_rest", "En reposo", "At rest", 2)
+        ]
+      },
+      {
+        id: "air_entry",
+        label: { es: "Entrada de aire", en: "Air entry" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("normal", "Normal", "Normal", 0),
+          option("decreased", "Disminuida", "Decreased", 1),
+          option("markedly_decreased", "Marcadamente disminuida", "Markedly decreased", 2)
+        ]
+      },
+      {
+        id: "retractions",
+        label: { es: "Retracciones", en: "Retractions" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("none", "Ninguna", "None", 0),
+          option("mild", "Leve", "Mild", 1),
+          option("moderate", "Moderada", "Moderate", 2),
+          option("severe", "Severa", "Severe", 3)
+        ]
+      }
+    ],
     interpretationBands: [
       {
         id: "mild",
@@ -473,6 +562,13 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         min: 6,
         max: 11,
         label: { es: "Severo", en: "Severe" },
+        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+      },
+      {
+        id: "impending_respiratory_failure",
+        min: 12,
+        max: 17,
+        label: { es: "Fallo respiratorio inminente", en: "Impending respiratory failure" },
         description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
       }
     ],
@@ -542,12 +638,12 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     calculationStatus: "metadata_ready",
     calculationNotes: pendingCalculationNotes,
     inputs: [
-      "gcs_14_or_altered",
+      "altered_mental_status_or_gcs_less_than_15",
       "palpable_skull_fracture",
-      "occipital_parietal_temporal_hematoma",
-      "loss_of_consciousness_5_seconds",
-      "not_acting_normally",
-      "severe_mechanism"
+      "non_frontal_scalp_hematoma",
+      "loss_of_consciousness_5_seconds_or_more",
+      "severe_mechanism",
+      "abnormal_behavior_per_parent"
     ].map((id) => ({
       id,
       label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
@@ -571,12 +667,12 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     calculationStatus: "metadata_ready",
     calculationNotes: pendingCalculationNotes,
     inputs: [
-      "gcs_14_or_altered",
-      "basilar_skull_fracture_signs",
-      "loss_of_consciousness",
-      "vomiting",
-      "severe_headache",
-      "severe_mechanism"
+      "altered_mental_status_or_gcs_less_than_15",
+      "signs_of_basilar_skull_fracture",
+      "history_of_loss_of_consciousness",
+      "history_of_vomiting",
+      "severe_mechanism",
+      "severe_headache"
     ].map((id) => ({
       id,
       label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },

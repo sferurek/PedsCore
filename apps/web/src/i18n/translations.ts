@@ -80,7 +80,11 @@ export const translations = {
       trace: "Trazabilidad",
       noInterpretation:
         "No hay banda de interpretacion automatica para este resultado.",
-      score: "Puntuacion"
+      score: "Puntuacion",
+      maxScore: "Maximo",
+      classification: "Clasificacion",
+      criteriaMatched: "Criterios identificados",
+      noCriteriaMatched: "No se identifican criterios positivos."
     },
     tables: {
       interpretation: "Tabla de interpretacion",
@@ -196,7 +200,11 @@ export const translations = {
       trace: "Traceability",
       noInterpretation:
         "No automatic interpretation band is available for this result.",
-      score: "Score"
+      score: "Score",
+      maxScore: "Maximum",
+      classification: "Classification",
+      criteriaMatched: "Criteria identified",
+      noCriteriaMatched: "No positive criteria identified."
     },
     tables: {
       interpretation: "Interpretation table",

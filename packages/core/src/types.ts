@@ -105,9 +105,12 @@ export interface CalculationWarning {
 export interface CalculationResult {
   toolId: string;
   score?: number;
+  maxScore?: number;
   value?: number;
   unit?: string;
   label?: LocalizedText;
+  classification?: LocalizedText;
+  criteriaMatched?: LocalizedText[];
   interpretation?: InterpretationBand;
   warnings: CalculationWarning[];
   trace: Array<{

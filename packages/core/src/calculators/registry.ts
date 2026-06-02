@@ -11,6 +11,13 @@ import {
 } from "./qtc.js";
 import { bedsideSchwartzCalculator } from "./schwartz.js";
 import { silvermanAndersenCalculator } from "./silvermanAndersen.js";
+import { clinicalDehydrationScaleCalculator } from "./clinicalDehydrationScale.js";
+import {
+  pecarn2OrMoreCalculator,
+  pecarnUnder2Calculator
+} from "./pecarn.js";
+import { pramCalculator } from "./pram.js";
+import { westleyCroupCalculator } from "./westleyCroup.js";
 
 const calculators = [
   apgarCalculator,
@@ -20,7 +27,12 @@ const calculators = [
   qtcFridericiaCalculator,
   qtcFraminghamCalculator,
   qtcHodgesCalculator,
-  bedsideSchwartzCalculator
+  bedsideSchwartzCalculator,
+  westleyCroupCalculator,
+  pramCalculator,
+  clinicalDehydrationScaleCalculator,
+  pecarnUnder2Calculator,
+  pecarn2OrMoreCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
@@ -53,4 +65,3 @@ export const calculateTool = (
 
   return calculator.calculate(input);
 };
-

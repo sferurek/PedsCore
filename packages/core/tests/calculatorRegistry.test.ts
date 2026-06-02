@@ -15,7 +15,12 @@ describe("calculator registry", () => {
       "qtc_fridericia",
       "qtc_framingham",
       "qtc_hodges",
-      "bedside_schwartz"
+      "bedside_schwartz",
+      "westley_croup",
+      "pram",
+      "clinical_dehydration_scale",
+      "pecarn_tbi_under_2",
+      "pecarn_tbi_2_or_more"
     ]);
     expect(getImplementedTools().map((tool) => tool.id).sort()).toEqual(
       [...implementedCalculatorToolIds].sort()
@@ -40,4 +45,3 @@ describe("calculator registry", () => {
     expect(result.warnings[0]?.id).toBe("calculator_not_implemented");
   });
 });
-
