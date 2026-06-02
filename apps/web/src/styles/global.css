@@ -482,25 +482,75 @@ dd {
 
 .reference-list {
   display: grid;
-  gap: 0.85rem;
-  padding-left: 1.25rem;
+  gap: 1rem;
+  padding-left: 0;
+  margin: 1rem 0 0;
+  list-style: none;
 }
 
-.reference-list li {
-  padding-left: 0.25rem;
+.reference-card {
+  display: grid;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-tint);
 }
 
-.reference-list span {
-  display: block;
+.reference-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.reference-number,
+.reference-badge {
+  display: inline-flex;
   width: max-content;
   max-width: 100%;
-  margin-top: 0.35rem;
-  padding: 0.2rem 0.45rem;
+  align-items: center;
   border-radius: 999px;
-  background: var(--surface-strong);
-  color: var(--muted);
   font-size: 0.78rem;
   font-weight: 800;
+  line-height: 1.2;
+}
+
+.reference-number {
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  background: var(--primary-strong);
+  color: #ffffff;
+}
+
+.reference-badge {
+  padding: 0.35rem 0.6rem;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+}
+
+.reference-details {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  margin: 0;
+}
+
+.reference-details > div {
+  min-width: 0;
+}
+
+.reference-card h3,
+.reference-card p,
+.reference-card dd,
+.reference-card a {
+  overflow-wrap: anywhere;
+}
+
+.reference-notes {
+  color: var(--muted);
 }
 
 .dynamic-form {
@@ -793,6 +843,7 @@ td {
 }
 
 .evidence-meta > div,
+.evidence-summary-grid > div,
 .status-explainer {
   padding: 0.85rem;
   border: 1px solid var(--line);
@@ -801,7 +852,8 @@ td {
 }
 
 .evidence-help ul,
-.evidence-page ul {
+.evidence-page ul,
+.evidence-hierarchy {
   display: grid;
   gap: 0.55rem;
   margin: 0.75rem 0 1rem;
@@ -814,6 +866,20 @@ td {
   display: grid;
   gap: 0.85rem;
   margin-top: 1rem;
+}
+
+.evidence-summary-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin: 1rem 0 0;
+}
+
+.evidence-summary-grid dd {
+  color: var(--primary-strong);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .status-explainer strong {
@@ -1306,7 +1372,7 @@ h2 {
   background: var(--primary-soft);
 }
 
-.reference-list li {
+.reference-card {
   padding: 0.8rem;
   border: 1px solid var(--line);
   border-radius: 16px;

@@ -37,7 +37,33 @@ export type EvidenceLevel =
   | "moderate"
   | "low"
   | "primary_reference_needed"
-  | "pending_verification";
+  | "pending_verification"
+  | "original_derivation_study"
+  | "external_validation_study"
+  | "clinical_practice_guideline"
+  | "systematic_review"
+  | "consensus_statement"
+  | "official_manual_or_institutional_protocol"
+  | "peer_reviewed_review"
+  | "secondary_source"
+  | "local_project_documentation"
+  | "pending_primary_source";
+
+export type SourceType =
+  | "journal_article"
+  | "guideline"
+  | "society_statement"
+  | "textbook"
+  | "institutional_protocol"
+  | "documentation"
+  | "website"
+  | "other";
+
+export type AccessType =
+  | "open_access"
+  | "paywalled"
+  | "abstract_only"
+  | "unknown";
 
 export type RegulatoryRisk = "low" | "medium" | "high";
 
@@ -52,8 +78,18 @@ export interface Reference {
   id: string;
   title: string;
   evidenceLevel: EvidenceLevel;
-  url?: string;
+  authors?: string;
+  year?: number;
+  journalOrPublisher?: string;
   citation?: string;
+  doi?: string;
+  pmid?: string;
+  url?: string;
+  sourceType?: SourceType;
+  accessType?: AccessType;
+  notes?: string;
+  appliesTo?: string[];
+  priority?: number;
 }
 
 export interface ToolOption {

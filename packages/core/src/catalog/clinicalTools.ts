@@ -43,6 +43,346 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
   evidenceLevel
 });
 
+const implementedToolReferences: Record<string, Reference[]> = {
+  apgar: [
+    {
+      id: "apgar_1953_original",
+      title: "A Proposal for a New Method of Evaluation of the Newborn Infant",
+      authors: "Apgar V",
+      year: 1953,
+      journalOrPublisher: "Current Researches in Anesthesia and Analgesia",
+      citation:
+        "Apgar V. A proposal for a new method of evaluation of the newborn infant. Curr Res Anesth Analg. 1953;32:260-267.",
+      doi: "10.1213/00000539-195301000-00041",
+      pmid: "13083014",
+      url: "https://profiles.nlm.nih.gov/spotlight/cp/catalog/nlm:nlmuid-101584647X152-doc",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      appliesTo: ["apgar"],
+      priority: 1
+    }
+  ],
+  silverman_andersen: [
+    {
+      id: "silverman_andersen_1956_original",
+      title:
+        "A controlled clinical trial of effects of water mist on obstructive respiratory signs, death rate and necropsy findings among premature infants",
+      authors: "Silverman WA, Andersen DH",
+      year: 1956,
+      journalOrPublisher: "Pediatrics",
+      citation:
+        "Silverman WA, Andersen DH. A controlled clinical trial of effects of water mist on obstructive respiratory signs, death rate and necropsy findings among premature infants. Pediatrics. 1956;17(1):1-10.",
+      url: "https://publications.aap.org/pediatrics/article/17/1/1/39942/A-CONTROLLED-CLINICAL-TRIAL-OF-EFFECTS-OF-WATER",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes: "Primary publication identified; DOI and PMID not confirmed in this audit.",
+      appliesTo: ["silverman_andersen"],
+      priority: 1
+    }
+  ],
+  nips: [
+    {
+      id: "nips_1993_original",
+      title: "The development of a tool to assess neonatal pain",
+      authors: "Lawrence J, Alcock D, McGrath P, Kay J, MacMurray SB, Dulberg C",
+      year: 1993,
+      journalOrPublisher: "Neonatal Network",
+      citation:
+        "Lawrence J, Alcock D, McGrath P, Kay J, MacMurray SB, Dulberg C. The development of a tool to assess neonatal pain. Neonatal Netw. 1993;12(6):59-66.",
+      pmid: "8413140",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["nips"],
+      priority: 1
+    }
+  ],
+  westley_croup: [
+    {
+      id: "westley_1978_original",
+      title:
+        "Nebulized racemic epinephrine by IPPB for the treatment of croup: a double-blind study",
+      authors: "Westley CR, Cotton EK, Brooks JG",
+      year: 1978,
+      journalOrPublisher: "American Journal of Diseases of Children",
+      citation:
+        "Westley CR, Cotton EK, Brooks JG. Nebulized racemic epinephrine by IPPB for the treatment of croup: a double-blind study. Am J Dis Child. 1978;132(5):484-487.",
+      doi: "10.1001/archpedi.1978.02120300044008",
+      pmid: "347921",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["westley_croup"],
+      priority: 1
+    }
+  ],
+  pram: [
+    {
+      id: "pram_2000_original",
+      title:
+        "The Preschool Respiratory Assessment Measure (PRAM): a responsive index of acute asthma severity",
+      authors: "Chalut DS, Ducharme FM, Davis GM",
+      year: 2000,
+      journalOrPublisher: "The Journal of Pediatrics",
+      citation:
+        "Chalut DS, Ducharme FM, Davis GM. The Preschool Respiratory Assessment Measure (PRAM): a responsive index of acute asthma severity. J Pediatr. 2000;137(6):762-768.",
+      doi: "10.1067/mpd.2000.110121",
+      pmid: "11113831",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["pram"],
+      priority: 1
+    },
+    {
+      id: "pram_2008_validation",
+      title:
+        "The Pediatric Respiratory Assessment Measure: a valid clinical score for assessing acute asthma severity from toddlers to teenagers",
+      authors:
+        "Ducharme FM, Chalut D, Plotnick L, Savdie C, Kudirka D, Zhang X, Meng L, McGillivray D",
+      year: 2008,
+      journalOrPublisher: "The Journal of Pediatrics",
+      citation:
+        "Ducharme FM, Chalut D, Plotnick L, Savdie C, Kudirka D, Zhang X, Meng L, McGillivray D. The Pediatric Respiratory Assessment Measure: a valid clinical score for assessing acute asthma severity from toddlers to teenagers. J Pediatr. 2008;152(4):476-480.e1.",
+      pmid: "18346499",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["pram"],
+      priority: 2
+    }
+  ],
+  clinical_dehydration_scale: [
+    {
+      id: "cds_2004_original",
+      title:
+        "Development of a clinical dehydration scale for use in children between 1 and 36 months of age",
+      authors: "Friedman JN, Goldman RD, Srivastava R, Parkin PC",
+      year: 2004,
+      journalOrPublisher: "The Journal of Pediatrics",
+      citation:
+        "Friedman JN, Goldman RD, Srivastava R, Parkin PC. Development of a clinical dehydration scale for use in children between 1 and 36 months of age. J Pediatr. 2004;145(2):201-207.",
+      doi: "10.1016/j.jpeds.2004.05.035",
+      pmid: "15289767",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["clinical_dehydration_scale"],
+      priority: 1
+    },
+    {
+      id: "cds_2008_validation",
+      title: "Validation of the clinical dehydration scale for children with acute gastroenteritis",
+      authors: "Goldman RD, Friedman JN, Parkin PC",
+      year: 2008,
+      journalOrPublisher: "Pediatrics",
+      citation:
+        "Goldman RD, Friedman JN, Parkin PC. Validation of the clinical dehydration scale for children with acute gastroenteritis. Pediatrics. 2008;122(3):545-549.",
+      doi: "10.1542/peds.2007-3141",
+      pmid: "18762524",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["clinical_dehydration_scale"],
+      priority: 2
+    },
+    {
+      id: "cds_2010_external_validation",
+      title:
+        "External validation of the clinical dehydration scale for children with acute gastroenteritis",
+      authors: "Bailey B, Gravel J, Goldman RD, Friedman JN, Parkin PC",
+      year: 2010,
+      journalOrPublisher: "Academic Emergency Medicine",
+      citation:
+        "Bailey B, Gravel J, Goldman RD, Friedman JN, Parkin PC. External validation of the clinical dehydration scale for children with acute gastroenteritis. Acad Emerg Med. 2010;17(6):583-588.",
+      doi: "10.1111/j.1553-2712.2010.00767.x",
+      pmid: "20624137",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["clinical_dehydration_scale"],
+      priority: 3
+    }
+  ],
+  pecarn_tbi_under_2: [
+    {
+      id: "pecarn_tbi_2009_derivation_validation",
+      title:
+        "Identification of children at very low risk of clinically-important brain injuries after head trauma: a prospective cohort study",
+      authors: "Kuppermann N, Holmes JF, Dayan PS, et al.; PECARN",
+      year: 2009,
+      journalOrPublisher: "The Lancet",
+      citation:
+        "Kuppermann N, Holmes JF, Dayan PS, et al.; PECARN. Identification of children at very low risk of clinically-important brain injuries after head trauma: a prospective cohort study. Lancet. 2009;374(9696):1160-1170.",
+      doi: "10.1016/S0140-6736(09)61558-0",
+      pmid: "19758692",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["pecarn_tbi_under_2", "pecarn_tbi_2_or_more"],
+      priority: 1
+    }
+  ],
+  pecarn_tbi_2_or_more: [
+    {
+      id: "pecarn_tbi_2009_derivation_validation",
+      title:
+        "Identification of children at very low risk of clinically-important brain injuries after head trauma: a prospective cohort study",
+      authors: "Kuppermann N, Holmes JF, Dayan PS, et al.; PECARN",
+      year: 2009,
+      journalOrPublisher: "The Lancet",
+      citation:
+        "Kuppermann N, Holmes JF, Dayan PS, et al.; PECARN. Identification of children at very low risk of clinically-important brain injuries after head trauma: a prospective cohort study. Lancet. 2009;374(9696):1160-1170.",
+      doi: "10.1016/S0140-6736(09)61558-0",
+      pmid: "19758692",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["pecarn_tbi_under_2", "pecarn_tbi_2_or_more"],
+      priority: 1
+    }
+  ],
+  sipa: [
+    {
+      id: "sipa_2014_original",
+      title: "Pediatric specific shock index accurately identifies severely injured children",
+      year: 2014,
+      journalOrPublisher: "Journal of Pediatric Surgery",
+      citation:
+        "Pediatric specific shock index accurately identifies severely injured children. J Pediatr Surg. 2014.",
+      url: "https://www.sciencedirect.com/science/article/pii/S0022346814004928",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes:
+        "Primary SIPA derivation publication identified; authors, DOI, and PMID require final bibliographic verification.",
+      appliesTo: ["sipa"],
+      priority: 1
+    }
+  ],
+  qtc_bazett: [
+    {
+      id: "bazett_1920_original",
+      title: "An analysis of the time-relations of electrocardiograms",
+      authors: "Bazett HC",
+      year: 1920,
+      journalOrPublisher: "Heart",
+      citation: "Bazett HC. An analysis of the time-relations of electrocardiograms. Heart. 1920;7:353-370.",
+      url: "https://cir.nii.ac.jp/crid/1571135649791070976",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "unknown",
+      notes: "Classic original formula publication; DOI and PMID not confirmed in this audit.",
+      appliesTo: ["qtc_bazett"],
+      priority: 1
+    }
+  ],
+  qtc_fridericia: [
+    {
+      id: "fridericia_1920_original",
+      title: "Die Systolendauer im Elektrokardiogramm bei normalen Menschen und bei Herzkranken",
+      authors: "Fridericia LS",
+      year: 1920,
+      journalOrPublisher: "Acta Medica Scandinavica",
+      citation:
+        "Fridericia LS. Die Systolendauer im Elektrokardiogramm bei normalen Menschen und bei Herzkranken. Acta Med Scand. 1920;53:469-486.",
+      doi: "10.1111/j.0954-6820.1920.tb18266.x",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      appliesTo: ["qtc_fridericia"],
+      priority: 1
+    }
+  ],
+  qtc_framingham: [
+    {
+      id: "framingham_qtc_1992_original",
+      title: "An improved method for adjusting the QT interval for heart rate (the Framingham Heart Study)",
+      authors: "Sagie A, Larson MG, Goldberg RJ, Bengtson JR, Levy D",
+      year: 1992,
+      journalOrPublisher: "American Journal of Cardiology",
+      citation:
+        "Sagie A, Larson MG, Goldberg RJ, Bengtson JR, Levy D. An improved method for adjusting the QT interval for heart rate (the Framingham Heart Study). Am J Cardiol. 1992;70(7):797-801.",
+      doi: "10.1016/0002-9149(92)90562-d",
+      pmid: "1519533",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["qtc_framingham"],
+      priority: 1
+    }
+  ],
+  qtc_hodges: [
+    {
+      id: "hodges_1983_original",
+      title: "Bazett's QT correction reviewed: evidence that a linear QT correction for heart rate is better",
+      authors: "Hodges M, Salerno D, Erlien D",
+      year: 1983,
+      journalOrPublisher: "Journal of the American College of Cardiology",
+      citation:
+        "Hodges M, Salerno D, Erlien D. Bazett's QT correction reviewed: evidence that a linear QT correction for heart rate is better. J Am Coll Cardiol. 1983;1:694.",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "unknown",
+      notes: "Conference abstract/classic citation identified; DOI and PMID not confirmed in this audit.",
+      appliesTo: ["qtc_hodges"],
+      priority: 1
+    },
+    {
+      id: "qtc_formulae_2016_review",
+      title: "Which QT Correction Formulae to Use for QT Monitoring?",
+      authors: "Vandenberk B, Vandael E, Robyns T, et al.",
+      year: 2016,
+      journalOrPublisher: "Journal of the American Heart Association",
+      citation:
+        "Vandenberk B, Vandael E, Robyns T, et al. Which QT Correction Formulae to Use for QT Monitoring? J Am Heart Assoc. 2016;5:e003264.",
+      doi: "10.1161/JAHA.116.003264",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      appliesTo: ["qtc_bazett", "qtc_fridericia", "qtc_framingham", "qtc_hodges"],
+      priority: 2
+    }
+  ],
+  bedside_schwartz: [
+    {
+      id: "bedside_schwartz_2009_original",
+      title: "New equations to estimate GFR in children with CKD",
+      authors: "Schwartz GJ, Munoz A, Schneider MF, Mak RH, Kaskel F, Warady BA, Furth SL",
+      year: 2009,
+      journalOrPublisher: "Journal of the American Society of Nephrology",
+      citation:
+        "Schwartz GJ, Munoz A, Schneider MF, Mak RH, Kaskel F, Warady BA, Furth SL. New equations to estimate GFR in children with CKD. J Am Soc Nephrol. 2009;20(3):629-637.",
+      pmid: "19158356",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["bedside_schwartz"],
+      priority: 1
+    }
+  ],
+  flacc: [
+    {
+      id: "flacc_1997_original",
+      title: "The FLACC: a behavioral scale for scoring postoperative pain in young children",
+      authors: "Merkel SI, Voepel-Lewis T, Shayevitz JR, Malviya S",
+      year: 1997,
+      journalOrPublisher: "Pediatric Nursing",
+      citation:
+        "Merkel SI, Voepel-Lewis T, Shayevitz JR, Malviya S. The FLACC: a behavioral scale for scoring postoperative pain in young children. Pediatr Nurs. 1997;23(3):293-297.",
+      url: "https://cir.nii.ac.jp/crid/1370853567591640205",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "unknown",
+      notes: "Primary FLACC publication identified; DOI and PMID not confirmed in this audit.",
+      appliesTo: ["flacc"],
+      priority: 1
+    }
+  ]
+};
+
 const pendingCalculationNotes: LocalizedText = {
   es: "Formulario preparado para revision. El calculo automatico permanece inactivo hasta completar trazabilidad, fuente primaria y tests clinicos.",
   en: "Form prepared for review. Automatic calculation remains inactive until traceability, primary source, and clinical tests are complete."
@@ -943,7 +1283,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
 
 const tool = (seed: ToolSeed): ClinicalToolMetadata => {
   const metadata = clinicalToolFormMetadata[seed.id] ?? {};
-  const references = seed.references ?? [
+  const references = implementedToolReferences[seed.id] ?? seed.references ?? [
     docRef(`${seed.id}_documentation`, "PedsCore documentation source pending primary reference review", "pending_verification")
   ];
 

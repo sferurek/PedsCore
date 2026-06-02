@@ -118,7 +118,7 @@ export function ToolPage({ language, tool }: ToolPageProps) {
           <ScoringTable language={language} tool={tool} />
 
           <section className="content-panel">
-            <h2>{t.tool.references}</h2>
+            <h2>{t.tool.sourcesAndEvidence}</h2>
             <ReferenceList language={language} references={tool.references} />
           </section>
 

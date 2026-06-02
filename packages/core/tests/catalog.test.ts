@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   clinicalTools,
+  getReferenceUrl,
   getAllTools,
   getImplementedTools,
   getToolBySlug,
@@ -10,6 +11,38 @@ import {
 } from "../src/index";
 
 const uniqueCount = (values: string[]) => new Set(values).size;
+
+const implementedToolIds = [
+  "apgar",
+  "silverman_andersen",
+  "flacc",
+  "qtc_bazett",
+  "qtc_fridericia",
+  "qtc_framingham",
+  "qtc_hodges",
+  "bedside_schwartz",
+  "westley_croup",
+  "pram",
+  "clinical_dehydration_scale",
+  "pecarn_tbi_under_2",
+  "pecarn_tbi_2_or_more",
+  "sipa",
+  "nips"
+];
+
+const nonPrimaryReferenceLevels = new Set([
+  "pending_verification",
+  "primary_reference_needed",
+  "pending_primary_source",
+  "local_project_documentation"
+]);
+
+const hasRealReference = (tool: (typeof clinicalTools)[number]) =>
+  tool.references.some(
+    (reference) =>
+      !nonPrimaryReferenceLevels.has(reference.evidenceLevel) &&
+      Boolean(getReferenceUrl(reference))
+  );
 
 describe("clinical tools catalog", () => {
   it("loads the catalog without errors", () => {
@@ -42,6 +75,16 @@ describe("clinical tools catalog", () => {
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
     expect(getImplementedTools()).toHaveLength(15);
+  });
+
+  it("keeps the implemented tool set unchanged during evidence audit", () => {
+    expect(getImplementedTools().map((tool) => tool.id).sort()).toEqual(
+      [...implementedToolIds].sort()
+    );
+  });
+
+  it("requires every implemented tool to have at least one real clickable reference", () => {
+    expect(getImplementedTools().every(hasRealReference)).toBe(true);
   });
 
   it("searches by name, acronym, and category", () => {

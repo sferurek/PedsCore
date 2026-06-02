@@ -1,7 +1,9 @@
 import type {
+  AccessType,
   EvidenceLevel,
   ImplementationStatus,
   RegulatoryRisk,
+  SourceType,
   ToolCategory,
   ToolType
 } from "@peds-core/core";
@@ -57,13 +59,27 @@ export const translations = {
         "Puedes aportar DOI, PMID, enlaces estables, tablas completas, variantes exactas, puntos de corte publicados y notas de licencia mediante GitHub Issues.",
       docsLink: "Ver docs/evidence en GitHub",
       submitEvidence: "Proponer evidencia en GitHub",
-      unlockTitle: "Como ayudar a desbloquear esta herramienta"
+      unlockTitle: "Como ayudar a desbloquear esta herramienta",
+      hierarchyTitle: "Jerarquia de evidencia",
+      hierarchyBody:
+        "Las referencias se clasifican desde estudios originales y validaciones externas hasta documentacion local o fuentes primarias pendientes.",
+      sortingTitle: "Orden de las fuentes",
+      sortingBody:
+        "PedsCore ordena las fuentes por nivel de evidencia, prioridad editorial, ano mas reciente dentro del mismo nivel y titulo como desempate.",
+      summaryTitle: "Resumen por estado"
     },
     tool: {
       metadata: "Ficha tecnica",
       description: "Descripcion",
       status: "Estado de implementacion",
       references: "Referencias",
+      sourcesAndEvidence: "Fuentes y evidencia",
+      openSource: "Abrir fuente",
+      pendingLink: "Enlace pendiente",
+      doi: "DOI",
+      pmid: "PMID",
+      sourceType: "Tipo de fuente",
+      accessType: "Acceso",
       validationNotes: "Notas de validacion",
       automaticCalculationInactive:
         "El calculo automatico aun no esta activo para esta herramienta. La ficha se muestra para revision, trazabilidad y preparacion de implementacion.",
@@ -195,13 +211,27 @@ export const translations = {
         "You can provide DOI, PMID, stable links, complete tables, exact variants, published cut-offs, and licensing notes through GitHub Issues.",
       docsLink: "View docs/evidence on GitHub",
       submitEvidence: "Submit evidence on GitHub",
-      unlockTitle: "How to help unlock this tool"
+      unlockTitle: "How to help unlock this tool",
+      hierarchyTitle: "Evidence hierarchy",
+      hierarchyBody:
+        "References are classified from original studies and external validations through local documentation or pending primary sources.",
+      sortingTitle: "Source ordering",
+      sortingBody:
+        "PedsCore sorts sources by evidence level, editorial priority, most recent year within the same level, and title as final tie-breaker.",
+      summaryTitle: "Status summary"
     },
     tool: {
       metadata: "Metadata",
       description: "Description",
       status: "Implementation status",
       references: "References",
+      sourcesAndEvidence: "Sources and evidence",
+      openSource: "Open source",
+      pendingLink: "Link pending",
+      doi: "DOI",
+      pmid: "PMID",
+      sourceType: "Source type",
+      accessType: "Access",
       validationNotes: "Validation notes",
       automaticCalculationInactive:
         "Automatic calculation is not active for this tool yet. This page is shown for review, traceability and implementation preparation.",
@@ -436,5 +466,66 @@ export const evidenceLabels: Record<EvidenceLevel, Record<Language, string>> = {
   pending_verification: {
     es: "Pendiente de verificacion",
     en: "Pending verification"
+  },
+  original_derivation_study: {
+    es: "Estudio original / derivacion",
+    en: "Original / derivation study"
+  },
+  external_validation_study: {
+    es: "Validacion externa",
+    en: "External validation"
+  },
+  clinical_practice_guideline: {
+    es: "Guia clinica",
+    en: "Clinical practice guideline"
+  },
+  systematic_review: {
+    es: "Revision sistematica",
+    en: "Systematic review"
+  },
+  consensus_statement: {
+    es: "Consenso",
+    en: "Consensus statement"
+  },
+  official_manual_or_institutional_protocol: {
+    es: "Manual oficial / protocolo",
+    en: "Official manual / protocol"
+  },
+  peer_reviewed_review: {
+    es: "Revision revisada por pares",
+    en: "Peer-reviewed review"
+  },
+  secondary_source: {
+    es: "Fuente secundaria",
+    en: "Secondary source"
+  },
+  local_project_documentation: {
+    es: "Documentacion local",
+    en: "Local project documentation"
+  },
+  pending_primary_source: {
+    es: "Fuente primaria pendiente",
+    en: "Pending primary source"
   }
+};
+
+export const sourceTypeLabels: Record<SourceType, Record<Language, string>> = {
+  journal_article: { es: "Articulo cientifico", en: "Journal article" },
+  guideline: { es: "Guia", en: "Guideline" },
+  society_statement: { es: "Declaracion de sociedad", en: "Society statement" },
+  textbook: { es: "Libro", en: "Textbook" },
+  institutional_protocol: {
+    es: "Protocolo institucional",
+    en: "Institutional protocol"
+  },
+  documentation: { es: "Documentacion", en: "Documentation" },
+  website: { es: "Sitio web", en: "Website" },
+  other: { es: "Otra", en: "Other" }
+};
+
+export const accessTypeLabels: Record<AccessType, Record<Language, string>> = {
+  open_access: { es: "Abierto", en: "Open access" },
+  paywalled: { es: "De pago", en: "Paywalled" },
+  abstract_only: { es: "Solo resumen", en: "Abstract only" },
+  unknown: { es: "Desconocido", en: "Unknown" }
 };
