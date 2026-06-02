@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { getReferenceUrl, type Reference } from "../src/index";
+import {
+  getReferenceUrl,
+  isLikelyGenericReferenceUrl,
+  isValidReferenceUrl,
+  type Reference
+} from "../src/index";
 
 const baseReference: Reference = {
   id: "reference",
@@ -33,5 +38,36 @@ describe("getReferenceUrl", () => {
 
   it("does not create fake links for references without identifiers", () => {
     expect(getReferenceUrl(baseReference)).toBeUndefined();
+  });
+
+  it("does not return invalid direct URLs", () => {
+    expect(getReferenceUrl({ ...baseReference, url: "not-a-url" })).toBeUndefined();
+    expect(getReferenceUrl({ ...baseReference, url: "ftp://example.test/source" })).toBeUndefined();
+  });
+
+  it("does not return generic journal homepages or search URLs", () => {
+    expect(
+      getReferenceUrl({ ...baseReference, url: "https://journals.lww.com/" })
+    ).toBeUndefined();
+    expect(
+      getReferenceUrl({
+        ...baseReference,
+        url: "https://pubmed.ncbi.nlm.nih.gov/?term=Apgar"
+      })
+    ).toBeUndefined();
+  });
+
+  it("recognizes concrete article and bibliographic URLs as valid", () => {
+    expect(
+      isValidReferenceUrl("https://pubmed.ncbi.nlm.nih.gov/13083014/")
+    ).toBe(true);
+    expect(
+      isValidReferenceUrl(
+        "https://publications.aap.org/pediatrics/article/17/1/1/39942/A-CONTROLLED-CLINICAL-TRIAL-OF-EFFECTS-OF-WATER"
+      )
+    ).toBe(true);
+    expect(
+      isLikelyGenericReferenceUrl("https://pubmed.ncbi.nlm.nih.gov/?term=Apgar")
+    ).toBe(true);
   });
 });

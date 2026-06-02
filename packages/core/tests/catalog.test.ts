@@ -44,6 +44,12 @@ const hasRealReference = (tool: (typeof clinicalTools)[number]) =>
       Boolean(getReferenceUrl(reference))
   );
 
+const getTool = (id: string) => {
+  const tool = clinicalTools.find((item) => item.id === id);
+  expect(tool).toBeDefined();
+  return tool;
+};
+
 describe("clinical tools catalog", () => {
   it("loads the catalog without errors", () => {
     expect(getAllTools().length).toBeGreaterThan(50);
@@ -85,6 +91,35 @@ describe("clinical tools catalog", () => {
 
   it("requires every implemented tool to have at least one real clickable reference", () => {
     expect(getImplementedTools().every(hasRealReference)).toBe(true);
+  });
+
+  it("links Apgar to the concrete PubMed record", () => {
+    const apgar = getTool("apgar");
+    const originalReference = apgar?.references.find(
+      (reference) => reference.id === "apgar_1953_original"
+    );
+
+    expect(originalReference?.pmid).toBe("13083014");
+    expect(originalReference?.doi).toBeUndefined();
+    expect(getReferenceUrl(originalReference!)).toBe(
+      "https://pubmed.ncbi.nlm.nih.gov/13083014/"
+    );
+  });
+
+  it("keeps implemented tool reference links concrete", () => {
+    for (const tool of getImplementedTools()) {
+      expect(
+        tool.references.some((reference) => Boolean(getReferenceUrl(reference)))
+      ).toBe(true);
+
+      for (const reference of tool.references) {
+        const referenceUrl = getReferenceUrl(reference);
+        if (referenceUrl) {
+          expect(referenceUrl).not.toMatch(/[?&](q|query|term|search)=/i);
+          expect(referenceUrl).not.toMatch(/\/search-results?(\/|$)/i);
+        }
+      }
+    }
   });
 
   it("searches by name, acronym, and category", () => {

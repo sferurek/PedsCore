@@ -52,10 +52,9 @@ const implementedToolReferences: Record<string, Reference[]> = {
       year: 1953,
       journalOrPublisher: "Current Researches in Anesthesia and Analgesia",
       citation:
-        "Apgar V. A proposal for a new method of evaluation of the newborn infant. Curr Res Anesth Analg. 1953;32:260-267.",
-      doi: "10.1213/00000539-195301000-00041",
+        "Apgar V. A proposal for a new method of evaluation of the newborn infant. Curr Res Anesth Analg. 1953;32(4):260-267.",
       pmid: "13083014",
-      url: "https://profiles.nlm.nih.gov/spotlight/cp/catalog/nlm:nlmuid-101584647X152-doc",
+      url: "https://pubmed.ncbi.nlm.nih.gov/13083014/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
       accessType: "open_access",
@@ -248,16 +247,16 @@ const implementedToolReferences: Record<string, Reference[]> = {
     {
       id: "sipa_2014_original",
       title: "Pediatric specific shock index accurately identifies severely injured children",
-      year: 2014,
+      authors: "Acker SN, Ross JT, Partrick DA, Tong S, Bensard DD",
+      year: 2015,
       journalOrPublisher: "Journal of Pediatric Surgery",
       citation:
-        "Pediatric specific shock index accurately identifies severely injured children. J Pediatr Surg. 2014.",
-      url: "https://www.sciencedirect.com/science/article/pii/S0022346814004928",
+        "Acker SN, Ross JT, Partrick DA, Tong S, Bensard DD. Pediatric specific shock index accurately identifies severely injured children. J Pediatr Surg. 2015;50(2):331-334.",
+      doi: "10.1016/j.jpedsurg.2014.08.009",
+      pmid: "25638631",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
-      accessType: "paywalled",
-      notes:
-        "Primary SIPA derivation publication identified; authors, DOI, and PMID require final bibliographic verification.",
+      accessType: "abstract_only",
       appliesTo: ["sipa"],
       priority: 1
     }
