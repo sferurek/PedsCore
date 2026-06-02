@@ -1,0 +1,661 @@
+{
+  "schemaVersion": "1.0.0",
+  "project": "PedsCore",
+  "phase": "Phase 1 MVP",
+  "clinicalSafetyNote": "Metadata is implementation planning material. Tools marked pending_validation must not be implemented as deterministic calculators until reviewed.",
+  "tools": [
+    {
+      "id": "apgar",
+      "slug": "apgar",
+      "shortName": "Apgar",
+      "name": {
+        "es": "Test de Apgar",
+        "en": "Apgar Score"
+      },
+      "type": "score",
+      "category": "neonatology",
+      "subcategory": "newborn_transition",
+      "population": {
+        "es": "Recién nacidos en los primeros minutos tras el nacimiento",
+        "en": "Newborns in the first minutes after birth"
+      },
+      "implementationStatus": "ready_for_validation",
+      "regulatoryRisk": "low",
+      "disclaimerRequired": true,
+      "inputs": [
+        "heart_rate",
+        "respiratory_effort",
+        "muscle_tone",
+        "reflex_irritability",
+        "color"
+      ],
+      "calculation": {
+        "method": "sum",
+        "minScore": 0,
+        "maxScore": 10,
+        "notes": "Each item scores 0-2. Option wording must be validated before implementation."
+      },
+      "interpretationBands": [
+        {
+          "id": "pending_cutoff_validation",
+          "label": {
+            "es": "Puntos de corte pendientes de validación",
+            "en": "Cut-offs pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [
+        {
+          "id": "apgar_1953_original",
+          "evidenceLevel": "original_publication",
+          "authors": "Apgar V.",
+          "title": "A proposal for a new method of evaluation of the newborn infant.",
+          "year": 1953,
+          "journalOrPublisher": "Current Researches in Anesthesia & Analgesia",
+          "pmid": "13083014",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/13083014/"
+        }
+      ],
+      "testCases": [
+        "minimum_score",
+        "maximum_score",
+        "missing_input"
+      ]
+    },
+    {
+      "id": "silverman_andersen",
+      "slug": "silverman-andersen",
+      "shortName": "Silverman-Andersen",
+      "name": {
+        "es": "Score de Silverman-Andersen",
+        "en": "Silverman-Andersen Score"
+      },
+      "type": "score",
+      "category": "neonatology",
+      "subcategory": "respiratory_distress",
+      "population": {
+        "es": "Recién nacidos con dificultad respiratoria",
+        "en": "Newborns with respiratory distress"
+      },
+      "implementationStatus": "pending_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "thoracoabdominal_movement",
+        "intercostal_retractions",
+        "xiphoid_retraction",
+        "nasal_flaring",
+        "expiratory_grunt"
+      ],
+      "calculation": {
+        "method": "sum",
+        "minScore": 0,
+        "maxScore": 10,
+        "notes": "Primary-source validation required for labels and interpretation."
+      },
+      "interpretationBands": [
+        {
+          "id": "pending_validation",
+          "label": {
+            "es": "Pendiente de validación",
+            "en": "Pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [],
+      "testCases": []
+    },
+    {
+      "id": "wood_downes_ferres",
+      "slug": "wood-downes-ferres",
+      "shortName": "WDF",
+      "name": {
+        "es": "Score de Wood-Downes-Ferrés",
+        "en": "Wood-Downes-Ferrés Score"
+      },
+      "type": "score",
+      "category": "respiratory",
+      "subcategory": "bronchiolitis_wheezing",
+      "population": {
+        "es": "Niños con dificultad respiratoria obstructiva/sibilancias según versión",
+        "en": "Children with obstructive respiratory distress/wheezing depending on version"
+      },
+      "implementationStatus": "pending_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [],
+      "calculation": {
+        "method": "not_implemented",
+        "notes": "Exact variant must be selected first."
+      },
+      "interpretationBands": [
+        {
+          "id": "pending_validation",
+          "label": {
+            "es": "Pendiente de validación",
+            "en": "Pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [],
+      "testCases": []
+    },
+    {
+      "id": "westley_croup",
+      "slug": "westley-croup-score",
+      "shortName": "Westley",
+      "name": {
+        "es": "Westley Croup Score",
+        "en": "Westley Croup Score"
+      },
+      "type": "score",
+      "category": "respiratory",
+      "subcategory": "croup",
+      "population": {
+        "es": "Niños con crup",
+        "en": "Children with croup"
+      },
+      "implementationStatus": "pending_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "level_of_consciousness",
+        "cyanosis",
+        "stridor",
+        "air_entry",
+        "retractions"
+      ],
+      "calculation": {
+        "method": "sum",
+        "notes": "Weights and bands require source verification."
+      },
+      "interpretationBands": [
+        {
+          "id": "pending_validation",
+          "label": {
+            "es": "Pendiente de validación",
+            "en": "Pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [],
+      "testCases": []
+    },
+    {
+      "id": "pram",
+      "slug": "pram",
+      "shortName": "PRAM",
+      "name": {
+        "es": "Pediatric Respiratory Assessment Measure",
+        "en": "Pediatric Respiratory Assessment Measure"
+      },
+      "type": "score",
+      "category": "respiratory",
+      "subcategory": "asthma_wheezing",
+      "population": {
+        "es": "Niños con crisis asmática/sibilancias",
+        "en": "Children with asthma exacerbation/wheezing"
+      },
+      "implementationStatus": "pending_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "suprasternal_retractions",
+        "scalene_muscle_contraction",
+        "air_entry",
+        "wheezing",
+        "oxygen_saturation"
+      ],
+      "calculation": {
+        "method": "sum",
+        "notes": "Weights and bands require source verification."
+      },
+      "interpretationBands": [
+        {
+          "id": "pending_validation",
+          "label": {
+            "es": "Pendiente de validación",
+            "en": "Pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [],
+      "testCases": []
+    },
+    {
+      "id": "pediatric_gcs",
+      "slug": "pediatric-glasgow-coma-scale",
+      "shortName": "pGCS",
+      "name": {
+        "es": "Escala de Glasgow pediátrica",
+        "en": "Pediatric Glasgow Coma Scale"
+      },
+      "type": "scale",
+      "category": "emergency",
+      "subcategory": "neurologic_assessment",
+      "population": {
+        "es": "Pacientes pediátricos con alteración neurológica o traumatismo",
+        "en": "Pediatric patients with neurologic impairment or trauma"
+      },
+      "implementationStatus": "pending_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "eye_response",
+        "verbal_response_pediatric",
+        "motor_response"
+      ],
+      "calculation": {
+        "method": "sum",
+        "minScore": 3,
+        "maxScore": 15,
+        "notes": "Age-specific verbal response wording must be validated."
+      },
+      "interpretationBands": [
+        {
+          "id": "pending_validation",
+          "label": {
+            "es": "Pendiente de validación",
+            "en": "Pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [],
+      "testCases": []
+    },
+    {
+      "id": "flacc",
+      "slug": "flacc",
+      "shortName": "FLACC",
+      "name": {
+        "es": "Escala FLACC",
+        "en": "FLACC Scale"
+      },
+      "type": "scale",
+      "category": "pain",
+      "subcategory": "pediatric_pain",
+      "population": {
+        "es": "Niños preverbales o con dificultad para comunicar dolor",
+        "en": "Preverbal children or children unable to communicate pain reliably"
+      },
+      "implementationStatus": "ready_for_validation",
+      "regulatoryRisk": "low",
+      "disclaimerRequired": true,
+      "inputs": [
+        "face",
+        "legs",
+        "activity",
+        "cry",
+        "consolability"
+      ],
+      "calculation": {
+        "method": "sum",
+        "minScore": 0,
+        "maxScore": 10,
+        "notes": "Each item scores 0-2. Wording requires source validation."
+      },
+      "interpretationBands": [
+        {
+          "id": "pending_interpretation_validation",
+          "label": {
+            "es": "Interpretación pendiente de validación",
+            "en": "Interpretation pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [
+        {
+          "id": "flacc_original_search",
+          "evidenceLevel": "original_publication",
+          "authors": "Merkel SI et al.",
+          "title": "The FLACC: a behavioral scale for scoring postoperative pain in young children.",
+          "year": 1997,
+          "journalOrPublisher": "Pediatric Nursing",
+          "pmid": null,
+          "url": "https://pubmed.ncbi.nlm.nih.gov/?term=The+FLACC+a+behavioral+scale+for+scoring+postoperative+pain+in+young+children"
+        }
+      ],
+      "testCases": [
+        "minimum_score",
+        "maximum_score",
+        "missing_input"
+      ]
+    },
+    {
+      "id": "clinical_dehydration_scale",
+      "slug": "clinical-dehydration-scale",
+      "shortName": "CDS",
+      "name": {
+        "es": "Clinical Dehydration Scale",
+        "en": "Clinical Dehydration Scale"
+      },
+      "type": "score",
+      "category": "emergency",
+      "subcategory": "dehydration",
+      "population": {
+        "es": "Niños con posible deshidratación",
+        "en": "Children with possible dehydration"
+      },
+      "implementationStatus": "pending_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "general_appearance",
+        "eyes",
+        "mucous_membranes",
+        "tears"
+      ],
+      "calculation": {
+        "method": "sum",
+        "minScore": 0,
+        "maxScore": 8,
+        "notes": "Cut-offs and labels require source validation."
+      },
+      "interpretationBands": [
+        {
+          "id": "pending_validation",
+          "label": {
+            "es": "Pendiente de validación",
+            "en": "Pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [],
+      "testCases": []
+    },
+    {
+      "id": "pecarn_tbi_under_2",
+      "slug": "pecarn-tbi-under-2",
+      "shortName": "PECARN <2",
+      "name": {
+        "es": "PECARN TCE en menores de 2 años",
+        "en": "PECARN TBI under 2 years"
+      },
+      "type": "rule",
+      "category": "emergency",
+      "subcategory": "head_trauma",
+      "population": {
+        "es": "Menores de 2 años con traumatismo craneoencefálico",
+        "en": "Children under 2 years with head trauma"
+      },
+      "implementationStatus": "ready_for_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "altered_mental_status_or_gcs_less_than_15",
+        "palpable_skull_fracture",
+        "non_frontal_scalp_hematoma",
+        "loss_of_consciousness_5_seconds_or_more",
+        "severe_mechanism",
+        "abnormal_behavior_per_parent"
+      ],
+      "calculation": {
+        "method": "rule_logic",
+        "logicId": "pecarn_tbi_under_2",
+        "notes": "Classify criteria group. Do not recommend CT directly."
+      },
+      "interpretationBands": [
+        {
+          "id": "criteria_group",
+          "label": {
+            "es": "Grupo según criterios publicados",
+            "en": "Group according to published criteria"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [
+        {
+          "id": "pecarn_kuppermann_2009",
+          "evidenceLevel": "original_publication",
+          "authors": "Kuppermann N et al.",
+          "title": "Identification of children at very low risk of clinically-important brain injuries after head trauma.",
+          "year": 2009,
+          "journalOrPublisher": "The Lancet",
+          "pmid": "19758692",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/19758692/"
+        }
+      ],
+      "testCases": [
+        "no_criteria",
+        "high_risk_criterion",
+        "intermediate_criteria",
+        "missing_input"
+      ]
+    },
+    {
+      "id": "pecarn_tbi_2_or_more",
+      "slug": "pecarn-tbi-2-or-more",
+      "shortName": "PECARN ≥2",
+      "name": {
+        "es": "PECARN TCE en niños de 2 años o más",
+        "en": "PECARN TBI age 2 years or older"
+      },
+      "type": "rule",
+      "category": "emergency",
+      "subcategory": "head_trauma",
+      "population": {
+        "es": "Niños de 2 años o más con traumatismo craneoencefálico",
+        "en": "Children aged 2 years or older with head trauma"
+      },
+      "implementationStatus": "ready_for_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "altered_mental_status_or_gcs_less_than_15",
+        "signs_of_basilar_skull_fracture",
+        "history_of_loss_of_consciousness",
+        "history_of_vomiting",
+        "severe_mechanism",
+        "severe_headache"
+      ],
+      "calculation": {
+        "method": "rule_logic",
+        "logicId": "pecarn_tbi_2_or_more",
+        "notes": "Classify criteria group. Do not recommend CT directly."
+      },
+      "interpretationBands": [
+        {
+          "id": "criteria_group",
+          "label": {
+            "es": "Grupo según criterios publicados",
+            "en": "Group according to published criteria"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [
+        {
+          "id": "pecarn_kuppermann_2009",
+          "evidenceLevel": "original_publication",
+          "authors": "Kuppermann N et al.",
+          "title": "Identification of children at very low risk of clinically-important brain injuries after head trauma.",
+          "year": 2009,
+          "journalOrPublisher": "The Lancet",
+          "pmid": "19758692",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/19758692/"
+        }
+      ],
+      "testCases": [
+        "no_criteria",
+        "high_risk_criterion",
+        "intermediate_criteria",
+        "missing_input"
+      ]
+    },
+    {
+      "id": "qtc",
+      "slug": "qtc",
+      "shortName": "QTc",
+      "name": {
+        "es": "QT corregido",
+        "en": "Corrected QT interval"
+      },
+      "type": "calculator",
+      "category": "cardiology",
+      "subcategory": "ecg",
+      "population": {
+        "es": "Pacientes pediátricos con QT medido y FC/RR",
+        "en": "Pediatric patients with measured QT and HR/RR"
+      },
+      "implementationStatus": "ready_for_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "qt_ms",
+        "heart_rate_bpm",
+        "rr_interval_ms_optional"
+      ],
+      "calculation": {
+        "method": "formula",
+        "formulaIds": [
+          "bazett",
+          "fridericia",
+          "framingham",
+          "hodges"
+        ],
+        "notes": "Must be unit-tested with known examples."
+      },
+      "interpretationBands": [
+        {
+          "id": "pediatric_interpretation_pending",
+          "label": {
+            "es": "Interpretación pediátrica pendiente de validación",
+            "en": "Pediatric interpretation pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [
+        {
+          "id": "bazett_1920",
+          "evidenceLevel": "original_publication",
+          "authors": "Bazett HC.",
+          "title": "An analysis of the time-relations of electrocardiograms.",
+          "year": 1920,
+          "journalOrPublisher": "Heart",
+          "pmid": null,
+          "url": "https://scholar.google.com/scholar?q=Bazett+An+analysis+of+the+time-relations+of+electrocardiograms+1920"
+        },
+        {
+          "id": "fridericia_1920",
+          "evidenceLevel": "original_publication",
+          "authors": "Fridericia LS.",
+          "title": "Die Systolendauer im Elektrokardiogramm bei normalen Menschen und bei Herzkranken.",
+          "year": 1920,
+          "journalOrPublisher": null,
+          "pmid": null,
+          "url": "https://scholar.google.com/scholar?q=Fridericia+Die+Systolendauer+im+Elektrokardiogramm+1920"
+        }
+      ],
+      "testCases": [
+        "bazett_known_case",
+        "fridericia_known_case",
+        "framingham_known_case",
+        "hodges_known_case"
+      ]
+    },
+    {
+      "id": "bedside_schwartz",
+      "slug": "bedside-schwartz",
+      "shortName": "Bedside Schwartz",
+      "name": {
+        "es": "Schwartz revisado / bedside Schwartz",
+        "en": "Revised / Bedside Schwartz equation"
+      },
+      "type": "calculator",
+      "category": "nephrology",
+      "subcategory": "kidney_function",
+      "population": {
+        "es": "Pacientes pediátricos con creatinina sérica y talla",
+        "en": "Pediatric patients with serum creatinine and height"
+      },
+      "implementationStatus": "ready_for_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [
+        "height_cm",
+        "serum_creatinine",
+        "creatinine_unit"
+      ],
+      "calculation": {
+        "method": "formula",
+        "formulaId": "bedside_schwartz",
+        "unit": "mL/min/1.73m2",
+        "notes": "Support mg/dL and µmol/L conversion."
+      },
+      "interpretationBands": [
+        {
+          "id": "general_interpretation_pending",
+          "label": {
+            "es": "Interpretación general pendiente de validación",
+            "en": "General interpretation pending validation"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [
+        {
+          "id": "schwartz_2009",
+          "evidenceLevel": "original_publication",
+          "authors": "Schwartz GJ et al.",
+          "title": "New equations to estimate GFR in children with CKD.",
+          "year": 2009,
+          "journalOrPublisher": "Journal of the American Society of Nephrology",
+          "pmid": "19158356",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/19158356/"
+        }
+      ],
+      "testCases": [
+        "mg_dl_case",
+        "umol_l_case",
+        "invalid_height",
+        "invalid_creatinine"
+      ]
+    },
+    {
+      "id": "pews",
+      "slug": "pews",
+      "shortName": "PEWS",
+      "name": {
+        "es": "Pediatric Early Warning Score",
+        "en": "Pediatric Early Warning Score"
+      },
+      "type": "score",
+      "category": "emergency",
+      "subcategory": "early_warning",
+      "population": {
+        "es": "Pacientes pediátricos hospitalarios o de urgencias según versión",
+        "en": "Hospital or emergency pediatric patients depending on version"
+      },
+      "implementationStatus": "pending_validation",
+      "regulatoryRisk": "medium",
+      "disclaimerRequired": true,
+      "inputs": [],
+      "calculation": {
+        "method": "not_implemented",
+        "notes": "Multiple variants exist. Select one validated version before implementation."
+      },
+      "interpretationBands": [
+        {
+          "id": "version_selection_pending",
+          "label": {
+            "es": "Pendiente de selección de versión",
+            "en": "Version selection pending"
+          }
+        }
+      ],
+      "scoringTable": [],
+      "references": [],
+      "testCases": []
+    }
+  ]
+}
