@@ -55,7 +55,7 @@ complete implementation approval by themselves.
 | Neonatology | Bhutani nomogram | Bhutani et al. 1999. PMID 9917432. https://pubmed.ncbi.nlm.nih.gov/9917432/ | Original hour-specific bilirubin risk nomogram located. | Nomogram values/curves must be sourced from usable data, not redrawn from image. |
 | Neonatology | Fenton growth | Fenton and Kim 2013. DOI 10.1186/1471-2431-13-59. https://link.springer.com/article/10.1186/1471-2431-13-59 | Open-access revised Fenton chart source located. | CC BY article; data/figure reuse still must be attributed. |
 | Growth | WHO growth | WHO Child Growth Standards. https://www.who.int/toolkits/child-growth-standards/standards | Official WHO source located. | Use official data files/license terms, not copied chart images. |
-| Growth | WHO unified growth module | WHO Child Growth Standards and WHO Growth Reference 5-19 years. https://www.who.int/tools/child-growth-standards and https://www.who.int/tools/growth-reference-data-for-5to19-years | Official WHO source pages located; scaffold only. | Official LMS data import, versioning, interpolation, print charts, and licensing review pending. |
+| Growth | WHO unified growth module | WHO Child Growth Standards, WHO Growth Reference 5-19 years, and WHO `anthro` BMI LMS source. https://www.who.int/tools/child-growth-standards, https://www.who.int/tools/growth-reference-data-for-5to19-years, https://github.com/WorldHealthOrganization/anthro | Official WHO source pages and BMI-for-age LMS source located; scaffold only. | BMI LMS import blocked pending GPL/WHO terms decision; no official chart image copied. |
 | Growth | CDC growth/BMI | CDC growth chart recommendations and data. https://www.cdc.gov/growth-chart-training/hcp/overview/recommended.html | Official CDC source located. | Use official LMS/data files with attribution. |
 | Emergency | CATCH | Osmond et al. 2010. PMID 20142371. DOI 10.1503/cmaj.091421. https://pubmed.ncbi.nlm.nih.gov/20142371/ | Original CATCH derivation source located. | Open PMC article; decision rule wording still must be traceable. |
 | Emergency | CHALICE | Dunning et al. 2006. PMID 17056862. https://pmc.ncbi.nlm.nih.gov/articles/PMC2082967/ | Original CHALICE derivation source located. | Open PMC article; rule table can be cited but avoid long copied text. |
@@ -140,7 +140,7 @@ Legend:
 | pim2 | coming_soon | pending-primary | Locate PIM2 source/model and licensing. |
 | pim3 | coming_soon | prepare-after-table-review | PIM3 source located; model coefficients/use terms need review. |
 | who-growth-percentiles | pending_validation | prepare-after-table-review | Official WHO source located; use official data files and tests. |
-| who-growth | pending_validation | prepare-after-table-review | Unified WHO scaffold added; active calculation blocked until official LMS files are normalized and tested. |
+| who-growth | pending_validation | license-sensitive | Unified WHO scaffold added; BMI-for-age 0-5 LMS source located in WHO `anthro`, but import is blocked pending GPL/WHO terms decision. |
 | cdc-growth-percentiles | pending_validation | prepare-after-table-review | Official CDC source located; use LMS data and tests. |
 | orbegozo-growth-percentiles | pending_validation | pending-primary | Locate official Orbegozo data/license before implementation. |
 | bmi-percentile | pending_validation | prepare-after-table-review | Should depend on CDC/WHO selected age range; define source precedence. |

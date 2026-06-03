@@ -248,6 +248,7 @@ Policy controls interpretation more than formula mechanics in this phase.
 - Unit conventions and interpolation rules.
 - Locale policy document.
 - For the unified WHO module: verified WHO 0-5 and 5-19 LMS files, data versioning, print chart label policy, and fixture tests.
+- Block WHO-GROWTH-2A located BMI-for-age 0-5 LMS data in the official WHO `anthro` repository, but import is blocked until maintainers decide whether GPL-3 data and WHO website terms are compatible with the MIT PedsCore distribution.
 
 ### Proposed implementation scope
 - Catalog/reference-only.
@@ -260,6 +261,7 @@ Policy controls interpretation more than formula mechanics in this phase.
 - Data-source and version tests.
 - Locale/age boundary consistency tests.
 - Tests that printable graphs show written percentile labels and the patient point.
+- License-gate tests that prevent active BMI-for-age calculation until the data-source license decision is explicit.
 
 ## Orbegozo
 

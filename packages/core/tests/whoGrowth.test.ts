@@ -36,6 +36,7 @@ describe("WHO growth scaffold", () => {
 
   it("does not pretend official WHO data are imported", () => {
     expect(whoGrowthDataStatus.officialDataImported).toBe(false);
+    expect(whoGrowthDataStatus.reason).toContain("not yet");
     expect(whoGrowthDataStatus.excludedSources).toEqual(["CDC", "Orbegozo"]);
     expect(
       findLmsRecord({
@@ -78,5 +79,6 @@ describe("WHO growth scaffold", () => {
     expect(tool?.implementationStatus).toBe("pending_validation");
     expect(tool?.calculationStatus).not.toBe("active");
     expect(tool?.validationNotes.en).toContain("scaffold");
+    expect(tool?.validationNotes.en).toContain("GPL-3");
   });
 });
