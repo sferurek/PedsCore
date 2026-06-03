@@ -13,6 +13,8 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 - Dynamic forms, result panels, trace output, references and disclaimers.
 - Initial validated calculators and scores.
 - Pediatric head trauma rules implemented as informational-only clinical rules.
+- WHO Growth module with official WHO 0-5 indicators, partial WHO 5-19
+  BMI-for-age/height-for-age, guided age input and printable SVG charts.
 - Visible validation status for implemented, pending, catalog-only and license-sensitive tools.
 - No backend, login, analytics or clinical data storage.
 
@@ -22,6 +24,8 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 
 - 78 cataloged pediatric and neonatal tools.
 - 17 implemented tools.
+- WHO Growth workflow available with the unified module still marked
+  `pending_validation`.
 - Public GitHub Pages site: https://sferurek.github.io/PedsCore/
 - MIT-licensed code.
 - Evidence-first release documentation: [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
@@ -46,9 +50,14 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 - Prioritize clinical expert review for implemented tools.
 - Keep tools blocked when source, table, variant or license gates are incomplete.
 
-### Percentiles
+### WHO Growth And Percentiles
 
-- Decide WHO/CDC datasets, versioning and attribution policy.
+- Complete visual QA of WHO Growth charts and print output.
+- Complete maintainer/expert review for WHO Growth.
+- Define interpolation policy before enabling interpolated lookup.
+- Review whether WHO 5-10 weight-for-age should be added when applicable.
+- Continue dataset versioning and attribution policy.
+- Review CDC datasets only in a separate future block.
 - Review Orbegozo data availability and licensing.
 - Implement only after data and license gates are clear.
 

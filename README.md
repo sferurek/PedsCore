@@ -41,6 +41,8 @@ The project **excludes toxicology** in the initial phase.
 - ES/EN static web application.
 - Dynamic forms and traceable result panels.
 - Evidence-first references and visible validation status.
+- WHO Growth module with official WHO 0-5 indicators, partial WHO 5-19
+  BMI/height indicators, printable SVG charts and guided age input.
 - GitHub Pages deployment.
 - No backend, login, analytics or clinical data storage.
 
@@ -70,6 +72,29 @@ See [docs/ANALYTICS.md](docs/ANALYTICS.md).
 - SIPA.
 - NIPS.
 
+## WHO Growth module
+
+PedsCore includes a unified WHO Growth workflow for growth and nutrition review.
+
+Current scope:
+
+- WHO Child Growth Standards 0-5: BMI-for-age, weight-for-age,
+  length/height-for-age, head circumference-for-age, weight-for-length and
+  weight-for-height.
+- WHO Growth Reference 2007 5-19: BMI-for-age and height-for-age.
+- Official WHO LMS data kept under separate WHO data licensing, not under the
+  MIT source-code license.
+- PedsCore-generated SVG charts with written percentiles P3/P15/P50/P85/P97 and
+  a visible patient point.
+- Native browser printing.
+- Guided age input for dates, exact days, structured years/months/days and
+  completed months for 5-19.
+- No storage of entered clinical data and no clinical analytics.
+
+The unified WHO Growth module remains `pending_validation` while final
+maintainer review, interpolation policy and remaining 5-19 scope are completed.
+It does not provide nutritional diagnoses or treatment recommendations.
+
 ## Architecture
 
 - `packages/core`: Pure TypeScript library containing deterministic functions for each tool.  No UI or side effects.
@@ -80,7 +105,7 @@ See [docs/ANALYTICS.md](docs/ANALYTICS.md).
 
 ## Current status
 
-PedsCore is in public alpha. The catalog, web interface, evidence matrix, initial calculators and pediatric head trauma informational rules are implemented. Many cataloged tools remain pending validation, source review, licensing review or maintainer decision before active calculation.
+PedsCore is in public alpha. The catalog, web interface, evidence matrix, initial calculators, pediatric head trauma informational rules and WHO Growth workflow are available. Many cataloged tools remain pending validation, source review, licensing review or maintainer decision before active calculation.
 
 See [CHANGELOG.md](CHANGELOG.md), [ROADMAP.md](ROADMAP.md) and [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
 
@@ -115,8 +140,8 @@ Some third-party data sources, including WHO growth data if incorporated, may be
 
 ## Roadmap (brief)
 
-Completed alpha milestones include the monorepo, catalog, web shell, GitHub Pages, evidence matrix, dynamic forms, initial calculators and informational head trauma rules.
+Completed alpha milestones include the monorepo, catalog, web shell, GitHub Pages, evidence matrix, dynamic forms, initial calculators, informational head trauma rules and WHO Growth 0-5/partial 5-19 workflow.
 
-Next priorities include maintainer decisions, literal Spain Spanish wording audit, expert review, percentiles and additional calculators after evidence gates are satisfied.
+Next priorities include maintainer decisions, literal Spain Spanish wording audit, expert review, WHO Growth visual QA/interpolation policy, possible WHO 5-10 weight-for-age review and additional calculators after evidence gates are satisfied.
 
 For more details, see **ROADMAP.md**.

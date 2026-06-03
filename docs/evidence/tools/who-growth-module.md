@@ -323,4 +323,9 @@ Rationale: core WHO 0-5 LMS data plus WHO 5-19 BMI-for-age and height-for-age ar
 
 ## Notes
 
-WHO-GROWTH-3B imports the core WHO 0-5 LMS coefficient families from official WHO XLSX files. SVG charts and browser-native print workflow are available for imported 0-5 indicators; WHO 5-19 data and interpolation policy remain pending.
+WHO-GROWTH-3B imports the core WHO 0-5 LMS coefficient families from official
+WHO XLSX files. WHO-GROWTH-4A adds WHO Growth Reference 2007 BMI-for-age and
+height-for-age for 5-19 years. SVG charts, written percentile labels, patient
+points, browser-native print workflow and guided age input are available for the
+imported indicators. Remaining 5-19 scope, interpolation policy and final
+maintainer/expert review remain pending.

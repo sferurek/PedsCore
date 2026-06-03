@@ -39,6 +39,8 @@ Promover el acceso libre y transparente a herramientas clínicas pediátricas y 
 - Aplicación web estática ES/EN.
 - Formularios dinámicos y paneles de resultado trazables.
 - Referencias evidence-first y estado de validación visible.
+- Módulo WHO Growth con indicadores OMS 0-5 oficiales, indicadores parciales
+  OMS 5-19 de IMC/talla, gráficas SVG imprimibles y entrada guiada de edad.
 - Despliegue en GitHub Pages.
 - Sin backend, login, analítica ni almacenamiento de datos clínicos.
 
@@ -68,6 +70,31 @@ Consulta [docs/ANALYTICS.md](docs/ANALYTICS.md).
 - SIPA.
 - NIPS.
 
+## Módulo WHO Growth
+
+PedsCore incluye un flujo unificado WHO Growth para revisión de crecimiento y
+nutrición.
+
+Alcance actual:
+
+- WHO Child Growth Standards 0-5: IMC para la edad, peso para la edad,
+  longitud/talla para la edad, perímetro cefálico para la edad, peso para
+  longitud y peso para talla.
+- WHO Growth Reference 2007 5-19: IMC para la edad y talla para la edad.
+- Datos LMS oficiales OMS mantenidos bajo licencia OMS separada, no bajo la
+  licencia MIT del código fuente.
+- Gráficas SVG generadas por PedsCore con percentiles escritos
+  P3/P15/P50/P85/P97 y punto del paciente visible.
+- Impresión nativa del navegador.
+- Entrada guiada de edad por fechas, días exactos, años/meses/días
+  estructurados y meses cumplidos para 5-19.
+- Sin almacenamiento de datos clínicos introducidos y sin analítica clínica.
+
+El módulo WHO Growth unificado sigue en `pending_validation` mientras se
+completan la revisión final del maintainer, la política de interpolación y el
+alcance restante 5-19. No proporciona diagnósticos nutricionales ni
+recomendaciones terapéuticas.
+
 ## Arquitectura
 
 El proyecto se estructura en dos grandes componentes:
@@ -77,7 +104,7 @@ El proyecto se estructura en dos grandes componentes:
 
 ## Estado actual
 
-PedsCore está en alpha pública. El catálogo, la web, la matriz de evidencia, las calculadoras iniciales y las reglas informativas de traumatismo craneal pediátrico ya están implementadas. Muchas herramientas catalogadas siguen pendientes de validación, revisión de fuente, revisión de licencia o decisión del maintainer antes de activar cálculo.
+PedsCore está en alpha pública. El catálogo, la web, la matriz de evidencia, las calculadoras iniciales, las reglas informativas de traumatismo craneal pediátrico y el flujo WHO Growth ya están disponibles. Muchas herramientas catalogadas siguen pendientes de validación, revisión de fuente, revisión de licencia o decisión del maintainer antes de activar cálculo.
 
 Consulta [CHANGELOG.md](CHANGELOG.md), [ROADMAP.md](ROADMAP.md) y [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
 
@@ -112,6 +139,6 @@ Algunas fuentes de datos de terceros, incluidos los datos de crecimiento OMS si 
 
 ## Roadmap breve
 
-Hitos alpha completados: monorepo, catálogo, web, GitHub Pages, matriz de evidencia, formularios dinámicos, calculadoras iniciales y reglas informativas de TCE pediátrico.
+Hitos alpha completados: monorepo, catálogo, web, GitHub Pages, matriz de evidencia, formularios dinámicos, calculadoras iniciales, reglas informativas de TCE pediátrico y flujo WHO Growth 0-5/5-19 parcial.
 
-Próximos pasos: decisiones maintainer, auditoría de frases literales en castellano de España, revisión experta, percentiles y nuevas calculadoras solo tras superar las puertas de evidencia.
+Próximos pasos: decisiones maintainer, auditoría de frases literales en castellano de España, revisión experta, QA visual de WHO Growth, política de interpolación, posible WHO peso-edad 5-10 si aplica y nuevas calculadoras solo tras superar las puertas de evidencia.

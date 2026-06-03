@@ -50,9 +50,17 @@ This checklist contains manual, non-spam actions to help Google, GitHub and soci
    - `https://sferurek.github.io/PedsCore/robots.txt`
    - `https://sferurek.github.io/PedsCore/sitemap.xml`
 
+4. After the WHO Growth release refresh, request re-indexing for:
+
+   - `https://sferurek.github.io/PedsCore/es/tools/who-growth`
+   - `https://sferurek.github.io/PedsCore/en/tools/who-growth`
+
 ## Public announcement
 
 1. Publish a LinkedIn post with links to the repository and public web app.
+   Suggested topic: PedsCore alpha now includes a WHO Growth module with
+   official WHO 0-5 data, partial WHO 5-19 data, printable SVG charts, written
+   percentile labels and guided age input.
 2. Avoid keyword stuffing, paid links, cloaking or hidden text.
 3. Describe PedsCore as alpha, open source, evidence-first and not a substitute for clinical judgment.
 
