@@ -22,10 +22,12 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 
 `v0.1.0-alpha` includes:
 
-- 78 cataloged pediatric and neonatal tools.
+- 79 cataloged pediatric and neonatal tools.
 - 17 implemented tools.
 - WHO Growth workflow available with the unified module still marked
   `pending_validation`.
+- SPRINT-50 implementation audit completed with no unsafe promotions; see
+  `docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md`.
 - Public GitHub Pages site: https://sferurek.github.io/PedsCore/
 - MIT-licensed code.
 - Evidence-first release documentation: [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
@@ -49,6 +51,8 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 - Continue primary source, DOI/PMID/URL and licensing checks.
 - Prioritize clinical expert review for implemented tools.
 - Keep tools blocked when source, table, variant or license gates are incomplete.
+- Use the SPRINT-50 audit to select the next implementation batch only after
+  blockers are resolved.
 
 ### WHO Growth And Percentiles
 

@@ -36,7 +36,7 @@ The project **excludes toxicology** in the initial phase.
 
 ## Current alpha scope
 
-- 78 tools cataloged.
+- 79 tools cataloged.
 - 17 tools implemented with active calculation or informational clinical rule output.
 - ES/EN static web application.
 - Dynamic forms and traceable result panels.
@@ -45,6 +45,11 @@ The project **excludes toxicology** in the initial phase.
   BMI/height indicators, printable SVG charts and guided age input.
 - GitHub Pages deployment.
 - No backend, login, analytics or clinical data storage.
+
+SPRINT-50 audited the catalog for additional safe implementations. The
+implemented count intentionally remains 17 because no further pending tool met
+all implementation gates at once. See
+[docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md](docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md).
 
 ## Privacy-first analytics
 

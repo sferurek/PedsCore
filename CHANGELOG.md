@@ -6,7 +6,7 @@ All notable changes to PedsCore are documented in this file.
 
 Initial public alpha release.
 
-- 78 pediatric and neonatal clinical tools cataloged.
+- 79 pediatric and neonatal clinical tools cataloged.
 - 17 tools implemented with active calculation or informational rule output.
 - Bilingual ES/EN web application.
 - GitHub Pages deployment configured and active.
@@ -19,6 +19,21 @@ Initial public alpha release.
 - No backend.
 - No clinical data storage.
 - MIT license for code.
+
+### SPRINT-50 safety audit
+
+- Implementation count before audit: 17.
+- Implementation count after audit: 17.
+- No new tools were promoted to `implemented` because no additional
+  unimplemented tool simultaneously satisfied source, complete formula/table,
+  exact variant, inputs, tests, safe output and licensing gates.
+- Added `docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md` with a full catalog
+  audit and deferred-tool rationale.
+- Added safety tests to keep RCP/therapeutic algorithms, ICU/prognostic scores,
+  proprietary tools and license-sensitive tools out of `implemented` status.
+- WHO Growth remains available as a partial guided module but stays
+  `pending_validation` until remaining 5-19 scope, interpolation policy and
+  final maintainer/expert review are complete.
 
 ### Implemented tools
 

@@ -34,7 +34,7 @@ Promover el acceso libre y transparente a herramientas clínicas pediátricas y 
 
 ## Alcance alpha actual
 
-- 78 herramientas catalogadas.
+- 79 herramientas catalogadas.
 - 17 herramientas implementadas con cálculo activo o salida informativa de regla clínica.
 - Aplicación web estática ES/EN.
 - Formularios dinámicos y paneles de resultado trazables.
@@ -43,6 +43,12 @@ Promover el acceso libre y transparente a herramientas clínicas pediátricas y 
   OMS 5-19 de IMC/talla, gráficas SVG imprimibles y entrada guiada de edad.
 - Despliegue en GitHub Pages.
 - Sin backend, login, analítica ni almacenamiento de datos clínicos.
+
+SPRINT-50 auditó el catálogo para buscar implementaciones adicionales seguras.
+El contador se mantiene intencionadamente en 17 porque ninguna herramienta
+pendiente cumplía todas las puertas de fuente, tabla/fórmula, variante, inputs,
+tests, salida segura y licencia. Consulta
+[docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md](docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md).
 
 ## Analítica privacy-first
 
