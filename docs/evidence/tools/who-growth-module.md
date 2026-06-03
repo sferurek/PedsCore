@@ -44,8 +44,8 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 - LMS source located: WHO official `anthro` package repository, `data-raw/growthstandards/bmianthro.txt`.
 - direct LMS URL: https://raw.githubusercontent.com/WorldHealthOrganization/anthro/master/data-raw/growthstandards/bmianthro.txt
 - package repository: https://github.com/WorldHealthOrganization/anthro
-- license status: blocked pending maintainer/legal decision. The `anthro` package is GPL-3.0, and WHO website terms restrict substantial reproduction without authorization outside permitted educational/non-commercial uses.
-- decision: do not import the full LMS table into the MIT PedsCore repository until license compatibility is explicitly accepted or permission/terms are clarified.
+- license status: import allowed only under the specific WHO/source terms, separate from the MIT code license. WHO publications commonly use CC BY-NC-SA 3.0 IGO for non-commercial use with attribution, share-alike, adaptation disclaimer, no WHO logo, and no implied WHO endorsement. The `anthro` package repository is GPL-3.0, so data-source choice must be explicit.
+- decision: do not relicense WHO LMS data as MIT. Keep WHO data/materials under the applicable WHO/source license and document attribution before importing.
 
 ### WHO Growth Reference 2007, 5-19 years
 
@@ -109,9 +109,9 @@ Do not round in a way that implies false precision. The UI should show reasonabl
 
 ## Complete scoring table availability
 
-- complete table found: BMI-for-age LMS file located in the WHO `anthro` package source tree.
+- complete table found: BMI-for-age LMS file located in the WHO `anthro` package source tree; WHO BMI-for-age tables also located on the official WHO Child Growth Standards site.
 - source: WHO official sources listed above, including `bmianthro.txt`.
-- copyright/licensing risk: medium/high until maintainers decide whether GPL-3 data or WHO website terms are acceptable for this MIT repository.
+- copyright/licensing risk: manageable for non-commercial OSS use only if the WHO/source license is kept separate from MIT and attribution/share-alike/adaptation requirements are followed.
 - notes: no chart image, LMS table, or long protected table has been copied into PedsCore.
 
 ## Variables and scoring
@@ -184,16 +184,17 @@ Current print status: pending official data import and chart implementation.
 
 ## Licensing / copyright
 
-- appears implementable: technically yes, legally pending.
+- appears implementable: yes for non-commercial OSS use if the applicable WHO/source license is preserved separately from MIT.
 - license-sensitive: yes.
-- requires permission: unknown for direct WHO website tables; GPL-3 obligations apply to the official `anthro` package repository.
-- notes: do not copy WHO images. Do not commit the full WHO BMI LMS table into the MIT repository until licensing is accepted or permission is clarified.
+- requires permission: commercial use of WHO materials may require WHO permission.
+- unknown: confirm each official file-specific license before import.
+- notes: do not copy WHO images. Do not use the WHO logo. Do not imply WHO endorsement. Do not commit WHO data as MIT-licensed material.
 
 ## Implementation recommendation
 
 `implement_after_maintainer_decision`
 
-Rationale: math scaffold is safe, and the BMI-for-age 0-5 LMS source is now located, but active percentiles and charts require a maintainer/legal decision on WHO/GPL data redistribution, plus source versioning, interpolation policy, data-license review, and test fixtures.
+Rationale: math scaffold is safe, and the BMI-for-age 0-5 LMS source is now located. Active percentiles and charts require importing data under the applicable WHO/source license, keeping that license separate from MIT, adding attribution/adaptation disclaimers, and adding source versioning, interpolation policy, and test fixtures.
 
 ## Proposed test cases
 

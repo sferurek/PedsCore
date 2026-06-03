@@ -34,7 +34,7 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | B | `prifle` | `prifle` | nephrology | Pediatric RIFLE source and exact criteria pending. | Not reviewed in detail. |
 | B | `kdigo_pediatric` | `kdigo-pediatric` | nephrology | Official guideline criteria and pediatric adaptation require careful implementation. | Not reviewed in detail. |
 | A | `who_growth_percentiles` | `who-growth-percentiles` | growth_nutrition | Official files/indicator selection, terms, and tests pending. | `pending_complete_scoring_table` |
-| A | `who_growth_module` | `who-growth` | growth_nutrition | Unified WHO module scaffold created; BMI-for-age 0-5 LMS source located in official WHO `anthro`, but GPL/WHO terms, interpolation policy, chart labels, print output and fixtures remain pending. | `pending_licensing_review` |
+| A | `who_growth_module` | `who-growth` | growth_nutrition | Unified WHO module scaffold created; BMI-for-age 0-5 LMS source located. Data can be imported only under the applicable WHO/source license, separate from MIT, with attribution/adaptation disclaimer and no WHO endorsement. | `pending_complete_scoring_table` |
 | A | `cdc_growth_percentiles` | `cdc-growth-percentiles` | growth_nutrition | Official LMS file import, interpolation, and tests pending. | `pending_complete_scoring_table` |
 | C | `orbegozo_growth_percentiles` | `orbegozo-growth-percentiles` | growth_nutrition | Official tables page located; data/LMS availability and license terms unclear. | `pending_licensing_review` |
 | B | `bmi_percentile` | `bmi-percentile` | growth_nutrition | Depends on selected WHO/CDC/other reference and age range. | Not reviewed in detail. |
@@ -56,7 +56,7 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | Bhutani Nomogram | DOI/PMID verified. | Pending curve/data values. | Medium. | `pending_complete_scoring_table` |
 | Bedside PEWS | DOI/PMID/PMCID verified. | Source-located, reuse review pending. | Medium. | `pending_licensing_review` |
 | WHO Growth Percentiles | Official WHO source verified. | Official files not selected/imported. | Low/medium. | `pending_complete_scoring_table` |
-| WHO Growth Module | Official WHO 0-5 and 5-19 source pages verified; BMI-for-age 0-5 LMS file located in WHO `anthro`. | Not imported because GPL/WHO terms require maintainer/legal decision. | Medium/high until licensing accepted. | `pending_licensing_review` |
+| WHO Growth Module | Official WHO 0-5 and 5-19 source pages verified; BMI-for-age 0-5 LMS file located. | Not imported yet; must preserve WHO/source license separately from MIT and add attribution/adaptation disclaimer. | Medium until file-specific terms are confirmed. | `pending_complete_scoring_table` |
 | CDC Growth Percentiles | Official CDC LMS source verified. | Official files not selected/imported. | Low. | `pending_complete_scoring_table` |
 
 ## Reviewed Batch 8B-2 Summary
@@ -167,7 +167,7 @@ This block separates unresolved tools into decision classes:
 | `rflacc` | `rflacc` | pain | `pending_validation` | `blocked_missing_complete_scoring_table` | table/license confirmation pending | `blocked_missing_complete_scoring_table` | no |
 | `gorelick_dehydration` | `gorelick-dehydration` | emergency | `pending_validation` | `blocked_variant_selection_needed` | 4-item vs 10-item variant decision | `blocked_variant_selection_needed` | yes |
 | `who_growth_percentiles` | `who-growth-percentiles` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | official source located, LMS mapping pending | `catalog_only_recommended` | yes |
-| `who_growth_module` | `who-growth` | growth_nutrition | `pending_validation` | `blocked_licensing_or_copyright` | official WHO 0-5 and 5-19 sources located; BMI LMS source located in WHO `anthro`, import blocked by GPL/WHO terms decision | `implement_after_maintainer_decision` | yes |
+| `who_growth_module` | `who-growth` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | official WHO 0-5 and 5-19 sources located; BMI LMS source located; import requires separate WHO/source license and attribution policy | `implement_after_maintainer_decision` | yes |
 | `cdc_growth_percentiles` | `cdc-growth-percentiles` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | official source located, data/model pending | `catalog_only_recommended` | yes |
 | `orbegozo_growth_percentiles` | `orbegozo-growth-percentiles` | growth_nutrition | `pending_validation` | `blocked_licensing_or_copyright` | official data and usage terms not confirmed | `blocked_licensing_or_copyright` | yes |
 | `stamp` | `stamp` | growth_nutrition | `pending_validation` | `blocked_licensing_or_copyright` | copyright-marked tool | `blocked_licensing_or_copyright` | yes |

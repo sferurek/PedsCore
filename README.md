@@ -101,6 +101,8 @@ The first deployment can take a few minutes after GitHub Pages is enabled.
 
 The core code is released under the [MIT License](LICENSE).  Documentation is released under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
+Some third-party data sources, including WHO growth data if incorporated, may be distributed under their own licenses and are not covered by the MIT license for PedsCore source code.
+
 ## Roadmap (brief)
 
 Completed alpha milestones include the monorepo, catalog, web shell, GitHub Pages, evidence matrix, dynamic forms, initial calculators and informational head trauma rules.

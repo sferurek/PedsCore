@@ -98,6 +98,8 @@ El primer despliegue puede tardar unos minutos tras activar GitHub Pages.
 
 El código se distribuye bajo la licencia **MIT**, y la documentación bajo **CC BY 4.0** salvo que se indique lo contrario. Consulta el archivo [`LICENSE`](LICENSE) para más detalles.
 
+Algunas fuentes de datos de terceros, incluidos los datos de crecimiento OMS si se incorporan, pueden distribuirse bajo sus propias licencias y no quedan cubiertas por la licencia MIT del código fuente de PedsCore.
+
 ## Roadmap breve
 
 Hitos alpha completados: monorepo, catálogo, web, GitHub Pages, matriz de evidencia, formularios dinámicos, calculadoras iniciales y reglas informativas de TCE pediátrico.
