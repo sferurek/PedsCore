@@ -125,7 +125,10 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 Current common input:
 
 - sex
-- exact age in days for WHO 0-5 indicators
+- age input mode
+- date of birth and measurement date for WHO 0-5 indicators
+- exact age in days for WHO 0-5 indicators as an advanced option
+- structured years/months/days for WHO 0-5 indicators as an approximate operational option
 - exact age in completed months for WHO 5-19 indicators
 - weight
 - recumbent length / standing height
@@ -133,6 +136,27 @@ Current common input:
 - optional head circumference
 
 No entered value is stored, persisted, sent to analytics, or sent to a backend.
+
+## Age input policy
+
+For WHO 0-5 indicators:
+
+- Recommended mode: date of birth plus measurement date.
+- This calculates exact age in days and uses the exact daily WHO record.
+- Advanced mode: exact age in days, when already known.
+- Convenience mode: years/months/days. PedsCore converts this to days using
+  `round(years * 365.25 + months * 30.4375 + days)`.
+- The structured-age conversion is operational and approximate; the UI warns
+  users to use dates for maximum precision.
+- The age used is shown back to the user in the result summary.
+
+For WHO 5-19 indicators:
+
+- Required mode: completed months according to WHO Growth Reference 2007.
+- PedsCore does not automatically convert 0-5 days or dates into 5-19 months.
+- No interpolation is active.
+- BMI-for-age and height-for-age are the only 5-19 indicators currently
+  available.
 
 ## Indicator policy
 

@@ -1316,8 +1316,85 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         ]
       },
       {
+        id: "who_age_input_mode",
+        label: {
+          es: "Modo de entrada de edad",
+          en: "Age input mode"
+        },
+        description: {
+          es: "Recomendado 0-5: fecha de nacimiento + fecha de medición. Recomendado 5-19: meses cumplidos.",
+          en: "Recommended for 0-5: date of birth + measurement date. Recommended for 5-19: completed months."
+        },
+        type: "select",
+        required: true,
+        options: [
+          option(
+            "dates",
+            "Fecha de nacimiento + fecha de medición",
+            "Date of birth + measurement date",
+            undefined,
+            {
+              es: "Opción más precisa para indicadores OMS 0-5.",
+              en: "Most accurate option for WHO 0-5 indicators."
+            }
+          ),
+          option(
+            "days_0_5",
+            "Edad exacta en días (0-5 años)",
+            "Exact age in days (0-5 years)",
+            undefined,
+            {
+              es: "Modo avanzado si ya conoces la edad exacta en días.",
+              en: "Advanced mode if exact age in days is already known."
+            }
+          ),
+          option(
+            "structured_0_5",
+            "Edad en años, meses y días (0-5 años)",
+            "Age in years, months and days (0-5 years)",
+            undefined,
+            {
+              es: "Entrada cómoda; PedsCore la convierte a días de forma aproximada.",
+              en: "Convenient entry; PedsCore converts it to days approximately."
+            }
+          ),
+          option(
+            "months_5_19",
+            "Edad en meses cumplidos (5-19 años)",
+            "Completed months (5-19 years)",
+            undefined,
+            {
+              es: "Usa la referencia OMS 2007 5-19 con registros mensuales.",
+              en: "Uses the WHO Growth Reference 2007 5-19 monthly records."
+            }
+          )
+        ]
+      },
+      {
+        id: "date_of_birth",
+        label: { es: "Fecha de nacimiento", en: "Date of birth" },
+        description: {
+          es: "Formato YYYY-MM-DD. Se usa solo si el modo de edad elegido es fechas.",
+          en: "Format YYYY-MM-DD. Used only when the selected age mode is dates."
+        },
+        type: "text",
+        required: false,
+        placeholder: { es: "Ej. 2023-01-01", en: "E.g. 2023-01-01" }
+      },
+      {
+        id: "measurement_date",
+        label: { es: "Fecha de medición", en: "Measurement date" },
+        description: {
+          es: "Formato YYYY-MM-DD. Debe ser igual o posterior a la fecha de nacimiento.",
+          en: "Format YYYY-MM-DD. Must be on or after the date of birth."
+        },
+        type: "text",
+        required: false,
+        placeholder: { es: "Ej. 2024-01-01", en: "E.g. 2024-01-01" }
+      },
+      {
         id: "age_days",
-        label: { es: "Edad exacta 0-5", en: "Exact age 0-5" },
+        label: { es: "Edad exacta en días", en: "Exact age in days" },
         description: {
           es: "Edad en días para indicadores OMS 0-5. No se interpola: se usa el registro diario OMS exacto.",
           en: "Age in days for WHO 0-5 indicators. No interpolation is used: the exact daily WHO record is required."
@@ -1331,11 +1408,53 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         placeholder: { es: "Ej. 730", en: "E.g. 730" }
       },
       {
-        id: "age_months",
-        label: {
-          es: "Edad exacta 5-19",
-          en: "Exact age 5-19"
+        id: "age_years_0_5",
+        label: { es: "Años", en: "Years" },
+        description: {
+          es: "Para modo años/meses/días 0-5. Conversión operativa aproximada.",
+          en: "For 0-5 years/months/days mode. Approximate operational conversion."
         },
+        type: "number",
+        required: false,
+        unit: "años",
+        min: 0,
+        max: 5,
+        step: 1,
+        placeholder: { es: "Ej. 2", en: "E.g. 2" }
+      },
+      {
+        id: "age_months_0_5",
+        label: { es: "Meses", en: "Months" },
+        description: {
+          es: "Meses adicionales para modo años/meses/días 0-5.",
+          en: "Additional months for 0-5 years/months/days mode."
+        },
+        type: "number",
+        required: false,
+        unit: "meses",
+        min: 0,
+        max: 11,
+        step: 1,
+        placeholder: { es: "Ej. 3", en: "E.g. 3" }
+      },
+      {
+        id: "age_extra_days_0_5",
+        label: { es: "Días", en: "Days" },
+        description: {
+          es: "Días adicionales para modo años/meses/días 0-5.",
+          en: "Additional days for 0-5 years/months/days mode."
+        },
+        type: "number",
+        required: false,
+        unit: "días",
+        min: 0,
+        max: 30,
+        step: 1,
+        placeholder: { es: "Ej. 10", en: "E.g. 10" }
+      },
+      {
+        id: "age_months",
+        label: { es: "Edad en meses cumplidos", en: "Completed age in months" },
         description: {
           es: "Edad en meses cumplidos para referencia OMS 5-19. No se convierte ni interpola desde días.",
           en: "Completed age in months for the WHO 5-19 reference. It is not converted or interpolated from days."

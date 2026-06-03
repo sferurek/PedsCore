@@ -104,7 +104,13 @@ export interface ToolInput {
   id: string;
   label: LocalizedText;
   description?: LocalizedText;
-  type: "single_choice" | "boolean" | "number" | "select" | "multi_select";
+  type:
+    | "single_choice"
+    | "boolean"
+    | "number"
+    | "select"
+    | "multi_select"
+    | "text";
   required: boolean;
   unit?: string;
   min?: number;

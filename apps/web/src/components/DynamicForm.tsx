@@ -107,7 +107,9 @@ export function DynamicForm({
               advanceAfterInput(
                 input,
                 values,
-                input.type === "number" || input.type === "multi_select"
+                input.type === "number" ||
+                  input.type === "multi_select" ||
+                  input.type === "text"
               )
             }
             onToggle={() =>
@@ -244,6 +246,27 @@ function FormField({
                   }}
                 />
                 {input.unit ? <span>{input.unit}</span> : null}
+              </label>
+              <button className="form-continue" type="button" onClick={onContinue}>
+                {t.form.continue}
+              </button>
+            </div>
+          ) : null}
+          {input.type === "text" ? (
+            <div className="number-accordion-row">
+              <label className="number-input">
+                <input
+                  placeholder={input.placeholder?.[language]}
+                  type="text"
+                  value={typeof value === "string" ? value : ""}
+                  onChange={(event) => onChange(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      onContinue();
+                    }
+                  }}
+                />
               </label>
               <button className="form-continue" type="button" onClick={onContinue}>
                 {t.form.continue}

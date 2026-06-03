@@ -790,7 +790,13 @@ describe("WHO growth scaffold", () => {
     expect(tool?.calculationStatus).not.toBe("active");
     expect(tool?.inputs?.map((input) => input.id)).toEqual([
       "sex",
+      "who_age_input_mode",
+      "date_of_birth",
+      "measurement_date",
       "age_days",
+      "age_years_0_5",
+      "age_months_0_5",
+      "age_extra_days_0_5",
       "age_months",
       "weight_kg",
       "stature_cm",

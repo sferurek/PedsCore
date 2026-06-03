@@ -14,6 +14,7 @@ import {
 import { forwardRef, useEffect, useMemo, useState } from "react";
 import type { FormValues } from "../../utils/formState";
 import type { Language } from "../../utils/language";
+import { resolveWhoGrowthAge } from "../../utils/whoGrowthAge";
 import { WhoGrowthChart } from "./WhoGrowthChart";
 
 interface WhoGrowthResultPanelProps {
@@ -215,8 +216,12 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     const [loadingFailed, setLoadingFailed] = useState(false);
     const sex = values.sex;
     const resolvedSex = isSex(sex) ? sex : null;
-    const ageDays = asNumber(values.age_days);
-    const ageMonths = asNumber(values.age_months);
+    const resolvedAge = useMemo(
+      () => resolveWhoGrowthAge(values, language),
+      [language, values]
+    );
+    const ageDays = resolvedAge.ageDays;
+    const ageMonths = resolvedAge.ageMonths;
     const weightKg = asNumber(values.weight_kg);
     const statureCm = asNumber(values.stature_cm);
     const headCircumferenceCm = asNumber(values.head_circumference_cm);
@@ -315,7 +320,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       es: {
         title: "Crecimiento OMS",
         pending:
-          "Pendiente de cumplimentar sexo, una edad exacta OMS y peso para obtener resultados OMS. La longitud/talla y el perímetro cefálico activan indicadores adicionales.",
+          "Pendiente de cumplimentar sexo, modo de edad, edad correspondiente y peso para obtener resultados OMS. La longitud/talla y el perímetro cefálico activan indicadores adicionales.",
         unavailable:
           "No hay indicadores OMS disponibles para estos datos. Revisa que la edad 0-5 esté en días, que la edad 5-19 esté en meses cumplidos y que las medidas estén dentro del rango de la tabla OMS.",
         loading: "Cargando datos oficiales OMS...",
@@ -324,8 +329,9 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         printTitle: "Informe de crecimiento OMS",
         guidanceTitle: "Cómo introducir los datos",
         guidance: [
-          "Para 0-5 años usa edad exacta en días.",
-          "Para 5-19 años usa edad en meses cumplidos. PedsCore no convierte automáticamente días a meses.",
+          "Para 0-5 años, lo más preciso es introducir fecha de nacimiento y fecha de medición.",
+          "Si introduces años/meses/días, PedsCore lo convierte a días y muestra la edad usada.",
+          "Para 5-19 años, utiliza meses cumplidos según la referencia OMS 2007.",
           "Longitud tumbado activa peso para longitud; talla de pie activa peso para talla.",
           "El perímetro cefálico solo se calcula si se introduce PC."
         ],
@@ -345,7 +351,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       en: {
         title: "WHO growth",
         pending:
-          "Complete sex, one exact WHO age and weight to obtain WHO results. Length/height and head circumference enable additional indicators.",
+          "Complete sex, age input mode, the corresponding age and weight to obtain WHO results. Length/height and head circumference enable additional indicators.",
         unavailable:
           "No WHO indicators are available for these data. Check 0-5 age is entered in days, 5-19 age is entered in completed months and measurements are within the WHO table range.",
         loading: "Loading official WHO data...",
@@ -354,8 +360,9 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         printTitle: "WHO growth report",
         guidanceTitle: "How to enter data",
         guidance: [
-          "For 0-5 years, enter exact age in days.",
-          "For 5-19 years, enter completed age in months. PedsCore does not automatically convert days to months.",
+          "For 0-5 years, the most accurate option is date of birth plus measurement date.",
+          "If you enter years/months/days, PedsCore converts it to days and shows the age used.",
+          "For 5-19 years, use completed months according to the WHO Growth Reference 2007.",
           "Recumbent length enables weight-for-length; standing height enables weight-for-height.",
           "Head circumference is calculated only when head circumference is entered."
         ],
@@ -489,6 +496,10 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       (ageDays !== undefined || ageMonths !== undefined);
     const inputSummaryItems = [
       [
+        language === "es" ? "Modo de edad" : "Age mode",
+        resolvedAge.label
+      ],
+      [
         language === "es" ? "Sexo" : "Sex",
         resolvedSex
           ? resolvedSex === "male"
@@ -553,6 +564,11 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         </div>
 
         {!canCalculate ? <p className="inactive-calculation">{copy.pending}</p> : null}
+        {!canCalculate && resolvedAge.warning ? (
+          <p className="inactive-calculation who-growth-age-warning">
+            {resolvedAge.warning}
+          </p>
+        ) : null}
         {canCalculate && !loadedData && !loadingFailed ? (
           <p className="inactive-calculation">{copy.loading}</p>
         ) : null}
@@ -573,6 +589,11 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
                 ))}
               </ul>
             </section>
+            {resolvedAge.warning ? (
+              <p className="inactive-calculation who-growth-age-warning">
+                {resolvedAge.warning}
+              </p>
+            ) : null}
             <section className="who-growth-input-summary">
               <h3>{copy.inputSummary}</h3>
               <dl>
