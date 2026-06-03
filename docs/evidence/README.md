@@ -2,6 +2,10 @@
 
 This folder tracks evidence, source traceability, scoring-table completeness, interpretation bands, and licensing/copyright risk for clinical tools that are cataloged but not yet ready for automatic calculation.
 
+Current global audit:
+
+- [Block 8 - Extreme Evidence Validation](./extreme-evidence-validation.md)
+
 Scope for Block 6A:
 
 - CRIES
