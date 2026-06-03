@@ -28,6 +28,17 @@ assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/en/tools/apgar", "s
 assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/es/tools/who-growth", "sitemap.xml");
 assertIncludes(robots, "Sitemap: https://sferurek.github.io/PedsCore/sitemap.xml", "robots.txt");
 
+const routeFiles = [
+  "es/tools/who-growth/index.html",
+  "en/tools/who-growth/index.html",
+  "es/tools/index.html",
+  "en/tools/index.html"
+];
+
+for (const routeFile of routeFiles) {
+  await read(routeFile);
+}
+
 const urlCount = (sitemap.match(/<url>/g) ?? []).length;
 if (urlCount < 100) {
   throw new Error(`sitemap.xml contains too few URLs: ${urlCount}`);

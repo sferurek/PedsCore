@@ -7,7 +7,7 @@
     "dev": "vite",
     "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "tsc -p tsconfig.json && vite build",
-    "postbuild": "node scripts/create-404.mjs",
+    "postbuild": "node scripts/create-404.mjs && node scripts/generate-static-routes.mjs",
     "preview": "vite preview",
     "seo:check": "node scripts/check-seo.mjs"
   },
