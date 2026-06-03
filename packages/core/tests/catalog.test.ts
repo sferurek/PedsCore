@@ -151,6 +151,48 @@ describe("clinical tools catalog", () => {
     expect(serializedCatalog).not.toContain("toxicol");
   });
 
+  it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
+    const reviewedPendingIds = [
+      "ballard",
+      "sarnat",
+      "thompson_hie",
+      "cries",
+      "bhutani_nomogram",
+      "bedside_pews",
+      "who_growth_percentiles",
+      "cdc_growth_percentiles"
+    ];
+
+    for (const id of reviewedPendingIds) {
+      const tool = getTool(id);
+
+      expect(tool?.implementationStatus).toBe("pending_validation");
+      expect(tool?.calculationStatus).not.toBe("active");
+      expect(
+        tool?.references.some((reference) => Boolean(getReferenceUrl(reference)))
+      ).toBe(true);
+    }
+  });
+
+  it("does not promote license-sensitive pending tools to ready for implementation", () => {
+    const licenseSensitivePendingIds = [
+      "ballard",
+      "sarnat",
+      "thompson_hie",
+      "cries",
+      "bhutani_nomogram",
+      "bedside_pews",
+      "stamp",
+      "resuscitation_weight_dose_energy"
+    ];
+
+    for (const id of licenseSensitivePendingIds) {
+      expect(getTool(id)?.implementationStatus).not.toBe(
+        "ready_for_implementation"
+      );
+    }
+  });
+
   it("keeps input IDs unique within tools that define forms", () => {
     for (const tool of clinicalTools.filter((item) => item.inputs?.length)) {
       const inputIds = tool.inputs?.map((input) => input.id) ?? [];

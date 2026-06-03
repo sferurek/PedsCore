@@ -379,6 +379,174 @@ const implementedToolReferences: Record<string, Reference[]> = {
       appliesTo: ["flacc"],
       priority: 1
     }
+  ],
+  ballard: [
+    {
+      id: "new_ballard_1991_original",
+      title: "New Ballard Score, expanded to include extremely premature infants",
+      authors: "Ballard JL, Khoury JC, Wedig K, Wang L, Eilers-Walsman BL, Lipp R",
+      year: 1991,
+      journalOrPublisher: "The Journal of Pediatrics",
+      citation:
+        "Ballard JL, Khoury JC, Wedig K, Wang L, Eilers-Walsman BL, Lipp R. New Ballard Score, expanded to include extremely premature infants. J Pediatr. 1991;119(3):417-423.",
+      doi: "10.1016/S0022-3476(05)82056-6",
+      pmid: "1880657",
+      url: "https://pubmed.ncbi.nlm.nih.gov/1880657/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Priority A evidence audit: New Ballard variant selected as source anchor. Complete scoring form/table and reuse permissions remain pending before implementation.",
+      appliesTo: ["ballard"],
+      priority: 1
+    }
+  ],
+  sarnat: [
+    {
+      id: "sarnat_1976_original",
+      title:
+        "Neonatal encephalopathy following fetal distress. A clinical and electroencephalographic study",
+      authors: "Sarnat HB, Sarnat MS",
+      year: 1976,
+      journalOrPublisher: "Archives of Neurology",
+      citation:
+        "Sarnat HB, Sarnat MS. Neonatal encephalopathy following fetal distress. A clinical and electroencephalographic study. Arch Neurol. 1976;33(10):696-705.",
+      doi: "10.1001/archneur.1976.00500100030012",
+      pmid: "987769",
+      url: "https://pubmed.ncbi.nlm.nih.gov/987769/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Priority A evidence audit: original staging source located. Exact table wording, modified variants, and domain-expert review remain pending before implementation.",
+      appliesTo: ["sarnat"],
+      priority: 1
+    }
+  ],
+  thompson_hie: [
+    {
+      id: "thompson_hie_1997_original",
+      title:
+        "The value of a scoring system for hypoxic ischaemic encephalopathy in predicting neurodevelopmental outcome",
+      authors:
+        "Thompson CM, Puterman AS, Linley LL, Hann FM, van der Elst CW, Molteno CD, Malan AF",
+      year: 1997,
+      journalOrPublisher: "Acta Paediatrica",
+      citation:
+        "Thompson CM, Puterman AS, Linley LL, Hann FM, van der Elst CW, Molteno CD, Malan AF. The value of a scoring system for hypoxic ischaemic encephalopathy in predicting neurodevelopmental outcome. Acta Paediatr. 1997;86(7):757-761.",
+      doi: "10.1111/j.1651-2227.1997.tb08581.x",
+      url: "https://doi.org/10.1111/j.1651-2227.1997.tb08581.x",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes:
+        "Priority A evidence audit: DOI source located, but a stable PubMed record was not confirmed. Complete table and expert review remain pending before implementation.",
+      appliesTo: ["thompson_hie"],
+      priority: 1
+    }
+  ],
+  cries: [
+    {
+      id: "cries_1995_original",
+      title:
+        "CRIES: a new neonatal postoperative pain measurement score. Initial testing of validity and reliability",
+      authors: "Krechel SW, Bildner J",
+      year: 1995,
+      journalOrPublisher: "Paediatric Anaesthesia",
+      citation:
+        "Krechel SW, Bildner J. CRIES: a new neonatal postoperative pain measurement score. Initial testing of validity and reliability. Paediatr Anaesth. 1995;5(1):53-61.",
+      doi: "10.1111/j.1460-9592.1995.tb00242.x",
+      pmid: "8521311",
+      url: "https://pubmed.ncbi.nlm.nih.gov/8521311/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Priority A evidence audit: original source located. Complete 0/1/2 item table and reuse permissions remain pending before implementation.",
+      appliesTo: ["cries"],
+      priority: 1
+    }
+  ],
+  bhutani_nomogram: [
+    {
+      id: "bhutani_1999_original",
+      title:
+        "Predictive ability of a predischarge hour-specific serum bilirubin for subsequent significant hyperbilirubinemia in healthy term and near-term newborns",
+      authors: "Bhutani VK, Johnson L, Sivieri EM",
+      year: 1999,
+      journalOrPublisher: "Pediatrics",
+      citation:
+        "Bhutani VK, Johnson L, Sivieri EM. Predictive ability of a predischarge hour-specific serum bilirubin for subsequent significant hyperbilirubinemia in healthy term and near-term newborns. Pediatrics. 1999;103(1):6-14.",
+      doi: "10.1542/peds.103.1.6",
+      pmid: "9917432",
+      url: "https://pubmed.ncbi.nlm.nih.gov/9917432/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Priority A evidence audit: source located. Usable hour-specific nomogram data/curve values and current guideline context remain pending before implementation.",
+      appliesTo: ["bhutani_nomogram"],
+      priority: 1
+    }
+  ],
+  bedside_pews: [
+    {
+      id: "bedside_pews_2009_original",
+      title: "Development and initial validation of the Bedside Paediatric Early Warning System score",
+      authors: "Parshuram CS, Hutchison J, Middaugh K",
+      year: 2009,
+      journalOrPublisher: "Critical Care",
+      citation:
+        "Parshuram CS, Hutchison J, Middaugh K. Development and initial validation of the Bedside Paediatric Early Warning System score. Crit Care. 2009;13(4):R135.",
+      doi: "10.1186/cc7998",
+      pmid: "19678924",
+      url: "https://pubmed.ncbi.nlm.nih.gov/19678924/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Priority A evidence audit: source located. Full score table, local escalation separation, and inventor/licensing review remain pending before implementation.",
+      appliesTo: ["bedside_pews"],
+      priority: 1
+    }
+  ],
+  who_growth_percentiles: [
+    {
+      id: "who_child_growth_standards_official",
+      title: "WHO Child Growth Standards",
+      authors: "World Health Organization",
+      year: 2006,
+      journalOrPublisher: "World Health Organization",
+      citation:
+        "World Health Organization. WHO Child Growth Standards. Official standards and toolkits.",
+      url: "https://www.who.int/tools/child-growth-standards",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Priority A evidence audit: official source located. Exact indicators, age ranges, LMS/data files, license terms, and test fixtures remain pending before implementation.",
+      appliesTo: ["who_growth_percentiles"],
+      priority: 1
+    }
+  ],
+  cdc_growth_percentiles: [
+    {
+      id: "cdc_growth_charts_lms_data",
+      title: "CDC Growth Charts Data Files",
+      authors: "Centers for Disease Control and Prevention; National Center for Health Statistics",
+      year: 2000,
+      journalOrPublisher: "Centers for Disease Control and Prevention",
+      citation:
+        "Centers for Disease Control and Prevention, National Center for Health Statistics. CDC Growth Charts Data Files with LMS Values.",
+      url: "https://www.cdc.gov/growthcharts/cdc-data-files.htm",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Priority A evidence audit: official LMS data source located. Exact chart set, interpolation strategy, and test fixtures remain pending before implementation.",
+      appliesTo: ["cdc_growth_percentiles"],
+      priority: 1
+    }
   ]
 };
 
@@ -390,6 +558,41 @@ const pendingCalculationNotes: LocalizedText = {
 const woodDownesValidationNotes: LocalizedText = {
   es: "Pendiente de validacion: la documentacion local identifica variables, rango 0-17 e interpretacion general, pero no define de forma inequivoca la version exacta, tabla completa de puntuacion para sibilancias/tiraje/entrada de aire/frecuencia respiratoria/frecuencia cardiaca, puntos de corte por edad ni fuente primaria. No se activa calculo por variantes Wood-Downes-Ferres/Downes.",
   en: "Pending validation: local documentation identifies variables, 0-17 range, and general interpretation, but does not unambiguously define the exact version, full scoring table for wheezing/retractions/air entry/respiratory rate/heart rate, age cut-offs, or primary source. Calculation is not activated because of Wood-Downes-Ferres/Downes variants."
+};
+
+const ballardValidationNotes: LocalizedText = {
+  es: "Bloque 8B-1: fuente primaria New Ballard localizada con DOI/PMID. Pendiente tabla/formulario completo utilizable, conversion exacta a semanas, permisos de reutilizacion y casos de test antes de implementar calculo.",
+  en: "Block 8B-1: New Ballard primary source located with DOI/PMID. Complete usable table/form, exact conversion to gestational weeks, reuse permissions, and test cases remain pending before calculation."
+};
+
+const sarnatValidationNotes: LocalizedText = {
+  es: "Bloque 8B-1: fuente original Sarnat localizada con DOI/PMID. Pendiente definir version exacta clasica/modificada, tabla completa, reglas de clasificacion no ambiguas, licencia y revision por experto antes de implementar.",
+  en: "Block 8B-1: original Sarnat source located with DOI/PMID. Exact classic/modified version, complete table, unambiguous classification rules, licensing, and expert review remain pending before implementation."
+};
+
+const thompsonHieEvidenceValidationNotes: LocalizedText = {
+  es: "Bloque 8B-1: fuente Thompson 1997 localizada por DOI. PubMed estable no confirmado; tabla completa, rangos por item, puntos de corte y revision por experto siguen pendientes antes de implementar.",
+  en: "Block 8B-1: Thompson 1997 source located by DOI. Stable PubMed record not confirmed; complete table, item-specific ranges, cut-offs, and expert review remain pending before implementation."
+};
+
+const bhutaniValidationNotes: LocalizedText = {
+  es: "Bloque 8B-1: fuente primaria Bhutani 1999 localizada con DOI/PMID. Pendiente disponer de valores/curvas hora-especificas reutilizables, contexto de guias actuales, licencia y casos de test antes de implementar nomograma.",
+  en: "Block 8B-1: Bhutani 1999 primary source located with DOI/PMID. Reusable hour-specific values/curves, current guideline context, licensing, and test cases remain pending before nomogram implementation."
+};
+
+const bedsidePewsValidationNotes: LocalizedText = {
+  es: "Bloque 8B-1: fuente Bedside PEWS original localizada con DOI/PMID/PMCID. Pendiente tabla completa, separacion de protocolos locales de escalado, licencia/inventores y casos de test antes de implementar.",
+  en: "Block 8B-1: original Bedside PEWS source located with DOI/PMID/PMCID. Complete table, separation from local escalation protocols, inventor/licensing review, and test cases remain pending before implementation."
+};
+
+const whoGrowthValidationNotes: LocalizedText = {
+  es: "Bloque 8B-1: fuente oficial OMS localizada. Pendiente seleccionar indicadores y edades, enlazar ficheros LMS/datos oficiales, revisar terminos de uso y preparar tests antes de implementar percentiles.",
+  en: "Block 8B-1: official WHO source located. Indicator/age selection, official LMS/data files, terms-of-use review, and tests remain pending before percentile implementation."
+};
+
+const cdcGrowthValidationNotes: LocalizedText = {
+  es: "Bloque 8B-1: fuente oficial CDC con ficheros LMS localizada. Pendiente seleccionar curvas, definir interpolacion/edades, revisar atribucion/uso y preparar tests antes de implementar percentiles.",
+  en: "Block 8B-1: official CDC LMS data source located. Chart selection, interpolation/age handling, attribution/use review, and tests remain pending before percentile implementation."
 };
 
 const pediatricGcsValidationNotes: LocalizedText = {
@@ -430,11 +633,6 @@ const comfortneoValidationNotes: LocalizedText = {
 const finneganValidationNotes: LocalizedText = {
   es: "Pendiente de validacion: Finnegan/Finnegan modificado tiene multiples versiones y tablas extensas. Debe seleccionarse version exacta y evitar recomendaciones farmacologicas directas.",
   en: "Pending validation: Finnegan/Modified Finnegan has multiple versions and extensive tables. The exact version must be selected and direct pharmacologic recommendations must be avoided."
-};
-
-const thompsonHieValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: la documentacion local confirma variables, rango 0-22 e interpretacion leve/moderada/severa, pero indica que algunos items tienen rangos especificos sin detallar la tabla completa de puntuacion. No se activa calculo por sensibilidad clinica.",
-  en: "Pending validation: local documentation confirms variables, 0-22 range, and mild/moderate/severe interpretation, but states that some items have specific ranges without detailing the complete scoring table. Calculation is not activated because of clinical sensitivity."
 };
 
 const option = (
@@ -1389,10 +1587,10 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("combined_apgar", "combined-apgar", "Combined Apgar", "Apgar expandido / Combined Apgar", "Expanded / Combined Apgar", "neonatology", "newborn_transition", "score", "Recien nacidos", "Newborns", "Extension documentada del Apgar para contexto neonatal.", "Documented extension of Apgar for newborn context.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("silverman_andersen", "silverman-andersen", "Silverman-Andersen", "Score de Silverman-Andersen", "Silverman-Andersen Score", "neonatology", "respiratory_distress", "score", "Recien nacidos con dificultad respiratoria", "Newborns with respiratory distress", "Cuantifica dificultad respiratoria neonatal mediante signos clinicos.", "Scores neonatal respiratory distress using clinical signs.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("wood_downes_ferres", "wood-downes-ferres", "WDF", "Score de Wood-Downes-Ferres", "Wood-Downes-Ferres Score", "respiratory", "bronchiolitis_wheezing", "score", "Lactantes y ninos con bronquiolitis u obstruccion respiratoria segun variante", "Infants and children with bronchiolitis or obstructive respiratory distress depending on variant", "Evalua gravedad de dificultad respiratoria obstructiva.", "Assesses severity of obstructive respiratory distress.", "pending_validation", "pending_verification", "medium", woodDownesValidationNotes),
-  makeTool("ballard", "ballard", "Ballard", "Ballard / New Ballard", "Ballard / New Ballard", "neonatology", "gestational_age", "score", "Recien nacidos con edad gestacional incierta", "Newborns with uncertain gestational age", "Estima edad gestacional con madurez fisica y neuromuscular.", "Estimates gestational age using physical and neuromuscular maturity.", "pending_validation", "pending_verification", "medium"),
+  makeTool("ballard", "ballard", "Ballard", "Ballard / New Ballard", "Ballard / New Ballard", "neonatology", "gestational_age", "score", "Recien nacidos con edad gestacional incierta", "Newborns with uncertain gestational age", "Estima edad gestacional con madurez fisica y neuromuscular.", "Estimates gestational age using physical and neuromuscular maturity.", "pending_validation", "original_derivation_study", "medium", ballardValidationNotes),
   makeTool("dubowitz", "dubowitz", "Dubowitz", "Dubowitz", "Dubowitz Score", "neonatology", "gestational_age", "score", "Recien nacidos", "Newborns", "Herramienta de estimacion de edad gestacional basada en madurez neonatal.", "Gestational age assessment based on neonatal maturity.", "pending_validation", "pending_verification", "medium"),
-  makeTool("sarnat", "sarnat", "Sarnat", "Sarnat y Sarnat", "Sarnat Staging", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos con sospecha de encefalopatia hipoxico-isquemica", "Newborns with suspected hypoxic-ischemic encephalopathy", "Clasifica encefalopatia neonatal en estadios clinicos.", "Classifies neonatal encephalopathy into clinical stages.", "pending_validation", "pending_verification", "medium"),
-  makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico para gravedad de EHI neonatal.", "Clinical score for neonatal HIE severity.", "pending_validation", "pending_verification", "medium", thompsonHieValidationNotes),
+  makeTool("sarnat", "sarnat", "Sarnat", "Sarnat y Sarnat", "Sarnat Staging", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos con sospecha de encefalopatia hipoxico-isquemica", "Newborns with suspected hypoxic-ischemic encephalopathy", "Clasifica encefalopatia neonatal en estadios clinicos.", "Classifies neonatal encephalopathy into clinical stages.", "pending_validation", "original_derivation_study", "medium", sarnatValidationNotes),
+  makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico para gravedad de EHI neonatal.", "Clinical score for neonatal HIE severity.", "pending_validation", "original_derivation_study", "medium", thompsonHieEvidenceValidationNotes),
   makeTool("modified_finnegan", "modified-finnegan", "Finnegan", "Finnegan modificado / NAS", "Modified Finnegan NAS Score", "neonatology", "neonatal_abstinence", "score", "Recien nacidos con sospecha de sindrome de abstinencia neonatal", "Newborns with suspected neonatal abstinence syndrome", "Valora signos de abstinencia neonatal.", "Assesses neonatal abstinence signs.", "pending_validation", "pending_verification", "medium", finneganValidationNotes),
   makeTool("eat_sleep_console", "eat-sleep-console", "ESC", "Eat Sleep Console", "Eat Sleep Console", "neonatology", "neonatal_abstinence", "algorithm", "Recien nacidos expuestos a opioides", "Opioid-exposed newborns", "Modelo funcional para seguimiento de abstinencia neonatal.", "Functional model for neonatal withdrawal assessment.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("nips", "nips", "NIPS", "Neonatal Infant Pain Scale", "Neonatal Infant Pain Scale", "pain", "neonatal_pain", "scale", "Neonatos", "Neonates", "Escala observacional de dolor neonatal.", "Observational neonatal pain scale.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready, [docRef("nips_kb", "PedsCore_Knowledge_Base_v1: NIPS", "pending_verification")]),
@@ -1400,11 +1598,11 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pipp_r", "pipp-r", "PIPP-R", "Premature Infant Pain Profile-Revised", "Premature Infant Pain Profile-Revised", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Version revisada de PIPP.", "Revised version of PIPP.", "pending_validation", "pending_verification", "medium", pippValidationNotes),
   makeTool("cries", "cries", "CRIES", "CRIES", "CRIES", "pain", "neonatal_pain", "scale", "Neonatos con dolor postoperatorio", "Neonates with postoperative pain", "Escala neonatal de dolor basada en cinco dominios.", "Neonatal pain scale based on five domains.", "pending_validation", "pending_verification", "low", criesValidationNotes, [docRef("cries_kb", "PedsCore_Knowledge_Base_v1: CRIES", "pending_verification")]),
   makeTool("comfortneo", "comfortneo", "COMFORTneo", "COMFORTneo", "COMFORTneo", "neonatology", "sedation_pain", "scale", "Neonatos en cuidados intensivos", "Neonates in intensive care", "Escala multidimensional de sedacion y dolor neonatal.", "Multidimensional neonatal sedation and pain scale.", "pending_validation", "pending_verification", "medium", comfortneoValidationNotes),
-  makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "pending_verification", "medium"),
+  makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "original_derivation_study", "medium", bhutaniValidationNotes),
   makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("pews", "pews", "PEWS", "Pediatric Early Warning Score", "Pediatric Early Warning Score", "emergency", "early_warning", "score", "Ninos hospitalizados o en urgencias", "Hospitalized children or children in emergency care", "Score de deteccion precoz de deterioro clinico con multiples variantes.", "Early warning score for clinical deterioration with multiple variants.", "pending_validation", "pending_verification", "medium", pewsValidationNotes),
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "pending_verification", "medium"),
-  makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "pending_verification", "medium"),
+  makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos con crisis asmatica o sibilancias", "Children with asthma exacerbation or wheezing", "Mide gravedad de broncoespasmo pediatrico.", "Measures pediatric wheezing/asthma severity.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_verification", "medium"),
@@ -1438,8 +1636,8 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("prism_iv", "prism-iv", "PRISM IV", "PRISM IV", "PRISM IV", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Version PRISM IV identificada para revision.", "PRISM IV version identified for review.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pim2", "pim2", "PIM2", "PIM2", "PIM2", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Indice de mortalidad pediatrica version 2.", "Pediatric Index of Mortality version 2.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pim3", "pim3", "PIM3", "PIM3", "PIM3", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Indice de mortalidad pediatrica version 3.", "Pediatric Index of Mortality version 3.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
-  makeTool("who_growth_percentiles", "who-growth-percentiles", "OMS", "Percentiles OMS", "WHO Growth Percentiles", "growth_nutrition", "growth", "percentile", "Lactantes y ninos segun edad aplicable", "Infants and children depending on applicable age", "Curvas de crecimiento OMS para peso, talla y otros parametros.", "WHO growth curves for weight, height, and other parameters.", "pending_validation", "pending_verification", "medium"),
-  makeTool("cdc_growth_percentiles", "cdc-growth-percentiles", "CDC", "Percentiles CDC", "CDC Growth Percentiles", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes segun edad aplicable", "Children and adolescents depending on applicable age", "Curvas de crecimiento CDC.", "CDC growth curves.", "pending_validation", "pending_verification", "medium"),
+  makeTool("who_growth_percentiles", "who-growth-percentiles", "OMS", "Percentiles OMS", "WHO Growth Percentiles", "growth_nutrition", "growth", "percentile", "Lactantes y ninos segun edad aplicable", "Infants and children depending on applicable age", "Curvas de crecimiento OMS para peso, talla y otros parametros.", "WHO growth curves for weight, height, and other parameters.", "pending_validation", "official_manual_or_institutional_protocol", "medium", whoGrowthValidationNotes),
+  makeTool("cdc_growth_percentiles", "cdc-growth-percentiles", "CDC", "Percentiles CDC", "CDC Growth Percentiles", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes segun edad aplicable", "Children and adolescents depending on applicable age", "Curvas de crecimiento CDC.", "CDC growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", cdcGrowthValidationNotes),
   makeTool("orbegozo_growth_percentiles", "orbegozo-growth-percentiles", "Orbegozo", "Percentiles Orbegozo", "Orbegozo Growth Percentiles", "growth_nutrition", "growth", "percentile", "Poblacion pediatrica segun tablas aplicables", "Pediatric population depending on applicable tables", "Curvas de crecimiento Fundacion Orbegozo.", "Fundacion Orbegozo growth curves.", "pending_validation", "pending_verification", "medium"),
   makeTool("bmi_percentile", "bmi-percentile", "IMC percentilado", "IMC percentilado", "BMI Percentile", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes", "Children and adolescents", "Calcula IMC y percentil segun curva seleccionada.", "Calculates BMI and percentile according to selected curve.", "pending_validation", "pending_verification", "medium"),
   makeTool("head_circumference_percentile", "head-circumference-percentile", "PC percentil", "Percentil de perimetro craneal", "Head Circumference Percentile", "growth_nutrition", "growth", "percentile", "Lactantes y ninos pequenos", "Infants and young children", "Percentil de perimetro craneal segun curva seleccionada.", "Head circumference percentile according to selected curve.", "pending_validation", "pending_verification", "medium"),
