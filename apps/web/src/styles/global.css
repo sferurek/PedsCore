@@ -583,6 +583,7 @@ dd {
 }
 
 .status-implemented,
+.status-partially_implemented,
 .status-ready_for_implementation {
   background: #e2f4ee;
   color: #0b5a4f;
@@ -1105,6 +1106,11 @@ td {
 .status-implemented {
   background: #e2f4ee;
   color: #0b5a4f;
+}
+
+.status-partially_implemented {
+  background: #e4f2f6;
+  color: #155e75;
 }
 
 .status-ready_for_implementation {
@@ -2274,6 +2280,7 @@ h2 {
 }
 
 .status-implemented,
+.status-partially_implemented,
 .status-ready_for_implementation {
   background: #e5f0ff;
   color: #073a8f;
@@ -2675,6 +2682,12 @@ dt {
   border-color: #b8dec8;
   background: #e7f6ed;
   color: #17623a;
+}
+
+.status-partially_implemented {
+  border-color: #b7d8e3;
+  background: #e6f5f8;
+  color: #155e75;
 }
 
 .status-ready_for_implementation {

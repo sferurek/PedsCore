@@ -416,6 +416,10 @@ export const statusLabels: Record<
   Record<Language, string>
 > = {
   implemented: { es: "Implementada", en: "Implemented" },
+  partially_implemented: {
+    es: "Implementación parcial",
+    en: "Partially implemented"
+  },
   ready_for_implementation: {
     es: "Lista para implementar",
     en: "Ready for implementation"
@@ -442,6 +446,10 @@ export const statusDescriptions: Record<
   implemented: {
     es: "Calculo disponible.",
     en: "Calculation available."
+  },
+  partially_implemented: {
+    es: "Funcionalidad calculada y testeada disponible para parte del alcance; el modulo completo sigue pendiente.",
+    en: "Calculated and tested functionality is available for part of the scope; the full module is still pending."
   },
   ready_for_implementation: {
     es: "Formula o criterios identificados, pendiente de implementacion tecnica.",

@@ -120,12 +120,32 @@ describe("SPRINT-50 implementation safety gates", () => {
     }
   });
 
-  it("keeps WHO Growth as pending validation until final module policy is complete", () => {
+  it("keeps WHO Growth partial and outside the fully implemented count", () => {
     const whoGrowthModule = clinicalTools.find(
       (tool) => tool.id === "who_growth_module"
     );
 
-    expect(whoGrowthModule?.implementationStatus).toBe("pending_validation");
+    expect(whoGrowthModule?.implementationStatus).toBe("partially_implemented");
     expect(whoGrowthModule?.calculationStatus).toBe("metadata_ready");
+    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
+      "who_growth_module"
+    );
+  });
+
+  it("tracks partially implemented tools explicitly", () => {
+    const partiallyImplementedIds = clinicalTools
+      .filter((tool) => tool.implementationStatus === "partially_implemented")
+      .map((tool) => tool.id);
+
+    expect(partiallyImplementedIds).toEqual(["who_growth_module"]);
+    expect(getImplementedTools()).toHaveLength(17);
+  });
+
+  it("does not use partial status to mask therapeutic or proprietary blockers", () => {
+    for (const id of blockedTherapeuticOrProtectedIds) {
+      const tool = clinicalTools.find((item) => item.id === id);
+
+      expect(tool?.implementationStatus).not.toBe("partially_implemented");
+    }
   });
 });

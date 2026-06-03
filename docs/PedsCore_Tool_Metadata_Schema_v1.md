@@ -57,10 +57,12 @@ Implementation status:
 
 ```text
 implemented
-ready_for_validation
+partially_implemented
+ready_for_implementation
 pending_validation
+needs_primary_reference
 coming_soon
-not_implemented
+not_implemented_due_to_licensing
 ```
 
 Regulatory risk:

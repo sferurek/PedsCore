@@ -14,6 +14,10 @@ export const evidenceStatusDescriptions: Record<
     es: "Calculo activo con tests y trazabilidad basica.",
     en: "Active calculation with tests and basic traceability."
   },
+  partially_implemented: {
+    es: "Calculo parcial disponible con tests y trazabilidad para un alcance definido. El alcance restante sigue pendiente de validacion o revision.",
+    en: "Partial calculation is available with tests and traceability for a defined scope. Remaining scope is still pending validation or review."
+  },
   ready_for_implementation: {
     es: "La herramienta tiene estructura suficiente para implementacion, pero aun requiere activacion tecnica y revision final.",
     en: "The tool has enough structure for implementation, but still requires technical activation and final review."
@@ -50,6 +54,19 @@ const pendingValidationActions: Record<Language, string[]> = {
     "Provide the complete scoring table.",
     "Provide published cut-offs.",
     "Review potential licensing restrictions."
+  ]
+};
+
+const partialImplementationActions: Record<Language, string[]> = {
+  es: [
+    "Revisar el alcance ya disponible.",
+    "Definir el alcance restante antes de cerrar el modulo.",
+    "Confirmar politica de interpolacion y revision experta."
+  ],
+  en: [
+    "Review the currently available scope.",
+    "Define the remaining scope before closing the module.",
+    "Confirm interpolation policy and expert review."
   ]
 };
 
@@ -96,6 +113,10 @@ export const getUnlockActions = (
   status: ImplementationStatus,
   language: Language
 ): string[] => {
+  if (status === "partially_implemented") {
+    return partialImplementationActions[language];
+  }
+
   if (status === "pending_validation" || status === "ready_for_implementation") {
     return pendingValidationActions[language];
   }

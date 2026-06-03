@@ -42,6 +42,7 @@ Rules:
 Evidence status terms:
 
 - `ready_for_implementation`: source and scoring table are sufficiently traceable; still requires implementation tests.
+- `partially_implemented`: a defined scope has active calculation, tests, and traceability; remaining scope still requires validation, review, or policy decisions.
 - `pending_validation`: source exists or partial data exists, but table/version/interpretation/licensing needs review.
 - `needs_primary_reference`: primary source is missing or not sufficiently identified.
 - `not_implemented_due_to_licensing`: source or instrument appears protected or license-sensitive.

@@ -26,6 +26,7 @@ export type ToolCategory =
 
 export type ImplementationStatus =
   | "implemented"
+  | "partially_implemented"
   | "ready_for_implementation"
   | "pending_validation"
   | "needs_primary_reference"

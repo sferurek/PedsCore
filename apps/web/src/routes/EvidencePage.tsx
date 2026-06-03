@@ -9,6 +9,7 @@ interface EvidencePageProps {
 
 const statuses = [
   "implemented",
+  "partially_implemented",
   "ready_for_implementation",
   "pending_validation",
   "needs_primary_reference",
@@ -71,6 +72,7 @@ const evidenceHierarchy = [
 
 const summaryStatuses = [
   "implemented",
+  "partially_implemented",
   "pending_validation",
   "needs_primary_reference",
   "not_implemented_due_to_licensing"

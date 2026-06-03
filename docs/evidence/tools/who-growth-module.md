@@ -6,12 +6,12 @@
 - slug: `who-growth`
 - category: `growth_nutrition`
 - type: `percentile`
-- current implementationStatus: `pending_validation`
+- current implementationStatus: `partially_implemented`
 - current evidenceLevel: `official_manual_or_institutional_protocol`
 
 ## Evidence validation status
 
-- final evidence status: `pending_validation`
+- final evidence status: `partially_implemented`
 - blocking reason: core WHO 0-5 indicators plus WHO 5-19 BMI-for-age and height-for-age are normalized and available, but remaining 5-19 scope, interpolation policy, and final maintainer review remain pending.
 - depends on maintainer decision: yes
 - maintainer decision needed: confirm remaining 5-19 scope, interpolation policy, chart percentile set, and print-output wording before marking the unified module fully implemented.

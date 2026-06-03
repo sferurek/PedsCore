@@ -2640,7 +2640,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
     "Children and adolescents according to applicable WHO ranges",
     "Modulo unificado previsto para calcular indicadores OMS aplicables desde una entrada antropometrica comun.",
     "Unified module planned to calculate applicable WHO indicators from one common anthropometric input.",
-    "pending_validation",
+    "partially_implemented",
     "official_manual_or_institutional_protocol",
     "medium",
     whoGrowthModuleValidationNotes,

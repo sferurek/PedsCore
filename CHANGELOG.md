@@ -7,7 +7,8 @@ All notable changes to PedsCore are documented in this file.
 Initial public alpha release.
 
 - 79 pediatric and neonatal clinical tools cataloged.
-- 17 tools implemented with active calculation or informational rule output.
+- 17 tools fully implemented with active calculation or informational rule output.
+- 1 partially implemented module: WHO Growth.
 - Bilingual ES/EN web application.
 - GitHub Pages deployment configured and active.
 - Evidence-first references and validation status model.
@@ -24,6 +25,7 @@ Initial public alpha release.
 
 - Implementation count before audit: 17.
 - Implementation count after audit: 17.
+- Partial implementation count after status-model refresh: 1.
 - No new tools were promoted to `implemented` because no additional
   unimplemented tool simultaneously satisfied source, complete formula/table,
   exact variant, inputs, tests, safe output and licensing gates.

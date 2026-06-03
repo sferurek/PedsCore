@@ -13,6 +13,7 @@ This is an intentional safety decision. The sprint improves traceability and pre
 - Total catalog tools: 79.
 - Implemented before sprint: 17.
 - Implemented after sprint: 17.
+- Partially implemented after status-model refresh: 1 (`who_growth_module`).
 - Registry calculators/rules: 17.
 
 ## Classification Counts
@@ -21,14 +22,15 @@ This is an intentional safety decision. The sprint improves traceability and pre
 - do_not_implement: 19
 - implement_if_table_complete: 20
 - requires_license_review: 2
-- requires_maintainer_decision: 13
+- requires_maintainer_decision: 12
+- partially_implemented: 1
 - requires_source_review: 8
 
 ## Selected For Implementation
 
 None.
 
-Reason: CATCH and CHALICE were the only previously documented ready-for-implementation head trauma rules and are already implemented. WHO Growth has substantial functional coverage but remains `pending_validation` by documented policy because remaining 5-19 scope, interpolation policy, and final maintainer/expert review are pending.
+Reason: CATCH and CHALICE were the only previously documented ready-for-implementation head trauma rules and are already implemented. WHO Growth has substantial functional coverage and is now tracked as `partially_implemented` by status-model policy because remaining 5-19 scope, interpolation policy, and final maintainer/expert review are pending.
 
 ## Deferred With Reason
 
@@ -71,7 +73,7 @@ Reason: CATCH and CHALICE were the only previously documented ready-for-implemen
 | `prism_iv` | `prism-iv` | `coming_soon` | `do_not_implement` | High-risk therapeutic, resuscitation, ICU/prognostic, proprietary, or protected algorithm scope. |
 | `pim2` | `pim2` | `coming_soon` | `do_not_implement` | High-risk therapeutic, resuscitation, ICU/prognostic, proprietary, or protected algorithm scope. |
 | `pim3` | `pim3` | `coming_soon` | `do_not_implement` | High-risk therapeutic, resuscitation, ICU/prognostic, proprietary, or protected algorithm scope. |
-| `who_growth_module` | `who-growth` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
+| `who_growth_module` | `who-growth` | `partially_implemented` | `partially_implemented` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
 | `who_growth_percentiles` | `who-growth-percentiles` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
 | `cdc_growth_percentiles` | `cdc-growth-percentiles` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
 | `orbegozo_growth_percentiles` | `orbegozo-growth-percentiles` | `pending_validation` | `requires_license_review` | License/copyright/data reuse terms remain blocking. |
@@ -154,7 +156,7 @@ Reason: CATCH and CHALICE were the only previously documented ready-for-implemen
 | `prism_iv` | `prism-iv` | PRISM IV | intensive_care | score | `coming_soon` | `-` | pending_verification | high | no | no | yes | `do_not_implement` |
 | `pim2` | `pim2` | PIM2 | intensive_care | score | `coming_soon` | `-` | pending_verification | high | no | no | yes | `do_not_implement` |
 | `pim3` | `pim3` | PIM3 | intensive_care | score | `coming_soon` | `-` | pending_verification | high | no | no | yes | `do_not_implement` |
-| `who_growth_module` | `who-growth` | WHO Growth | growth_nutrition | percentile | `pending_validation` | `metadata_ready` | official_manual_or_institutional_protocol | medium | yes | yes | no | `requires_maintainer_decision` |
+| `who_growth_module` | `who-growth` | WHO Growth | growth_nutrition | percentile | `partially_implemented` | `metadata_ready` | official_manual_or_institutional_protocol | medium | yes | yes | no | `requires_maintainer_decision` |
 | `who_growth_percentiles` | `who-growth-percentiles` | WHO Growth Percentiles | growth_nutrition | percentile | `pending_validation` | `-` | official_manual_or_institutional_protocol | medium | no | yes | yes | `requires_maintainer_decision` |
 | `cdc_growth_percentiles` | `cdc-growth-percentiles` | CDC Growth Percentiles | growth_nutrition | percentile | `pending_validation` | `-` | official_manual_or_institutional_protocol | medium | no | yes | yes | `requires_maintainer_decision` |
 | `orbegozo_growth_percentiles` | `orbegozo-growth-percentiles` | Orbegozo Growth Percentiles | growth_nutrition | percentile | `pending_validation` | `-` | official_manual_or_institutional_protocol | medium | no | yes | yes | `requires_license_review` |

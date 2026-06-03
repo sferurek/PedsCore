@@ -25,6 +25,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const types = [...new Set(allTools.map((tool) => tool.type))].sort();
   const statuses = [
     "implemented",
+    "partially_implemented",
     "ready_for_implementation",
     "pending_validation",
     "needs_primary_reference",

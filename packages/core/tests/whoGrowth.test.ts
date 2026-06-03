@@ -782,11 +782,11 @@ describe("WHO growth scaffold", () => {
     );
   });
 
-  it("keeps unified WHO growth catalog entry pending validation", () => {
+  it("marks unified WHO growth catalog entry as partially implemented", () => {
     const tool = clinicalTools.find((item) => item.id === "who_growth_module");
 
     expect(tool?.slug).toBe("who-growth");
-    expect(tool?.implementationStatus).toBe("pending_validation");
+    expect(tool?.implementationStatus).toBe("partially_implemented");
     expect(tool?.calculationStatus).not.toBe("active");
     expect(tool?.inputs?.map((input) => input.id)).toEqual([
       "sex",

@@ -37,7 +37,8 @@ The project **excludes toxicology** in the initial phase.
 ## Current alpha scope
 
 - 79 tools cataloged.
-- 17 tools implemented with active calculation or informational clinical rule output.
+- 17 tools fully implemented with active calculation or informational clinical rule output.
+- 1 partially implemented module: WHO Growth.
 - ES/EN static web application.
 - Dynamic forms and traceable result panels.
 - Evidence-first references and visible validation status.
@@ -46,9 +47,10 @@ The project **excludes toxicology** in the initial phase.
 - GitHub Pages deployment.
 - No backend, login, analytics or clinical data storage.
 
-SPRINT-50 audited the catalog for additional safe implementations. The
+SPRINT-50 audited the catalog for additional safe implementations. The fully
 implemented count intentionally remains 17 because no further pending tool met
-all implementation gates at once. See
+all implementation gates at once. WHO Growth is tracked separately as
+`partially_implemented`. See
 [docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md](docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md).
 
 ## Privacy-first analytics
@@ -96,7 +98,7 @@ Current scope:
   completed months for 5-19.
 - No storage of entered clinical data and no clinical analytics.
 
-The unified WHO Growth module remains `pending_validation` while final
+The unified WHO Growth module is `partially_implemented` while final
 maintainer review, interpolation policy and remaining 5-19 scope are completed.
 It does not provide nutritional diagnoses or treatment recommendations.
 

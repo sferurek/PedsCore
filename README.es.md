@@ -35,7 +35,8 @@ Promover el acceso libre y transparente a herramientas clínicas pediátricas y 
 ## Alcance alpha actual
 
 - 79 herramientas catalogadas.
-- 17 herramientas implementadas con cálculo activo o salida informativa de regla clínica.
+- 17 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
+- 1 módulo parcialmente implementado: WHO Growth.
 - Aplicación web estática ES/EN.
 - Formularios dinámicos y paneles de resultado trazables.
 - Referencias evidence-first y estado de validación visible.
@@ -45,9 +46,11 @@ Promover el acceso libre y transparente a herramientas clínicas pediátricas y 
 - Sin backend, login, analítica ni almacenamiento de datos clínicos.
 
 SPRINT-50 auditó el catálogo para buscar implementaciones adicionales seguras.
-El contador se mantiene intencionadamente en 17 porque ninguna herramienta
-pendiente cumplía todas las puertas de fuente, tabla/fórmula, variante, inputs,
-tests, salida segura y licencia. Consulta
+El contador de herramientas completamente implementadas se mantiene
+intencionadamente en 17 porque ninguna herramienta pendiente cumplía todas las
+puertas de fuente, tabla/fórmula, variante, inputs, tests, salida segura y
+licencia. WHO Growth se contabiliza aparte como `partially_implemented`.
+Consulta
 [docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md](docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md).
 
 ## Analítica privacy-first
@@ -96,7 +99,7 @@ Alcance actual:
   estructurados y meses cumplidos para 5-19.
 - Sin almacenamiento de datos clínicos introducidos y sin analítica clínica.
 
-El módulo WHO Growth unificado sigue en `pending_validation` mientras se
+El módulo WHO Growth unificado está en `partially_implemented` mientras se
 completan la revisión final del maintainer, la política de interpolación y el
 alcance restante 5-19. No proporciona diagnósticos nutricionales ni
 recomendaciones terapéuticas.

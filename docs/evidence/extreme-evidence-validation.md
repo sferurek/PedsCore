@@ -140,7 +140,7 @@ Legend:
 | pim2 | coming_soon | pending-primary | Locate PIM2 source/model and licensing. |
 | pim3 | coming_soon | prepare-after-table-review | PIM3 source located; model coefficients/use terms need review. |
 | who-growth-percentiles | pending_validation | prepare-after-table-review | Official WHO source located; use official data files and tests. |
-| who-growth | pending_validation | license-sensitive | Unified WHO scaffold added; core WHO 0-5 LMS datasets plus WHO 5-19 BMI-for-age and height-for-age imported from official WHO XLSX files under separate WHO data terms. |
+| who-growth | partially_implemented | license-sensitive | Unified WHO scaffold added; core WHO 0-5 LMS datasets plus WHO 5-19 BMI-for-age and height-for-age imported from official WHO XLSX files under separate WHO data terms; remaining scope still needs review. |
 | cdc-growth-percentiles | pending_validation | prepare-after-table-review | Official CDC source located; use LMS data and tests. |
 | orbegozo-growth-percentiles | pending_validation | pending-primary | Locate official Orbegozo data/license before implementation. |
 | bmi-percentile | pending_validation | prepare-after-table-review | Should depend on CDC/WHO selected age range; define source precedence. |
@@ -257,7 +257,7 @@ MAINTAINER decision work does not change `implementationStatus` in this block, b
 | `pews` family | `maintainer_variant_selection` | keep pending_validation | Multiple variants with different escalation semantics; avoid generic implementation. |
 | `resuscitation` (`pediatric_cpr`, `neonatal_cpr`, rhythm/brady/tachy rules) | `maintainer_governance` | keep catalog/reference-only | High therapeutic-protocol risk and guideline-reproduction constraints. |
 | `resuscitation_weight_dose_energy` | `maintainer_clinical_scope` | keep pending_validation | Dosing context overlaps treatment workflow; requires explicit scope policy. |
-| `who_growth_module` / `who_growth_percentiles` / `cdc_growth_percentiles` | `maintainer_scope_policy` | keep pending_validation | Core WHO 0-5 LMS import plus WHO 5-19 BMI-for-age/height-for-age and printable chart labels are available; remaining 5-19 scope, interpolation policy, and age-boundary governance remain pending. |
+| `who_growth_module` / `who_growth_percentiles` / `cdc_growth_percentiles` | `maintainer_scope_policy` | keep `who_growth_module` partially_implemented; keep source-specific tools pending_validation | Core WHO 0-5 LMS import plus WHO 5-19 BMI-for-age/height-for-age and printable chart labels are available; remaining 5-19 scope, interpolation policy, and age-boundary governance remain pending. |
 | `orbegozo_growth_percentiles` | `license_and_data_terms` | keep pending_validation | Data availability and licensing terms require confirmation. |
 | `pim2` / `pim3` / `prism_iii` / `prism_iv` / `pelod` / `pelod_2` / `psofa` | `maintainer_clinical_governance` | keep coming_soon/blocked | Prognostic or complex ICU tools demand explicit governance and review. |
 | `cheops` / `cries` / `rflacc` / `visual_analogue_scale` | `maintainer_data_model` | keep blocked until complete scoring policy | Scoring table, table variants, and interpretation details are still incomplete or unresolved. |
