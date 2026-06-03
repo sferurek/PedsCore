@@ -2770,6 +2770,26 @@ dt {
   min-width: 0;
 }
 
+.accordion-label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.step-badge {
+  display: grid;
+  width: 1.85rem;
+  height: 1.85rem;
+  place-items: center;
+  border: 1px solid rgba(37, 115, 218, 0.22);
+  border-radius: 999px;
+  background: #eef6ff;
+  color: var(--primary-strong);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
 .accordion-trigger strong,
 .accordion-trigger small {
   overflow-wrap: anywhere;
@@ -2815,6 +2835,10 @@ dt {
   color: #ffffff;
   cursor: pointer;
   font-weight: 850;
+}
+
+.option-grid .form-continue {
+  justify-self: start;
 }
 
 .option-card {

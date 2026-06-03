@@ -50,6 +50,20 @@ describe("form state utilities", () => {
     expect(getFirstInputId(apgar!)).toBe(apgar?.inputs?.[0]?.id);
   });
 
+  it("opens the first required input when optional inputs exist first", () => {
+    const apgar = getToolBySlug("apgar");
+    const [firstInput, secondInput] = apgar?.inputs ?? [];
+    const tool = {
+      ...apgar!,
+      inputs: [
+        { ...firstInput!, required: false },
+        { ...secondInput!, required: true }
+      ]
+    };
+
+    expect(getFirstInputId(tool)).toBe(secondInput?.id);
+  });
+
   it("finds the next incomplete required input", () => {
     const apgar = getToolBySlug("apgar");
     const heartRate = apgar?.inputs?.find((input) => input.id === "heart_rate");
@@ -74,18 +88,18 @@ describe("form state utilities", () => {
   });
 
   it("rejects invalid numeric inputs", () => {
+    const numericInput = {
+      id: "age",
+      label: { es: "Edad", en: "Age" },
+      type: "number" as const,
+      required: true,
+      min: 1,
+      max: 10
+    };
+
+    expect(isInputComplete(numericInput, "")).toBe(false);
     expect(
-      isInputComplete(
-        {
-          id: "age",
-          label: { es: "Edad", en: "Age" },
-          type: "number",
-          required: true,
-          min: 1,
-          max: 10
-        },
-        12
-      )
+      isInputComplete(numericInput, 12)
     ).toBe(false);
   });
 
@@ -95,5 +109,24 @@ describe("form state utilities", () => {
     const option = input?.options?.[0];
 
     expect(getInputSummary(input!, option?.id ?? "", "es")).toBe(option?.label.es);
+  });
+
+  it("summarizes boolean, select and multi-select values", () => {
+    const input = {
+      id: "example",
+      label: { es: "Ejemplo", en: "Example" },
+      type: "select" as const,
+      required: true,
+      options: [
+        { id: "mild", label: { es: "Leve", en: "Mild" }, value: "mild" },
+        { id: "severe", label: { es: "Grave", en: "Severe" }, value: "severe" }
+      ]
+    };
+
+    expect(getInputSummary({ ...input, type: "boolean" }, true, "es")).toBe("Si");
+    expect(getInputSummary(input, "severe", "en")).toBe("Severe");
+    expect(getInputSummary({ ...input, type: "multi_select" }, ["mild", "severe"], "es")).toBe(
+      "Leve, Grave"
+    );
   });
 });

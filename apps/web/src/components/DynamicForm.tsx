@@ -89,13 +89,14 @@ export function DynamicForm({
       <h2>{t.form.title}</h2>
       <p className="muted">{t.form.privacyNote}</p>
       <form className="dynamic-form" noValidate>
-        {tool.inputs?.map((input) => (
+        {tool.inputs?.map((input, index) => (
           <FormField
             input={input}
             isMissing={missingRequiredIds.has(input.id)}
             isOpen={openInputId === input.id}
             key={input.id}
             language={language}
+            stepNumber={index + 1}
             summary={getInputSummary(input, values[input.id] ?? null, language)}
             isComplete={isInputComplete(input, values[input.id] ?? null)}
             value={values[input.id] ?? null}
@@ -103,7 +104,11 @@ export function DynamicForm({
               updateValue(input, value, shouldAdvance)
             }
             onContinue={() =>
-              advanceAfterInput(input, values, input.type === "number")
+              advanceAfterInput(
+                input,
+                values,
+                input.type === "number" || input.type === "multi_select"
+              )
             }
             onToggle={() =>
               setOpenInputId(openInputId === input.id ? null : input.id)
@@ -121,6 +126,7 @@ interface FormFieldProps {
   isMissing: boolean;
   isOpen: boolean;
   language: Language;
+  stepNumber: number;
   summary: string;
   value: FormValue;
   onChange: (value: FormValue, shouldAdvance?: boolean) => void;
@@ -134,6 +140,7 @@ function FormField({
   isMissing,
   isOpen,
   language,
+  stepNumber,
   summary,
   value,
   onChange,
@@ -159,14 +166,19 @@ function FormField({
         type="button"
         onClick={onToggle}
       >
-        <span>
-          <strong>
-            {input.label[language]}
-            {input.required ? <span aria-label={t.form.required}> *</span> : null}
-          </strong>
-          <small>{summary || (isComplete ? t.form.completed : t.form.pending)}</small>
+        <span className="accordion-label">
+          <span className="step-badge">{stepNumber}</span>
+          <span>
+            <strong>
+              {input.label[language]}
+              {input.required ? <span aria-label={t.form.required}> *</span> : null}
+            </strong>
+            <small>{summary || (isComplete ? t.form.completed : t.form.pending)}</small>
+          </span>
         </span>
-        <span className="accordion-state">{isComplete ? "✓" : "⌄"}</span>
+        <span className="accordion-state">
+          {isComplete ? "✓" : isOpen ? "⌃" : "⌄"}
+        </span>
       </button>
       {isOpen ? (
         <div className="accordion-content">
@@ -221,11 +233,6 @@ function FormField({
                   step={input.step}
                   type="number"
                   value={typeof value === "number" || typeof value === "string" ? value : ""}
-                  onBlur={() => {
-                    if (isInputComplete(input, value)) {
-                      onContinue();
-                    }
-                  }}
                   onChange={(event) =>
                     onChange(event.target.value === "" ? "" : Number(event.target.value))
                   }
@@ -270,13 +277,16 @@ function FormField({
                         const nextValues = event.target.checked
                           ? [...currentValues, option.id]
                           : currentValues.filter((item) => item !== option.id);
-                        onChange(nextValues, nextValues.length > 0);
+                        onChange(nextValues, false);
                       }}
                     />
                     <span>{option.label[language]}</span>
                   </label>
                 );
               })}
+              <button className="form-continue" type="button" onClick={onContinue}>
+                {t.form.continue}
+              </button>
             </div>
           ) : null}
           {isMissing ? <p className="field-error">{t.form.requiredMessage}</p> : null}

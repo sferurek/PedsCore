@@ -96,7 +96,8 @@ export const canPrepareResult = (
 
 export const getFirstInputId = (
   tool: ClinicalToolMetadata
-): string | null => tool.inputs?.[0]?.id ?? null;
+): string | null =>
+  tool.inputs?.find((input) => input.required)?.id ?? tool.inputs?.[0]?.id ?? null;
 
 export const getNextIncompleteInputId = (
   tool: ClinicalToolMetadata,
