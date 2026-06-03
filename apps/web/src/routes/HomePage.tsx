@@ -50,10 +50,9 @@ export function HomePage({ language, navigate }: HomePageProps) {
   const searchResults = query.trim() ? searchTools(query, language) : [];
 
   return (
-    <div className="page-stack">
+    <div className="page-stack home-page">
       <section className="hero-section">
         <div className="hero-copy">
-          <p className="eyebrow">Phase 1 library shell</p>
           <h1>{t.home.title}</h1>
           <p className="hero-subtitle">{t.home.subtitle}</p>
           <p className="hero-lead">{t.home.lead}</p>
