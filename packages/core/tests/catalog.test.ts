@@ -288,6 +288,101 @@ describe("clinical tools catalog", () => {
     }
   });
 
+  it("keeps Block 8B-4 ready candidates without promotion when license is high-risk", () => {
+    const blockedByLicenseIds = [
+      "wong_baker_faces",
+      "stamp",
+      "bayley",
+      "denver_ii",
+      "prism_iii",
+      "prism_iv",
+      "resuscitation_weight_dose_energy"
+    ];
+
+    for (const id of blockedByLicenseIds) {
+      expect(getTool(id)?.implementationStatus).not.toBe("ready_for_implementation");
+    }
+  });
+
+  it("keeps Block 8B-4 maintainer-dependent tools out of ready/implemented state", () => {
+    const maintainerDependentIds = [
+      "wood_downes_ferres",
+      "pediatric_gcs",
+      "pews",
+      "pim2",
+      "pim3",
+      "prism_iii",
+      "prism_iv",
+      "who_growth_percentiles",
+      "cdc_growth_percentiles",
+      "adolescent_depression_risk",
+      "adolescent_behavior_risk",
+      "mass_casualty_triage"
+    ];
+
+    for (const id of maintainerDependentIds) {
+      expect(
+        ["ready_for_implementation", "implemented"].includes(
+          getTool(id)?.implementationStatus ?? ""
+        )
+      ).toBe(false);
+    }
+  });
+
+  it("does not promote intensive care or mortality-oriented tools to ready without expert review", () => {
+    const criticalCareIds = [
+      "psofa",
+      "pelod",
+      "pelod_2",
+      "prism_iii",
+      "prism_iv",
+      "pim2",
+      "pim3"
+    ];
+
+    for (const id of criticalCareIds) {
+      const tool = getTool(id);
+
+      expect(tool?.implementationStatus).not.toBe("implemented");
+      expect(tool?.implementationStatus).not.toBe("ready_for_implementation");
+      expect(tool?.calculationStatus).not.toBe("active");
+    }
+  });
+
+  it("keeps resuscitation pathways non-therapeutic and non-implemented", () => {
+    const resuscitationIds = [
+      "pediatric_cpr",
+      "neonatal_cpr",
+      "pediatric_bradycardia",
+      "pediatric_tachycardia",
+      "shockable_rhythm_algorithm",
+      "non_shockable_rhythm_algorithm",
+      "resuscitation_weight_dose_energy"
+    ];
+
+    for (const id of resuscitationIds) {
+      expect(getTool(id)?.implementationStatus).not.toBe("ready_for_implementation");
+      expect(getTool(id)?.implementationStatus).not.toBe("implemented");
+    }
+  });
+
+  it("requires Block 8B-4 ready-for-implementation tools to keep a concrete reference url", () => {
+    const blockedIds = getToolsByStatus("ready_for_implementation")
+      .filter((tool) => tool.id !== "sipa")
+      .map((tool) => tool.id);
+
+    expect(blockedIds.length).toBeLessThanOrEqual(2);
+
+    for (const id of blockedIds) {
+      const tool = getTool(id);
+      const hasReference = tool?.references.some((reference) =>
+        Boolean(reference.doi || reference.pmid || reference.url)
+      );
+
+      expect(hasReference).toBe(true);
+    }
+  });
+
   it("does not promote protected algorithms or proprietary instruments during Block 8B-3", () => {
     const protectedIds = [
       "pediatric_cpr",

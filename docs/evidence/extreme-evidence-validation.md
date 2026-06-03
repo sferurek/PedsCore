@@ -201,3 +201,45 @@ Legend:
 | visual-analogue-scale | pending-primary | pending_variant_selection | Generic VAS requires selected pediatric operational format before implementation. |
 
 Block 8B-3 does not change any tool to `implemented` and does not add calculation logic.
+
+## Block 8B-4 Delta
+
+### Block 8B-4 scope
+
+This pass separated pending tools by blocker type:
+
+- missing primary source
+- missing complete scoring table
+- variant selection
+- license/copyright risk
+- maintainer/governance dependency
+- clinical/expert review requirement
+
+### Block 8B-4 priority matrix
+
+| Tool | Evidence action required | Main blocker class | Maintainer dependence | Clinical governance note |
+|---|---|---|---|---|
+| psofa | prepare-after-table-review | regulatory and table completeness | no | Intensive care prognostic context; activation deferred. |
+| pelod | pending-primary-source | missing primary source + complete criteria | no | Source and criterion extraction still pending. |
+| pelod-2 | prepare-after-table-review | incomplete table/formula mapping | no | High-acuity context and formula governance required. |
+| prism-iii | license-sensitive | licensing / policy | yes | Keep as reference until policy permits. |
+| prism-iv | license-sensitive | licensing / policy | yes | Keep as reference until policy permits. |
+| pim2 | pending-primary-source | variant/model + source terms | yes | Decide inclusion policy before any activation. |
+| pim3 | prepare-after-table-review | expert review + table/model precision | yes | Needs expert governance and unit handling review. |
+| pediatric-cpr | license-sensitive | guideline reproduction limits | yes | Reference-only until scope is approved. |
+| neonatal-cpr | license-sensitive | guideline reproduction limits | yes | Reference-only until scope is approved. |
+| pediatric-bradycardia | license-sensitive | guideline reproduction limits | yes | Reference-only until policy defines outputs. |
+| pediatric-tachycardia | license-sensitive | guideline reproduction limits | yes | Reference-only until policy defines outputs. |
+| shockable-rhythm-algorithm | license-sensitive | guideline reproduction limits | yes | Reference-only until policy defines outputs. |
+| non-shockable-rhythm-algorithm | license-sensitive | guideline reproduction limits | yes | Reference-only until policy defines outputs. |
+| resuscitation-weight-dose-energy | license-sensitive | therapeutic scope / dosing policy | yes | Not safe for full calculator behavior without policy. |
+| wood-downes-ferres | variant selection + table completeness | variant selection | yes | High respiratory-variant variability. |
+| pediatric_gcs | missing complete table / variant | variant selection | yes | Pediatric adaptation still pending. |
+| cries | table completeness | missing complete scoring table | no | Keep blocked until itemized table is fully extracted. |
+| cheops | primary source + table completeness | missing primary source | no | Source and licensing status pending. |
+| visual-analogue-scale | variant/form format | variant selection | yes | Output format (0-10 vs 0-100) unresolved. |
+| thompson_hie | table completeness | incomplete core table | no | Keep blocked for safety. |
+| rflacc | table completeness | incomplete table + licensing review | no | Table and reuse terms still pending. |
+| adolescent-depression-risk | source + instrument selection | source/definition | yes | Instrument policy not selected. |
+| adolescent-behavior-risk | source + instrument selection | source/definition | yes | Instrument policy not selected. |
+| mass-casualty-triage | variant scope | variant selection + jurisdiction | yes | Algorithm family first, then implementation policy. |

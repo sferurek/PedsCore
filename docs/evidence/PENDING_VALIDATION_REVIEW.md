@@ -121,3 +121,54 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | `bmi_percentile` | `bmi-percentile` | `pending_validation` | Depends on selected WHO/CDC source, age range, LMS data and locale policy. |
 | `head_circumference_percentile` | `head-circumference-percentile` | `pending_validation` | Depends on selected WHO/CDC source, age range, LMS data and locale policy. |
 | `resuscitation_weight_dose_energy` | `resuscitation-weight-dose-energy` | `pending_validation` | High regulatory/therapeutic risk; requires official sources, legal review and non-recommendation UX. |
+
+## Block 8B-4 — Advanced Pending Classification
+
+This block separates unresolved tools into decision classes:
+
+- `blocked_missing_primary_source`
+- `blocked_missing_complete_scoring_table`
+- `blocked_missing_interpretation_cutoffs`
+- `blocked_variant_selection_needed`
+- `blocked_licensing_or_copyright`
+- `blocked_requires_domain_expert_review`
+- `blocked_regulatory_risk`
+- `ready_for_implementation_candidate`
+- `catalog_only_recommended`
+
+| Tool ID | Slug | Category | Current status | Pending blocker | Evidence source | Decision type | Depends on maintainer |
+|---|---|---|---|---|---|---|---|
+| `psofa` | `psofa` | intensive_care | `coming_soon` | `blocked_missing_complete_scoring_table` | `10.1001/jamapediatrics.2017.2352` | `blocked_regulatory_risk` | no |
+| `pelod` | `pelod` | intensive_care | `coming_soon` | `blocked_missing_primary_source` | `23685639` | `blocked_requires_domain_expert_review` | no |
+| `pelod_2` | `pelod-2` | intensive_care | `coming_soon` | `blocked_missing_complete_scoring_table` | `10.1097/CCM.0b013e31828a2bbd` | `blocked_regulatory_risk` | no |
+| `prism_iii` | `prism-iii` | intensive_care | `coming_soon` | `blocked_licensing_or_copyright` | `10.1097/00003246-199605000-00004` | `blocked_licensing_or_copyright` | yes |
+| `prism_iv` | `prism-iv` | intensive_care | `coming_soon` | `blocked_licensing_or_copyright` | pending | `blocked_licensing_or_copyright` | yes |
+| `pim2` | `pim2` | intensive_care | `coming_soon` | `blocked_missing_primary_source` | pending primary source extraction | `blocked_variant_selection_needed` | yes |
+| `pim3` | `pim3` | intensive_care | `coming_soon` | `blocked_missing_complete_scoring_table` | `10.1097/PCC.0b013e31829760cf` | `requires_domain_expert_review` | yes |
+| `pediatric_cpr` | `pediatric-cpr` | resuscitation | `coming_soon` | `blocked_licensing_or_copyright` | official AHA guidance | `blocked_licensing_or_copyright` | yes |
+| `neonatal_cpr` | `neonatal-cpr` | resuscitation | `coming_soon` | `blocked_licensing_or_copyright` | official AHA guidance | `blocked_licensing_or_copyright` | yes |
+| `pediatric_bradycardia` | `pediatric-bradycardia` | resuscitation | `coming_soon` | `blocked_licensing_or_copyright` | official AHA guidance | `blocked_licensing_or_copyright` | yes |
+| `pediatric_tachycardia` | `pediatric-tachycardia` | resuscitation | `coming_soon` | `blocked_licensing_or_copyright` | official AHA guidance | `blocked_licensing_or_copyright` | yes |
+| `shockable_rhythm_algorithm` | `shockable-rhythm-algorithm` | resuscitation | `coming_soon` | `blocked_licensing_or_copyright` | official AHA guidance | `blocked_licensing_or_copyright` | yes |
+| `non_shockable_rhythm_algorithm` | `non-shockable-rhythm-algorithm` | resuscitation | `coming_soon` | `blocked_licensing_or_copyright` | official AHA guidance | `blocked_licensing_or_copyright` | yes |
+| `resuscitation_weight_dose_energy` | `resuscitation-weight-dose-energy` | resuscitation | `pending_validation` | `blocked_licensing_or_copyright` | paywalled guideline references | `blocked_regulatory_risk` | yes |
+| `wood_downes_ferres` | `wood-downes-ferres` | respiratory | `pending_validation` | `blocked_variant_selection_needed` | `5647493` + partial sources | `blocked_variant_selection_needed` | yes |
+| `pediatric_gcs` | `pediatric-glasgow-coma-scale` | neurology | `pending_validation` | `blocked_missing_complete_scoring_table` | source trail only | `blocked_variant_selection_needed` | yes |
+| `bmi_percentile` | `bmi-percentile` | growth_nutrition | `pending_validation` | `blocked_variant_selection_needed` | WHO/CDC strategy pending | `blocked_variant_selection_needed` | yes |
+| `head_circumference_percentile` | `head-circumference-percentile` | growth_nutrition | `pending_validation` | `blocked_variant_selection_needed` | WHO/CDC strategy pending | `blocked_variant_selection_needed` | yes |
+| `adolescent_depression_risk` | `adolescent-depression-risk` | adolescent_medicine | `coming_soon` | `blocked_missing_primary_source` | no unified instrument selected | `catalog_only_recommended` | yes |
+| `adolescent_behavior_risk` | `adolescent-behavior-risk` | adolescent_medicine | `coming_soon` | `blocked_missing_primary_source` | no unified instrument selected | `catalog_only_recommended` | yes |
+| `cries` | `cries` | pain | `pending_validation` | `blocked_missing_complete_scoring_table` | primary citation trail exists; table incomplete | `blocked_missing_complete_scoring_table` | no |
+| `cheops` | `cheops` | pain | `pending_validation` | `blocked_missing_primary_source` | 1985 chapter not directly linked | `catalog_only_recommended` | no |
+| `visual_analogue_scale` | `visual-analogue-scale` | pain | `needs_primary_reference` | `blocked_variant_selection_needed` | format not selected | `catalog_only_recommended` | yes |
+| `thompson_hie` | `thompson-hie-score` | neonatology | `pending_validation` | `blocked_missing_complete_scoring_table` | tables and cutoffs not fully extracted | `blocked_missing_complete_scoring_table` | no |
+| `rflacc` | `rflacc` | pain | `pending_validation` | `blocked_missing_complete_scoring_table` | table/license confirmation pending | `blocked_missing_complete_scoring_table` | no |
+| `gorelick_dehydration` | `gorelick-dehydration` | emergency | `pending_validation` | `blocked_variant_selection_needed` | 4-item vs 10-item variant decision | `blocked_variant_selection_needed` | yes |
+| `who_growth_percentiles` | `who-growth-percentiles` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | official source located, LMS mapping pending | `catalog_only_recommended` | yes |
+| `cdc_growth_percentiles` | `cdc-growth-percentiles` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | official source located, data/model pending | `catalog_only_recommended` | yes |
+| `orbegozo_growth_percentiles` | `orbegozo-growth-percentiles` | growth_nutrition | `pending_validation` | `blocked_licensing_or_copyright` | official data and usage terms not confirmed | `blocked_licensing_or_copyright` | yes |
+| `stamp` | `stamp` | growth_nutrition | `pending_validation` | `blocked_licensing_or_copyright` | copyright-marked tool | `blocked_licensing_or_copyright` | yes |
+| `pyms` | `pyms` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | table/reuse verification pending | `blocked_missing_complete_scoring_table` | no |
+| `strongkids` | `strongkids` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | licensing and table details pending | `blocked_missing_complete_scoring_table` | no |
+| `pews` | `pews` | emergency | `pending_validation` | `blocked_variant_selection_needed` | multiple PEWS families exist | `blocked_variant_selection_needed` | yes |
+| `mass_casualty_triage` | `mass-casualty-triage` | emergency | `coming_soon` | `blocked_variant_selection_needed` | algorithm family selection unresolved | `catalog_only_recommended` | yes |
