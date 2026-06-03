@@ -43,6 +43,9 @@ export function Footer({ language, navigate }: FooterProps) {
         <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">
           {t.common.github}
         </a>
+        <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">
+          {t.ossSupport.viewSourceButton}
+        </a>
       </div>
     </footer>
   );

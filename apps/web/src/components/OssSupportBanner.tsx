@@ -28,6 +28,14 @@ export function OssSupportBanner({ language }: OssSupportBannerProps) {
         >
           {t.ossSupport.feedbackButton}
         </a>
+        <a
+          className="oss-support-link subtle"
+          href="https://github.com/sferurek/PedsCore"
+          rel="noreferrer"
+          target="_blank"
+        >
+          {t.ossSupport.viewSourceButton}
+        </a>
       </div>
     </section>
   );

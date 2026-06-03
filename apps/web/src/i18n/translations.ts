@@ -23,7 +23,8 @@ export const translations = {
       message:
         "PedsCore es un proyecto open source sin ánimo de lucro. Si te resulta útil, puedes apoyar su desarrollo dejando una estrella o un comentario en GitHub.",
       starButton: "Star on GitHub",
-      feedbackButton: "Feedback / Issues"
+      feedbackButton: "Feedback / Issues",
+      viewSourceButton: "View source"
     },
     home: {
       title: "Herramientas clinicas pediatricas y neonatales open source",
@@ -241,7 +242,8 @@ export const translations = {
       message:
         "PedsCore is a non-profit open-source project. If you find it useful, you can support its development by starring the repository or leaving feedback on GitHub.",
       starButton: "Star on GitHub",
-      feedbackButton: "Leave feedback"
+      feedbackButton: "Feedback / Issues",
+      viewSourceButton: "View source"
     },
     home: {
       title: "Open-source pediatric and neonatal clinical tools",

@@ -2,6 +2,7 @@ import { getAllTools, getToolBySlug } from "@peds-core/core";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { Footer } from "../components/Footer";
+import { OssSupportBanner } from "../components/OssSupportBanner";
 import { getSeoForRoute } from "../utils/seo";
 import { parseRoute } from "../utils/routes";
 import { EvidencePage } from "./EvidencePage";
@@ -20,7 +21,10 @@ describe("public product web polish", () => {
     expect(html).toContain(">79<");
     expect(html).toContain(">17<");
     expect(html).toContain(">1<");
+    expect(html).toContain(">0<");
     expect(html).toContain("No clinical data storage");
+    expect(html).toContain("https://github.com/sferurek/PedsCore");
+    expect(html).toContain("View source");
   });
 
   it("renders ToolsPage with the partially implemented status filter", () => {
@@ -47,7 +51,17 @@ describe("public product web polish", () => {
     expect(html).toContain("GitHub");
     expect(html).toContain("Disclaimer");
     expect(html).toContain("MIT code license");
+    expect(html).toContain("WHO data under separate license");
     expect(html).toContain("No clinical data storage");
+    expect(html).toContain("View source");
+  });
+
+  it("renders compact OSS support links for internal pages", () => {
+    const html = renderToString(<OssSupportBanner language="en" />);
+
+    expect(html).toContain("Star on GitHub");
+    expect(html).toContain("Feedback / Issues");
+    expect(html).toContain("View source");
   });
 
   it("uses specific SEO for WHO Growth", () => {

@@ -3793,3 +3793,197 @@ td {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* WEB-PRODUCT-POLISH-2: responsive QA and GitHub conversion tuning. */
+.app-frame {
+  overflow-x: clip;
+}
+
+.oss-support-banner {
+  width: min(1400px, calc(100% - 1rem));
+  margin: 0.55rem auto 0;
+  padding: 0.45rem 0.65rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: none;
+}
+
+.oss-support-message {
+  font-size: 0.84rem;
+}
+
+.oss-support-link {
+  min-height: 2rem;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.8rem;
+}
+
+.home-page .hero-section {
+  min-height: 0;
+  padding: clamp(1rem, 2.2vw, 1.45rem);
+}
+
+.home-page .hero-copy h1 {
+  font-size: clamp(2.25rem, 5.4vw, 4.35rem);
+  line-height: 1.04;
+}
+
+.home-page .hero-copy .hero-subtitle {
+  max-width: 46rem;
+  font-size: clamp(1.05rem, 2.1vw, 1.35rem);
+}
+
+.home-page .hero-copy .hero-lead {
+  max-width: 48rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.hero-metrics-grid {
+  gap: 0.55rem;
+}
+
+.home-page .hero-metric {
+  min-height: 5.75rem;
+  padding: 0.68rem;
+  border-radius: 10px;
+}
+
+.home-page .hero-metric strong {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.home-page .hero-metric span {
+  font-size: 0.9rem;
+}
+
+.availability-card,
+.who-growth-feature,
+.home-oss-section,
+.empty-state-panel {
+  border-radius: 12px;
+}
+
+.availability-card {
+  padding: 0.85rem;
+}
+
+.who-growth-feature {
+  padding: clamp(0.95rem, 2.4vw, 1.2rem);
+}
+
+.who-growth-feature ul {
+  gap: 0.45rem;
+  margin: 0.8rem 0;
+}
+
+.who-growth-panel span,
+.who-growth-panel strong {
+  min-height: 2.65rem;
+}
+
+.home-oss-section {
+  padding: 0.85rem;
+}
+
+.status-counter,
+.quick-filter-chip,
+.category-chip {
+  min-height: 2.4rem;
+  border-radius: 10px;
+}
+
+.status-counter {
+  padding: 0.45rem 0.62rem;
+}
+
+.quick-filter-chip,
+.category-chip {
+  padding: 0.42rem 0.62rem;
+}
+
+.filter-panel {
+  gap: 0.75rem;
+  padding: 0.85rem;
+}
+
+.tool-card {
+  gap: 0.65rem;
+  padding: 0.82rem;
+}
+
+.tool-card p {
+  line-height: 1.4;
+}
+
+.empty-state-panel {
+  padding: 0.95rem;
+}
+
+.feedback-box .link-row,
+.site-footer .footer-links {
+  gap: 0.75rem;
+}
+
+@media (min-width: 720px) {
+  .home-page .hero-section {
+    grid-template-columns: minmax(0, 1.45fr) minmax(17rem, 0.55fr);
+  }
+}
+
+@media (max-width: 719px) {
+  .oss-support-banner {
+    align-items: stretch;
+    border-radius: 0;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .oss-support-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .home-page {
+    gap: 1rem;
+  }
+
+  .home-page .hero-section,
+  .who-growth-feature,
+  .home-oss-section,
+  .transparency-band {
+    padding: 0.85rem;
+  }
+
+  .hero-metrics-grid,
+  .availability-grid,
+  .who-growth-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .home-page .hero-metric {
+    min-height: 0;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .home-page .hero-metric strong {
+    font-size: 2.15rem;
+  }
+
+  .status-counter-strip,
+  .quick-filter-row,
+  .category-strip {
+    gap: 0.45rem;
+  }
+
+  .status-counter,
+  .quick-filter-chip,
+  .category-chip {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .site-footer {
+    padding: 1.35rem 0;
+  }
+}

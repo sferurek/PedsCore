@@ -18,6 +18,8 @@ export function Layout({
   navigate,
   onLanguageChange
 }: LayoutProps) {
+  const isHomePage = currentPath === `/${language}`;
+
   return (
     <div className="app-frame">
       <Header
@@ -26,7 +28,7 @@ export function Layout({
         navigate={navigate}
         onLanguageChange={onLanguageChange}
       />
-      <OssSupportBanner language={language} />
+      {isHomePage ? null : <OssSupportBanner language={language} />}
       <main>{children}</main>
       <Footer language={language} navigate={navigate} />
     </div>
