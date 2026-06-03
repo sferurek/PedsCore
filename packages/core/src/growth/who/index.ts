@@ -1,7 +1,7 @@
-import { whoGrowthDataStatus, whoLmsRecords } from "./data/index.js";
 import type {
   FindLmsRecordParams,
   WhoGrowthApplicableResult,
+  WhoGrowthDataStatus,
   WhoGrowthIndicator,
   WhoGrowthInput,
   WhoGrowthResult,
@@ -9,17 +9,23 @@ import type {
 } from "./types.js";
 
 export * from "./types.js";
-export {
-  who0To5BmiForAge,
-  who0To5BmiForAgeSource,
-  whoGrowthDataStatus,
-  whoLmsRecords
-} from "./data/index.js";
 
 const millisecondsPerDay = 24 * 60 * 60 * 1000;
 const averageDaysPerMonth = 365.25 / 12;
 const officialDataPendingWarning =
   "Official WHO LMS data are not yet imported and verified in PedsCore.";
+
+export const whoGrowthDataStatus: WhoGrowthDataStatus = {
+  officialDataImported: false,
+  reason:
+    "WHO LMS data are loaded through indicator-specific modules to keep the main bundle small.",
+  importedIndicators: [],
+  allowedSources: [
+    "WHO Child Growth Standards",
+    "WHO Growth Reference 5-19 years"
+  ],
+  excludedSources: ["CDC", "Orbegozo"]
+} as const;
 
 const parseDate = (value: string, fieldName: string): Date => {
   const date = new Date(`${value}T00:00:00.000Z`);
@@ -143,8 +149,8 @@ export const findLmsRecord = ({
   ageDays,
   ageMonths,
   measureCm
-}: FindLmsRecordParams): WhoLmsRecord | undefined =>
-  whoLmsRecords.find((record) => {
+}: FindLmsRecordParams, records: readonly WhoLmsRecord[] = []): WhoLmsRecord | undefined =>
+  records.find((record) => {
     if (record.indicator !== indicator || record.sex !== sex) {
       return false;
     }
@@ -212,8 +218,16 @@ const buildResult = (
   };
 };
 
-export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
+export const calculateWhoGrowth = (
+  input: WhoGrowthInput,
+  options: {
+    lmsRecords?: readonly WhoLmsRecord[];
+    dataStatus?: WhoGrowthDataStatus;
+  } = {}
+): WhoGrowthResult => {
   const warnings: string[] = [];
+  const lmsRecords = options.lmsRecords ?? [];
+  const dataStatus = options.dataStatus ?? whoGrowthDataStatus;
   const trace = Object.entries(input).map(([inputId, value]) => ({
     inputId,
     value
@@ -232,9 +246,9 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
       ? calculateBmi(input.weightKg, statureCm)
       : undefined;
 
-  if (!whoGrowthDataStatus.officialDataImported) {
+  if (!dataStatus.officialDataImported) {
     warnings.push(officialDataPendingWarning);
-  } else if (whoGrowthDataStatus.importedIndicators.length < 6) {
+  } else if (dataStatus.importedIndicators.length < 6) {
     warnings.push(
       "Only WHO BMI-for-age 0-5 years data are imported. Other WHO indicators remain pending."
     );
@@ -252,7 +266,8 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
         sex: input.sex,
         ageDays,
         ageMonths
-      })
+      },
+      lmsRecords)
     ),
     buildResult(
       "length_height_for_age",
@@ -265,7 +280,8 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
         sex: input.sex,
         ageDays,
         ageMonths
-      })
+      },
+      lmsRecords)
     ),
     buildResult(
       "head_circumference_for_age",
@@ -278,7 +294,8 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
         sex: input.sex,
         ageDays,
         ageMonths
-      })
+      },
+      lmsRecords)
     ),
     buildResult(
       "weight_for_length",
@@ -290,7 +307,8 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
         indicator: "weight_for_length",
         sex: input.sex,
         measureCm: input.lengthCm
-      })
+      },
+      lmsRecords)
     ),
     buildResult(
       "weight_for_height",
@@ -302,7 +320,8 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
         indicator: "weight_for_height",
         sex: input.sex,
         measureCm: input.heightCm
-      })
+      },
+      lmsRecords)
     ),
     buildResult(
       "bmi_for_age",
@@ -315,7 +334,8 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
         sex: input.sex,
         ageDays,
         ageMonths
-      })
+      },
+      lmsRecords)
     )
   ];
 

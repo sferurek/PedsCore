@@ -12,7 +12,7 @@
 ## Evidence validation status
 
 - final evidence status: `pending_complete_scoring_table`
-- blocking reason: official WHO LMS/data files are not yet normalized, versioned, licensed, and verified in the repository.
+- blocking reason: BMI-for-age 0-5 LMS data are normalized and licensed separately; remaining WHO indicators, interpolation policy, and full multi-indicator validation are still pending.
 - depends on maintainer decision: yes
 - maintainer decision needed: confirm data-source scope, interpolation policy, chart percentiles, and print-output wording before activation.
 
@@ -123,9 +123,9 @@ This module is not a score table. It requires official LMS records by:
 | sex | LMS stratum | WHO official data | male/female mapping must match source file. |
 | age | LMS lookup | WHO official data | days/months handling must match indicator. |
 | measure cm | LMS lookup | WHO official data | used for weight-for-length/height. |
-| L | LMS coefficient | WHO official data | not yet imported. |
-| M | LMS coefficient | WHO official data | not yet imported. |
-| S | LMS coefficient | WHO official data | not yet imported. |
+| L | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 only. |
+| M | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 only. |
+| S | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 only. |
 
 ## Interpretation bands / cutoffs
 
@@ -161,6 +161,23 @@ Current full-module graph status: pending completion for all WHO indicators.
 Current BMI-for-age 0-5 graph status: implemented as a PedsCore-generated SVG chart using the imported WHO LMS data, with directly labeled P3, P15, P50, P85, and P97 curves and a visible patient point.
 
 Block WHO-GROWTH-2B/printable-chart decision: BMI-for-age 0-5 can show the first printable chart slice. Other WHO indicators, interpolation policy, and full multi-indicator growth module completion remain pending.
+
+## Data loading architecture
+
+Current strategy:
+
+- The root `@peds-core/core` export keeps WHO growth functions data-light.
+- Heavy WHO LMS datasets are loaded from indicator-specific subpath exports, currently `@peds-core/core/growth/who/bmiForAge`.
+- The web lazily imports the WHO Growth result panel only on the `who-growth` tool page.
+- BMI-for-age 0-5 remains the only imported dataset in this block.
+- Future indicators should follow the same pattern: one official dataset module per indicator/family, imported only by the UI or calculator slice that needs it.
+
+Bundle effect measured in this block:
+
+- Before lazy loading: the main web chunk was 510.67 kB minified.
+- After lazy loading: the main web chunk was 383.45 kB minified, with WHO growth isolated in a dedicated lazy chunk at 129.13 kB minified.
+
+This avoids loading WHO growth LMS data for users who never open the growth module and prepares the module for additional official WHO indicators without inflating the initial bundle.
 
 ## Print
 

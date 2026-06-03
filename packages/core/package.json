@@ -9,6 +9,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./growth/who/bmiForAge": {
+      "types": "./dist/growth/who/bmiForAge.d.ts",
+      "default": "./dist/growth/who/bmiForAge.js"
     }
   },
   "scripts": {

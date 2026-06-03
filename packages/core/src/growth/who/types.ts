@@ -59,6 +59,14 @@ export interface WhoGrowthResult {
   }>;
 }
 
+export interface WhoGrowthDataStatus {
+  officialDataImported: boolean;
+  reason: string;
+  importedIndicators: readonly WhoGrowthIndicator[];
+  allowedSources: readonly string[];
+  excludedSources: readonly string[];
+}
+
 export interface FindLmsRecordParams {
   indicator: WhoGrowthIndicator;
   sex: WhoGrowthSex;

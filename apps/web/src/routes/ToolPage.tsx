@@ -1,5 +1,5 @@
 import type { ClinicalToolMetadata } from "@peds-core/core";
-import { useRef, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import { DisclaimerBox } from "../components/DisclaimerBox";
 import { DynamicForm } from "../components/DynamicForm";
 import { GitHubFeedbackLink } from "../components/GitHubFeedbackLink";
@@ -8,7 +8,6 @@ import { ReferenceList } from "../components/ReferenceList";
 import { ResultPanel } from "../components/ResultPanel";
 import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
-import { WhoGrowthResultPanel } from "../components/growth/WhoGrowthResultPanel";
 import { translations } from "../i18n/translations";
 import {
   getUnlockActions,
@@ -17,6 +16,12 @@ import {
 import type { FormValues } from "../utils/formState";
 import { getInitialFormState } from "../utils/formState";
 import type { Language } from "../utils/language";
+
+const WhoGrowthResultPanel = lazy(() =>
+  import("../components/growth/WhoGrowthResultPanel").then((module) => ({
+    default: module.WhoGrowthResultPanel
+  }))
+);
 
 interface ToolPageProps {
   language: Language;
@@ -63,11 +68,26 @@ export function ToolPage({ language, tool }: ToolPageProps) {
           />
 
           {tool.id === "who_growth_module" ? (
-            <WhoGrowthResultPanel
-              ref={resultPanelRef}
-              language={language}
-              values={formValues}
-            />
+            <Suspense
+              fallback={
+                <section
+                  className="content-panel result-panel who-growth-result-panel"
+                  ref={resultPanelRef}
+                >
+                  <p className="inactive-calculation">
+                    {language === "es"
+                      ? "Cargando módulo de crecimiento OMS..."
+                      : "Loading WHO growth module..."}
+                  </p>
+                </section>
+              }
+            >
+              <WhoGrowthResultPanel
+                ref={resultPanelRef}
+                language={language}
+                values={formValues}
+              />
+            </Suspense>
           ) : (
             <ResultPanel
               ref={resultPanelRef}

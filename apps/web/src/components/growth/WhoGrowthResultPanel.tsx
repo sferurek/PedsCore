@@ -1,7 +1,7 @@
 import {
-  calculateWhoGrowth,
   type WhoGrowthSex
 } from "@peds-core/core";
+import { calculateWhoGrowthWithImportedData } from "@peds-core/core/growth/who/bmiForAge";
 import { forwardRef } from "react";
 import type { FormValues } from "../../utils/formState";
 import type { Language } from "../../utils/language";
@@ -46,7 +46,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     weightKg !== undefined &&
     statureCm !== undefined;
   const result = canCalculate
-    ? calculateWhoGrowth({
+    ? calculateWhoGrowthWithImportedData({
         sex,
         ageDays,
         weightKg,

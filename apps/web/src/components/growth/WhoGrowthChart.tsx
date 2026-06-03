@@ -1,8 +1,8 @@
 import {
   calculateLmsValueFromZScore,
-  type WhoGrowthSex,
-  who0To5BmiForAge
 } from "@peds-core/core";
+import type { WhoGrowthSex } from "@peds-core/core";
+import { who0To5BmiForAge } from "@peds-core/core/growth/who/bmiForAge";
 import type { Language } from "../../utils/language";
 import { whoGrowthChartPercentiles } from "./whoGrowthChartConstants";
 

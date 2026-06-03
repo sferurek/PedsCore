@@ -8,11 +8,16 @@ import {
   calculateWhoGrowth,
   clinicalTools,
   findLmsRecord,
-  who0To5BmiForAge,
-  who0To5BmiForAgeSource,
   whoGrowthDataStatus,
   zScoreToPercentile
 } from "../src/index";
+import {
+  calculateWhoGrowthWithImportedData,
+  findImportedWhoLmsRecord,
+  who0To5BmiForAge,
+  who0To5BmiForAgeSource,
+  whoGrowthDataStatus as importedWhoGrowthDataStatus
+} from "../src/growth/who/bmiForAge";
 
 describe("WHO growth scaffold", () => {
   it("calculates BMI from metric inputs", () => {
@@ -39,9 +44,10 @@ describe("WHO growth scaffold", () => {
   });
 
   it("loads official WHO BMI-for-age data for both sexes", () => {
-    expect(whoGrowthDataStatus.officialDataImported).toBe(true);
-    expect(whoGrowthDataStatus.importedIndicators).toEqual(["bmi_for_age"]);
-    expect(whoGrowthDataStatus.excludedSources).toEqual(["CDC", "Orbegozo"]);
+    expect(whoGrowthDataStatus.officialDataImported).toBe(false);
+    expect(importedWhoGrowthDataStatus.officialDataImported).toBe(true);
+    expect(importedWhoGrowthDataStatus.importedIndicators).toEqual(["bmi_for_age"]);
+    expect(importedWhoGrowthDataStatus.excludedSources).toEqual(["CDC", "Orbegozo"]);
     expect(who0To5BmiForAge).toHaveLength(3714);
     expect(who0To5BmiForAgeSource.boysUrl).toContain("cdn.who.int");
     expect(who0To5BmiForAgeSource.girlsUrl).toContain("cdn.who.int");
@@ -55,14 +61,14 @@ describe("WHO growth scaffold", () => {
 
   it("resolves official BMI-for-age LMS records by sex and day", () => {
     expect(
-      findLmsRecord({
+      findImportedWhoLmsRecord({
         indicator: "bmi_for_age",
         sex: "male",
         ageDays: 0
       })
     ).toMatchObject({ L: -0.3053, M: 13.4069, S: 0.0956 });
     expect(
-      findLmsRecord({
+      findImportedWhoLmsRecord({
         indicator: "bmi_for_age",
         sex: "female",
         ageDays: 730
@@ -71,7 +77,7 @@ describe("WHO growth scaffold", () => {
   });
 
   it("calculates WHO BMI-for-age z-score and percentile with complete input", () => {
-    const result = calculateWhoGrowth({
+    const result = calculateWhoGrowthWithImportedData({
       sex: "male",
       ageDays: 730,
       weightKg: 12,
@@ -94,7 +100,7 @@ describe("WHO growth scaffold", () => {
   });
 
   it("does not calculate BMI-for-age without weight or stature", () => {
-    const result = calculateWhoGrowth({
+    const result = calculateWhoGrowthWithImportedData({
       sex: "male",
       dateOfBirth: "2020-01-01",
       measurementDate: "2022-01-01"
@@ -108,7 +114,7 @@ describe("WHO growth scaffold", () => {
   });
 
   it("does not calculate BMI-for-age outside the official imported range", () => {
-    const result = calculateWhoGrowth({
+    const result = calculateWhoGrowthWithImportedData({
       sex: "female",
       ageDays: 2200,
       weightKg: 20,
@@ -121,6 +127,29 @@ describe("WHO growth scaffold", () => {
     expect(bmiForAge?.isApplicable).toBe(false);
     expect(bmiForAge?.zScore).toBeUndefined();
     expect(bmiForAge?.percentile).toBeUndefined();
+  });
+
+  it("keeps the root WHO module data-light unless records are passed explicitly", () => {
+    const directRecord = findLmsRecord({
+      indicator: "bmi_for_age",
+      sex: "male",
+      ageDays: 730
+    });
+    const result = calculateWhoGrowth({
+      sex: "male",
+      ageDays: 730,
+      weightKg: 12,
+      heightCm: 86
+    });
+    const bmiForAge = result.applicableResults.find(
+      (item) => item.indicator === "bmi_for_age"
+    );
+
+    expect(directRecord).toBeUndefined();
+    expect(bmiForAge?.isApplicable).toBe(false);
+    expect(result.warnings).toContain(
+      "Official WHO LMS data are not yet imported and verified in PedsCore."
+    );
   });
 
   it("keeps unified WHO growth catalog entry pending validation", () => {
