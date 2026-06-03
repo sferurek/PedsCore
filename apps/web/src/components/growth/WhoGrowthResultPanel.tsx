@@ -62,6 +62,7 @@ interface LoadedWhoData {
 }
 
 interface DisplayIndicator {
+  group: "age" | "measure";
   indicator: WhoGrowthIndicator;
   label: string;
   yAxisLabel: string;
@@ -83,6 +84,7 @@ interface DisplayResult {
 const displayIndicators = {
   es: [
     {
+      group: "age",
       indicator: "weight_for_age",
       label: "Peso para la edad OMS 0-5",
       yAxisLabel: "Peso (kg)",
@@ -91,6 +93,7 @@ const displayIndicators = {
       getXValue: ({ ageDays }) => ageDays
     },
     {
+      group: "age",
       indicator: "length_height_for_age",
       label: "Longitud/talla para la edad OMS",
       yAxisLabel: "Longitud/talla (cm)",
@@ -100,6 +103,7 @@ const displayIndicators = {
         result.source.includes("5-19") ? ageMonths : ageDays
     },
     {
+      group: "age",
       indicator: "head_circumference_for_age",
       label: "Perímetro cefálico para la edad OMS 0-5",
       yAxisLabel: "Perímetro cefálico (cm)",
@@ -108,6 +112,7 @@ const displayIndicators = {
       getXValue: ({ ageDays }) => ageDays
     },
     {
+      group: "measure",
       indicator: "weight_for_length",
       label: "Peso para longitud OMS 0-2",
       yAxisLabel: "Peso (kg)",
@@ -116,6 +121,7 @@ const displayIndicators = {
       getXValue: ({ statureCm }) => statureCm
     },
     {
+      group: "measure",
       indicator: "weight_for_height",
       label: "Peso para talla OMS 2-5",
       yAxisLabel: "Peso (kg)",
@@ -124,6 +130,7 @@ const displayIndicators = {
       getXValue: ({ statureCm }) => statureCm
     },
     {
+      group: "age",
       indicator: "bmi_for_age",
       label: "BMI-for-age OMS",
       yAxisLabel: "BMI kg/m2",
@@ -135,6 +142,7 @@ const displayIndicators = {
   ],
   en: [
     {
+      group: "age",
       indicator: "weight_for_age",
       label: "WHO weight-for-age 0-5",
       yAxisLabel: "Weight (kg)",
@@ -143,6 +151,7 @@ const displayIndicators = {
       getXValue: ({ ageDays }) => ageDays
     },
     {
+      group: "age",
       indicator: "length_height_for_age",
       label: "WHO length/height-for-age",
       yAxisLabel: "Length/height (cm)",
@@ -152,6 +161,7 @@ const displayIndicators = {
         result.source.includes("5-19") ? ageMonths : ageDays
     },
     {
+      group: "age",
       indicator: "head_circumference_for_age",
       label: "WHO head circumference-for-age 0-5",
       yAxisLabel: "Head circumference (cm)",
@@ -160,6 +170,7 @@ const displayIndicators = {
       getXValue: ({ ageDays }) => ageDays
     },
     {
+      group: "measure",
       indicator: "weight_for_length",
       label: "WHO weight-for-length 0-2",
       yAxisLabel: "Weight (kg)",
@@ -168,6 +179,7 @@ const displayIndicators = {
       getXValue: ({ statureCm }) => statureCm
     },
     {
+      group: "measure",
       indicator: "weight_for_height",
       label: "WHO weight-for-height 2-5",
       yAxisLabel: "Weight (kg)",
@@ -176,6 +188,7 @@ const displayIndicators = {
       getXValue: ({ statureCm }) => statureCm
     },
     {
+      group: "age",
       indicator: "bmi_for_age",
       label: "WHO BMI-for-age",
       yAxisLabel: "BMI kg/m2",
@@ -192,6 +205,9 @@ const formatNumber = (value: number, fractionDigits = 2) =>
     maximumFractionDigits: fractionDigits,
     minimumFractionDigits: fractionDigits
   }).format(value);
+
+const isFiveToNineteenResult = (result: WhoGrowthApplicableResult) =>
+  result.source.includes("5-19");
 
 export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanelProps>(
   function WhoGrowthResultPanel({ language, values }, ref) {
@@ -305,6 +321,19 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         loading: "Cargando datos oficiales OMS...",
         loadError: "No se pudieron cargar los datos OMS.",
         print: "Imprimir gráficas",
+        printTitle: "Informe de crecimiento OMS",
+        guidanceTitle: "Cómo introducir los datos",
+        guidance: [
+          "Para 0-5 años usa edad exacta en días.",
+          "Para 5-19 años usa edad en meses cumplidos. PedsCore no convierte automáticamente días a meses.",
+          "Longitud tumbado activa peso para longitud; talla de pie activa peso para talla.",
+          "El perímetro cefálico solo se calcula si se introduce PC."
+        ],
+        ageGroupTitle: "Indicadores por edad",
+        measureGroupTitle: "Indicadores por longitud/talla",
+        inactiveGroupTitle: "Indicadores no aplicables",
+        chartGroupTitle: "Gráficas imprimibles",
+        inputSummary: "Datos introducidos",
         notApplicable: "No aplicable",
         percentile: "Percentil",
         zScore: "z-score",
@@ -322,6 +351,19 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         loading: "Loading official WHO data...",
         loadError: "WHO data could not be loaded.",
         print: "Print charts",
+        printTitle: "WHO growth report",
+        guidanceTitle: "How to enter data",
+        guidance: [
+          "For 0-5 years, enter exact age in days.",
+          "For 5-19 years, enter completed age in months. PedsCore does not automatically convert days to months.",
+          "Recumbent length enables weight-for-length; standing height enables weight-for-height.",
+          "Head circumference is calculated only when head circumference is entered."
+        ],
+        ageGroupTitle: "Age-based indicators",
+        measureGroupTitle: "Length/height-based indicators",
+        inactiveGroupTitle: "Not applicable indicators",
+        chartGroupTitle: "Printable charts",
+        inputSummary: "Entered data",
         notApplicable: "Not applicable",
         percentile: "Percentile",
         zScore: "z-score",
@@ -331,6 +373,72 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
           "These results are informational and should be interpreted together with clinical assessment, longitudinal growth pattern and local protocols."
       }
     }[language];
+    const buildApplicabilityMessage = (
+      display: DisplayIndicator,
+      itemResult: WhoGrowthApplicableResult
+    ) => {
+      if (itemResult.isApplicable) {
+        return undefined;
+      }
+
+      if (display.indicator === "weight_for_age") {
+        return language === "es"
+          ? "Requiere edad exacta 0-5 en días y peso dentro del rango OMS."
+          : "Requires exact 0-5 age in days and weight within the WHO range.";
+      }
+
+      if (display.indicator === "head_circumference_for_age") {
+        return headCircumferenceCm === undefined
+          ? language === "es"
+            ? "Introduce perímetro cefálico para calcular este indicador OMS 0-5."
+            : "Enter head circumference to calculate this WHO 0-5 indicator."
+          : language === "es"
+            ? "Requiere edad 0-5 en días y PC dentro del rango OMS."
+            : "Requires 0-5 age in days and head circumference within the WHO range.";
+      }
+
+      if (display.indicator === "weight_for_length") {
+        return measurementMode !== "recumbent_length"
+          ? language === "es"
+            ? "Selecciona longitud tumbado para activar peso para longitud."
+            : "Select recumbent length to enable weight-for-length."
+          : language === "es"
+            ? "Requiere longitud y peso dentro del rango OMS."
+            : "Requires length and weight within the WHO range.";
+      }
+
+      if (display.indicator === "weight_for_height") {
+        return measurementMode !== "standing_height"
+          ? language === "es"
+            ? "Selecciona talla de pie para activar peso para talla."
+            : "Select standing height to enable weight-for-height."
+          : language === "es"
+            ? "Requiere talla y peso dentro del rango OMS."
+            : "Requires height and weight within the WHO range.";
+      }
+
+      if (display.indicator === "length_height_for_age") {
+        return statureCm === undefined
+          ? language === "es"
+            ? "Introduce longitud/talla para calcular este indicador."
+            : "Enter length/height to calculate this indicator."
+          : language === "es"
+            ? "Requiere edad 0-5 en días o 5-19 en meses cumplidos, dentro del rango OMS."
+            : "Requires 0-5 age in days or 5-19 age in completed months, within the WHO range.";
+      }
+
+      if (display.indicator === "bmi_for_age") {
+        return statureCm === undefined
+          ? language === "es"
+            ? "Introduce longitud/talla y peso para calcular BMI-for-age."
+            : "Enter length/height and weight to calculate BMI-for-age."
+          : language === "es"
+            ? "Requiere edad 0-5 en días o 5-19 en meses cumplidos, dentro del rango OMS."
+            : "Requires 0-5 age in days or 5-19 age in completed months, within the WHO range.";
+      }
+
+      return itemResult.warning;
+    };
     const displayResults: DisplayResult[] = displayIndicators[language].map(
       (display) => ({
         display,
@@ -348,6 +456,25 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
           }
       })
     );
+    const displayResultsWithMessages = displayResults.map(({ display, result: itemResult }) => ({
+      display,
+      result: {
+        ...itemResult,
+        warning: buildApplicabilityMessage(display, itemResult) ?? itemResult.warning
+      }
+    }));
+    const activeDisplayResults = displayResultsWithMessages.filter(
+      ({ result: itemResult }) => itemResult.isApplicable
+    );
+    const ageDisplayResults = activeDisplayResults.filter(
+      ({ display }) => display.group === "age"
+    );
+    const measureDisplayResults = activeDisplayResults.filter(
+      ({ display }) => display.group === "measure"
+    );
+    const inactiveDisplayResults = displayResultsWithMessages.filter(
+      ({ result: itemResult }) => !itemResult.isApplicable
+    );
     const applicableDisplayResults = displayResults.filter(
       ({ result: itemResult }) =>
         itemResult.isApplicable &&
@@ -360,11 +487,61 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       applicableDisplayResults.length > 0 &&
       resolvedSex !== null &&
       (ageDays !== undefined || ageMonths !== undefined);
+    const inputSummaryItems = [
+      [
+        language === "es" ? "Sexo" : "Sex",
+        resolvedSex
+          ? resolvedSex === "male"
+            ? language === "es" ? "Niño" : "Boy"
+            : language === "es" ? "Niña" : "Girl"
+          : "-"
+      ],
+      [language === "es" ? "Edad 0-5" : "Age 0-5", ageDays !== undefined ? `${ageDays} d` : "-"],
+      [
+        language === "es" ? "Edad 5-19" : "Age 5-19",
+        ageMonths !== undefined
+          ? `${ageMonths} ${language === "es" ? "meses" : "months"}`
+          : "-"
+      ],
+      [language === "es" ? "Peso" : "Weight", weightKg !== undefined ? `${formatNumber(weightKg, 1)} kg` : "-"],
+      [
+        language === "es" ? "Longitud/talla" : "Length/height",
+        statureCm !== undefined ? `${formatNumber(statureCm, 1)} cm` : "-"
+      ],
+      [
+        language === "es" ? "Perímetro cefálico" : "Head circumference",
+        headCircumferenceCm !== undefined
+          ? `${formatNumber(headCircumferenceCm, 1)} cm`
+          : "-"
+      ]
+    ];
+    const renderResultCard = ({ display, result: displayResult }: DisplayResult) => (
+      <div
+        className={displayResult.isApplicable ? undefined : "who-growth-metric-inactive"}
+        key={`${display.indicator}-${display.label}`}
+      >
+        <span>{display.label}</span>
+        {displayResult.isApplicable &&
+        displayResult.value !== undefined &&
+        displayResult.percentile !== undefined &&
+        displayResult.zScore !== undefined ? (
+          <strong>
+            {formatNumber(displayResult.value)} {displayResult.unit} · P
+            {formatNumber(displayResult.percentile, 1)} · z{" "}
+            {formatNumber(displayResult.zScore, 2)}
+          </strong>
+        ) : (
+          <strong>{copy.notApplicable}</strong>
+        )}
+        {displayResult.warning ? <small>{displayResult.warning}</small> : null}
+      </div>
+    );
 
     return (
       <section className="content-panel result-panel who-growth-result-panel" ref={ref}>
         <div className="who-growth-result-header">
           <div>
+            <p className="who-growth-print-title">{copy.printTitle}</p>
             <h2>{copy.title}</h2>
             <p>{copy.source}</p>
           </div>
@@ -388,30 +565,55 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
 
         {canCalculate && loadedData ? (
           <div className="who-growth-output">
-            <div className="who-growth-metrics">
-              {displayResults.map(({ display, result: displayResult }) => (
-                <div
-                  className={displayResult.isApplicable ? undefined : "who-growth-metric-inactive"}
-                  key={display.indicator}
-                >
-                  <span>{display.label}</span>
-                  {displayResult.isApplicable &&
-                  displayResult.value !== undefined &&
-                  displayResult.percentile !== undefined &&
-                  displayResult.zScore !== undefined ? (
-                    <strong>
-                      {formatNumber(displayResult.value)} {displayResult.unit} · P
-                      {formatNumber(displayResult.percentile, 1)} · z{" "}
-                      {formatNumber(displayResult.zScore, 2)}
-                    </strong>
-                  ) : (
-                    <strong>{copy.notApplicable}</strong>
-                  )}
-                  {displayResult.warning ? <small>{displayResult.warning}</small> : null}
-                </div>
-              ))}
+            <section className="who-growth-guidance no-print">
+              <h3>{copy.guidanceTitle}</h3>
+              <ul>
+                {copy.guidance.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </section>
+            <section className="who-growth-input-summary">
+              <h3>{copy.inputSummary}</h3>
+              <dl>
+                {inputSummaryItems.map(([label, value]) => (
+                  <div key={label}>
+                    <dt>{label}</dt>
+                    <dd>{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+            <div className="who-growth-result-group">
+              <h3>{copy.ageGroupTitle}</h3>
+              <div className="who-growth-metrics">
+                {ageDisplayResults.map(renderResultCard)}
+              </div>
+            </div>
+            <div className="who-growth-result-group">
+              <h3>{copy.measureGroupTitle}</h3>
+              <div className="who-growth-metrics who-growth-metrics-compact">
+                {measureDisplayResults.length > 0 ? (
+                  measureDisplayResults.map(renderResultCard)
+                ) : (
+                  <p className="inactive-calculation">
+                    {language === "es"
+                      ? "No hay indicadores por longitud/talla aplicables con el modo de medición actual."
+                      : "No length/height-based indicators are applicable with the current measurement mode."}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="who-growth-result-group">
+              <h3>{copy.inactiveGroupTitle}</h3>
+              <div className="who-growth-metrics who-growth-metrics-inactive-list">
+                {inactiveDisplayResults.map(renderResultCard)}
+              </div>
             </div>
             <p className="who-growth-safe-note">{copy.note}</p>
+            {applicableDisplayResults.length > 0 ? (
+              <h3 className="who-growth-chart-heading">{copy.chartGroupTitle}</h3>
+            ) : null}
             {applicableDisplayResults.map(({ display, result: displayResult }) => {
               const xValue = display.getXValue({
                 ageDays,
@@ -431,7 +633,11 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
                   language={language}
                   percentile={displayResult.percentile!}
                   records={loadedData.records.filter(
-                    (record) => record.indicator === display.indicator
+                    (record) =>
+                      record.indicator === display.indicator &&
+                      (isFiveToNineteenResult(displayResult)
+                        ? record.ageMonths !== undefined
+                        : record.ageMonths === undefined)
                   )}
                   sex={resolvedSex!}
                   source={
