@@ -1,5 +1,11 @@
 # PedsCore
 
+**Version:** `v0.1.0-alpha`
+
+Public alpha site:
+
+https://sferurek.github.io/PedsCore/
+
 ## Description
 
 PedsCore is an **open‑source library of pediatric and neonatal clinical tools**.  It provides evidence‑based scores, scales, calculators, algorithms, percentiles and clinical rules to support healthcare professionals in assessing and monitoring their patients.  It is **not** intended to replace clinical judgment or local protocols.
@@ -18,17 +24,49 @@ To make pediatric and neonatal clinical tools accessible, transparent and easy t
 
 The project **excludes toxicology** in the initial phase.
 
-## Architecture (planned)
+## Current alpha scope
+
+- 78 tools cataloged.
+- 17 tools implemented with active calculation or informational clinical rule output.
+- ES/EN static web application.
+- Dynamic forms and traceable result panels.
+- Evidence-first references and visible validation status.
+- GitHub Pages deployment.
+- No backend, login, analytics or clinical data storage.
+
+## Implemented tools
+
+- Apgar.
+- Silverman-Andersen.
+- FLACC.
+- QTc Bazett.
+- QTc Fridericia.
+- QTc Framingham.
+- QTc Hodges.
+- Bedside Schwartz.
+- Westley Croup Score.
+- PRAM.
+- Clinical Dehydration Scale.
+- PECARN TBI under 2 years.
+- PECARN TBI 2 years or older.
+- CATCH.
+- CHALICE.
+- SIPA.
+- NIPS.
+
+## Architecture
 
 - `packages/core`: Pure TypeScript library containing deterministic functions for each tool.  No UI or side effects.
-- `apps/web`: A static web application (React + TypeScript + Vite) that consumes the core library and presents multilingual forms and results.  It will be deployed via GitHub Pages.
+- `apps/web`: A static web application (React + TypeScript + Vite) that consumes the core library and presents multilingual forms and results. It is deployed via GitHub Pages.
 - `docs/`: Markdown documentation including detailed descriptions of each tool and the scientific evidence behind them.
 - `references/`: Bibliography and source materials (e.g. articles, guidelines).
 - `.github/`: Issue templates, pull request templates, workflows and community standards.
 
 ## Current status
 
-This repository currently contains only documentation and project scaffolding.  The calculation engine and web interface have not yet been implemented.  See **ROADMAP.md** for planned development phases.
+PedsCore is in public alpha. The catalog, web interface, evidence matrix, initial calculators and pediatric head trauma informational rules are implemented. Many cataloged tools remain pending validation, source review, licensing review or maintainer decision before active calculation.
+
+See [CHANGELOG.md](CHANGELOG.md), [ROADMAP.md](ROADMAP.md) and [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
 
 ## Disclaimer (summary)
 
@@ -59,12 +97,8 @@ The core code is released under the [MIT License](LICENSE).  Documentation is re
 
 ## Roadmap (brief)
 
-1. **Phase 0** – Documentation (current): compile evidence and project requirements.
-2. **Phase 1** – Core Engine: implement TypeScript functions with tests for all essential tools.
-3. **Phase 2** – Web Application: build a multilingual static site using the core engine.
-4. **Phase 3** – Internationalisation: support English and Spanish with automatic detection and manual selection.
-5. **Phase 4** – Analytics: add anonymous, aggregated usage statistics without storing clinical data.
-6. **Phase 5** – Mobile App: develop a Flutter app reusing the core library.
-7. **Phase 6** – Public API: expose the core engine through a REST or GraphQL API.
+Completed alpha milestones include the monorepo, catalog, web shell, GitHub Pages, evidence matrix, dynamic forms, initial calculators and informational head trauma rules.
+
+Next priorities include maintainer decisions, literal Spain Spanish wording audit, expert review, percentiles and additional calculators after evidence gates are satisfied.
 
 For more details, see **ROADMAP.md**.

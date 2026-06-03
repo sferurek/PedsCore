@@ -2,6 +2,12 @@
 
 **Herramientas clínicas pediátricas y neonatales de código abierto**
 
+**Versión:** `v0.1.0-alpha`
+
+Web pública alpha:
+
+https://sferurek.github.io/PedsCore/
+
 ## Descripción
 
 PedsCore es una iniciativa de código abierto que recopila y pone a disposición de la comunidad científica **scores, escalas, calculadoras, algoritmos, percentiles y reglas clínicas** utilizadas en Pediatría y Neonatología. Nace con el objetivo de ofrecer herramientas basadas en evidencia que faciliten la práctica clínica diaria, la investigación y la docencia.
@@ -16,16 +22,48 @@ Promover el acceso libre y transparente a herramientas clínicas pediátricas y 
 - **Excluye**: toxicología y bases de datos farmacológicas en esta fase inicial.
 - **Público objetivo**: profesionales sanitarios y estudiantes de ciencias de la salud. No está dirigido a pacientes ni a cuidadores para autodiagnóstico o automanejo.
 
-## Arquitectura prevista
+## Alcance alpha actual
+
+- 78 herramientas catalogadas.
+- 17 herramientas implementadas con cálculo activo o salida informativa de regla clínica.
+- Aplicación web estática ES/EN.
+- Formularios dinámicos y paneles de resultado trazables.
+- Referencias evidence-first y estado de validación visible.
+- Despliegue en GitHub Pages.
+- Sin backend, login, analítica ni almacenamiento de datos clínicos.
+
+## Herramientas implementadas
+
+- Apgar.
+- Silverman-Andersen.
+- FLACC.
+- QTc Bazett.
+- QTc Fridericia.
+- QTc Framingham.
+- QTc Hodges.
+- Bedside Schwartz.
+- Westley Croup Score.
+- PRAM.
+- Clinical Dehydration Scale.
+- PECARN TCE menor de 2 años.
+- PECARN TCE 2 años o más.
+- CATCH.
+- CHALICE.
+- SIPA.
+- NIPS.
+
+## Arquitectura
 
 El proyecto se estructura en dos grandes componentes:
 
 1. **Motor (`packages/core`)** – Una librería en TypeScript que implementa las fórmulas, lógicas de puntuación y validaciones de cada herramienta. Está diseñada para ser reutilizada en diferentes contextos (web, móvil o API).
-2. **Aplicación web (`apps/web`)** – Una interfaz estática (React + Vite) servida mediante GitHub Pages. Ofrece búsqueda, formularios dinámicos y resultados legibles en español e inglés. Esta fase aún no está implementada.
+2. **Aplicación web (`apps/web`)** – Una interfaz estática (React + Vite) servida mediante GitHub Pages. Ofrece búsqueda, formularios dinámicos y resultados legibles en español e inglés.
 
 ## Estado actual
 
-En este momento el repositorio contiene únicamente documentación y la base de conocimiento. El motor de cálculo y la interfaz web se implementarán en las siguientes fases según el [roadmap](ROADMAP.md).
+PedsCore está en alpha pública. El catálogo, la web, la matriz de evidencia, las calculadoras iniciales y las reglas informativas de traumatismo craneal pediátrico ya están implementadas. Muchas herramientas catalogadas siguen pendientes de validación, revisión de fuente, revisión de licencia o decisión del maintainer antes de activar cálculo.
+
+Consulta [CHANGELOG.md](CHANGELOG.md), [ROADMAP.md](ROADMAP.md) y [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
 
 ## Descargo de responsabilidad (resumen)
 
@@ -56,10 +94,6 @@ El código se distribuye bajo la licencia **MIT**, y la documentación bajo **CC
 
 ## Roadmap breve
 
-1. **Fase 0 – Documentación**: recopilación y validación de la base de conocimiento (en curso).
-2. **Fase 1 – Motor TypeScript**: implementación del núcleo de cálculo con tests unitarios.
-3. **Fase 2 – Web GitHub Pages**: desarrollo de la interfaz estática bilingüe (ES/EN).
-4. **Fase 3 – Internacionalización (i18n)**: soporte multilingüe completo y validación de traducciones.
-5. **Fase 4 – Analítica anónima agregada**: recopilación de estadísticas de uso sin almacenar datos clínicos.
-6. **Fase 5 – Aplicación móvil**: desarrollo de apps para iOS/Android reutilizando el motor.
-7. **Fase 6 – API pública**: exposición de una API REST/GraphQL para integradores.
+Hitos alpha completados: monorepo, catálogo, web, GitHub Pages, matriz de evidencia, formularios dinámicos, calculadoras iniciales y reglas informativas de TCE pediátrico.
+
+Próximos pasos: decisiones maintainer, auditoría de frases literales en castellano de España, revisión experta, percentiles y nuevas calculadoras solo tras superar las puertas de evidencia.
