@@ -28,6 +28,9 @@ export const ResultPanel = forwardRef<HTMLElement, ResultPanelProps>(
       {tool.implementationStatus !== "implemented" ? (
         <p>{t.result.inactiveCalculation}</p>
       ) : null}
+      {tool.type === "clinical_rule" ? (
+        <p className="inactive-calculation">{t.result.clinicalRuleNote}</p>
+      ) : null}
       {hasForm && !validation.isComplete ? (
         <p className="inactive-calculation">{t.result.completeRequired}</p>
       ) : null}

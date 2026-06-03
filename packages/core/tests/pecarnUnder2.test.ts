@@ -10,7 +10,15 @@ const noCriteria = {
   abnormal_behavior_per_parent: false
 };
 
-const forbidden = /CT|tomografia|tomografía|TC|alta|ingreso|adrenalina|tratamiento|observar/i;
+const forbidden =
+  /\b(CT|TC|tomografia|tomografía|observe|observar|discharge|alta|admit|ingreso|treatment|tratamiento|neurosurgery|neurocirugía|manejo|management|derivar)\b/i;
+
+const resultText = (result: ReturnType<typeof pecarnUnder2Calculator.calculate>) =>
+  JSON.stringify({
+    classification: result.classification,
+    criteriaMatched: result.criteriaMatched,
+    warnings: result.warnings
+  });
 
 describe("PECARN under 2 rule", () => {
   it("classifies no predictors, higher-risk and intermediate criteria", () => {
@@ -27,8 +35,8 @@ describe("PECARN under 2 rule", () => {
   });
 
   it("does not return prohibited management wording", () => {
-    const resultText = JSON.stringify(pecarnUnder2Calculator.calculate({ ...noCriteria, severe_mechanism: true }).classification);
-    expect(resultText).not.toMatch(forbidden);
+    expect(
+      resultText(pecarnUnder2Calculator.calculate({ ...noCriteria, severe_mechanism: true }))
+    ).not.toMatch(forbidden);
   });
 });
-

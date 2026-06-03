@@ -12,11 +12,12 @@ const noCriteria = {
 };
 
 const forbidden =
-  /\b(CT|TC|tomografia|tomografía|observe|observar|discharge|alta|admit|ingreso|treatment|tratamiento|neurosurgery|neurocirugía)\b/i;
+  /\b(CT|TC|tomografia|tomografía|observe|observar|discharge|alta|admit|ingreso|treatment|tratamiento|neurosurgery|neurocirugía|manejo|management|derivar)\b/i;
 
 const resultText = (result: ReturnType<typeof catchCalculator.calculate>) =>
   JSON.stringify({
     classification: result.classification,
+    criteriaMatched: result.criteriaMatched,
     warnings: result.warnings
   });
 

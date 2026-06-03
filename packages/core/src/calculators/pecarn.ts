@@ -80,8 +80,8 @@ const classificationText = {
 
 const informationalWarning = warning(
   "clinical_rule_traceability_only",
-  "Esta regla se muestra como apoyo informativo y de trazabilidad. No sustituye la valoracion clinica ni los protocolos locales.",
-  "This rule is shown for informational and traceability purposes. It does not replace clinical assessment or local protocols."
+  "Esta regla se muestra solo como apoyo informativo y de trazabilidad. No sustituye la valoracion clinica, los protocolos locales ni la decision medica.",
+  "This rule is shown only for informational and traceability purposes. It does not replace clinical assessment, local protocols or medical decision-making."
 );
 
 const calculatePecarn = (

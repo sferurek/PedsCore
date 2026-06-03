@@ -10,7 +10,15 @@ const noCriteria = {
   severe_headache: false
 };
 
-const forbidden = /CT|tomografia|tomografía|TC|alta|ingreso|adrenalina|tratamiento|observar/i;
+const forbidden =
+  /\b(CT|TC|tomografia|tomografía|observe|observar|discharge|alta|admit|ingreso|treatment|tratamiento|neurosurgery|neurocirugía|manejo|management|derivar)\b/i;
+
+const resultText = (result: ReturnType<typeof pecarn2OrMoreCalculator.calculate>) =>
+  JSON.stringify({
+    classification: result.classification,
+    criteriaMatched: result.criteriaMatched,
+    warnings: result.warnings
+  });
 
 describe("PECARN 2 years or older rule", () => {
   it("classifies no predictors, higher-risk and intermediate criteria", () => {
@@ -28,8 +36,8 @@ describe("PECARN 2 years or older rule", () => {
   });
 
   it("does not return prohibited management wording", () => {
-    const resultText = JSON.stringify(pecarn2OrMoreCalculator.calculate({ ...noCriteria, severe_headache: true }).classification);
-    expect(resultText).not.toMatch(forbidden);
+    expect(
+      resultText(pecarn2OrMoreCalculator.calculate({ ...noCriteria, severe_headache: true }))
+    ).not.toMatch(forbidden);
   });
 });
-

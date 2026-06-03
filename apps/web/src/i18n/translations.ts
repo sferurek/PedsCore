@@ -126,7 +126,9 @@ export const translations = {
       maxScore: "Maximo",
       classification: "Clasificacion",
       criteriaMatched: "Criterios identificados",
-      noCriteriaMatched: "No se identifican criterios positivos."
+      noCriteriaMatched: "No se identifican criterios positivos.",
+      clinicalRuleNote:
+        "Esta regla se muestra solo como apoyo informativo y de trazabilidad. No sustituye la valoracion clinica, los protocolos locales ni la decision medica."
     },
     tables: {
       interpretation: "Tabla de interpretacion",
@@ -286,7 +288,9 @@ export const translations = {
       maxScore: "Maximum",
       classification: "Classification",
       criteriaMatched: "Criteria identified",
-      noCriteriaMatched: "No positive criteria identified."
+      noCriteriaMatched: "No positive criteria identified.",
+      clinicalRuleNote:
+        "This rule is shown only for informational and traceability purposes. It does not replace clinical assessment, local protocols or medical decision-making."
     },
     tables: {
       interpretation: "Interpretation table",
