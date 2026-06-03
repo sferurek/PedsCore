@@ -156,9 +156,11 @@ Planned graph behavior:
 - Patient point visible and printable.
 - Source, calculation date, and disclaimer visible in print.
 
-Current graph status: pending chart implementation.
+Current full-module graph status: pending completion for all WHO indicators.
 
-Block WHO-GROWTH-2B decision: BMI-for-age LMS data are imported, but graph implementation remains pending to keep this block focused on data normalization and tests.
+Current BMI-for-age 0-5 graph status: implemented as a PedsCore-generated SVG chart using the imported WHO LMS data, with directly labeled P3, P15, P50, P85, and P97 curves and a visible patient point.
+
+Block WHO-GROWTH-2B/printable-chart decision: BMI-for-age 0-5 can show the first printable chart slice. Other WHO indicators, interpolation policy, and full multi-indicator growth module completion remain pending.
 
 ## Print
 
@@ -172,7 +174,9 @@ Planned print output:
 - PedsCore disclaimer
 - calculation date
 
-Current print status: pending chart implementation.
+Current full-module print status: pending completion for all WHO indicators.
+
+Current BMI-for-age 0-5 print status: implemented with browser-native print output for the SVG chart, percentile labels, patient point, source, result summary, and disclaimer. No PDF backend is used.
 
 ## Safety and regulatory notes
 
@@ -194,7 +198,7 @@ Current print status: pending chart implementation.
 
 `implement_after_chart_and_ui_review`
 
-Rationale: BMI-for-age 0-5 LMS data are now imported under separate WHO data licensing, and core calculation can compute BMI-for-age when exact age, sex, weight and stature are available. The full module remains pending because dedicated UI, printable charts, percentile labels, interpolation policy and the remaining indicators are not complete.
+Rationale: BMI-for-age 0-5 LMS data are now imported under separate WHO data licensing, and core calculation can compute BMI-for-age when exact age, sex, weight and stature are available. The first dedicated UI slice, printable SVG chart, written percentile labels and patient point are available. The full module remains pending because interpolation policy and the remaining indicators are not complete.
 
 ## Proposed test cases
 
@@ -219,4 +223,4 @@ Rationale: BMI-for-age 0-5 LMS data are now imported under separate WHO data lic
 
 ## Notes
 
-WHO-GROWTH-2B imports only BMI-for-age 0-5 LMS coefficients from official WHO XLSX files. The remaining indicators, chart rendering and print workflow remain pending.
+WHO-GROWTH-2B imports only BMI-for-age 0-5 LMS coefficients from official WHO XLSX files. The BMI-for-age 0-5 SVG chart and browser-native print workflow are available; remaining indicators and interpolation policy remain pending.

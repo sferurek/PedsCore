@@ -8,6 +8,7 @@ import { ReferenceList } from "../components/ReferenceList";
 import { ResultPanel } from "../components/ResultPanel";
 import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
+import { WhoGrowthResultPanel } from "../components/growth/WhoGrowthResultPanel";
 import { translations } from "../i18n/translations";
 import {
   getUnlockActions,
@@ -61,12 +62,20 @@ export function ToolPage({ language, tool }: ToolPageProps) {
             onStateChange={setFormValues}
           />
 
-          <ResultPanel
-            ref={resultPanelRef}
-            language={language}
-            tool={tool}
-            values={formValues}
-          />
+          {tool.id === "who_growth_module" ? (
+            <WhoGrowthResultPanel
+              ref={resultPanelRef}
+              language={language}
+              values={formValues}
+            />
+          ) : (
+            <ResultPanel
+              ref={resultPanelRef}
+              language={language}
+              tool={tool}
+              values={formValues}
+            />
+          )}
 
           <InterpretationTable language={language} tool={tool} />
 

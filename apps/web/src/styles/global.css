@@ -2872,6 +2872,185 @@ dt {
   padding: 0.8rem;
 }
 
+.who-growth-result-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.who-growth-result-header p {
+  margin: 0.35rem 0 0;
+}
+
+.print-chart-button {
+  min-height: 2.5rem;
+  padding: 0 0.9rem;
+  border: 1px solid var(--primary);
+  border-radius: 999px;
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.who-growth-output {
+  display: grid;
+  gap: 1rem;
+}
+
+.who-growth-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.who-growth-metrics div {
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #f7fbff;
+}
+
+.who-growth-metrics span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.who-growth-metrics strong {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--ink);
+  font-size: 1.2rem;
+}
+
+.who-growth-safe-note {
+  padding: 0.85rem;
+  border: 1px solid rgba(14, 116, 144, 0.18);
+  border-radius: 14px;
+  background: rgba(14, 116, 144, 0.06);
+  color: var(--muted);
+}
+
+.who-growth-chart {
+  margin: 0;
+  padding: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #ffffff;
+  overflow-x: auto;
+}
+
+.who-growth-chart figcaption {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.who-growth-chart figcaption span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.who-growth-chart-svg {
+  display: block;
+  min-width: 680px;
+  width: 100%;
+  height: auto;
+}
+
+.chart-bg {
+  fill: #fbfdff;
+}
+
+.chart-grid {
+  stroke: rgba(14, 116, 144, 0.12);
+  stroke-width: 1;
+}
+
+.chart-axis {
+  stroke: rgba(15, 23, 42, 0.56);
+  stroke-width: 1.4;
+}
+
+.chart-title,
+.chart-axis-title,
+.chart-axis-label {
+  fill: var(--muted);
+  font-weight: 750;
+}
+
+.chart-title {
+  fill: var(--ink);
+  font-size: 15px;
+}
+
+.chart-axis-title {
+  font-size: 12px;
+}
+
+.chart-axis-label {
+  font-size: 11px;
+}
+
+.percentile-line {
+  fill: none;
+  stroke: #0e7490;
+  stroke-width: 2;
+}
+
+.percentile-p3,
+.percentile-p97 {
+  stroke: #64748b;
+  stroke-width: 1.7;
+}
+
+.percentile-p15,
+.percentile-p85 {
+  stroke: #0891b2;
+  stroke-width: 1.8;
+}
+
+.percentile-p50 {
+  stroke: #0f766e;
+  stroke-width: 2.4;
+}
+
+.percentile-label {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.patient-point {
+  fill: #f97316;
+  stroke: #ffffff;
+  stroke-width: 3;
+}
+
+.patient-label {
+  fill: #9a3412;
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.patient-label.secondary {
+  fill: var(--ink);
+  font-weight: 750;
+}
+
+.who-growth-chart {
+  overflow-x: auto;
+}
+
+.who-growth-chart-svg {
+  min-width: 680px;
+}
+
 .trace-list div {
   padding: 0.4rem 0;
 }
@@ -2963,5 +3142,67 @@ td {
 
   .result-panel {
     scroll-margin-top: 6.5rem;
+  }
+}
+
+@media (max-width: 719px) {
+  .who-growth-result-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .print-chart-button {
+    width: 100%;
+  }
+
+  .who-growth-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .who-growth-chart {
+    margin-inline: -0.2rem;
+    padding-bottom: 0.25rem;
+  }
+}
+
+@media print {
+  .site-header,
+  .oss-support-banner,
+  .tool-page-aside,
+  .feedback-box,
+  .print-chart-button {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff;
+  }
+
+  main {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .tool-layout {
+    display: block;
+  }
+
+  .content-panel,
+  .disclaimer-box,
+  .result-panel,
+  .who-growth-chart {
+    border: 1px solid #d8dee9;
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .who-growth-chart {
+    overflow: visible;
+  }
+
+  .who-growth-chart-svg {
+    min-width: 0;
+    width: 100%;
   }
 }

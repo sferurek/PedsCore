@@ -1124,8 +1124,8 @@ const whoGrowthValidationNotes: LocalizedText = {
 };
 
 const whoGrowthModuleValidationNotes: LocalizedText = {
-  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-2B: modulo unificado OMS preparado. BMI-for-age 0-5 se importo desde tablas XLSX oficiales OMS con licencia de datos separada; otros indicadores OMS, UI especifica, graficas imprimibles e interpolacion siguen pendientes antes de marcar el modulo completo como implementado.",
-  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-2B: unified WHO module prepared. BMI-for-age 0-5 years was imported from official WHO XLSX tables under a separate data license; other WHO indicators, dedicated UI, printable charts, and interpolation remain pending before marking the full module implemented."
+  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-2B: módulo unificado OMS preparado. BMI-for-age 0-5 se importó desde tablas XLSX oficiales OMS con licencia de datos separada y ya dispone de entrada dedicada, cálculo LMS, gráfica SVG imprimible y punto del paciente. Otros indicadores OMS e interpolación siguen pendientes antes de marcar el módulo completo como implementado.",
+  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-2B: unified WHO module prepared. BMI-for-age 0-5 years was imported from official WHO XLSX tables under a separate data license and now has dedicated input, LMS calculation, printable SVG chart, and patient point. Other WHO indicators and interpolation remain pending before marking the full module implemented."
 };
 
 const cdcGrowthValidationNotes: LocalizedText = {
@@ -1292,6 +1292,72 @@ const booleanInput = (id: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  who_growth_module: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Solo BMI-for-age OMS 0-5 está disponible en core con gráfica SVG imprimible. El módulo completo y otros indicadores siguen en validación.",
+      en: "Only WHO BMI-for-age 0-5 is available in core with a printable SVG chart. The full module and other indicators remain under validation."
+    },
+    inputs: [
+      {
+        id: "sex",
+        label: { es: "Sexo", en: "Sex" },
+        type: "select",
+        required: true,
+        options: [
+          option("male", "Niño", "Boy", undefined, {
+            es: "Tabla OMS para sexo masculino.",
+            en: "WHO table for male sex."
+          }),
+          option("female", "Niña", "Girl", undefined, {
+            es: "Tabla OMS para sexo femenino.",
+            en: "WHO table for female sex."
+          })
+        ]
+      },
+      {
+        id: "age_days",
+        label: { es: "Edad exacta", en: "Exact age" },
+        description: {
+          es: "Edad en días. En este bloque no se interpola: se usa el registro diario OMS exacto.",
+          en: "Age in days. This block does not interpolate: it uses the exact daily WHO record."
+        },
+        type: "number",
+        required: true,
+        unit: "días",
+        min: 0,
+        max: 1856,
+        step: 1,
+        placeholder: { es: "Ej. 730", en: "E.g. 730" }
+      },
+      {
+        id: "weight_kg",
+        label: { es: "Peso", en: "Weight" },
+        type: "number",
+        required: true,
+        unit: "kg",
+        min: 0.1,
+        max: 80,
+        step: 0.1,
+        placeholder: { es: "Ej. 12.4", en: "E.g. 12.4" }
+      },
+      {
+        id: "stature_cm",
+        label: { es: "Longitud/talla", en: "Length/height" },
+        description: {
+          es: "Introduce longitud o talla ya corregida según el modo de medición OMS aplicable.",
+          en: "Enter length or height already corrected according to the applicable WHO measurement mode."
+        },
+        type: "number",
+        required: true,
+        unit: "cm",
+        min: 30,
+        max: 130,
+        step: 0.1,
+        placeholder: { es: "Ej. 86.1", en: "E.g. 86.1" }
+      }
+    ]
+  },
   apgar: {
     calculationStatus: "metadata_ready",
     calculationNotes: pendingCalculationNotes,

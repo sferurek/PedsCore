@@ -84,6 +84,32 @@ export const calculateLmsZScore = (
   return ((value / M) ** L - 1) / (L * S);
 };
 
+export const calculateLmsValueFromZScore = (
+  zScore: number,
+  L: number,
+  M: number,
+  S: number
+) => {
+  if (!Number.isFinite(zScore)) {
+    throw new Error("zScore must be a finite number.");
+  }
+
+  assertPositiveNumber(M, "M");
+  assertPositiveNumber(S, "S");
+
+  if (L === 0) {
+    return M * Math.exp(S * zScore);
+  }
+
+  const base = 1 + L * S * zScore;
+
+  if (base <= 0) {
+    throw new Error("LMS parameters produce an invalid value for this z-score.");
+  }
+
+  return M * base ** (1 / L);
+};
+
 const erf = (x: number) => {
   const sign = x < 0 ? -1 : 1;
   const absX = Math.abs(x);
@@ -195,7 +221,7 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
   const ageDays =
     input.dateOfBirth && input.measurementDate
       ? calculateAgeInDays(input.dateOfBirth, input.measurementDate)
-      : undefined;
+      : input.ageDays;
   const ageMonths =
     input.dateOfBirth && input.measurementDate
       ? calculateAgeInMonths(input.dateOfBirth, input.measurementDate)

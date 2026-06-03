@@ -3,6 +3,7 @@ import {
   calculateAgeInDays,
   calculateAgeInMonths,
   calculateBmi,
+  calculateLmsValueFromZScore,
   calculateLmsZScore,
   calculateWhoGrowth,
   clinicalTools,
@@ -29,6 +30,7 @@ describe("WHO growth scaffold", () => {
   it("calculates LMS z-scores including the L=0 branch", () => {
     expect(calculateLmsZScore(11, 1, 10, 0.1)).toBeCloseTo(1, 6);
     expect(calculateLmsZScore(10, 0, 10, 0.1)).toBeCloseTo(0, 6);
+    expect(calculateLmsValueFromZScore(0, 1, 10, 0.1)).toBeCloseTo(10, 6);
   });
 
   it("converts z-score to percentile", () => {
@@ -71,8 +73,7 @@ describe("WHO growth scaffold", () => {
   it("calculates WHO BMI-for-age z-score and percentile with complete input", () => {
     const result = calculateWhoGrowth({
       sex: "male",
-      dateOfBirth: "2020-01-01",
-      measurementDate: "2022-01-01",
+      ageDays: 730,
       weightKg: 12,
       heightCm: 86,
       headCircumferenceCm: 48,
@@ -109,8 +110,7 @@ describe("WHO growth scaffold", () => {
   it("does not calculate BMI-for-age outside the official imported range", () => {
     const result = calculateWhoGrowth({
       sex: "female",
-      dateOfBirth: "2020-01-01",
-      measurementDate: "2026-01-01",
+      ageDays: 2200,
       weightKg: 20,
       heightCm: 110
     });
@@ -129,6 +129,12 @@ describe("WHO growth scaffold", () => {
     expect(tool?.slug).toBe("who-growth");
     expect(tool?.implementationStatus).toBe("pending_validation");
     expect(tool?.calculationStatus).not.toBe("active");
+    expect(tool?.inputs?.map((input) => input.id)).toEqual([
+      "sex",
+      "age_days",
+      "weight_kg",
+      "stature_cm"
+    ]);
     expect(tool?.validationNotes.en).toContain("BMI-for-age 0-5 years");
     expect(tool?.validationNotes.en).toContain("separate data license");
   });

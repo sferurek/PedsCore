@@ -15,6 +15,7 @@ export type WhoGrowthIndicator =
 export interface WhoGrowthInput {
   sex: WhoGrowthSex;
   dateOfBirth?: string;
+  ageDays?: number;
   ageMonths?: number;
   measurementDate?: string;
   weightKg?: number;
