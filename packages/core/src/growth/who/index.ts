@@ -245,6 +245,8 @@ export const calculateWhoGrowth = (
     input.weightKg !== undefined && statureCm !== undefined
       ? calculateBmi(input.weightKg, statureCm)
       : undefined;
+  const hasZeroToFiveAge =
+    ageDays !== undefined && ageDays >= 0 && ageDays <= 1856;
 
   if (!dataStatus.officialDataImported) {
     warnings.push(officialDataPendingWarning);
@@ -300,28 +302,36 @@ export const calculateWhoGrowth = (
     buildResult(
       "weight_for_length",
       "Weight-for-length",
-      input.lengthCm !== undefined ? input.weightKg : undefined,
+      hasZeroToFiveAge && input.lengthCm !== undefined
+        ? input.weightKg
+        : undefined,
       "kg",
       "WHO 0-5 years indicator-specific range",
-      findLmsRecord({
-        indicator: "weight_for_length",
-        sex: input.sex,
-        measureCm: input.lengthCm
-      },
-      lmsRecords)
+      hasZeroToFiveAge
+        ? findLmsRecord({
+            indicator: "weight_for_length",
+            sex: input.sex,
+            measureCm: input.lengthCm
+          },
+          lmsRecords)
+        : undefined
     ),
     buildResult(
       "weight_for_height",
       "Weight-for-height",
-      input.heightCm !== undefined ? input.weightKg : undefined,
+      hasZeroToFiveAge && input.heightCm !== undefined
+        ? input.weightKg
+        : undefined,
       "kg",
       "WHO 0-5 years indicator-specific range",
-      findLmsRecord({
-        indicator: "weight_for_height",
-        sex: input.sex,
-        measureCm: input.heightCm
-      },
-      lmsRecords)
+      hasZeroToFiveAge
+        ? findLmsRecord({
+            indicator: "weight_for_height",
+            sex: input.sex,
+            measureCm: input.heightCm
+          },
+          lmsRecords)
+        : undefined
     ),
     buildResult(
       "bmi_for_age",

@@ -491,11 +491,13 @@ describe("WHO growth scaffold", () => {
   it("calculates WHO weight-for-length and weight-for-height with complete input", () => {
     const lengthResult = calculateWhoGrowthWithWeightForLengthData({
       sex: "male",
+      ageDays: 0,
       weightKg: 2.441,
       lengthCm: 45
     });
     const heightResult = calculateWhoGrowthWithWeightForHeightData({
       sex: "male",
+      ageDays: 730,
       weightKg: 7.4327,
       heightCm: 65
     });
@@ -512,6 +514,131 @@ describe("WHO growth scaffold", () => {
     expect(weightForHeight?.isApplicable).toBe(true);
     expect(weightForHeight?.zScore).toBeCloseTo(0, 4);
     expect(weightForHeight?.percentile).toBeCloseTo(50, 1);
+  });
+
+  it("calculates only BMI-for-age and height-for-age for WHO 5-19 when age is in completed months", async () => {
+    const loaded = await Promise.all([
+      loadWhoLmsRecords("weight_for_age"),
+      loadWhoLmsRecords("length_height_for_age"),
+      loadWhoLmsRecords("head_circumference_for_age"),
+      loadWhoLmsRecords("weight_for_length"),
+      loadWhoLmsRecords("weight_for_height"),
+      loadWhoLmsRecords("bmi_for_age"),
+      loadWhoLmsRecords("bmi_for_age", { ageRange: "5_19" }),
+      loadWhoLmsRecords("length_height_for_age", { ageRange: "5_19" })
+    ]);
+    const heightCm = 110.2647;
+    const bmiMedian = 15.2641;
+    const result = calculateWhoGrowth(
+      {
+        sex: "male",
+        ageMonths: 61,
+        weightKg: bmiMedian * (heightCm / 100) ** 2,
+        heightCm,
+        headCircumferenceCm: 50,
+        measurementMode: "standing_height"
+      },
+      {
+        dataStatus: {
+          officialDataImported: true,
+          reason: "WHO 0-5 and WHO 5-19 test records imported.",
+          importedIndicators: loaded.flatMap(
+            (item) => item.dataStatus.importedIndicators
+          ),
+          allowedSources: loaded[0].dataStatus.allowedSources,
+          excludedSources: loaded[0].dataStatus.excludedSources
+        },
+        lmsRecords: loaded.flatMap((item) => [...item.records])
+      }
+    );
+    const byIndicator = Object.fromEntries(
+      result.applicableResults.map((item) => [item.indicator, item])
+    );
+
+    expect(byIndicator.bmi_for_age.isApplicable).toBe(true);
+    expect(byIndicator.bmi_for_age.source).toContain("5-19");
+    expect(byIndicator.length_height_for_age.isApplicable).toBe(true);
+    expect(byIndicator.length_height_for_age.source).toContain("5-19");
+    expect(byIndicator.weight_for_age.isApplicable).toBe(false);
+    expect(byIndicator.head_circumference_for_age.isApplicable).toBe(false);
+    expect(byIndicator.weight_for_length.isApplicable).toBe(false);
+    expect(byIndicator.weight_for_height.isApplicable).toBe(false);
+  });
+
+  it("does not calculate WHO 5-19 indicators from age in days alone", async () => {
+    const loaded = await Promise.all([
+      loadWhoLmsRecords("bmi_for_age", { ageRange: "5_19" }),
+      loadWhoLmsRecords("length_height_for_age", { ageRange: "5_19" })
+    ]);
+    const result = calculateWhoGrowth(
+      {
+        sex: "male",
+        ageDays: 3650,
+        weightKg: 30,
+        heightCm: 140,
+        measurementMode: "standing_height"
+      },
+      {
+        dataStatus: {
+          officialDataImported: true,
+          reason: "WHO 5-19 test records imported.",
+          importedIndicators: loaded.flatMap(
+            (item) => item.dataStatus.importedIndicators
+          ),
+          allowedSources: loaded[0].dataStatus.allowedSources,
+          excludedSources: loaded[0].dataStatus.excludedSources
+        },
+        lmsRecords: loaded.flatMap((item) => [...item.records])
+      }
+    );
+    const byIndicator = Object.fromEntries(
+      result.applicableResults.map((item) => [item.indicator, item])
+    );
+
+    expect(byIndicator.bmi_for_age.isApplicable).toBe(false);
+    expect(byIndicator.length_height_for_age.isApplicable).toBe(false);
+  });
+
+  it("prefers WHO 0-5 records when exact age in days is provided with 5-19 records also loaded", async () => {
+    const loaded = await Promise.all([
+      loadWhoLmsRecords("bmi_for_age"),
+      loadWhoLmsRecords("bmi_for_age", { ageRange: "5_19" }),
+      loadWhoLmsRecords("length_height_for_age"),
+      loadWhoLmsRecords("length_height_for_age", { ageRange: "5_19" })
+    ]);
+    const result = calculateWhoGrowth(
+      {
+        sex: "male",
+        ageDays: 730,
+        ageMonths: 120,
+        weightKg: 12,
+        heightCm: 86,
+        measurementMode: "standing_height"
+      },
+      {
+        dataStatus: {
+          officialDataImported: true,
+          reason: "WHO mixed-range test records imported.",
+          importedIndicators: loaded.flatMap(
+            (item) => item.dataStatus.importedIndicators
+          ),
+          allowedSources: loaded[0].dataStatus.allowedSources,
+          excludedSources: loaded[0].dataStatus.excludedSources
+        },
+        lmsRecords: loaded.flatMap((item) => [...item.records])
+      }
+    );
+    const bmiForAge = result.applicableResults.find(
+      (item) => item.indicator === "bmi_for_age"
+    );
+    const heightForAge = result.applicableResults.find(
+      (item) => item.indicator === "length_height_for_age"
+    );
+
+    expect(bmiForAge?.isApplicable).toBe(true);
+    expect(bmiForAge?.source).toContain("0-5");
+    expect(heightForAge?.isApplicable).toBe(true);
+    expect(heightForAge?.source).toContain("0-5");
   });
 
   it("calculates all applicable WHO 0-5 indicators when all official records are passed", async () => {

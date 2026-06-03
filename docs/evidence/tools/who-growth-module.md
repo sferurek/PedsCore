@@ -180,7 +180,7 @@ This module is not a score table. It requires official LMS records by:
 | sex | LMS stratum | WHO official data | male/female mapping must match source file. |
 | age in days | LMS lookup | WHO official data | used for age-based 0-5 indicators. |
 | age in completed months | LMS lookup | WHO official data | used for age-based 5-19 indicators. |
-| length/height cm | LMS lookup | WHO official data | used for length/height-for-age and weight-for-length/height. |
+| length/height cm | LMS lookup | WHO official data | used for length/height-for-age and for 0-5 weight-for-length/height only when exact 0-5 age in days is provided. |
 | head circumference cm | value | WHO official data | used for head circumference-for-age. |
 | L | LMS coefficient | WHO official data | imported for all core WHO 0-5 indicators. |
 | M | LMS coefficient | WHO official data | imported for all core WHO 0-5 indicators. |
@@ -215,7 +215,7 @@ Graph behavior:
 - Curves labeled directly in each graph: P3, P15, P50, P85, P97.
 - Patient point visible and printable.
 - Age-based indicators use age in months on the x-axis.
-- Weight-for-length and weight-for-height use length/height in cm on the x-axis.
+- Weight-for-length and weight-for-height use length/height in cm on the x-axis and are limited to the 0-5 module context.
 - Source and disclaimer remain visible in the result section and print output.
 
 ## Data loading architecture
