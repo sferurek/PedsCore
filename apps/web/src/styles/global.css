@@ -2752,7 +2752,7 @@ dt {
 .accordion-trigger {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.75rem;
+  gap: 0.6rem;
   align-items: center;
   width: 100%;
   min-height: 3rem;
@@ -2773,20 +2773,20 @@ dt {
 .accordion-label {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.65rem;
+  gap: 0.55rem;
   align-items: center;
 }
 
 .step-badge {
   display: grid;
-  width: 1.85rem;
-  height: 1.85rem;
+  width: 1.55rem;
+  height: 1.55rem;
   place-items: center;
   border: 1px solid rgba(37, 115, 218, 0.22);
   border-radius: 999px;
   background: #eef6ff;
   color: var(--primary-strong);
-  font-size: 0.82rem;
+  font-size: 0.76rem;
   font-weight: 900;
 }
 
@@ -2803,13 +2803,14 @@ dt {
 
 .accordion-state {
   display: grid;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 1.55rem;
+  height: 1.55rem;
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--primary-soft);
   color: var(--primary-strong);
+  font-size: 0.86rem;
   font-weight: 900;
 }
 
@@ -2853,6 +2854,7 @@ dt {
 }
 
 .result-panel {
+  scroll-margin-top: 7.5rem;
   background:
     linear-gradient(90deg, rgba(11, 85, 192, 0.06), transparent 42%),
     var(--surface);
@@ -2933,5 +2935,33 @@ td {
 
   .number-accordion-row {
     grid-template-columns: 1fr;
+  }
+
+  .accordion-trigger {
+    min-height: 2.75rem;
+    padding: 0.62rem 0.7rem;
+  }
+
+  .accordion-content {
+    padding: 0 0.7rem 0.7rem;
+  }
+
+  .step-badge,
+  .accordion-state {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+
+  .option-card {
+    min-width: 0;
+    padding: 0.55rem 0.6rem;
+  }
+
+  .form-continue {
+    width: 100%;
+  }
+
+  .result-panel {
+    scroll-margin-top: 6.5rem;
   }
 }
