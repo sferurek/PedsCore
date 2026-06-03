@@ -4,6 +4,7 @@ import type { FormValue, FormValues } from "../../utils/formState";
 import { getInputSummary, isEmptyFormValue } from "../../utils/formState";
 import type { Language } from "../../utils/language";
 import {
+  clearInactiveWhoGrowthAgeFields,
   getNextWhoGrowthSection,
   getWhoGrowthAgeMode,
   WHO_GROWTH_AGE_FIELDS_BY_MODE,
@@ -23,16 +24,6 @@ interface WhoGrowthFormProps {
 }
 
 type WhoGrowthFormSection = "sex" | "age_mode" | "age" | "anthropometry";
-
-const allAgeFieldIds = [
-  "date_of_birth",
-  "measurement_date",
-  "age_days",
-  "age_years_0_5",
-  "age_months_0_5",
-  "age_extra_days_0_5",
-  "age_months"
-];
 
 const requiredAnthropometryFields = [
   "weight_kg",
@@ -146,20 +137,6 @@ const getInput = (tool: ClinicalToolMetadata, inputId: string) => {
 const getSelectedAgeFields = (mode: WhoGrowthAgeInputMode | null) =>
   mode ? WHO_GROWTH_AGE_FIELDS_BY_MODE[mode] : [];
 
-const clearInactiveAgeFields = (
-  values: FormValues,
-  mode: WhoGrowthAgeInputMode
-) => {
-  const activeAgeFields = new Set(WHO_GROWTH_AGE_FIELDS_BY_MODE[mode]);
-
-  return Object.fromEntries(
-    Object.entries(values).map(([key, value]) => [
-      key,
-      allAgeFieldIds.includes(key) && !activeAgeFields.has(key) ? "" : value
-    ])
-  ) as FormValues;
-};
-
 export function WhoGrowthForm({
   language,
   tool,
@@ -204,7 +181,9 @@ export function WhoGrowthForm({
     const nextValues = { ...values, [inputId]: value };
 
     if (inputId === "who_age_input_mode" && typeof value === "string") {
-      onChange(clearInactiveAgeFields(nextValues, value as WhoGrowthAgeInputMode));
+      onChange(
+        clearInactiveWhoGrowthAgeFields(nextValues, value as WhoGrowthAgeInputMode)
+      );
       setOpenSection("age");
       return;
     }

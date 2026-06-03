@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   areWhoGrowthAnthropometryFieldsUnlocked,
+  clearInactiveWhoGrowthAgeFields,
   getVisibleWhoGrowthInputIds,
   isWhoGrowthAgeModeUnlocked
 } from "./whoGrowthFormFlow";
@@ -95,6 +96,37 @@ describe("WHO growth guided form flow", () => {
         age_months_0_5: 3
       })
     ).toBe(false);
+  });
+
+  it("clears inactive age values when changing age input mode", () => {
+    expect(
+      clearInactiveWhoGrowthAgeFields(
+        {
+          sex: "male",
+          who_age_input_mode: "dates",
+          date_of_birth: "2023-01-01",
+          measurement_date: "2024-01-01",
+          age_days: 730,
+          age_years_0_5: 2,
+          age_months_0_5: 3,
+          age_extra_days_0_5: 10,
+          age_months: 120,
+          weight_kg: 12
+        },
+        "dates"
+      )
+    ).toEqual({
+      sex: "male",
+      who_age_input_mode: "dates",
+      date_of_birth: "2023-01-01",
+      measurement_date: "2024-01-01",
+      age_days: "",
+      age_years_0_5: "",
+      age_months_0_5: "",
+      age_extra_days_0_5: "",
+      age_months: "",
+      weight_kg: 12
+    });
   });
 
   it("does not use localStorage or analytics", () => {

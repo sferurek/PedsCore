@@ -21,6 +21,16 @@ export const WHO_GROWTH_AGE_FIELDS_BY_MODE: Record<
   months_5_19: ["age_months"]
 };
 
+export const WHO_GROWTH_AGE_FIELD_IDS = [
+  "date_of_birth",
+  "measurement_date",
+  "age_days",
+  "age_years_0_5",
+  "age_months_0_5",
+  "age_extra_days_0_5",
+  "age_months"
+] as const;
+
 export const WHO_GROWTH_ANTHROPOMETRY_FIELDS = [
   "weight_kg",
   "stature_cm",
@@ -72,6 +82,24 @@ export const getVisibleWhoGrowthInputIds = (values: FormValues): string[] => {
   }
 
   return visibleIds;
+};
+
+export const clearInactiveWhoGrowthAgeFields = (
+  values: FormValues,
+  mode: WhoGrowthAgeInputMode
+): FormValues => {
+  const activeAgeFields = new Set(WHO_GROWTH_AGE_FIELDS_BY_MODE[mode]);
+
+  return Object.fromEntries(
+    Object.entries(values).map(([key, value]) => [
+      key,
+      WHO_GROWTH_AGE_FIELD_IDS.includes(
+        key as (typeof WHO_GROWTH_AGE_FIELD_IDS)[number]
+      ) && !activeAgeFields.has(key)
+        ? ""
+        : value
+    ])
+  ) as FormValues;
 };
 
 export const isWhoGrowthInputVisible = (
