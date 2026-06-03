@@ -2,15 +2,25 @@
 
 **Herramientas clínicas pediátricas y neonatales de código abierto**
 
+**Open-source pediatric clinical tools, pediatric scores, neonatal scores, clinical calculators y clinical decision support con trazabilidad de evidencia.**
+
 **Versión:** `v0.1.0-alpha`
 
 Web pública alpha:
 
 https://sferurek.github.io/PedsCore/
 
+## Aplicación web pública
+
+https://sferurek.github.io/PedsCore/
+
 ## Descripción
 
-PedsCore es una iniciativa de código abierto que recopila y pone a disposición de la comunidad científica **scores, escalas, calculadoras, algoritmos, percentiles y reglas clínicas** utilizadas en Pediatría y Neonatología. Nace con el objetivo de ofrecer herramientas basadas en evidencia que faciliten la práctica clínica diaria, la investigación y la docencia.
+PedsCore es una iniciativa de código abierto que recopila y pone a disposición de la comunidad científica **scores pediátricos, scores neonatales, escalas, calculadoras clínicas, algoritmos, percentiles y reglas de apoyo a la decisión clínica** utilizadas en Pediatría y Neonatología. Nace con el objetivo de ofrecer herramientas basadas en evidencia que faciliten la práctica clínica diaria, la investigación y la docencia. El código fuente se distribuye bajo licencia MIT.
+
+## Keywords
+
+pediatrics, neonatology, pediatric emergency medicine, pediatric scores, neonatal scores, clinical calculators, open source healthcare, clinical decision support, medical education, evidence-based medicine, digital health.
 
 ## Misión
 

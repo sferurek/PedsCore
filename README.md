@@ -1,14 +1,24 @@
 # PedsCore
 
+**Open-source pediatric clinical tools, pediatric scores, neonatal scores, clinical calculators and evidence-based clinical decision support.**
+
 **Version:** `v0.1.0-alpha`
 
 Public alpha site:
 
 https://sferurek.github.io/PedsCore/
 
+## Public web app
+
+https://sferurek.github.io/PedsCore/
+
 ## Description
 
-PedsCore is an **open‑source library of pediatric and neonatal clinical tools**.  It provides evidence‑based scores, scales, calculators, algorithms, percentiles and clinical rules to support healthcare professionals in assessing and monitoring their patients.  It is **not** intended to replace clinical judgment or local protocols.
+PedsCore is an **open‑source library of pediatric and neonatal clinical tools**. It provides evidence-based pediatric scores, neonatal scores, clinical calculators, scales, percentiles and clinical decision-support rules for healthcare professionals. It is MIT-licensed source code with evidence traceability and is **not** intended to replace clinical judgment or local protocols.
+
+## Keywords
+
+pediatrics, neonatology, pediatric emergency medicine, pediatric scores, neonatal scores, clinical calculators, open source healthcare, clinical decision support, medical education, evidence-based medicine, digital health.
 
 ## Mission
 

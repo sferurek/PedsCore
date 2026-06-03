@@ -11,7 +11,8 @@
     "dev": "npm run dev -w @peds-core/web",
     "lint": "eslint .",
     "test": "npm run build -w @peds-core/core && vitest run",
-    "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web"
+    "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web",
+    "seo:check": "npm run seo:check -w @peds-core/web"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",

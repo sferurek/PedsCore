@@ -19,6 +19,7 @@ import {
 } from "./utils/language";
 import { maybeTrackRouteChange } from "./utils/analytics";
 import { parseRoute, toAppPath, toBrowserPath } from "./utils/routes";
+import { getSeoForRoute, updateDocumentSeo } from "./utils/seo";
 
 export function App() {
   const [path, setPath] = useState(() => toAppPath(window.location.pathname));
@@ -49,6 +50,10 @@ export function App() {
 
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
+
+  useEffect(() => {
+    updateDocumentSeo(getSeoForRoute(route, language));
+  }, [language, route]);
 
   useEffect(() => {
     if (route.language) {

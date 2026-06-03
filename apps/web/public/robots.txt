@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sferurek.github.io/PedsCore/sitemap.xml

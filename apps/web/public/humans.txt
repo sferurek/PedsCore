@@ -1,0 +1,6 @@
+PedsCore
+
+Maintainer: Sergio Fernández
+GitHub: https://github.com/sferurek/PedsCore
+License: MIT code, third-party data under their own terms
+Purpose: Open-source pediatric and neonatal clinical tools with evidence traceability
