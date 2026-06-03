@@ -2,6 +2,7 @@ import type { PropsWithChildren } from "react";
 import type { Language } from "../utils/language";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { OssSupportBanner } from "./OssSupportBanner";
 
 interface LayoutProps extends PropsWithChildren {
   currentPath: string;
@@ -25,6 +26,7 @@ export function Layout({
         navigate={navigate}
         onLanguageChange={onLanguageChange}
       />
+      <OssSupportBanner language={language} />
       <main>{children}</main>
       <Footer language={language} navigate={navigate} />
     </div>
