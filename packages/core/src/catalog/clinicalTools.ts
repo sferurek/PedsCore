@@ -547,6 +547,287 @@ const implementedToolReferences: Record<string, Reference[]> = {
       appliesTo: ["cdc_growth_percentiles"],
       priority: 1
     }
+  ],
+  pipp: [
+    {
+      id: "pipp_1996_original",
+      title: "Premature Infant Pain Profile: Development and Initial Validation",
+      authors: "Stevens B, Johnston C, Petryshen P, Taddio A",
+      year: 1996,
+      journalOrPublisher: "The Clinical Journal of Pain",
+      citation:
+        "Stevens B, Johnston C, Petryshen P, Taddio A. Premature Infant Pain Profile: Development and Initial Validation. Clin J Pain. 1996;12(1):13-22.",
+      doi: "10.1097/00002508-199603000-00004",
+      url: "https://journals.lww.com/clinicalpain/fulltext/1996/03000/premature_infant_pain_profile__development_and.4.aspx",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes:
+        "Block 8B-2: original PIPP source located. PMID not confirmed; complete table, gestational-age adjustment, interpretation, and licensing remain pending.",
+      appliesTo: ["pipp"],
+      priority: 1
+    }
+  ],
+  pipp_r: [
+    {
+      id: "pippr_2014_initial_validation",
+      title: "The premature infant pain profile-revised (PIPP-R): initial validation and feasibility",
+      authors: "Stevens BJ, Gibbins S, Yamada J, Dionne K, Lee G, Johnston C, Taddio A",
+      year: 2014,
+      journalOrPublisher: "The Clinical Journal of Pain",
+      citation:
+        "Stevens BJ, Gibbins S, Yamada J, Dionne K, Lee G, Johnston C, Taddio A. The premature infant pain profile-revised (PIPP-R): initial validation and feasibility. Clin J Pain. 2014;30(3):238-243.",
+      doi: "10.1097/AJP.0b013e3182906aed",
+      pmid: "24503979",
+      url: "https://pubmed.ncbi.nlm.nih.gov/24503979/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-2: PIPP-R initial validation source located. Complete table, scoring adjustment, interpretation, and licensing remain pending.",
+      appliesTo: ["pipp_r"],
+      priority: 1
+    },
+    {
+      id: "pippr_2014_external_validation",
+      title: "Validation of the Premature Infant Pain Profile-Revised (PIPP-R)",
+      authors: "Gibbins S, Stevens BJ, Yamada J, Dionne K, Campbell-Yeo M, Lee G, Caddell K, Johnston C, Taddio A",
+      year: 2014,
+      journalOrPublisher: "Early Human Development",
+      citation:
+        "Gibbins S, Stevens BJ, Yamada J, Dionne K, Campbell-Yeo M, Lee G, Caddell K, Johnston C, Taddio A. Validation of the Premature Infant Pain Profile-Revised (PIPP-R). Early Hum Dev. 2014;90(4):189-193.",
+      doi: "10.1016/j.earlhumdev.2014.01.005",
+      url: "https://www.sciencedirect.com/science/article/pii/S0378378214000140",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes: "External validation source located; table/licensing still require review.",
+      appliesTo: ["pipp_r"],
+      priority: 2
+    }
+  ],
+  comfortneo: [
+    {
+      id: "comfortneo_2009_original",
+      title:
+        "Taking Up the Challenge of Measuring Prolonged Pain in (Premature) Neonates: The COMFORTneo Scale Seems Promising",
+      authors:
+        "van Dijk M, Roofthooft DWE, Anand KJS, Guldemond F, de Graaf J, Simons S, de Jager Y, van Goudoever JB, Tibboel D",
+      year: 2009,
+      journalOrPublisher: "The Clinical Journal of Pain",
+      citation:
+        "van Dijk M, Roofthooft DWE, Anand KJS, Guldemond F, de Graaf J, Simons S, de Jager Y, van Goudoever JB, Tibboel D. Taking Up the Challenge of Measuring Prolonged Pain in (Premature) Neonates: The COMFORTneo Scale Seems Promising. Clin J Pain. 2009;25(7):607-616.",
+      doi: "10.1097/AJP.0b013e3181a5b52a",
+      url: "https://journals.lww.com/clinicalpain/toc/2009/09000",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes:
+        "Block 8B-2: original COMFORTneo source located. PMID not confirmed; complete official table and licensing remain pending.",
+      appliesTo: ["comfortneo"],
+      priority: 1
+    },
+    {
+      id: "comfortneo_2023_validation",
+      title: "COMFORTneo scale: a reliable and valid instrument to measure prolonged pain in neonates?",
+      authors: "Meesters NJ, Dilles T, van Rosmalen J, van den Bosch GE, Simons SHP, van Dijk M",
+      year: 2023,
+      journalOrPublisher: "Journal of Perinatology",
+      citation:
+        "Meesters NJ, Dilles T, van Rosmalen J, van den Bosch GE, Simons SHP, van Dijk M. COMFORTneo scale: a reliable and valid instrument to measure prolonged pain in neonates? J Perinatol. 2023;43(5):595-600.",
+      doi: "10.1038/s41372-023-01628-1",
+      url: "https://doi.org/10.1038/s41372-023-01628-1",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes: "Reliability/validity source; implementation remains blocked pending official item table and licensing.",
+      appliesTo: ["comfortneo"],
+      priority: 2
+    }
+  ],
+  modified_finnegan: [
+    {
+      id: "finnegan_1975_original",
+      title: "Neonatal abstinence syndrome: assessment and management",
+      authors: "Finnegan LP, Connaughton JF Jr, Kron RE, Emich JP",
+      year: 1975,
+      journalOrPublisher: "Addictive Diseases",
+      citation:
+        "Finnegan LP, Connaughton JF Jr, Kron RE, Emich JP. Neonatal abstinence syndrome: assessment and management. Addict Dis. 1975;2(1-2):141-158.",
+      pmid: "1163358",
+      url: "https://pubmed.ncbi.nlm.nih.gov/1163358/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-2: original Finnegan source located. Modified variants, long item table, licensing, and therapeutic-threshold wording remain blocked.",
+      appliesTo: ["modified_finnegan"],
+      priority: 1
+    }
+  ],
+  wood_downes_ferres: [
+    {
+      id: "downes_1968_original",
+      title: "Acute respiratory failure in infants with bronchiolitis",
+      authors: "Downes JJ, Wood DW, Striker TW, Haddad C",
+      year: 1968,
+      journalOrPublisher: "Anesthesiology",
+      citation:
+        "Downes JJ, Wood DW, Striker TW, Haddad C. Acute respiratory failure in infants with bronchiolitis. Anesthesiology. 1968;29(3):426-434.",
+      pmid: "5647493",
+      url: "https://pubmed.ncbi.nlm.nih.gov/5647493/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-2: Downes/Wood source trail located, but the Ferres-modified WDF variant and exact table are not verified.",
+      appliesTo: ["wood_downes_ferres"],
+      priority: 1
+    }
+  ],
+  pediatric_gcs: [
+    {
+      id: "pediatric_gcs_nice_bookshelf",
+      title: "Paediatric version of the Glasgow Coma Scale",
+      authors: "National Collaborating Centre for Acute Care",
+      year: 2007,
+      journalOrPublisher: "NCBI Bookshelf",
+      citation:
+        "National Collaborating Centre for Acute Care. Head Injury: Triage, Assessment, Investigation and Early Management of Head Injury in Infants, Children and Adults. Paediatric version of the Glasgow Coma Scale.",
+      url: "https://www.ncbi.nlm.nih.gov/books/",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "guideline",
+      accessType: "open_access",
+      notes:
+        "Block 8B-2: accepted guideline/source trail identified, but exact pediatric verbal table by age/development and primary adaptation source remain pending.",
+      appliesTo: ["pediatric_gcs"],
+      priority: 1
+    }
+  ],
+  pews: [
+    {
+      id: "monaghan_2005_brighton_pews",
+      title:
+        "Detecting and managing deterioration in children: Critical Care Outreach and Paediatric Early Warning Score",
+      authors: "Monaghan A",
+      year: 2005,
+      journalOrPublisher: "Nursing Children and Young People",
+      citation:
+        "Monaghan A. Detecting and managing deterioration in children: Critical Care Outreach and Paediatric Early Warning Score. Nursing Children and Young People. 2005;17(1):32-35.",
+      doi: "10.7748/paed2005.02.17.1.32.c964",
+      url: "https://research.brighton.ac.uk/en/publications/detecting-and-managing-deterioration-in-children-critical-care-ou",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes:
+        "Block 8B-2: original Brighton/Monaghan PEWS source located. Generic PEWS remains blocked until a specific variant is selected.",
+      appliesTo: ["pews", "brighton_pews"],
+      priority: 1
+    }
+  ],
+  brighton_pews: [
+    {
+      id: "monaghan_2005_brighton_pews",
+      title:
+        "Detecting and managing deterioration in children: Critical Care Outreach and Paediatric Early Warning Score",
+      authors: "Monaghan A",
+      year: 2005,
+      journalOrPublisher: "Nursing Children and Young People",
+      citation:
+        "Monaghan A. Detecting and managing deterioration in children: Critical Care Outreach and Paediatric Early Warning Score. Nursing Children and Young People. 2005;17(1):32-35.",
+      doi: "10.7748/paed2005.02.17.1.32.c964",
+      url: "https://research.brighton.ac.uk/en/publications/detecting-and-managing-deterioration-in-children-critical-care-ou",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "paywalled",
+      notes:
+        "Block 8B-2: Brighton PEWS source located. Full table, local escalation separation, and reuse rights remain pending.",
+      appliesTo: ["brighton_pews"],
+      priority: 1
+    }
+  ],
+  orbegozo_growth_percentiles: [
+    {
+      id: "orbegozo_2011_official_tables",
+      title: "Graficas y tablas de crecimiento",
+      authors: "Fundacion Faustino Orbegozo Eizaguirre",
+      year: 2011,
+      journalOrPublisher: "Fundacion Faustino Orbegozo Eizaguirre",
+      citation:
+        "Fundacion Faustino Orbegozo Eizaguirre. Graficas y tablas de crecimiento. Publicacion 2011 del estudio transversal.",
+      url: "https://www.fundacionorbegozo.com/el-instituto-de-investigacion-del-crecimiento-y-desarrollo/graficas-y-tablas/",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Block 8B-2: official tables page located. LMS/data-file availability and license terms remain unclear; do not implement percentiles yet.",
+      appliesTo: ["orbegozo_growth_percentiles"],
+      priority: 1
+    }
+  ],
+  stamp: [
+    {
+      id: "stamp_2012_original",
+      title:
+        "The development and evaluation of the Screening Tool for the Assessment of Malnutrition in Paediatrics (STAMP) for use by healthcare staff",
+      authors: "McCarthy H, Dixon M, Crabtree I, Eaton-Evans MJ, McNulty H",
+      year: 2012,
+      journalOrPublisher: "Journal of Human Nutrition and Dietetics",
+      citation:
+        "McCarthy H, Dixon M, Crabtree I, Eaton-Evans MJ, McNulty H. The development and evaluation of the Screening Tool for the Assessment of Malnutrition in Paediatrics (STAMP) for use by healthcare staff. J Hum Nutr Diet. 2012;25(4):311-318.",
+      doi: "10.1111/j.1365-277X.2012.01234.x",
+      pmid: "22568534",
+      url: "https://pubmed.ncbi.nlm.nih.gov/22568534/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-2: original STAMP source located. The STAMP mark and tool materials require licensing review before implementation.",
+      appliesTo: ["stamp"],
+      priority: 1
+    }
+  ],
+  strongkids: [
+    {
+      id: "strongkids_2010_original",
+      title: "Dutch national survey to test the STRONGkids nutritional risk screening tool in hospitalized children",
+      authors: "Hulst JM, Zwart H, Hop WC, Joosten KFM",
+      year: 2010,
+      journalOrPublisher: "Clinical Nutrition",
+      citation:
+        "Hulst JM, Zwart H, Hop WC, Joosten KFM. Dutch national survey to test the STRONGkids nutritional risk screening tool in hospitalized children. Clin Nutr. 2010;29(1):106-111.",
+      doi: "10.1016/j.clnu.2009.07.006",
+      pmid: "19682776",
+      url: "https://pubmed.ncbi.nlm.nih.gov/19682776/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-2: original STRONGkids source located. Complete tool wording/table and reuse terms remain pending.",
+      appliesTo: ["strongkids"],
+      priority: 1
+    }
+  ],
+  pyms: [
+    {
+      id: "pyms_2010_original",
+      title: "A four-stage evaluation of the Paediatric Yorkhill Malnutrition Score in a tertiary paediatric hospital and a district general hospital",
+      authors: "Gerasimidis K, Keane O, Macleod I, Flynn DM, Wright CM",
+      year: 2010,
+      journalOrPublisher: "British Journal of Nutrition",
+      citation:
+        "Gerasimidis K, Keane O, Macleod I, Flynn DM, Wright CM. A four-stage evaluation of the Paediatric Yorkhill Malnutrition Score in a tertiary paediatric hospital and a district general hospital. Br J Nutr. 2010;104(5):751-756.",
+      doi: "10.1017/S0007114510001121",
+      pmid: "20398432",
+      url: "https://pubmed.ncbi.nlm.nih.gov/20398432/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Block 8B-2: original PYMS evaluation source located. Complete form/table and reuse terms remain pending.",
+      appliesTo: ["pyms"],
+      priority: 1
+    }
   ]
 };
 
@@ -556,8 +837,8 @@ const pendingCalculationNotes: LocalizedText = {
 };
 
 const woodDownesValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: la documentacion local identifica variables, rango 0-17 e interpretacion general, pero no define de forma inequivoca la version exacta, tabla completa de puntuacion para sibilancias/tiraje/entrada de aire/frecuencia respiratoria/frecuencia cardiaca, puntos de corte por edad ni fuente primaria. No se activa calculo por variantes Wood-Downes-Ferres/Downes.",
-  en: "Pending validation: local documentation identifies variables, 0-17 range, and general interpretation, but does not unambiguously define the exact version, full scoring table for wheezing/retractions/air entry/respiratory rate/heart rate, age cut-offs, or primary source. Calculation is not activated because of Wood-Downes-Ferres/Downes variants."
+  es: "Bloque 8B-2: localizado el origen Downes/Wood, pero no la version exacta Wood-Downes-Ferres modificada por Ferres ni tabla completa con cortes de frecuencia respiratoria por edad. No activar calculo por confusion de variantes.",
+  en: "Block 8B-2: Downes/Wood source trail located, but the exact version and exact Wood-Downes-Ferres variant modified by Ferres and complete table with age-specific respiratory-rate cut-offs remain unresolved. Calculation is not activated because of exact version confusion."
 };
 
 const ballardValidationNotes: LocalizedText = {
@@ -596,8 +877,8 @@ const cdcGrowthValidationNotes: LocalizedText = {
 };
 
 const pediatricGcsValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: la documentacion local confirma rango 3-15 y dominios ocular, verbal pediatrico y motor, pero no incluye la tabla verbal pediatrica completa por edad/desarrollo ni criterios de puntuacion suficientes para activar calculo.",
-  en: "Pending validation: local documentation confirms the 3-15 range and eye, pediatric verbal, and motor domains, but does not include the complete pediatric verbal table by age/development or enough scoring criteria to activate calculation."
+  es: "Bloque 8B-2: existe fuente guia para GCS pediatrico, pero falta fuente primaria/adaptacion exacta y tabla verbal pediatrica completa por edad/desarrollo. No activar calculo hasta seleccionar variante.",
+  en: "Block 8B-2: a guideline source for pediatric GCS is available, but the primary/adaptation source and complete pediatric verbal table by age/development remain pending. Calculation is not activated until variant selection is complete."
 };
 
 const criesValidationNotes: LocalizedText = {
@@ -616,23 +897,48 @@ const visualAnalogueScaleValidationNotes: LocalizedText = {
 };
 
 const pewsValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: PEWS tiene multiples variantes publicadas e institucionales. Debe seleccionarse una version exacta y separar puntuacion descriptiva de cualquier protocolo de escalado antes de activar calculo.",
-  en: "Pending validation: PEWS has multiple published and institutional variants. An exact version must be selected and descriptive scoring must be separated from any escalation protocol before calculation is activated."
+  es: "Bloque 8B-2: PEWS tiene multiples variantes publicadas e institucionales. Fuente Brighton/Monaghan localizada, Bedside PEWS documentada aparte; PEWS generico no se activa hasta seleccionar version exacta y separar protocolos de escalado.",
+  en: "Block 8B-2: PEWS has multiple published and institutional variants. Brighton/Monaghan source located and Bedside PEWS is documented separately; generic PEWS is not activated until exact variant selection and escalation-protocol separation are complete."
 };
 
 const pippValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: PIPP/PIPP-R requieren seleccionar variante, tabla completa, adaptacion por edad gestacional y revision de licencia antes de activar calculo.",
-  en: "Pending validation: PIPP/PIPP-R require selecting the variant, complete table, gestational-age adjustment, and licensing review before calculation is activated."
+  es: "Bloque 8B-2: fuentes PIPP y PIPP-R localizadas. Siguen pendientes tabla completa, ajuste por edad gestacional, interpretacion, permisos de reutilizacion y separacion clara de variantes antes de activar calculo.",
+  en: "Block 8B-2: PIPP and PIPP-R sources located. Complete table, gestational-age adjustment, interpretation, reuse permissions, and clear variant separation remain pending before calculation."
 };
 
 const comfortneoValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: COMFORTneo requiere tabla oficial completa, manejo de pacientes ventilados/no ventilados y revision de licencia antes de activar calculo.",
-  en: "Pending validation: COMFORTneo requires the complete official table, ventilated/non-ventilated handling, and licensing review before calculation is activated."
+  es: "Bloque 8B-2: fuentes COMFORTneo 2009 y validacion 2023 localizadas. Requiere tabla oficial completa, manejo ventilado/no ventilado, interpretacion, licencia y revision experta antes de activar calculo.",
+  en: "Block 8B-2: COMFORTneo 2009 and 2023 validation sources located. Complete official table, ventilated/non-ventilated handling, interpretation, licensing, and expert review remain pending before calculation."
 };
 
 const finneganValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: Finnegan/Finnegan modificado tiene multiples versiones y tablas extensas. Debe seleccionarse version exacta y evitar recomendaciones farmacologicas directas.",
-  en: "Pending validation: Finnegan/Modified Finnegan has multiple versions and extensive tables. The exact version must be selected and direct pharmacologic recommendations must be avoided."
+  es: "Bloque 8B-2: fuente original Finnegan localizada. Finnegan/modificado conserva multiples versiones y tabla extensa; debe seleccionarse version exacta, revisar licencia y evitar recomendaciones farmacologicas directas.",
+  en: "Block 8B-2: original Finnegan source located. Finnegan/Modified Finnegan retains multiple versions and an extensive table; exact version selection, licensing review, and avoidance of direct pharmacologic recommendations are required."
+};
+
+const brightonPewsValidationNotes: LocalizedText = {
+  es: "Bloque 8B-2: fuente Brighton/Monaghan PEWS localizada con DOI. Pendiente tabla completa reutilizable, separacion de protocolo institucional/escalado y revision de licencia antes de implementar.",
+  en: "Block 8B-2: Brighton/Monaghan PEWS source located with DOI. Complete reusable table, institutional/escalation protocol separation, and licensing review remain pending before implementation."
+};
+
+const orbegozoGrowthValidationNotes: LocalizedText = {
+  es: "Bloque 8B-2: pagina oficial de tablas Orbegozo localizada. Pendiente confirmar licencia, disponibilidad de datos/LMS reutilizables, version exacta y tests; no activar percentiles.",
+  en: "Block 8B-2: official Orbegozo tables page located. Licensing, reusable data/LMS availability, exact version, and tests remain pending; percentiles are not activated."
+};
+
+const stampValidationNotes: LocalizedText = {
+  es: "Bloque 8B-2: fuente primaria STAMP localizada con DOI/PMID. STAMP parece sensible a marca/copyright; pendiente tabla completa, permiso/reutilizacion e interpretacion antes de implementar.",
+  en: "Block 8B-2: STAMP primary source located with DOI/PMID. STAMP appears trademark/copyright sensitive; complete table, permission/reuse terms, and interpretation remain pending before implementation."
+};
+
+const strongkidsValidationNotes: LocalizedText = {
+  es: "Bloque 8B-2: fuente STRONGkids localizada con DOI/PMID. Pendiente tabla completa, texto de items, licencia/reutilizacion e interpretacion antes de implementar.",
+  en: "Block 8B-2: STRONGkids source located with DOI/PMID. Complete table, item wording, license/reuse terms, and interpretation remain pending before implementation."
+};
+
+const pymsValidationNotes: LocalizedText = {
+  es: "Bloque 8B-2: fuente PYMS localizada con DOI/PMID. Pendiente formulario/tabla completa, condiciones de reutilizacion, interpretacion y tests antes de implementar.",
+  en: "Block 8B-2: PYMS source located with DOI/PMID. Complete form/table, reuse terms, interpretation, and tests remain pending before implementation."
 };
 
 const option = (
@@ -1601,7 +1907,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "original_derivation_study", "medium", bhutaniValidationNotes),
   makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("pews", "pews", "PEWS", "Pediatric Early Warning Score", "Pediatric Early Warning Score", "emergency", "early_warning", "score", "Ninos hospitalizados o en urgencias", "Hospitalized children or children in emergency care", "Score de deteccion precoz de deterioro clinico con multiples variantes.", "Early warning score for clinical deterioration with multiple variants.", "pending_validation", "pending_verification", "medium", pewsValidationNotes),
-  makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "pending_verification", "medium"),
+  makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos con crisis asmatica o sibilancias", "Children with asthma exacerbation or wheezing", "Mide gravedad de broncoespasmo pediatrico.", "Measures pediatric wheezing/asthma severity.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
@@ -1638,12 +1944,12 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pim3", "pim3", "PIM3", "PIM3", "PIM3", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Indice de mortalidad pediatrica version 3.", "Pediatric Index of Mortality version 3.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("who_growth_percentiles", "who-growth-percentiles", "OMS", "Percentiles OMS", "WHO Growth Percentiles", "growth_nutrition", "growth", "percentile", "Lactantes y ninos segun edad aplicable", "Infants and children depending on applicable age", "Curvas de crecimiento OMS para peso, talla y otros parametros.", "WHO growth curves for weight, height, and other parameters.", "pending_validation", "official_manual_or_institutional_protocol", "medium", whoGrowthValidationNotes),
   makeTool("cdc_growth_percentiles", "cdc-growth-percentiles", "CDC", "Percentiles CDC", "CDC Growth Percentiles", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes segun edad aplicable", "Children and adolescents depending on applicable age", "Curvas de crecimiento CDC.", "CDC growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", cdcGrowthValidationNotes),
-  makeTool("orbegozo_growth_percentiles", "orbegozo-growth-percentiles", "Orbegozo", "Percentiles Orbegozo", "Orbegozo Growth Percentiles", "growth_nutrition", "growth", "percentile", "Poblacion pediatrica segun tablas aplicables", "Pediatric population depending on applicable tables", "Curvas de crecimiento Fundacion Orbegozo.", "Fundacion Orbegozo growth curves.", "pending_validation", "pending_verification", "medium"),
+  makeTool("orbegozo_growth_percentiles", "orbegozo-growth-percentiles", "Orbegozo", "Percentiles Orbegozo", "Orbegozo Growth Percentiles", "growth_nutrition", "growth", "percentile", "Poblacion pediatrica segun tablas aplicables", "Pediatric population depending on applicable tables", "Curvas de crecimiento Fundacion Orbegozo.", "Fundacion Orbegozo growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", orbegozoGrowthValidationNotes),
   makeTool("bmi_percentile", "bmi-percentile", "IMC percentilado", "IMC percentilado", "BMI Percentile", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes", "Children and adolescents", "Calcula IMC y percentil segun curva seleccionada.", "Calculates BMI and percentile according to selected curve.", "pending_validation", "pending_verification", "medium"),
   makeTool("head_circumference_percentile", "head-circumference-percentile", "PC percentil", "Percentil de perimetro craneal", "Head Circumference Percentile", "growth_nutrition", "growth", "percentile", "Lactantes y ninos pequenos", "Infants and young children", "Percentil de perimetro craneal segun curva seleccionada.", "Head circumference percentile according to selected curve.", "pending_validation", "pending_verification", "medium"),
-  makeTool("stamp", "stamp", "STAMP", "STAMP", "STAMP", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo nutricional.", "Nutritional risk screening tool.", "pending_validation", "pending_verification", "medium"),
-  makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo de malnutricion.", "Malnutrition risk screening tool.", "pending_validation", "pending_verification", "medium"),
-  makeTool("pyms", "pyms", "PYMS", "PYMS", "PYMS", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado nutricional pediatrico.", "Pediatric nutritional screening tool.", "pending_validation", "pending_verification", "medium"),
+  makeTool("stamp", "stamp", "STAMP", "STAMP", "STAMP", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo nutricional.", "Nutritional risk screening tool.", "pending_validation", "original_derivation_study", "medium", stampValidationNotes),
+  makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo de malnutricion.", "Malnutrition risk screening tool.", "pending_validation", "original_derivation_study", "medium", strongkidsValidationNotes),
+  makeTool("pyms", "pyms", "PYMS", "PYMS", "PYMS", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado nutricional pediatrico.", "Pediatric nutritional screening tool.", "pending_validation", "original_derivation_study", "medium", pymsValidationNotes),
   makeTool("flacc", "flacc", "FLACC", "FLACC", "FLACC", "pain", "pediatric_pain", "scale", "Ninos pequenos o no verbales", "Young or non-verbal children", "Escala observacional de dolor basada en rostro, piernas, actividad, llanto y consolabilidad.", "Observational pain scale based on face, legs, activity, cry, and consolability.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("rflacc", "rflacc", "rFLACC", "rFLACC", "rFLACC", "pain", "pediatric_pain", "scale", "Ninos con necesidades especiales o comunicacion limitada", "Children with special needs or limited communication", "Version revisada de FLACC identificada para revision.", "Revised FLACC version identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("cheops", "cheops", "CHEOPS", "CHEOPS", "CHEOPS", "pain", "pediatric_pain", "scale", "Ninos de 1 a 7 anos", "Children aged 1 to 7 years", "Escala observacional de dolor pediatrico.", "Observational pediatric pain scale.", "pending_validation", "pending_verification", "medium", cheopsValidationNotes, [docRef("cheops_kb", "PedsCore_Knowledge_Base_v1: CHEOPS", "pending_verification")]),

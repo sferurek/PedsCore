@@ -182,7 +182,15 @@ describe("clinical tools catalog", () => {
       "cries",
       "bhutani_nomogram",
       "bedside_pews",
+      "pipp",
+      "pipp_r",
+      "comfortneo",
+      "modified_finnegan",
+      "brighton_pews",
+      "orbegozo_growth_percentiles",
       "stamp",
+      "strongkids",
+      "pyms",
       "resuscitation_weight_dose_energy"
     ];
 
@@ -191,6 +199,44 @@ describe("clinical tools catalog", () => {
         "ready_for_implementation"
       );
     }
+  });
+
+  it("keeps Block 8B-2 reviewed tools pending until source, table, variant, and licensing gates are complete", () => {
+    const reviewedPendingIds = [
+      "pipp",
+      "pipp_r",
+      "comfortneo",
+      "modified_finnegan",
+      "wood_downes_ferres",
+      "pediatric_gcs",
+      "pews",
+      "brighton_pews",
+      "bedside_pews",
+      "orbegozo_growth_percentiles",
+      "stamp",
+      "strongkids",
+      "pyms"
+    ];
+
+    for (const id of reviewedPendingIds) {
+      const tool = getTool(id);
+
+      expect(tool?.implementationStatus).toBe("pending_validation");
+      expect(tool?.calculationStatus).not.toBe("active");
+    }
+  });
+
+  it("keeps variant-sensitive Block 8B-2 tools explicitly blocked", () => {
+    expect(getTool("pews")?.validationNotes.en).toContain("exact variant");
+    expect(getTool("wood_downes_ferres")?.validationNotes.en).toContain(
+      "exact Wood-Downes-Ferres variant"
+    );
+    expect(getTool("pediatric_gcs")?.validationNotes.en).toContain(
+      "complete pediatric verbal table"
+    );
+    expect(getTool("orbegozo_growth_percentiles")?.validationNotes.en).toContain(
+      "reusable data/LMS"
+    );
   });
 
   it("keeps input IDs unique within tools that define forms", () => {

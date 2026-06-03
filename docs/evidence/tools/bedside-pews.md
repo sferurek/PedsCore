@@ -44,3 +44,12 @@ Date: 2026-06-03
 - Variant selected: yes.
 - Licensing: pending review.
 - Ready for implementation: no.
+
+## Block 8B-2 Extension
+
+- current implementationStatus: `pending_validation`
+- current evidenceLevel: `original_derivation_study`
+- decision unchanged: `pending_licensing_review`
+- added context: Bedside PEWS remains distinct from Brighton/Monaghan PEWS and generic PEWS.
+- safety note: implementation must not include local escalation protocols or treatment directions.
+- next action: confirm reuse rights for the full score table and define purely descriptive test cases.

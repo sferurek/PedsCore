@@ -5,6 +5,7 @@ This folder tracks evidence, source traceability, scoring-table completeness, in
 Current global audit:
 
 - [Block 8 - Extreme Evidence Validation](./extreme-evidence-validation.md)
+- [Pending Validation Review](./PENDING_VALIDATION_REVIEW.md)
 
 Scope for Block 6A:
 
@@ -18,6 +19,17 @@ Scope for Block 6A:
 - PIPP / PIPP-R
 - COMFORTneo
 - Finnegan / Modified Finnegan
+
+Scope for Block 8B-2:
+
+- PIPP / PIPP-R
+- COMFORTneo
+- Finnegan / Modified Finnegan
+- Wood-Downes-Ferres
+- Pediatric Glasgow Coma Scale
+- PEWS / Brighton PEWS / Bedside PEWS
+- Orbegozo growth percentiles
+- STAMP / STRONGkids / PYMS
 
 Rules:
 
