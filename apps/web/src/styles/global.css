@@ -2924,8 +2924,25 @@ dt {
 .who-growth-metrics strong {
   display: block;
   margin-top: 0.2rem;
-  color: var(--ink);
+  color: var(--text);
   font-size: 1.2rem;
+}
+
+.who-growth-metrics .who-growth-metric-inactive {
+  background: #fbfcfd;
+  color: var(--muted);
+}
+
+.who-growth-metrics .who-growth-metric-inactive strong {
+  color: var(--muted);
+}
+
+.who-growth-metrics small {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.35;
 }
 
 .who-growth-safe-note {
@@ -2985,7 +3002,7 @@ dt {
 }
 
 .chart-title {
-  fill: var(--ink);
+  fill: var(--text);
   font-size: 15px;
 }
 
@@ -3021,7 +3038,7 @@ dt {
 }
 
 .percentile-label {
-  fill: var(--ink);
+  fill: var(--text);
   font-size: 12px;
   font-weight: 850;
 }
@@ -3039,7 +3056,7 @@ dt {
 }
 
 .patient-label.secondary {
-  fill: var(--ink);
+  fill: var(--text);
   font-weight: 750;
 }
 

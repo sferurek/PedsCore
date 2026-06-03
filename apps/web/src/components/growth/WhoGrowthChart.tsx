@@ -5,6 +5,10 @@ import {
 } from "@peds-core/core";
 import type { Language } from "../../utils/language";
 import { whoGrowthChartPercentiles } from "./whoGrowthChartConstants";
+import {
+  buildWhoGrowthChartTicks,
+  getWhoGrowthChartXValue
+} from "./whoGrowthChartUtils";
 
 interface WhoGrowthChartProps {
   indicatorLabel: string;
@@ -46,34 +50,6 @@ const buildPath = (points: Array<{ x: number; y: number }>) =>
     .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`)
     .join(" ");
 
-const getRecordXValue = (record: WhoLmsRecord) => {
-  if (record.measureCm !== undefined) {
-    return record.measureCm;
-  }
-
-  if (record.ageDays !== undefined) {
-    return record.ageDays / 30.4375;
-  }
-
-  if (record.ageMonths !== undefined) {
-    return record.ageMonths;
-  }
-
-  return undefined;
-};
-
-const buildTicks = (min: number, max: number, preferred?: number[]) => {
-  if (preferred) {
-    const filtered = preferred.filter((tick) => tick >= min && tick <= max);
-
-    if (filtered.length >= 2) {
-      return filtered;
-    }
-  }
-
-  return Array.from({ length: 6 }, (_, index) => min + ((max - min) / 5) * index);
-};
-
 export function WhoGrowthChart({
   indicatorLabel,
   percentile,
@@ -91,7 +67,7 @@ export function WhoGrowthChart({
 }: WhoGrowthChartProps) {
   const records = allRecords
     .filter((record) => record.sex === sex)
-    .map((record) => ({ record, xValue: getRecordXValue(record) }))
+    .map((record) => ({ record, xValue: getWhoGrowthChartXValue(record) }))
     .filter((item): item is { record: WhoLmsRecord; xValue: number } => item.xValue !== undefined)
     .filter((item) =>
       item.record.measureCm !== undefined
@@ -132,12 +108,12 @@ export function WhoGrowthChart({
     height - margin.bottom,
     margin.top
   );
-  const xTicks = buildTicks(
+  const xTicks = buildWhoGrowthChartTicks(
     xMin,
     xMax,
     xUnit === "cm" ? undefined : [0, 12, 24, 36, 48, 60]
   );
-  const yTicks = buildTicks(yMin, yMax);
+  const yTicks = buildWhoGrowthChartTicks(yMin, yMax);
   const patientX = xScale(Math.min(Math.max(xValue, xMin), xMax));
   const patientY = yScale(Math.min(Math.max(value, yMin), yMax));
   const patientLabel = language === "es" ? "Paciente" : "Patient";

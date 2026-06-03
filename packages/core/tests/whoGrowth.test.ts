@@ -396,6 +396,50 @@ describe("WHO growth scaffold", () => {
     expect(byIndicator.bmi_for_age.isApplicable).toBe(true);
   });
 
+  it("keeps head circumference not applicable when the measurement is missing", async () => {
+    const loaded = await loadWhoLmsRecords("head_circumference_for_age");
+    const result = calculateWhoGrowth(
+      {
+        sex: "female",
+        ageDays: 365
+      },
+      {
+        dataStatus: loaded.dataStatus,
+        lmsRecords: loaded.records
+      }
+    );
+    const headCircumferenceForAge = result.applicableResults.find(
+      (item) => item.indicator === "head_circumference_for_age"
+    );
+
+    expect(headCircumferenceForAge?.isApplicable).toBe(false);
+    expect(headCircumferenceForAge?.warning).toBe(
+      "Required measurement is missing."
+    );
+  });
+
+  it("keeps weight-for-height not applicable when recumbent length is provided", async () => {
+    const loaded = await loadWhoLmsRecords("weight_for_height");
+    const result = calculateWhoGrowth(
+      {
+        sex: "male",
+        weightKg: 10,
+        lengthCm: 80,
+        measurementMode: "recumbent_length"
+      },
+      {
+        dataStatus: loaded.dataStatus,
+        lmsRecords: loaded.records
+      }
+    );
+    const weightForHeight = result.applicableResults.find(
+      (item) => item.indicator === "weight_for_height"
+    );
+
+    expect(weightForHeight?.isApplicable).toBe(false);
+    expect(weightForHeight?.warning).toBe("Required measurement is missing.");
+  });
+
   it("does not calculate BMI-for-age without weight or stature", () => {
     const result = calculateWhoGrowthWithImportedData({
       sex: "male",

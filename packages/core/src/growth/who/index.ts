@@ -300,7 +300,7 @@ export const calculateWhoGrowth = (
     buildResult(
       "weight_for_length",
       "Weight-for-length",
-      input.weightKg,
+      input.lengthCm !== undefined ? input.weightKg : undefined,
       "kg",
       "WHO 0-5 years indicator-specific range",
       findLmsRecord({
@@ -313,7 +313,7 @@ export const calculateWhoGrowth = (
     buildResult(
       "weight_for_height",
       "Weight-for-height",
-      input.weightKg,
+      input.heightCm !== undefined ? input.weightKg : undefined,
       "kg",
       "WHO 0-5 years indicator-specific range",
       findLmsRecord({
