@@ -12,9 +12,9 @@
 ## Evidence validation status
 
 - final evidence status: `pending_validation`
-- blocking reason: core WHO 0-5 indicators are normalized and available, but WHO 5-19 data, interpolation policy, and final maintainer review remain pending.
+- blocking reason: core WHO 0-5 indicators plus WHO 5-19 BMI-for-age and height-for-age are normalized and available, but remaining 5-19 scope, interpolation policy, and final maintainer review remain pending.
 - depends on maintainer decision: yes
-- maintainer decision needed: confirm 5-19 scope, interpolation policy, chart percentile set, and print-output wording before marking the unified module fully implemented.
+- maintainer decision needed: confirm remaining 5-19 scope, interpolation policy, chart percentile set, and print-output wording before marking the unified module fully implemented.
 
 ## Clinical purpose
 
@@ -90,12 +90,33 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 
 - source: World Health Organization. Growth reference data for 5-19 years.
 - direct URL: https://www.who.int/tools/growth-reference-data-for-5to19-years
-- status: pending import and validation.
+- imported indicators after WHO-GROWTH-4A:
+  - BMI-for-age.
+  - height-for-age.
+- status: partial import and validation; remaining 5-19 scope and interpolation policy remain pending.
+
+### WHO BMI-for-age 5-19 years
+
+- source page: https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators/bmi-for-age
+- boys XLSX: https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-boys-z-who-2007-exp.xlsx?sfvrsn=a84bca93_2
+- girls XLSX: https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-girls-z-who-2007-exp.xlsx?sfvrsn=79222875_2
+- imported fields: Month, L, M, S.
+- age range: 61-228 completed months.
+- units: BMI kg/m2.
+
+### WHO height-for-age 5-19 years
+
+- source page: https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators/height-for-age
+- boys XLSX: https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/height-for-age-(5-19-years)/hfa-boys-z-who-2007-exp.xlsx?sfvrsn=7fa263d_2
+- girls XLSX: https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/height-for-age-(5-19-years)/hfa-girls-z-who-2007-exp.xlsx?sfvrsn=79d310ee_2
+- imported fields: Month, L, M, S.
+- age range: 61-228 completed months.
+- units: cm.
 
 ## Target population
 
 - Children 0-5 years for the imported WHO Child Growth Standards indicators.
-- Children/adolescents 5-19 years remain pending according to WHO Growth Reference 2007.
+- Children/adolescents 5-19 years for imported WHO Growth Reference 2007 BMI-for-age and height-for-age.
 - PedsCore shows an explicit not-applicable state when an indicator is outside its WHO range or required data are missing.
 - PedsCore does not mix WHO with CDC or Orbegozo inside this module.
 
@@ -104,7 +125,8 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 Current common input:
 
 - sex
-- exact age in days
+- exact age in days for WHO 0-5 indicators
+- exact age in completed months for WHO 5-19 indicators
 - weight
 - recumbent length / standing height
 - measurement mode: recumbent length or standing height
@@ -117,7 +139,7 @@ No entered value is stored, persisted, sent to analytics, or sent to a backend.
 - Calculate all applicable WHO indicators from the same input when official data are loaded.
 - Mark unavailable indicators as not applicable with a reason.
 - Do not silently coerce source.
-- No interpolation is active yet; lookup uses exact daily records or exact 0.1 cm measure records.
+- No interpolation is active yet; lookup uses exact daily records, exact 0.1 cm measure records, or exact completed-month records for WHO 5-19.
 - Do not mix WHO, CDC, and Orbegozo references.
 
 ## LMS formula
@@ -144,7 +166,7 @@ The UI shows reasonable decimals and keeps z-score traceability.
 
 ## Complete table availability
 
-- complete table found: official WHO expanded z-score XLSX tables contain L, M and S values for boys and girls for all imported 0-5 indicators.
+- complete table found: official WHO expanded z-score XLSX tables contain L, M and S values for boys and girls for all imported 0-5 indicators and imported 5-19 BMI-for-age/height-for-age indicators.
 - source: WHO official source files listed above.
 - copyright/licensing risk: manageable for non-commercial OSS use only if the WHO/source license is kept separate from MIT and attribution/share-alike/adaptation requirements are followed.
 - notes: no chart image has been copied into PedsCore. The normalized LMS data are stored under the separate WHO data license policy in `packages/core/src/growth/who/data/`.
@@ -157,6 +179,7 @@ This module is not a score table. It requires official LMS records by:
 |---|---|---|---|
 | sex | LMS stratum | WHO official data | male/female mapping must match source file. |
 | age in days | LMS lookup | WHO official data | used for age-based 0-5 indicators. |
+| age in completed months | LMS lookup | WHO official data | used for age-based 5-19 indicators. |
 | length/height cm | LMS lookup | WHO official data | used for length/height-for-age and weight-for-length/height. |
 | head circumference cm | value | WHO official data | used for head circumference-for-age. |
 | L | LMS coefficient | WHO official data | imported for all core WHO 0-5 indicators. |
@@ -184,7 +207,7 @@ Forbidden output:
 
 ## Graphs
 
-Current graph status: implemented for imported WHO 0-5 indicators as PedsCore-generated SVG charts using official LMS data.
+Current graph status: implemented for imported WHO 0-5 indicators and imported WHO 5-19 BMI-for-age/height-for-age as PedsCore-generated SVG charts using official LMS data.
 
 Graph behavior:
 
@@ -207,15 +230,18 @@ Current strategy:
   - `@peds-core/core/growth/who/lengthHeightForAge`
   - `@peds-core/core/growth/who/headCircumferenceForAge`
   - `@peds-core/core/growth/who/weightForLengthHeight`
+  - `@peds-core/core/growth/who/bmiForAge5To19`
+  - `@peds-core/core/growth/who/heightForAge5To19`
 - The web lazily imports the WHO Growth result panel only on the `who-growth` tool page.
-- Future 5-19 indicators must follow the same pattern: one official dataset module per indicator/family plus one loader branch.
+- The loader accepts an explicit range option for shared indicators, for example `loadWhoLmsRecords("bmi_for_age", { ageRange: "5_19" })`.
+- Future 5-19 indicators must follow the same pattern: one official dataset module per indicator/family plus one explicit loader branch.
 
 Bundle effect measured across WHO-GROWTH-2B/2C/3A:
 
 - Before lazy loading: the main web chunk was 510.67 kB minified.
 - After page-level lazy loading: the main web chunk was 383.45 kB minified.
 - After indicator loader split: BMI-for-age and weight-for-age are emitted as separate lazy data chunks of approximately 120 kB each.
-- WHO-GROWTH-3B keeps the same architecture and adds additional lazy chunks for each new indicator/family.
+- WHO-GROWTH-4A keeps the same architecture and adds lazy chunks for WHO 5-19 BMI-for-age and height-for-age.
 
 ## Print
 
@@ -239,9 +265,9 @@ Current print status: implemented with browser-native print output for SVG chart
 
 ## Implementation recommendation
 
-`implement_after_5_19_and_interpolation_review`
+`implement_after_remaining_5_19_and_interpolation_review`
 
-Rationale: core WHO 0-5 LMS data are imported under separate WHO data licensing and can generate z-scores, percentiles, printable SVG charts, written percentile labels, and patient points. The unified module remains pending because WHO 5-19 data, interpolation policy, and final maintainer review are not complete.
+Rationale: core WHO 0-5 LMS data plus WHO 5-19 BMI-for-age and height-for-age are imported under separate WHO data licensing and can generate z-scores, percentiles, printable SVG charts, written percentile labels, and patient points. The unified module remains pending because remaining WHO 5-19 scope, interpolation policy, and final maintainer review are not complete.
 
 ## Proposed test cases
 

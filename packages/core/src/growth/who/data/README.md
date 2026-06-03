@@ -15,6 +15,11 @@ Current status: core WHO 0-5 years indicators imported:
 - Weight-for-length.
 - Weight-for-height.
 
+WHO Growth Reference 2007 5-19 years indicators imported:
+
+- BMI-for-age.
+- Height-for-age.
+
 WHO growth data can be incorporated under the applicable WHO terms. For WHO
 publications, this is commonly CC BY-NC-SA 3.0 IGO, including attribution,
 non-commercial use, share-alike obligations where applicable, adaptation
@@ -54,10 +59,20 @@ Imported source files:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfh-boys-zscore-expanded-tables.xlsx?sfvrsn=ac60cb13_8
 - Weight-for-height girls expanded z-score table:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfh-girls-zscore-expanded-tables.xlsx?sfvrsn=daac732c_8
+- BMI-for-age 5-19 boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-boys-z-who-2007-exp.xlsx?sfvrsn=a84bca93_2
+- BMI-for-age 5-19 girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-girls-z-who-2007-exp.xlsx?sfvrsn=79222875_2
+- Height-for-age 5-19 boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/height-for-age-(5-19-years)/hfa-boys-z-who-2007-exp.xlsx?sfvrsn=7fa263d_2
+- Height-for-age 5-19 girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/height-for-age-(5-19-years)/hfa-girls-z-who-2007-exp.xlsx?sfvrsn=79d310ee_2
 
 Imported data:
 
 - Age-based indicators use daily LMS records, range 0-1856 days.
+- 5-19 BMI-for-age and height-for-age use monthly LMS records, range
+  61-228 completed months.
 - Weight-for-length uses length in cm, range 45-110 cm.
 - Weight-for-height uses height in cm, range 65-120 cm.
 - Sex: boys and girls, normalized as `male` and `female`.
@@ -71,9 +86,9 @@ Excluded sources in this module:
 - Orbegozo growth references.
 - Any third-party calculator, copied chart image, or reconstructed table.
 
-No 5-19 LMS coefficient is stored here until the source file, indicator, age
-range, sex mapping, license/terms, interpolation policy, and test fixtures have
-been verified.
+No additional 5-19 LMS coefficient is stored here until the source file,
+indicator, age range, sex mapping, license/terms, interpolation policy, and test
+fixtures have been verified.
 
 The data license policy is documented in `LICENSE.md`.
 

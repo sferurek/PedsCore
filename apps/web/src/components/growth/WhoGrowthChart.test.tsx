@@ -39,6 +39,20 @@ describe("WHO growth chart", () => {
     expect(getWhoGrowthChartXValue(record)).toBeCloseTo(11.99, 2);
   });
 
+  it("uses completed months directly for WHO 5-19 charts", () => {
+    const record: WhoLmsRecord = {
+      indicator: "bmi_for_age",
+      sex: "male",
+      ageMonths: 120,
+      L: 1,
+      M: 18,
+      S: 0.1,
+      source: "WHO Growth Reference 2007 test fixture"
+    };
+
+    expect(getWhoGrowthChartXValue(record)).toBe(120);
+  });
+
   it("uses measureCm directly for weight-for-length and weight-for-height charts", () => {
     const record: WhoLmsRecord = {
       indicator: "weight_for_length",

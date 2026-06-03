@@ -247,8 +247,8 @@ Policy controls interpretation more than formula mechanics in this phase.
 - Official LMS/data files per source.
 - Unit conventions and interpolation rules.
 - Locale policy document.
-- For the unified WHO module: verified WHO 0-5 and 5-19 LMS files, data versioning, print chart label policy, and fixture tests.
-- Blocks WHO-GROWTH-2B through WHO-GROWTH-3B import core WHO 0-5 LMS data from official WHO website XLSX files. WHO data/materials remain under the applicable WHO/source license, separate from MIT code. The remaining maintainer decisions are WHO 5-19 scope, interpolation policy, source-file update policy, attribution/adaptation disclaimer, and final activation criteria.
+- For the unified WHO module: verified WHO 0-5 LMS files plus verified WHO 5-19 BMI-for-age and height-for-age LMS files, data versioning, print chart label policy, and fixture tests.
+- Blocks WHO-GROWTH-2B through WHO-GROWTH-4A import core WHO 0-5 LMS data plus WHO 5-19 BMI-for-age and height-for-age from official WHO website XLSX files. WHO data/materials remain under the applicable WHO/source license, separate from MIT code. The remaining maintainer decisions are remaining WHO 5-19 scope, interpolation policy, source-file update policy, attribution/adaptation disclaimer, and final activation criteria.
 
 ### Proposed implementation scope
 - Catalog/reference-only.

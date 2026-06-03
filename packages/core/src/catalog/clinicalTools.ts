@@ -1124,8 +1124,8 @@ const whoGrowthValidationNotes: LocalizedText = {
 };
 
 const whoGrowthModuleValidationNotes: LocalizedText = {
-  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-3B: módulo unificado OMS preparado. Indicadores principales OMS 0-5 importados desde tablas XLSX oficiales OMS con licencia de datos separada y con cálculo LMS, gráficas SVG imprimibles y punto del paciente. OMS 5-19, política de interpolación y revisión final siguen pendientes antes de marcar el módulo completo como implementado.",
-  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-3B: unified WHO module prepared. Core WHO 0-5 indicators were imported from official WHO XLSX tables under a separate data license and have LMS calculation, printable SVG charts, and patient points. WHO 5-19, interpolation policy, and final review remain pending before marking the full module implemented."
+  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-4A: módulo unificado OMS preparado. Indicadores principales OMS 0-5 y BMI-for-age/height-for-age OMS 5-19 importados desde tablas XLSX oficiales OMS con licencia de datos separada y con cálculo LMS, gráficas SVG imprimibles y punto del paciente. Alcance restante 5-19, política de interpolación y revisión final siguen pendientes antes de marcar el módulo completo como implementado.",
+  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-4A: unified WHO module prepared. Core WHO 0-5 indicators plus WHO Growth Reference 2007 BMI-for-age and height-for-age 5-19 were imported from official WHO XLSX tables under a separate data license and have LMS calculation, printable SVG charts, and patient points. Remaining 5-19 scope, interpolation policy, and final review remain pending before marking the full module implemented."
 };
 
 const cdcGrowthValidationNotes: LocalizedText = {
@@ -1295,8 +1295,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   who_growth_module: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
-      es: "Indicadores principales OMS 0-5 disponibles con datos LMS oficiales normalizados y gráficas SVG imprimibles. OMS 5-19 y política completa del módulo siguen en validación.",
-      en: "Core WHO 0-5 indicators are available with normalized official LMS data and printable SVG charts. WHO 5-19 and the complete module policy remain under validation."
+      es: "Indicadores principales OMS 0-5 y BMI/talla para la edad OMS 5-19 disponibles con datos LMS oficiales normalizados y gráficas SVG imprimibles. Política completa del módulo sigue en validación.",
+      en: "Core WHO 0-5 indicators plus WHO 5-19 BMI-for-age and height-for-age are available with normalized official LMS data and printable SVG charts. The complete module policy remains under validation."
     },
     inputs: [
       {
@@ -1317,18 +1317,36 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       },
       {
         id: "age_days",
-        label: { es: "Edad exacta", en: "Exact age" },
+        label: { es: "Edad exacta 0-5", en: "Exact age 0-5" },
         description: {
-          es: "Edad en días. En este bloque no se interpola: se usa el registro diario OMS exacto.",
-          en: "Age in days. This block does not interpolate: it uses the exact daily WHO record."
+          es: "Edad en días para indicadores OMS 0-5. No se interpola: se usa el registro diario OMS exacto.",
+          en: "Age in days for WHO 0-5 indicators. No interpolation is used: the exact daily WHO record is required."
         },
         type: "number",
-        required: true,
+        required: false,
         unit: "días",
         min: 0,
         max: 1856,
         step: 1,
         placeholder: { es: "Ej. 730", en: "E.g. 730" }
+      },
+      {
+        id: "age_months",
+        label: {
+          es: "Edad exacta 5-19",
+          en: "Exact age 5-19"
+        },
+        description: {
+          es: "Edad en meses cumplidos para referencia OMS 5-19. No se convierte ni interpola desde días.",
+          en: "Completed age in months for the WHO 5-19 reference. It is not converted or interpolated from days."
+        },
+        type: "number",
+        required: false,
+        unit: "meses",
+        min: 61,
+        max: 228,
+        step: 1,
+        placeholder: { es: "Ej. 120", en: "E.g. 120" }
       },
       {
         id: "weight_kg",
@@ -1337,7 +1355,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         required: true,
         unit: "kg",
         min: 0.1,
-        max: 80,
+        max: 250,
         step: 0.1,
         placeholder: { es: "Ej. 12.4", en: "E.g. 12.4" }
       },
@@ -1352,7 +1370,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         required: true,
         unit: "cm",
         min: 30,
-        max: 130,
+        max: 220,
         step: 0.1,
         placeholder: { es: "Ej. 86.1", en: "E.g. 86.1" }
       },

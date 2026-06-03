@@ -10,6 +10,12 @@ export interface LoadedWhoLmsRecords {
   dataStatus: WhoGrowthDataStatus;
 }
 
+export type WhoGrowthAgeRange = "0_5" | "5_19";
+
+export interface LoadWhoLmsRecordsOptions {
+  ageRange?: WhoGrowthAgeRange;
+}
+
 const unloadedStatus = (indicator: WhoGrowthIndicator): WhoGrowthDataStatus => ({
   officialDataImported: false,
   reason: `WHO LMS data for ${indicator} are not imported in PedsCore yet.`,
@@ -22,9 +28,20 @@ const unloadedStatus = (indicator: WhoGrowthIndicator): WhoGrowthDataStatus => (
 });
 
 export const loadWhoLmsRecords = async (
-  indicator: WhoGrowthIndicator
+  indicator: WhoGrowthIndicator,
+  options: LoadWhoLmsRecordsOptions = {}
 ): Promise<LoadedWhoLmsRecords> => {
   if (indicator === "bmi_for_age") {
+    if (options.ageRange === "5_19") {
+      const module = await import("./bmiForAge5To19.js");
+
+      return {
+        indicator,
+        records: module.whoBmiForAge5To19LmsRecords,
+        dataStatus: module.whoBmiForAge5To19DataStatus
+      };
+    }
+
     const module = await import("./bmiForAge.js");
 
     return {
@@ -45,6 +62,16 @@ export const loadWhoLmsRecords = async (
   }
 
   if (indicator === "length_height_for_age") {
+    if (options.ageRange === "5_19") {
+      const module = await import("./heightForAge5To19.js");
+
+      return {
+        indicator,
+        records: module.whoHeightForAge5To19LmsRecords,
+        dataStatus: module.whoHeightForAge5To19DataStatus
+      };
+    }
+
     const module = await import("./lengthHeightForAge.js");
 
     return {

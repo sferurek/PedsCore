@@ -41,6 +41,20 @@ import {
   whoLengthHeightForAgeDataStatus
 } from "../src/growth/who/lengthHeightForAge";
 import {
+  calculateWhoGrowthWithBmiForAge5To19Data,
+  findImportedWhoBmiForAge5To19Record,
+  who5To19BmiForAge,
+  who5To19BmiForAgeSource,
+  whoBmiForAge5To19DataStatus
+} from "../src/growth/who/bmiForAge5To19";
+import {
+  calculateWhoGrowthWithHeightForAge5To19Data,
+  findImportedWhoHeightForAge5To19Record,
+  who5To19HeightForAge,
+  who5To19HeightForAgeSource,
+  whoHeightForAge5To19DataStatus
+} from "../src/growth/who/heightForAge5To19";
+import {
   calculateWhoGrowthWithWeightForHeightData,
   calculateWhoGrowthWithWeightForLengthData,
   findImportedWhoWeightForHeightRecord,
@@ -189,6 +203,80 @@ describe("WHO growth scaffold", () => {
     ]);
   });
 
+  it("loads official WHO Growth Reference 2007 BMI-for-age 5-19 data", async () => {
+    const loaded = await loadWhoLmsRecords("bmi_for_age", {
+      ageRange: "5_19"
+    });
+
+    expect(whoBmiForAge5To19DataStatus.officialDataImported).toBe(true);
+    expect(whoBmiForAge5To19DataStatus.importedIndicators).toEqual([
+      "bmi_for_age"
+    ]);
+    expect(whoBmiForAge5To19DataStatus.excludedSources).toEqual([
+      "CDC",
+      "Orbegozo"
+    ]);
+    expect(who5To19BmiForAge).toHaveLength(336);
+    expect(loaded.records).toHaveLength(336);
+    expect(who5To19BmiForAgeSource.sourcePage).toContain("who.int");
+    expect(who5To19BmiForAgeSource.boysUrl).toContain("cdn.who.int");
+    expect(who5To19BmiForAgeSource.girlsUrl).toContain("cdn.who.int");
+    expect(who5To19BmiForAge.some((record) => record.sex === "male")).toBe(
+      true
+    );
+    expect(who5To19BmiForAge.some((record) => record.sex === "female")).toBe(
+      true
+    );
+  });
+
+  it("loads official WHO Growth Reference 2007 height-for-age 5-19 data", async () => {
+    const loaded = await loadWhoLmsRecords("length_height_for_age", {
+      ageRange: "5_19"
+    });
+
+    expect(whoHeightForAge5To19DataStatus.officialDataImported).toBe(true);
+    expect(whoHeightForAge5To19DataStatus.importedIndicators).toEqual([
+      "length_height_for_age"
+    ]);
+    expect(whoHeightForAge5To19DataStatus.excludedSources).toEqual([
+      "CDC",
+      "Orbegozo"
+    ]);
+    expect(who5To19HeightForAge).toHaveLength(336);
+    expect(loaded.records).toHaveLength(336);
+    expect(who5To19HeightForAgeSource.sourcePage).toContain("who.int");
+    expect(who5To19HeightForAgeSource.boysUrl).toContain("cdn.who.int");
+    expect(who5To19HeightForAgeSource.girlsUrl).toContain("cdn.who.int");
+    expect(who5To19HeightForAge.some((record) => record.sex === "male")).toBe(
+      true
+    );
+    expect(who5To19HeightForAge.some((record) => record.sex === "female")).toBe(
+      true
+    );
+  });
+
+  it("keeps WHO 0-5 and 5-19 loaders range-specific", async () => {
+    const bmi0To5 = await loadWhoLmsRecords("bmi_for_age");
+    const bmi5To19 = await loadWhoLmsRecords("bmi_for_age", {
+      ageRange: "5_19"
+    });
+    const height0To5 = await loadWhoLmsRecords("length_height_for_age");
+    const height5To19 = await loadWhoLmsRecords("length_height_for_age", {
+      ageRange: "5_19"
+    });
+
+    expect(bmi0To5.records).toHaveLength(3714);
+    expect(bmi5To19.records).toHaveLength(336);
+    expect(height0To5.records).toHaveLength(3714);
+    expect(height5To19.records).toHaveLength(336);
+    expect(bmi0To5.records.some((record) => record.ageDays !== undefined)).toBe(
+      true
+    );
+    expect(bmi5To19.records.every((record) => record.ageMonths !== undefined)).toBe(
+      true
+    );
+  });
+
   it("resolves official BMI-for-age LMS records by sex and day", () => {
     expect(
       findImportedWhoLmsRecord({
@@ -204,6 +292,37 @@ describe("WHO growth scaffold", () => {
         ageDays: 730
       })
     ).toMatchObject({ indicator: "bmi_for_age", sex: "female", ageDays: 730 });
+  });
+
+  it("resolves official WHO 5-19 LMS fixtures by sex and month", () => {
+    expect(
+      findImportedWhoBmiForAge5To19Record({
+        indicator: "bmi_for_age",
+        sex: "male",
+        ageMonths: 61
+      })
+    ).toMatchObject({ L: -0.7387, M: 15.2641, S: 0.0839 });
+    expect(
+      findImportedWhoBmiForAge5To19Record({
+        indicator: "bmi_for_age",
+        sex: "female",
+        ageMonths: 61
+      })
+    ).toMatchObject({ L: -0.8886, M: 15.2441, S: 0.09692 });
+    expect(
+      findImportedWhoHeightForAge5To19Record({
+        indicator: "length_height_for_age",
+        sex: "male",
+        ageMonths: 61
+      })
+    ).toMatchObject({ L: 1, M: 110.2647, S: 0.04164 });
+    expect(
+      findImportedWhoHeightForAge5To19Record({
+        indicator: "length_height_for_age",
+        sex: "female",
+        ageMonths: 61
+      })
+    ).toMatchObject({ L: 1, M: 109.6016, S: 0.04355 });
   });
 
   it("calculates WHO BMI-for-age z-score and percentile with complete input", () => {
@@ -227,6 +346,49 @@ describe("WHO growth scaffold", () => {
     expect(bmiForAge?.value).toBeCloseTo(16.22, 2);
     expect(bmiForAge?.zScore).toBeTypeOf("number");
     expect(bmiForAge?.percentile).toBeTypeOf("number");
+  });
+
+  it("calculates WHO BMI-for-age 5-19 z-score and percentile with complete input", () => {
+    const heightCm = 110;
+    const bmiMedian = 15.2641;
+    const weightKg = bmiMedian * (heightCm / 100) ** 2;
+    const result = calculateWhoGrowthWithBmiForAge5To19Data({
+      sex: "male",
+      ageMonths: 61,
+      weightKg,
+      heightCm,
+      measurementMode: "standing_height"
+    });
+    const bmiForAge = result.applicableResults.find(
+      (item) => item.indicator === "bmi_for_age"
+    );
+
+    expect(result.warnings).toContain(
+      "Only WHO bmi_for_age data are imported. Other WHO indicators remain pending."
+    );
+    expect(bmiForAge?.isApplicable).toBe(true);
+    expect(bmiForAge?.value).toBeCloseTo(bmiMedian, 4);
+    expect(bmiForAge?.zScore).toBeCloseTo(0, 4);
+    expect(bmiForAge?.percentile).toBeCloseTo(50, 1);
+  });
+
+  it("calculates WHO height-for-age 5-19 z-score and percentile with complete input", () => {
+    const result = calculateWhoGrowthWithHeightForAge5To19Data({
+      sex: "male",
+      ageMonths: 61,
+      heightCm: 110.2647,
+      measurementMode: "standing_height"
+    });
+    const heightForAge = result.applicableResults.find(
+      (item) => item.indicator === "length_height_for_age"
+    );
+
+    expect(result.warnings).toContain(
+      "Only WHO length_height_for_age data are imported. Other WHO indicators remain pending."
+    );
+    expect(heightForAge?.isApplicable).toBe(true);
+    expect(heightForAge?.zScore).toBeCloseTo(0, 4);
+    expect(heightForAge?.percentile).toBeCloseTo(50, 1);
   });
 
   it("resolves official weight-for-age LMS records by sex and day", () => {
@@ -502,6 +664,7 @@ describe("WHO growth scaffold", () => {
     expect(tool?.inputs?.map((input) => input.id)).toEqual([
       "sex",
       "age_days",
+      "age_months",
       "weight_kg",
       "stature_cm",
       "measurement_mode",

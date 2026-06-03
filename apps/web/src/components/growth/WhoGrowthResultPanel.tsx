@@ -7,7 +7,10 @@ import {
   type WhoGrowthSex,
   type WhoLmsRecord
 } from "@peds-core/core";
-import { loadWhoLmsRecords } from "@peds-core/core/growth/who/loaders";
+import {
+  loadWhoLmsRecords,
+  type LoadWhoLmsRecordsOptions
+} from "@peds-core/core/growth/who/loaders";
 import { forwardRef, useEffect, useMemo, useState } from "react";
 import type { FormValues } from "../../utils/formState";
 import type { Language } from "../../utils/language";
@@ -18,14 +21,21 @@ interface WhoGrowthResultPanelProps {
   values: FormValues;
 }
 
-const loadedIndicators = [
-  "weight_for_age",
-  "length_height_for_age",
-  "head_circumference_for_age",
-  "weight_for_length",
-  "weight_for_height",
-  "bmi_for_age"
-] as const satisfies readonly WhoGrowthIndicator[];
+interface LoadedIndicatorRequest {
+  indicator: WhoGrowthIndicator;
+  options?: LoadWhoLmsRecordsOptions;
+}
+
+const loadedIndicatorRequests: ReadonlyArray<LoadedIndicatorRequest> = [
+  { indicator: "weight_for_age" },
+  { indicator: "length_height_for_age" },
+  { indicator: "head_circumference_for_age" },
+  { indicator: "weight_for_length" },
+  { indicator: "weight_for_height" },
+  { indicator: "bmi_for_age" },
+  { indicator: "bmi_for_age", options: { ageRange: "5_19" } },
+  { indicator: "length_height_for_age", options: { ageRange: "5_19" } }
+];
 
 const asNumber = (value: unknown): number | undefined => {
   if (typeof value === "number" && Number.isFinite(value)) {
@@ -57,7 +67,12 @@ interface DisplayIndicator {
   yAxisLabel: string;
   xAxisLabel: string;
   xUnit: string;
-  getXValue: (params: { ageDays?: number; statureCm?: number }) => number | undefined;
+  getXValue: (params: {
+    ageDays?: number;
+    ageMonths?: number;
+    result: WhoGrowthApplicableResult;
+    statureCm?: number;
+  }) => number | undefined;
 }
 
 interface DisplayResult {
@@ -77,11 +92,12 @@ const displayIndicators = {
     },
     {
       indicator: "length_height_for_age",
-      label: "Longitud/talla para la edad OMS 0-5",
+      label: "Longitud/talla para la edad OMS",
       yAxisLabel: "Longitud/talla (cm)",
       xAxisLabel: "Edad (meses)",
       xUnit: "meses",
-      getXValue: ({ ageDays }) => ageDays
+      getXValue: ({ ageDays, ageMonths, result }) =>
+        result.source.includes("5-19") ? ageMonths : ageDays
     },
     {
       indicator: "head_circumference_for_age",
@@ -109,11 +125,12 @@ const displayIndicators = {
     },
     {
       indicator: "bmi_for_age",
-      label: "BMI-for-age OMS 0-5",
+      label: "BMI-for-age OMS",
       yAxisLabel: "BMI kg/m2",
       xAxisLabel: "Edad (meses)",
       xUnit: "meses",
-      getXValue: ({ ageDays }) => ageDays
+      getXValue: ({ ageDays, ageMonths, result }) =>
+        result.source.includes("5-19") ? ageMonths : ageDays
     }
   ],
   en: [
@@ -127,11 +144,12 @@ const displayIndicators = {
     },
     {
       indicator: "length_height_for_age",
-      label: "WHO length/height-for-age 0-5",
+      label: "WHO length/height-for-age",
       yAxisLabel: "Length/height (cm)",
       xAxisLabel: "Age (months)",
       xUnit: "months",
-      getXValue: ({ ageDays }) => ageDays
+      getXValue: ({ ageDays, ageMonths, result }) =>
+        result.source.includes("5-19") ? ageMonths : ageDays
     },
     {
       indicator: "head_circumference_for_age",
@@ -159,11 +177,12 @@ const displayIndicators = {
     },
     {
       indicator: "bmi_for_age",
-      label: "WHO BMI-for-age 0-5",
+      label: "WHO BMI-for-age",
       yAxisLabel: "BMI kg/m2",
       xAxisLabel: "Age (months)",
       xUnit: "months",
-      getXValue: ({ ageDays }) => ageDays
+      getXValue: ({ ageDays, ageMonths, result }) =>
+        result.source.includes("5-19") ? ageMonths : ageDays
     }
   ]
 } satisfies Record<Language, DisplayIndicator[]>;
@@ -181,6 +200,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     const sex = values.sex;
     const resolvedSex = isSex(sex) ? sex : null;
     const ageDays = asNumber(values.age_days);
+    const ageMonths = asNumber(values.age_months);
     const weightKg = asNumber(values.weight_kg);
     const statureCm = asNumber(values.stature_cm);
     const headCircumferenceCm = asNumber(values.head_circumference_cm);
@@ -191,13 +211,17 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     const heightCm = measurementMode === "standing_height" ? statureCm : undefined;
     const canCalculate =
       resolvedSex !== null &&
-      ageDays !== undefined &&
+      (ageDays !== undefined || ageMonths !== undefined) &&
       weightKg !== undefined;
 
     useEffect(() => {
       let isActive = true;
 
-      Promise.all(loadedIndicators.map((indicator) => loadWhoLmsRecords(indicator)))
+      Promise.all(
+        loadedIndicatorRequests.map(({ indicator, options }) =>
+          loadWhoLmsRecords(indicator, options)
+        )
+      )
         .then((loadedIndicatorData) => {
           if (!isActive) {
             return;
@@ -219,7 +243,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
                 (item) => item.dataStatus.officialDataImported
               ),
               reason:
-                "WHO 0-5 BMI-for-age, weight-for-age, length/height-for-age, head circumference-for-age, weight-for-length and weight-for-height LMS data are normalized and verified. WHO 5-19 indicators remain pending.",
+                "WHO 0-5 core LMS data and WHO Growth Reference 2007 BMI-for-age and height-for-age 5-19 LMS data are normalized and verified. Remaining WHO 5-19 indicators remain pending.",
               importedIndicators,
               allowedSources: firstStatus.allowedSources,
               excludedSources: firstStatus.excludedSources
@@ -247,6 +271,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         {
           sex: resolvedSex,
           ageDays,
+          ageMonths,
           weightKg,
           heightCm,
           lengthCm,
@@ -260,6 +285,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       );
     }, [
       ageDays,
+      ageMonths,
       canCalculate,
       headCircumferenceCm,
       heightCm,
@@ -271,11 +297,11 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     ]);
     const copy = {
       es: {
-        title: "Crecimiento OMS 0-5",
+        title: "Crecimiento OMS",
         pending:
-          "Pendiente de cumplimentar sexo, edad exacta y peso para obtener resultados OMS. La longitud/talla y el perímetro cefálico activan indicadores adicionales.",
+          "Pendiente de cumplimentar sexo, una edad exacta OMS y peso para obtener resultados OMS. La longitud/talla y el perímetro cefálico activan indicadores adicionales.",
         unavailable:
-          "No hay indicadores OMS disponibles para estos datos. Revisa que la edad esté entre 0 y 1856 días y que las medidas estén dentro del rango de la tabla OMS.",
+          "No hay indicadores OMS disponibles para estos datos. Revisa que la edad 0-5 esté en días, que la edad 5-19 esté en meses cumplidos y que las medidas estén dentro del rango de la tabla OMS.",
         loading: "Cargando datos oficiales OMS...",
         loadError: "No se pudieron cargar los datos OMS.",
         print: "Imprimir gráficas",
@@ -283,16 +309,16 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         percentile: "Percentil",
         zScore: "z-score",
         source:
-          "Fuente: WHO Child Growth Standards 0-5 years. Datos OMS con licencia separada.",
+          "Fuente: WHO Child Growth Standards 0-5 years y WHO Growth Reference 2007 5-19 years. Datos OMS con licencia separada.",
         note:
           "Estos resultados son informativos y deben interpretarse junto con la valoración clínica, la evolución longitudinal y los protocolos locales."
       },
       en: {
-        title: "WHO growth 0-5",
+        title: "WHO growth",
         pending:
-          "Complete sex, exact age and weight to obtain WHO results. Length/height and head circumference enable additional indicators.",
+          "Complete sex, one exact WHO age and weight to obtain WHO results. Length/height and head circumference enable additional indicators.",
         unavailable:
-          "No WHO indicators are available for these data. Check age is between 0 and 1856 days and measurements are within the WHO table range.",
+          "No WHO indicators are available for these data. Check 0-5 age is entered in days, 5-19 age is entered in completed months and measurements are within the WHO table range.",
         loading: "Loading official WHO data...",
         loadError: "WHO data could not be loaded.",
         print: "Print charts",
@@ -300,7 +326,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         percentile: "Percentile",
         zScore: "z-score",
         source:
-          "Source: WHO Child Growth Standards 0-5 years. WHO data under separate license.",
+          "Source: WHO Child Growth Standards 0-5 years and WHO Growth Reference 2007 5-19 years. WHO data under separate license.",
         note:
           "These results are informational and should be interpreted together with clinical assessment, longitudinal growth pattern and local protocols."
       }
@@ -333,7 +359,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       loadedData !== null &&
       applicableDisplayResults.length > 0 &&
       resolvedSex !== null &&
-      ageDays !== undefined;
+      (ageDays !== undefined || ageMonths !== undefined);
 
     return (
       <section className="content-panel result-panel who-growth-result-panel" ref={ref}>
@@ -387,7 +413,12 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
             </div>
             <p className="who-growth-safe-note">{copy.note}</p>
             {applicableDisplayResults.map(({ display, result: displayResult }) => {
-              const xValue = display.getXValue({ ageDays, statureCm });
+              const xValue = display.getXValue({
+                ageDays,
+                ageMonths,
+                result: displayResult,
+                statureCm
+              });
 
               if (xValue === undefined) {
                 return null;

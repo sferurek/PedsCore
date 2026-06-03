@@ -49,6 +49,20 @@ Suggested attribution for WHO Growth Reference 5-19 years:
 World Health Organization. Growth reference data for 5-19 years. Geneva: World
 Health Organization; 2007. Licence according to WHO terms.
 
+Imported BMI-for-age 5-19 years source files:
+
+- Boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-boys-z-who-2007-exp.xlsx?sfvrsn=a84bca93_2
+- Girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-girls-z-who-2007-exp.xlsx?sfvrsn=79222875_2
+
+Imported height-for-age 5-19 years source files:
+
+- Boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/height-for-age-(5-19-years)/hfa-boys-z-who-2007-exp.xlsx?sfvrsn=7fa263d_2
+- Girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/height-for-age-(5-19-years)/hfa-girls-z-who-2007-exp.xlsx?sfvrsn=79d310ee_2
+
 Direct links:
 
 - https://www.who.int/tools/child-growth-standards
