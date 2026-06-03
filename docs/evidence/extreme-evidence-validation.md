@@ -243,3 +243,25 @@ This pass separated pending tools by blocker type:
 | adolescent-depression-risk | source + instrument selection | source/definition | yes | Instrument policy not selected. |
 | adolescent-behavior-risk | source + instrument selection | source/definition | yes | Instrument policy not selected. |
 | mass-casualty-triage | variant scope | variant selection + jurisdiction | yes | Algorithm family first, then implementation policy. |
+
+## Block 8B-5 Decision Pack Preparation
+
+MAINTAINER decision work does not change `implementationStatus` in this block, but it makes explicit which high-impact tools need clinical governance before activation.
+
+| Family | Decision gate | Current recommended posture | Why |
+|---|---|---|---|
+| `wood_downes_ferres` | `maintainer_variant_selection` | keep pending_validation | Respiratory variant and table details not finalized. |
+| `pediatric_gcs` | `maintainer_variant_selection` | keep pending_validation | Pediatric age-specific verbal table is not yet standardized in catalog evidence. |
+| `pews` family | `maintainer_variant_selection` | keep pending_validation | Multiple variants with different escalation semantics; avoid generic implementation. |
+| `resuscitation` (`pediatric_cpr`, `neonatal_cpr`, rhythm/brady/tachy rules) | `maintainer_governance` | keep catalog/reference-only | High therapeutic-protocol risk and guideline-reproduction constraints. |
+| `resuscitation_weight_dose_energy` | `maintainer_clinical_scope` | keep pending_validation | Dosing context overlaps treatment workflow; requires explicit scope policy. |
+| `who_growth_percentiles` / `cdc_growth_percentiles` | `maintainer_scope_policy` | keep pending_validation | Source and interpolation policy by locale/age should be decided first. |
+| `orbegozo_growth_percentiles` | `license_and_data_terms` | keep pending_validation | Data availability and licensing terms require confirmation. |
+| `pim2` / `pim3` / `prism_iii` / `prism_iv` / `pelod` / `pelod_2` / `psofa` | `maintainer_clinical_governance` | keep coming_soon/blocked | Prognostic or complex ICU tools demand explicit governance and review. |
+| `cheops` / `cries` / `rflacc` / `visual_analogue_scale` | `maintainer_data_model` | keep blocked until complete scoring policy | Scoring table, table variants, and interpretation details are still incomplete or unresolved. |
+| Proprietary/copyright tools (`bayley`, `denver_ii`, `wong_baker_faces`, `stamp`) | `maintainer_license_policy` | catalog-only / do_not_implement in MVP | Permission and safe reproducibility constraints require explicit policy. |
+
+### Reference map
+
+- `docs/evidence/MAINTAINER_DECISION_PACK.md`: contains the consolidated recommended options and test requirements for each maintainer-dependent family.
+- `docs/evidence/PENDING_VALIDATION_REVIEW.md`: updated crosswalk with `maintainer_decision_required` and `recommended_decision_pack_section` for all maintainer-dependent families.

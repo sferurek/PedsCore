@@ -172,3 +172,36 @@ This block separates unresolved tools into decision classes:
 | `strongkids` | `strongkids` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | licensing and table details pending | `blocked_missing_complete_scoring_table` | no |
 | `pews` | `pews` | emergency | `pending_validation` | `blocked_variant_selection_needed` | multiple PEWS families exist | `blocked_variant_selection_needed` | yes |
 | `mass_casualty_triage` | `mass-casualty-triage` | emergency | `coming_soon` | `blocked_variant_selection_needed` | algorithm family selection unresolved | `catalog_only_recommended` | yes |
+
+## 8B-5 Maintainer Decision Crosswalk
+
+| Tool ID | maintainer_decision_required | recommended_decision_pack_section |
+|---|---|---|
+| `wood_downes_ferres` | yes | Wood-Downes-Ferrés |
+| `pediatric_gcs` | yes | Pediatric Glasgow Coma Scale |
+| `pews` | yes | PEWS / Brighton PEWS / Bedside PEWS |
+| `brighton_pews` | yes | PEWS / Brighton PEWS / Bedside PEWS |
+| `bedside_pews` | yes | PEWS / Brighton PEWS / Bedside PEWS |
+| `pediatric_cpr` | yes | RCP pediátrica y neonatal / algoritmos |
+| `neonatal_cpr` | yes | RCP pediátrica y neonatal / algoritmos |
+| `pediatric_bradycardia` | yes | RCP pediátrica y neonatal / algoritmos |
+| `pediatric_tachycardia` | yes | RCP pediátrica y neonatal / algoritmos |
+| `shockable_rhythm_algorithm` | yes | RCP pediátrica y neonatal / algoritmos |
+| `non_shockable_rhythm_algorithm` | yes | RCP pediátrica y neonatal / algoritmos |
+| `resuscitation_weight_dose_energy` | yes | Calculadora peso-dosis-energía en RCP |
+| `who_growth_percentiles` | yes | Percentiles WHO/CDC |
+| `cdc_growth_percentiles` | yes | Percentiles WHO/CDC |
+| `orbegozo_growth_percentiles` | yes | Orbegozo |
+| `psofa` | yes | PIM/PRISM/PELOD/pSOFA |
+| `pelod` | yes | PIM/PRISM/PELOD/pSOFA |
+| `pelod_2` | yes | PIM/PRISM/PELOD/pSOFA |
+| `prism_iii` | yes | PIM/PRISM/PELOD/pSOFA |
+| `prism_iv` | yes | PIM/PRISM/PELOD/pSOFA |
+| `pim2` | yes | PIM/PRISM/PELOD/pSOFA |
+| `pim3` | yes | PIM/PRISM/PELOD/pSOFA |
+| `bayley` | yes | Propietarias / licencia |
+| `denver_ii` | yes | Propietarias / licencia |
+| `wong_baker_faces` | yes | Propietarias / licencia |
+| `cheops` | no | Dolor con tabla compleja / copyright |
+| `cries` | no | Dolor con tabla compleja / copyright |
+| `rflacc` | no | Dolor con tabla compleja / copyright |
