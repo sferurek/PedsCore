@@ -35,6 +35,8 @@ const asNumber = (value: unknown): number | undefined => {
   return undefined;
 };
 
+const hasNumber = (value: unknown): boolean => asNumber(value) !== undefined;
+
 const asString = (value: unknown): string | undefined =>
   typeof value === "string" && value.trim() ? value.trim() : undefined;
 
@@ -197,15 +199,12 @@ export const resolveWhoGrowthAge = (
   }
 
   if (mode === "structured_0_5") {
-    const years = asNumber(values.age_years_0_5) ?? 0;
-    const months = asNumber(values.age_months_0_5) ?? 0;
-    const days = asNumber(values.age_extra_days_0_5) ?? 0;
-    const hasAnyValue =
-      asNumber(values.age_years_0_5) !== undefined ||
-      asNumber(values.age_months_0_5) !== undefined ||
-      asNumber(values.age_extra_days_0_5) !== undefined;
+    const hasAllValues =
+      hasNumber(values.age_years_0_5) &&
+      hasNumber(values.age_months_0_5) &&
+      hasNumber(values.age_extra_days_0_5);
 
-    if (!hasAnyValue) {
+    if (!hasAllValues) {
       return {
         isExact: false,
         label: t.structuredMissing,
@@ -213,6 +212,10 @@ export const resolveWhoGrowthAge = (
         warning: t.structuredMissing
       };
     }
+
+    const years = asNumber(values.age_years_0_5) ?? 0;
+    const months = asNumber(values.age_months_0_5) ?? 0;
+    const days = asNumber(values.age_extra_days_0_5) ?? 0;
 
     const ageDays = calculateAgeDaysFromStructuredAge(years, months, days);
 

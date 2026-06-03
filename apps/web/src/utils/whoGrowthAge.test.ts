@@ -58,6 +58,21 @@ describe("WHO growth age input", () => {
     expect(resolved.warning).toContain("aproximada");
   });
 
+  it("does not resolve structured 0-5 age until years, months and days are all present", () => {
+    const resolved = resolveWhoGrowthAge(
+      {
+        who_age_input_mode: "structured_0_5",
+        age_years_0_5: 2,
+        age_months_0_5: 3
+      },
+      "en"
+    );
+
+    expect(resolved.ageDays).toBeUndefined();
+    expect(resolved.warning).toContain("Enter years");
+  });
+
+
   it("uses completed months for 5-19 mode", () => {
     expect(
       resolveWhoGrowthAge({ who_age_input_mode: "months_5_19", age_months: 120 }, "en")

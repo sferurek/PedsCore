@@ -137,6 +137,10 @@ Current common input:
 
 No entered value is stored, persisted, sent to analytics, or sent to a backend.
 
+The web form uses a guided flow: sex is selected first, then age input mode is
+unlocked, and only the age fields for the selected mode are shown. Inactive age
+modes are hidden so stale values from another age mode are not used silently.
+
 ## Age input policy
 
 For WHO 0-5 indicators:

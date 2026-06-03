@@ -1,8 +1,9 @@
 import type { ClinicalToolMetadata } from "@peds-core/core";
-import { lazy, Suspense, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { DisclaimerBox } from "../components/DisclaimerBox";
 import { DynamicForm } from "../components/DynamicForm";
 import { GitHubFeedbackLink } from "../components/GitHubFeedbackLink";
+import { WhoGrowthForm } from "../components/growth/WhoGrowthForm";
 import { InterpretationTable } from "../components/InterpretationTable";
 import { ReferenceList } from "../components/ReferenceList";
 import { ResultPanel } from "../components/ResultPanel";
@@ -36,6 +37,10 @@ export function ToolPage({ language, tool }: ToolPageProps) {
   );
   const resultPanelRef = useRef<HTMLElement>(null);
 
+  useEffect(() => {
+    setFormValues(getInitialFormState(tool));
+  }, [tool]);
+
   const scrollToResults = () => {
     resultPanelRef.current?.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -60,12 +65,22 @@ export function ToolPage({ language, tool }: ToolPageProps) {
             <p>{tool.description[language]}</p>
           </section>
 
-          <DynamicForm
-            language={language}
-            tool={tool}
-            onFormComplete={scrollToResults}
-            onStateChange={setFormValues}
-          />
+          {tool.id === "who_growth_module" ? (
+            <WhoGrowthForm
+              language={language}
+              tool={tool}
+              values={formValues}
+              onChange={setFormValues}
+              onFormComplete={scrollToResults}
+            />
+          ) : (
+            <DynamicForm
+              language={language}
+              tool={tool}
+              onFormComplete={scrollToResults}
+              onStateChange={setFormValues}
+            />
+          )}
 
           {tool.id === "who_growth_module" ? (
             <Suspense
