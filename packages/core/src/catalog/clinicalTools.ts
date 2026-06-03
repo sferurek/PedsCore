@@ -1124,8 +1124,8 @@ const whoGrowthValidationNotes: LocalizedText = {
 };
 
 const whoGrowthModuleValidationNotes: LocalizedText = {
-  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-3A: módulo unificado OMS preparado. BMI-for-age 0-5 y weight-for-age 0-5 se importaron desde tablas XLSX oficiales OMS con licencia de datos separada y disponen de cálculo LMS, gráfica SVG imprimible y punto del paciente. Otros indicadores OMS e interpolación siguen pendientes antes de marcar el módulo completo como implementado.",
-  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-3A: unified WHO module prepared. BMI-for-age 0-5 years and weight-for-age 0-5 years were imported from official WHO XLSX tables under a separate data license and have LMS calculation, printable SVG charts, and patient points. Other WHO indicators and interpolation remain pending before marking the full module implemented."
+  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-3B: módulo unificado OMS preparado. Indicadores principales OMS 0-5 importados desde tablas XLSX oficiales OMS con licencia de datos separada y con cálculo LMS, gráficas SVG imprimibles y punto del paciente. OMS 5-19, política de interpolación y revisión final siguen pendientes antes de marcar el módulo completo como implementado.",
+  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-3B: unified WHO module prepared. Core WHO 0-5 indicators were imported from official WHO XLSX tables under a separate data license and have LMS calculation, printable SVG charts, and patient points. WHO 5-19, interpolation policy, and final review remain pending before marking the full module implemented."
 };
 
 const cdcGrowthValidationNotes: LocalizedText = {
@@ -1295,8 +1295,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   who_growth_module: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
-      es: "BMI-for-age OMS 0-5 y weight-for-age OMS 0-5 están disponibles con gráficas SVG imprimibles. El módulo completo y otros indicadores siguen en validación.",
-      en: "WHO BMI-for-age 0-5 and WHO weight-for-age 0-5 are available with printable SVG charts. The full module and other indicators remain under validation."
+      es: "Indicadores principales OMS 0-5 disponibles con datos LMS oficiales normalizados y gráficas SVG imprimibles. OMS 5-19 y política completa del módulo siguen en validación.",
+      en: "Core WHO 0-5 indicators are available with normalized official LMS data and printable SVG charts. WHO 5-19 and the complete module policy remain under validation."
     },
     inputs: [
       {
@@ -1355,6 +1355,41 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         max: 130,
         step: 0.1,
         placeholder: { es: "Ej. 86.1", en: "E.g. 86.1" }
+      },
+      {
+        id: "measurement_mode",
+        label: { es: "Modo de medición", en: "Measurement mode" },
+        description: {
+          es: "Permite seleccionar la tabla OMS de peso para longitud o peso para talla cuando corresponda.",
+          en: "Selects the WHO weight-for-length or weight-for-height table when applicable."
+        },
+        type: "select",
+        required: true,
+        options: [
+          option("recumbent_length", "Longitud tumbado", "Recumbent length", undefined, {
+            es: "Usa la medición de longitud y activa peso para longitud si está en rango.",
+            en: "Uses recumbent length and enables weight-for-length when in range."
+          }),
+          option("standing_height", "Talla de pie", "Standing height", undefined, {
+            es: "Usa la medición de talla y activa peso para talla si está en rango.",
+            en: "Uses standing height and enables weight-for-height when in range."
+          })
+        ]
+      },
+      {
+        id: "head_circumference_cm",
+        label: { es: "Perímetro cefálico", en: "Head circumference" },
+        description: {
+          es: "Opcional. Si se introduce, se calcula perímetro cefálico para la edad OMS 0-5.",
+          en: "Optional. If provided, WHO head circumference-for-age 0-5 is calculated."
+        },
+        type: "number",
+        required: false,
+        unit: "cm",
+        min: 20,
+        max: 70,
+        step: 0.1,
+        placeholder: { es: "Ej. 48.0", en: "E.g. 48.0" }
       }
     ]
   },

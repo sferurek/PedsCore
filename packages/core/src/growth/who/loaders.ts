@@ -44,6 +44,46 @@ export const loadWhoLmsRecords = async (
     };
   }
 
+  if (indicator === "length_height_for_age") {
+    const module = await import("./lengthHeightForAge.js");
+
+    return {
+      indicator,
+      records: module.whoLengthHeightForAgeLmsRecords,
+      dataStatus: module.whoLengthHeightForAgeDataStatus
+    };
+  }
+
+  if (indicator === "head_circumference_for_age") {
+    const module = await import("./headCircumferenceForAge.js");
+
+    return {
+      indicator,
+      records: module.whoHeadCircumferenceForAgeLmsRecords,
+      dataStatus: module.whoHeadCircumferenceForAgeDataStatus
+    };
+  }
+
+  if (indicator === "weight_for_length") {
+    const module = await import("./weightForLengthHeight.js");
+
+    return {
+      indicator,
+      records: module.whoWeightForLengthLmsRecords,
+      dataStatus: module.whoWeightForLengthDataStatus
+    };
+  }
+
+  if (indicator === "weight_for_height") {
+    const module = await import("./weightForLengthHeight.js");
+
+    return {
+      indicator,
+      records: module.whoWeightForHeightLmsRecords,
+      dataStatus: module.whoWeightForHeightDataStatus
+    };
+  }
+
   return {
     indicator,
     records: [],

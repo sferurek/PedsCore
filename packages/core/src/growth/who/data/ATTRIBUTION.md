@@ -19,6 +19,31 @@ Imported weight-for-age 0-5 years source files:
 - Girls expanded z-score table:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-girls-zscore-expanded-tables.xlsx?sfvrsn=f01bc813_10
 
+Imported length/height-for-age 0-5 years source files:
+
+- Boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/length-height-for-age/expandable-tables/lhfa-boys-zscore-expanded-tables.xlsx?sfvrsn=7b4a3428_12
+- Girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/length-height-for-age/expandable-tables/lhfa-girls-zscore-expanded-tables.xlsx?sfvrsn=27f1e2cb_10
+
+Imported head circumference-for-age 0-5 years source files:
+
+- Boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/head-circumference-for-age/expanded-tables/hcfa-boys-zscore-expanded-tables.xlsx?sfvrsn=2ab1bec8_8
+- Girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/head-circumference-for-age/expanded-tables/hcfa-girls-zscore-expanded-tables.xlsx?sfvrsn=3a34b8b0_8
+
+Imported weight-for-length / weight-for-height 0-5 years source files:
+
+- Weight-for-length boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfl-boys-zscore-expanded-table.xlsx?sfvrsn=d307434f_8
+- Weight-for-length girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfl-girls-zscore-expanded-table.xlsx?sfvrsn=db7b5d6b_8
+- Weight-for-height boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfh-boys-zscore-expanded-tables.xlsx?sfvrsn=ac60cb13_8
+- Weight-for-height girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfh-girls-zscore-expanded-tables.xlsx?sfvrsn=daac732c_8
+
 Suggested attribution for WHO Growth Reference 5-19 years:
 
 World Health Organization. Growth reference data for 5-19 years. Geneva: World

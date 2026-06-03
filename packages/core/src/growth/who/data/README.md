@@ -1,12 +1,21 @@
 # WHO Growth Data
 
-This directory is reserved for normalized official WHO LMS data files.
+This directory contains normalized official WHO LMS data files under a separate
+license from the MIT-licensed PedsCore source code.
 
-Current status: BMI-for-age 0-5 years and weight-for-age 0-5 years imported.
-Other WHO indicators remain pending.
+These WHO data files are governed by a separate license and are not relicensed
+as MIT.
 
-WHO growth data can be incorporated under the applicable WHO terms, with a
-separate license from the MIT-licensed PedsCore source code. For WHO
+Current status: core WHO 0-5 years indicators imported:
+
+- BMI-for-age.
+- Weight-for-age.
+- Length/height-for-age.
+- Head circumference-for-age.
+- Weight-for-length.
+- Weight-for-height.
+
+WHO growth data can be incorporated under the applicable WHO terms. For WHO
 publications, this is commonly CC BY-NC-SA 3.0 IGO, including attribution,
 non-commercial use, share-alike obligations where applicable, adaptation
 disclaimers, no WHO logo use, and no suggestion of WHO endorsement.
@@ -29,14 +38,30 @@ Imported source files:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-boys-zscore-expanded-tables.xlsx?sfvrsn=65cce121_10
 - Weight-for-age girls expanded z-score table:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-girls-zscore-expanded-tables.xlsx?sfvrsn=f01bc813_10
+- Length/height-for-age boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/length-height-for-age/expandable-tables/lhfa-boys-zscore-expanded-tables.xlsx?sfvrsn=7b4a3428_12
+- Length/height-for-age girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/length-height-for-age/expandable-tables/lhfa-girls-zscore-expanded-tables.xlsx?sfvrsn=27f1e2cb_10
+- Head circumference-for-age boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/head-circumference-for-age/expanded-tables/hcfa-boys-zscore-expanded-tables.xlsx?sfvrsn=2ab1bec8_8
+- Head circumference-for-age girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/head-circumference-for-age/expanded-tables/hcfa-girls-zscore-expanded-tables.xlsx?sfvrsn=3a34b8b0_8
+- Weight-for-length boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfl-boys-zscore-expanded-table.xlsx?sfvrsn=d307434f_8
+- Weight-for-length girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfl-girls-zscore-expanded-table.xlsx?sfvrsn=db7b5d6b_8
+- Weight-for-height boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfh-boys-zscore-expanded-tables.xlsx?sfvrsn=ac60cb13_8
+- Weight-for-height girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfh-girls-zscore-expanded-tables.xlsx?sfvrsn=daac732c_8
 
 Imported data:
 
-- Indicator: BMI-for-age.
-- Indicator: weight-for-age.
-- Age range: 0-1856 days.
+- Age-based indicators use daily LMS records, range 0-1856 days.
+- Weight-for-length uses length in cm, range 45-110 cm.
+- Weight-for-height uses height in cm, range 65-120 cm.
 - Sex: boys and girls, normalized as `male` and `female`.
-- Units: BMI in kg/m2; weight in kg.
+- Units: kg, cm, and BMI kg/m2 according to indicator.
 - LMS fields: L, M, S.
 - Access date: 2026-06-03.
 
@@ -46,9 +71,9 @@ Excluded sources in this module:
 - Orbegozo growth references.
 - Any third-party calculator, copied chart image, or reconstructed table.
 
-No additional LMS coefficient is stored here until the source file, indicator,
-age range, sex mapping, license/terms, interpolation policy, and test fixtures
-have been verified.
+No 5-19 LMS coefficient is stored here until the source file, indicator, age
+range, sex mapping, license/terms, interpolation policy, and test fixtures have
+been verified.
 
 The data license policy is documented in `LICENSE.md`.
 

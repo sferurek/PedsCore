@@ -7,7 +7,6 @@ import type { Language } from "../../utils/language";
 import { whoGrowthChartPercentiles } from "./whoGrowthChartConstants";
 
 interface WhoGrowthChartProps {
-  ageDays: number;
   indicatorLabel: string;
   source: string;
   unit: string;
@@ -15,6 +14,9 @@ interface WhoGrowthChartProps {
   percentile: number;
   records: readonly WhoLmsRecord[];
   sex: WhoGrowthSex;
+  xAxisLabel: string;
+  xUnit: string;
+  xValue: number;
   yAxisLabel: string;
   zScore: number;
   language: Language;
@@ -28,17 +30,10 @@ const margin = {
   bottom: 58,
   left: 58
 };
-const xMin = 0;
-const xMax = 60;
 
-const xScale = (ageMonths: number) =>
-  margin.left +
-  ((ageMonths - xMin) / (xMax - xMin)) * (width - margin.left - margin.right);
-
-const createYScale = (yMin: number, yMax: number) => (value: number) =>
-  height -
-  margin.bottom -
-  ((value - yMin) / (yMax - yMin)) * (height - margin.top - margin.bottom);
+const createScale = (domainMin: number, domainMax: number, rangeMin: number, rangeMax: number) =>
+  (value: number) =>
+    rangeMin + ((value - domainMin) / (domainMax - domainMin)) * (rangeMax - rangeMin);
 
 const formatNumber = (value: number, fractionDigits = 1) =>
   new Intl.NumberFormat("es-ES", {
@@ -47,10 +42,39 @@ const formatNumber = (value: number, fractionDigits = 1) =>
   }).format(value);
 
 const buildPath = (points: Array<{ x: number; y: number }>) =>
-  points.map((point, index) => `${index === 0 ? "M" : "L"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`).join(" ");
+  points
+    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`)
+    .join(" ");
+
+const getRecordXValue = (record: WhoLmsRecord) => {
+  if (record.measureCm !== undefined) {
+    return record.measureCm;
+  }
+
+  if (record.ageDays !== undefined) {
+    return record.ageDays / 30.4375;
+  }
+
+  if (record.ageMonths !== undefined) {
+    return record.ageMonths;
+  }
+
+  return undefined;
+};
+
+const buildTicks = (min: number, max: number, preferred?: number[]) => {
+  if (preferred) {
+    const filtered = preferred.filter((tick) => tick >= min && tick <= max);
+
+    if (filtered.length >= 2) {
+      return filtered;
+    }
+  }
+
+  return Array.from({ length: 6 }, (_, index) => min + ((max - min) / 5) * index);
+};
 
 export function WhoGrowthChart({
-  ageDays,
   indicatorLabel,
   percentile,
   records: allRecords,
@@ -58,14 +82,36 @@ export function WhoGrowthChart({
   source,
   unit,
   value,
+  xAxisLabel,
+  xUnit,
+  xValue,
   yAxisLabel,
   zScore,
   language
 }: WhoGrowthChartProps) {
   const records = allRecords
-    .filter((record) => record.sex === sex && record.ageDays !== undefined)
-    .filter((record) => record.ageDays! % 30 === 0 || record.ageDays === 1856);
-  const curveValues = records.flatMap((record) =>
+    .filter((record) => record.sex === sex)
+    .map((record) => ({ record, xValue: getRecordXValue(record) }))
+    .filter((item): item is { record: WhoLmsRecord; xValue: number } => item.xValue !== undefined)
+    .filter((item) =>
+      item.record.measureCm !== undefined
+        ? true
+        : item.record.ageDays === undefined ||
+          item.record.ageDays % 30 === 0 ||
+          item.record.ageDays === 1856
+    );
+  const xValues = records.map((item) => item.xValue);
+  const rawXMin = Math.min(...xValues);
+  const rawXMax = Math.max(...xValues);
+  const xMin = Math.floor(rawXMin * 10) / 10;
+  const xMax = Math.ceil(rawXMax * 10) / 10;
+  const xScale = createScale(
+    xMin,
+    xMax,
+    margin.left,
+    width - margin.right
+  );
+  const curveValues = records.flatMap(({ record }) =>
     whoGrowthChartPercentiles.map((percentileCurve) =>
       calculateLmsValueFromZScore(
         percentileCurve.zScore,
@@ -80,12 +126,19 @@ export function WhoGrowthChart({
   const yPadding = Math.max((rawYMax - rawYMin) * 0.08, 0.5);
   const yMin = Math.max(0, Math.floor((rawYMin - yPadding) * 2) / 2);
   const yMax = Math.ceil((rawYMax + yPadding) * 2) / 2;
-  const yTicks = Array.from({ length: 6 }, (_, index) =>
-    yMin + ((yMax - yMin) / 5) * index
+  const yScale = createScale(
+    yMin,
+    yMax,
+    height - margin.bottom,
+    margin.top
   );
-  const yScale = createYScale(yMin, yMax);
-  const patientAgeMonths = ageDays / 30.4375;
-  const patientX = xScale(Math.min(Math.max(patientAgeMonths, xMin), xMax));
+  const xTicks = buildTicks(
+    xMin,
+    xMax,
+    xUnit === "cm" ? undefined : [0, 12, 24, 36, 48, 60]
+  );
+  const yTicks = buildTicks(yMin, yMax);
+  const patientX = xScale(Math.min(Math.max(xValue, xMin), xMax));
   const patientY = yScale(Math.min(Math.max(value, yMin), yMax));
   const patientLabel = language === "es" ? "Paciente" : "Patient";
 
@@ -102,17 +155,17 @@ export function WhoGrowthChart({
         viewBox={`0 0 ${width} ${height}`}
       >
         <rect className="chart-bg" height={height} rx="18" width={width} />
-        {[0, 12, 24, 36, 48, 60].map((month) => (
-          <g key={month}>
+        {xTicks.map((tick) => (
+          <g key={tick}>
             <line
               className="chart-grid"
-              x1={xScale(month)}
-              x2={xScale(month)}
+              x1={xScale(tick)}
+              x2={xScale(tick)}
               y1={margin.top}
               y2={height - margin.bottom}
             />
-            <text className="chart-axis-label" textAnchor="middle" x={xScale(month)} y={height - 24}>
-              {month}
+            <text className="chart-axis-label" textAnchor="middle" x={xScale(tick)} y={height - 24}>
+              {formatNumber(tick, xUnit === "cm" ? 1 : 0)}
             </text>
           </g>
         ))}
@@ -148,7 +201,7 @@ export function WhoGrowthChart({
           {indicatorLabel}
         </text>
         <text className="chart-axis-title" textAnchor="middle" x={width / 2} y={height - 8}>
-          {language === "es" ? "Edad (meses)" : "Age (months)"}
+          {xAxisLabel}
         </text>
         <text
           className="chart-axis-title"
@@ -159,8 +212,8 @@ export function WhoGrowthChart({
         </text>
 
         {whoGrowthChartPercentiles.map((percentileCurve) => {
-          const points = records.map((record) => ({
-            x: xScale((record.ageDays ?? 0) / 30.4375),
+          const points = records.map(({ record, xValue: recordXValue }) => ({
+            x: xScale(recordXValue),
             y: yScale(
               calculateLmsValueFromZScore(
                 percentileCurve.zScore,

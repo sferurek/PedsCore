@@ -26,6 +26,32 @@ import {
   who0To5WeightForAgeSource,
   whoWeightForAgeDataStatus
 } from "../src/growth/who/weightForAge";
+import {
+  calculateWhoGrowthWithHeadCircumferenceForAgeData,
+  findImportedWhoHeadCircumferenceForAgeRecord,
+  who0To5HeadCircumferenceForAge,
+  who0To5HeadCircumferenceForAgeSource,
+  whoHeadCircumferenceForAgeDataStatus
+} from "../src/growth/who/headCircumferenceForAge";
+import {
+  calculateWhoGrowthWithLengthHeightForAgeData,
+  findImportedWhoLengthHeightForAgeRecord,
+  who0To5LengthHeightForAge,
+  who0To5LengthHeightForAgeSource,
+  whoLengthHeightForAgeDataStatus
+} from "../src/growth/who/lengthHeightForAge";
+import {
+  calculateWhoGrowthWithWeightForHeightData,
+  calculateWhoGrowthWithWeightForLengthData,
+  findImportedWhoWeightForHeightRecord,
+  findImportedWhoWeightForLengthRecord,
+  who0To5WeightForHeight,
+  who0To5WeightForHeightSource,
+  who0To5WeightForLength,
+  who0To5WeightForLengthSource,
+  whoWeightForHeightDataStatus,
+  whoWeightForLengthDataStatus
+} from "../src/growth/who/weightForLengthHeight";
 
 describe("WHO growth scaffold", () => {
   it("calculates BMI from metric inputs", () => {
@@ -105,15 +131,62 @@ describe("WHO growth scaffold", () => {
     expect(loaded.dataStatus.excludedSources).toEqual(["CDC", "Orbegozo"]);
   });
 
-  it("returns an unloaded state for WHO indicators that are not imported yet", async () => {
-    const loaded = await loadWhoLmsRecords("weight_for_age");
+  it("loads official WHO length/height-for-age data for both sexes", async () => {
+    const loaded = await loadWhoLmsRecords("length_height_for_age");
 
-    const unloaded = await loadWhoLmsRecords("length_height_for_age");
-
+    expect(whoLengthHeightForAgeDataStatus.officialDataImported).toBe(true);
+    expect(whoLengthHeightForAgeDataStatus.importedIndicators).toEqual([
+      "length_height_for_age"
+    ]);
+    expect(who0To5LengthHeightForAge).toHaveLength(3714);
     expect(loaded.records).toHaveLength(3714);
-    expect(unloaded.records).toHaveLength(0);
-    expect(unloaded.dataStatus.officialDataImported).toBe(false);
-    expect(unloaded.dataStatus.reason).toContain("length_height_for_age");
+    expect(who0To5LengthHeightForAgeSource.boysUrl).toContain("cdn.who.int");
+    expect(who0To5LengthHeightForAgeSource.girlsUrl).toContain("cdn.who.int");
+    expect(whoLengthHeightForAgeDataStatus.excludedSources).toEqual([
+      "CDC",
+      "Orbegozo"
+    ]);
+  });
+
+  it("loads official WHO head circumference-for-age data for both sexes", async () => {
+    const loaded = await loadWhoLmsRecords("head_circumference_for_age");
+
+    expect(whoHeadCircumferenceForAgeDataStatus.officialDataImported).toBe(true);
+    expect(whoHeadCircumferenceForAgeDataStatus.importedIndicators).toEqual([
+      "head_circumference_for_age"
+    ]);
+    expect(who0To5HeadCircumferenceForAge).toHaveLength(3714);
+    expect(loaded.records).toHaveLength(3714);
+    expect(who0To5HeadCircumferenceForAgeSource.boysUrl).toContain("cdn.who.int");
+    expect(who0To5HeadCircumferenceForAgeSource.girlsUrl).toContain("cdn.who.int");
+    expect(whoHeadCircumferenceForAgeDataStatus.excludedSources).toEqual([
+      "CDC",
+      "Orbegozo"
+    ]);
+  });
+
+  it("loads official WHO weight-for-length and weight-for-height data", async () => {
+    const weightForLength = await loadWhoLmsRecords("weight_for_length");
+    const weightForHeight = await loadWhoLmsRecords("weight_for_height");
+
+    expect(whoWeightForLengthDataStatus.officialDataImported).toBe(true);
+    expect(whoWeightForHeightDataStatus.officialDataImported).toBe(true);
+    expect(whoWeightForLengthDataStatus.importedIndicators).toEqual([
+      "weight_for_length"
+    ]);
+    expect(whoWeightForHeightDataStatus.importedIndicators).toEqual([
+      "weight_for_height"
+    ]);
+    expect(who0To5WeightForLength).toHaveLength(1302);
+    expect(who0To5WeightForHeight).toHaveLength(1102);
+    expect(weightForLength.records).toHaveLength(1302);
+    expect(weightForHeight.records).toHaveLength(1102);
+    expect(who0To5WeightForLengthSource.boysUrl).toContain("cdn.who.int");
+    expect(who0To5WeightForHeightSource.girlsUrl).toContain("cdn.who.int");
+    expect(whoWeightForLengthDataStatus.excludedSources).toEqual([
+      "CDC",
+      "Orbegozo"
+    ]);
   });
 
   it("resolves official BMI-for-age LMS records by sex and day", () => {
@@ -196,6 +269,133 @@ describe("WHO growth scaffold", () => {
     expect(weightForAge?.percentile).toBeTypeOf("number");
   });
 
+  it("resolves official LMS fixtures for the new WHO 0-5 indicators", () => {
+    expect(
+      findImportedWhoLengthHeightForAgeRecord({
+        indicator: "length_height_for_age",
+        sex: "male",
+        ageDays: 0
+      })
+    ).toMatchObject({ L: 1, M: 49.8842, S: 0.03795 });
+    expect(
+      findImportedWhoHeadCircumferenceForAgeRecord({
+        indicator: "head_circumference_for_age",
+        sex: "male",
+        ageDays: 0
+      })
+    ).toMatchObject({ L: 1, M: 34.4618, S: 0.03686 });
+    expect(
+      findImportedWhoWeightForLengthRecord({
+        indicator: "weight_for_length",
+        sex: "male",
+        measureCm: 45
+      })
+    ).toMatchObject({ L: -0.3521, M: 2.441, S: 0.09182 });
+    expect(
+      findImportedWhoWeightForHeightRecord({
+        indicator: "weight_for_height",
+        sex: "male",
+        measureCm: 65
+      })
+    ).toMatchObject({ L: -0.3521, M: 7.4327, S: 0.08217 });
+  });
+
+  it("calculates WHO length/height-for-age and head circumference-for-age with complete input", () => {
+    const lengthResult = calculateWhoGrowthWithLengthHeightForAgeData({
+      sex: "male",
+      ageDays: 0,
+      lengthCm: 49.8842
+    });
+    const headResult = calculateWhoGrowthWithHeadCircumferenceForAgeData({
+      sex: "male",
+      ageDays: 0,
+      headCircumferenceCm: 34.4618
+    });
+    const lengthHeightForAge = lengthResult.applicableResults.find(
+      (item) => item.indicator === "length_height_for_age"
+    );
+    const headCircumferenceForAge = headResult.applicableResults.find(
+      (item) => item.indicator === "head_circumference_for_age"
+    );
+
+    expect(lengthHeightForAge?.isApplicable).toBe(true);
+    expect(lengthHeightForAge?.zScore).toBeCloseTo(0, 4);
+    expect(lengthHeightForAge?.percentile).toBeCloseTo(50, 1);
+    expect(headCircumferenceForAge?.isApplicable).toBe(true);
+    expect(headCircumferenceForAge?.zScore).toBeCloseTo(0, 4);
+    expect(headCircumferenceForAge?.percentile).toBeCloseTo(50, 1);
+  });
+
+  it("calculates WHO weight-for-length and weight-for-height with complete input", () => {
+    const lengthResult = calculateWhoGrowthWithWeightForLengthData({
+      sex: "male",
+      weightKg: 2.441,
+      lengthCm: 45
+    });
+    const heightResult = calculateWhoGrowthWithWeightForHeightData({
+      sex: "male",
+      weightKg: 7.4327,
+      heightCm: 65
+    });
+    const weightForLength = lengthResult.applicableResults.find(
+      (item) => item.indicator === "weight_for_length"
+    );
+    const weightForHeight = heightResult.applicableResults.find(
+      (item) => item.indicator === "weight_for_height"
+    );
+
+    expect(weightForLength?.isApplicable).toBe(true);
+    expect(weightForLength?.zScore).toBeCloseTo(0, 4);
+    expect(weightForLength?.percentile).toBeCloseTo(50, 1);
+    expect(weightForHeight?.isApplicable).toBe(true);
+    expect(weightForHeight?.zScore).toBeCloseTo(0, 4);
+    expect(weightForHeight?.percentile).toBeCloseTo(50, 1);
+  });
+
+  it("calculates all applicable WHO 0-5 indicators when all official records are passed", async () => {
+    const loaded = await Promise.all([
+      loadWhoLmsRecords("weight_for_age"),
+      loadWhoLmsRecords("length_height_for_age"),
+      loadWhoLmsRecords("head_circumference_for_age"),
+      loadWhoLmsRecords("weight_for_length"),
+      loadWhoLmsRecords("weight_for_height"),
+      loadWhoLmsRecords("bmi_for_age")
+    ]);
+    const result = calculateWhoGrowth(
+      {
+        sex: "male",
+        ageDays: 0,
+        weightKg: 3.3464,
+        lengthCm: 50,
+        headCircumferenceCm: 34.4618,
+        measurementMode: "recumbent_length"
+      },
+      {
+        dataStatus: {
+          officialDataImported: true,
+          reason: "All WHO 0-5 core indicators imported for test.",
+          importedIndicators: loaded.flatMap(
+            (item) => item.dataStatus.importedIndicators
+          ),
+          allowedSources: loaded[0].dataStatus.allowedSources,
+          excludedSources: loaded[0].dataStatus.excludedSources
+        },
+        lmsRecords: loaded.flatMap((item) => [...item.records])
+      }
+    );
+    const byIndicator = Object.fromEntries(
+      result.applicableResults.map((item) => [item.indicator, item])
+    );
+
+    expect(result.warnings).toEqual([]);
+    expect(byIndicator.weight_for_age.isApplicable).toBe(true);
+    expect(byIndicator.length_height_for_age.isApplicable).toBe(true);
+    expect(byIndicator.head_circumference_for_age.isApplicable).toBe(true);
+    expect(byIndicator.weight_for_length.isApplicable).toBe(true);
+    expect(byIndicator.weight_for_height.isApplicable).toBe(false);
+    expect(byIndicator.bmi_for_age.isApplicable).toBe(true);
+  });
+
   it("does not calculate BMI-for-age without weight or stature", () => {
     const result = calculateWhoGrowthWithImportedData({
       sex: "male",
@@ -259,10 +459,11 @@ describe("WHO growth scaffold", () => {
       "sex",
       "age_days",
       "weight_kg",
-      "stature_cm"
+      "stature_cm",
+      "measurement_mode",
+      "head_circumference_cm"
     ]);
-    expect(tool?.validationNotes.en).toContain("BMI-for-age 0-5 years");
-    expect(tool?.validationNotes.en).toContain("weight-for-age 0-5 years");
+    expect(tool?.validationNotes.en).toContain("Core WHO 0-5 indicators");
     expect(tool?.validationNotes.en).toContain("separate data license");
   });
 });

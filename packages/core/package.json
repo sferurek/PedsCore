@@ -14,9 +14,21 @@
       "types": "./dist/growth/who/bmiForAge.d.ts",
       "default": "./dist/growth/who/bmiForAge.js"
     },
+    "./growth/who/headCircumferenceForAge": {
+      "types": "./dist/growth/who/headCircumferenceForAge.d.ts",
+      "default": "./dist/growth/who/headCircumferenceForAge.js"
+    },
+    "./growth/who/lengthHeightForAge": {
+      "types": "./dist/growth/who/lengthHeightForAge.d.ts",
+      "default": "./dist/growth/who/lengthHeightForAge.js"
+    },
     "./growth/who/loaders": {
       "types": "./dist/growth/who/loaders.d.ts",
       "default": "./dist/growth/who/loaders.js"
+    },
+    "./growth/who/weightForLengthHeight": {
+      "types": "./dist/growth/who/weightForLengthHeight.d.ts",
+      "default": "./dist/growth/who/weightForLengthHeight.js"
     },
     "./growth/who/weightForAge": {
       "types": "./dist/growth/who/weightForAge.d.ts",
