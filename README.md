@@ -34,6 +34,12 @@ The project **excludes toxicology** in the initial phase.
 - GitHub Pages deployment.
 - No backend, login, analytics or clinical data storage.
 
+## Privacy-first analytics
+
+Analytics is disabled by default. If enabled by public build-time configuration, PedsCore may use privacy-preserving aggregate analytics to understand general website usage. IP addresses are not stored, tracking cookies are not used, user profiles are not created, and clinical data, form values and calculation results are never collected.
+
+See [docs/ANALYTICS.md](docs/ANALYTICS.md).
+
 ## Implemented tools
 
 - Apgar.

@@ -32,6 +32,12 @@ Promover el acceso libre y transparente a herramientas clínicas pediátricas y 
 - Despliegue en GitHub Pages.
 - Sin backend, login, analítica ni almacenamiento de datos clínicos.
 
+## Analítica privacy-first
+
+La analítica está desactivada por defecto. Si se activa mediante configuración pública de build, PedsCore puede utilizar analítica agregada y respetuosa con la privacidad para conocer el uso general de la web. No se almacenan direcciones IP, no se usan cookies de seguimiento, no se crean perfiles de usuario y nunca se recogen datos clínicos, valores de formularios ni resultados de cálculos.
+
+Consulta [docs/ANALYTICS.md](docs/ANALYTICS.md).
+
 ## Herramientas implementadas
 
 - Apgar.

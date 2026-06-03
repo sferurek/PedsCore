@@ -13,7 +13,7 @@ export function DisclaimerPage({ language }: DisclaimerPageProps) {
       <h1>{t.pages.disclaimerTitle}</h1>
       <p>{t.pages.disclaimerBody}</p>
       <p>{t.tool.disclaimer}</p>
+      <p>{t.pages.analyticsPrivacy}</p>
     </section>
   );
 }
-

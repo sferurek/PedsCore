@@ -151,6 +151,8 @@ export const translations = {
       disclaimerTitle: "Aviso legal",
       disclaimerBody:
         "PedsCore es un recurso educativo e informativo. No proporciona consejo medico ni recomendaciones terapeuticas y no sustituye el juicio clinico, los protocolos locales ni los requisitos institucionales.",
+      analyticsPrivacy:
+        "PedsCore puede utilizar analitica agregada y respetuosa con la privacidad para conocer el uso general de la web. No se almacenan direcciones IP, no se usan cookies de seguimiento, no se crean perfiles de usuario y no se recogen datos clinicos ni valores introducidos en los formularios.",
       contributeTitle: "Contribuir",
       contributeBody:
         "Las contribuciones deben aportar referencias primarias, describir variables y rangos, e indicar el nivel de evidencia. Usa GitHub Issues para proponer herramientas, corregir referencias o solicitar revision clinica.",
@@ -313,6 +315,8 @@ export const translations = {
       disclaimerTitle: "Disclaimer",
       disclaimerBody:
         "PedsCore is an educational and informational resource. It does not provide medical advice or therapeutic recommendations and does not replace clinical judgment, local protocols or institutional requirements.",
+      analyticsPrivacy:
+        "PedsCore may use privacy-preserving aggregate analytics to understand general website usage. IP addresses are not stored, tracking cookies are not used, user profiles are not created, and clinical data or form values are never collected.",
       contributeTitle: "Contribute",
       contributeBody:
         "Contributions should include primary references, variables and ranges, and evidence level. Use GitHub Issues to propose tools, correct references or request clinical review.",

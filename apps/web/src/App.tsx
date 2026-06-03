@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { getAllTools, getToolBySlug } from "@peds-core/core";
 import type { ToolCategory } from "@peds-core/core";
+import { AnalyticsProvider } from "./components/AnalyticsProvider";
 import { Layout } from "./components/Layout";
 import { AboutPage } from "./routes/AboutPage";
 import { CategoryPage } from "./routes/CategoryPage";
@@ -16,6 +17,7 @@ import {
   languageStorageKey,
   resolveInitialLanguage
 } from "./utils/language";
+import { maybeTrackRouteChange } from "./utils/analytics";
 import { parseRoute, toAppPath, toBrowserPath } from "./utils/routes";
 
 export function App() {
@@ -47,6 +49,12 @@ export function App() {
 
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
+
+  useEffect(() => {
+    if (route.language) {
+      maybeTrackRouteChange(path, language);
+    }
+  }, [language, path, route.language]);
 
   const navigate = (href: string) => {
     window.history.pushState(null, "", toBrowserPath(href));
@@ -124,13 +132,16 @@ export function App() {
   })();
 
   return (
-    <Layout
-      currentPath={path}
-      language={language}
-      navigate={navigate}
-      onLanguageChange={changeLanguage}
-    >
-      {content}
-    </Layout>
+    <>
+      <AnalyticsProvider />
+      <Layout
+        currentPath={path}
+        language={language}
+        navigate={navigate}
+        onLanguageChange={changeLanguage}
+      >
+        {content}
+      </Layout>
+    </>
   );
 }
