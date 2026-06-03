@@ -250,7 +250,7 @@ export const calculateWhoGrowth = (
     warnings.push(officialDataPendingWarning);
   } else if (dataStatus.importedIndicators.length < 6) {
     warnings.push(
-      "Only WHO BMI-for-age 0-5 years data are imported. Other WHO indicators remain pending."
+      `Only WHO ${dataStatus.importedIndicators.join(", ")} data are imported. Other WHO indicators remain pending.`
     );
   }
 

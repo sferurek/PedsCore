@@ -17,6 +17,10 @@
     "./growth/who/loaders": {
       "types": "./dist/growth/who/loaders.d.ts",
       "default": "./dist/growth/who/loaders.js"
+    },
+    "./growth/who/weightForAge": {
+      "types": "./dist/growth/who/weightForAge.d.ts",
+      "default": "./dist/growth/who/weightForAge.js"
     }
   },
   "scripts": {

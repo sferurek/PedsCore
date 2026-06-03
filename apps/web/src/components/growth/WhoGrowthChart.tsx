@@ -8,10 +8,14 @@ import { whoGrowthChartPercentiles } from "./whoGrowthChartConstants";
 
 interface WhoGrowthChartProps {
   ageDays: number;
-  bmi: number;
+  indicatorLabel: string;
+  source: string;
+  unit: string;
+  value: number;
   percentile: number;
   records: readonly WhoLmsRecord[];
   sex: WhoGrowthSex;
+  yAxisLabel: string;
   zScore: number;
   language: Language;
 }
@@ -26,17 +30,15 @@ const margin = {
 };
 const xMin = 0;
 const xMax = 60;
-const yMin = 9;
-const yMax = 22;
 
 const xScale = (ageMonths: number) =>
   margin.left +
   ((ageMonths - xMin) / (xMax - xMin)) * (width - margin.left - margin.right);
 
-const yScale = (bmi: number) =>
+const createYScale = (yMin: number, yMax: number) => (value: number) =>
   height -
   margin.bottom -
-  ((bmi - yMin) / (yMax - yMin)) * (height - margin.top - margin.bottom);
+  ((value - yMin) / (yMax - yMin)) * (height - margin.top - margin.bottom);
 
 const formatNumber = (value: number, fractionDigits = 1) =>
   new Intl.NumberFormat("es-ES", {
@@ -49,37 +51,52 @@ const buildPath = (points: Array<{ x: number; y: number }>) =>
 
 export function WhoGrowthChart({
   ageDays,
-  bmi,
+  indicatorLabel,
   percentile,
   records: allRecords,
   sex,
+  source,
+  unit,
+  value,
+  yAxisLabel,
   zScore,
   language
 }: WhoGrowthChartProps) {
   const records = allRecords
     .filter((record) => record.sex === sex && record.ageDays !== undefined)
     .filter((record) => record.ageDays! % 30 === 0 || record.ageDays === 1856);
+  const curveValues = records.flatMap((record) =>
+    whoGrowthChartPercentiles.map((percentileCurve) =>
+      calculateLmsValueFromZScore(
+        percentileCurve.zScore,
+        record.L,
+        record.M,
+        record.S
+      )
+    )
+  );
+  const rawYMin = Math.min(value, ...curveValues);
+  const rawYMax = Math.max(value, ...curveValues);
+  const yPadding = Math.max((rawYMax - rawYMin) * 0.08, 0.5);
+  const yMin = Math.max(0, Math.floor((rawYMin - yPadding) * 2) / 2);
+  const yMax = Math.ceil((rawYMax + yPadding) * 2) / 2;
+  const yTicks = Array.from({ length: 6 }, (_, index) =>
+    yMin + ((yMax - yMin) / 5) * index
+  );
+  const yScale = createYScale(yMin, yMax);
   const patientAgeMonths = ageDays / 30.4375;
   const patientX = xScale(Math.min(Math.max(patientAgeMonths, xMin), xMax));
-  const patientY = yScale(Math.min(Math.max(bmi, yMin), yMax));
+  const patientY = yScale(Math.min(Math.max(value, yMin), yMax));
   const patientLabel = language === "es" ? "Paciente" : "Patient";
-  const title =
-    language === "es"
-      ? "BMI-for-age OMS 0-5 años"
-      : "WHO BMI-for-age 0-5 years";
-  const source =
-    language === "es"
-      ? "Fuente: WHO Child Growth Standards BMI-for-age 0-5 years. Datos OMS con licencia separada."
-      : "Source: WHO Child Growth Standards BMI-for-age 0-5 years. WHO data under separate license.";
 
   return (
     <figure className="who-growth-chart">
       <figcaption>
-        <strong>{title}</strong>
+        <strong>{indicatorLabel}</strong>
         <span>{source}</span>
       </figcaption>
       <svg
-        aria-label={title}
+        aria-label={indicatorLabel}
         className="who-growth-chart-svg"
         role="img"
         viewBox={`0 0 ${width} ${height}`}
@@ -99,17 +116,17 @@ export function WhoGrowthChart({
             </text>
           </g>
         ))}
-        {[10, 12, 14, 16, 18, 20, 22].map((value) => (
-          <g key={value}>
+        {yTicks.map((tick) => (
+          <g key={tick}>
             <line
               className="chart-grid"
               x1={margin.left}
               x2={width - margin.right}
-              y1={yScale(value)}
-              y2={yScale(value)}
+              y1={yScale(tick)}
+              y2={yScale(tick)}
             />
-            <text className="chart-axis-label" textAnchor="end" x={margin.left - 10} y={yScale(value) + 4}>
-              {value}
+            <text className="chart-axis-label" textAnchor="end" x={margin.left - 10} y={yScale(tick) + 4}>
+              {formatNumber(tick)}
             </text>
           </g>
         ))}
@@ -128,7 +145,7 @@ export function WhoGrowthChart({
           y2={height - margin.bottom}
         />
         <text className="chart-title" x={margin.left} y={20}>
-          {title}
+          {indicatorLabel}
         </text>
         <text className="chart-axis-title" textAnchor="middle" x={width / 2} y={height - 8}>
           {language === "es" ? "Edad (meses)" : "Age (months)"}
@@ -138,7 +155,7 @@ export function WhoGrowthChart({
           textAnchor="middle"
           transform={`translate(16 ${height / 2}) rotate(-90)`}
         >
-          BMI kg/m2
+          {yAxisLabel}
         </text>
 
         {whoGrowthChartPercentiles.map((percentileCurve) => {
@@ -179,7 +196,7 @@ export function WhoGrowthChart({
           {patientLabel}
         </text>
         <text className="patient-label secondary" x={patientX + 12} y={patientY + 6}>
-          BMI {formatNumber(bmi)} · P{formatNumber(percentile, 0)} · z {formatNumber(zScore, 2)}
+          {formatNumber(value)} {unit} · P{formatNumber(percentile, 0)} · z {formatNumber(zScore, 2)}
         </text>
       </svg>
     </figure>

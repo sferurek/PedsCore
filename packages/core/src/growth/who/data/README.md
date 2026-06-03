@@ -2,8 +2,8 @@
 
 This directory is reserved for normalized official WHO LMS data files.
 
-Current status: BMI-for-age 0-5 years imported. Other WHO indicators remain
-pending.
+Current status: BMI-for-age 0-5 years and weight-for-age 0-5 years imported.
+Other WHO indicators remain pending.
 
 WHO growth data can be incorporated under the applicable WHO terms, with a
 separate license from the MIT-licensed PedsCore source code. For WHO
@@ -25,13 +25,18 @@ Imported source files:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-boys-zscore-expanded-tables.xlsx?sfvrsn=f8e1fbe2_10
 - BMI-for-age girls expanded z-score table:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-girls-zscore-expanded-tables.xlsx?sfvrsn=ae4cb8d1_12
+- Weight-for-age boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-boys-zscore-expanded-tables.xlsx?sfvrsn=65cce121_10
+- Weight-for-age girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-girls-zscore-expanded-tables.xlsx?sfvrsn=f01bc813_10
 
 Imported data:
 
 - Indicator: BMI-for-age.
+- Indicator: weight-for-age.
 - Age range: 0-1856 days.
 - Sex: boys and girls, normalized as `male` and `female`.
-- Units: BMI in kg/m2.
+- Units: BMI in kg/m2; weight in kg.
 - LMS fields: L, M, S.
 - Access date: 2026-06-03.
 

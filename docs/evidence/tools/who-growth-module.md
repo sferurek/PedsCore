@@ -12,7 +12,7 @@
 ## Evidence validation status
 
 - final evidence status: `pending_complete_scoring_table`
-- blocking reason: BMI-for-age 0-5 LMS data are normalized and licensed separately; remaining WHO indicators, interpolation policy, and full multi-indicator validation are still pending.
+- blocking reason: BMI-for-age 0-5 and weight-for-age 0-5 LMS data are normalized and licensed separately; remaining WHO indicators, interpolation policy, and full multi-indicator validation are still pending.
 - depends on maintainer decision: yes
 - maintainer decision needed: confirm data-source scope, interpolation policy, chart percentiles, and print-output wording before activation.
 
@@ -46,6 +46,20 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 - package repository: https://github.com/WorldHealthOrganization/anthro
 - license status: imported under separate WHO data terms, not under the MIT code license. WHO publications commonly use CC BY-NC-SA 3.0 IGO for non-commercial use with attribution, share-alike, adaptation disclaimer, no WHO logo, and no implied WHO endorsement. The `anthro` package repository is avoided as the data source for this block.
 - decision: do not relicense WHO LMS data as MIT. Keep WHO data/materials under the applicable WHO/source license and document attribution.
+
+### WHO weight-for-age 0-5 years, Block WHO-GROWTH-3A review
+
+- source page: World Health Organization. Weight-for-age.
+- direct URL: https://www.who.int/toolkits/child-growth-standards/standards/weight-for-age
+- official downloadable files located: Weight-for-age expanded z-score tables for constructing national health cards.
+- boys XLSX: https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-boys-zscore-expanded-tables.xlsx?sfvrsn=65cce121_10
+- girls XLSX: https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-girls-zscore-expanded-tables.xlsx?sfvrsn=f01bc813_10
+- imported fields: Day, L, M, S.
+- age range: 0-1856 days.
+- units: weight in kg.
+- access date: 2026-06-03.
+- license status: imported under separate WHO data terms, not under the MIT code license.
+- decision: import as a separate lazy dataset module, without copying WHO chart images or implying WHO endorsement.
 
 ### WHO Growth Reference 2007, 5-19 years
 
@@ -109,7 +123,7 @@ Do not round in a way that implies false precision. The UI should show reasonabl
 
 ## Complete scoring table availability
 
-- complete table found: official WHO BMI-for-age expanded z-score XLSX tables contain daily L, M and S values for boys and girls.
+- complete table found: official WHO BMI-for-age and weight-for-age expanded z-score XLSX tables contain daily L, M and S values for boys and girls.
 - source: WHO official source files listed above.
 - copyright/licensing risk: manageable for non-commercial OSS use only if the WHO/source license is kept separate from MIT and attribution/share-alike/adaptation requirements are followed.
 - notes: no chart image has been copied into PedsCore. The normalized LMS data are stored under the separate WHO data license policy in `packages/core/src/growth/who/data/`.
@@ -123,9 +137,9 @@ This module is not a score table. It requires official LMS records by:
 | sex | LMS stratum | WHO official data | male/female mapping must match source file. |
 | age | LMS lookup | WHO official data | days/months handling must match indicator. |
 | measure cm | LMS lookup | WHO official data | used for weight-for-length/height. |
-| L | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 only. |
-| M | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 only. |
-| S | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 only. |
+| L | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 and weight-for-age 0-5. |
+| M | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 and weight-for-age 0-5. |
+| S | LMS coefficient | WHO official data | imported for BMI-for-age 0-5 and weight-for-age 0-5. |
 
 ## Interpretation bands / cutoffs
 
@@ -160,7 +174,9 @@ Current full-module graph status: pending completion for all WHO indicators.
 
 Current BMI-for-age 0-5 graph status: implemented as a PedsCore-generated SVG chart using the imported WHO LMS data, with directly labeled P3, P15, P50, P85, and P97 curves and a visible patient point.
 
-Block WHO-GROWTH-2B/printable-chart decision: BMI-for-age 0-5 can show the first printable chart slice. Other WHO indicators, interpolation policy, and full multi-indicator growth module completion remain pending.
+Current weight-for-age 0-5 graph status: implemented as a PedsCore-generated SVG chart using the imported WHO LMS data, with directly labeled P3, P15, P50, P85, and P97 curves and a visible patient point.
+
+Block WHO-GROWTH-3A decision: BMI-for-age 0-5 and weight-for-age 0-5 can show printable chart slices. Other WHO indicators, interpolation policy, and full multi-indicator growth module completion remain pending.
 
 ## Data loading architecture
 
@@ -168,9 +184,9 @@ Current strategy:
 
 - The root `@peds-core/core` export keeps WHO growth functions data-light.
 - Heavy WHO LMS datasets are loaded through `loadWhoLmsRecords(indicator)` from `@peds-core/core/growth/who/loaders`.
-- Each loader branch imports an indicator-specific subpath internally, currently `@peds-core/core/growth/who/bmiForAge`.
+- Each loader branch imports an indicator-specific subpath internally, currently `@peds-core/core/growth/who/bmiForAge` and `@peds-core/core/growth/who/weightForAge`.
 - The web lazily imports the WHO Growth result panel only on the `who-growth` tool page.
-- BMI-for-age 0-5 remains the only imported dataset in this block.
+- BMI-for-age 0-5 and weight-for-age 0-5 are the only imported datasets after WHO-GROWTH-3A.
 - Future indicators should follow the same pattern: one official dataset module per indicator/family plus one loader branch, imported only by the UI or calculator slice that needs it.
 
 Bundle effect measured across WHO-GROWTH-2B/2C:
@@ -178,6 +194,7 @@ Bundle effect measured across WHO-GROWTH-2B/2C:
 - Before lazy loading: the main web chunk was 510.67 kB minified.
 - After page-level lazy loading: the main web chunk was 383.45 kB minified, with WHO growth isolated in a dedicated lazy chunk at 129.13 kB minified.
 - After indicator loader split: the main web chunk is 383.47 kB minified, the WHO result panel chunk is 10.71 kB minified, and the BMI-for-age data chunk is 120.55 kB minified.
+- After adding weight-for-age: the main web chunk remains 383.47 kB minified; BMI-for-age and weight-for-age are emitted as separate lazy data chunks of approximately 120.55 kB and 119.02 kB minified.
 
 This avoids loading WHO growth LMS data for users who never open the growth module and prepares the module for additional official WHO indicators without inflating the initial bundle.
 
@@ -196,6 +213,8 @@ Planned print output:
 Current full-module print status: pending completion for all WHO indicators.
 
 Current BMI-for-age 0-5 print status: implemented with browser-native print output for the SVG chart, percentile labels, patient point, source, result summary, and disclaimer. No PDF backend is used.
+
+Current weight-for-age 0-5 print status: implemented with browser-native print output for the SVG chart, percentile labels, patient point, source, result summary, and disclaimer. No PDF backend is used.
 
 ## Safety and regulatory notes
 
@@ -217,7 +236,7 @@ Current BMI-for-age 0-5 print status: implemented with browser-native print outp
 
 `implement_after_chart_and_ui_review`
 
-Rationale: BMI-for-age 0-5 LMS data are now imported under separate WHO data licensing, and core calculation can compute BMI-for-age when exact age, sex, weight and stature are available. The first dedicated UI slice, printable SVG chart, written percentile labels and patient point are available. The full module remains pending because interpolation policy and the remaining indicators are not complete.
+Rationale: BMI-for-age 0-5 and weight-for-age 0-5 LMS data are now imported under separate WHO data licensing. Core calculation can compute BMI-for-age when exact age, sex, weight and stature are available, and weight-for-age when exact age, sex and weight are available. Printable SVG charts, written percentile labels and patient points are available. The full module remains pending because interpolation policy and the remaining indicators are not complete.
 
 ## Proposed test cases
 
@@ -242,4 +261,4 @@ Rationale: BMI-for-age 0-5 LMS data are now imported under separate WHO data lic
 
 ## Notes
 
-WHO-GROWTH-2B imports only BMI-for-age 0-5 LMS coefficients from official WHO XLSX files. The BMI-for-age 0-5 SVG chart and browser-native print workflow are available; remaining indicators and interpolation policy remain pending.
+WHO-GROWTH-3A imports BMI-for-age 0-5 and weight-for-age 0-5 LMS coefficients from official WHO XLSX files. SVG charts and browser-native print workflow are available for those two indicators; remaining indicators and interpolation policy remain pending.

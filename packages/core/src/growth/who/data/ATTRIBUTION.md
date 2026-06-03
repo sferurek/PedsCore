@@ -12,6 +12,13 @@ Imported BMI-for-age 0-5 years source files:
 - Girls expanded z-score table:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-girls-zscore-expanded-tables.xlsx?sfvrsn=ae4cb8d1_12
 
+Imported weight-for-age 0-5 years source files:
+
+- Boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-boys-zscore-expanded-tables.xlsx?sfvrsn=65cce121_10
+- Girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-age/expanded-tables/wfa-girls-zscore-expanded-tables.xlsx?sfvrsn=f01bc813_10
+
 Suggested attribution for WHO Growth Reference 5-19 years:
 
 World Health Organization. Growth reference data for 5-19 years. Geneva: World

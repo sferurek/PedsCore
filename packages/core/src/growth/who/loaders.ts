@@ -34,6 +34,16 @@ export const loadWhoLmsRecords = async (
     };
   }
 
+  if (indicator === "weight_for_age") {
+    const module = await import("./weightForAge.js");
+
+    return {
+      indicator,
+      records: module.whoWeightForAgeLmsRecords,
+      dataStatus: module.whoWeightForAgeDataStatus
+    };
+  }
+
   return {
     indicator,
     records: [],

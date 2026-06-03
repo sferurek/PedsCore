@@ -1124,8 +1124,8 @@ const whoGrowthValidationNotes: LocalizedText = {
 };
 
 const whoGrowthModuleValidationNotes: LocalizedText = {
-  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-2B: módulo unificado OMS preparado. BMI-for-age 0-5 se importó desde tablas XLSX oficiales OMS con licencia de datos separada y ya dispone de entrada dedicada, cálculo LMS, gráfica SVG imprimible y punto del paciente. Otros indicadores OMS e interpolación siguen pendientes antes de marcar el módulo completo como implementado.",
-  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-2B: unified WHO module prepared. BMI-for-age 0-5 years was imported from official WHO XLSX tables under a separate data license and now has dedicated input, LMS calculation, printable SVG chart, and patient point. Other WHO indicators and interpolation remain pending before marking the full module implemented."
+  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-3A: módulo unificado OMS preparado. BMI-for-age 0-5 y weight-for-age 0-5 se importaron desde tablas XLSX oficiales OMS con licencia de datos separada y disponen de cálculo LMS, gráfica SVG imprimible y punto del paciente. Otros indicadores OMS e interpolación siguen pendientes antes de marcar el módulo completo como implementado.",
+  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-3A: unified WHO module prepared. BMI-for-age 0-5 years and weight-for-age 0-5 years were imported from official WHO XLSX tables under a separate data license and have LMS calculation, printable SVG charts, and patient points. Other WHO indicators and interpolation remain pending before marking the full module implemented."
 };
 
 const cdcGrowthValidationNotes: LocalizedText = {
@@ -1295,8 +1295,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   who_growth_module: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
-      es: "Solo BMI-for-age OMS 0-5 está disponible en core con gráfica SVG imprimible. El módulo completo y otros indicadores siguen en validación.",
-      en: "Only WHO BMI-for-age 0-5 is available in core with a printable SVG chart. The full module and other indicators remain under validation."
+      es: "BMI-for-age OMS 0-5 y weight-for-age OMS 0-5 están disponibles con gráficas SVG imprimibles. El módulo completo y otros indicadores siguen en validación.",
+      en: "WHO BMI-for-age 0-5 and WHO weight-for-age 0-5 are available with printable SVG charts. The full module and other indicators remain under validation."
     },
     inputs: [
       {
