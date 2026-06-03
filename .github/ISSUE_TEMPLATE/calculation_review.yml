@@ -1,0 +1,44 @@
+name: Calculation review
+description: Review an implemented calculation or output against a traceable source.
+title: "[Calculation review]: "
+labels: ["calculation-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include patient-identifiable information or real clinical cases.
+  - type: input
+    id: tool
+    attributes:
+      label: Tool
+      description: Tool name, acronym or slug.
+    validations:
+      required: true
+  - type: textarea
+    id: input_case
+    attributes:
+      label: Input case
+      description: Use synthetic values only. Do not use a real clinical case.
+    validations:
+      required: true
+  - type: textarea
+    id: expected_output
+    attributes:
+      label: Expected output
+      description: Include score, units, interpretation band or trace expectation.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source for expected output
+      description: DOI, PMID, official URL, table, formula or worked example.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Any edge cases, rounding policy or variant considerations.
+    validations:
+      required: false

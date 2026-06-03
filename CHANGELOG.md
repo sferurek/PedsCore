@@ -21,6 +21,21 @@ Initial public alpha release.
 - No clinical data storage.
 - MIT license for code.
 
+### Public launch readiness
+
+- Refreshed README and README.es as public GitHub landing pages.
+- Added repository contribution guidance with clinical evidence and licensing gates.
+- Replaced issue templates with structured GitHub YAML templates for bugs,
+  clinical tool requests, evidence updates, calculation review and UX feedback.
+- Added pull request checklist covering patient data, evidence, licensing,
+  tests, build and SEO checks.
+- Updated security and conduct documentation for public open-source
+  collaboration.
+- Added public launch checklist for GitHub metadata, release preparation,
+  Search Console, LinkedIn and manual QA.
+- Clarified no clinical data storage and separate WHO data licensing.
+- WHO Growth public status remains `partially_implemented`.
+
 ### SPRINT-50 safety audit
 
 - Implementation count before audit: 17.
@@ -33,8 +48,8 @@ Initial public alpha release.
   audit and deferred-tool rationale.
 - Added safety tests to keep RCP/therapeutic algorithms, ICU/prognostic scores,
   proprietary tools and license-sensitive tools out of `implemented` status.
-- WHO Growth remains available as a partial guided module but stays
-  `pending_validation` until remaining 5-19 scope, interpolation policy and
+- WHO Growth remains available as a partial guided module and stays
+  `partially_implemented` until remaining 5-19 scope, interpolation policy and
   final maintainer/expert review are complete.
 
 ### Implemented tools
@@ -72,7 +87,7 @@ Initial public alpha release.
 - Guided age input supports dates, exact days, structured years/months/days and
   completed months for 5-19.
 - No clinical data are stored or sent to analytics.
-- The unified module remains `pending_validation` pending final maintainer
+- The unified module remains `partially_implemented` pending final maintainer
   review, interpolation policy and remaining 5-19 scope.
 
 ### Safety notes

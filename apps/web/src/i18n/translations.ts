@@ -31,7 +31,7 @@ export const translations = {
       subtitle:
         "Scores, escalas, calculadoras, percentiles y reglas clinicas con trazabilidad de evidencia, sin almacenamiento de datos clinicos.",
       lead:
-        "Un catalogo OSS para profesionales sanitarios que separa lo implementado, lo parcial y lo pendiente de validacion.",
+        "Alpha publica OSS para profesionales sanitarios que separa lo implementado, lo parcial y lo pendiente de validacion.",
       searchPlaceholder: "Buscar score, escala o calculadora...",
       transparencyTitle: "Transparencia desde el inicio",
       featuredTitle: "Herramientas destacadas",
@@ -250,7 +250,7 @@ export const translations = {
       subtitle:
         "Scores, scales, calculators, percentiles and clinical rules with evidence traceability and no clinical data storage.",
       lead:
-        "An OSS catalog for healthcare professionals that separates implemented, partial and pending-validation tools.",
+        "A public-alpha OSS catalog for healthcare professionals that separates implemented, partial and pending-validation tools.",
       searchPlaceholder: "Search score, scale or calculator...",
       transparencyTitle: "Transparent by design",
       featuredTitle: "Featured tools",

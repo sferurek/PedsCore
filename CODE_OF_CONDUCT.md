@@ -1,25 +1,31 @@
-# Code of Conduct · Código de conducta
+# Code of Conduct
 
-PedsCore is committed to providing a friendly, safe and inclusive environment for everyone, regardless of level of experience, gender identity, sexual orientation, disability, ethnicity, age, or religion. We expect all participants to treat each other with respect and empathy.
+PedsCore aims to be a respectful, professional and constructive open-source community.
 
-## Our Standards
+## Expected Behavior
 
 - Use welcoming and inclusive language.
-- Be respectful of differing viewpoints and experiences.
-- Gracefully accept constructive criticism.
-- Focus on what is best for the community.
-- Abstain from demeaning, discriminatory or harassing behaviour and speech.
+- Be respectful of different backgrounds, disciplines and levels of experience.
+- Focus critique on ideas, evidence and implementation quality.
+- Assume clinical safety and user trust matter.
+- Give and receive feedback constructively.
 
-Harassment includes offensive comments related to personal characteristics, sexualised language or imagery, deliberate intimidation, stalking, sustained disruption of discussions and unwelcome sexual attention. Remember that jokes, memes or language that are acceptable to you may be hurtful to others.
+## Unacceptable Behavior
+
+- Harassment, discrimination, intimidation or personal attacks.
+- Sexualized language or imagery.
+- Publishing private information without permission.
+- Disruptive or bad-faith participation.
+- Submitting patient-identifiable data or real clinical cases.
 
 ## Reporting
 
-If you experience or witness unacceptable behaviour, or have any other concerns, please notify the maintainers. You can do so by opening a private issue or by emailing the maintainer listed in the project’s profile. All complaints will be reviewed and investigated promptly and fairly.
+Report concerns through GitHub repository moderation tools or by contacting the maintainers through the repository's public channels.
+
+Please do not include patient-identifiable information in conduct reports.
 
 ## Enforcement
 
-Project maintainers have the right and responsibility to remove, edit or reject comments, commits, code, issues and other contributions that do not align with this Code of Conduct, or to ban temporarily or permanently any contributor for other behaviours that they deem inappropriate, threatening, offensive or harmful.
+Maintainers may edit, hide or remove comments, issues, pull requests or contributions that violate this Code of Conduct. Maintainers may also limit participation for contributors who repeatedly act against the standards of the project.
 
-## Inclusivity Statement
-
-We welcome contributions from everyone who is respectful and constructive. By participating in this project, you agree to abide by this Code of Conduct.
+By participating in PedsCore, you agree to follow this Code of Conduct.

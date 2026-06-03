@@ -1,0 +1,37 @@
+name: UX feedback
+description: Suggest an improvement to navigation, layout, readability or accessibility.
+title: "[UX]: "
+labels: ["ux", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include patient-identifiable information or real clinical cases.
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: Example: Home, Tools, WHO Growth, Evidence, /es/tools/apgar.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What felt confusing, slow, inaccessible or hard to use?
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggestion
+      description: What would improve the experience?
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      description: Desktop, mobile, tablet, browser and OS if relevant.
+    validations:
+      required: false

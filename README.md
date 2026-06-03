@@ -1,65 +1,77 @@
 # PedsCore
 
-**Open-source pediatric clinical tools, pediatric scores, neonatal scores, clinical calculators and evidence-based clinical decision support.**
+**Open-source pediatric and neonatal clinical tools with evidence traceability.**
 
-**Version:** `v0.1.0-alpha`
+[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![GitHub Pages](https://img.shields.io/badge/web-GitHub%20Pages-blue.svg)](https://sferurek.github.io/PedsCore/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6.svg)](https://www.typescriptlang.org/)
+[![CI](https://github.com/sferurek/PedsCore/actions/workflows/ci.yml/badge.svg)](https://github.com/sferurek/PedsCore/actions/workflows/ci.yml)
+[![Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](docs/releases/v0.1.0-alpha.md)
+[![No clinical data storage](https://img.shields.io/badge/clinical%20data-not%20stored-0f766e.svg)](DISCLAIMER.md)
 
-Public alpha site:
+PedsCore is a public-alpha, open-source library of pediatric and neonatal clinical tools for healthcare professionals, educators and contributors. It focuses on transparent implementation status, visible references, evidence traceability and careful safety wording.
+
+Public web app:
 
 https://sferurek.github.io/PedsCore/
 
-## Public web app
+## Current Alpha Status
 
-https://sferurek.github.io/PedsCore/
-
-## Description
-
-PedsCore is an **open‑source library of pediatric and neonatal clinical tools**. It provides evidence-based pediatric scores, neonatal scores, clinical calculators, scales, percentiles and clinical decision-support rules for healthcare professionals. It is MIT-licensed source code with evidence traceability and is **not** intended to replace clinical judgment or local protocols.
-
-## Keywords
-
-pediatrics, neonatology, pediatric emergency medicine, pediatric scores, neonatal scores, clinical calculators, open source healthcare, clinical decision support, medical education, evidence-based medicine, digital health.
-
-## Mission
-
-To make pediatric and neonatal clinical tools accessible, transparent and easy to use.  We aim to improve the quality and safety of care by providing accurate calculations and clear interpretation guidance based on the best available evidence.
-
-## Scope
-
-- **Scores and scales**: APGAR, Silverman–Andersen, Wood‑Downes, Ballard, NIPS, etc.
-- **Calculators**: Schwartz (eGFR), Shock Index Pediatric Age‑Adjusted, and others.
-- **Algorithms**: Basic resuscitation dosing, airway sizing, trauma triage rules.
-- **Percentiles**: Growth curves from WHO, CDC and Fundación Orbegozo.
-- **Clinical rules**: PECARN for head trauma, sepsis and shock indices.
-
-The project **excludes toxicology** in the initial phase.
-
-## Current alpha scope
-
-- 79 tools cataloged.
-- 17 tools fully implemented with active calculation or informational clinical rule output.
+- 79 cataloged pediatric and neonatal tools.
+- 17 fully implemented tools with active calculation or informational rule output.
 - 1 partially implemented module: WHO Growth.
-- ES/EN static web application.
-- Dynamic forms and traceable result panels.
-- Evidence-first references and visible validation status.
-- WHO Growth module with official WHO 0-5 indicators, partial WHO 5-19
-  BMI/height indicators, printable SVG charts and guided age input.
-- GitHub Pages deployment.
-- No backend, login, analytics or clinical data storage.
+- Static ES/EN web app deployed on GitHub Pages.
+- No backend.
+- No login.
+- No clinical data storage.
+- No clinical form values or calculation results are sent to analytics.
 
-SPRINT-50 audited the catalog for additional safe implementations. The fully
-implemented count intentionally remains 17 because no further pending tool met
-all implementation gates at once. WHO Growth is tracked separately as
-`partially_implemented`. See
-[docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md](docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md).
+PedsCore is intentionally conservative: cataloged tools are not activated until source, formula/table, exact variant, tests, safe wording and licensing gates are satisfied.
 
-## Privacy-first analytics
+## Highlights
 
-Analytics is disabled by default. If enabled by public build-time configuration, PedsCore may use privacy-preserving aggregate analytics to understand general website usage. IP addresses are not stored, tracking cookies are not used, user profiles are not created, and clinical data, form values and calculation results are never collected.
+- Pediatric scores and neonatal scores.
+- Clinical calculators and traceable result panels.
+- Informational pediatric head trauma rules.
+- WHO Growth module with official WHO data.
+- Evidence status for implemented, partially implemented, pending and license-sensitive tools.
+- Public docs for roadmap, evidence review and release notes.
+- TypeScript monorepo with React/Vite web app and tested core package.
 
-See [docs/ANALYTICS.md](docs/ANALYTICS.md).
+Relevant discovery terms: pediatric scores, neonatal scores, clinical calculators, WHO Growth, evidence-based medicine, open-source healthcare, clinical decision support, medical education.
 
-## Implemented tools
+## WHO Growth Module
+
+The WHO Growth module is available as a partially implemented growth workflow.
+
+Current scope:
+
+- Official WHO Child Growth Standards 0-5 indicators.
+- Partial WHO Growth Reference 2007 5-19 indicators: BMI-for-age and height-for-age.
+- Official WHO LMS data kept under separate WHO data licensing.
+- PedsCore-generated printable SVG charts.
+- Written percentile labels: P3, P15, P50, P85 and P97.
+- Visible patient point on charts.
+- Guided age input.
+- No storage of entered clinical data.
+
+The WHO Growth module remains `partially_implemented` while final maintainer review, interpolation policy and remaining 5-19 scope are completed. It does not provide nutritional diagnoses or treatment recommendations.
+
+## Safety And Scope
+
+PedsCore is an educational and informational resource for professional use.
+
+- It does not diagnose.
+- It does not recommend treatment.
+- It does not replace clinical judgment, local protocols, institutional policies or specialist assessment.
+- It does not store patient-identifiable data.
+- Do not submit real patient data in issues, pull requests or examples.
+
+See [DISCLAIMER.md](DISCLAIMER.md) for the full disclaimer.
+
+## Implemented Tools
+
+The 17 fully implemented tools are:
 
 - Apgar.
 - Silverman-Andersen.
@@ -79,76 +91,39 @@ See [docs/ANALYTICS.md](docs/ANALYTICS.md).
 - SIPA.
 - NIPS.
 
-## WHO Growth module
+Many additional tools remain cataloged but blocked pending source, table, variant, licensing or expert review. This is a safety decision, not a missing feature.
 
-PedsCore includes a unified WHO Growth workflow for growth and nutrition review.
+## Repository Structure
 
-Current scope:
+- `packages/core`: TypeScript catalog, contracts and deterministic calculation logic.
+- `apps/web`: React + TypeScript + Vite static web application.
+- `docs/`: Public documentation, evidence notes, release notes and launch checklists.
+- `.github/`: Workflows, issue templates and pull request template.
 
-- WHO Child Growth Standards 0-5: BMI-for-age, weight-for-age,
-  length/height-for-age, head circumference-for-age, weight-for-length and
-  weight-for-height.
-- WHO Growth Reference 2007 5-19: BMI-for-age and height-for-age.
-- Official WHO LMS data kept under separate WHO data licensing, not under the
-  MIT source-code license.
-- PedsCore-generated SVG charts with written percentiles P3/P15/P50/P85/P97 and
-  a visible patient point.
-- Native browser printing.
-- Guided age input for dates, exact days, structured years/months/days and
-  completed months for 5-19.
-- No storage of entered clinical data and no clinical analytics.
+## Contributing
 
-The unified WHO Growth module is `partially_implemented` while final
-maintainer review, interpolation policy and remaining 5-19 scope are completed.
-It does not provide nutritional diagnoses or treatment recommendations.
+Useful ways to support PedsCore:
 
-## Architecture
+- Star the repository.
+- Open feedback or bug reports through GitHub Issues.
+- Propose evidence updates with DOI, PMID or official URLs.
+- Suggest UX, translation or documentation improvements.
+- Review calculations only with traceable sources and tests.
 
-- `packages/core`: Pure TypeScript library containing deterministic functions for each tool.  No UI or side effects.
-- `apps/web`: A static web application (React + TypeScript + Vite) that consumes the core library and presents multilingual forms and results. It is deployed via GitHub Pages.
-- `docs/`: Markdown documentation including detailed descriptions of each tool and the scientific evidence behind them.
-- `references/`: Bibliography and source materials (e.g. articles, guidelines).
-- `.github/`: Issue templates, pull request templates, workflows and community standards.
+Start with [CONTRIBUTING.md](CONTRIBUTING.md). Clinical content contributions must include source, exact version/variant, reusable formula or table, licensing notes and safe output wording.
 
-## Current status
+## Public Launch Notes
 
-PedsCore is in public alpha. The catalog, web interface, evidence matrix, initial calculators, pediatric head trauma informational rules and WHO Growth workflow are available. Many cataloged tools remain pending validation, source review, licensing review or maintainer decision before active calculation.
-
-See [CHANGELOG.md](CHANGELOG.md), [ROADMAP.md](ROADMAP.md) and [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
-
-## Disclaimer (summary)
-
-PedsCore is provided for **educational and informational purposes** for healthcare professionals.  It does **not** replace clinical judgment, local protocols, or specialist consultation.  The results from these tools should be interpreted by qualified professionals.  PedsCore does not store patient data.
-
-## How to contribute
-
-We welcome contributions!  See **CONTRIBUTING.md** for guidelines on submitting new tools, reporting errors or suggesting improvements.  Please provide references to peer‑reviewed literature or official guidelines when proposing new calculations or modifications.
-
-## GitHub Pages deployment
-
-Expected public URL:
-
-https://sferurek.github.io/PedsCore/
-
-To enable GitHub Pages:
-
-1. Go to **Settings → Pages** in the GitHub repository.
-2. Select **GitHub Actions** under **Build and deployment**.
-3. Push to `main`.
-4. The site will be published at the repository GitHub Pages URL.
-
-The first deployment can take a few minutes after GitHub Pages is enabled.
+- Release notes: [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md)
+- Changelog: [CHANGELOG.md](CHANGELOG.md)
+- Roadmap: [ROADMAP.md](ROADMAP.md)
+- Launch checklist: [docs/PUBLIC_LAUNCH_CHECKLIST.md](docs/PUBLIC_LAUNCH_CHECKLIST.md)
+- SEO checklist: [docs/SEO_CHECKLIST.md](docs/SEO_CHECKLIST.md)
 
 ## License
 
-The core code is released under the [MIT License](LICENSE).  Documentation is released under the [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+PedsCore source code is released under the [MIT License](LICENSE).
 
-Some third-party data sources, including WHO growth data if incorporated, may be distributed under their own licenses and are not covered by the MIT license for PedsCore source code.
+Documentation is intended for public project documentation unless a file states otherwise.
 
-## Roadmap (brief)
-
-Completed alpha milestones include the monorepo, catalog, web shell, GitHub Pages, evidence matrix, dynamic forms, initial calculators, informational head trauma rules and WHO Growth 0-5/partial 5-19 workflow.
-
-Next priorities include maintainer decisions, literal Spain Spanish wording audit, expert review, WHO Growth visual QA/interpolation policy, possible WHO 5-10 weight-for-age review and additional calculators after evidence gates are satisfied.
-
-For more details, see **ROADMAP.md**.
+Third-party data and source materials are not automatically covered by the MIT license. WHO growth data are kept under separate WHO licensing and attribution terms.

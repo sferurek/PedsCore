@@ -1,0 +1,62 @@
+name: Clinical tool request
+description: Suggest a pediatric or neonatal score, scale, calculator, percentile or rule.
+title: "[Tool request]: "
+labels: ["enhancement", "clinical-tool"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include patient-identifiable information or real clinical cases.
+  - type: input
+    id: tool_name
+    attributes:
+      label: Tool name
+      description: Full name and common acronym.
+    validations:
+      required: true
+  - type: textarea
+    id: clinical_use
+    attributes:
+      label: Clinical use
+      description: What clinical question or workflow does this tool support?
+    validations:
+      required: true
+  - type: input
+    id: population
+    attributes:
+      label: Population
+      description: Example: neonates, children under 2 years, adolescents.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Source DOI, PMID or URL
+      description: Provide primary or official sources when possible.
+    validations:
+      required: true
+  - type: dropdown
+    id: scoring_table
+    attributes:
+      label: Scoring table or formula availability
+      options:
+        - Complete reusable table/formula available
+        - Partial table/formula available
+        - Source found but table/formula unclear
+        - Unknown
+    validations:
+      required: true
+  - type: textarea
+    id: license
+    attributes:
+      label: License concerns
+      description: Note copyright, proprietary forms, data reuse terms or official licensing restrictions.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Proposed implementation scope
+      description: Describe what should be implemented and what should remain out of scope.
+    validations:
+      required: true

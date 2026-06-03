@@ -17,12 +17,12 @@ const homeSeo = {
   es: {
     title: "PedsCore — herramientas clínicas pediátricas y neonatales open source",
     description:
-      "Scores, escalas, calculadoras, percentiles y reglas clínicas pediátricas y neonatales open source con trazabilidad de evidencia."
+      "PedsCore es una biblioteca open source de herramientas clínicas pediátricas y neonatales con trazabilidad de evidencia, gráficas WHO Growth y sin almacenamiento de datos clínicos."
   },
   en: {
     title: "PedsCore — open-source pediatric and neonatal clinical tools",
     description:
-      "Open-source pediatric and neonatal clinical scores, calculators, scales, percentiles and clinical decision rules with evidence traceability."
+      "PedsCore is an open-source pediatric and neonatal clinical tools library with evidence traceability, WHO Growth charts and no clinical data storage."
   }
 } satisfies Record<Language, { title: string; description: string }>;
 
@@ -119,8 +119,8 @@ const getLocalizedText = (
 const toolDescription = (tool: ClinicalToolMetadata, language: Language) => {
   if (tool.id === "who_growth_module") {
     return language === "es"
-      ? "Calculadora de crecimiento OMS con indicadores 0-5 y 5-19, graficas imprimibles y percentiles trazables."
-      : "WHO Growth calculator with 0-5 and 5-19 indicators, printable charts and traceable percentiles.";
+      ? "Modulo WHO Growth con datos oficiales OMS, graficas SVG imprimibles, percentiles escritos y punto del paciente."
+      : "WHO Growth module with official WHO growth data, printable SVG charts, written percentiles and patient point.";
   }
 
   const description = getLocalizedText(tool.description, language);

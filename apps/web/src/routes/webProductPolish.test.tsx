@@ -68,7 +68,7 @@ describe("public product web polish", () => {
     const seo = getSeoForRoute(parseRoute("/en/tools/who-growth"), "en");
 
     expect(seo.description).toBe(
-      "WHO Growth calculator with 0-5 and 5-19 indicators, printable charts and traceable percentiles."
+      "WHO Growth module with official WHO growth data, printable SVG charts, written percentiles and patient point."
     );
   });
 

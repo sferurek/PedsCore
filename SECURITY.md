@@ -1,19 +1,38 @@
-# Security Policy · Política de seguridad
+# Security Policy
 
-## Reporting a Vulnerability / Reportar una vulnerabilidad
+PedsCore is a static public-alpha web app and TypeScript library. It currently has no backend, no login system and no clinical data storage.
 
-We take security seriously. If you discover a vulnerability or any security issue in PedsCore, please do **not** post it publicly. Instead, submit a report through GitHub Security Advisories or email our security contact at `security@peds.core.example` (replace with the appropriate address once defined). Provide a clear description, steps to reproduce if possible, and the potential impact. We will acknowledge receipt and work with you to address the issue promptly.
+Do not submit patient-identifiable information or real clinical cases in issues, pull requests, screenshots, examples or tests.
 
-Tratamos la seguridad con seriedad. Si descubres una vulnerabilidad o cualquier problema de seguridad en PedsCore, **no** lo publiques en abierto. Utiliza el canal de *GitHub Security Advisories* o envía un correo a nuestro contacto de seguridad en `security@peds.core.example` (sustituir por la dirección adecuada una vez definida). Proporciona una descripción clara, pasos para reproducir (si es posible) y el impacto potencial. Confirmaremos la recepción y colaboraremos contigo para abordar el problema rápidamente.
+## Reporting Security Issues
 
-## Scope and Data Handling / Alcance y tratamiento de datos
+If the issue is sensitive, use GitHub private vulnerability reporting if it is available for this repository.
 
-PedsCore is an educational resource. It does not process or store any patient‑identifiable data. When reporting issues or examples, please ensure you remove or anonymise any sensitive information. Do not submit personal health information or any other confidential data.
+If private vulnerability reporting is not available and the issue is not sensitive, open a GitHub issue with a concise description and reproduction steps.
 
-PedsCore es un recurso educativo. No procesa ni almacena datos identificativos de pacientes. Al informar de problemas o proporcionar ejemplos, asegúrate de eliminar o anonimizar cualquier información sensible. No envíes información sanitaria personal ni otros datos confidenciales.
+Do not publish exploit details publicly before maintainers have had a reasonable opportunity to review and respond.
 
-## Supported Versions / Versiones compatibles
+## Data Handling
 
-PedsCore is under active development. We aim to address security issues in the current version and recent minor versions where feasible. Since the project is not yet released, there are no supported versions at this time.
+- PedsCore should not receive patient-identifiable data.
+- The current app has no backend.
+- The current app has no account system.
+- The current app does not store clinical form values.
+- Clinical form values and calculation results must not be sent to analytics.
 
-PedsCore está en desarrollo activo. Nuestro objetivo es abordar los problemas de seguridad en la versión actual y en versiones menores recientes cuando sea posible. Dado que el proyecto aún no se ha publicado, actualmente no hay versiones compatibles.
+## Secrets And Dependencies
+
+- Do not commit secrets, API keys, tokens, private certificates or credentials.
+- Keep dependency changes minimal and review lockfile changes.
+- Report dependency vulnerabilities with package name, affected version and suggested fix when available.
+
+## Scope
+
+Security reports may include:
+
+- Dependency vulnerabilities.
+- GitHub Pages deployment issues.
+- Unsafe data handling.
+- Accidental exposure of secrets.
+- Cross-site scripting or client-side injection risks.
+- Documentation or workflow instructions that could cause unsafe disclosure.

@@ -1,0 +1,51 @@
+name: Evidence update
+description: Suggest a reference or evidence update for an existing tool.
+title: "[Evidence]: "
+labels: ["documentation", "evidence"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include patient-identifiable information or real clinical cases.
+  - type: input
+    id: tool
+    attributes:
+      label: Tool
+      description: Tool name, acronym or slug.
+    validations:
+      required: true
+  - type: textarea
+    id: current_reference
+    attributes:
+      label: Current reference
+      description: Existing reference or documentation section affected.
+    validations:
+      required: false
+  - type: textarea
+    id: proposed_reference
+    attributes:
+      label: Proposed reference
+      description: Full citation if available.
+    validations:
+      required: true
+  - type: input
+    id: identifier
+    attributes:
+      label: DOI, PMID or URL
+      description: Provide a stable identifier whenever possible.
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason for update
+      description: Explain why this source should be added, corrected or prioritized.
+    validations:
+      required: true
+  - type: textarea
+    id: license_access
+    attributes:
+      label: License and access
+      description: Open access, paywalled, official guideline, data reuse restrictions, or copyright concerns.
+    validations:
+      required: true
