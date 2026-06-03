@@ -44,8 +44,8 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 - LMS source located: WHO official `anthro` package repository, `data-raw/growthstandards/bmianthro.txt`.
 - direct LMS URL: https://raw.githubusercontent.com/WorldHealthOrganization/anthro/master/data-raw/growthstandards/bmianthro.txt
 - package repository: https://github.com/WorldHealthOrganization/anthro
-- license status: import allowed only under the specific WHO/source terms, separate from the MIT code license. WHO publications commonly use CC BY-NC-SA 3.0 IGO for non-commercial use with attribution, share-alike, adaptation disclaimer, no WHO logo, and no implied WHO endorsement. The `anthro` package repository is GPL-3.0, so data-source choice must be explicit.
-- decision: do not relicense WHO LMS data as MIT. Keep WHO data/materials under the applicable WHO/source license and document attribution before importing.
+- license status: imported under separate WHO data terms, not under the MIT code license. WHO publications commonly use CC BY-NC-SA 3.0 IGO for non-commercial use with attribution, share-alike, adaptation disclaimer, no WHO logo, and no implied WHO endorsement. The `anthro` package repository is avoided as the data source for this block.
+- decision: do not relicense WHO LMS data as MIT. Keep WHO data/materials under the applicable WHO/source license and document attribution.
 
 ### WHO Growth Reference 2007, 5-19 years
 
@@ -109,10 +109,10 @@ Do not round in a way that implies false precision. The UI should show reasonabl
 
 ## Complete scoring table availability
 
-- complete table found: BMI-for-age LMS file located in the WHO `anthro` package source tree; WHO BMI-for-age tables also located on the official WHO Child Growth Standards site.
-- source: WHO official sources listed above, including `bmianthro.txt`.
+- complete table found: official WHO BMI-for-age expanded z-score XLSX tables contain daily L, M and S values for boys and girls.
+- source: WHO official source files listed above.
 - copyright/licensing risk: manageable for non-commercial OSS use only if the WHO/source license is kept separate from MIT and attribution/share-alike/adaptation requirements are followed.
-- notes: no chart image, LMS table, or long protected table has been copied into PedsCore.
+- notes: no chart image has been copied into PedsCore. The normalized LMS data are stored under the separate WHO data license policy in `packages/core/src/growth/who/data/`.
 
 ## Variables and scoring
 
@@ -156,9 +156,9 @@ Planned graph behavior:
 - Patient point visible and printable.
 - Source, calculation date, and disclaimer visible in print.
 
-Current graph status: pending official data import.
+Current graph status: pending chart implementation.
 
-Block WHO-GROWTH-2A decision: graph implementation remains pending because importing enough LMS/curve data to draw P3, P15, P50, P85 and P97 would require committing a substantial official data table or generated derivative. That must wait for license approval.
+Block WHO-GROWTH-2B decision: BMI-for-age LMS data are imported, but graph implementation remains pending to keep this block focused on data normalization and tests.
 
 ## Print
 
@@ -172,7 +172,7 @@ Planned print output:
 - PedsCore disclaimer
 - calculation date
 
-Current print status: pending official data import and chart implementation.
+Current print status: pending chart implementation.
 
 ## Safety and regulatory notes
 
@@ -192,9 +192,9 @@ Current print status: pending official data import and chart implementation.
 
 ## Implementation recommendation
 
-`implement_after_maintainer_decision`
+`implement_after_chart_and_ui_review`
 
-Rationale: math scaffold is safe, and the BMI-for-age 0-5 LMS source is now located. Active percentiles and charts require importing data under the applicable WHO/source license, keeping that license separate from MIT, adding attribution/adaptation disclaimers, and adding source versioning, interpolation policy, and test fixtures.
+Rationale: BMI-for-age 0-5 LMS data are now imported under separate WHO data licensing, and core calculation can compute BMI-for-age when exact age, sex, weight and stature are available. The full module remains pending because dedicated UI, printable charts, percentile labels, interpolation policy and the remaining indicators are not complete.
 
 ## Proposed test cases
 
@@ -219,4 +219,4 @@ Rationale: math scaffold is safe, and the BMI-for-age 0-5 LMS source is now loca
 
 ## Notes
 
-This scaffold deliberately does not include LMS coefficients. Active calculation should be blocked until official data files are imported, normalized, versioned, attributed, and covered with tests.
+WHO-GROWTH-2B imports only BMI-for-age 0-5 LMS coefficients from official WHO XLSX files. The remaining indicators, chart rendering and print workflow remain pending.

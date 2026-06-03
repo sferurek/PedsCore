@@ -5,6 +5,13 @@ Suggested attribution for WHO Child Growth Standards:
 World Health Organization. WHO Child Growth Standards. Geneva: World Health
 Organization; 2006. Licence: CC BY-NC-SA 3.0 IGO.
 
+Imported BMI-for-age 0-5 years source files:
+
+- Boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-boys-zscore-expanded-tables.xlsx?sfvrsn=f8e1fbe2_10
+- Girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-girls-zscore-expanded-tables.xlsx?sfvrsn=ae4cb8d1_12
+
 Suggested attribution for WHO Growth Reference 5-19 years:
 
 World Health Organization. Growth reference data for 5-19 years. Geneva: World

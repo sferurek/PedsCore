@@ -7,6 +7,8 @@ import {
   calculateWhoGrowth,
   clinicalTools,
   findLmsRecord,
+  who0To5BmiForAge,
+  who0To5BmiForAgeSource,
   whoGrowthDataStatus,
   zScoreToPercentile
 } from "../src/index";
@@ -34,20 +36,39 @@ describe("WHO growth scaffold", () => {
     expect(zScoreToPercentile(1.8808)).toBeCloseTo(97, 0);
   });
 
-  it("does not pretend official WHO data are imported", () => {
-    expect(whoGrowthDataStatus.officialDataImported).toBe(false);
-    expect(whoGrowthDataStatus.reason).toContain("not yet");
+  it("loads official WHO BMI-for-age data for both sexes", () => {
+    expect(whoGrowthDataStatus.officialDataImported).toBe(true);
+    expect(whoGrowthDataStatus.importedIndicators).toEqual(["bmi_for_age"]);
     expect(whoGrowthDataStatus.excludedSources).toEqual(["CDC", "Orbegozo"]);
+    expect(who0To5BmiForAge).toHaveLength(3714);
+    expect(who0To5BmiForAgeSource.boysUrl).toContain("cdn.who.int");
+    expect(who0To5BmiForAgeSource.girlsUrl).toContain("cdn.who.int");
+    expect(who0To5BmiForAge.some((record) => record.sex === "male")).toBe(
+      true
+    );
+    expect(who0To5BmiForAge.some((record) => record.sex === "female")).toBe(
+      true
+    );
+  });
+
+  it("resolves official BMI-for-age LMS records by sex and day", () => {
+    expect(
+      findLmsRecord({
+        indicator: "bmi_for_age",
+        sex: "male",
+        ageDays: 0
+      })
+    ).toMatchObject({ L: -0.3053, M: 13.4069, S: 0.0956 });
     expect(
       findLmsRecord({
         indicator: "bmi_for_age",
         sex: "female",
-        ageMonths: 24
+        ageDays: 730
       })
-    ).toBeUndefined();
+    ).toMatchObject({ indicator: "bmi_for_age", sex: "female", ageDays: 730 });
   });
 
-  it("returns pending-data warnings instead of invented percentiles", () => {
+  it("calculates WHO BMI-for-age z-score and percentile with complete input", () => {
     const result = calculateWhoGrowth({
       sex: "male",
       dateOfBirth: "2020-01-01",
@@ -57,19 +78,49 @@ describe("WHO growth scaffold", () => {
       headCircumferenceCm: 48,
       measurementMode: "standing_height"
     });
+    const bmiForAge = result.applicableResults.find(
+      (item) => item.indicator === "bmi_for_age"
+    );
 
     expect(result.warnings).toContain(
-      "Official WHO LMS data are not yet imported and verified in PedsCore."
+      "Only WHO BMI-for-age 0-5 years data are imported. Other WHO indicators remain pending."
     );
     expect(result.applicableResults).toHaveLength(6);
-    expect(result.applicableResults.every((item) => !item.isApplicable)).toBe(
-      true
+    expect(bmiForAge?.isApplicable).toBe(true);
+    expect(bmiForAge?.value).toBeCloseTo(16.22, 2);
+    expect(bmiForAge?.zScore).toBeTypeOf("number");
+    expect(bmiForAge?.percentile).toBeTypeOf("number");
+  });
+
+  it("does not calculate BMI-for-age without weight or stature", () => {
+    const result = calculateWhoGrowth({
+      sex: "male",
+      dateOfBirth: "2020-01-01",
+      measurementDate: "2022-01-01"
+    });
+    const bmiForAge = result.applicableResults.find(
+      (item) => item.indicator === "bmi_for_age"
     );
-    expect(
-      result.applicableResults.every(
-        (item) => item.zScore === undefined && item.percentile === undefined
-      )
-    ).toBe(true);
+
+    expect(bmiForAge?.isApplicable).toBe(false);
+    expect(bmiForAge?.warning).toBe("Required measurement is missing.");
+  });
+
+  it("does not calculate BMI-for-age outside the official imported range", () => {
+    const result = calculateWhoGrowth({
+      sex: "female",
+      dateOfBirth: "2020-01-01",
+      measurementDate: "2026-01-01",
+      weightKg: 20,
+      heightCm: 110
+    });
+    const bmiForAge = result.applicableResults.find(
+      (item) => item.indicator === "bmi_for_age"
+    );
+
+    expect(bmiForAge?.isApplicable).toBe(false);
+    expect(bmiForAge?.zScore).toBeUndefined();
+    expect(bmiForAge?.percentile).toBeUndefined();
   });
 
   it("keeps unified WHO growth catalog entry pending validation", () => {
@@ -78,7 +129,7 @@ describe("WHO growth scaffold", () => {
     expect(tool?.slug).toBe("who-growth");
     expect(tool?.implementationStatus).toBe("pending_validation");
     expect(tool?.calculationStatus).not.toBe("active");
-    expect(tool?.validationNotes.en).toContain("scaffold");
-    expect(tool?.validationNotes.en).toContain("GPL-3");
+    expect(tool?.validationNotes.en).toContain("BMI-for-age 0-5 years");
+    expect(tool?.validationNotes.en).toContain("separate data license");
   });
 });

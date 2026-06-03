@@ -2,7 +2,8 @@
 
 This directory is reserved for normalized official WHO LMS data files.
 
-Current status: official data import pending.
+Current status: BMI-for-age 0-5 years imported. Other WHO indicators remain
+pending.
 
 WHO growth data can be incorporated under the applicable WHO terms, with a
 separate license from the MIT-licensed PedsCore source code. For WHO
@@ -18,15 +19,31 @@ Allowed sources:
 - WHO Child Growth Standards, 0-5 years.
 - WHO Growth Reference 2007, 5-19 years.
 
+Imported source files:
+
+- BMI-for-age boys expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-boys-zscore-expanded-tables.xlsx?sfvrsn=f8e1fbe2_10
+- BMI-for-age girls expanded z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/body-mass-index-for-age/expanded-tables/bfa-girls-zscore-expanded-tables.xlsx?sfvrsn=ae4cb8d1_12
+
+Imported data:
+
+- Indicator: BMI-for-age.
+- Age range: 0-1856 days.
+- Sex: boys and girls, normalized as `male` and `female`.
+- Units: BMI in kg/m2.
+- LMS fields: L, M, S.
+- Access date: 2026-06-03.
+
 Excluded sources in this module:
 
 - CDC growth references.
 - Orbegozo growth references.
 - Any third-party calculator, copied chart image, or reconstructed table.
 
-No LMS coefficient is stored here until the source file, indicator, age range,
-sex mapping, license/terms, interpolation policy, and test fixtures have been
-verified.
+No additional LMS coefficient is stored here until the source file, indicator,
+age range, sex mapping, license/terms, interpolation policy, and test fixtures
+have been verified.
 
 The data license policy is documented in `LICENSE.md`.
 

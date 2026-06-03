@@ -9,7 +9,12 @@ import type {
 } from "./types.js";
 
 export * from "./types.js";
-export { whoGrowthDataStatus, whoLmsRecords } from "./data/index.js";
+export {
+  who0To5BmiForAge,
+  who0To5BmiForAgeSource,
+  whoGrowthDataStatus,
+  whoLmsRecords
+} from "./data/index.js";
 
 const millisecondsPerDay = 24 * 60 * 60 * 1000;
 const averageDaysPerMonth = 365.25 / 12;
@@ -203,6 +208,10 @@ export const calculateWhoGrowth = (input: WhoGrowthInput): WhoGrowthResult => {
 
   if (!whoGrowthDataStatus.officialDataImported) {
     warnings.push(officialDataPendingWarning);
+  } else if (whoGrowthDataStatus.importedIndicators.length < 6) {
+    warnings.push(
+      "Only WHO BMI-for-age 0-5 years data are imported. Other WHO indicators remain pending."
+    );
   }
 
   const applicableResults = [

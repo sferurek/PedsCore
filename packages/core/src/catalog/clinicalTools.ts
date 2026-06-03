@@ -1124,8 +1124,8 @@ const whoGrowthValidationNotes: LocalizedText = {
 };
 
 const whoGrowthModuleValidationNotes: LocalizedText = {
-  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-2A: modulo unificado OMS preparado como scaffold. La fuente LMS oficial BMI-for-age 0-5 se localizo en WHO anthro, pero no se importa por decision pendiente de licencia GPL-3/terminos OMS. No se activa calculo ni graficas hasta resolver licencia, datos, interpolacion y tests.",
-  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-2A: unified WHO module prepared as a scaffold. The official BMI-for-age 0-5 LMS source was located in WHO anthro, but it is not imported because GPL-3/WHO terms licensing remains undecided. Calculation and charts are not activated until licensing, data, interpolation, and tests are resolved."
+  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-2B: modulo unificado OMS preparado. BMI-for-age 0-5 se importo desde tablas XLSX oficiales OMS con licencia de datos separada; otros indicadores OMS, UI especifica, graficas imprimibles e interpolacion siguen pendientes antes de marcar el modulo completo como implementado.",
+  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-2B: unified WHO module prepared. BMI-for-age 0-5 years was imported from official WHO XLSX tables under a separate data license; other WHO indicators, dedicated UI, printable charts, and interpolation remain pending before marking the full module implemented."
 };
 
 const cdcGrowthValidationNotes: LocalizedText = {
