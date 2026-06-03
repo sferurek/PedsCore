@@ -106,7 +106,7 @@ export const translations = {
       inactiveCalculation:
         "El calculo automatico aun no esta activo para esta herramienta.",
       completeRequired:
-        "Completa los campos requeridos para preparar el resultado.",
+        "Pendiente de cumplimentar el formulario para obtener el resultado del calculo.",
       value: "Valor",
       interpretation: "Interpretacion",
       warnings: "Advertencias",
@@ -257,7 +257,7 @@ export const translations = {
       inactiveCalculation:
         "Automatic calculation is not active for this tool yet.",
       completeRequired:
-        "Complete the required fields to prepare the result.",
+        "Complete the required form fields to obtain the calculation result.",
       value: "Value",
       interpretation: "Interpretation",
       warnings: "Warnings",

@@ -2492,3 +2492,284 @@ h2 {
     grid-template-columns: 1fr;
   }
 }
+
+/* Compact clinical workflow polish. */
+main {
+  width: min(1400px, calc(100% - 1.5rem));
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
+
+.site-header {
+  top: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0.45rem max(0.75rem, calc((100vw - 1400px) / 2 + 0.75rem));
+  border-width: 0 0 1px;
+  border-color: rgba(184, 205, 232, 0.72);
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 4px 18px rgba(28, 80, 149, 0.06);
+}
+
+.brand-link {
+  padding: 0.15rem;
+}
+
+.brand-mark {
+  width: 2rem;
+  height: 2rem;
+}
+
+.nav-link {
+  min-height: 2.2rem;
+  padding: 0.38rem 0.62rem;
+}
+
+.language-switcher {
+  min-height: 2.3rem;
+  padding: 0.18rem 0.25rem 0.18rem 0.55rem;
+  border-radius: 10px;
+}
+
+.language-switcher select {
+  min-height: 2rem;
+}
+
+.page-stack,
+.tool-page,
+.tool-main {
+  gap: 0.85rem;
+}
+
+.content-section,
+.dynamic-form,
+.reference-list,
+.calculated-result {
+  gap: 0.75rem;
+}
+
+.tool-hero,
+.page-hero {
+  gap: 0.45rem;
+  padding: 0.85rem 0 0.75rem;
+}
+
+.tool-hero {
+  border-bottom: 1px solid var(--line);
+}
+
+.tool-hero h1 {
+  max-width: 22ch;
+  font-size: 2.65rem;
+  line-height: 1.08;
+}
+
+.tool-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 330px);
+  gap: 1.25rem;
+}
+
+.content-panel,
+.metadata-panel,
+.disclaimer-box,
+.feedback-box,
+.info-page {
+  padding: 0.95rem 1rem;
+}
+
+.content-panel h2,
+.metadata-panel h2,
+.feedback-box h2 {
+  font-size: 1.25rem;
+}
+
+.content-panel p,
+.metadata-panel dd,
+.feedback-box p,
+.reference-list p {
+  line-height: 1.45;
+}
+
+.disclaimer-box {
+  padding: 0.72rem 0.9rem;
+  border-color: #dbc589;
+}
+
+.disclaimer-box p {
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.metadata-panel {
+  top: 4.25rem;
+}
+
+.metadata-panel dl {
+  gap: 0.45rem;
+}
+
+.metadata-panel dl > div,
+.compact-metadata > div,
+.evidence-meta > div,
+.evidence-summary-grid > div,
+.status-explainer {
+  padding: 0.62rem;
+}
+
+dt {
+  font-size: 0.72rem;
+}
+
+.status-badge {
+  padding: 0.28rem 0.58rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  box-shadow: none;
+}
+
+.status-implemented {
+  border-color: #b8dec8;
+  background: #e7f6ed;
+  color: #17623a;
+}
+
+.status-ready_for_implementation {
+  border-color: #bfd5f5;
+  background: #e7f0ff;
+  color: #073a8f;
+}
+
+.status-pending_validation {
+  border-color: #eed6a6;
+  background: #fff4dc;
+  color: #82571a;
+}
+
+.status-needs_primary_reference {
+  border-color: #d0c6ee;
+  background: #f0edff;
+  color: #51408e;
+}
+
+.status-coming_soon {
+  border-color: #cbd8ea;
+  background: #eef3fa;
+  color: #445a78;
+}
+
+.status-not_implemented_due_to_licensing {
+  border-color: #ecc4c8;
+  background: #fbe8eb;
+  color: #8a3944;
+}
+
+.filter-panel,
+.tool-card,
+.category-card,
+.reference-card,
+.form-field {
+  padding: 0.85rem;
+}
+
+.form-field {
+  gap: 0.5rem;
+}
+
+.form-field p,
+.field-error,
+.option-card small {
+  line-height: 1.35;
+}
+
+.option-grid {
+  gap: 0.45rem;
+}
+
+.option-card {
+  min-height: 2.45rem;
+  padding: 0.58rem 0.65rem;
+}
+
+.number-input input,
+.form-field select,
+.boolean-toggle button {
+  min-height: 2.35rem;
+}
+
+.result-panel {
+  background:
+    linear-gradient(90deg, rgba(11, 85, 192, 0.06), transparent 42%),
+    var(--surface);
+}
+
+.inactive-calculation {
+  padding: 0.68rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f7fbff;
+  color: var(--muted);
+}
+
+.result-value {
+  padding: 0.8rem;
+}
+
+.trace-list div {
+  padding: 0.4rem 0;
+}
+
+th,
+td {
+  padding: 0.62rem;
+}
+
+.reference-card {
+  gap: 0.65rem;
+}
+
+@media (min-width: 981px) {
+  .tool-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 330px);
+  }
+}
+
+@media (max-width: 980px) {
+  main {
+    width: min(100% - 1rem, 54rem);
+  }
+
+  .site-header {
+    grid-template-columns: 1fr;
+    gap: 0.45rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .tool-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .tool-page-aside {
+    order: 0;
+  }
+}
+
+@media (max-width: 719px) {
+  .tool-hero h1,
+  h1,
+  .home-page .hero-copy h1,
+  .evidence-page h1,
+  .info-page h1 {
+    font-size: 2.15rem;
+  }
+
+  .content-panel,
+  .metadata-panel,
+  .disclaimer-box,
+  .feedback-box,
+  .info-page,
+  .form-field {
+    padding: 0.85rem;
+  }
+}

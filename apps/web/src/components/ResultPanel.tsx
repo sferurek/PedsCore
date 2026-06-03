@@ -23,16 +23,6 @@ export function ResultPanel({ language, tool, values }: ResultPanelProps) {
   return (
     <section className="content-panel result-panel">
       <h2>{t.result.title}</h2>
-      <dl className="compact-metadata">
-        <div>
-          <dt>{t.result.calculationStatus}</dt>
-          <dd>{tool.calculationStatus ?? "not_available"}</dd>
-        </div>
-        <div>
-          <dt>{t.common.status}</dt>
-          <dd>{tool.implementationStatus}</dd>
-        </div>
-      </dl>
       {tool.implementationStatus !== "implemented" ? (
         <p>{t.result.inactiveCalculation}</p>
       ) : null}
