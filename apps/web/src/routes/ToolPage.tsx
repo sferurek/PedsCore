@@ -1,5 +1,5 @@
 import type { ClinicalToolMetadata } from "@peds-core/core";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { DisclaimerBox } from "../components/DisclaimerBox";
 import { DynamicForm } from "../components/DynamicForm";
 import { GitHubFeedbackLink } from "../components/GitHubFeedbackLink";
@@ -8,7 +8,6 @@ import { ReferenceList } from "../components/ReferenceList";
 import { ResultPanel } from "../components/ResultPanel";
 import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
-import { ToolStatusBadge } from "../components/ToolStatusBadge";
 import { translations } from "../i18n/translations";
 import {
   getUnlockActions,
@@ -29,15 +28,21 @@ export function ToolPage({ language, tool }: ToolPageProps) {
   const [formValues, setFormValues] = useState<FormValues>(() =>
     getInitialFormState(tool)
   );
+  const resultPanelRef = useRef<HTMLElement>(null);
+
+  const scrollToResults = () => {
+    resultPanelRef.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+      block: "start"
+    });
+  };
 
   return (
     <div className="tool-page">
       <section className="tool-hero">
         <h1>{tool.name[language]}</h1>
-        <ToolStatusBadge
-          language={language}
-          status={tool.implementationStatus}
-        />
       </section>
 
       <div className="tool-layout">
@@ -52,10 +57,12 @@ export function ToolPage({ language, tool }: ToolPageProps) {
           <DynamicForm
             language={language}
             tool={tool}
+            onFormComplete={scrollToResults}
             onStateChange={setFormValues}
           />
 
           <ResultPanel
+            ref={resultPanelRef}
             language={language}
             tool={tool}
             values={formValues}

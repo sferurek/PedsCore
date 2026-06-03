@@ -1,5 +1,6 @@
 import { calculateTool } from "@peds-core/core";
 import type { CalculationResult, ClinicalToolMetadata } from "@peds-core/core";
+import { forwardRef } from "react";
 import { translations } from "../i18n/translations";
 import type { FormValues } from "../utils/formState";
 import { hasActiveForm, validateForm } from "../utils/formState";
@@ -11,7 +12,8 @@ interface ResultPanelProps {
   values: FormValues;
 }
 
-export function ResultPanel({ language, tool, values }: ResultPanelProps) {
+export const ResultPanel = forwardRef<HTMLElement, ResultPanelProps>(
+  function ResultPanel({ language, tool, values }, ref) {
   const t = translations[language];
   const validation = validateForm(tool, values);
   const hasForm = hasActiveForm(tool);
@@ -21,7 +23,7 @@ export function ResultPanel({ language, tool, values }: ResultPanelProps) {
       : null;
 
   return (
-    <section className="content-panel result-panel">
+    <section className="content-panel result-panel" ref={ref}>
       <h2>{t.result.title}</h2>
       {tool.implementationStatus !== "implemented" ? (
         <p>{t.result.inactiveCalculation}</p>
@@ -35,7 +37,7 @@ export function ResultPanel({ language, tool, values }: ResultPanelProps) {
       {tool.calculationNotes ? <p>{tool.calculationNotes[language]}</p> : null}
     </section>
   );
-}
+});
 
 interface CalculatedResultProps {
   language: Language;

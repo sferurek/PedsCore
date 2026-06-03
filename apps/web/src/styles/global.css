@@ -2687,6 +2687,94 @@ dt {
   gap: 0.45rem;
 }
 
+.accordion-field {
+  display: grid;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.accordion-field.missing {
+  background: #fffaf0;
+}
+
+.accordion-field.completed {
+  border-color: #bfd9ee;
+  background: #fbfdff;
+}
+
+.accordion-field.open {
+  border-color: rgba(37, 115, 218, 0.44);
+}
+
+.accordion-trigger {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.72rem 0.85rem;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordion-trigger > span:first-child {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.accordion-trigger strong,
+.accordion-trigger small {
+  overflow-wrap: anywhere;
+}
+
+.accordion-trigger small {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.accordion-state {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-strong);
+  font-weight: 900;
+}
+
+.accordion-content {
+  display: grid;
+  gap: 0.65rem;
+  padding: 0 0.85rem 0.85rem;
+}
+
+.number-accordion-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.form-continue {
+  min-height: 2.35rem;
+  padding: 0 0.8rem;
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  background: var(--primary);
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 850;
+}
+
 .option-card {
   min-height: 2.45rem;
   padding: 0.58rem 0.65rem;
@@ -2771,5 +2859,13 @@ td {
   .info-page,
   .form-field {
     padding: 0.85rem;
+  }
+
+  .accordion-field {
+    padding: 0;
+  }
+
+  .number-accordion-row {
+    grid-template-columns: 1fr;
   }
 }

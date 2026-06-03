@@ -98,6 +98,9 @@ export const translations = {
         "Los valores introducidos permanecen en esta pagina. No se almacenan ni se envian a ningun backend.",
       required: "Campo requerido",
       requiredMessage: "Completa este campo requerido.",
+      completed: "Completado",
+      pending: "Pendiente",
+      continue: "Continuar",
       selectPlaceholder: "Selecciona una opcion"
     },
     result: {
@@ -249,6 +252,9 @@ export const translations = {
         "Values entered here remain on this page. They are not stored or sent to any backend.",
       required: "Required field",
       requiredMessage: "Complete this required field.",
+      completed: "Completed",
+      pending: "Pending",
+      continue: "Continue",
       selectPlaceholder: "Select an option"
     },
     result: {
