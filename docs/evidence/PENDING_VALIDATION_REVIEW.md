@@ -82,3 +82,42 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 - No toxicology content was added.
 - Future implementation must create tests before activation.
 - Block 8B-2 also keeps all reviewed tools out of `ready_for_implementation` because at least one gate remains incomplete for each.
+
+## Reviewed Batch 8B-3 Summary
+
+| Tool | Category | Primary source found | DOI/PMID/URL | Complete scoring table | Interpretation cutoffs | License risk | Evidence decision | Next action |
+|---|---|---|---|---|---|---|---|---|
+| Dubowitz | neonatology | Yes | DOI `10.1016/S0022-3476(70)80038-5`; PMID `5430794` | No | Conversion/form pending | Medium | `pending_complete_scoring_table` | Verify full form/table, graph conversion, and reuse permissions. |
+| Fenton neonatal growth | neonatology | Yes | DOI `10.1186/1471-2431-13-59` | Data pending | Percentile/z-score data pending | Low/medium | `pending_complete_scoring_table` | Locate reusable LMS data files and attribution requirements. |
+| RDAI | respiratory | Partial | Bibliographic URL only; DOI/PMID not verified | No | Pending | Unknown | `pending_primary_source` | Locate primary Lowell paper/table; do not use secondary calculators. |
+| BROSJOD | respiratory | Yes | DOI `10.1002/ppul.23546`; PMID `28328090` | No | Pending | Unknown | `pending_complete_scoring_table` | Verify original/full table and reuse terms. |
+| PASS | respiratory | Yes | DOI `10.1197/j.aem.2003.07.015`; PMID `14709423` | No | Pending | Unknown | `pending_complete_scoring_table` | Verify complete table and interpretation from source. |
+| Gorelick dehydration | emergency | Yes | DOI `10.1542/peds.99.5.e6`; PMID `9113963` | No | Variant pending | Unknown | `pending_variant_selection` | Select exact 4-item/10-item implementation and table. |
+| CATCH | emergency | Yes | DOI `10.1503/cmaj.091421`; PMID `20142371` | Yes, in open article | Rule criteria published | Low/medium | `ready_for_implementation` | Implement only as informational predictor classification; no CT recommendation. |
+| CHALICE | emergency | Yes | DOI `10.1136/adc.2005.083980`; PMID `17056862` | Yes, in open article | Rule criteria published | Low/medium | `ready_for_implementation` | Implement only as informational predictor classification; no CT recommendation. |
+| Revised Schwartz | nephrology | Yes | DOI `10.1681/ASN.2008030287`; PMID `19158356` | Formula source found | Variant pending | Low | `pending_variant_selection` | Select exact CKiD equation distinct from Bedside Schwartz. |
+| pRIFLE | nephrology | Yes | DOI `10.1038/sj.ki.5002231`; PMID `17396113` | Criteria source found | Requires unit/expert review | Medium | `requires_domain_expert_review` | Verify eCCl baseline, urine-output windows, units, and expert review. |
+| rFLACC | pain | Yes | DOI `10.1111/j.1460-9592.2005.01773.x`; PMID `16490089` | No | Pending | Unknown | `pending_complete_scoring_table` | Verify revised descriptors and reuse/licensing. |
+| CHEOPS | pain | Citation trail only | No DOI/PMID confirmed for 1985 chapter | No | Pending | Unknown | `pending_primary_source` | Locate primary chapter/table or permissioned source. |
+| Visual Analogue Scale / EVA | pain | No selected pediatric source | Pending | Format pending | Pending | Low/unknown | `pending_variant_selection` | Select 0-10, 0-100 mm, or pediatric validated format before implementation. |
+
+## Block 8B-3 Safety Notes
+
+- `CATCH` and `CHALICE` were promoted only to `ready_for_implementation`; no calculator or clinical rule engine was created.
+- Future CATCH/CHALICE outputs must classify predictors only and must not say to perform or avoid CT, discharge, admit, observe, or treat.
+- No tool was marked `implemented`.
+- No scoring table was copied into code.
+- No toxicology content was added.
+
+## Remaining unresolved after 8B-3
+
+| Tool ID | Slug | Current status | Why it remains unresolved |
+|---|---|---|---|
+| `combined_apgar` | `combined-apgar` | `needs_primary_reference` | Expanded/combined Apgar variant requires exact source and version selection. |
+| `benes` | `benes` | `needs_primary_reference` | Tool identity and primary source remain unclear; likely overlaps neurological/GCS variants. |
+| `glasgow_adapted` | `glasgow-adapted` | `needs_primary_reference` | Adapted Glasgow variant needs exact source and relation to pediatric GCS. |
+| `visual_analogue_scale` | `visual-analogue-scale` | `needs_primary_reference` | Generic VAS needs selected pediatric operating format and source before implementation. |
+| `kdigo_pediatric` | `kdigo-pediatric` | `pending_validation` | Official KDIGO criteria require pediatric adaptation, unit handling, and treatment-separation review. |
+| `bmi_percentile` | `bmi-percentile` | `pending_validation` | Depends on selected WHO/CDC source, age range, LMS data and locale policy. |
+| `head_circumference_percentile` | `head-circumference-percentile` | `pending_validation` | Depends on selected WHO/CDC source, age range, LMS data and locale policy. |
+| `resuscitation_weight_dose_energy` | `resuscitation-weight-dose-energy` | `pending_validation` | High regulatory/therapeutic risk; requires official sources, legal review and non-recommendation UX. |

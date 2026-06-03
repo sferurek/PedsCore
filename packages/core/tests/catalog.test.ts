@@ -239,6 +239,76 @@ describe("clinical tools catalog", () => {
     );
   });
 
+  it("keeps Block 8B-3 ready tools traceable but not implemented", () => {
+    const readyIds = ["catch_tbi", "chalice_tbi"];
+
+    for (const id of readyIds) {
+      const tool = getTool(id);
+
+      expect(tool?.implementationStatus).toBe("ready_for_implementation");
+      expect(tool?.calculationStatus).not.toBe("active");
+      expect(tool?.references.some((reference) => reference.doi || reference.pmid || reference.url)).toBe(true);
+      expect(tool?.validationNotes.en).toContain("without CT or management recommendations");
+    }
+  });
+
+  it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
+    const blockedIds = [
+      "dubowitz",
+      "neonatal_growth_fenton",
+      "rdai",
+      "brosjod",
+      "pass",
+      "gorelick_dehydration",
+      "revised_schwartz",
+      "prifle",
+      "rflacc",
+      "cheops",
+      "visual_analogue_scale",
+      "resuscitation_weight_dose_energy"
+    ];
+
+    for (const id of blockedIds) {
+      const tool = getTool(id);
+
+      expect(tool?.implementationStatus).not.toBe("ready_for_implementation");
+      expect(tool?.implementationStatus).not.toBe("implemented");
+      expect(tool?.calculationStatus).not.toBe("active");
+    }
+  });
+
+  it("requires every ready-for-implementation tool to have a direct source identifier", () => {
+    const readyTools = getToolsByStatus("ready_for_implementation");
+
+    expect(readyTools.length).toBeGreaterThan(0);
+    for (const tool of readyTools) {
+      expect(
+        tool.references.some((reference) => reference.doi || reference.pmid || reference.url)
+      ).toBe(true);
+    }
+  });
+
+  it("does not promote protected algorithms or proprietary instruments during Block 8B-3", () => {
+    const protectedIds = [
+      "pediatric_cpr",
+      "neonatal_cpr",
+      "pediatric_bradycardia",
+      "pediatric_tachycardia",
+      "shockable_rhythm_algorithm",
+      "non_shockable_rhythm_algorithm",
+      "wong_baker_faces",
+      "bayley",
+      "denver_ii",
+      "resuscitation_weight_dose_energy"
+    ];
+
+    for (const id of protectedIds) {
+      expect(getTool(id)?.implementationStatus).not.toBe(
+        "ready_for_implementation"
+      );
+    }
+  });
+
   it("keeps input IDs unique within tools that define forms", () => {
     for (const tool of clinicalTools.filter((item) => item.inputs?.length)) {
       const inputIds = tool.inputs?.map((input) => input.id) ?? [];

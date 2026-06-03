@@ -181,3 +181,23 @@ Legend:
 - Which growth reference should be default by locale: WHO/CDC/Orbegozo?
 - Should PEWS be split into separate pages for Brighton PEWS, Bedside PEWS, and generic/local PEWS?
 - Should PRISM/PIM/PELOD remain outside MVP because of complexity, licensing, and mortality-risk regulatory concerns?
+
+## Block 8B-3 Delta
+
+| Tool | Previous audit status | Block 8B-3 status | Evidence action required |
+|---|---|---|---|
+| dubowitz | pending-primary / not detailed | pending_complete_scoring_table | DOI/PMID located; verify full scoring form/table and reuse rights. |
+| neonatal-growth-fenton | needs_primary_reference | pending_complete_scoring_table | Open Fenton 2013 source located; locate reusable LMS data files and attribution requirements. |
+| rdai | pending-primary | pending_primary_source | Bibliographic source trail found; DOI/PMID and primary table remain unverified. |
+| brosjod | needs_primary_reference | pending_complete_scoring_table | Validation source DOI/PMID found; original/full table and license remain pending. |
+| pass | needs_primary_reference | pending_complete_scoring_table | PASS source DOI/PMID found; complete table and interpretation remain pending. |
+| gorelick-dehydration | needs_primary_reference | pending_variant_selection | Gorelick source DOI/PMID found; exact 4-item/10-item scale variant must be selected. |
+| catch-tbi | needs_primary_reference | ready_for_implementation | Open derivation source located; implement only as non-therapeutic predictor classification. |
+| chalice-tbi | needs_primary_reference | ready_for_implementation | Open derivation source located; implement only as non-therapeutic predictor classification. |
+| revised-schwartz | pending-primary | pending_variant_selection | CKiD source DOI/PMID found; select exact equation distinct from Bedside Schwartz. |
+| prifle | pending-primary | requires_domain_expert_review | pRIFLE source DOI/PMID found; unit handling and expert review required. |
+| rflacc | needs_primary_reference | pending_complete_scoring_table | rFLACC validation DOI/PMID found; descriptors and licensing remain pending. |
+| cheops | pending-primary | pending_primary_source | Original citation trail found; no DOI/PMID/direct primary table verified. |
+| visual-analogue-scale | pending-primary | pending_variant_selection | Generic VAS requires selected pediatric operational format before implementation. |
+
+Block 8B-3 does not change any tool to `implemented` and does not add calculation logic.

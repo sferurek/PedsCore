@@ -828,6 +828,256 @@ const implementedToolReferences: Record<string, Reference[]> = {
       appliesTo: ["pyms"],
       priority: 1
     }
+  ],
+  dubowitz: [
+    {
+      id: "dubowitz_1970_original",
+      title: "Clinical assessment of gestational age in the newborn infant",
+      authors: "Dubowitz LM, Dubowitz V, Goldberg C",
+      year: 1970,
+      journalOrPublisher: "The Journal of Pediatrics",
+      citation:
+        "Dubowitz LM, Dubowitz V, Goldberg C. Clinical assessment of gestational age in the newborn infant. J Pediatr. 1970;77(1):1-10.",
+      doi: "10.1016/S0022-3476(70)80038-5",
+      pmid: "5430794",
+      url: "https://pubmed.ncbi.nlm.nih.gov/5430794/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-3: original Dubowitz clinical assessment source located. Complete scoring table/form and licensing review remain pending.",
+      appliesTo: ["dubowitz"],
+      priority: 1
+    }
+  ],
+  neonatal_growth_fenton: [
+    {
+      id: "fenton_kim_2013_open_access",
+      title: "A systematic review and meta-analysis to revise the Fenton growth chart for preterm infants",
+      authors: "Fenton TR, Kim JH",
+      year: 2013,
+      journalOrPublisher: "BMC Pediatrics",
+      citation:
+        "Fenton TR, Kim JH. A systematic review and meta-analysis to revise the Fenton growth chart for preterm infants. BMC Pediatr. 2013;13:59.",
+      doi: "10.1186/1471-2431-13-59",
+      url: "https://link.springer.com/article/10.1186/1471-2431-13-59",
+      evidenceLevel: "systematic_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Block 8B-3: Fenton 2013 open-access source located. Implementation still requires official/reusable LMS data files, attribution, and tests.",
+      appliesTo: ["neonatal_growth_fenton"],
+      priority: 1
+    }
+  ],
+  rdai: [
+    {
+      id: "lowell_1987_rdai_source_trail",
+      title: "Wheezing in infants: the response to epinephrine",
+      authors: "Lowell DI, Lister G, Von Koss H, McCarthy P",
+      year: 1987,
+      journalOrPublisher: "The Journal of Pediatrics",
+      citation:
+        "Lowell DI, Lister G, Von Koss H, McCarthy P. Wheezing in infants: the response to epinephrine. Pediatrics. 1987;79(6):939-945.",
+      url: "https://hero.epa.gov/hero/index.cfm/reference/details/reference_id/2748279",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-3: source trail for Lowell RDAI located. Complete table reuse remains license-sensitive because the accessible table is reproduced in secondary articles.",
+      appliesTo: ["rdai"],
+      priority: 1
+    }
+  ],
+  pass: [
+    {
+      id: "pass_2004_original",
+      title:
+        "Performance of a novel clinical score, the Pediatric Asthma Severity Score (PASS), in the evaluation of acute asthma",
+      authors: "Gorelick MH, Stevens MW, Schultz TR, Scribano PV",
+      year: 2004,
+      journalOrPublisher: "Academic Emergency Medicine",
+      citation:
+        "Gorelick MH, Stevens MW, Schultz TR, Scribano PV. Performance of a novel clinical score, the Pediatric Asthma Severity Score (PASS), in the evaluation of acute asthma. Acad Emerg Med. 2004;11(1):10-18.",
+      doi: "10.1197/j.aem.2003.07.015",
+      pmid: "14709423",
+      url: "https://pubmed.ncbi.nlm.nih.gov/14709423/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Block 8B-3: original PASS source located. Full table and interpretation require source review before implementation.",
+      appliesTo: ["pass"],
+      priority: 1
+    }
+  ],
+  brosjod: [
+    {
+      id: "brosjod_2017_validation",
+      title: "Bronchiolitis Score of Sant Joan de Deu: BROSJOD Score, validation and usefulness",
+      authors: "Balaguer M, Alejandre C, Vila D, Esteban E, Carrasco JL, Cambra FJ, Jordan I",
+      year: 2017,
+      journalOrPublisher: "Pediatric Pulmonology",
+      citation:
+        "Balaguer M, Alejandre C, Vila D, Esteban E, Carrasco JL, Cambra FJ, Jordan I. Bronchiolitis Score of Sant Joan de Deu: BROSJOD Score, validation and usefulness. Pediatr Pulmonol. 2017;52(4):533-539.",
+      doi: "10.1002/ppul.23546",
+      pmid: "28328090",
+      url: "https://pubmed.ncbi.nlm.nih.gov/28328090/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-3: BROSJOD validation source located. Original/full table and reuse permissions remain pending before implementation.",
+      appliesTo: ["brosjod"],
+      priority: 1
+    }
+  ],
+  gorelick_dehydration: [
+    {
+      id: "gorelick_1997_dehydration_original",
+      title: "Validity and reliability of clinical signs in the diagnosis of dehydration in children",
+      authors: "Gorelick MH, Shaw KN, Murphy KO",
+      year: 1997,
+      journalOrPublisher: "Pediatrics",
+      citation:
+        "Gorelick MH, Shaw KN, Murphy KO. Validity and reliability of clinical signs in the diagnosis of dehydration in children. Pediatrics. 1997;99(5):E6.",
+      doi: "10.1542/peds.99.5.e6",
+      pmid: "9113963",
+      url: "https://pubmed.ncbi.nlm.nih.gov/9113963/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-3: original Gorelick dehydration signs source located. Complete scale/table and validation strategy remain pending.",
+      appliesTo: ["gorelick_dehydration"],
+      priority: 1
+    }
+  ],
+  catch_tbi: [
+    {
+      id: "catch_2010_original",
+      title: "CATCH: a clinical decision rule for the use of computed tomography in children with minor head injury",
+      authors:
+        "Osmond MH, Klassen TP, Wells GA, Correll R, Jarvis A, Joubert G, Bailey B, Chauvin-Kimoff L, Pusic M, McConnell D, Nijssen-Jordan C, Silver N, Taylor B, Stiell IG",
+      year: 2010,
+      journalOrPublisher: "CMAJ",
+      citation:
+        "Osmond MH, Klassen TP, Wells GA, et al. CATCH: a clinical decision rule for the use of computed tomography in children with minor head injury. CMAJ. 2010;182(4):341-348.",
+      doi: "10.1503/cmaj.091421",
+      pmid: "20142371",
+      url: "https://pubmed.ncbi.nlm.nih.gov/20142371/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Block 8B-3: original CATCH source located with open PMC article. Future implementation must classify predictors only and avoid CT-management recommendations.",
+      appliesTo: ["catch_tbi"],
+      priority: 1
+    }
+  ],
+  chalice_tbi: [
+    {
+      id: "chalice_2006_original",
+      title:
+        "Derivation of the children's head injury algorithm for the prediction of important clinical events decision rule for head injury in children",
+      authors:
+        "Dunning J, Daly JP, Lomas JP, Lecky F, Batchelor J, Mackway-Jones K",
+      year: 2006,
+      journalOrPublisher: "Archives of Disease in Childhood",
+      citation:
+        "Dunning J, Daly JP, Lomas JP, Lecky F, Batchelor J, Mackway-Jones K. Derivation of the children's head injury algorithm for the prediction of important clinical events decision rule for head injury in children. Arch Dis Child. 2006;91(11):885-891.",
+      doi: "10.1136/adc.2005.083980",
+      pmid: "17056862",
+      url: "https://pubmed.ncbi.nlm.nih.gov/17056862/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Block 8B-3: original CHALICE source located with open PMC article. Future implementation must classify criteria only and avoid CT-management recommendations.",
+      appliesTo: ["chalice_tbi"],
+      priority: 1
+    }
+  ],
+  revised_schwartz: [
+    {
+      id: "schwartz_2009_ckid_equations",
+      title: "New equations to estimate GFR in children with CKD",
+      authors: "Schwartz GJ, Munoz A, Schneider MF, Mak RH, Kaskel F, Warady BA, Furth SL",
+      year: 2009,
+      journalOrPublisher: "Journal of the American Society of Nephrology",
+      citation:
+        "Schwartz GJ, Munoz A, Schneider MF, Mak RH, Kaskel F, Warady BA, Furth SL. New equations to estimate GFR in children with CKD. J Am Soc Nephrol. 2009;20(3):629-637.",
+      doi: "10.1681/ASN.2008030287",
+      pmid: "19158356",
+      url: "https://pubmed.ncbi.nlm.nih.gov/19158356/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Block 8B-3: CKiD equation source located. Exact PedsCore variant must be selected separately from the already implemented bedside Schwartz equation.",
+      appliesTo: ["revised_schwartz"],
+      priority: 1
+    }
+  ],
+  prifle: [
+    {
+      id: "prifle_2007_original",
+      title: "Modified RIFLE criteria in critically ill children with acute kidney injury",
+      authors: "Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL",
+      year: 2007,
+      journalOrPublisher: "Kidney International",
+      citation:
+        "Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL. Modified RIFLE criteria in critically ill children with acute kidney injury. Kidney Int. 2007;71(10):1028-1035.",
+      doi: "10.1038/sj.ki.5002231",
+      pmid: "17396113",
+      url: "https://pubmed.ncbi.nlm.nih.gov/17396113/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Block 8B-3: original pRIFLE source located. Complete criteria, baseline eCCl assumptions, urine-output handling, and expert review remain pending.",
+      appliesTo: ["prifle"],
+      priority: 1
+    }
+  ],
+  rflacc: [
+    {
+      id: "rflacc_2006_validation",
+      title: "The revised FLACC observational pain tool: improved reliability and validity for pain assessment in children with cognitive impairment",
+      authors: "Malviya S, Voepel-Lewis T, Burke C, Merkel S, Tait AR",
+      year: 2006,
+      journalOrPublisher: "Paediatric Anaesthesia",
+      citation:
+        "Malviya S, Voepel-Lewis T, Burke C, Merkel S, Tait AR. The revised FLACC observational pain tool: improved reliability and validity for pain assessment in children with cognitive impairment. Paediatr Anaesth. 2006;16(3):258-265.",
+      doi: "10.1111/j.1460-9592.2005.01773.x",
+      pmid: "16490089",
+      url: "https://pubmed.ncbi.nlm.nih.gov/16490089/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Block 8B-3: rFLACC validation source located. Complete revised descriptors and reuse/license review remain pending.",
+      appliesTo: ["rflacc"],
+      priority: 1
+    }
+  ],
+  cheops: [
+    {
+      id: "cheops_1985_original",
+      title: "CHEOPS: A behavioral scale for rating postoperative pain in children",
+      authors: "McGrath PJ, Johnson G, Goodman JT, Schillinger J, Dunn J, Chapman J",
+      year: 1985,
+      journalOrPublisher: "Advances in Pain Research and Therapy",
+      citation:
+        "McGrath PJ, Johnson G, Goodman JT, Schillinger J, Dunn J, Chapman J. CHEOPS: A behavioral scale for rating postoperative pain in children. In: Fields HL, Dubner R, Cervero F, editors. Advances in Pain Research and Therapy. 1985;9:395-402.",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "textbook",
+      accessType: "unknown",
+      notes:
+        "Block 8B-3: original CHEOPS citation trail located but no DOI/PMID for the 1985 chapter confirmed. Complete table and permissions remain pending.",
+      appliesTo: ["cheops"],
+      priority: 1
+    }
   ]
 };
 
@@ -894,6 +1144,61 @@ const cheopsValidationNotes: LocalizedText = {
 const visualAnalogueScaleValidationNotes: LocalizedText = {
   es: "Se necesita referencia primaria: la documentacion local identifica EVA/Escala Visual Analogica, pero no define formato operativo 0-10 frente a 0-100 mm, poblacion aplicable, instrucciones de uso ni tabla de interpretacion. No se activa calculo.",
   en: "Primary reference needed: local documentation identifies VAS/Visual Analogue Scale, but does not define the operational 0-10 versus 0-100 mm format, applicable population, use instructions, or interpretation table. Calculation is not activated."
+};
+
+const dubowitzValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: fuente original Dubowitz localizada con DOI/PMID. Pendiente tabla/formulario completo, conversion a edad gestacional, permisos y tests; no activar calculo.",
+  en: "Block 8B-3: original Dubowitz source located with DOI/PMID. Complete form/table, gestational-age conversion, permissions, and tests remain pending; calculation is not activated."
+};
+
+const fentonValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: Fenton 2013 open access localizado. Pendiente obtener ficheros LMS/datos reutilizables oficiales, atribucion y casos de test antes de activar percentiles.",
+  en: "Block 8B-3: Fenton 2013 open-access source located. Official/reusable LMS data files, attribution, and test fixtures remain pending before percentile activation."
+};
+
+const rdaiValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: localizado rastro bibliografico de Lowell/RDAI, pero DOI/PMID y tabla primaria reutilizable no estan verificados. Mantener bloqueada por fuente/tabla.",
+  en: "Block 8B-3: Lowell/RDAI bibliographic source trail located, but DOI/PMID and a reusable primary table are not verified. Keep blocked for source/table review."
+};
+
+const passValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: fuente PASS original localizada con DOI/PMID. Pendiente revisar tabla completa, interpretacion y permisos antes de activar calculo.",
+  en: "Block 8B-3: original PASS source located with DOI/PMID. Complete table, interpretation, and permissions remain pending before calculation."
+};
+
+const brosjodValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: fuente de validacion BROSJOD localizada con DOI/PMID. Pendiente fuente/tabla original completa y permisos antes de implementar.",
+  en: "Block 8B-3: BROSJOD validation source located with DOI/PMID. Original/full table source and permissions remain pending before implementation."
+};
+
+const gorelickValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: fuente Gorelick dehydration localizada con DOI/PMID. Pendiente definir escala exacta, tabla completa y validacion frente a CDS antes de activar.",
+  en: "Block 8B-3: Gorelick dehydration source located with DOI/PMID. Exact scale, complete table, and validation against CDS remain pending before activation."
+};
+
+const catchValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: CATCH localizada con DOI/PMID/PMCID y regla publicada. Lista para implementacion tecnica como clasificacion informativa, sin recomendacion de TC ni manejo.",
+  en: "Block 8B-3: CATCH located with DOI/PMID/PMCID and published rule. Ready for technical implementation as informational classification only, without CT or management recommendations."
+};
+
+const chaliceValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: CHALICE localizada con DOI/PMID/PMCID y regla publicada. Lista para implementacion tecnica como clasificacion informativa, sin recomendacion de TC ni manejo.",
+  en: "Block 8B-3: CHALICE located with DOI/PMID/PMCID and published rule. Ready for technical implementation as informational classification only, without CT or management recommendations."
+};
+
+const revisedSchwartzValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: fuente CKiD/Schwartz 2009 localizada con DOI/PMID. Pendiente seleccionar variante exacta distinta de Bedside Schwartz y definir entradas biomarcadoras.",
+  en: "Block 8B-3: CKiD/Schwartz 2009 source located with DOI/PMID. Exact variant selection separate from Bedside Schwartz and biomarker inputs remain pending."
+};
+
+const prifleValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: fuente pRIFLE original localizada con DOI/PMID. Pendiente tabla/criterios completos, eCCl basal, diuresis, unidades y revision experta.",
+  en: "Block 8B-3: original pRIFLE source located with DOI/PMID. Complete criteria, baseline eCCl, urine output, units, and expert review remain pending."
+};
+
+const rflaccValidationNotes: LocalizedText = {
+  es: "Bloque 8B-3: validacion rFLACC localizada con DOI/PMID. Pendiente descriptores revisados completos, personalizacion por familia y revision de reutilizacion/licencia.",
+  en: "Block 8B-3: rFLACC validation located with DOI/PMID. Complete revised descriptors, family customization handling, and reuse/licensing review remain pending."
 };
 
 const pewsValidationNotes: LocalizedText = {
@@ -1894,7 +2199,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("silverman_andersen", "silverman-andersen", "Silverman-Andersen", "Score de Silverman-Andersen", "Silverman-Andersen Score", "neonatology", "respiratory_distress", "score", "Recien nacidos con dificultad respiratoria", "Newborns with respiratory distress", "Cuantifica dificultad respiratoria neonatal mediante signos clinicos.", "Scores neonatal respiratory distress using clinical signs.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("wood_downes_ferres", "wood-downes-ferres", "WDF", "Score de Wood-Downes-Ferres", "Wood-Downes-Ferres Score", "respiratory", "bronchiolitis_wheezing", "score", "Lactantes y ninos con bronquiolitis u obstruccion respiratoria segun variante", "Infants and children with bronchiolitis or obstructive respiratory distress depending on variant", "Evalua gravedad de dificultad respiratoria obstructiva.", "Assesses severity of obstructive respiratory distress.", "pending_validation", "pending_verification", "medium", woodDownesValidationNotes),
   makeTool("ballard", "ballard", "Ballard", "Ballard / New Ballard", "Ballard / New Ballard", "neonatology", "gestational_age", "score", "Recien nacidos con edad gestacional incierta", "Newborns with uncertain gestational age", "Estima edad gestacional con madurez fisica y neuromuscular.", "Estimates gestational age using physical and neuromuscular maturity.", "pending_validation", "original_derivation_study", "medium", ballardValidationNotes),
-  makeTool("dubowitz", "dubowitz", "Dubowitz", "Dubowitz", "Dubowitz Score", "neonatology", "gestational_age", "score", "Recien nacidos", "Newborns", "Herramienta de estimacion de edad gestacional basada en madurez neonatal.", "Gestational age assessment based on neonatal maturity.", "pending_validation", "pending_verification", "medium"),
+  makeTool("dubowitz", "dubowitz", "Dubowitz", "Dubowitz", "Dubowitz Score", "neonatology", "gestational_age", "score", "Recien nacidos", "Newborns", "Herramienta de estimacion de edad gestacional basada en madurez neonatal.", "Gestational age assessment based on neonatal maturity.", "pending_validation", "original_derivation_study", "medium", dubowitzValidationNotes),
   makeTool("sarnat", "sarnat", "Sarnat", "Sarnat y Sarnat", "Sarnat Staging", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos con sospecha de encefalopatia hipoxico-isquemica", "Newborns with suspected hypoxic-ischemic encephalopathy", "Clasifica encefalopatia neonatal en estadios clinicos.", "Classifies neonatal encephalopathy into clinical stages.", "pending_validation", "original_derivation_study", "medium", sarnatValidationNotes),
   makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico para gravedad de EHI neonatal.", "Clinical score for neonatal HIE severity.", "pending_validation", "original_derivation_study", "medium", thompsonHieEvidenceValidationNotes),
   makeTool("modified_finnegan", "modified-finnegan", "Finnegan", "Finnegan modificado / NAS", "Modified Finnegan NAS Score", "neonatology", "neonatal_abstinence", "score", "Recien nacidos con sospecha de sindrome de abstinencia neonatal", "Newborns with suspected neonatal abstinence syndrome", "Valora signos de abstinencia neonatal.", "Assesses neonatal abstinence signs.", "pending_validation", "pending_verification", "medium", finneganValidationNotes),
@@ -1905,26 +2210,26 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("cries", "cries", "CRIES", "CRIES", "CRIES", "pain", "neonatal_pain", "scale", "Neonatos con dolor postoperatorio", "Neonates with postoperative pain", "Escala neonatal de dolor basada en cinco dominios.", "Neonatal pain scale based on five domains.", "pending_validation", "pending_verification", "low", criesValidationNotes, [docRef("cries_kb", "PedsCore_Knowledge_Base_v1: CRIES", "pending_verification")]),
   makeTool("comfortneo", "comfortneo", "COMFORTneo", "COMFORTneo", "COMFORTneo", "neonatology", "sedation_pain", "scale", "Neonatos en cuidados intensivos", "Neonates in intensive care", "Escala multidimensional de sedacion y dolor neonatal.", "Multidimensional neonatal sedation and pain scale.", "pending_validation", "pending_verification", "medium", comfortneoValidationNotes),
   makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "original_derivation_study", "medium", bhutaniValidationNotes),
-  makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
+  makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "pending_validation", "systematic_review", "medium", fentonValidationNotes),
   makeTool("pews", "pews", "PEWS", "Pediatric Early Warning Score", "Pediatric Early Warning Score", "emergency", "early_warning", "score", "Ninos hospitalizados o en urgencias", "Hospitalized children or children in emergency care", "Score de deteccion precoz de deterioro clinico con multiples variantes.", "Early warning score for clinical deterioration with multiple variants.", "pending_validation", "pending_verification", "medium", pewsValidationNotes),
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos con crisis asmatica o sibilancias", "Children with asthma exacerbation or wheezing", "Mide gravedad de broncoespasmo pediatrico.", "Measures pediatric wheezing/asthma severity.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
-  makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_verification", "medium"),
-  makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
-  makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
+  makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
+  makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
+  makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "pending_validation", "original_derivation_study", "medium", passValidationNotes),
   makeTool("risc", "risc", "RISC", "RISC", "RISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Score de gravedad de neumonia identificado en recomendaciones.", "Pneumonia severity score identified in recommendations.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("mrisc", "mrisc", "mRISC", "mRISC", "mRISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Variante modificada RISC para neumonia.", "Modified RISC variant for pneumonia.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("pediatric_gcs", "pediatric-glasgow-coma-scale", "pGCS", "Escala de Coma de Glasgow pediatrica", "Pediatric Glasgow Coma Scale", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Adaptacion pediatrica de apertura ocular, respuesta verbal y motora.", "Pediatric adaptation of eye, verbal, and motor response.", "pending_validation", "pending_verification", "medium", pediatricGcsValidationNotes),
   makeTool("benes", "benes", "Benes", "Benes", "Benes", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Herramienta neurologica alternativa identificada.", "Alternative neurologic assessment tool identified.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("glasgow_adapted", "glasgow-adapted", "Glasgow adaptado", "Glasgow adaptado", "Adapted Glasgow", "neurology", "consciousness", "scale", "Ninos", "Children", "Variante adaptada de Glasgow identificada para revision.", "Adapted Glasgow variant identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("clinical_dehydration_scale", "clinical-dehydration-scale", "CDS", "Clinical Dehydration Scale", "Clinical Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Score clinico de gravedad de deshidratacion.", "Clinical score for dehydration severity.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
-  makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Escala alternativa de deshidratacion identificada.", "Alternative dehydration scale identified.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
+  makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Escala alternativa de deshidratacion identificada.", "Alternative dehydration scale identified.", "pending_validation", "original_derivation_study", "medium", gorelickValidationNotes),
   makeTool("pecarn_tbi_under_2", "pecarn-tbi-under-2", "PECARN <2", "PECARN TCE menor de 2 anos", "PECARN TBI Under 2 Years", "emergency", "head_trauma", "clinical_rule", "Menores de 2 anos con traumatismo craneal", "Children under 2 years with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
   makeTool("pecarn_tbi_2_or_more", "pecarn-tbi-2-or-more", "PECARN >=2", "PECARN TCE 2 anos o mas", "PECARN TBI 2 Years or Older", "emergency", "head_trauma", "clinical_rule", "Ninos de 2 anos o mas con traumatismo craneal", "Children 2 years or older with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
-  makeTool("catch_tbi", "catch-tbi", "CATCH", "CATCH", "CATCH", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
-  makeTool("chalice_tbi", "chalice-tbi", "CHALICE", "CHALICE", "CHALICE", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
+  makeTool("catch_tbi", "catch-tbi", "CATCH", "CATCH", "CATCH", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "ready_for_implementation", "original_derivation_study", "medium", catchValidationNotes),
+  makeTool("chalice_tbi", "chalice-tbi", "CHALICE", "CHALICE", "CHALICE", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "ready_for_implementation", "original_derivation_study", "medium", chaliceValidationNotes),
   makeTool("sipa", "sipa", "SIPA", "Shock Index Pediatric Age-adjusted", "Shock Index Pediatric Age-adjusted", "emergency", "shock", "calculator", "Ninos con posible shock o trauma", "Children with possible shock or trauma", "Indice de shock ajustado por edad.", "Age-adjusted shock index.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready, [docRef("sipa_kb", "PedsCore_Knowledge_Base_v1: SIPA", "pending_verification")]),
   makeTool("regional_sepsis_scores", "regional-sepsis-scores", "Sepsis scores", "Escalas regionales de sepsis", "Regional Sepsis Scores", "emergency", "sepsis", "score", "Ninos con sospecha de sepsis", "Children with suspected sepsis", "Familia de escalas regionales identificada para fases futuras.", "Family of regional scales identified for future phases.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("qtc_bazett", "qtc-bazett", "QTc Bazett", "QTc Bazett", "QTc Bazett", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Bazett.", "QT correction using Bazett formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
@@ -1932,8 +2237,8 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("qtc_framingham", "qtc-framingham", "QTc Framingham", "QTc Framingham", "QTc Framingham", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Framingham.", "QT correction using Framingham formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("qtc_hodges", "qtc-hodges", "QTc Hodges", "QTc Hodges", "QTc Hodges", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Hodges.", "QT correction using Hodges formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("bedside_schwartz", "bedside-schwartz", "Bedside Schwartz", "Bedside Schwartz", "Bedside Schwartz", "nephrology", "egfr", "calculator", "Ninos con creatinina y talla disponibles", "Children with available creatinine and height", "Estimacion de filtrado glomerular pediatrico.", "Pediatric estimated glomerular filtration rate.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
-  makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con creatinina y talla disponibles", "Children with available creatinine and height", "Formula revisada de Schwartz para eGFR pediatrico.", "Revised Schwartz formula for pediatric eGFR.", "pending_validation", "pending_verification", "medium"),
-  makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificacion pediatrica de lesion renal aguda.", "Pediatric acute kidney injury classification.", "pending_validation", "pending_verification", "medium"),
+  makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con creatinina y talla disponibles", "Children with available creatinine and height", "Formula revisada de Schwartz para eGFR pediatrico.", "Revised Schwartz formula for pediatric eGFR.", "pending_validation", "original_derivation_study", "medium", revisedSchwartzValidationNotes),
+  makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificacion pediatrica de lesion renal aguda.", "Pediatric acute kidney injury classification.", "pending_validation", "original_derivation_study", "medium", prifleValidationNotes),
   makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO pediatrico", "KDIGO pediatrico", "Pediatric KDIGO", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Aplicacion pediatrica de criterios KDIGO para lesion renal aguda.", "Pediatric application of KDIGO criteria for acute kidney injury.", "pending_validation", "pending_verification", "medium"),
   makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Evalua disfuncion organica multiple pediatrica.", "Assesses pediatric multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pelod", "pelod", "PELOD", "PELOD", "PELOD", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Score de disfuncion organica pediatrica.", "Pediatric organ dysfunction score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
@@ -1951,8 +2256,8 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo de malnutricion.", "Malnutrition risk screening tool.", "pending_validation", "original_derivation_study", "medium", strongkidsValidationNotes),
   makeTool("pyms", "pyms", "PYMS", "PYMS", "PYMS", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado nutricional pediatrico.", "Pediatric nutritional screening tool.", "pending_validation", "original_derivation_study", "medium", pymsValidationNotes),
   makeTool("flacc", "flacc", "FLACC", "FLACC", "FLACC", "pain", "pediatric_pain", "scale", "Ninos pequenos o no verbales", "Young or non-verbal children", "Escala observacional de dolor basada en rostro, piernas, actividad, llanto y consolabilidad.", "Observational pain scale based on face, legs, activity, cry, and consolability.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
-  makeTool("rflacc", "rflacc", "rFLACC", "rFLACC", "rFLACC", "pain", "pediatric_pain", "scale", "Ninos con necesidades especiales o comunicacion limitada", "Children with special needs or limited communication", "Version revisada de FLACC identificada para revision.", "Revised FLACC version identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
-  makeTool("cheops", "cheops", "CHEOPS", "CHEOPS", "CHEOPS", "pain", "pediatric_pain", "scale", "Ninos de 1 a 7 anos", "Children aged 1 to 7 years", "Escala observacional de dolor pediatrico.", "Observational pediatric pain scale.", "pending_validation", "pending_verification", "medium", cheopsValidationNotes, [docRef("cheops_kb", "PedsCore_Knowledge_Base_v1: CHEOPS", "pending_verification")]),
+  makeTool("rflacc", "rflacc", "rFLACC", "rFLACC", "rFLACC", "pain", "pediatric_pain", "scale", "Ninos con necesidades especiales o comunicacion limitada", "Children with special needs or limited communication", "Version revisada de FLACC identificada para revision.", "Revised FLACC version identified for review.", "pending_validation", "external_validation_study", "medium", rflaccValidationNotes),
+  makeTool("cheops", "cheops", "CHEOPS", "CHEOPS", "CHEOPS", "pain", "pediatric_pain", "scale", "Ninos de 1 a 7 anos", "Children aged 1 to 7 years", "Escala observacional de dolor pediatrico.", "Observational pediatric pain scale.", "pending_validation", "original_derivation_study", "medium", cheopsValidationNotes),
   makeTool("wong_baker_faces", "wong-baker-faces", "Wong-Baker", "Wong-Baker Faces", "Wong-Baker Faces", "pain", "pediatric_pain", "scale", "Ninos capaces de autoevaluacion con caras", "Children able to self-report using faces", "Escala visual de caras para dolor.", "Faces-based visual pain scale.", "not_implemented_due_to_licensing", "pending_verification", "medium", baseValidationNotes.licensing),
   makeTool("visual_analogue_scale", "visual-analogue-scale", "EVA", "Escala visual analogica", "Visual Analogue Scale", "pain", "pediatric_pain", "scale", "Ninos con capacidad de autoevaluacion", "Children able to self-report", "Escala visual analogica de dolor identificada para catalogo.", "Visual analogue pain scale identified for the catalog.", "needs_primary_reference", "primary_reference_needed", "low", visualAnalogueScaleValidationNotes),
   makeTool("pediatric_cpr", "pediatric-cpr", "RCP pediatrica", "RCP pediatrica", "Pediatric CPR", "resuscitation", "pediatric_life_support", "algorithm", "Pacientes pediatricos en parada o peri-parada", "Pediatric patients in arrest or peri-arrest", "Algoritmo de soporte vital pediatrico previsto como ficha trazable.", "Pediatric life support algorithm planned as a traceable entry.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
