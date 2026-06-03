@@ -11,6 +11,7 @@ import {
 } from "../i18n/translations";
 import { defaultFilters, filterTools } from "../utils/filterTools";
 import type { Language } from "../utils/language";
+import { getToolStatusCounts } from "../utils/toolStats";
 
 interface ToolsPageProps {
   language: Language;
@@ -32,14 +33,43 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
     "coming_soon",
     "not_implemented_due_to_licensing"
   ] satisfies ImplementationStatus[];
-  const statusCounts = new Map<ImplementationStatus, number>();
-
-  for (const tool of allTools) {
-    statusCounts.set(
-      tool.implementationStatus,
-      (statusCounts.get(tool.implementationStatus) ?? 0) + 1
-    );
-  }
+  const statusCounts = getToolStatusCounts(allTools);
+  const quickFilters = [
+    {
+      label: t.tools.quickImplemented,
+      action: () => setFilters({ ...defaultFilters, status: "implemented" })
+    },
+    {
+      label: "WHO Growth",
+      action: () =>
+        setFilters({
+          ...defaultFilters,
+          query: "WHO Growth",
+          status: "partially_implemented"
+        })
+    },
+    {
+      label: t.tools.quickEmergency,
+      action: () => setFilters({ ...defaultFilters, category: "emergency" })
+    },
+    {
+      label: t.tools.quickNeonatology,
+      action: () => setFilters({ ...defaultFilters, category: "neonatology" })
+    },
+    {
+      label: t.tools.quickGrowth,
+      action: () =>
+        setFilters({ ...defaultFilters, category: "growth_nutrition" })
+    },
+    {
+      label: t.tools.quickPain,
+      action: () => setFilters({ ...defaultFilters, category: "pain" })
+    },
+    {
+      label: t.tools.quickRespiratory,
+      action: () => setFilters({ ...defaultFilters, category: "respiratory" })
+    }
+  ];
   const filteredTools = useMemo(
     () => filterTools(allTools, filters, language),
     [allTools, filters, language]
@@ -52,6 +82,33 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
         <p>
           {filteredTools.length} {t.tools.found}
         </p>
+      </section>
+
+      <section className="status-counter-strip" aria-label={t.tools.statusCounts}>
+        {statuses.map((status) => (
+          <button
+            className="status-counter"
+            key={status}
+            type="button"
+            onClick={() => setFilters({ ...defaultFilters, status })}
+          >
+            <span>{statusLabels[status][language]}</span>
+            <strong>{statusCounts.get(status) ?? 0}</strong>
+          </button>
+        ))}
+      </section>
+
+      <section className="quick-filter-row" aria-label={t.tools.quickFilters}>
+        {quickFilters.map((filter) => (
+          <button
+            className="quick-filter-chip"
+            key={filter.label}
+            type="button"
+            onClick={filter.action}
+          >
+            {filter.label}
+          </button>
+        ))}
       </section>
 
       <section className="filter-panel">
@@ -127,7 +184,17 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
           tools={filteredTools}
         />
       ) : (
-        <p className="empty-state">{t.tools.empty}</p>
+        <section className="empty-state-panel">
+          <h2>{t.tools.emptyTitle}</h2>
+          <p>{t.tools.empty}</p>
+          <button
+            className="secondary-action"
+            type="button"
+            onClick={() => setFilters(defaultFilters)}
+          >
+            {t.tools.clearFilters}
+          </button>
+        </section>
       )}
     </div>
   );

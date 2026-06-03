@@ -9,7 +9,8 @@ import { ReferenceList } from "../components/ReferenceList";
 import { ResultPanel } from "../components/ResultPanel";
 import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
-import { translations } from "../i18n/translations";
+import { ToolStatusBadge } from "../components/ToolStatusBadge";
+import { evidenceLabels, riskLabels, translations } from "../i18n/translations";
 import {
   getUnlockActions,
   hasEvidenceBlock
@@ -36,6 +37,8 @@ export function ToolPage({ language, tool }: ToolPageProps) {
     getInitialFormState(tool)
   );
   const resultPanelRef = useRef<HTMLElement>(null);
+  const isWhoGrowth = tool.id === "who_growth_module";
+  const hasActiveCalculation = tool.calculationStatus === "active" || isWhoGrowth;
 
   useEffect(() => {
     setFormValues(getInitialFormState(tool));
@@ -54,6 +57,14 @@ export function ToolPage({ language, tool }: ToolPageProps) {
     <div className="tool-page">
       <section className="tool-hero">
         <h1>{tool.name[language]}</h1>
+        <div className="tool-hero-meta">
+          <ToolStatusBadge
+            language={language}
+            status={tool.implementationStatus}
+          />
+          <span>{evidenceLabels[tool.evidenceLevel][language]}</span>
+          <span>{riskLabels[tool.regulatoryRisk][language]}</span>
+        </div>
       </section>
 
       <div className="tool-layout">
@@ -65,56 +76,78 @@ export function ToolPage({ language, tool }: ToolPageProps) {
             <p>{tool.description[language]}</p>
           </section>
 
-          {tool.id === "who_growth_module" ? (
-            <WhoGrowthForm
-              language={language}
-              tool={tool}
-              values={formValues}
-              onChange={setFormValues}
-              onFormComplete={scrollToResults}
-            />
-          ) : (
-            <DynamicForm
-              language={language}
-              tool={tool}
-              onFormComplete={scrollToResults}
-              onStateChange={setFormValues}
-            />
-          )}
+          {hasActiveCalculation ? (
+            <>
+              {isWhoGrowth ? (
+                <WhoGrowthForm
+                  language={language}
+                  tool={tool}
+                  values={formValues}
+                  onChange={setFormValues}
+                  onFormComplete={scrollToResults}
+                />
+              ) : (
+                <DynamicForm
+                  language={language}
+                  tool={tool}
+                  onFormComplete={scrollToResults}
+                  onStateChange={setFormValues}
+                />
+              )}
 
-          {tool.id === "who_growth_module" ? (
-            <Suspense
-              fallback={
-                <section
-                  className="content-panel result-panel who-growth-result-panel"
-                  ref={resultPanelRef}
+              {isWhoGrowth ? (
+                <Suspense
+                  fallback={
+                    <section
+                      className="content-panel result-panel who-growth-result-panel"
+                      ref={resultPanelRef}
+                    >
+                      <p className="inactive-calculation">
+                        {language === "es"
+                          ? "Cargando modulo de crecimiento OMS..."
+                          : "Loading WHO growth module..."}
+                      </p>
+                    </section>
+                  }
                 >
-                  <p className="inactive-calculation">
-                    {language === "es"
-                      ? "Cargando módulo de crecimiento OMS..."
-                      : "Loading WHO growth module..."}
-                  </p>
-                </section>
-              }
-            >
-              <WhoGrowthResultPanel
-                ref={resultPanelRef}
-                language={language}
-                values={formValues}
-              />
-            </Suspense>
+                  <WhoGrowthResultPanel
+                    ref={resultPanelRef}
+                    language={language}
+                    values={formValues}
+                  />
+                </Suspense>
+              ) : (
+                <ResultPanel
+                  ref={resultPanelRef}
+                  language={language}
+                  tool={tool}
+                  values={formValues}
+                />
+              )}
+            </>
           ) : (
-            <ResultPanel
-              ref={resultPanelRef}
-              language={language}
-              tool={tool}
-              values={formValues}
-            />
+            <section className="content-panel inactive-tool-panel">
+              <h2>{t.tool.notActiveTitle}</h2>
+              <p>{t.tool.automaticCalculationInactive}</p>
+              <p>{tool.validationNotes[language]}</p>
+              <a
+                className="primary-link"
+                href="https://github.com/sferurek/PedsCore/issues/new/choose"
+                rel="noreferrer"
+                target="_blank"
+              >
+                {t.evidence.submitEvidence}
+              </a>
+            </section>
           )}
 
-          <InterpretationTable language={language} tool={tool} />
+          {hasActiveCalculation ? (
+            <>
+              <InterpretationTable language={language} tool={tool} />
 
-          <ScoringTable language={language} tool={tool} />
+              <ScoringTable language={language} tool={tool} />
+            </>
+          ) : null}
 
           <section className="content-panel">
             <h2>{t.tool.sourcesAndEvidence}</h2>

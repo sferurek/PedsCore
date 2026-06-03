@@ -117,6 +117,12 @@ const getLocalizedText = (
 ) => value[language] || value.en || value.es;
 
 const toolDescription = (tool: ClinicalToolMetadata, language: Language) => {
+  if (tool.id === "who_growth_module") {
+    return language === "es"
+      ? "Calculadora de crecimiento OMS con indicadores 0-5 y 5-19, graficas imprimibles y percentiles trazables."
+      : "WHO Growth calculator with 0-5 and 5-19 indicators, printable charts and traceable percentiles.";
+  }
+
   const description = getLocalizedText(tool.description, language);
   const status = tool.implementationStatus.replaceAll("_", " ");
 

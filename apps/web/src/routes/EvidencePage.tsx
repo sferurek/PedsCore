@@ -96,6 +96,11 @@ export function EvidencePage({ language }: EvidencePageProps) {
         <p>{t.evidence.whyBody}</p>
       </section>
 
+      <section className="content-panel evidence-principle-panel">
+        <h2>{t.evidence.whyNotEverythingTitle}</h2>
+        <p>{t.evidence.whyNotEverythingBody}</p>
+      </section>
+
       <section className="content-panel subtle-panel">
         <h2>{t.evidence.hierarchyTitle}</h2>
         <p>{t.evidence.hierarchyBody}</p>

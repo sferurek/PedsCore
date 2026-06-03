@@ -22,20 +22,52 @@ export const translations = {
     ossSupport: {
       message:
         "PedsCore es un proyecto open source sin ánimo de lucro. Si te resulta útil, puedes apoyar su desarrollo dejando una estrella o un comentario en GitHub.",
-      starButton: "Apoyar con una estrella",
-      feedbackButton: "Dejar comentario"
+      starButton: "Star on GitHub",
+      feedbackButton: "Feedback / Issues"
     },
     home: {
-      title: "PedsCore",
-      subtitle: "Herramientas clinicas pediatricas y neonatales open source.",
-      lead: "Scores, escalas, calculadoras y reglas clinicas transparentes, trazables y basadas en fuentes.",
+      title: "Herramientas clinicas pediatricas y neonatales open source",
+      subtitle:
+        "Scores, escalas, calculadoras, percentiles y reglas clinicas con trazabilidad de evidencia, sin almacenamiento de datos clinicos.",
+      lead:
+        "Un catalogo OSS para profesionales sanitarios que separa lo implementado, lo parcial y lo pendiente de validacion.",
       searchPlaceholder: "Buscar score, escala o calculadora...",
       transparencyTitle: "Transparencia desde el inicio",
       featuredTitle: "Herramientas destacadas",
       categoriesTitle: "Categorias",
-      allToolsCta: "Ver todas las herramientas",
-      evidenceCta: "Explorar evidencia",
+      allToolsCta: "Explorar herramientas",
+      evidenceCta: "Ver evidencia",
       toolsMetric: "herramientas catalogadas",
+      cataloguedMetric: "catalogadas",
+      implementedMetric: "implementadas",
+      partialMetric: "implementacion parcial",
+      clinicalDataMetric: "datos clinicos almacenados",
+      miniDisclaimer:
+        "Uso educativo/profesional. No sustituye juicio clinico ni protocolos locales.",
+      availableTitle: "Disponible ahora",
+      fullyImplementedTitle: "Fully implemented",
+      fullyImplementedBody:
+        "Herramientas con calculo o salida activa, tests y referencias visibles.",
+      partiallyImplementedTitle: "Partially implemented",
+      partiallyImplementedBody:
+        "WHO Growth: OMS 0-5 + BMI/talla 5-19, graficas imprimibles, pendiente revision/interpolacion final.",
+      cataloguedValidationTitle: "Catalogued / in validation",
+      cataloguedValidationBody:
+        "No se activan hasta validar fuente, tabla, variante y licencia.",
+      whoGrowthTitle: "Modulo WHO Growth",
+      whoGrowthBody:
+        "Modulo de crecimiento con datos oficiales OMS, percentiles trazables y graficas SVG imprimibles sin almacenamiento de datos.",
+      whoGrowthFeatures: [
+        "OMS 0-5",
+        "OMS 5-19 parcial",
+        "Datos oficiales OMS",
+        "Graficas SVG imprimibles",
+        "Percentiles P3/P15/P50/P85/P97 escritos",
+        "Punto paciente",
+        "Sin almacenamiento de datos"
+      ],
+      openWhoGrowth: "Abrir WHO Growth",
+      ossTitle: "Apoyo open source",
       transparency: [
         "Sin login",
         "Sin almacenamiento de datos clinicos",
@@ -51,7 +83,18 @@ export const translations = {
       type: "Tipo",
       status: "Estado",
       all: "Todas",
-      empty: "No hay herramientas que coincidan con los filtros."
+      empty:
+        "No hay herramientas que coincidan con los filtros actuales. Prueba otra busqueda o limpia los filtros para volver al catalogo completo.",
+      emptyTitle: "Sin resultados con esos filtros",
+      clearFilters: "Limpiar filtros",
+      statusCounts: "Contadores por estado",
+      quickFilters: "Filtros rapidos",
+      quickImplemented: "Implemented",
+      quickEmergency: "Emergency",
+      quickNeonatology: "Neonatology",
+      quickGrowth: "Growth",
+      quickPain: "Pain",
+      quickRespiratory: "Respiratory"
     },
     evidence: {
       title: "Matriz de evidencia",
@@ -72,7 +115,10 @@ export const translations = {
       sortingTitle: "Orden de las fuentes",
       sortingBody:
         "PedsCore ordena las fuentes por nivel de evidencia, prioridad editorial, ano mas reciente dentro del mismo nivel y titulo como desempate.",
-      summaryTitle: "Resumen por estado"
+      summaryTitle: "Resumen por estado",
+      whyNotEverythingTitle: "Why not everything is implemented?",
+      whyNotEverythingBody:
+        "En salud digital, no implementar algo dudoso tambien es una decision de seguridad."
     },
     tool: {
       metadata: "Ficha tecnica",
@@ -87,6 +133,7 @@ export const translations = {
       sourceType: "Tipo de fuente",
       accessType: "Acceso",
       validationNotes: "Notas de validacion",
+      notActiveTitle: "Herramienta no activa todavia",
       automaticCalculationInactive:
         "El calculo automatico aun no esta activo para esta herramienta. La ficha se muestra para revision, trazabilidad y preparacion de implementacion.",
       disclaimer:
@@ -173,6 +220,12 @@ export const translations = {
       tools: "herramientas",
       github: "GitHub",
       sourceReview: "Fuente pendiente de revision"
+    },
+    footer: {
+      alpha: "version alpha",
+      mit: "Codigo MIT",
+      whoLicense: "Datos OMS con licencia separada",
+      noClinicalStorage: "Sin almacenamiento de datos clinicos"
     }
   },
   en: {
@@ -191,16 +244,48 @@ export const translations = {
       feedbackButton: "Leave feedback"
     },
     home: {
-      title: "PedsCore",
-      subtitle: "Open-source pediatric and neonatal clinical tools.",
-      lead: "Transparent, traceable and evidence-linked scores, scales, calculators and clinical rules.",
+      title: "Open-source pediatric and neonatal clinical tools",
+      subtitle:
+        "Scores, scales, calculators, percentiles and clinical rules with evidence traceability and no clinical data storage.",
+      lead:
+        "An OSS catalog for healthcare professionals that separates implemented, partial and pending-validation tools.",
       searchPlaceholder: "Search score, scale or calculator...",
       transparencyTitle: "Transparent by design",
       featuredTitle: "Featured tools",
       categoriesTitle: "Categories",
-      allToolsCta: "View all tools",
-      evidenceCta: "Explore evidence",
+      allToolsCta: "Explore tools",
+      evidenceCta: "View evidence",
       toolsMetric: "cataloged tools",
+      cataloguedMetric: "cataloged",
+      implementedMetric: "implemented",
+      partialMetric: "partial implementation",
+      clinicalDataMetric: "clinical data stored",
+      miniDisclaimer:
+        "Educational/professional use. Does not replace clinical judgment or local protocols.",
+      availableTitle: "Available now",
+      fullyImplementedTitle: "Fully implemented",
+      fullyImplementedBody:
+        "Tools with active calculation or output, tests and visible references.",
+      partiallyImplementedTitle: "Partially implemented",
+      partiallyImplementedBody:
+        "WHO Growth: WHO 0-5 + BMI/height 5-19, printable charts, pending final review/interpolation.",
+      cataloguedValidationTitle: "Catalogued / in validation",
+      cataloguedValidationBody:
+        "Tools are not activated until source, table, variant and license are validated.",
+      whoGrowthTitle: "WHO Growth module",
+      whoGrowthBody:
+        "Growth module with official WHO data, traceable percentiles and printable SVG charts with no data storage.",
+      whoGrowthFeatures: [
+        "WHO 0-5",
+        "WHO 5-19 partial",
+        "Official WHO data",
+        "Printable SVG charts",
+        "Written P3/P15/P50/P85/P97 percentiles",
+        "Patient point",
+        "No data storage"
+      ],
+      openWhoGrowth: "Open WHO Growth",
+      ossTitle: "Open-source support",
       transparency: [
         "No login",
         "No clinical data storage",
@@ -216,7 +301,18 @@ export const translations = {
       type: "Type",
       status: "Implementation status",
       all: "All",
-      empty: "No tools match the current filters."
+      empty:
+        "No tools match the current filters. Try a different search or clear filters to return to the full catalog.",
+      emptyTitle: "No results for those filters",
+      clearFilters: "Clear filters",
+      statusCounts: "Status counts",
+      quickFilters: "Quick filters",
+      quickImplemented: "Implemented",
+      quickEmergency: "Emergency",
+      quickNeonatology: "Neonatology",
+      quickGrowth: "Growth",
+      quickPain: "Pain",
+      quickRespiratory: "Respiratory"
     },
     evidence: {
       title: "Evidence matrix",
@@ -237,7 +333,10 @@ export const translations = {
       sortingTitle: "Source ordering",
       sortingBody:
         "PedsCore sorts sources by evidence level, editorial priority, most recent year within the same level, and title as final tie-breaker.",
-      summaryTitle: "Status summary"
+      summaryTitle: "Status summary",
+      whyNotEverythingTitle: "Why not everything is implemented?",
+      whyNotEverythingBody:
+        "In digital health, not implementing doubtful content is also a safety decision."
     },
     tool: {
       metadata: "Metadata",
@@ -252,6 +351,7 @@ export const translations = {
       sourceType: "Source type",
       accessType: "Access",
       validationNotes: "Validation notes",
+      notActiveTitle: "Tool not active yet",
       automaticCalculationInactive:
         "Automatic calculation is not active for this tool yet. This page is shown for review, traceability and implementation preparation.",
       disclaimer:
@@ -337,6 +437,12 @@ export const translations = {
       tools: "tools",
       github: "GitHub",
       sourceReview: "Source review pending"
+    },
+    footer: {
+      alpha: "alpha version",
+      mit: "MIT code license",
+      whoLicense: "WHO data under separate license",
+      noClinicalStorage: "No clinical data storage"
     }
   }
 } as const;
