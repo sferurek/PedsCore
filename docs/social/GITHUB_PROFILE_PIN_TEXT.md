@@ -1,0 +1,17 @@
+# GitHub Profile Pin Text
+
+PedsCore is an open-source pediatric and neonatal clinical tools library with evidence traceability, WHO Growth charts and no clinical data storage.
+
+Public alpha:
+
+- 79 cataloged tools.
+- 17 fully implemented tools.
+- 1 partially implemented WHO Growth module.
+- MIT source code.
+- Static GitHub Pages web app.
+
+Repository:
+https://github.com/sferurek/PedsCore
+
+Web app:
+https://sferurek.github.io/PedsCore/
