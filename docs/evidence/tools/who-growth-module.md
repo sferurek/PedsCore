@@ -167,15 +167,17 @@ Block WHO-GROWTH-2B/printable-chart decision: BMI-for-age 0-5 can show the first
 Current strategy:
 
 - The root `@peds-core/core` export keeps WHO growth functions data-light.
-- Heavy WHO LMS datasets are loaded from indicator-specific subpath exports, currently `@peds-core/core/growth/who/bmiForAge`.
+- Heavy WHO LMS datasets are loaded through `loadWhoLmsRecords(indicator)` from `@peds-core/core/growth/who/loaders`.
+- Each loader branch imports an indicator-specific subpath internally, currently `@peds-core/core/growth/who/bmiForAge`.
 - The web lazily imports the WHO Growth result panel only on the `who-growth` tool page.
 - BMI-for-age 0-5 remains the only imported dataset in this block.
-- Future indicators should follow the same pattern: one official dataset module per indicator/family, imported only by the UI or calculator slice that needs it.
+- Future indicators should follow the same pattern: one official dataset module per indicator/family plus one loader branch, imported only by the UI or calculator slice that needs it.
 
-Bundle effect measured in this block:
+Bundle effect measured across WHO-GROWTH-2B/2C:
 
 - Before lazy loading: the main web chunk was 510.67 kB minified.
-- After lazy loading: the main web chunk was 383.45 kB minified, with WHO growth isolated in a dedicated lazy chunk at 129.13 kB minified.
+- After page-level lazy loading: the main web chunk was 383.45 kB minified, with WHO growth isolated in a dedicated lazy chunk at 129.13 kB minified.
+- After indicator loader split: the main web chunk is 383.47 kB minified, the WHO result panel chunk is 10.71 kB minified, and the BMI-for-age data chunk is 120.55 kB minified.
 
 This avoids loading WHO growth LMS data for users who never open the growth module and prepares the module for additional official WHO indicators without inflating the initial bundle.
 

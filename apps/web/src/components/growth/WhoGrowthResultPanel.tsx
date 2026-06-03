@@ -1,8 +1,11 @@
 import {
-  type WhoGrowthSex
+  calculateWhoGrowth,
+  type WhoGrowthDataStatus,
+  type WhoGrowthSex,
+  type WhoLmsRecord
 } from "@peds-core/core";
-import { calculateWhoGrowthWithImportedData } from "@peds-core/core/growth/who/bmiForAge";
-import { forwardRef } from "react";
+import { loadWhoLmsRecords } from "@peds-core/core/growth/who/loaders";
+import { forwardRef, useEffect, useMemo, useState } from "react";
 import type { FormValues } from "../../utils/formState";
 import type { Language } from "../../utils/language";
 import { WhoGrowthChart } from "./WhoGrowthChart";
@@ -28,6 +31,11 @@ const asNumber = (value: unknown): number | undefined => {
 const isSex = (value: unknown): value is WhoGrowthSex =>
   value === "male" || value === "female";
 
+interface LoadedWhoBmiData {
+  records: readonly WhoLmsRecord[];
+  dataStatus: WhoGrowthDataStatus;
+}
+
 const formatNumber = (value: number, fractionDigits = 2) =>
   new Intl.NumberFormat("es-ES", {
     maximumFractionDigits: fractionDigits,
@@ -36,6 +44,8 @@ const formatNumber = (value: number, fractionDigits = 2) =>
 
 export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanelProps>(
   function WhoGrowthResultPanel({ language, values }, ref) {
+  const [loadedData, setLoadedData] = useState<LoadedWhoBmiData | null>(null);
+  const [loadingFailed, setLoadingFailed] = useState(false);
   const sex = values.sex;
   const ageDays = asNumber(values.age_days);
   const weightKg = asNumber(values.weight_kg);
@@ -45,19 +55,56 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     ageDays !== undefined &&
     weightKg !== undefined &&
     statureCm !== undefined;
-  const result = canCalculate
-    ? calculateWhoGrowthWithImportedData({
+
+  useEffect(() => {
+    let isActive = true;
+
+    loadWhoLmsRecords("bmi_for_age")
+      .then((data) => {
+        if (isActive) {
+          setLoadedData({
+            records: data.records,
+            dataStatus: data.dataStatus
+          });
+          setLoadingFailed(false);
+        }
+      })
+      .catch(() => {
+        if (isActive) {
+          setLoadingFailed(true);
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  const result = useMemo(() => {
+    if (!canCalculate || !loadedData) {
+      return null;
+    }
+
+    return calculateWhoGrowth(
+      {
         sex,
         ageDays,
         weightKg,
         heightCm: statureCm,
         measurementMode: "standing_height"
-      })
-    : null;
+      },
+      {
+        dataStatus: loadedData.dataStatus,
+        lmsRecords: loadedData.records
+      }
+    );
+  }, [ageDays, canCalculate, loadedData, sex, statureCm, weightKg]);
+
   const bmiForAge = result?.applicableResults.find(
     (item) => item.indicator === "bmi_for_age"
   );
   const hasResult =
+    loadedData !== null &&
     bmiForAge?.isApplicable &&
     bmiForAge.value !== undefined &&
     bmiForAge.zScore !== undefined &&
@@ -70,6 +117,8 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       pending: "Pendiente de cumplimentar sexo, edad exacta, peso y longitud/talla para obtener el resultado BMI-for-age.",
       unavailable:
         "BMI-for-age no está disponible para estos datos. Revisa que la edad esté entre 0 y 1856 días y que peso/talla sean válidos.",
+      loading: "Cargando datos oficiales OMS BMI-for-age...",
+      loadError: "No se pudieron cargar los datos OMS BMI-for-age.",
       print: "Imprimir gráfica",
       bmi: "IMC",
       percentile: "Percentil",
@@ -84,6 +133,8 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       pending: "Complete sex, exact age, weight and length/height to obtain the BMI-for-age result.",
       unavailable:
         "BMI-for-age is not available for these data. Check age is between 0 and 1856 days and weight/height are valid.",
+      loading: "Loading official WHO BMI-for-age data...",
+      loadError: "WHO BMI-for-age data could not be loaded.",
       print: "Print chart",
       bmi: "BMI",
       percentile: "Percentile",
@@ -110,7 +161,13 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       </div>
 
       {!canCalculate ? <p className="inactive-calculation">{copy.pending}</p> : null}
-      {canCalculate && !hasResult ? (
+      {canCalculate && !loadedData && !loadingFailed ? (
+        <p className="inactive-calculation">{copy.loading}</p>
+      ) : null}
+      {canCalculate && loadingFailed ? (
+        <p className="inactive-calculation">{copy.loadError}</p>
+      ) : null}
+      {canCalculate && loadedData && !hasResult ? (
         <p className="inactive-calculation">{copy.unavailable}</p>
       ) : null}
 
@@ -136,6 +193,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
             bmi={bmiForAge.value!}
             language={language}
             percentile={bmiForAge.percentile!}
+            records={loadedData.records}
             sex={sex}
             zScore={bmiForAge.zScore!}
           />

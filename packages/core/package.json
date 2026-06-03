@@ -13,6 +13,10 @@
     "./growth/who/bmiForAge": {
       "types": "./dist/growth/who/bmiForAge.d.ts",
       "default": "./dist/growth/who/bmiForAge.js"
+    },
+    "./growth/who/loaders": {
+      "types": "./dist/growth/who/loaders.d.ts",
+      "default": "./dist/growth/who/loaders.js"
     }
   },
   "scripts": {

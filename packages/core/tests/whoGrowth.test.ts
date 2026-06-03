@@ -18,6 +18,7 @@ import {
   who0To5BmiForAgeSource,
   whoGrowthDataStatus as importedWhoGrowthDataStatus
 } from "../src/growth/who/bmiForAge";
+import { loadWhoLmsRecords } from "../src/growth/who/loaders";
 
 describe("WHO growth scaffold", () => {
   it("calculates BMI from metric inputs", () => {
@@ -57,6 +58,23 @@ describe("WHO growth scaffold", () => {
     expect(who0To5BmiForAge.some((record) => record.sex === "female")).toBe(
       true
     );
+  });
+
+  it("loads BMI-for-age records through the WHO indicator loader", async () => {
+    const loaded = await loadWhoLmsRecords("bmi_for_age");
+
+    expect(loaded.indicator).toBe("bmi_for_age");
+    expect(loaded.records).toHaveLength(3714);
+    expect(loaded.dataStatus.officialDataImported).toBe(true);
+    expect(loaded.dataStatus.excludedSources).toEqual(["CDC", "Orbegozo"]);
+  });
+
+  it("returns an unloaded state for WHO indicators that are not imported yet", async () => {
+    const loaded = await loadWhoLmsRecords("weight_for_age");
+
+    expect(loaded.records).toHaveLength(0);
+    expect(loaded.dataStatus.officialDataImported).toBe(false);
+    expect(loaded.dataStatus.reason).toContain("weight_for_age");
   });
 
   it("resolves official BMI-for-age LMS records by sex and day", () => {

@@ -1,8 +1,8 @@
 import {
   calculateLmsValueFromZScore,
+  type WhoGrowthSex,
+  type WhoLmsRecord
 } from "@peds-core/core";
-import type { WhoGrowthSex } from "@peds-core/core";
-import { who0To5BmiForAge } from "@peds-core/core/growth/who/bmiForAge";
 import type { Language } from "../../utils/language";
 import { whoGrowthChartPercentiles } from "./whoGrowthChartConstants";
 
@@ -10,6 +10,7 @@ interface WhoGrowthChartProps {
   ageDays: number;
   bmi: number;
   percentile: number;
+  records: readonly WhoLmsRecord[];
   sex: WhoGrowthSex;
   zScore: number;
   language: Language;
@@ -50,11 +51,12 @@ export function WhoGrowthChart({
   ageDays,
   bmi,
   percentile,
+  records: allRecords,
   sex,
   zScore,
   language
 }: WhoGrowthChartProps) {
-  const records = who0To5BmiForAge
+  const records = allRecords
     .filter((record) => record.sex === sex && record.ageDays !== undefined)
     .filter((record) => record.ageDays! % 30 === 0 || record.ageDays === 1856);
   const patientAgeMonths = ageDays / 30.4375;
