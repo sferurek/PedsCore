@@ -1123,6 +1123,11 @@ const whoGrowthValidationNotes: LocalizedText = {
   en: "Block 8B-1: official WHO source located. Indicator/age selection, official LMS/data files, terms-of-use review, and tests remain pending before percentile implementation."
 };
 
+const whoGrowthModuleValidationNotes: LocalizedText = {
+  es: "Bloque GROWTH-OMS-1: modulo unificado OMS preparado como scaffold. Fuentes oficiales OMS localizadas, pero los ficheros LMS oficiales aun no estan normalizados y verificados en el repositorio; no se activa calculo ni graficas hasta completar datos, licencia, interpolacion y tests.",
+  en: "Block GROWTH-OMS-1: unified WHO module prepared as a scaffold. Official WHO sources are located, but official LMS files are not yet normalized and verified in the repository; calculation and charts are not activated until data, licensing, interpolation, and tests are complete."
+};
+
 const cdcGrowthValidationNotes: LocalizedText = {
   es: "Bloque 8B-1: fuente oficial CDC con ficheros LMS localizada. Pendiente seleccionar curvas, definir interpolacion/edades, revisar atribucion/uso y preparar tests antes de implementar percentiles.",
   en: "Block 8B-1: official CDC LMS data source located. Chart selection, interpolation/age handling, attribution/use review, and tests remain pending before percentile implementation."
@@ -2384,6 +2389,60 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("prism_iv", "prism-iv", "PRISM IV", "PRISM IV", "PRISM IV", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Version PRISM IV identificada para revision.", "PRISM IV version identified for review.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pim2", "pim2", "PIM2", "PIM2", "PIM2", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Indice de mortalidad pediatrica version 2.", "Pediatric Index of Mortality version 2.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pim3", "pim3", "PIM3", "PIM3", "PIM3", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Indice de mortalidad pediatrica version 3.", "Pediatric Index of Mortality version 3.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
+  makeTool(
+    "who_growth_module",
+    "who-growth",
+    "OMS",
+    "Crecimiento OMS",
+    "WHO Growth",
+    "growth_nutrition",
+    "growth",
+    "percentile",
+    "Ninos y adolescentes segun rangos OMS aplicables",
+    "Children and adolescents according to applicable WHO ranges",
+    "Modulo unificado previsto para calcular indicadores OMS aplicables desde una entrada antropometrica comun.",
+    "Unified module planned to calculate applicable WHO indicators from one common anthropometric input.",
+    "pending_validation",
+    "official_manual_or_institutional_protocol",
+    "medium",
+    whoGrowthModuleValidationNotes,
+    [
+      {
+        id: "who_child_growth_standards_official_module",
+        title: "WHO Child Growth Standards",
+        authors: "World Health Organization",
+        year: 2006,
+        journalOrPublisher: "World Health Organization",
+        citation:
+          "World Health Organization. WHO Child Growth Standards. Official standards and toolkits.",
+        url: "https://www.who.int/tools/child-growth-standards",
+        evidenceLevel: "official_manual_or_institutional_protocol",
+        sourceType: "website",
+        accessType: "open_access",
+        notes:
+          "Official source for 0-5 year indicators. PedsCore must import and verify official LMS/data files before activating calculation.",
+        appliesTo: ["who_growth_module"],
+        priority: 1
+      },
+      {
+        id: "who_growth_reference_5_19_official_module",
+        title: "Growth reference data for 5-19 years",
+        authors: "World Health Organization",
+        year: 2007,
+        journalOrPublisher: "World Health Organization",
+        citation:
+          "World Health Organization. Growth reference data for 5-19 years.",
+        url: "https://www.who.int/tools/growth-reference-data-for-5to19-years",
+        evidenceLevel: "official_manual_or_institutional_protocol",
+        sourceType: "website",
+        accessType: "open_access",
+        notes:
+          "Official source for 5-19 year reference data. PedsCore must import and verify official LMS/data files before activating calculation.",
+        appliesTo: ["who_growth_module"],
+        priority: 2
+      }
+    ]
+  ),
   makeTool("who_growth_percentiles", "who-growth-percentiles", "OMS", "Percentiles OMS", "WHO Growth Percentiles", "growth_nutrition", "growth", "percentile", "Lactantes y ninos segun edad aplicable", "Infants and children depending on applicable age", "Curvas de crecimiento OMS para peso, talla y otros parametros.", "WHO growth curves for weight, height, and other parameters.", "pending_validation", "official_manual_or_institutional_protocol", "medium", whoGrowthValidationNotes),
   makeTool("cdc_growth_percentiles", "cdc-growth-percentiles", "CDC", "Percentiles CDC", "CDC Growth Percentiles", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes segun edad aplicable", "Children and adolescents depending on applicable age", "Curvas de crecimiento CDC.", "CDC growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", cdcGrowthValidationNotes),
   makeTool("orbegozo_growth_percentiles", "orbegozo-growth-percentiles", "Orbegozo", "Percentiles Orbegozo", "Orbegozo Growth Percentiles", "growth_nutrition", "growth", "percentile", "Poblacion pediatrica segun tablas aplicables", "Pediatric population depending on applicable tables", "Curvas de crecimiento Fundacion Orbegozo.", "Fundacion Orbegozo growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", orbegozoGrowthValidationNotes),

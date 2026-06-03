@@ -8,3 +8,4 @@ export * from "./catalog/clinicalTools.js";
 export * from "./calculators/index.js";
 export * from "./evidence/referenceLinks.js";
 export * from "./evidence/sortReferences.js";
+export * from "./growth/who/index.js";

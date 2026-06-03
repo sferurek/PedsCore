@@ -225,7 +225,7 @@ Dosing behavior in acute care has unacceptable implicit treatment pressure in MV
 - Variant blocker: source selection by age/location requires product policy.
 - Evidence blocker: LMS data selection and interpolation policy not finalized.
 - Regulatory blocker: potential interpretation mismatch across frameworks.
-- Maintainer decision needed: default source strategy and age boundaries.
+- Maintainer decision needed: default source strategy, age boundaries, chart percentiles, print scope, and whether the unified `who_growth_module` becomes the primary experience while source-specific tools remain catalog/reference entries.
 
 ### Available options
 - Option A: Offer both as separate reference pages only.
@@ -247,10 +247,11 @@ Policy controls interpretation more than formula mechanics in this phase.
 - Official LMS/data files per source.
 - Unit conventions and interpolation rules.
 - Locale policy document.
+- For the unified WHO module: verified WHO 0-5 and 5-19 LMS files, data versioning, print chart label policy, and fixture tests.
 
 ### Proposed implementation scope
 - Catalog/reference-only.
-- If implemented later: percentiles only with full provenance and explicit source selection.
+- If implemented later: unified WHO module for WHO-only results with full provenance; CDC and Orbegozo remain separate, not mixed into the WHO module.
 
 ### Recommended PedsCore status
 - keep_pending_validation
@@ -258,6 +259,7 @@ Policy controls interpretation more than formula mechanics in this phase.
 ### Tests required
 - Data-source and version tests.
 - Locale/age boundary consistency tests.
+- Tests that printable graphs show written percentile labels and the patient point.
 
 ## Orbegozo
 
@@ -417,7 +419,7 @@ Pain scales can drift toward therapeutic interpretation pressure.
 | `pews` family (`pews`, `brighton_pews`, `bedside_pews`) | **PEWS / Brighton PEWS / Bedside PEWS** |
 | `pediatric_cpr`, `neonatal_cpr`, `pediatric_bradycardia`, `pediatric_tachycardia`, `shockable_rhythm_algorithm`, `non_shockable_rhythm_algorithm` | **RCP pediátrica y neonatal / algoritmos** |
 | `resuscitation_weight_dose_energy` | **Calculadora peso-dosis-energía en RCP** |
-| `who_growth_percentiles`, `cdc_growth_percentiles` | **WHO/CDC percentiles** |
+| `who_growth_module`, `who_growth_percentiles`, `cdc_growth_percentiles` | **WHO/CDC percentiles** |
 | `orbegozo_growth_percentiles` | **Orbegozo** |
 | `psofa`, `pelod`, `pelod_2`, `prism_iii`, `prism_iv`, `pim2`, `pim3` | **PIM/PRISM/PELOD/pSOFA** |
 | proprietary / copyright family (`bayley`, `denver_ii`, `wong_baker_faces`, `stamp`) | **Propietarias / licencia** |
