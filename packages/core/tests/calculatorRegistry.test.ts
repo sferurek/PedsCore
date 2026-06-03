@@ -21,6 +21,8 @@ describe("calculator registry", () => {
       "clinical_dehydration_scale",
       "pecarn_tbi_under_2",
       "pecarn_tbi_2_or_more",
+      "catch_tbi",
+      "chalice_tbi",
       "sipa",
       "nips"
     ]);

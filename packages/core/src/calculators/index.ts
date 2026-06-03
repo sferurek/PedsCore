@@ -8,6 +8,8 @@ export * from "./westleyCroup.js";
 export * from "./pram.js";
 export * from "./clinicalDehydrationScale.js";
 export * from "./pecarn.js";
+export * from "./catch.js";
+export * from "./chalice.js";
 export * from "./sipa.js";
 export * from "./nips.js";
 export * from "./registry.js";

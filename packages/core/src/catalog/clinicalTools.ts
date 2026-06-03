@@ -26,6 +26,8 @@ const implementedToolIds = new Set([
   "clinical_dehydration_scale",
   "pecarn_tbi_under_2",
   "pecarn_tbi_2_or_more",
+  "catch_tbi",
+  "chalice_tbi",
   "sipa",
   "nips"
 ]);
@@ -1276,6 +1278,14 @@ const booleanOptions = [
   })
 ];
 
+const booleanInput = (id: string, label: LocalizedText) => ({
+  id,
+  label,
+  type: "boolean" as const,
+  required: true,
+  options: booleanOptions
+});
+
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
   apgar: {
     calculationStatus: "metadata_ready",
@@ -2083,6 +2093,133 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         description: {
           es: "Criterios documentados; no se activa algoritmo de decision en este bloque.",
           en: "Criteria documented; decision algorithm is not activated in this block."
+        }
+      }
+    ]
+  },
+  catch_tbi: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      booleanInput("gcs_less_than_15_at_2_hours", {
+        es: "GCS menor de 15 a las 2 horas",
+        en: "GCS less than 15 at 2 hours"
+      }),
+      booleanInput("suspected_open_or_depressed_skull_fracture", {
+        es: "Sospecha de fractura craneal abierta o deprimida",
+        en: "Suspected open or depressed skull fracture"
+      }),
+      booleanInput("worsening_headache", {
+        es: "Cefalea en empeoramiento",
+        en: "Worsening headache"
+      }),
+      booleanInput("irritability_on_exam", {
+        es: "Irritabilidad en la exploracion",
+        en: "Irritability on examination"
+      }),
+      booleanInput("signs_of_basal_skull_fracture", {
+        es: "Signos de fractura de base de craneo",
+        en: "Signs of basal skull fracture"
+      }),
+      booleanInput("large_boggy_scalp_hematoma", {
+        es: "Hematoma de cuero cabelludo grande y blando",
+        en: "Large boggy scalp hematoma"
+      }),
+      booleanInput("dangerous_mechanism", {
+        es: "Mecanismo peligroso segun regla CATCH",
+        en: "Dangerous mechanism according to CATCH"
+      })
+    ],
+    scoringTable: [
+      {
+        id: "catch_high_risk_criteria",
+        variable: { es: "Criterios de mayor riesgo CATCH", en: "CATCH higher-risk criteria" },
+        value: "boolean",
+        description: {
+          es: "Criterios publicados que se muestran solo como clasificacion informativa.",
+          en: "Published criteria shown only as informational classification."
+        }
+      },
+      {
+        id: "catch_medium_risk_criteria",
+        variable: { es: "Criterios de riesgo medio CATCH", en: "CATCH medium-risk criteria" },
+        value: "boolean",
+        description: {
+          es: "Criterios publicados que se muestran solo como clasificacion informativa.",
+          en: "Published criteria shown only as informational classification."
+        }
+      }
+    ]
+  },
+  chalice_tbi: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: pendingCalculationNotes,
+    inputs: [
+      booleanInput("witnessed_loss_of_consciousness_over_5_minutes", {
+        es: "Perdida de conciencia presenciada mayor de 5 minutos",
+        en: "Witnessed loss of consciousness over 5 minutes"
+      }),
+      booleanInput("history_of_amnesia_over_5_minutes", {
+        es: "Amnesia mayor de 5 minutos",
+        en: "History of amnesia over 5 minutes"
+      }),
+      booleanInput("abnormal_drowsiness", {
+        es: "Somnolencia anormal",
+        en: "Abnormal drowsiness"
+      }),
+      booleanInput("three_or_more_vomiting_episodes", {
+        es: "Tres o mas episodios de vomitos",
+        en: "Three or more vomiting episodes"
+      }),
+      booleanInput("suspicion_of_non_accidental_injury", {
+        es: "Sospecha de lesion no accidental",
+        en: "Suspicion of non-accidental injury"
+      }),
+      booleanInput("post_traumatic_seizure_without_epilepsy", {
+        es: "Convulsion postraumatica sin epilepsia conocida",
+        en: "Post-traumatic seizure without known epilepsy"
+      }),
+      booleanInput("gcs_less_than_14_or_under_1_less_than_15", {
+        es: "GCS menor de 14, o menor de 15 si tiene menos de 1 ano",
+        en: "GCS less than 14, or less than 15 if under 1 year"
+      }),
+      booleanInput("suspected_penetrating_or_depressed_skull_injury_or_tense_fontanelle", {
+        es: "Sospecha de lesion craneal penetrante/deprimida o fontanela tensa",
+        en: "Suspected penetrating/depressed skull injury or tense fontanelle"
+      }),
+      booleanInput("signs_of_basal_skull_fracture", {
+        es: "Signos de fractura de base de craneo",
+        en: "Signs of basal skull fracture"
+      }),
+      booleanInput("focal_neurology", {
+        es: "Neurologia focal",
+        en: "Focal neurology"
+      }),
+      booleanInput("bruise_swelling_laceration_over_5cm_under_1_year", {
+        es: "Hematoma, tumefaccion o laceracion mayor de 5 cm si menor de 1 ano",
+        en: "Bruise, swelling, or laceration over 5 cm if under 1 year"
+      }),
+      booleanInput("high_speed_road_traffic_mechanism", {
+        es: "Mecanismo de trafico de alta energia",
+        en: "High-energy road traffic mechanism"
+      }),
+      booleanInput("fall_over_3_metres", {
+        es: "Caida mayor de 3 metros",
+        en: "Fall over 3 metres"
+      }),
+      booleanInput("high_speed_projectile_or_object", {
+        es: "Proyectil u objeto de alta energia",
+        en: "High-energy projectile or object"
+      })
+    ],
+    scoringTable: [
+      {
+        id: "chalice_criteria",
+        variable: { es: "Criterios CHALICE", en: "CHALICE criteria" },
+        value: "boolean",
+        description: {
+          es: "Criterios publicados que se muestran solo como clasificacion informativa.",
+          en: "Published criteria shown only as informational classification."
         }
       }
     ]

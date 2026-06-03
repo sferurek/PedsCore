@@ -26,6 +26,8 @@ const implementedToolIds = [
   "clinical_dehydration_scale",
   "pecarn_tbi_under_2",
   "pecarn_tbi_2_or_more",
+  "catch_tbi",
+  "chalice_tbi",
   "sipa",
   "nips"
 ];
@@ -80,7 +82,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(15);
+    expect(getImplementedTools()).toHaveLength(17);
   });
 
   it("keeps the implemented tool set unchanged during evidence audit", () => {
@@ -239,16 +241,17 @@ describe("clinical tools catalog", () => {
     );
   });
 
-  it("keeps Block 8B-3 ready tools traceable but not implemented", () => {
-    const readyIds = ["catch_tbi", "chalice_tbi"];
+  it("keeps Block 9A clinical rules traceable and implemented", () => {
+    const implementedRuleIds = ["catch_tbi", "chalice_tbi"];
 
-    for (const id of readyIds) {
+    for (const id of implementedRuleIds) {
       const tool = getTool(id);
 
-      expect(tool?.implementationStatus).toBe("ready_for_implementation");
-      expect(tool?.calculationStatus).not.toBe("active");
+      expect(tool?.implementationStatus).toBe("implemented");
+      expect(tool?.calculationStatus).toBe("active");
       expect(tool?.references.some((reference) => reference.doi || reference.pmid || reference.url)).toBe(true);
       expect(tool?.validationNotes.en).toContain("without CT or management recommendations");
+      expect(tool?.inputs?.every((input) => input.type === "boolean")).toBe(true);
     }
   });
 
@@ -280,7 +283,6 @@ describe("clinical tools catalog", () => {
   it("requires every ready-for-implementation tool to have a direct source identifier", () => {
     const readyTools = getToolsByStatus("ready_for_implementation");
 
-    expect(readyTools.length).toBeGreaterThan(0);
     for (const tool of readyTools) {
       expect(
         tool.references.some((reference) => reference.doi || reference.pmid || reference.url)

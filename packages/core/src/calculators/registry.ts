@@ -16,6 +16,8 @@ import {
   pecarn2OrMoreCalculator,
   pecarnUnder2Calculator
 } from "./pecarn.js";
+import { catchCalculator } from "./catch.js";
+import { chaliceCalculator } from "./chalice.js";
 import { nipsCalculator } from "./nips.js";
 import { pramCalculator } from "./pram.js";
 import { sipaCalculator } from "./sipa.js";
@@ -35,6 +37,8 @@ const calculators = [
   clinicalDehydrationScaleCalculator,
   pecarnUnder2Calculator,
   pecarn2OrMoreCalculator,
+  catchCalculator,
+  chaliceCalculator,
   sipaCalculator,
   nipsCalculator
 ] satisfies CalculatorDefinition[];
