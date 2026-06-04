@@ -1,7 +1,7 @@
 import { getAllTools, getToolBySlug } from "@peds-core/core";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { Footer } from "../components/Footer";
+import { Footer, FooterUsageSummaryContent } from "../components/Footer";
 import { OssSupportBanner } from "../components/OssSupportBanner";
 import { getSeoForRoute } from "../utils/seo";
 import { parseRoute } from "../utils/routes";
@@ -64,6 +64,86 @@ describe("public product web polish", () => {
     expect(html).toContain("WHO data under separate license");
     expect(html).toContain("No clinical data storage");
     expect(html).toContain("View source");
+  });
+
+  it("renders footer usage summary when public stats are configured", () => {
+    const html = renderToString(
+      <FooterUsageSummaryContent
+        language="en"
+        stats={{
+          status: "ok",
+          configured: true,
+          disabled: false,
+          range: "all_time",
+          minimumThreshold: 5,
+          totals: {
+            visits: 1234,
+            pageviews: 2345,
+            countriesReached: 4,
+            last7DaysVisits: 56
+          },
+          countries: []
+        }}
+      />
+    );
+
+    expect(html).toContain(
+      "PedsCore has received 56 visits this week and 1,234 since launch."
+    );
+    expect(html).toContain("View global stats");
+    expect(html).toContain("/en/stats/global");
+  });
+
+  it("hides footer usage summary when public stats are not configured", () => {
+    const html = renderToString(
+      <FooterUsageSummaryContent
+        language="en"
+        stats={{
+          status: "not_configured",
+          configured: false,
+          disabled: false,
+          range: "all_time",
+          minimumThreshold: 5,
+          totals: {
+            visits: 0,
+            pageviews: 0,
+            countriesReached: 0,
+            last7DaysVisits: 0
+          },
+          countries: []
+        }}
+      />
+    );
+
+    expect(html).toBe("");
+  });
+
+  it("uses visits wording instead of people or users", () => {
+    const html = renderToString(
+      <FooterUsageSummaryContent
+        language="es"
+        stats={{
+          status: "ok",
+          configured: true,
+          disabled: false,
+          range: "all_time",
+          minimumThreshold: 5,
+          totals: {
+            visits: 10,
+            pageviews: 20,
+            countriesReached: 1,
+            last7DaysVisits: 2
+          },
+          countries: []
+        }}
+      />
+    );
+
+    expect(html).toContain("visitas");
+    expect(html.toLowerCase()).not.toContain("people");
+    expect(html.toLowerCase()).not.toContain("users");
+    expect(html.toLowerCase()).not.toContain("personas");
+    expect(html.toLowerCase()).not.toContain("usuarios");
   });
 
   it("renders compact OSS support links for internal pages", () => {

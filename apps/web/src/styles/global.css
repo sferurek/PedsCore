@@ -1500,6 +1500,23 @@ main {
   gap: 1rem;
 }
 
+.footer-usage-summary {
+  max-width: 62rem;
+  color: var(--text);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.footer-usage-summary a {
+  color: var(--accent);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.footer-usage-summary a:hover {
+  text-decoration: underline;
+}
+
 @media (min-width: 720px) {
   .home-page .hero-section {
     grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);

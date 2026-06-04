@@ -253,7 +253,10 @@ export const translations = {
       alpha: "version alpha",
       mit: "Codigo MIT",
       whoLicense: "Datos OMS con licencia separada",
-      noClinicalStorage: "Sin almacenamiento de datos clinicos"
+      noClinicalStorage: "Sin almacenamiento de datos clinicos",
+      usageSummary:
+        "PedsCore ha recibido {last7DaysVisits} visitas esta semana y {totalVisits} desde su publicación.",
+      usageSummaryLink: "Ver estadísticas globales →"
     }
   },
   en: {
@@ -498,7 +501,10 @@ export const translations = {
       alpha: "alpha version",
       mit: "MIT code license",
       whoLicense: "WHO data under separate license",
-      noClinicalStorage: "No clinical data storage"
+      noClinicalStorage: "No clinical data storage",
+      usageSummary:
+        "PedsCore has received {last7DaysVisits} visits this week and {totalVisits} since launch.",
+      usageSummaryLink: "View global stats →"
     }
   }
 } as const;
