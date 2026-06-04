@@ -11,11 +11,11 @@ Goal
 ## Wood-Downes-Ferrés
 
 ### Current blocker
-- Evidence blocker: partial primary trail exists, but complete table + age cut-offs are not validated in-source.
-- Variant blocker: multiple operational versions exist (classical Downes/Wood vs Ferres-modified variants).
-- Licensing blocker: implementation risk until table wording/license is confirmed.
-- Regulatory blocker: avoid escalation language tied to protocol decisions.
-- Maintainer decision needed: exact variant and operational scope.
+- Block BRONCHIOLITIS-IMPLEMENTATION-1 resolved the maintainer decision for this tool.
+- Selected variant: classic six-domain Wood-Downes-Ferres for pediatric bronchiolitis/lower respiratory distress.
+- Source anchor: Wood, Downes and Lecks 1972, DOI `10.1001/archpedi.1972.02110090097011`.
+- Table used: open visible six-domain Wood-Downes-Ferres table from Evidencia, 2017.
+- Remaining caution: variants exist; PedsCore labels this as the selected six-domain variant, not a universal WDF family implementation.
 
 ### Available options
 - Option A: Keep as catalog/reference-only with explicit “variant pending” note.
@@ -24,34 +24,32 @@ Goal
 - Option D: Do not implement pending definitive source/version confirmation.
 
 ### Recommended option
-Option A now.
+Option B implemented in BRONCHIOLITIS-IMPLEMENTATION-1.
 
 ### Rationale
-Respiratory severity score with historical variants and incomplete table traceability cannot be safely activated as an exact calculator.
+Maintainer selected the exact variant and the complete six-domain table was traced. Runtime output is limited to descriptive score, matched criteria, severity label and trace.
 
 ### Clinical safety constraints
-- Never return treatment escalation/protocol recommendations.
+- Never return clinical conduct or protocol-direction wording.
 - Avoid therapeutic guidance tied to output thresholds.
-- Avoid suggesting admission/discharge based only on the score.
+- Avoid suggesting care disposition based only on the score.
 
 ### Evidence required before implementation
-- Exact variant definition and pediatric age/pophology split.
-- Complete scoring table and interpretation cuts.
-- Exact source reference with DOI/PMID/official URL.
-- Reuse/licensing review.
+- Completed for selected scope: exact variant, complete table, source trace and tests.
+- Future improvement: replace or augment the table source if a more definitive Ferres primary source becomes available.
 
 ### Proposed implementation scope
-- Reference-only initially.
-- If implemented later: score-only, classification text, no workflow directives.
+- Score-only, classification text and trace.
+- No workflow directives.
 
 ### Recommended PedsCore status
-- keep_pending_validation
+- implemented
 
 ### Tests required
-- Validation of 0, 1, 2 scoring bounds.
+- Validation of 0-14 scoring bounds.
 - Missing input handling and invalid range guard.
 - Explicit evidence-link/traceability test.
-- Prohibited wording tests for recommendations.
+- Prohibited wording tests for clinical conduct.
 
 ## Pediatric Glasgow Coma Scale
 

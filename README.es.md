@@ -18,7 +18,7 @@ https://sferurek.github.io/PedsCore/
 ## Estado Alpha Actual
 
 - 79 herramientas pediátricas y neonatales catalogadas.
-- 17 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
+- 18 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
 - 1 módulo parcialmente implementado: WHO Growth.
 - Web estática ES/EN desplegada en GitHub Pages.
 - Sin backend.
@@ -71,10 +71,11 @@ Consulta [DISCLAIMER.md](DISCLAIMER.md) para el aviso legal completo.
 
 ## Herramientas Implementadas
 
-Las 17 herramientas completamente implementadas son:
+Las 18 herramientas completamente implementadas son:
 
 - Apgar.
 - Silverman-Andersen.
+- Wood-Downes-Ferres.
 - FLACC.
 - QTc Bazett.
 - QTc Fridericia.

@@ -15,6 +15,7 @@ const uniqueCount = (values: string[]) => new Set(values).size;
 const implementedToolIds = [
   "apgar",
   "silverman_andersen",
+  "wood_downes_ferres",
   "flacc",
   "qtc_bazett",
   "qtc_fridericia",
@@ -82,7 +83,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(17);
+    expect(getImplementedTools()).toHaveLength(18);
   });
 
   it("keeps the implemented tool set unchanged during evidence audit", () => {
@@ -209,7 +210,6 @@ describe("clinical tools catalog", () => {
       "pipp_r",
       "comfortneo",
       "modified_finnegan",
-      "wood_downes_ferres",
       "pediatric_gcs",
       "pews",
       "brighton_pews",
@@ -230,9 +230,6 @@ describe("clinical tools catalog", () => {
 
   it("keeps variant-sensitive Block 8B-2 tools explicitly blocked", () => {
     expect(getTool("pews")?.validationNotes.en).toContain("exact variant");
-    expect(getTool("wood_downes_ferres")?.validationNotes.en).toContain(
-      "exact Wood-Downes-Ferres variant"
-    );
     expect(getTool("pediatric_gcs")?.validationNotes.en).toContain(
       "complete pediatric verbal table"
     );
@@ -253,6 +250,17 @@ describe("clinical tools catalog", () => {
       expect(tool?.validationNotes.en).toContain("without CT or management recommendations");
       expect(tool?.inputs?.every((input) => input.type === "boolean")).toBe(true);
     }
+  });
+
+  it("keeps Wood-Downes-Ferres implemented as a descriptive score-only calculator", () => {
+    const tool = getTool("wood_downes_ferres");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.references.some((reference) => reference.doi || reference.url)).toBe(true);
+    expect(tool?.validationNotes.en).toContain("six-domain Wood-Downes-Ferres");
+    expect(tool?.inputs).toHaveLength(6);
+    expect(tool?.scoringTable?.length).toBeGreaterThan(0);
   });
 
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
@@ -308,7 +316,6 @@ describe("clinical tools catalog", () => {
 
   it("keeps Block 8B-4 maintainer-dependent tools out of ready/implemented state", () => {
     const maintainerDependentIds = [
-      "wood_downes_ferres",
       "pediatric_gcs",
       "pews",
       "pim2",

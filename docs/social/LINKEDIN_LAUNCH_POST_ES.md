@@ -7,7 +7,7 @@ Ha sido un bloque intenso de vibe coding, pero con una regla clara: en salud dig
 Estado actual de la alpha:
 
 - 79 herramientas catalogadas.
-- 17 herramientas completamente implementadas.
+- 18 herramientas completamente implementadas.
 - 1 módulo parcialmente implementado: WHO Growth.
 - WHO Growth incluye indicadores OMS 0-5 y parte de OMS 5-19.
 - Gráficas SVG imprimibles, percentiles escritos y punto del paciente.

@@ -15,6 +15,7 @@ const githubIssuesUrl = "https://github.com/sferurek/PedsCore/issues";
 const implementedToolIds = new Set([
   "apgar",
   "silverman_andersen",
+  "wood_downes_ferres",
   "flacc",
   "qtc_bazett",
   "qtc_fridericia",
@@ -669,22 +670,39 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   wood_downes_ferres: [
     {
-      id: "downes_1968_original",
-      title: "Acute respiratory failure in infants with bronchiolitis",
-      authors: "Downes JJ, Wood DW, Striker TW, Haddad C",
-      year: 1968,
-      journalOrPublisher: "Anesthesiology",
+      id: "wood_downes_lecks_1972_original",
+      title: "A Clinical Scoring System for the Diagnosis of Respiratory Failure",
+      authors: "Wood DW, Downes JJ, Lecks HI",
+      year: 1972,
+      journalOrPublisher: "American Journal of Diseases of Children",
       citation:
-        "Downes JJ, Wood DW, Striker TW, Haddad C. Acute respiratory failure in infants with bronchiolitis. Anesthesiology. 1968;29(3):426-434.",
-      pmid: "5647493",
-      url: "https://pubmed.ncbi.nlm.nih.gov/5647493/",
+        "Wood DW, Downes JJ, Lecks HI. A clinical scoring system for the diagnosis of respiratory failure: preliminary report on childhood status asthmaticus. Am J Dis Child. 1972;123(3):227-228.",
+      doi: "10.1001/archpedi.1972.02110090097011",
+      url: "https://jamanetwork.com/journals/jamapediatrics/fullarticle/504416",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
-      accessType: "abstract_only",
+      accessType: "paywalled",
       notes:
-        "Block 8B-2: Downes/Wood source trail located, but the Ferres-modified WDF variant and exact table are not verified.",
+        "Original Wood-Downes source anchor. PedsCore implements the maintainer-selected six-domain Wood-Downes-Ferres bronchiolitis table as descriptive score output only.",
       appliesTo: ["wood_downes_ferres"],
       priority: 1
+    },
+    {
+      id: "wood_downes_ferres_evidencia_2017_table",
+      title: "Broncodilatadores en pacientes con bronquiolitis",
+      authors: "Crimer N",
+      year: 2017,
+      journalOrPublisher: "Evidencia, Actualizacion en la Practica Ambulatoria",
+      citation:
+        "Crimer N. Broncodilatadores en pacientes con bronquiolitis. Evidencia Actualizacion en la Practica Ambulatoria. 2017;20(1). Table 1.",
+      url: "https://www.evidencia.org/index.php/Evidencia/article/view/4207/1697",
+      evidenceLevel: "secondary_source",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Open-access table used to trace the six-domain Wood-Downes-Ferres bronchiolitis scoring options and non-directive severity bands.",
+      appliesTo: ["wood_downes_ferres"],
+      priority: 2
     }
   ],
   pediatric_gcs: [
@@ -1089,8 +1107,8 @@ const pendingCalculationNotes: LocalizedText = {
 };
 
 const woodDownesValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: localizado el origen Downes/Wood, pero no la version exacta Wood-Downes-Ferres modificada por Ferres ni tabla completa con cortes de frecuencia respiratoria por edad. No activar calculo por confusion de variantes.",
-  en: "Block 8B-2: Downes/Wood source trail located, but the exact version and exact Wood-Downes-Ferres variant modified by Ferres and complete table with age-specific respiratory-rate cut-offs remain unresolved. Calculation is not activated because of exact version confusion."
+  es: "Bloque BRONCHIOLITIS-IMPLEMENTATION-1: decision maintainer aplicada para la variante Wood-Downes-Ferres clasica de 6 dominios. Salida descriptiva, informativa y trazable; no define conducta clinica ni sustituye protocolos locales.",
+  en: "Block BRONCHIOLITIS-IMPLEMENTATION-1: maintainer decision applied for the classic six-domain Wood-Downes-Ferres variant. Output is descriptive, informational, and traceable; it does not define clinical conduct or replace local protocols."
 };
 
 const ballardValidationNotes: LocalizedText = {
@@ -1662,6 +1680,147 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         description: {
           es: "Movimiento toracoabdominal, retracciones, xifoides, aleteo nasal y quejido.",
           en: "Thoracoabdominal movement, retractions, xiphoid retraction, nasal flaring, and grunt."
+        }
+      }
+    ]
+  },
+  wood_downes_ferres: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Variante Wood-Downes-Ferres clasica de 6 dominios seleccionada por maintainer. El calculo suma solo los criterios observacionales de la tabla trazada.",
+      en: "Classic six-domain Wood-Downes-Ferres variant selected by maintainer. The calculation only sums the observational criteria from the traced table."
+    },
+    inputs: [
+      {
+        id: "wheezing",
+        label: { es: "Sibilancias", en: "Wheezing" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("none", "No", "No", 0),
+          option("end_expiration", "Final de espiracion", "End of expiration", 1),
+          option("all_expiration", "Toda la espiracion", "Throughout expiration", 2),
+          option("inspiration_and_expiration", "Inspiracion y espiracion", "Inspiration and expiration", 3)
+        ]
+      },
+      {
+        id: "retractions",
+        label: { es: "Tiraje", en: "Retractions" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("none", "No", "No", 0),
+          option("subcostal", "Subcostal", "Subcostal", 1),
+          option("subcostal_intercostal", "Subcostal e intercostal", "Subcostal and intercostal", 2),
+          option("nasal_flaring", "Aleteo nasal", "Nasal flaring", 3)
+        ]
+      },
+      {
+        id: "air_entry",
+        label: { es: "Entrada de aire", en: "Air entry" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("good_symmetric", "Buena y simetrica", "Good and symmetric", 0),
+          option("regular_symmetric", "Regular y simetrica", "Regular and symmetric", 1),
+          option("markedly_decreased", "Muy disminuida", "Markedly decreased", 2),
+          option("silent_chest", "Torax silente", "Silent chest", 3)
+        ]
+      },
+      {
+        id: "respiratory_rate",
+        label: { es: "Frecuencia respiratoria", en: "Respiratory rate" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("under_30", "Menor de 30 rpm", "Under 30 rpm", 0),
+          option("31_to_45", "31 a 45 rpm", "31 to 45 rpm", 1),
+          option("46_to_60", "46 a 60 rpm", "46 to 60 rpm", 2),
+          option("over_60", "Mayor de 60 rpm", "Over 60 rpm", 3)
+        ]
+      },
+      {
+        id: "heart_rate",
+        label: { es: "Frecuencia cardiaca", en: "Heart rate" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("under_120", "Menor de 120 lpm", "Under 120 bpm", 0),
+          option("over_120", "Mayor de 120 lpm", "Over 120 bpm", 1)
+        ]
+      },
+      {
+        id: "cyanosis",
+        label: { es: "Cianosis", en: "Cyanosis" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "No", "No", 0),
+          option("present", "Si", "Yes", 1)
+        ]
+      }
+    ],
+    interpretationBands: [
+      {
+        id: "mild",
+        min: 0,
+        max: 3,
+        label: { es: "Leve", en: "Mild" },
+        description: {
+          es: "Banda descriptiva publicada para la tabla Wood-Downes-Ferres revisada.",
+          en: "Published descriptive band for the reviewed Wood-Downes-Ferres table."
+        }
+      },
+      {
+        id: "moderate",
+        min: 4,
+        max: 7,
+        label: { es: "Moderada", en: "Moderate" },
+        description: {
+          es: "Banda descriptiva publicada para la tabla Wood-Downes-Ferres revisada.",
+          en: "Published descriptive band for the reviewed Wood-Downes-Ferres table."
+        }
+      },
+      {
+        id: "severe",
+        min: 8,
+        max: 14,
+        label: { es: "Grave", en: "Severe" },
+        description: {
+          es: "Banda descriptiva publicada para la tabla Wood-Downes-Ferres revisada.",
+          en: "Published descriptive band for the reviewed Wood-Downes-Ferres table."
+        }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "wdf_wheezing",
+        variable: { es: "Sibilancias", en: "Wheezing" },
+        value: "0-3",
+        description: {
+          es: "No 0; final de espiracion 1; toda la espiracion 2; inspiracion y espiracion 3.",
+          en: "No 0; end of expiration 1; throughout expiration 2; inspiration and expiration 3."
+        }
+      },
+      {
+        id: "wdf_retractions",
+        variable: { es: "Tiraje", en: "Retractions" },
+        value: "0-3",
+        description: {
+          es: "No 0; subcostal 1; subcostal e intercostal 2; aleteo nasal 3.",
+          en: "No 0; subcostal 1; subcostal and intercostal 2; nasal flaring 3."
+        }
+      },
+      {
+        id: "wdf_rates_air_cyanosis",
+        variable: {
+          es: "Frecuencias, entrada de aire y cianosis",
+          en: "Rates, air entry, and cyanosis"
+        },
+        value: "0-3",
+        description: {
+          es: "Frecuencia respiratoria 0-3, frecuencia cardiaca 0-1, entrada de aire 0-3 y cianosis 0-1 segun tabla trazada.",
+          en: "Respiratory rate 0-3, heart rate 0-1, air entry 0-3, and cyanosis 0-1 according to the traced table."
         }
       }
     ]
@@ -2577,7 +2736,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   ),
   makeTool("combined_apgar", "combined-apgar", "Combined Apgar", "Apgar expandido / Combined Apgar", "Expanded / Combined Apgar", "neonatology", "newborn_transition", "score", "Recien nacidos", "Newborns", "Extension documentada del Apgar para contexto neonatal.", "Documented extension of Apgar for newborn context.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("silverman_andersen", "silverman-andersen", "Silverman-Andersen", "Score de Silverman-Andersen", "Silverman-Andersen Score", "neonatology", "respiratory_distress", "score", "Recien nacidos con dificultad respiratoria", "Newborns with respiratory distress", "Cuantifica dificultad respiratoria neonatal mediante signos clinicos.", "Scores neonatal respiratory distress using clinical signs.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
-  makeTool("wood_downes_ferres", "wood-downes-ferres", "WDF", "Score de Wood-Downes-Ferres", "Wood-Downes-Ferres Score", "respiratory", "bronchiolitis_wheezing", "score", "Lactantes y ninos con bronquiolitis u obstruccion respiratoria segun variante", "Infants and children with bronchiolitis or obstructive respiratory distress depending on variant", "Evalua gravedad de dificultad respiratoria obstructiva.", "Assesses severity of obstructive respiratory distress.", "pending_validation", "pending_verification", "medium", woodDownesValidationNotes),
+  makeTool("wood_downes_ferres", "wood-downes-ferres", "WDF", "Score de Wood-Downes-Ferres", "Wood-Downes-Ferres Score", "respiratory", "bronchiolitis_wheezing", "score", "Lactantes y ninos con bronquiolitis u obstruccion respiratoria segun variante", "Infants and children with bronchiolitis or obstructive respiratory distress depending on variant", "Evalua gravedad de dificultad respiratoria obstructiva.", "Assesses severity of obstructive respiratory distress.", "ready_for_implementation", "secondary_source", "medium", woodDownesValidationNotes),
   makeTool("ballard", "ballard", "Ballard", "Ballard / New Ballard", "Ballard / New Ballard", "neonatology", "gestational_age", "score", "Recien nacidos con edad gestacional incierta", "Newborns with uncertain gestational age", "Estima edad gestacional con madurez fisica y neuromuscular.", "Estimates gestational age using physical and neuromuscular maturity.", "pending_validation", "original_derivation_study", "medium", ballardValidationNotes),
   makeTool("dubowitz", "dubowitz", "Dubowitz", "Dubowitz", "Dubowitz Score", "neonatology", "gestational_age", "score", "Recien nacidos", "Newborns", "Herramienta de estimacion de edad gestacional basada en madurez neonatal.", "Gestational age assessment based on neonatal maturity.", "pending_validation", "original_derivation_study", "medium", dubowitzValidationNotes),
   makeTool("sarnat", "sarnat", "Sarnat", "Sarnat y Sarnat", "Sarnat Staging", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos con sospecha de encefalopatia hipoxico-isquemica", "Newborns with suspected hypoxic-ischemic encephalopathy", "Clasifica encefalopatia neonatal en estadios clinicos.", "Classifies neonatal encephalopathy into clinical stages.", "pending_validation", "original_derivation_study", "medium", sarnatValidationNotes),

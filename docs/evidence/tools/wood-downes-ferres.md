@@ -1,4 +1,4 @@
-# Wood-Downes-Ferrés
+# Wood-Downes-Ferres
 
 ## Current PedsCore status
 
@@ -6,112 +6,121 @@
 - slug: `wood-downes-ferres`
 - category: `respiratory`
 - type: `score`
-- current implementationStatus: `pending_validation`
-- current evidenceLevel: `original_derivation_study`
+- current implementationStatus: `implemented`
+- current calculationStatus: `active`
+- current evidenceLevel: `secondary_source`
 
 ## Evidence validation status
 
-- final evidence status: `pending_variant_selection`
-- reason: Downes/Wood source trail found, but exact Wood-Downes-Ferrés modified version, complete table, and age cutoffs remain unresolved.
+- final evidence status: `implemented_after_maintainer_variant_selection`
+- maintainer decision: classic six-domain Wood-Downes-Ferres for pediatric bronchiolitis / lower respiratory distress.
+- implementation scope: descriptive score, matched criteria, severity band, and trace only.
+- safety scope: no clinical conduct, care disposition, medication, oxygen-support, or escalation wording.
 
 ## Clinical purpose
 
-ES: valoración de gravedad respiratoria obstructiva/bronquiolitis. EN: assessment of obstructive respiratory distress/bronchiolitis severity.
+ES: valoracion descriptiva de gravedad respiratoria obstructiva en bronquiolitis/dificultad respiratoria baja pediatrica.
+
+EN: descriptive assessment of obstructive respiratory distress severity in pediatric bronchiolitis/lower respiratory distress.
 
 ## Target population
 
-Infants/children with bronchiolitis or wheezing depending on selected variant.
+Infants and children with bronchiolitis or lower obstructive respiratory distress where this local/historical score variant is used.
 
 ## Version / variant
 
-- exact version: not selected.
-- known variants: Downes, Wood-Downes, Wood-Downes-Ferrés.
-- selected version for PedsCore: none yet.
-- variant risk: high.
+- exact version: classic six-domain Wood-Downes-Ferres table.
+- selected version for PedsCore: maintainer-selected six-domain variant.
+- domains: wheezing, retractions, air entry, respiratory rate, heart rate, cyanosis.
+- total range implemented: 0-14.
+- variant risk: medium; other WDF tables may use different descriptors or ranges.
 
-## Primary source
+## Source trail
 
-- found: partial.
-- citation: Downes JJ, Wood DW, Striker TW, Haddad C. Acute respiratory failure in infants with bronchiolitis. Anesthesiology. 1968;29(3):426-434.
-- DOI: not confirmed.
-- PMID: `5647493`
-- URL: https://pubmed.ncbi.nlm.nih.gov/5647493/
-- access: `abstract_only`
-- notes: source anchor for Downes/Wood, not sufficient for Ferres-modified WDF.
+### Source anchor
 
-## External validation
+- citation: Wood DW, Downes JJ, Lecks HI. A clinical scoring system for the diagnosis of respiratory failure: preliminary report on childhood status asthmaticus. Am J Dis Child. 1972;123(3):227-228.
+- DOI: `10.1001/archpedi.1972.02110090097011`
+- URL: https://jamanetwork.com/journals/jamapediatrics/fullarticle/504416
+- access: `paywalled`
+- role: historical Wood-Downes source anchor.
 
-Modern bronchiolitis studies use WDF, but many are not primary sources for the score.
+### Table source used for implementation
 
-## Guidelines / official sources
+- citation: Crimer N. Broncodilatadores en pacientes con bronquiolitis. Evidencia Actualizacion en la Practica Ambulatoria. 2017;20(1). Table 1.
+- URL: https://www.evidencia.org/index.php/Evidencia/article/view/4207/1697
+- PDF: https://www.evidencia.org/index.php/Evidencia/article/download/4207/1698/
+- access: `open_access`
+- role: complete visible six-domain Wood-Downes-Ferres bronchiolitis table and descriptive bands.
 
-No official WDF manual found in this pass.
+### Cross-check source
 
-## Complete scoring table availability
+- source: SAMIUC calculator page.
+- URL: https://www.samiuc.es/escala-de-wood-downes-ferres-bronquiolitis2/
+- role: corroborates the same six-domain option structure and cites Wood/Downes/Lecks plus an emergency-medicine chapter.
+- note: SAMIUC page includes clinical conduct prose; PedsCore does not implement that prose.
 
-- complete table found: no.
-- source: secondary/research supplements exist but primary Ferres table not verified.
-- copyright/licensing risk: unknown.
-- notes: respiratory-rate by age and interpretation vary across sources.
+## Complete scoring table
 
-## Variables and scoring
+| variable | option | score | implementation id |
+|---|---:|---:|---|
+| Wheezing | No | 0 | `none` |
+| Wheezing | End of expiration | 1 | `end_expiration` |
+| Wheezing | Throughout expiration | 2 | `all_expiration` |
+| Wheezing | Inspiration and expiration | 3 | `inspiration_and_expiration` |
+| Retractions | No | 0 | `none` |
+| Retractions | Subcostal | 1 | `subcostal` |
+| Retractions | Subcostal and intercostal | 2 | `subcostal_intercostal` |
+| Retractions | Nasal flaring | 3 | `nasal_flaring` |
+| Air entry | Good and symmetric | 0 | `good_symmetric` |
+| Air entry | Regular and symmetric | 1 | `regular_symmetric` |
+| Air entry | Markedly decreased | 2 | `markedly_decreased` |
+| Air entry | Silent chest | 3 | `silent_chest` |
+| Respiratory rate | Under 30 rpm | 0 | `under_30` |
+| Respiratory rate | 31 to 45 rpm | 1 | `31_to_45` |
+| Respiratory rate | 46 to 60 rpm | 2 | `46_to_60` |
+| Respiratory rate | Over 60 rpm | 3 | `over_60` |
+| Heart rate | Under 120 bpm | 0 | `under_120` |
+| Heart rate | Over 120 bpm | 1 | `over_120` |
+| Cyanosis | No | 0 | `absent` |
+| Cyanosis | Yes | 1 | `present` |
 
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| Wheezing | Pending | Pending | Ferres variant needed | Exact scale pending. |
-| Retractions | Pending | Pending | Ferres variant needed | Exact scale pending. |
-| Air entry | Pending | Pending | Ferres variant needed | Exact scale pending. |
-| Respiratory rate | Pending | Pending | Ferres variant needed | Age cutoffs pending. |
-| Heart rate | Pending | Pending | Ferres variant needed | Age cutoffs pending. |
-| Cyanosis | Pending | Pending | Ferres variant needed | Exact scoring pending. |
+## Interpretation bands
 
-## Interpretation bands / cutoffs
-
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| Pending | Pending | Bands differ by variant/source. | Exact variant needed. |
+| range | category | use in PedsCore |
+|---|---|---|
+| 0-3 | Mild | descriptive only |
+| 4-7 | Moderate | descriptive only |
+| 8-14 | Severe | descriptive only |
 
 ## Formula / algorithm
 
-Additive score in selected variant; exact table pending.
-
-## Unit handling
-
-Respiratory and heart rates require age-specific cutoffs if included.
+Add all six selected domain scores. No age interpolation or derived formula is used.
 
 ## Safety and regulatory notes
 
 - risk level: medium.
-- why: bronchiolitis severity score may be linked to escalation decisions.
-- should provide recommendations: no.
-- forbidden outputs: oxygen, HFNC, admission, ICU, or bronchodilator recommendations.
+- output is descriptive and traceable only.
+- result includes an informational warning.
+- no conduct, destination, medication, oxygen-support, or escalation language is returned.
+- does not replace clinical assessment or local protocols.
 
 ## Licensing / copyright
 
-- appears implementable: unknown.
-- license-sensitive: unknown.
-- requires permission: unknown.
-- unknown: Ferres-modified table source and rights.
-- notes: keep pending.
+- appears implementable: yes for PedsCore-authored option labels and score mapping traced to open visible table.
+- license-sensitive: medium because the score has historical variants and non-open primary source access.
+- future action: replace/augment with a more definitive Ferres primary source if found.
 
-## Implementation recommendation
+## Tests
 
-`select_variant_first`
-
-## Proposed test cases
-
-- minimum: no distress.
-- maximum: source-verified maximum.
-- intermediate: mild/moderate/severe examples.
-- missing input: missing age or vital signs.
-- invalid input: impossible rates.
-- edge cases: age cutoffs.
-- forbidden wording tests: no treatment/escalation advice.
+- `packages/core/tests/woodDownesFerres.test.ts`
+- `packages/core/tests/catalog.test.ts`
+- `packages/core/tests/calculatorRegistry.test.ts`
+- `packages/core/tests/sprint50Safety.test.ts`
 
 ## Direct links
 
-- https://pubmed.ncbi.nlm.nih.gov/5647493/
-
-## Notes
-
-Do not implement from local summaries.
+- https://jamanetwork.com/journals/jamapediatrics/fullarticle/504416
+- https://www.evidencia.org/index.php/Evidencia/article/view/4207/1697
+- https://www.evidencia.org/index.php/Evidencia/article/download/4207/1698/
+- https://www.samiuc.es/escala-de-wood-downes-ferres-bronquiolitis2/

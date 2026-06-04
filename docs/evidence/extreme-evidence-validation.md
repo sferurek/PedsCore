@@ -59,7 +59,7 @@ complete implementation approval by themselves.
 | Growth | CDC growth/BMI | CDC growth chart recommendations and data. https://www.cdc.gov/growth-chart-training/hcp/overview/recommended.html | Official CDC source located. | Use official LMS/data files with attribution. |
 | Emergency | CATCH | Osmond et al. 2010. PMID 20142371. DOI 10.1503/cmaj.091421. https://pubmed.ncbi.nlm.nih.gov/20142371/ | Original CATCH derivation source located. | Open PMC article; decision rule wording still must be traceable. |
 | Emergency | CHALICE | Dunning et al. 2006. PMID 17056862. https://pmc.ncbi.nlm.nih.gov/articles/PMC2082967/ | Original CHALICE derivation source located. | Open PMC article; rule table can be cited but avoid long copied text. |
-| Respiratory | BROSJOD | Balaguer et al. 2017. PMID 28328090. https://pubmed.ncbi.nlm.nih.gov/28328090/ | Validation source located. | Original designed score/table still needs usable source and licensing check. |
+| Respiratory | BROSJOD | Balaguer et al. 2017. DOI 10.1002/ppul.23546. PMID 28328090. https://pubmed.ncbi.nlm.nih.gov/28328090/ | Validation source located; complete table found only in third-party Wiley mirror. | Keep blocked until reusable table or permission path is documented. |
 | Respiratory | PASS | Gorelick et al. 2004. PMID 14709423. DOI 10.1197/j.aem.2003.07.015. https://pubmed.ncbi.nlm.nih.gov/14709423/ | Original PASS performance paper located. | Full scoring table must be verified. |
 | Respiratory | RDAI | Lowell et al. 1987 is cited in systematic review; source trail located. | Primary article/table still needs direct bibliographic verification. | Keep pending until direct paper/table is obtained. |
 | Intensive care | pSOFA | Matics and Sanchez-Pinto 2017. PMID 28783810. DOI 10.1001/jamapediatrics.2017.2352. https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/ | Adaptation/validation source located. | Complex score with labs and age thresholds; needs test cases and data model. |
@@ -89,7 +89,7 @@ Legend:
 | apgar | implemented | implemented-current | Keep PMID 13083014; add exact table/test trace review before further changes. |
 | combined-apgar | needs_primary_reference | pending-primary | Locate original expanded/combined Apgar source and exact version. |
 | silverman-andersen | implemented | implemented-current | Current Pediatrics source is direct; verify scoring labels/interpretation against source. |
-| wood-downes-ferres | pending_validation | pending-primary | Direct Ferres-modified source/table not verified; do not implement. |
+| wood-downes-ferres | implemented | secondary/open-table + source anchor | Maintainer selected classic six-domain variant; descriptive score only. |
 | ballard | pending_validation | prepare-after-table-review | New Ballard source located; verify permission and complete table. |
 | dubowitz | pending_validation | prepare-after-table-review | Source trail located; full scoring table/version still required. |
 | sarnat | pending_validation | prepare-after-table-review | Original paper located; stage table and modern modified Sarnat variants need review. |
@@ -235,7 +235,7 @@ This pass separated pending tools by blocker type:
 | shockable-rhythm-algorithm | license-sensitive | guideline reproduction limits | yes | Reference-only until policy defines outputs. |
 | non-shockable-rhythm-algorithm | license-sensitive | guideline reproduction limits | yes | Reference-only until policy defines outputs. |
 | resuscitation-weight-dose-energy | license-sensitive | therapeutic scope / dosing policy | yes | Not safe for full calculator behavior without policy. |
-| wood-downes-ferres | variant selection + table completeness | variant selection | yes | High respiratory-variant variability. |
+| wood-downes-ferres | selected variant implemented | implemented_after_maintainer_variant_selection | no | Classic six-domain table implemented as descriptive score only. |
 | pediatric_gcs | missing complete table / variant | variant selection | yes | Pediatric adaptation still pending. |
 | cries | table completeness | missing complete scoring table | no | Keep blocked until itemized table is fully extracted. |
 | cheops | primary source + table completeness | missing primary source | no | Source and licensing status pending. |
@@ -252,7 +252,7 @@ MAINTAINER decision work does not change `implementationStatus` in this block, b
 
 | Family | Decision gate | Current recommended posture | Why |
 |---|---|---|---|
-| `wood_downes_ferres` | `maintainer_variant_selection` | keep pending_validation | Respiratory variant and table details not finalized. |
+| `wood_downes_ferres` | `maintainer_variant_selection` | implemented after maintainer selection | Classic six-domain variant is active with descriptive-only output. |
 | `pediatric_gcs` | `maintainer_variant_selection` | keep pending_validation | Pediatric age-specific verbal table is not yet standardized in catalog evidence. |
 | `pews` family | `maintainer_variant_selection` | keep pending_validation | Multiple variants with different escalation semantics; avoid generic implementation. |
 | `resuscitation` (`pediatric_cpr`, `neonatal_cpr`, rhythm/brady/tachy rules) | `maintainer_governance` | keep catalog/reference-only | High therapeutic-protocol risk and guideline-reproduction constraints. |

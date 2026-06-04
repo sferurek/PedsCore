@@ -10,7 +10,7 @@ describe("public launch repository documentation", () => {
     const readme = read("README.md");
 
     expect(readme).toContain("https://sferurek.github.io/PedsCore/");
-    expect(readme).toContain("17 fully implemented");
+    expect(readme).toContain("18 fully implemented");
     expect(readme).toContain("1 partially implemented module: WHO Growth");
     expect(readme).toContain("No clinical data storage");
     expect(readme).toContain("WHO growth data are kept under separate WHO licensing");
@@ -22,7 +22,7 @@ describe("public launch repository documentation", () => {
     const readme = read("README.es.md");
 
     expect(readme).toContain("79 herramientas pediátricas y neonatales catalogadas");
-    expect(readme).toContain("17 herramientas completamente implementadas");
+    expect(readme).toContain("18 herramientas completamente implementadas");
     expect(readme).toContain("1 módulo parcialmente implementado: WHO Growth");
     expect(readme).toContain("Sin almacenamiento de datos clínicos");
     expect(readme).toContain("licencia OMS separada");

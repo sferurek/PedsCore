@@ -7,7 +7,7 @@ All notable changes to PedsCore are documented in this file.
 Initial public alpha release.
 
 - 79 pediatric and neonatal clinical tools cataloged.
-- 17 tools fully implemented with active calculation or informational rule output.
+- 18 tools fully implemented with active calculation or informational rule output.
 - 1 partially implemented module: WHO Growth.
 - Bilingual ES/EN web application.
 - GitHub Pages deployment configured and active.
@@ -35,11 +35,13 @@ Initial public alpha release.
   Search Console, LinkedIn and manual QA.
 - Clarified no clinical data storage and separate WHO data licensing.
 - WHO Growth public status remains `partially_implemented`.
+- Implemented Wood-Downes-Ferres as a descriptive six-domain bronchiolitis score.
+- Documented BROSJOD as blocked pending reusable original table/licensing review.
 
 ### SPRINT-50 safety audit
 
 - Implementation count before audit: 17.
-- Implementation count after audit: 17.
+- Current implementation count after BRONCHIOLITIS-IMPLEMENTATION-1: 18.
 - Partial implementation count after status-model refresh: 1.
 - No new tools were promoted to `implemented` because no additional
   unimplemented tool simultaneously satisfied source, complete formula/table,
@@ -56,6 +58,7 @@ Initial public alpha release.
 
 - Apgar.
 - Silverman-Andersen.
+- Wood-Downes-Ferres.
 - FLACC.
 - QTc Bazett.
 - QTc Fridericia.

@@ -10,6 +10,7 @@ describe("calculator registry", () => {
     expect(implementedCalculatorToolIds).toEqual([
       "apgar",
       "silverman_andersen",
+      "wood_downes_ferres",
       "flacc",
       "qtc_bazett",
       "qtc_fridericia",

@@ -14,7 +14,7 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 
 | Priority | Tool ID | Slug | Category | Current blocker | Batch decision |
 |---|---|---|---|---|---|
-| B | `wood_downes_ferres` | `wood-downes-ferres` | respiratory | Downes/Wood source located, but Ferres-modified variant/table and age cutoffs unresolved. | `pending_variant_selection` |
+| B | `wood_downes_ferres` | `wood-downes-ferres` | respiratory | Maintainer selected classic six-domain Wood-Downes-Ferres; open visible table traced and implemented as descriptive score only. | `implemented_after_maintainer_variant_selection` |
 | A | `ballard` | `ballard` | neonatology | Complete New Ballard table/form, conversion, and license pending. | `pending_complete_scoring_table` |
 | B | `dubowitz` | `dubowitz` | neonatology | Full version/table and source path unresolved. | Not reviewed in detail. |
 | A | `sarnat` | `sarnat` | neonatology | Classic versus modified variant, full table, and expert review pending. | `requires_domain_expert_review` |
@@ -67,7 +67,7 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | PIPP-R | pain | Yes | DOI `10.1097/AJP.0b013e3182906aed`; PMID `24503979` | No | Pending | Medium/high | `pending_complete_scoring_table` | Verify PIPP-R table, adjustment, and permissions. |
 | COMFORTneo | neonatology | Yes | DOI `10.1097/AJP.0b013e3181a5b52a` | No | Pending | Medium/high | `pending_complete_scoring_table` | Obtain official table and expert/license review. |
 | Modified Finnegan | neonatology | Yes | PMID `1163358` | No | Treatment-linked thresholds blocked | High | `pending_variant_selection` | Select exact version and avoid treatment recommendations. |
-| Wood-Downes-Ferres | respiratory | Partial | PMID `5647493` for Downes/Wood source | No | Pending | Unknown | `pending_variant_selection` | Locate Ferres-modified source/table. |
+| Wood-Downes-Ferres | respiratory | Yes | DOI `10.1001/archpedi.1972.02110090097011` plus open Evidencia table | Yes | 0-3, 4-7, 8-14 descriptive bands | Medium | `implemented_after_maintainer_variant_selection` | Maintain descriptive-only output and revisit if primary Ferres source is found. |
 | Pediatric GCS | neurology | No primary adaptation | Guideline/source trail only | No | Pending | Unknown | `pending_primary_source` | Locate primary pediatric adaptation and verbal table. |
 | PEWS | emergency | Variant source only | Brighton DOI `10.7748/paed2005.02.17.1.32.c964` | No | Institutional | Medium/high | `pending_variant_selection` | Keep generic PEWS as umbrella; select variant first. |
 | Brighton PEWS | emergency | Yes | DOI `10.7748/paed2005.02.17.1.32.c964` | No | Protocol-linked | Medium | `pending_complete_scoring_table` | Verify table and separate escalation protocol. |
@@ -92,7 +92,7 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | Dubowitz | neonatology | Yes | DOI `10.1016/S0022-3476(70)80038-5`; PMID `5430794` | No | Conversion/form pending | Medium | `pending_complete_scoring_table` | Verify full form/table, graph conversion, and reuse permissions. |
 | Fenton neonatal growth | neonatology | Yes | DOI `10.1186/1471-2431-13-59` | Data pending | Percentile/z-score data pending | Low/medium | `pending_complete_scoring_table` | Locate reusable LMS data files and attribution requirements. |
 | RDAI | respiratory | Partial | Bibliographic URL only; DOI/PMID not verified | No | Pending | Unknown | `pending_primary_source` | Locate primary Lowell paper/table; do not use secondary calculators. |
-| BROSJOD | respiratory | Yes | DOI `10.1002/ppul.23546`; PMID `28328090` | No | Pending | Unknown | `pending_complete_scoring_table` | Verify original/full table and reuse terms. |
+| BROSJOD | respiratory | Yes | DOI `10.1002/ppul.23546`; PMID `28328090` | Found only in third-party Wiley article mirror | Pending | Medium/high | `pending_reusable_original_table` | Do not implement until table reuse or permission is clear. |
 | PASS | respiratory | Yes | DOI `10.1197/j.aem.2003.07.015`; PMID `14709423` | No | Pending | Unknown | `pending_complete_scoring_table` | Verify complete table and interpretation from source. |
 | Gorelick dehydration | emergency | Yes | DOI `10.1542/peds.99.5.e6`; PMID `9113963` | No | Variant pending | Unknown | `pending_variant_selection` | Select exact 4-item/10-item implementation and table. |
 | CATCH | emergency | Yes | DOI `10.1503/cmaj.091421`; PMID `20142371` | Yes, in open article | Rule criteria published | Low/medium | `ready_for_implementation` | Implement only as informational predictor classification; no CT recommendation. |
@@ -154,7 +154,7 @@ This block separates unresolved tools into decision classes:
 | `shockable_rhythm_algorithm` | `shockable-rhythm-algorithm` | resuscitation | `coming_soon` | `blocked_licensing_or_copyright` | official AHA guidance | `blocked_licensing_or_copyright` | yes |
 | `non_shockable_rhythm_algorithm` | `non-shockable-rhythm-algorithm` | resuscitation | `coming_soon` | `blocked_licensing_or_copyright` | official AHA guidance | `blocked_licensing_or_copyright` | yes |
 | `resuscitation_weight_dose_energy` | `resuscitation-weight-dose-energy` | resuscitation | `pending_validation` | `blocked_licensing_or_copyright` | paywalled guideline references | `blocked_regulatory_risk` | yes |
-| `wood_downes_ferres` | `wood-downes-ferres` | respiratory | `pending_validation` | `blocked_variant_selection_needed` | `5647493` + partial sources | `blocked_variant_selection_needed` | yes |
+| `wood_downes_ferres` | `wood-downes-ferres` | respiratory | `implemented` | `none_for_selected_scope` | `10.1001/archpedi.1972.02110090097011` + open table | `implemented_after_maintainer_variant_selection` | no |
 | `pediatric_gcs` | `pediatric-glasgow-coma-scale` | neurology | `pending_validation` | `blocked_missing_complete_scoring_table` | source trail only | `blocked_variant_selection_needed` | yes |
 | `bmi_percentile` | `bmi-percentile` | growth_nutrition | `pending_validation` | `blocked_variant_selection_needed` | WHO/CDC strategy pending | `blocked_variant_selection_needed` | yes |
 | `head_circumference_percentile` | `head-circumference-percentile` | growth_nutrition | `pending_validation` | `blocked_variant_selection_needed` | WHO/CDC strategy pending | `blocked_variant_selection_needed` | yes |

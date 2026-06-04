@@ -37,7 +37,7 @@ Reason: CATCH and CHALICE were the only previously documented ready-for-implemen
 | id | slug | status | classification | reason |
 |---|---|---|---|---|
 | `combined_apgar` | `combined-apgar` | `needs_primary_reference` | `requires_source_review` | Primary source, complete table/formula, exact variant, or tests are still missing. |
-| `wood_downes_ferres` | `wood-downes-ferres` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
+| `wood_downes_ferres` | `wood-downes-ferres` | `implemented` | `implemented_after_maintainer_variant_selection` | Classic six-domain variant selected and implemented as descriptive score only. |
 | `ballard` | `ballard` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
 | `dubowitz` | `dubowitz` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
 | `sarnat` | `sarnat` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
@@ -54,7 +54,7 @@ Reason: CATCH and CHALICE were the only previously documented ready-for-implemen
 | `brighton_pews` | `brighton-pews` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
 | `bedside_pews` | `bedside-pews` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
 | `rdai` | `rdai` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
-| `brosjod` | `brosjod` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
+| `brosjod` | `brosjod` | `pending_validation` | `keep_pending_until_reusable_table_or_permission` | Complete table located only in third-party Wiley mirror; reuse terms remain unresolved. |
 | `pass` | `pass` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
 | `risc` | `risc` | `coming_soon` | `requires_source_review` | Primary source, complete table/formula, exact variant, or tests are still missing. |
 | `mrisc` | `mrisc` | `coming_soon` | `requires_source_review` | Primary source, complete table/formula, exact variant, or tests are still missing. |
@@ -106,7 +106,7 @@ Reason: CATCH and CHALICE were the only previously documented ready-for-implemen
 | `apgar` | `apgar` | Apgar Score | neonatology | score | `implemented` | `active` | moderate | low | yes | yes | no | `already_implemented` |
 | `combined_apgar` | `combined-apgar` | Expanded / Combined Apgar | neonatology | score | `needs_primary_reference` | `-` | primary_reference_needed | medium | no | no | no | `requires_source_review` |
 | `silverman_andersen` | `silverman-andersen` | Silverman-Andersen Score | neonatology | score | `implemented` | `active` | moderate | low | yes | yes | no | `already_implemented` |
-| `wood_downes_ferres` | `wood-downes-ferres` | Wood-Downes-Ferres Score | respiratory | score | `pending_validation` | `-` | pending_verification | medium | no | yes | yes | `requires_maintainer_decision` |
+| `wood_downes_ferres` | `wood-downes-ferres` | Wood-Downes-Ferres Score | respiratory | score | `implemented` | `active` | secondary_source | medium | yes | yes | yes | `implemented_after_maintainer_variant_selection` |
 | `ballard` | `ballard` | Ballard / New Ballard | neonatology | score | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `implement_if_table_complete` |
 | `dubowitz` | `dubowitz` | Dubowitz Score | neonatology | score | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `implement_if_table_complete` |
 | `sarnat` | `sarnat` | Sarnat Staging | neonatology | scale | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `implement_if_table_complete` |
@@ -126,7 +126,7 @@ Reason: CATCH and CHALICE were the only previously documented ready-for-implemen
 | `westley_croup` | `westley-croup-score` | Westley Croup Score | respiratory | score | `implemented` | `active` | moderate | medium | yes | yes | no | `already_implemented` |
 | `pram` | `pram` | Pediatric Respiratory Assessment Measure | respiratory | score | `implemented` | `active` | moderate | medium | yes | yes | no | `already_implemented` |
 | `rdai` | `rdai` | Respiratory Distress Assessment Instrument | respiratory | score | `pending_validation` | `-` | pending_primary_source | medium | no | yes | yes | `implement_if_table_complete` |
-| `brosjod` | `brosjod` | BROSJOD | respiratory | score | `pending_validation` | `-` | external_validation_study | medium | no | yes | yes | `implement_if_table_complete` |
+| `brosjod` | `brosjod` | BROSJOD | respiratory | score | `pending_validation` | `-` | external_validation_study | medium | no | yes | yes | `keep_pending_until_reusable_table_or_permission` |
 | `pass` | `pass` | Pediatric Asthma Severity Score | respiratory | score | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `implement_if_table_complete` |
 | `risc` | `risc` | RISC | respiratory | score | `coming_soon` | `-` | pending_verification | medium | no | no | no | `requires_source_review` |
 | `mrisc` | `mrisc` | mRISC | respiratory | score | `coming_soon` | `-` | pending_verification | medium | no | no | no | `requires_source_review` |

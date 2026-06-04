@@ -19,7 +19,7 @@ describe("public product web polish", () => {
 
     expect(html).toContain("Open-source pediatric and neonatal clinical tools");
     expect(html).toContain(">79<");
-    expect(html).toContain(">17<");
+    expect(html).toContain(">18<");
     expect(html).toContain(">1<");
     expect(html).toContain(">0<");
     expect(html).toContain("No clinical data storage");
@@ -78,7 +78,7 @@ describe("public product web polish", () => {
     expect(tools).toHaveLength(79);
     expect(
       tools.filter((tool) => tool.implementationStatus === "implemented")
-    ).toHaveLength(17);
+    ).toHaveLength(18);
     expect(
       tools.filter((tool) => tool.implementationStatus === "partially_implemented")
     ).toHaveLength(1);

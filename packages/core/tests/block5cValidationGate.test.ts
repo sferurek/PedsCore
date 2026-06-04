@@ -8,13 +8,22 @@ import {
 const forbiddenRecommendations = /tratamiento|ingresar|alta|intubar|\bTC\b|tomograf[ií]a|fluidos|administrar|\bUCI\b/i;
 
 describe("Block 5C validation gate", () => {
-  it("keeps Wood-Downes-Ferres pending validation because variant details are incomplete", () => {
+  it("keeps Wood-Downes-Ferres active after maintainer variant selection", () => {
     const tool = getToolBySlug("wood-downes-ferres");
 
-    expect(tool?.implementationStatus).toBe("pending_validation");
-    expect(tool?.validationNotes.en).toContain("exact version");
-    expect(implementedCalculatorToolIds).not.toContain("wood_downes_ferres");
-    expect(calculateTool("wood_downes_ferres", {}).warnings[0]?.id).toBe("calculator_not_implemented");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.validationNotes.en).toContain("six-domain Wood-Downes-Ferres");
+    expect(implementedCalculatorToolIds).toContain("wood_downes_ferres");
+    expect(
+      calculateTool("wood_downes_ferres", {
+        wheezing: "none",
+        retractions: "none",
+        air_entry: "good_symmetric",
+        respiratory_rate: "under_30",
+        heart_rate: "under_120",
+        cyanosis: "absent"
+      }).score
+    ).toBe(0);
   });
 
   it("keeps pediatric Glasgow pending validation because pediatric verbal scoring is incomplete", () => {
@@ -28,8 +37,22 @@ describe("Block 5C validation gate", () => {
 
   it("does not include therapeutic recommendations in validation-gate result text", () => {
     const texts = [
-      calculateTool("wood_downes_ferres", {}).warnings[0]?.message.es,
-      calculateTool("wood_downes_ferres", {}).warnings[0]?.message.en,
+      calculateTool("wood_downes_ferres", {
+        wheezing: "none",
+        retractions: "none",
+        air_entry: "good_symmetric",
+        respiratory_rate: "under_30",
+        heart_rate: "under_120",
+        cyanosis: "absent"
+      }).warnings[0]?.message.es,
+      calculateTool("wood_downes_ferres", {
+        wheezing: "none",
+        retractions: "none",
+        air_entry: "good_symmetric",
+        respiratory_rate: "under_30",
+        heart_rate: "under_120",
+        cyanosis: "absent"
+      }).warnings[0]?.message.en,
       calculateTool("pediatric_gcs", {}).warnings[0]?.message.es,
       calculateTool("pediatric_gcs", {}).warnings[0]?.message.en
     ].join(" ");

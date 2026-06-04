@@ -18,13 +18,13 @@ This document separates tools that are evidence-complete but require a maintaine
 - **Evidence status**: primary sources for variants are located.
 - **Next action**: keep `pews` as umbrella catalog entry and activate a single variant only after maintainer approval.
 
-### 2) `wood_downes_ferres`
-- **Decision needed**: select the exact Wood-Downes-Ferres variant.
-- **Options**: classical Wood-Downes, modified Ferres adaptation, age-adjusted version.
-- **Current blocker**: exact variant and age cutoffs differ across publications.
-- **Clinical/regulatory note**: respiratory severity score can influence escalation language if not carefully framed.
-- **Evidence status**: Downes/Wood primary article is present, but full Ferres-modified table is not yet confirmed.
-- **Next action**: keep `pending_validation` with explicit "variant selection" blocker.
+### Resolved) `wood_downes_ferres`
+- **Decision status**: resolved in BRONCHIOLITIS-IMPLEMENTATION-1.
+- **Selected variant**: classic six-domain Wood-Downes-Ferres.
+- **Current status**: implemented as descriptive score-only output.
+- **Clinical/regulatory note**: runtime output is limited to score, criteria trace and descriptive severity band.
+- **Evidence status**: Wood/Downes/Lecks source anchor plus open visible six-domain table documented in `docs/evidence/tools/wood-downes-ferres.md`.
+- **Next action**: keep output descriptive and revisit only if a more definitive Ferres primary source is found.
 
 ### 3) `pediatric_gcs`
 - **Decision needed**: choose canonical pediatric adaptation source and scoring table by age.

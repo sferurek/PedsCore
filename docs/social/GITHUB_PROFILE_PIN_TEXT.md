@@ -5,7 +5,7 @@ PedsCore is an open-source pediatric and neonatal clinical tools library with ev
 Public alpha:
 
 - 79 cataloged tools.
-- 17 fully implemented tools.
+- 18 fully implemented tools.
 - 1 partially implemented WHO Growth module.
 - MIT source code.
 - Static GitHub Pages web app.

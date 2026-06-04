@@ -73,7 +73,7 @@ Prepared launch assets:
   `https://github.com/sferurek/PedsCore`
 - Include public web app link:
   `https://sferurek.github.io/PedsCore/`
-- Mention alpha status, 79 cataloged tools, 17 fully implemented tools and 1 partially implemented WHO Growth module.
+- Mention alpha status, 79 cataloged tools, 18 fully implemented tools and 1 partially implemented WHO Growth module.
 - Mention no clinical data storage.
 - Use `docs/social/SCREENSHOT_CHECKLIST.md` before sharing screenshots.
 - Include screenshots only after manual visual QA.

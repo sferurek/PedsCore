@@ -3,6 +3,7 @@ import { warning } from "./common.js";
 import type { CalculatorDefinition, CalculatorInput } from "./common.js";
 import { apgarCalculator } from "./apgar.js";
 import { flaccCalculator } from "./flacc.js";
+import { woodDownesFerresCalculator } from "./woodDownesFerres.js";
 import {
   qtcBazettCalculator,
   qtcFraminghamCalculator,
@@ -26,6 +27,7 @@ import { westleyCroupCalculator } from "./westleyCroup.js";
 const calculators = [
   apgarCalculator,
   silvermanAndersenCalculator,
+  woodDownesFerresCalculator,
   flaccCalculator,
   qtcBazettCalculator,
   qtcFridericiaCalculator,
