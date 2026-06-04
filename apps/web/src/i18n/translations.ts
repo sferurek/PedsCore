@@ -38,6 +38,7 @@ export const translations = {
       categoriesTitle: "Categorias",
       allToolsCta: "Explorar herramientas",
       evidenceCta: "Ver evidencia",
+      githubSupportCta: "Apoya el proyecto en GitHub",
       toolsMetric: "herramientas catalogadas",
       cataloguedMetric: "catalogadas",
       implementedMetric: "implementadas",
@@ -57,7 +58,7 @@ export const translations = {
         "No se activan hasta validar fuente, tabla, variante y licencia.",
       whoGrowthTitle: "Modulo WHO Growth",
       whoGrowthBody:
-        "Modulo de crecimiento con datos oficiales OMS, percentiles trazables y graficas SVG imprimibles sin almacenamiento de datos.",
+        "Percentiles OMS 0-5 y soporte parcial 5-19, con graficas imprimibles.",
       whoGrowthFeatures: [
         "OMS 0-5",
         "OMS 5-19 parcial",
@@ -257,6 +258,7 @@ export const translations = {
       categoriesTitle: "Categories",
       allToolsCta: "Explore tools",
       evidenceCta: "View evidence",
+      githubSupportCta: "Support the project on GitHub",
       toolsMetric: "cataloged tools",
       cataloguedMetric: "cataloged",
       implementedMetric: "implemented",
@@ -276,7 +278,7 @@ export const translations = {
         "Tools are not activated until source, table, variant and license are validated.",
       whoGrowthTitle: "WHO Growth module",
       whoGrowthBody:
-        "Growth module with official WHO data, traceable percentiles and printable SVG charts with no data storage.",
+        "WHO 0-5 percentiles and partial 5-19 support, with printable charts.",
       whoGrowthFeatures: [
         "WHO 0-5",
         "WHO 5-19 partial",

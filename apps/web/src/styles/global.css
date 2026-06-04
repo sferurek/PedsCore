@@ -3987,3 +3987,319 @@ td {
     padding: 1.35rem 0;
   }
 }
+
+/* HOME-UX-POLISH-2: compact public landing overrides. */
+.home-page {
+  gap: clamp(1rem, 2vw, 1.45rem);
+}
+
+.home-page .hero-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(0.9rem, 1.8vw, 1.2rem);
+  min-height: 0;
+  padding: clamp(1rem, 2.4vw, 1.8rem);
+  overflow: hidden;
+  border-color: #cbdfea;
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(239, 247, 251, 0.94)),
+    linear-gradient(90deg, rgba(49, 119, 163, 0.12), rgba(99, 170, 151, 0.12));
+  box-shadow: 0 14px 34px rgba(30, 78, 112, 0.08);
+}
+
+.home-page .hero-copy {
+  max-width: 74rem;
+}
+
+.home-page .hero-copy h1 {
+  width: min(100%, 1100px);
+  max-width: none;
+  text-wrap: balance;
+  color: #0a2f47;
+  font-size: clamp(2.45rem, 6.1vw, 5.7rem);
+  line-height: 0.98;
+}
+
+.home-page .hero-copy .hero-subtitle {
+  max-width: 66rem;
+  margin-top: 0.7rem;
+  color: #213f50;
+  font-size: clamp(1.04rem, 1.7vw, 1.34rem);
+  line-height: 1.42;
+}
+
+.home-page .hero-copy .hero-lead {
+  max-width: 58rem;
+  margin-top: 0.45rem;
+  color: #586e7a;
+  font-size: clamp(0.92rem, 1.2vw, 1rem);
+}
+
+.home-page .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+}
+
+.home-page .hero-actions > * {
+  min-height: 2.45rem;
+  padding: 0.6rem 0.82rem;
+}
+
+.quiet-action {
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.hero-disclaimer {
+  margin-top: 0.75rem;
+  font-size: 0.86rem;
+}
+
+.hero-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+  width: 100%;
+}
+
+.home-page .hero-metric {
+  display: grid;
+  gap: 0.1rem;
+  min-height: 0;
+  padding: 0.62rem 0.7rem;
+  border-color: rgba(164, 196, 213, 0.82);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: none;
+}
+
+.home-page .hero-metric strong {
+  color: #0b6b8a;
+  font-size: clamp(1.75rem, 3.4vw, 2.65rem);
+  line-height: 0.95;
+}
+
+.home-page .hero-metric span {
+  color: #4f6470;
+  font-size: 0.78rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.who-growth-feature {
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  padding: clamp(0.9rem, 2vw, 1.15rem);
+  border-color: rgba(151, 193, 186, 0.78);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(246, 252, 250, 0.98), rgba(234, 247, 244, 0.96));
+  color: #123648;
+  box-shadow: 0 10px 24px rgba(30, 78, 112, 0.06);
+}
+
+.who-growth-feature h2,
+.who-growth-feature .eyebrow,
+.who-growth-feature p {
+  color: inherit;
+}
+
+.who-growth-feature h2 {
+  font-size: clamp(1.3rem, 2vw, 1.65rem);
+}
+
+.who-growth-feature p {
+  max-width: 54rem;
+  color: #415d67;
+}
+
+.who-growth-feature ul {
+  display: none;
+}
+
+.who-growth-feature .primary-action {
+  white-space: nowrap;
+  border-color: #176b7e;
+  background: #176b7e;
+  color: #ffffff;
+}
+
+.category-card-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.home-category-card {
+  display: grid;
+  min-height: 11.4rem;
+  align-content: start;
+  gap: 0.55rem;
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid rgba(183, 204, 212, 0.82);
+  border-radius: 14px;
+  background: #ffffff;
+  color: #15384a;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(30, 78, 112, 0.055);
+}
+
+.home-category-card:hover,
+.home-category-card:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(69, 132, 156, 0.58);
+  box-shadow: 0 15px 30px rgba(30, 78, 112, 0.09);
+}
+
+.category-card-title {
+  font-size: 1.08rem;
+  font-weight: 900;
+  line-height: 1.15;
+}
+
+.category-card-description {
+  color: #526b76;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.home-category-card strong {
+  color: #0c6582;
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.category-card-examples {
+  color: #294b5b;
+  font-size: 0.84rem;
+  line-height: 1.35;
+}
+
+.category-respiratory {
+  background: linear-gradient(135deg, #f1f9fd, #ffffff);
+}
+
+.category-neonatology {
+  background: linear-gradient(135deg, #f3faf6, #ffffff);
+}
+
+.category-growth_nutrition {
+  background: linear-gradient(135deg, #f8fbef, #ffffff);
+}
+
+.category-emergency {
+  background: linear-gradient(135deg, #fff8ed, #ffffff);
+}
+
+.category-pain {
+  background: linear-gradient(135deg, #f8f4fb, #ffffff);
+}
+
+.category-cardiology {
+  background: linear-gradient(135deg, #f5f8ff, #ffffff);
+}
+
+.category-nephrology {
+  background: linear-gradient(135deg, #f0faf9, #ffffff);
+}
+
+.category-neurology {
+  background: linear-gradient(135deg, #f7f8f1, #ffffff);
+}
+
+.category-intensive_care {
+  background: linear-gradient(135deg, #f7f6fb, #ffffff);
+}
+
+.category-resuscitation {
+  background: linear-gradient(135deg, #fff5f3, #ffffff);
+}
+
+.category-adolescent_medicine {
+  background: linear-gradient(135deg, #f4faf5, #ffffff);
+}
+
+.transparency-band {
+  gap: 0.75rem;
+  padding: clamp(0.95rem, 2vw, 1.2rem);
+  border: 1px solid rgba(176, 207, 221, 0.82);
+  border-radius: 14px;
+  background:
+    linear-gradient(135deg, rgba(247, 252, 255, 0.98), rgba(239, 247, 251, 0.96));
+  color: #15384a;
+  box-shadow: none;
+}
+
+.transparency-band h2 {
+  color: #0b2f47;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+}
+
+.transparency-band ul {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.transparency-band li {
+  padding: 0.58rem 0.68rem;
+  border: 1px solid rgba(187, 209, 218, 0.82);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
+  color: #274b5a;
+  font-size: 0.86rem;
+}
+
+@media (max-width: 980px) {
+  .hero-metrics-grid,
+  .transparency-band ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .category-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 719px) {
+  .home-page .hero-section {
+    padding: 0.9rem;
+  }
+
+  .home-page .hero-copy h1 {
+    font-size: clamp(2.1rem, 12vw, 3.15rem);
+    line-height: 1.02;
+  }
+
+  .home-page .hero-actions > * {
+    width: 100%;
+  }
+
+  .hero-metrics-grid,
+  .category-card-grid,
+  .transparency-band ul {
+    grid-template-columns: 1fr;
+  }
+
+  .home-page .hero-metric {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .who-growth-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .who-growth-feature .primary-action {
+    width: 100%;
+  }
+
+  .home-category-card {
+    min-height: 0;
+  }
+}
