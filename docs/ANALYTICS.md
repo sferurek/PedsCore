@@ -173,6 +173,8 @@ The current web app is a static Vite app. GitHub Pages can serve the stats route
 
 To enable live public stats, deploy the repository to a platform that supports Vercel-style serverless API routes, or adapt the same endpoint logic to the chosen platform.
 
+For Vercel deployment steps and environment variable setup, see `docs/DEPLOYMENT_VERCEL.md`.
+
 ### Server-side Environment Variables
 
 Configure these only in the serverless runtime:
