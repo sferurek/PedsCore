@@ -1,6 +1,7 @@
 const defaultMinimumVisits = 5;
 const defaultCacheSeconds = 3600;
 const maxCacheSeconds = 21600;
+const defaultRangeName = "all_time";
 
 const jsonHeaders = {
   "Content-Type": "application/json; charset=utf-8"
@@ -20,9 +21,24 @@ const normalizeApiUrl = (value) => value?.replace(/\/+$/, "");
 
 const isDisabled = (env) => env.UMAMI_PUBLIC_STATS_ENABLED === "false";
 
+const emptyResponse = ({
+  configured,
+  disabled = false,
+  range = defaultRangeName
+}) => ({
+  configured,
+  disabled,
+  range,
+  totalVisits: 0,
+  totalPageviews: 0,
+  last7DaysVisits: 0,
+  countriesReached: 0,
+  countries: []
+});
+
 export const getAnalyticsCountriesConfig = (env = process.env) => {
   if (isDisabled(env)) {
-    return { enabled: false };
+    return { enabled: false, disabled: true };
   }
 
   const apiUrl = normalizeApiUrl(env.UMAMI_API_URL);
@@ -38,21 +54,18 @@ export const getAnalyticsCountriesConfig = (env = process.env) => {
     websiteId,
     apiToken,
     enabled: true,
-    minimumVisits: clampNumber(
-      env.UMAMI_COUNTRY_MIN_VISITS,
+    minimumThreshold: clampNumber(
+      env.UMAMI_COUNTRY_MIN_THRESHOLD,
       defaultMinimumVisits,
       1,
       1000
     ),
     cacheSeconds: clampNumber(
-      env.UMAMI_STATS_CACHE_SECONDS,
+      env.UMAMI_COUNTRY_CACHE_SECONDS,
       defaultCacheSeconds,
       60,
       maxCacheSeconds
-    ),
-    startAt: Number.isFinite(Number(env.UMAMI_STATS_START_AT))
-      ? Number(env.UMAMI_STATS_START_AT)
-      : undefined
+    )
   };
 };
 
@@ -86,31 +99,38 @@ const normalizeCountryCode = (value) => {
   return /^[A-Z]{2}$/.test(normalized) ? normalized : null;
 };
 
-const sumSeries = (series) =>
-  Array.isArray(series)
-    ? series.reduce((total, item) => total + (Number(item?.y) || 0), 0)
-    : 0;
+const getFirstNumber = (...values) => {
+  for (const value of values) {
+    const parsed = Number(value);
 
-export const normalizeCountryRows = (rows, minimumVisits) =>
+    if (Number.isFinite(parsed)) {
+      return parsed;
+    }
+  }
+
+  return 0;
+};
+
+export const normalizeCountryRows = (rows, minimumThreshold) =>
   (Array.isArray(rows) ? rows : [])
     .map((row) => {
-      const countryCode = normalizeCountryCode(row?.name ?? row?.x);
-      const visits = Number(row?.visits ?? row?.y ?? 0) || 0;
-      const pageviews = Number(row?.pageviews ?? visits) || 0;
+      const code = normalizeCountryCode(row?.code ?? row?.countryCode ?? row?.name ?? row?.x);
+      const visits = getFirstNumber(row?.visits, row?.visitors, row?.sessions, row?.y);
+      const pageviews = getFirstNumber(row?.pageviews, row?.views, visits);
 
-      if (!countryCode || visits < minimumVisits) {
+      if (!code || visits < minimumThreshold) {
         return null;
       }
 
       return {
-        countryCode,
-        countryName: getCountryName(countryCode) ?? countryCode,
+        code,
+        name: getCountryName(code) ?? code,
         visits,
         pageviews
       };
     })
     .filter(Boolean)
-    .sort((a, b) => b.visits - a.visits || a.countryCode.localeCompare(b.countryCode));
+    .sort((a, b) => b.visits - a.visits || a.code.localeCompare(b.code));
 
 const fetchUmamiJson = async (url, apiToken) => {
   const response = await fetch(url, {
@@ -130,7 +150,7 @@ const fetchUmamiJson = async (url, apiToken) => {
 const buildPublicStats = async (config) => {
   const endAt = Date.now();
   const last7StartAt = endAt - 7 * 24 * 60 * 60 * 1000;
-  const allTimeStartAt = config.startAt ?? 0;
+  const allTimeStartAt = 0;
   const websitePath = `/api/websites/${encodeURIComponent(config.websiteId)}`;
 
   const [countryRows, allTimeStats, last7Stats] = await Promise.all([
@@ -159,21 +179,19 @@ const buildPublicStats = async (config) => {
     )
   ]);
 
-  const countries = normalizeCountryRows(countryRows, config.minimumVisits);
-  const totalVisits = Number(allTimeStats?.visits ?? 0) || 0;
-  const totalPageviews = Number(allTimeStats?.pageviews ?? 0) || 0;
-  const last7DaysVisits = Number(last7Stats?.visits ?? 0) || 0;
+  const countries = normalizeCountryRows(countryRows, config.minimumThreshold);
+  const totalVisits = getFirstNumber(allTimeStats?.visits, allTimeStats?.visitors);
+  const totalPageviews = getFirstNumber(allTimeStats?.pageviews, totalVisits);
+  const last7DaysVisits = getFirstNumber(last7Stats?.visits, last7Stats?.visitors);
 
   return {
-    status: countries.length > 0 ? "ok" : "empty",
-    updatedAt: new Date(endAt).toISOString(),
-    minimumVisits: config.minimumVisits,
-    totals: {
-      visits: totalVisits,
-      pageviews: totalPageviews,
-      countriesReached: countries.length,
-      last7DaysVisits
-    },
+    configured: true,
+    disabled: false,
+    range: defaultRangeName,
+    totalVisits,
+    totalPageviews,
+    last7DaysVisits,
+    countriesReached: countries.length,
     countries
   };
 };
@@ -206,17 +224,14 @@ export default async function handler(req, res) {
   const config = getAnalyticsCountriesConfig();
 
   if (!config.enabled) {
-    sendJson(res, 503, {
-      status: "not_configured",
-      minimumVisits: defaultMinimumVisits,
-      totals: {
-        visits: 0,
-        pageviews: 0,
-        countriesReached: 0,
-        last7DaysVisits: 0
-      },
-      countries: []
-    });
+    sendJson(
+      res,
+      200,
+      emptyResponse({
+        configured: false,
+        disabled: Boolean(config.disabled)
+      })
+    );
     return;
   }
 
@@ -224,21 +239,17 @@ export default async function handler(req, res) {
     const stats = await buildPublicStats(config);
     sendJson(res, 200, stats, config.cacheSeconds);
   } catch {
-    sendJson(res, 502, {
-      status: "failed_to_load",
-      minimumVisits: config.minimumVisits,
-      totals: {
-        visits: 0,
-        pageviews: 0,
-        countriesReached: 0,
-        last7DaysVisits: 0
-      },
-      countries: []
-    });
+    sendJson(
+      res,
+      502,
+      emptyResponse({
+        configured: true,
+        range: defaultRangeName
+      })
+    );
   }
 }
 
 export const __private__ = {
-  normalizeCountryRows,
-  sumSeries
+  normalizeCountryRows
 };

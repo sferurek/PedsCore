@@ -6,16 +6,19 @@ export type GlobalStatsStatus =
   | "failed_to_load";
 
 export interface CountryUsageStat {
-  countryCode: string;
-  countryName: string;
+  code: string;
+  name: string;
   visits: number;
   pageviews: number;
 }
 
 export interface GlobalUsageStats {
   status: GlobalStatsStatus;
+  configured: boolean;
+  disabled: boolean;
+  range: string;
   updatedAt?: string;
-  minimumVisits: number;
+  minimumThreshold: number;
   totals: {
     visits: number;
     pageviews: number;
@@ -25,9 +28,37 @@ export interface GlobalUsageStats {
   countries: CountryUsageStat[];
 }
 
+interface RawCountryUsageStat {
+  code?: string;
+  name?: string;
+  countryCode?: string;
+  countryName?: string;
+  visits?: number;
+  pageviews?: number;
+}
+
+interface RawGlobalUsageStats {
+  status?: GlobalStatsStatus;
+  configured?: boolean;
+  disabled?: boolean;
+  range?: string;
+  updatedAt?: string;
+  minimumThreshold?: number;
+  minimumVisits?: number;
+  totalVisits?: number;
+  totalPageviews?: number;
+  last7DaysVisits?: number;
+  countriesReached?: number;
+  totals?: Partial<GlobalUsageStats["totals"]>;
+  countries?: RawCountryUsageStat[];
+}
+
 const emptyStats = (status: GlobalStatsStatus): GlobalUsageStats => ({
   status,
-  minimumVisits: 5,
+  configured: false,
+  disabled: status === "disabled",
+  range: "all_time",
+  minimumThreshold: 5,
   totals: {
     visits: 0,
     pageviews: 0,
@@ -47,37 +78,61 @@ const isCountryStat = (value: unknown): value is CountryUsageStat => {
   const item = value as Partial<CountryUsageStat>;
 
   return (
-    typeof item.countryCode === "string" &&
-    /^[A-Z]{2}$/.test(item.countryCode) &&
-    typeof item.countryName === "string" &&
+    typeof item.code === "string" &&
+    /^[A-Z]{2}$/.test(item.code) &&
+    typeof item.name === "string" &&
     typeof item.visits === "number" &&
     typeof item.pageviews === "number"
   );
 };
 
 export const normalizeGlobalUsageStats = (value: unknown): GlobalUsageStats => {
-  const payload = value as Partial<GlobalUsageStats>;
-  const countries = Array.isArray(payload.countries)
-    ? payload.countries.filter(isCountryStat)
+  const payload = value as RawGlobalUsageStats;
+  const countryRows = Array.isArray(payload.countries)
+    ? payload.countries.map((country) => ({
+        code: country.code ?? country.countryCode,
+        name: country.name ?? country.countryName,
+        visits: country.visits,
+        pageviews: country.pageviews
+      }))
+    : [];
+  const countries = countryRows.filter(isCountryStat)
         .map((country) => ({
-          countryCode: country.countryCode,
-          countryName: country.countryName,
+          code: country.code,
+          name: country.name,
           visits: country.visits,
           pageviews: country.pageviews
-        }))
-    : [];
+        }));
   const totals = payload.totals ?? emptyStats("empty").totals;
+  const configured = payload.configured === true;
+  const disabled = payload.disabled === true;
+  const status: GlobalStatsStatus = disabled
+    ? "disabled"
+    : configured
+      ? countries.length > 0
+        ? "ok"
+        : "empty"
+      : "not_configured";
 
   return {
-    status: payload.status ?? (countries.length > 0 ? "ok" : "empty"),
+    status: payload.status ?? status,
+    configured,
+    disabled,
+    range: typeof payload.range === "string" ? payload.range : "all_time",
     updatedAt: typeof payload.updatedAt === "string" ? payload.updatedAt : undefined,
-    minimumVisits:
-      typeof payload.minimumVisits === "number" ? payload.minimumVisits : 5,
+    minimumThreshold:
+      typeof payload.minimumThreshold === "number"
+        ? payload.minimumThreshold
+        : typeof payload.minimumVisits === "number"
+          ? payload.minimumVisits
+          : 5,
     totals: {
-      visits: Number(totals.visits) || 0,
-      pageviews: Number(totals.pageviews) || 0,
-      countriesReached: Number(totals.countriesReached) || countries.length,
-      last7DaysVisits: Number(totals.last7DaysVisits) || 0
+      visits: Number(payload.totalVisits ?? totals.visits) || 0,
+      pageviews: Number(payload.totalPageviews ?? totals.pageviews) || 0,
+      countriesReached:
+        Number(payload.countriesReached ?? totals.countriesReached) || countries.length,
+      last7DaysVisits:
+        Number(payload.last7DaysVisits ?? totals.last7DaysVisits) || 0
     },
     countries
   };
@@ -95,7 +150,7 @@ export const fetchGlobalUsageStats = async (): Promise<GlobalUsageStats> => {
     const payload = await response.json().catch(() => null);
     const stats = normalizeGlobalUsageStats(payload);
 
-    if (response.status === 503) {
+    if (!stats.configured && !stats.disabled) {
       return { ...stats, status: "not_configured" };
     }
 

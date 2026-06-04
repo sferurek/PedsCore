@@ -13,7 +13,10 @@ interface GlobalStatsPageProps {
 
 const fallbackStats: GlobalUsageStats = {
   status: "empty",
-  minimumVisits: 5,
+  configured: false,
+  disabled: false,
+  range: "all_time",
+  minimumThreshold: 5,
   totals: {
     visits: 0,
     pageviews: 0,
@@ -100,9 +103,9 @@ function GlobalUsageMap({ countries }: { countries: CountryUsageStat[] }) {
         d="M21 34c10-2 15 4 21 9-12 5-22 2-27-5 2-2 4-3 6-4Zm39 4c8-5 19-3 25 3-6 5-18 6-28 1 0-2 1-3 3-4Z"
       />
       {plottedCountries.map((country) => {
-        const position = countryPositions[country.countryCode] ?? {
-          x: 50 + ((country.countryCode.charCodeAt(0) % 40) - 20),
-          y: 28 + ((country.countryCode.charCodeAt(1) % 22) - 11)
+        const position = countryPositions[country.code] ?? {
+          x: 50 + ((country.code.charCodeAt(0) % 40) - 20),
+          y: 28 + ((country.code.charCodeAt(1) % 22) - 11)
         };
         const radius = 1.8 + (country.visits / maxVisits) * 5.4;
 
@@ -111,7 +114,7 @@ function GlobalUsageMap({ countries }: { countries: CountryUsageStat[] }) {
             className="map-country-dot"
             cx={position.x}
             cy={position.y}
-            key={country.countryCode}
+            key={country.code}
             r={radius}
           />
         );
@@ -127,7 +130,7 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
   const statusMessage = getStatusMessage(stats, loading, language);
   const thresholdMessage = t.stats.thresholdNote.replace(
     "{threshold}",
-    formatNumber(stats.minimumVisits, language)
+    formatNumber(stats.minimumThreshold, language)
   );
   const topCountries = useMemo(() => stats.countries.slice(0, 20), [stats]);
 
@@ -212,10 +215,10 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
               </thead>
               <tbody>
                 {topCountries.map((country) => (
-                  <tr key={country.countryCode}>
+                  <tr key={country.code}>
                     <td>
-                      <strong>{country.countryCode}</strong>
-                      <span>{country.countryName}</span>
+                      <strong>{country.code}</strong>
+                      <span>{country.name}</span>
                     </td>
                     <td>{formatNumber(country.visits, language)}</td>
                     <td>{formatNumber(country.pageviews, language)}</td>

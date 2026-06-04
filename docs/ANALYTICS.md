@@ -181,19 +181,19 @@ Configure these only in the serverless runtime:
 UMAMI_API_URL=https://umami.example.org
 UMAMI_WEBSITE_ID=public-website-id
 UMAMI_API_TOKEN=server-side-api-token
-UMAMI_COUNTRY_MIN_VISITS=5
-UMAMI_STATS_CACHE_SECONDS=3600
-UMAMI_STATS_START_AT=1704067200000
+UMAMI_COUNTRY_MIN_THRESHOLD=5
+UMAMI_COUNTRY_CACHE_SECONDS=3600
 UMAMI_PUBLIC_STATS_ENABLED=true
 ```
 
 Notes:
 
 - `UMAMI_API_TOKEN` must never be exposed as `VITE_*`.
-- `UMAMI_COUNTRY_MIN_VISITS` defaults to `5`.
-- `UMAMI_STATS_CACHE_SECONDS` defaults to `3600` and is capped at `21600`.
-- `UMAMI_STATS_START_AT` is optional and should be a Unix timestamp in milliseconds for the first deployment date.
+- `UMAMI_COUNTRY_MIN_THRESHOLD` defaults to `5`.
+- `UMAMI_COUNTRY_CACHE_SECONDS` defaults to `3600` and is capped at `21600`.
 - Set `UMAMI_PUBLIC_STATS_ENABLED=false` to disable the serverless endpoint.
+- The Vercel-compatible endpoint lives at `/api/analytics/countries`.
+- GitHub Pages can serve `/es/stats/global` and `/en/stats/global`, but cannot run `/api/analytics/countries`.
 
 ### Frontend Configuration
 
@@ -215,19 +215,17 @@ The endpoint returns only aggregate fields:
 
 ```json
 {
-  "status": "ok",
-  "updatedAt": "2026-06-04T12:00:00.000Z",
-  "minimumVisits": 5,
-  "totals": {
-    "visits": 120,
-    "pageviews": 280,
-    "countriesReached": 4,
-    "last7DaysVisits": 25
-  },
+  "configured": true,
+  "disabled": false,
+  "range": "all_time",
+  "totalVisits": 120,
+  "totalPageviews": 280,
+  "last7DaysVisits": 25,
+  "countriesReached": 4,
   "countries": [
     {
-      "countryCode": "ES",
-      "countryName": "Spain",
+      "code": "ES",
+      "name": "Spain",
       "visits": 80,
       "pageviews": 160
     }
@@ -249,7 +247,7 @@ It must never return:
 
 ### Minimum Threshold
 
-Countries with fewer than `UMAMI_COUNTRY_MIN_VISITS` visits are hidden from the public response. This avoids exposing very small groups.
+Countries with fewer than `UMAMI_COUNTRY_MIN_THRESHOLD` visits are hidden from the public response. This avoids exposing very small groups.
 
 ## Location Data
 
