@@ -15,6 +15,7 @@ export const translations = {
       tools: "Herramientas",
       categories: "Categorias",
       evidence: "Evidencia",
+      stats: "Uso global",
       about: "Sobre PedsCore",
       contribute: "Contribuir",
       disclaimer: "Aviso legal"
@@ -122,6 +123,30 @@ export const translations = {
       whyNotEverythingTitle: "Why not everything is implemented?",
       whyNotEverythingBody:
         "En salud digital, no implementar algo dudoso tambien es una decision de seguridad."
+    },
+    stats: {
+      title: "Uso global de PedsCore",
+      lead:
+        "Estadisticas publicas agregadas por pais. No incluyen IPs, identificadores, datos clinicos, valores de formularios ni texto libre.",
+      totalVisits: "Visitas totales",
+      countriesReached: "Paises alcanzados",
+      last7DaysVisits: "Visitas en los ultimos 7 dias",
+      pageviews: "Paginas vistas",
+      worldMap: "Mapa mundial",
+      country: "Pais",
+      visits: "Visitas",
+      thresholdNote:
+        "Solo se muestran paises con al menos {threshold} visitas para evitar exposicion de grupos pequenos.",
+      loading: "Cargando estadisticas agregadas...",
+      notConfigured:
+        "La analitica publica no esta configurada todavia para este despliegue.",
+      disabled:
+        "La pagina publica de estadisticas esta desactivada por configuracion.",
+      empty:
+        "Aun no hay estadisticas publicas suficientes para mostrar.",
+      failed:
+        "No se pudieron cargar las estadisticas publicas.",
+      updated: "Actualizado"
     },
     tool: {
       metadata: "Ficha tecnica",
@@ -236,6 +261,7 @@ export const translations = {
       tools: "Tools",
       categories: "Categories",
       evidence: "Evidence",
+      stats: "Global usage",
       about: "About",
       contribute: "Contribute",
       disclaimer: "Disclaimer"
@@ -343,6 +369,30 @@ export const translations = {
       whyNotEverythingTitle: "Why not everything is implemented?",
       whyNotEverythingBody:
         "In digital health, not implementing doubtful content is also a safety decision."
+    },
+    stats: {
+      title: "Global PedsCore usage",
+      lead:
+        "Public aggregate statistics by country. They do not include IPs, identifiers, clinical data, form values or free text.",
+      totalVisits: "Total visits",
+      countriesReached: "Countries reached",
+      last7DaysVisits: "Last 7 days visits",
+      pageviews: "Pageviews",
+      worldMap: "World map",
+      country: "Country",
+      visits: "Visits",
+      thresholdNote:
+        "Only countries with at least {threshold} visits are shown to avoid exposing small groups.",
+      loading: "Loading aggregate statistics...",
+      notConfigured:
+        "Public analytics are not configured for this deployment yet.",
+      disabled:
+        "The public stats page is disabled by configuration.",
+      empty:
+        "There are not enough public statistics to show yet.",
+      failed:
+        "Public statistics could not be loaded.",
+      updated: "Updated"
     },
     tool: {
       metadata: "Metadata",

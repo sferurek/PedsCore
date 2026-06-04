@@ -34,6 +34,13 @@ export function Footer({ language, navigate }: FooterProps) {
             <button
               className="text-link"
               type="button"
+              onClick={() => navigate(makePath(language, "stats", "global"))}
+            >
+              {t.nav.stats}
+            </button>
+            <button
+              className="text-link"
+              type="button"
               onClick={() => navigate(makePath(language, "disclaimer"))}
             >
               {t.nav.disclaimer}

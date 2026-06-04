@@ -30,6 +30,17 @@ export default tseslint.config(
     }
   },
   {
+    files: ["api/**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      globals: {
+        ...globals.node,
+        fetch: "readonly",
+        URL: "readonly"
+      }
+    }
+  },
+  {
     files: ["apps/web/**/*.{ts,tsx}"],
     plugins: {
       "react-hooks": reactHooks,

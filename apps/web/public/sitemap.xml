@@ -43,6 +43,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://sferurek.github.io/PedsCore/es/stats/global</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://sferurek.github.io/PedsCore/en/stats/global</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://sferurek.github.io/PedsCore/es/about</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>

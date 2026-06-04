@@ -26,13 +26,17 @@ assertIncludes(indexHtml, "application/ld+json", "index.html structured data");
 assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/es/tools/apgar", "sitemap.xml");
 assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/en/tools/apgar", "sitemap.xml");
 assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/es/tools/who-growth", "sitemap.xml");
+assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/es/stats/global", "sitemap.xml");
+assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/en/stats/global", "sitemap.xml");
 assertIncludes(robots, "Sitemap: https://sferurek.github.io/PedsCore/sitemap.xml", "robots.txt");
 
 const routeFiles = [
   "es/tools/who-growth/index.html",
   "en/tools/who-growth/index.html",
   "es/tools/index.html",
-  "en/tools/index.html"
+  "en/tools/index.html",
+  "es/stats/global/index.html",
+  "en/stats/global/index.html"
 ];
 
 for (const routeFile of routeFiles) {

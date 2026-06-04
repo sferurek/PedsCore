@@ -8,6 +8,7 @@ import { CategoryPage } from "./routes/CategoryPage";
 import { ContributePage } from "./routes/ContributePage";
 import { DisclaimerPage } from "./routes/DisclaimerPage";
 import { EvidencePage } from "./routes/EvidencePage";
+import { GlobalStatsPage } from "./routes/GlobalStatsPage";
 import { HomePage } from "./routes/HomePage";
 import { NotFoundPage } from "./routes/NotFoundPage";
 import { ToolPage } from "./routes/ToolPage";
@@ -129,6 +130,10 @@ export function App() {
 
     if (route.kind === "evidence") {
       return <EvidencePage language={language} />;
+    }
+
+    if (route.kind === "stats") {
+      return <GlobalStatsPage language={language} />;
     }
 
     if (route.kind === "disclaimer") {

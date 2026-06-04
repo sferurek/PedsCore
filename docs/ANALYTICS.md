@@ -152,6 +152,105 @@ For public reporting, count the event names directly and keep labels aggregate. 
 - `search_used` in the last 7 days.
 - `case_opened` all time.
 
+## Public Global Usage Stats Page
+
+PedsCore includes a public aggregate usage page:
+
+- `/es/stats/global`
+- `/en/stats/global`
+
+The page is privacy-safe by design and reads only from the public endpoint:
+
+```text
+/api/analytics/countries
+```
+
+The browser must never call authenticated Umami APIs directly. Umami credentials must stay in server-side environment variables only.
+
+### Runtime Requirement
+
+The current web app is a static Vite app. GitHub Pages can serve the stats route, but it cannot run `/api/analytics/countries`.
+
+To enable live public stats, deploy the repository to a platform that supports Vercel-style serverless API routes, or adapt the same endpoint logic to the chosen platform.
+
+### Server-side Environment Variables
+
+Configure these only in the serverless runtime:
+
+```bash
+UMAMI_API_URL=https://umami.example.org
+UMAMI_WEBSITE_ID=public-website-id
+UMAMI_API_TOKEN=server-side-api-token
+UMAMI_COUNTRY_MIN_VISITS=5
+UMAMI_STATS_CACHE_SECONDS=3600
+UMAMI_STATS_START_AT=1704067200000
+UMAMI_PUBLIC_STATS_ENABLED=true
+```
+
+Notes:
+
+- `UMAMI_API_TOKEN` must never be exposed as `VITE_*`.
+- `UMAMI_COUNTRY_MIN_VISITS` defaults to `5`.
+- `UMAMI_STATS_CACHE_SECONDS` defaults to `3600` and is capped at `21600`.
+- `UMAMI_STATS_START_AT` is optional and should be a Unix timestamp in milliseconds for the first deployment date.
+- Set `UMAMI_PUBLIC_STATS_ENABLED=false` to disable the serverless endpoint.
+
+### Frontend Configuration
+
+The public page is enabled by default. To hide public stats in a static deployment:
+
+```bash
+VITE_PUBLIC_STATS_ENABLED=false
+```
+
+If the endpoint is hosted somewhere else:
+
+```bash
+VITE_PUBLIC_STATS_ENDPOINT=https://example.org/api/analytics/countries
+```
+
+### Public Endpoint Contract
+
+The endpoint returns only aggregate fields:
+
+```json
+{
+  "status": "ok",
+  "updatedAt": "2026-06-04T12:00:00.000Z",
+  "minimumVisits": 5,
+  "totals": {
+    "visits": 120,
+    "pageviews": 280,
+    "countriesReached": 4,
+    "last7DaysVisits": 25
+  },
+  "countries": [
+    {
+      "countryCode": "ES",
+      "countryName": "Spain",
+      "visits": 80,
+      "pageviews": 160
+    }
+  ]
+}
+```
+
+It must never return:
+
+- IP addresses.
+- User agents.
+- Referrers.
+- Raw events.
+- Session identifiers.
+- User identifiers.
+- Clinical data.
+- Form values.
+- Search text.
+
+### Minimum Threshold
+
+Countries with fewer than `UMAMI_COUNTRY_MIN_VISITS` visits are hidden from the public response. This avoids exposing very small groups.
+
 ## Location Data
 
 If location information is available, it must come from the analytics provider as aggregated statistics. PedsCore must not store IP addresses or derive its own location database.

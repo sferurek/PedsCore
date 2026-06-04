@@ -46,4 +46,24 @@ describe("App", () => {
 
     expect(renderToString(<App />)).toContain("Evidence matrix");
   });
+
+  it("renders the global stats page", () => {
+    vi.stubGlobal("localStorage", {
+      getItem: () => "en",
+      setItem: vi.fn()
+    });
+    vi.stubGlobal("navigator", { language: "en-US" });
+    vi.stubGlobal("window", {
+      location: { pathname: "/PedsCore/en/stats/global" },
+      history: {
+        pushState: vi.fn(),
+        replaceState: vi.fn()
+      },
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      scrollTo: vi.fn()
+    });
+
+    expect(renderToString(<App />)).toContain("Global PedsCore usage");
+  });
 });

@@ -27,6 +27,7 @@ export type RouteKind =
   | "tool"
   | "category"
   | "evidence"
+  | "stats"
   | "about"
   | "disclaimer"
   | "contribute"
@@ -91,6 +92,10 @@ export const parseRoute = (path: string): ParsedRoute => {
 
   if (section === "evidence") {
     return { ...base, kind: "evidence" };
+  }
+
+  if (section === "stats" && value === "global") {
+    return { ...base, kind: "stats" };
   }
 
   if (section === "about") {

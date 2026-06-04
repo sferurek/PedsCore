@@ -51,6 +51,18 @@ const routeSeo: Partial<Record<RouteKind, Record<Language, { title: string; desc
         "PedsCore evidence system documenting sources, validation, licensing and implementation decisions before clinical tools are activated."
     }
   },
+  stats: {
+    es: {
+      title: "Uso global de PedsCore",
+      description:
+        "Estadisticas publicas agregadas de uso de PedsCore por pais, con umbrales de privacidad y sin datos clinicos."
+    },
+    en: {
+      title: "Global PedsCore usage",
+      description:
+        "Public aggregate PedsCore usage statistics by country, with privacy thresholds and no clinical data."
+    }
+  },
   about: {
     es: {
       title: "Acerca de PedsCore",

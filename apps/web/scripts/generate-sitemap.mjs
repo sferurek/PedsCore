@@ -21,6 +21,8 @@ const staticPaths = [
   { path: "/en/tools", priority: "0.9", changefreq: "weekly" },
   { path: "/es/evidence", priority: "0.8", changefreq: "monthly" },
   { path: "/en/evidence", priority: "0.8", changefreq: "monthly" },
+  { path: "/es/stats/global", priority: "0.5", changefreq: "weekly" },
+  { path: "/en/stats/global", priority: "0.5", changefreq: "weekly" },
   { path: "/es/about", priority: "0.6", changefreq: "monthly" },
   { path: "/en/about", priority: "0.6", changefreq: "monthly" },
   { path: "/es/disclaimer", priority: "0.5", changefreq: "monthly" },
