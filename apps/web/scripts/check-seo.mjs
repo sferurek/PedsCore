@@ -21,14 +21,14 @@ const [indexHtml, sitemap, robots] = await Promise.all([
 
 assertIncludes(indexHtml, "PedsCore — Open-source pediatric and neonatal clinical tools", "index.html");
 assertIncludes(indexHtml, "Open-source pediatric and neonatal clinical scores", "index.html");
-assertIncludes(indexHtml, "https://sferurek.github.io/PedsCore/", "index.html canonical/metadata");
+assertIncludes(indexHtml, "https://peds-core.vercel.app/", "index.html canonical/metadata");
 assertIncludes(indexHtml, "application/ld+json", "index.html structured data");
-assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/es/tools/apgar", "sitemap.xml");
-assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/en/tools/apgar", "sitemap.xml");
-assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/es/tools/who-growth", "sitemap.xml");
-assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/es/stats/global", "sitemap.xml");
-assertIncludes(sitemap, "https://sferurek.github.io/PedsCore/en/stats/global", "sitemap.xml");
-assertIncludes(robots, "Sitemap: https://sferurek.github.io/PedsCore/sitemap.xml", "robots.txt");
+assertIncludes(sitemap, "https://peds-core.vercel.app/es/tools/apgar", "sitemap.xml");
+assertIncludes(sitemap, "https://peds-core.vercel.app/en/tools/apgar", "sitemap.xml");
+assertIncludes(sitemap, "https://peds-core.vercel.app/es/tools/who-growth", "sitemap.xml");
+assertIncludes(sitemap, "https://peds-core.vercel.app/es/stats/global", "sitemap.xml");
+assertIncludes(sitemap, "https://peds-core.vercel.app/en/stats/global", "sitemap.xml");
+assertIncludes(robots, "Sitemap: https://peds-core.vercel.app/sitemap.xml", "robots.txt");
 
 const routeFiles = [
   "es/tools/who-growth/index.html",

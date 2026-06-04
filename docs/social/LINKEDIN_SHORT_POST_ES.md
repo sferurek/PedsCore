@@ -10,7 +10,7 @@ Estado actual:
 - WHO Growth con datos OMS 0-5 y parte de 5-19.
 - Gráficas SVG imprimibles y percentiles escritos.
 - Código MIT.
-- Sin backend, sin login y sin almacenamiento de datos clínicos.
+- Producción en Vercel, sin login y sin almacenamiento de datos clínicos.
 
 Es una alpha: no sustituye juicio clínico ni protocolos locales. La prioridad es construir algo abierto, revisable y seguro antes que inflar números.
 
@@ -18,7 +18,7 @@ GitHub:
 https://github.com/sferurek/PedsCore
 
 Web:
-https://sferurek.github.io/PedsCore/
+https://peds-core.vercel.app/
 
 Feedback, issues y estrellas en GitHub son bienvenidos.
 

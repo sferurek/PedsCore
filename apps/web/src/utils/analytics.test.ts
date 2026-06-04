@@ -28,7 +28,7 @@ describe("privacy-first analytics utilities", () => {
 
   it("creates only the allowed aggregate payload fields", () => {
     vi.stubEnv("VITE_ANALYTICS_PROVIDER", "plausible");
-    vi.stubEnv("VITE_ANALYTICS_DOMAIN", "sferurek.github.io");
+    vi.stubEnv("VITE_ANALYTICS_DOMAIN", "peds-core.vercel.app");
     vi.stubEnv("VITE_ANALYTICS_SCRIPT_URL", "https://analytics.example/script.js");
 
     const payload = createAnalyticsPayload(
@@ -88,7 +88,7 @@ describe("privacy-first analytics utilities", () => {
 
   it("does not need cookies or localStorage to track a route", () => {
     vi.stubEnv("VITE_ANALYTICS_PROVIDER", "plausible");
-    vi.stubEnv("VITE_ANALYTICS_DOMAIN", "sferurek.github.io");
+    vi.stubEnv("VITE_ANALYTICS_DOMAIN", "peds-core.vercel.app");
     vi.stubEnv("VITE_ANALYTICS_SCRIPT_URL", "https://analytics.example/script.js");
 
     const plausible = vi.fn();

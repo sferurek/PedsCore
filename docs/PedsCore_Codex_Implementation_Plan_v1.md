@@ -147,14 +147,14 @@ Commit:
 Add core calculation tests
 ```
 
-## Block 7 — GitHub Pages
+## Block 7 — Vercel Production And Legacy Redirect
 
-Create GitHub Actions deploy workflow and Vite base path.
+Create Vercel-compatible build output and keep GitHub Pages as a redirect-only legacy target.
 
 Commit:
 
 ```text
-Configure GitHub Pages deployment
+Configure Vercel deployment and GitHub Pages redirect
 ```
 
 ## Block 8 — Final Review
@@ -167,7 +167,7 @@ Check:
 - scoring table;
 - responsive UI;
 - no toxicology;
-- no backend;
+- no clinical backend beyond aggregate analytics API;
 - no login;
 - no clinical data storage.
 

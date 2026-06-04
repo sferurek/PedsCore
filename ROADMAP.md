@@ -8,7 +8,7 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 - `packages/core` clinical tool contracts, catalog and calculator registry.
 - `apps/web` React + Vite catalog-driven web application.
 - ES/EN routing, language selection and localized UI.
-- GitHub Pages deployment with SPA fallback.
+- Vercel production deployment with SPA fallback and serverless aggregate analytics API.
 - Evidence matrix and evidence documentation under `docs/evidence`.
 - Dynamic forms, result panels, trace output, references and disclaimers.
 - Initial validated calculators and scores.
@@ -16,7 +16,8 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 - WHO Growth module with official WHO 0-5 indicators, partial WHO 5-19
   BMI-for-age/height-for-age, guided age input and printable SVG charts.
 - Visible validation status for implemented, pending, catalog-only and license-sensitive tools.
-- No backend, login, analytics or clinical data storage.
+- No login or clinical data storage.
+- Aggregate analytics API only; no clinical values are collected.
 
 ## Current Alpha Release
 
@@ -27,7 +28,8 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 - 1 partially implemented module: WHO Growth.
 - SPRINT-50 implementation audit completed with no unsafe promotions; see
   `docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md`.
-- Public GitHub Pages site: https://sferurek.github.io/PedsCore/
+- Production app: https://peds-core.vercel.app/
+- Legacy GitHub Pages URL redirects to Vercel.
 - MIT-licensed code.
 - Evidence-first release documentation: [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
 
@@ -73,7 +75,7 @@ This roadmap tracks the public alpha path for PedsCore. Dates are intentionally 
 ## Out Of Scope For Current Alpha
 
 - Toxicology.
-- Backend.
+- Backend beyond the existing aggregate analytics API.
 - Login.
 - Supabase.
 - Analytics.

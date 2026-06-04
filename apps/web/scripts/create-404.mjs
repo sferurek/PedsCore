@@ -12,4 +12,4 @@ if (!existsSync(indexPath)) {
 }
 
 copyFileSync(indexPath, notFoundPath);
-console.log("Created apps/web/dist/404.html for GitHub Pages SPA fallback.");
+console.log("Created apps/web/dist/404.html for static host SPA fallback.");

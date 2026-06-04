@@ -1,6 +1,6 @@
 # Security Policy
 
-PedsCore is a static public-alpha web app and TypeScript library. It currently has no backend, no login system and no clinical data storage.
+PedsCore is a public-alpha web app and TypeScript library. It currently has no login system and no clinical data storage. The Vercel deployment includes a serverless endpoint for aggregate analytics only.
 
 Do not submit patient-identifiable information or real clinical cases in issues, pull requests, screenshots, examples or tests.
 
@@ -15,7 +15,8 @@ Do not publish exploit details publicly before maintainers have had a reasonable
 ## Data Handling
 
 - PedsCore should not receive patient-identifiable data.
-- The current app has no backend.
+- The current app has no clinical backend.
+- `/api/analytics/countries` returns aggregate public usage stats only.
 - The current app has no account system.
 - The current app does not store clinical form values.
 - Clinical form values and calculation results must not be sent to analytics.
@@ -31,7 +32,7 @@ Do not publish exploit details publicly before maintainers have had a reasonable
 Security reports may include:
 
 - Dependency vulnerabilities.
-- GitHub Pages deployment issues.
+- Vercel or legacy GitHub Pages redirect deployment issues.
 - Unsafe data handling.
 - Accidental exposure of secrets.
 - Cross-site scripting or client-side injection risks.

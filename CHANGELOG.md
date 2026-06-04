@@ -10,14 +10,14 @@ Initial public alpha release.
 - 18 tools fully implemented with active calculation or informational rule output.
 - 1 partially implemented module: WHO Growth.
 - Bilingual ES/EN web application.
-- GitHub Pages deployment configured and active.
+- Vercel production deployment configured and active.
 - Evidence-first references and validation status model.
 - Dynamic forms for implemented tools.
 - WHO Growth module with official WHO 0-5 indicators, partial WHO 5-19 support,
   printable SVG charts, written percentile labels and guided age input.
 - Pediatric head trauma rules hardened as informational-only outputs.
 - Visible validation status for implemented, pending, catalog-only and license-sensitive tools.
-- No backend.
+- Serverless aggregate analytics API only; no clinical backend.
 - No clinical data storage.
 - MIT license for code.
 

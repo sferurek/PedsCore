@@ -3,7 +3,7 @@
 **Open-source pediatric and neonatal clinical tools with evidence traceability.**
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![GitHub Pages](https://img.shields.io/badge/web-GitHub%20Pages-blue.svg)](https://sferurek.github.io/PedsCore/)
+[![Production](https://img.shields.io/badge/web-Vercel-blue.svg)](https://peds-core.vercel.app/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6.svg)](https://www.typescriptlang.org/)
 [![CI](https://github.com/sferurek/PedsCore/actions/workflows/ci.yml/badge.svg)](https://github.com/sferurek/PedsCore/actions/workflows/ci.yml)
 [![Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](docs/releases/v0.1.0-alpha.md)
@@ -13,15 +13,15 @@ PedsCore is a public-alpha, open-source library of pediatric and neonatal clinic
 
 Public web app:
 
-https://sferurek.github.io/PedsCore/
+https://peds-core.vercel.app/
 
 ## Current Alpha Status
 
 - 79 cataloged pediatric and neonatal tools.
 - 18 fully implemented tools with active calculation or informational rule output.
 - 1 partially implemented module: WHO Growth.
-- Static ES/EN web app deployed on GitHub Pages.
-- No backend.
+- ES/EN web app deployed on Vercel.
+- Serverless aggregate analytics API at `/api/analytics/countries`.
 - No login.
 - No clinical data storage.
 - No clinical form values or calculation results are sent to analytics.

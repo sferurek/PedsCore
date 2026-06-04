@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Deploy GitHub Pages Redirect
 
 on:
   push:
@@ -37,16 +37,13 @@ jobs:
       - name: Test
         run: npm run test
 
-      - name: Build
-        run: npm run build
-
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/web/dist
+          path: github-pages-redirect
 
   deploy:
     needs: build

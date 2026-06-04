@@ -12,7 +12,7 @@ const distRoot = resolve(webRoot, "dist");
 const distTemplate = await readFile(distIndexPath, "utf8");
 const sitemap = await readFile(publicSitemapPath, "utf8");
 
-const baseUrl = "https://sferurek.github.io/PedsCore";
+const baseUrl = "https://peds-core.vercel.app";
 const urlEntries = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
   .map((match) => match[1])
   .filter((loc) => loc.startsWith(baseUrl));
@@ -21,11 +21,11 @@ const routes = new Set(
   urlEntries
     .map((loc) => {
       const path = new URL(loc).pathname;
-      if (!path.startsWith("/PedsCore")) {
+      if (!path.startsWith("/")) {
         return null;
       }
 
-      const normalized = path.replace(/^\/PedsCore\/?/, "").replace(/\/+$/, "");
+      const normalized = path.replace(/^\/+/, "").replace(/\/+$/, "");
       return normalized || "index";
     })
     .filter(Boolean)

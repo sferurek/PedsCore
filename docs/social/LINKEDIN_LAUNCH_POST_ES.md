@@ -13,7 +13,7 @@ Estado actual de la alpha:
 - Gráficas SVG imprimibles, percentiles escritos y punto del paciente.
 - Código MIT.
 - Datos OMS bajo licencia separada.
-- Sin backend.
+- Producción en Vercel con API serverless para estadísticas agregadas.
 - Sin login.
 - Sin almacenamiento de datos clínicos.
 
@@ -25,7 +25,7 @@ GitHub:
 https://github.com/sferurek/PedsCore
 
 Web:
-https://sferurek.github.io/PedsCore/
+https://peds-core.vercel.app/
 
 Si te parece útil, una estrella en GitHub ayuda mucho a darle visibilidad. También puedes abrir issues con feedback, errores, propuestas de evidencia o mejoras de UX.
 

@@ -4,7 +4,7 @@ PedsCore v0.1.0-alpha is the first public alpha release of PedsCore: an open-sou
 
 Public web app:
 
-https://sferurek.github.io/PedsCore/
+https://peds-core.vercel.app/
 
 Repository:
 
@@ -20,8 +20,8 @@ https://github.com/sferurek/PedsCore
 - Written percentile labels: P3, P15, P50, P85 and P97.
 - Visible patient point on WHO Growth charts.
 - Evidence traceability, visible references and implementation status across the catalog.
-- Static GitHub Pages web app.
-- No backend.
+- Vercel production web app.
+- Serverless aggregate analytics API at `/api/analytics/countries`.
 - No login.
 - No clinical data storage.
 - No clinical form values or calculation results are sent to analytics.
@@ -56,7 +56,7 @@ The module remains partial while final maintainer review, interpolation policy a
 - Pending tools remain blocked until source, table/formula, exact variant, tests, safe wording and licensing gates are satisfied.
 - WHO Growth does not provide nutritional diagnoses or treatment recommendations.
 - No toxicology tools are included in this phase.
-- No backend, login, account system or clinical data persistence exists.
+- No login, account system or clinical data persistence exists.
 
 ## Safety Disclaimer
 
@@ -79,7 +79,7 @@ Links:
 - Repository: https://github.com/sferurek/PedsCore
 - Issues: https://github.com/sferurek/PedsCore/issues/new/choose
 - Contributing guide: https://github.com/sferurek/PedsCore/blob/main/CONTRIBUTING.md
-- Public web app: https://sferurek.github.io/PedsCore/
+- Public web app: https://peds-core.vercel.app/
 
 ## License
 

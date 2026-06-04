@@ -253,6 +253,6 @@ Phase 1 is acceptable when:
 5. Tool pages exist.
 6. Each tool page has disclaimer, form, result, interpretation table, variable table, references and GitHub feedback.
 7. No toxicology is included.
-8. No backend/login/data storage exists.
+8. No login, clinical backend or clinical data storage exists.
 9. No direct therapeutic instructions are generated.
 10. Core calculation logic is separated from UI.

@@ -1,6 +1,12 @@
 # Vercel Deployment with Umami Analytics
 
-This guide prepares PedsCore for a Vercel deployment with Umami enabled through environment variables.
+This guide documents the preferred PedsCore production deployment on Vercel with Umami enabled through environment variables.
+
+Production app:
+
+```text
+https://peds-core.vercel.app
+```
 
 ## Runtime Model
 
@@ -10,7 +16,7 @@ PedsCore is a TypeScript/Vite static web app with one Vercel-compatible serverle
 - Serverless endpoint: `/api/analytics/countries`
 - Public stats routes: `/es/stats/global` and `/en/stats/global`
 
-GitHub Pages can serve the static app and the static stats routes, but it cannot execute `/api/analytics/countries`. Use Vercel or another serverless platform for live public country stats.
+Vercel is the preferred public app because it serves both the static web app and `/api/analytics/countries`. GitHub Pages is legacy/deprecated and should only redirect visitors to Vercel; it cannot execute `/api/analytics/countries`.
 
 ## Import into Vercel
 
@@ -28,6 +34,7 @@ The repository includes `vercel.json` with:
 - `buildCommand`: `npm run build`
 - `outputDirectory`: `apps/web/dist`
 - `/api/analytics/countries` routed to the serverless function
+- `/assets/*` excluded from the SPA fallback
 - non-API routes rewritten to `/index.html` for SPA routing
 
 ## Frontend Environment Variables
@@ -111,7 +118,7 @@ http://localhost:3000/en/stats/global
 After configuring Umami env vars in Vercel, verify:
 
 ```bash
-curl -s https://<your-vercel-domain>/api/analytics/countries
+curl -s https://peds-core.vercel.app/api/analytics/countries
 ```
 
 The response must contain only aggregate fields:

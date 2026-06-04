@@ -6,7 +6,7 @@ Open-source pediatric and neonatal clinical tools with evidence traceability.
 
 ## Website URL
 
-https://sferurek.github.io/PedsCore/
+https://peds-core.vercel.app/
 
 ## Recommended Topics
 

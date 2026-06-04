@@ -16,7 +16,7 @@ Prepared launch assets:
 - Set repository description:
   `Open-source pediatric and neonatal clinical tools with evidence traceability.`
 - Set website:
-  `https://sferurek.github.io/PedsCore/`
+  `https://peds-core.vercel.app/`
 - Add topics:
   - pediatrics
   - neonatology
@@ -48,22 +48,22 @@ Prepared launch assets:
 - Create GitHub Release manually from that tag.
 - Paste release summary from `docs/releases/GITHUB_RELEASE_v0.1.0-alpha.md`.
 - Link the public web app:
-  `https://sferurek.github.io/PedsCore/`
+  `https://peds-core.vercel.app/`
 - Do not attach patient data, clinical screenshots or proprietary source material.
 
 ## 3. Google Search Console
 
 - Submit sitemap:
-  `https://sferurek.github.io/PedsCore/sitemap.xml`
+  `https://peds-core.vercel.app/sitemap.xml`
 - Request indexing for home:
-  `https://sferurek.github.io/PedsCore/`
+  `https://peds-core.vercel.app/`
 - Request indexing for WHO Growth:
-  `https://sferurek.github.io/PedsCore/en/tools/who-growth`
-  `https://sferurek.github.io/PedsCore/es/tools/who-growth`
+  `https://peds-core.vercel.app/en/tools/who-growth`
+  `https://peds-core.vercel.app/es/tools/who-growth`
 - Request indexing for GitHub repository:
   `https://github.com/sferurek/PedsCore`
 - Verify robots file:
-  `https://sferurek.github.io/PedsCore/robots.txt`
+  `https://peds-core.vercel.app/robots.txt`
 
 ## 4. LinkedIn
 
@@ -72,7 +72,7 @@ Prepared launch assets:
 - Include GitHub repository link:
   `https://github.com/sferurek/PedsCore`
 - Include public web app link:
-  `https://sferurek.github.io/PedsCore/`
+  `https://peds-core.vercel.app/`
 - Mention alpha status, 79 cataloged tools, 18 fully implemented tools and 1 partially implemented WHO Growth module.
 - Mention no clinical data storage.
 - Use `docs/social/SCREENSHOT_CHECKLIST.md` before sharing screenshots.

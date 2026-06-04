@@ -8,10 +8,10 @@ Public alpha:
 - 18 fully implemented tools.
 - 1 partially implemented WHO Growth module.
 - MIT source code.
-- Static GitHub Pages web app.
+- Vercel production web app with aggregate public stats API.
 
 Repository:
 https://github.com/sferurek/PedsCore
 
 Web app:
-https://sferurek.github.io/PedsCore/
+https://peds-core.vercel.app/

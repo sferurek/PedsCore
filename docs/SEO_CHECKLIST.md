@@ -10,7 +10,7 @@ This checklist contains manual, non-spam actions to help Google, GitHub and soci
 
 2. Add website:
 
-   `https://sferurek.github.io/PedsCore/`
+   `https://peds-core.vercel.app/`
 
 3. Add topics:
 
@@ -38,22 +38,22 @@ This checklist contains manual, non-spam actions to help Google, GitHub and soci
 
 1. Submit sitemap in Google Search Console:
 
-   `https://sferurek.github.io/PedsCore/sitemap.xml`
+   `https://peds-core.vercel.app/sitemap.xml`
 
 2. Request indexing for:
 
-   - `https://sferurek.github.io/PedsCore/`
+   - `https://peds-core.vercel.app/`
    - `https://github.com/sferurek/PedsCore`
 
 3. After deployment, verify:
 
-   - `https://sferurek.github.io/PedsCore/robots.txt`
-   - `https://sferurek.github.io/PedsCore/sitemap.xml`
+   - `https://peds-core.vercel.app/robots.txt`
+   - `https://peds-core.vercel.app/sitemap.xml`
 
 4. After the WHO Growth release refresh, request re-indexing for:
 
-   - `https://sferurek.github.io/PedsCore/es/tools/who-growth`
-   - `https://sferurek.github.io/PedsCore/en/tools/who-growth`
+   - `https://peds-core.vercel.app/es/tools/who-growth`
+   - `https://peds-core.vercel.app/en/tools/who-growth`
 
 ## Public announcement
 

@@ -9,7 +9,7 @@ describe("public launch repository documentation", () => {
   it("keeps README launch facts and safe wording", () => {
     const readme = read("README.md");
 
-    expect(readme).toContain("https://sferurek.github.io/PedsCore/");
+    expect(readme).toContain("https://peds-core.vercel.app/");
     expect(readme).toContain("18 fully implemented");
     expect(readme).toContain("1 partially implemented module: WHO Growth");
     expect(readme).toContain("No clinical data storage");
@@ -35,7 +35,7 @@ describe("public launch repository documentation", () => {
     expect(existsSync(join(root, "docs/PUBLIC_LAUNCH_CHECKLIST.md"))).toBe(true);
 
     expect(read("CONTRIBUTING.md")).toContain("Implementation Gates");
-    expect(read("SECURITY.md")).toContain("no backend");
+    expect(read("SECURITY.md")).toContain("no clinical backend");
     expect(read("SECURITY.md")).not.toContain("security@");
     expect(read("SECURITY.md")).not.toContain(".example");
   });

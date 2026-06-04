@@ -43,7 +43,7 @@ VITE_UMAMI_WEBSITE_ID=public-website-id
 VITE_CLOUDFLARE_TOKEN=public-cloudflare-web-analytics-token
 ```
 
-Do not commit private credentials. These variables are public build-time configuration for a static GitHub Pages site.
+Do not commit private credentials. These variables are public build-time configuration for the Vercel-hosted web app.
 
 ## Data That May Be Collected
 
@@ -169,9 +169,13 @@ The browser must never call authenticated Umami APIs directly. Umami credentials
 
 ### Runtime Requirement
 
-The current web app is a static Vite app. GitHub Pages can serve the stats route, but it cannot run `/api/analytics/countries`.
+The current production app is hosted on Vercel:
 
-To enable live public stats, deploy the repository to a platform that supports Vercel-style serverless API routes, or adapt the same endpoint logic to the chosen platform.
+```text
+https://peds-core.vercel.app
+```
+
+Vercel serves both the static app and `/api/analytics/countries`. GitHub Pages is legacy/deprecated and can redirect visitors to Vercel, but it cannot run the serverless endpoint.
 
 For Vercel deployment steps and environment variable setup, see `docs/DEPLOYMENT_VERCEL.md`.
 
@@ -195,7 +199,7 @@ Notes:
 - `UMAMI_COUNTRY_CACHE_SECONDS` defaults to `3600` and is capped at `21600`.
 - Set `UMAMI_PUBLIC_STATS_ENABLED=false` to disable the serverless endpoint.
 - The Vercel-compatible endpoint lives at `/api/analytics/countries`.
-- GitHub Pages can serve `/es/stats/global` and `/en/stats/global`, but cannot run `/api/analytics/countries`.
+- GitHub Pages is legacy/deprecated and cannot run `/api/analytics/countries`.
 
 ### Frontend Configuration
 
@@ -262,8 +266,8 @@ PedsCore may record only the UI language used on the route, aggregated by the pr
 ## Limitations
 
 - This scaffold does not include an internal dashboard.
-- This scaffold does not create a backend, database or endpoint.
-- GitHub Pages remains a static deployment.
+- This scaffold does not create a clinical backend or database.
+- GitHub Pages remains a legacy static redirect deployment.
 - Provider privacy settings must be reviewed before enabling analytics publicly.
 
 ## Future Dashboard Policy

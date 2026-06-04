@@ -1,1039 +1,1039 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sferurek.github.io/PedsCore/</loc>
+    <loc>https://peds-core.vercel.app/</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es</loc>
+    <loc>https://peds-core.vercel.app/es</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en</loc>
+    <loc>https://peds-core.vercel.app/en</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools</loc>
+    <loc>https://peds-core.vercel.app/es/tools</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools</loc>
+    <loc>https://peds-core.vercel.app/en/tools</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/evidence</loc>
+    <loc>https://peds-core.vercel.app/es/evidence</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/evidence</loc>
+    <loc>https://peds-core.vercel.app/en/evidence</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/stats/global</loc>
+    <loc>https://peds-core.vercel.app/es/stats/global</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/stats/global</loc>
+    <loc>https://peds-core.vercel.app/en/stats/global</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/about</loc>
+    <loc>https://peds-core.vercel.app/es/about</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/about</loc>
+    <loc>https://peds-core.vercel.app/en/about</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/disclaimer</loc>
+    <loc>https://peds-core.vercel.app/es/disclaimer</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/disclaimer</loc>
+    <loc>https://peds-core.vercel.app/en/disclaimer</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/contribute</loc>
+    <loc>https://peds-core.vercel.app/es/contribute</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/contribute</loc>
+    <loc>https://peds-core.vercel.app/en/contribute</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/apgar</loc>
+    <loc>https://peds-core.vercel.app/es/tools/apgar</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/apgar</loc>
+    <loc>https://peds-core.vercel.app/en/tools/apgar</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/combined-apgar</loc>
+    <loc>https://peds-core.vercel.app/es/tools/combined-apgar</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/combined-apgar</loc>
+    <loc>https://peds-core.vercel.app/en/tools/combined-apgar</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/silverman-andersen</loc>
+    <loc>https://peds-core.vercel.app/es/tools/silverman-andersen</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/silverman-andersen</loc>
+    <loc>https://peds-core.vercel.app/en/tools/silverman-andersen</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/wood-downes-ferres</loc>
+    <loc>https://peds-core.vercel.app/es/tools/wood-downes-ferres</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/wood-downes-ferres</loc>
+    <loc>https://peds-core.vercel.app/en/tools/wood-downes-ferres</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/ballard</loc>
+    <loc>https://peds-core.vercel.app/es/tools/ballard</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/ballard</loc>
+    <loc>https://peds-core.vercel.app/en/tools/ballard</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/dubowitz</loc>
+    <loc>https://peds-core.vercel.app/es/tools/dubowitz</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/dubowitz</loc>
+    <loc>https://peds-core.vercel.app/en/tools/dubowitz</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/sarnat</loc>
+    <loc>https://peds-core.vercel.app/es/tools/sarnat</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/sarnat</loc>
+    <loc>https://peds-core.vercel.app/en/tools/sarnat</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/thompson-hie-score</loc>
+    <loc>https://peds-core.vercel.app/es/tools/thompson-hie-score</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/thompson-hie-score</loc>
+    <loc>https://peds-core.vercel.app/en/tools/thompson-hie-score</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/modified-finnegan</loc>
+    <loc>https://peds-core.vercel.app/es/tools/modified-finnegan</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/modified-finnegan</loc>
+    <loc>https://peds-core.vercel.app/en/tools/modified-finnegan</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/eat-sleep-console</loc>
+    <loc>https://peds-core.vercel.app/es/tools/eat-sleep-console</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/eat-sleep-console</loc>
+    <loc>https://peds-core.vercel.app/en/tools/eat-sleep-console</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/nips</loc>
+    <loc>https://peds-core.vercel.app/es/tools/nips</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/nips</loc>
+    <loc>https://peds-core.vercel.app/en/tools/nips</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pipp</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pipp</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pipp</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pipp</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pipp-r</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pipp-r</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pipp-r</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pipp-r</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/cries</loc>
+    <loc>https://peds-core.vercel.app/es/tools/cries</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/cries</loc>
+    <loc>https://peds-core.vercel.app/en/tools/cries</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/comfortneo</loc>
+    <loc>https://peds-core.vercel.app/es/tools/comfortneo</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/comfortneo</loc>
+    <loc>https://peds-core.vercel.app/en/tools/comfortneo</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/bhutani-nomogram</loc>
+    <loc>https://peds-core.vercel.app/es/tools/bhutani-nomogram</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/bhutani-nomogram</loc>
+    <loc>https://peds-core.vercel.app/en/tools/bhutani-nomogram</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/neonatal-growth-fenton</loc>
+    <loc>https://peds-core.vercel.app/es/tools/neonatal-growth-fenton</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/neonatal-growth-fenton</loc>
+    <loc>https://peds-core.vercel.app/en/tools/neonatal-growth-fenton</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pews</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pews</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pews</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pews</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/brighton-pews</loc>
+    <loc>https://peds-core.vercel.app/es/tools/brighton-pews</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/brighton-pews</loc>
+    <loc>https://peds-core.vercel.app/en/tools/brighton-pews</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/bedside-pews</loc>
+    <loc>https://peds-core.vercel.app/es/tools/bedside-pews</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/bedside-pews</loc>
+    <loc>https://peds-core.vercel.app/en/tools/bedside-pews</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/westley-croup-score</loc>
+    <loc>https://peds-core.vercel.app/es/tools/westley-croup-score</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/westley-croup-score</loc>
+    <loc>https://peds-core.vercel.app/en/tools/westley-croup-score</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pram</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pram</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pram</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pram</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/rdai</loc>
+    <loc>https://peds-core.vercel.app/es/tools/rdai</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/rdai</loc>
+    <loc>https://peds-core.vercel.app/en/tools/rdai</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/brosjod</loc>
+    <loc>https://peds-core.vercel.app/es/tools/brosjod</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/brosjod</loc>
+    <loc>https://peds-core.vercel.app/en/tools/brosjod</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pass</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pass</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pass</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pass</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/risc</loc>
+    <loc>https://peds-core.vercel.app/es/tools/risc</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/risc</loc>
+    <loc>https://peds-core.vercel.app/en/tools/risc</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/mrisc</loc>
+    <loc>https://peds-core.vercel.app/es/tools/mrisc</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/mrisc</loc>
+    <loc>https://peds-core.vercel.app/en/tools/mrisc</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pediatric-glasgow-coma-scale</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pediatric-glasgow-coma-scale</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pediatric-glasgow-coma-scale</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pediatric-glasgow-coma-scale</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/benes</loc>
+    <loc>https://peds-core.vercel.app/es/tools/benes</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/benes</loc>
+    <loc>https://peds-core.vercel.app/en/tools/benes</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/glasgow-adapted</loc>
+    <loc>https://peds-core.vercel.app/es/tools/glasgow-adapted</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/glasgow-adapted</loc>
+    <loc>https://peds-core.vercel.app/en/tools/glasgow-adapted</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/clinical-dehydration-scale</loc>
+    <loc>https://peds-core.vercel.app/es/tools/clinical-dehydration-scale</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/clinical-dehydration-scale</loc>
+    <loc>https://peds-core.vercel.app/en/tools/clinical-dehydration-scale</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/gorelick-dehydration</loc>
+    <loc>https://peds-core.vercel.app/es/tools/gorelick-dehydration</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/gorelick-dehydration</loc>
+    <loc>https://peds-core.vercel.app/en/tools/gorelick-dehydration</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pecarn-tbi-under-2</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pecarn-tbi-under-2</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pecarn-tbi-under-2</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pecarn-tbi-under-2</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pecarn-tbi-2-or-more</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pecarn-tbi-2-or-more</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pecarn-tbi-2-or-more</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pecarn-tbi-2-or-more</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/catch-tbi</loc>
+    <loc>https://peds-core.vercel.app/es/tools/catch-tbi</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/catch-tbi</loc>
+    <loc>https://peds-core.vercel.app/en/tools/catch-tbi</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/chalice-tbi</loc>
+    <loc>https://peds-core.vercel.app/es/tools/chalice-tbi</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/chalice-tbi</loc>
+    <loc>https://peds-core.vercel.app/en/tools/chalice-tbi</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/sipa</loc>
+    <loc>https://peds-core.vercel.app/es/tools/sipa</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/sipa</loc>
+    <loc>https://peds-core.vercel.app/en/tools/sipa</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/regional-sepsis-scores</loc>
+    <loc>https://peds-core.vercel.app/es/tools/regional-sepsis-scores</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/regional-sepsis-scores</loc>
+    <loc>https://peds-core.vercel.app/en/tools/regional-sepsis-scores</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/qtc-bazett</loc>
+    <loc>https://peds-core.vercel.app/es/tools/qtc-bazett</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/qtc-bazett</loc>
+    <loc>https://peds-core.vercel.app/en/tools/qtc-bazett</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/qtc-fridericia</loc>
+    <loc>https://peds-core.vercel.app/es/tools/qtc-fridericia</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/qtc-fridericia</loc>
+    <loc>https://peds-core.vercel.app/en/tools/qtc-fridericia</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/qtc-framingham</loc>
+    <loc>https://peds-core.vercel.app/es/tools/qtc-framingham</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/qtc-framingham</loc>
+    <loc>https://peds-core.vercel.app/en/tools/qtc-framingham</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/qtc-hodges</loc>
+    <loc>https://peds-core.vercel.app/es/tools/qtc-hodges</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/qtc-hodges</loc>
+    <loc>https://peds-core.vercel.app/en/tools/qtc-hodges</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/bedside-schwartz</loc>
+    <loc>https://peds-core.vercel.app/es/tools/bedside-schwartz</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/bedside-schwartz</loc>
+    <loc>https://peds-core.vercel.app/en/tools/bedside-schwartz</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/revised-schwartz</loc>
+    <loc>https://peds-core.vercel.app/es/tools/revised-schwartz</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/revised-schwartz</loc>
+    <loc>https://peds-core.vercel.app/en/tools/revised-schwartz</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/prifle</loc>
+    <loc>https://peds-core.vercel.app/es/tools/prifle</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/prifle</loc>
+    <loc>https://peds-core.vercel.app/en/tools/prifle</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/kdigo-pediatric</loc>
+    <loc>https://peds-core.vercel.app/es/tools/kdigo-pediatric</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/kdigo-pediatric</loc>
+    <loc>https://peds-core.vercel.app/en/tools/kdigo-pediatric</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/psofa</loc>
+    <loc>https://peds-core.vercel.app/es/tools/psofa</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/psofa</loc>
+    <loc>https://peds-core.vercel.app/en/tools/psofa</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pelod</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pelod</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pelod</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pelod</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pelod-2</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pelod-2</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pelod-2</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pelod-2</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/prism-iii</loc>
+    <loc>https://peds-core.vercel.app/es/tools/prism-iii</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/prism-iii</loc>
+    <loc>https://peds-core.vercel.app/en/tools/prism-iii</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/prism-iv</loc>
+    <loc>https://peds-core.vercel.app/es/tools/prism-iv</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/prism-iv</loc>
+    <loc>https://peds-core.vercel.app/en/tools/prism-iv</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pim2</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pim2</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pim2</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pim2</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pim3</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pim3</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pim3</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pim3</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/who-growth</loc>
+    <loc>https://peds-core.vercel.app/es/tools/who-growth</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/who-growth</loc>
+    <loc>https://peds-core.vercel.app/en/tools/who-growth</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/who-growth-percentiles</loc>
+    <loc>https://peds-core.vercel.app/es/tools/who-growth-percentiles</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/who-growth-percentiles</loc>
+    <loc>https://peds-core.vercel.app/en/tools/who-growth-percentiles</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/cdc-growth-percentiles</loc>
+    <loc>https://peds-core.vercel.app/es/tools/cdc-growth-percentiles</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/cdc-growth-percentiles</loc>
+    <loc>https://peds-core.vercel.app/en/tools/cdc-growth-percentiles</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/orbegozo-growth-percentiles</loc>
+    <loc>https://peds-core.vercel.app/es/tools/orbegozo-growth-percentiles</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/orbegozo-growth-percentiles</loc>
+    <loc>https://peds-core.vercel.app/en/tools/orbegozo-growth-percentiles</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/bmi-percentile</loc>
+    <loc>https://peds-core.vercel.app/es/tools/bmi-percentile</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/bmi-percentile</loc>
+    <loc>https://peds-core.vercel.app/en/tools/bmi-percentile</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/head-circumference-percentile</loc>
+    <loc>https://peds-core.vercel.app/es/tools/head-circumference-percentile</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/head-circumference-percentile</loc>
+    <loc>https://peds-core.vercel.app/en/tools/head-circumference-percentile</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/stamp</loc>
+    <loc>https://peds-core.vercel.app/es/tools/stamp</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/stamp</loc>
+    <loc>https://peds-core.vercel.app/en/tools/stamp</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/strongkids</loc>
+    <loc>https://peds-core.vercel.app/es/tools/strongkids</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/strongkids</loc>
+    <loc>https://peds-core.vercel.app/en/tools/strongkids</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pyms</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pyms</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pyms</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pyms</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/flacc</loc>
+    <loc>https://peds-core.vercel.app/es/tools/flacc</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/flacc</loc>
+    <loc>https://peds-core.vercel.app/en/tools/flacc</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/rflacc</loc>
+    <loc>https://peds-core.vercel.app/es/tools/rflacc</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/rflacc</loc>
+    <loc>https://peds-core.vercel.app/en/tools/rflacc</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/cheops</loc>
+    <loc>https://peds-core.vercel.app/es/tools/cheops</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/cheops</loc>
+    <loc>https://peds-core.vercel.app/en/tools/cheops</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/wong-baker-faces</loc>
+    <loc>https://peds-core.vercel.app/es/tools/wong-baker-faces</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/wong-baker-faces</loc>
+    <loc>https://peds-core.vercel.app/en/tools/wong-baker-faces</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/visual-analogue-scale</loc>
+    <loc>https://peds-core.vercel.app/es/tools/visual-analogue-scale</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/visual-analogue-scale</loc>
+    <loc>https://peds-core.vercel.app/en/tools/visual-analogue-scale</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pediatric-cpr</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pediatric-cpr</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pediatric-cpr</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pediatric-cpr</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/neonatal-cpr</loc>
+    <loc>https://peds-core.vercel.app/es/tools/neonatal-cpr</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/neonatal-cpr</loc>
+    <loc>https://peds-core.vercel.app/en/tools/neonatal-cpr</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pediatric-bradycardia</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pediatric-bradycardia</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pediatric-bradycardia</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pediatric-bradycardia</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/pediatric-tachycardia</loc>
+    <loc>https://peds-core.vercel.app/es/tools/pediatric-tachycardia</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/pediatric-tachycardia</loc>
+    <loc>https://peds-core.vercel.app/en/tools/pediatric-tachycardia</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/shockable-rhythm-algorithm</loc>
+    <loc>https://peds-core.vercel.app/es/tools/shockable-rhythm-algorithm</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/shockable-rhythm-algorithm</loc>
+    <loc>https://peds-core.vercel.app/en/tools/shockable-rhythm-algorithm</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/non-shockable-rhythm-algorithm</loc>
+    <loc>https://peds-core.vercel.app/es/tools/non-shockable-rhythm-algorithm</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/non-shockable-rhythm-algorithm</loc>
+    <loc>https://peds-core.vercel.app/en/tools/non-shockable-rhythm-algorithm</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/resuscitation-weight-dose-energy</loc>
+    <loc>https://peds-core.vercel.app/es/tools/resuscitation-weight-dose-energy</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/resuscitation-weight-dose-energy</loc>
+    <loc>https://peds-core.vercel.app/en/tools/resuscitation-weight-dose-energy</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/bayley</loc>
+    <loc>https://peds-core.vercel.app/es/tools/bayley</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/bayley</loc>
+    <loc>https://peds-core.vercel.app/en/tools/bayley</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/denver-ii</loc>
+    <loc>https://peds-core.vercel.app/es/tools/denver-ii</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/denver-ii</loc>
+    <loc>https://peds-core.vercel.app/en/tools/denver-ii</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/mass-casualty-triage</loc>
+    <loc>https://peds-core.vercel.app/es/tools/mass-casualty-triage</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/mass-casualty-triage</loc>
+    <loc>https://peds-core.vercel.app/en/tools/mass-casualty-triage</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/adolescent-depression-risk</loc>
+    <loc>https://peds-core.vercel.app/es/tools/adolescent-depression-risk</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/adolescent-depression-risk</loc>
+    <loc>https://peds-core.vercel.app/en/tools/adolescent-depression-risk</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/es/tools/adolescent-behavior-risk</loc>
+    <loc>https://peds-core.vercel.app/es/tools/adolescent-behavior-risk</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://sferurek.github.io/PedsCore/en/tools/adolescent-behavior-risk</loc>
+    <loc>https://peds-core.vercel.app/en/tools/adolescent-behavior-risk</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

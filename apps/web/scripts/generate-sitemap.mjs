@@ -7,7 +7,7 @@ const repoRoot = resolve(__dirname, "../../..");
 const coreDist = resolve(repoRoot, "packages/core/dist/index.js");
 const publicDir = resolve(repoRoot, "apps/web/public");
 const sitemapPath = resolve(publicDir, "sitemap.xml");
-const baseUrl = "https://sferurek.github.io/PedsCore";
+const baseUrl = "https://peds-core.vercel.app";
 
 const { getAllTools } = await import(pathToFileURL(coreDist).href);
 

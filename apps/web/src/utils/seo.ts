@@ -4,7 +4,7 @@ import type { Language } from "./language";
 import type { ParsedRoute, RouteKind } from "./routes";
 import { toBrowserPath } from "./routes";
 
-const siteUrl = "https://sferurek.github.io/PedsCore";
+const siteUrl = "https://peds-core.vercel.app";
 
 interface SeoMetadata {
   title: string;

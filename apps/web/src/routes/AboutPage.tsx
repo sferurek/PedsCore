@@ -19,10 +19,9 @@ export function AboutPage({ language }: AboutPageProps) {
         </article>
         <article>
           <h2>Web</h2>
-          <p>Static, bilingual catalog interface prepared for GitHub Pages.</p>
+          <p>Bilingual catalog interface deployed on Vercel.</p>
         </article>
       </div>
     </section>
   );
 }
-
