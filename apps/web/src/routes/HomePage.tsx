@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { getAllTools } from "@peds-core/core";
 import type { ToolCategory } from "@peds-core/core";
 import { categoryLabels, translations } from "../i18n/translations";
@@ -44,7 +44,7 @@ const categoryDetails: Record<
       es: "Percentiles, crecimiento OMS y cribado nutricional.",
       en: "Percentiles, WHO growth and nutrition screening."
     },
-    examples: ["WHO Growth", "BMI-for-age", "Weight/height", "STRONGkids"]
+    examples: ["WHO Growth", "STRONGkids", "PYMS", "STAMP"]
   },
   intensive_care: {
     description: {
@@ -114,6 +114,10 @@ export function HomePage({ language, navigate }: HomePageProps) {
   const categories = [...categoryCounts.keys()].sort((a, b) =>
     categoryLabels[a][language].localeCompare(categoryLabels[b][language])
   );
+  const whoGrowthExamples =
+    language === "es"
+      ? "BMI-for-age · peso-edad · talla-edad · PC · peso/talla"
+      : "BMI-for-age · weight-age · height-age · HC · weight/height";
 
   return (
     <div className="page-stack home-page">
@@ -123,39 +127,6 @@ export function HomePage({ language, navigate }: HomePageProps) {
           <h1>{t.home.title}</h1>
           <p className="hero-subtitle">{t.home.subtitle}</p>
           <p className="hero-lead">{t.home.lead}</p>
-          <div className="hero-actions">
-            <button
-              className="primary-action"
-              type="button"
-              onClick={() => navigate(makePath(language, "tools"))}
-            >
-              {t.home.allToolsCta}
-            </button>
-            <button
-              className="secondary-action"
-              type="button"
-              onClick={() => navigate(makePath(language, "evidence"))}
-            >
-              {t.home.evidenceCta}
-            </button>
-            <a
-              className="secondary-action"
-              href="https://github.com/sferurek/PedsCore"
-              rel="noreferrer"
-              target="_blank"
-            >
-              {t.home.githubSupportCta}
-            </a>
-            <button
-              className="secondary-action quiet-action"
-              type="button"
-              onClick={() =>
-                navigate(makePath(language, "tools", "who-growth"))
-              }
-            >
-              WHO Growth
-            </button>
-          </div>
           <p className="hero-disclaimer">{t.home.miniDisclaimer}</p>
         </div>
         <div className="hero-metrics-grid" aria-label={t.home.toolsMetric}>
@@ -178,57 +149,57 @@ export function HomePage({ language, navigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="who-growth-feature">
-        <div>
-          <p className="eyebrow">WHO Growth</p>
-          <h2>{t.home.whoGrowthTitle}</h2>
-          <p>{t.home.whoGrowthBody}</p>
-          <ul>
-            {t.home.whoGrowthFeatures.map((feature) => (
-              <li key={feature}>{feature}</li>
-            ))}
-          </ul>
-          <button
-            className="primary-action"
-            type="button"
-            onClick={() => navigate(makePath(language, "tools", "who-growth"))}
-          >
-            {t.home.openWhoGrowth}
-          </button>
-        </div>
-      </section>
-
       <section className="category-strip-section" id="categories">
         <div className="section-heading">
           <h2>{t.home.categoriesTitle}</h2>
         </div>
         <div className="category-card-grid">
           {categories.map((category) => (
-            <button
-              className={`home-category-card category-${category}`}
-              key={category}
-              type="button"
-              onClick={() =>
-                navigate(makePath(language, "categories", category))
-              }
-            >
-              <span className="category-card-title">
-                {categoryLabels[category][language]}
-              </span>
-              <span className="category-card-description">
-                {categoryDetails[category].description[language]}
-              </span>
-              <strong>
-                {categoryCounts.get(category) ?? 0} {t.common.tools}
-              </strong>
-              <span className="category-card-examples">
-                {categoryDetails[category].examples.join(" · ")}
-                {(categoryCounts.get(category) ?? 0) >
-                  categoryDetails[category].examples.length
-                  ? "..."
-                  : ""}
-              </span>
-            </button>
+            <Fragment key={category}>
+              <button
+                className={`home-category-card category-${category}`}
+                type="button"
+                onClick={() =>
+                  navigate(makePath(language, "categories", category))
+                }
+              >
+                <span className="category-card-title">
+                  {categoryLabels[category][language]}
+                </span>
+                <span className="category-card-description">
+                  {categoryDetails[category].description[language]}
+                </span>
+                <strong>
+                  {categoryCounts.get(category) ?? 0} {t.common.tools}
+                </strong>
+                <span className="category-card-examples">
+                  {categoryDetails[category].examples.join(" · ")}
+                  {(categoryCounts.get(category) ?? 0) >
+                    categoryDetails[category].examples.length
+                    ? "..."
+                    : ""}
+                </span>
+              </button>
+              {category === "growth_nutrition" ? (
+                <button
+                  className="home-category-card category-who-growth"
+                  type="button"
+                  onClick={() =>
+                    navigate(makePath(language, "tools", "who-growth"))
+                  }
+                >
+                  <span className="category-card-title">WHO Growth</span>
+                  <span className="category-card-description">
+                    {t.home.whoGrowthBody}
+                  </span>
+                  <strong>{t.home.partialMetric}</strong>
+                  <span className="category-card-examples">
+                    {whoGrowthExamples}
+                  </span>
+                  <span className="category-card-cta">{t.home.openModule}</span>
+                </button>
+              ) : null}
+            </Fragment>
           ))}
         </div>
       </section>
@@ -240,39 +211,6 @@ export function HomePage({ language, navigate }: HomePageProps) {
             <li key={item}>{item}</li>
           ))}
         </ul>
-      </section>
-
-      <section className="home-oss-section">
-        <div>
-          <h2>{t.home.ossTitle}</h2>
-          <p>{t.ossSupport.message}</p>
-        </div>
-        <div className="oss-support-actions">
-          <a
-            className="oss-support-link"
-            href="https://github.com/sferurek/PedsCore"
-            rel="noreferrer"
-            target="_blank"
-          >
-            {t.ossSupport.starButton}
-          </a>
-          <a
-            className="oss-support-link subtle"
-            href="https://github.com/sferurek/PedsCore/issues/new/choose"
-            rel="noreferrer"
-            target="_blank"
-          >
-            {t.ossSupport.feedbackButton}
-          </a>
-          <a
-            className="oss-support-link subtle"
-            href="https://github.com/sferurek/PedsCore"
-            rel="noreferrer"
-            target="_blank"
-          >
-            {t.ossSupport.viewSourceButton}
-          </a>
-        </div>
       </section>
     </div>
   );

@@ -58,7 +58,7 @@ export const translations = {
         "No se activan hasta validar fuente, tabla, variante y licencia.",
       whoGrowthTitle: "Modulo WHO Growth",
       whoGrowthBody:
-        "Percentiles OMS 0-5 y soporte parcial 5-19, con graficas imprimibles.",
+        "Percentiles OMS 0-5 y soporte parcial 5-19 con graficas imprimibles.",
       whoGrowthFeatures: [
         "OMS 0-5",
         "OMS 5-19 parcial",
@@ -69,6 +69,7 @@ export const translations = {
         "Sin almacenamiento de datos"
       ],
       openWhoGrowth: "Abrir WHO Growth",
+      openModule: "Abrir modulo",
       ossTitle: "Apoyo open source",
       transparency: [
         "Sin login",
@@ -278,7 +279,7 @@ export const translations = {
         "Tools are not activated until source, table, variant and license are validated.",
       whoGrowthTitle: "WHO Growth module",
       whoGrowthBody:
-        "WHO 0-5 percentiles and partial 5-19 support, with printable charts.",
+        "WHO 0-5 percentiles and partial 5-19 support with printable charts.",
       whoGrowthFeatures: [
         "WHO 0-5",
         "WHO 5-19 partial",
@@ -289,6 +290,7 @@ export const translations = {
         "No data storage"
       ],
       openWhoGrowth: "Open WHO Growth",
+      openModule: "Open module",
       ossTitle: "Open-source support",
       transparency: [
         "No login",

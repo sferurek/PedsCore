@@ -23,17 +23,18 @@ describe("public product web polish", () => {
     expect(html).toContain(">1<");
     expect(html).toContain(">0<");
     expect(html).toContain("No clinical data storage");
-    expect(html).toContain("Support the project on GitHub");
-    expect(html).toContain("https://github.com/sferurek/PedsCore");
-    expect(html).toContain("View source");
+    expect(html).not.toContain("Support the project on GitHub");
     expect(html).not.toContain("Available now");
     expect(html).toContain("WHO Growth");
+    expect(html).toContain("Open module");
     expect(html).toContain("Transparent by design");
     expect(html).toContain("Westley Croup");
     expect(html).toContain("PRAM");
     expect(html).toContain("Wood-Downes-Ferres");
     expect(html).toContain("Apgar");
     expect(html).toContain("Silverman-Andersen");
+    expect(html).toContain("STRONGkids");
+    expect(html).toContain("BMI-for-age");
   });
 
   it("renders ToolsPage with the partially implemented status filter", () => {
