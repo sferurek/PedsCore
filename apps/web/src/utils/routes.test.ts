@@ -15,10 +15,10 @@ describe("routes", () => {
     expect(makePath("en", "stats", "global")).toBe("/en/stats/global");
   });
 
-  it("maps browser paths to app paths for GitHub Pages", () => {
+  it("maps browser paths to app paths while accepting legacy GitHub Pages URLs", () => {
     expect(toAppPath("/PedsCore")).toBe("/");
     expect(toAppPath("/PedsCore/en/tools")).toBe("/en/tools");
-    expect(toBrowserPath("/en/tools")).toBe("/PedsCore/en/tools");
-    expect(toBrowserPath("/")).toBe("/PedsCore");
+    expect(toBrowserPath("/en/tools")).toBe("/en/tools");
+    expect(toBrowserPath("/")).toBe("/");
   });
 });

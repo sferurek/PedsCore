@@ -2,6 +2,7 @@ import type { Language } from "./language";
 import { isSupportedLanguage } from "./language";
 
 export const appBasePath = "/PedsCore";
+const browserBasePath = "";
 
 const normalizeBasePath = (path: string): string => {
   if (path === appBasePath) {
@@ -19,7 +20,7 @@ export const toAppPath = (browserPath: string): string =>
   normalizeBasePath(browserPath) || "/";
 
 export const toBrowserPath = (appPath: string): string =>
-  `${appBasePath}${appPath === "/" ? "" : appPath}`;
+  `${browserBasePath}${appPath === "/" ? "/" : appPath}`;
 
 export type RouteKind =
   | "home"

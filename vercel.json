@@ -7,7 +7,7 @@
       "destination": "/api/analytics/countries.js"
     },
     {
-      "source": "/((?!api/).*)",
+      "source": "/((?!api/|assets/).*)",
       "destination": "/index.html"
     }
   ]
