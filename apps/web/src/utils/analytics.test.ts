@@ -1,10 +1,13 @@
 import { describe, expect, it, afterEach, vi } from "vitest";
 import {
   createAnalyticsPayload,
+  getUsageCounterEventNames,
   getAnalyticsProvider,
   isAnalyticsEnabled,
   normalizeAnalyticsPath,
-  trackPageView
+  sanitizeAnalyticsParams,
+  trackPageView,
+  trackUsageEvent
 } from "./analytics";
 
 afterEach(() => {
@@ -53,6 +56,29 @@ describe("privacy-first analytics utilities", () => {
     );
   });
 
+  it("sanitizes event parameters to categorical allowlisted fields", () => {
+    const params = sanitizeAnalyticsParams({
+      toolId: "apgar",
+      toolType: "score",
+      category: "neonatology",
+      status: "implemented",
+      hasQuery: true,
+      // Unknown values are intentionally not part of the analytics contract.
+      clinicalNote: "patient has fever",
+      searchQuery: "free text"
+    } as never);
+
+    expect(params).toEqual({
+      toolId: "apgar",
+      toolType: "score",
+      category: "neonatology",
+      status: "implemented",
+      hasQuery: true
+    });
+    expect(JSON.stringify(params)).not.toContain("fever");
+    expect(JSON.stringify(params)).not.toContain("free text");
+  });
+
   it("rejects unsupported analytics providers", () => {
     vi.stubEnv("VITE_ANALYTICS_PROVIDER", "unsupported_provider");
 
@@ -80,12 +106,61 @@ describe("privacy-first analytics utilities", () => {
     });
 
     expect(() => trackPageView("/es/tools", "es")).not.toThrow();
-    expect(plausible).toHaveBeenCalledWith("pageview", {
+    expect(plausible).toHaveBeenCalledWith("screen_view", {
       props: {
         path: "/es/tools",
         language: "es",
-        provider: "plausible"
+        provider: "plausible",
+        eventName: "screen_view",
+        routeKind: "tools"
       }
     });
+  });
+
+  it("tracks allowed product events without clinical values", () => {
+    vi.stubEnv("VITE_ANALYTICS_PROVIDER", "umami");
+    vi.stubEnv("VITE_UMAMI_WEBSITE_ID", "public-website-id");
+    vi.stubEnv("VITE_ANALYTICS_SCRIPT_URL", "https://analytics.example/script.js");
+
+    const track = vi.fn();
+    vi.stubGlobal("window", {
+      umami: { track },
+      location: { pathname: "/es/tools/apgar" }
+    });
+
+    trackUsageEvent("score_calculated", "/es/tools/apgar?score=10", "es", {
+      toolId: "apgar",
+      toolType: "score",
+      category: "neonatology",
+      status: "implemented"
+    });
+
+    expect(track).toHaveBeenCalledWith("score_calculated", {
+      path: "/es/tools/apgar",
+      language: "es",
+      provider: "umami",
+      eventName: "score_calculated",
+      toolId: "apgar",
+      toolType: "score",
+      category: "neonatology",
+      status: "implemented"
+    });
+    expect(JSON.stringify(track.mock.calls)).not.toContain("score=10");
+  });
+
+  it("documents usage counter windows for provider dashboards", () => {
+    expect(getUsageCounterEventNames("last_7_days")).toHaveLength(9);
+    expect(getUsageCounterEventNames("all_time").map((event) => event.eventName))
+      .toEqual([
+        "app_open",
+        "screen_view",
+        "search_used",
+        "case_opened",
+        "case_completed",
+        "score_calculated",
+        "protocol_opened",
+        "favorite_added",
+        "share_used"
+      ]);
   });
 });

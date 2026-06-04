@@ -1,5 +1,5 @@
 import type { ClinicalToolMetadata } from "@peds-core/core";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { DisclaimerBox } from "../components/DisclaimerBox";
 import { DynamicForm } from "../components/DynamicForm";
 import { GitHubFeedbackLink } from "../components/GitHubFeedbackLink";
@@ -17,7 +17,9 @@ import {
 } from "../utils/evidenceStatus";
 import type { FormValues } from "../utils/formState";
 import { getInitialFormState } from "../utils/formState";
+import { trackUsageEvent } from "../utils/analytics";
 import type { Language } from "../utils/language";
+import { makePath } from "../utils/routes";
 
 const WhoGrowthResultPanel = lazy(() =>
   import("../components/growth/WhoGrowthResultPanel").then((module) => ({
@@ -37,12 +39,37 @@ export function ToolPage({ language, tool }: ToolPageProps) {
     getInitialFormState(tool)
   );
   const resultPanelRef = useRef<HTMLElement>(null);
+  const completedToolIdRef = useRef<string | null>(null);
   const isWhoGrowth = tool.id === "who_growth_module";
   const hasActiveCalculation = tool.calculationStatus === "active" || isWhoGrowth;
+  const analyticsPath = makePath(language, "tools", tool.slug);
+  const analyticsParams = useMemo(
+    () => ({
+      toolId: tool.id,
+      toolType: tool.type,
+      category: tool.category,
+      status: tool.implementationStatus
+    }),
+    [tool.category, tool.id, tool.implementationStatus, tool.type]
+  );
 
   useEffect(() => {
     setFormValues(getInitialFormState(tool));
+    completedToolIdRef.current = null;
   }, [tool]);
+
+  useEffect(() => {
+    trackUsageEvent("case_opened", analyticsPath, language, analyticsParams);
+
+    if (tool.type === "algorithm") {
+      trackUsageEvent("protocol_opened", analyticsPath, language, analyticsParams);
+    }
+  }, [
+    analyticsPath,
+    analyticsParams,
+    language,
+    tool.type
+  ]);
 
   const scrollToResults = () => {
     resultPanelRef.current?.scrollIntoView({
@@ -51,6 +78,21 @@ export function ToolPage({ language, tool }: ToolPageProps) {
         : "smooth",
       block: "start"
     });
+  };
+
+  const handleFormComplete = () => {
+    scrollToResults();
+
+    if (completedToolIdRef.current === tool.id) {
+      return;
+    }
+
+    completedToolIdRef.current = tool.id;
+    trackUsageEvent("case_completed", analyticsPath, language, analyticsParams);
+
+    if (hasActiveCalculation) {
+      trackUsageEvent("score_calculated", analyticsPath, language, analyticsParams);
+    }
   };
 
   return (
@@ -84,13 +126,13 @@ export function ToolPage({ language, tool }: ToolPageProps) {
                   tool={tool}
                   values={formValues}
                   onChange={setFormValues}
-                  onFormComplete={scrollToResults}
+                  onFormComplete={handleFormComplete}
                 />
               ) : (
                 <DynamicForm
                   language={language}
                   tool={tool}
-                  onFormComplete={scrollToResults}
+                  onFormComplete={handleFormComplete}
                   onStateChange={setFormValues}
                 />
               )}

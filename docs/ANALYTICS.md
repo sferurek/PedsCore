@@ -26,6 +26,13 @@ If no analytics variables are configured, PedsCore behaves as `none`.
 
 Provider scripts are loaded only when the provider and required public values are configured.
 
+Custom product events are sent only for providers that expose a browser event API:
+
+- Plausible: `window.plausible(eventName, { props })`.
+- Umami: `window.umami.track(eventName, props)`.
+
+Cloudflare Web Analytics can still provide aggregate pageview counters, but the current static scaffold does not send custom product events to Cloudflare because there is no official client-side custom event API wired in this app.
+
 ## Environment Variables
 
 ```bash
@@ -43,11 +50,60 @@ Do not commit private credentials. These variables are public build-time configu
 Only aggregate website usage data may be collected:
 
 - Pageviews.
+- Anonymous product usage event names.
 - Normalized route path.
 - Day/week aggregate usage.
 - UI language: `es` or `en`.
+- Tool id, tool type, category and implementation status as categorical labels.
+- Whether search was used, without the search text.
 - Country/region if the provider offers aggregate location data without storing IP in PedsCore.
 - Aggregate browser/device information if the provider offers it.
+
+## Product Events
+
+PedsCore registers this closed list of anonymous event names:
+
+- `app_open`
+- `screen_view`
+- `search_used`
+- `case_opened`
+- `case_completed`
+- `score_calculated`
+- `protocol_opened`
+- `favorite_added`
+- `share_used`
+
+Current web wiring:
+
+- `app_open`: first localized app render in the browser session.
+- `screen_view`: route changes.
+- `search_used`: tools search field used; the query text is never sent.
+- `case_opened`: tool page opened.
+- `case_completed`: active tool form completed.
+- `score_calculated`: active tool form completed and a calculation/result panel is available.
+- `protocol_opened`: algorithm-type tool page opened.
+- `favorite_added`: reserved for a future favorites UI.
+- `share_used`: reserved for a future share UI.
+
+Allowed event parameters are limited to:
+
+```json
+{
+  "path": "/es/tools/apgar",
+  "language": "es",
+  "provider": "plausible",
+  "eventName": "score_calculated",
+  "toolId": "apgar",
+  "toolType": "score",
+  "category": "neonatology",
+  "status": "implemented",
+  "routeKind": "tools",
+  "searchScope": "tools",
+  "hasQuery": true
+}
+```
+
+Do not add arbitrary parameters. Do not add form values, result values, selected criteria, patient details or free-text content.
 
 ## Data That Must Not Be Collected
 
@@ -60,8 +116,10 @@ PedsCore analytics must never collect:
 - Clinical data.
 - Form values.
 - Calculator results.
+- Search queries or any free-text clinical content.
 - Criteria selected in clinical rules.
 - Age, weight, height, vital signs, laboratory values or any other clinical input.
+- Names, emails, dates of birth, identifiers or clinical notes.
 
 ## Route Tracking
 
@@ -71,11 +129,28 @@ The web app may send only this minimal payload for route changes:
 {
   "path": "/es/tools",
   "language": "es",
-  "provider": "plausible"
+  "provider": "plausible",
+  "eventName": "screen_view",
+  "routeKind": "tools"
 }
 ```
 
 Query strings and hash fragments are removed before analytics payloads are prepared.
+
+## Usage Counters
+
+PedsCore does not run its own analytics database. Last-7-days and all-time counters should be read in the configured provider dashboard:
+
+- Plausible: open the site dashboard, select the date range `Last 7 days` or `All time`, then inspect Goals / Events for the event names above.
+- Umami: open the website dashboard, select `Last 7 days` or `All time`, then inspect Events for the event names above.
+- Cloudflare: use Web Analytics pageview counters for `Last 7 days` or all available history. Custom product events are not available in this static scaffold.
+
+For public reporting, count the event names directly and keep labels aggregate. Example counters:
+
+- `screen_view` in the last 7 days.
+- `score_calculated` all time.
+- `search_used` in the last 7 days.
+- `case_opened` all time.
 
 ## Location Data
 

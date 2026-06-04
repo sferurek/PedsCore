@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getAllTools } from "@peds-core/core";
 import type { ImplementationStatus, ToolCategory, ToolType } from "@peds-core/core";
 import { SearchBar } from "../components/SearchBar";
@@ -11,6 +11,8 @@ import {
 } from "../i18n/translations";
 import { defaultFilters, filterTools } from "../utils/filterTools";
 import type { Language } from "../utils/language";
+import { makePath } from "../utils/routes";
+import { trackUsageEvent } from "../utils/analytics";
 import { getToolStatusCounts } from "../utils/toolStats";
 
 interface ToolsPageProps {
@@ -22,6 +24,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const t = translations[language];
   const allTools = getAllTools();
   const [filters, setFilters] = useState(defaultFilters);
+  const lastTrackedSearchRef = useRef("");
   const categories = [...new Set(allTools.map((tool) => tool.category))].sort();
   const types = [...new Set(allTools.map((tool) => tool.type))].sort();
   const statuses = [
@@ -74,6 +77,24 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
     () => filterTools(allTools, filters, language),
     [allTools, filters, language]
   );
+
+  useEffect(() => {
+    const hasQuery = filters.query.trim().length > 0;
+
+    if (!hasQuery || lastTrackedSearchRef.current === filters.query.trim()) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      lastTrackedSearchRef.current = filters.query.trim();
+      trackUsageEvent("search_used", makePath(language, "tools"), language, {
+        hasQuery: true,
+        searchScope: "tools"
+      });
+    }, 500);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [filters.query, language]);
 
   return (
     <div className="page-stack">

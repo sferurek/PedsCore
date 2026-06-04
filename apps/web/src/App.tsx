@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { getAllTools, getToolBySlug } from "@peds-core/core";
 import type { ToolCategory } from "@peds-core/core";
 import { AnalyticsProvider } from "./components/AnalyticsProvider";
@@ -17,7 +17,7 @@ import {
   languageStorageKey,
   resolveInitialLanguage
 } from "./utils/language";
-import { maybeTrackRouteChange } from "./utils/analytics";
+import { maybeTrackRouteChange, trackAppOpen } from "./utils/analytics";
 import { parseRoute, toAppPath, toBrowserPath } from "./utils/routes";
 import { getSeoForRoute, updateDocumentSeo } from "./utils/seo";
 
@@ -27,6 +27,7 @@ export function App() {
   const [language, setLanguage] = useState(() =>
     route.language ?? resolveInitialLanguage()
   );
+  const trackedAppOpenRef = useRef(false);
 
   useEffect(() => {
     if (route.language && route.language !== language) {
@@ -57,6 +58,11 @@ export function App() {
 
   useEffect(() => {
     if (route.language) {
+      if (!trackedAppOpenRef.current) {
+        trackAppOpen(path, language);
+        trackedAppOpenRef.current = true;
+      }
+
       maybeTrackRouteChange(path, language);
     }
   }, [language, path, route.language]);
