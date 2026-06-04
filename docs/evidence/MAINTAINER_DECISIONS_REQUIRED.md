@@ -10,13 +10,13 @@ This document separates tools that are evidence-complete but require a maintaine
 
 ## Tools requiring maintainer decision
 
-### 1) `pews`
-- **Decision needed**: select the canonical PEWS variant to keep in MVP as the default path.
-- **Options**: `brighton_pews`, `bedside_pews`, institution-specific local PEWS.
-- **Current blocker**: variant selection and escalation protocol split.
-- **Clinical/regulatory note**: avoid protocol-specific activation thresholds until variant and escalation logic are explicit.
-- **Evidence status**: primary sources for variants are located.
-- **Next action**: keep `pews` as umbrella catalog entry and activate a single variant only after maintainer approval.
+### Resolved) `pews`
+- **Decision status**: resolved in PEWS-IMPLEMENTATION-1.
+- **Decision**: do not implement PEWS as a generic calculator.
+- **Product status**: keep `pews` as an umbrella catalog entry.
+- **Selected candidate variant**: `brighton_pews`.
+- **Clinical/regulatory note**: avoid protocol-specific activation thresholds and keep all future outputs descriptive.
+- **Next action**: keep generic `pews` out of registry and calculator IDs.
 
 ### Resolved) `wood_downes_ferres`
 - **Decision status**: resolved in BRONCHIOLITIS-IMPLEMENTATION-1.
@@ -42,11 +42,12 @@ This document separates tools that are evidence-complete but require a maintaine
 - **Evidence status**: official guideline sources exist; output scope is not yet defined.
 - **Next action**: decide non-therapeutic educational scope before any activation.
 
-### 5) `pews` family (`brighton_pews`, `bedside_pews`)
-- **Decision needed**: choose if/when PEWS variants are shown together or as separated scoped entries.
-- **Options**: keep both as separate entries with warnings and no escalation logic.
-- **Current blocker**: protocol integration and escalation semantics differ by institution.
-- **Next action**: maintainer defines product-level policy and mapping.
+### Resolved) `pews` family (`brighton_pews`, `bedside_pews`)
+- **Decision status**: resolved in PEWS-IMPLEMENTATION-1.
+- **Product policy**: keep PEWS variants as separated scoped entries.
+- **Brighton PEWS**: preferred candidate, but remains blocked because the complete original table is not available from a reusable source.
+- **Bedside PEWS**: remains blocked pending table reuse, inventor/licensing review and protocol separation.
+- **Next action**: implement only a variant that passes source, table, reuse, tests and non-protocol output gates.
 
 ### 6) Growth reference selection (`who_growth_percentiles`, `cdc_growth_percentiles`, `bmi_percentile`, `head_circumference_percentile`)
 - **Decision needed**: default curve source and age range policy by locale.
@@ -98,6 +99,8 @@ This document separates tools that are evidence-complete but require a maintaine
 
 ### 8B-4.4 — Variant Decisions Already Required
 
-- `pews`, `wood_downes_ferres`, `pediatric_gcs`: variant/age-split/table decisions remain blocking even when sources are available.
+- `pews`: generic implementation is explicitly rejected; Brighton and Bedside remain separate variant entries with unresolved implementation gates.
+- `wood_downes_ferres`: variant decision resolved in BRONCHIOLITIS-IMPLEMENTATION-1.
+- `pediatric_gcs`: variant/age-split/table decisions remain blocking even when sources are available.
 - `catch_tbi` and `chalice_tbi` stay at a policy level (predictor-classification only; no treatment recommendations).
 - `bayley`, `denver_ii`, and `wong_baker_faces` continue blocked for licensing and/or testable policy reasons.

@@ -229,7 +229,9 @@ describe("clinical tools catalog", () => {
   });
 
   it("keeps variant-sensitive Block 8B-2 tools explicitly blocked", () => {
-    expect(getTool("pews")?.validationNotes.en).toContain("exact variant");
+    expect(getTool("pews")?.validationNotes.en).toContain(
+      "family of published and institutional variants"
+    );
     expect(getTool("pediatric_gcs")?.validationNotes.en).toContain(
       "complete pediatric verbal table"
     );

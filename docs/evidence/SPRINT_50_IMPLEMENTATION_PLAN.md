@@ -50,9 +50,9 @@ Reason: CATCH and CHALICE were the only previously documented ready-for-implemen
 | `comfortneo` | `comfortneo` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
 | `bhutani_nomogram` | `bhutani-nomogram` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
 | `neonatal_growth_fenton` | `neonatal-growth-fenton` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
-| `pews` | `pews` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
-| `brighton_pews` | `brighton-pews` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
-| `bedside_pews` | `bedside-pews` | `pending_validation` | `requires_maintainer_decision` | Variant, source policy, interpolation, output scope, or clinical governance decision required. |
+| `pews` | `pews` | `pending_validation` | `catalog_umbrella_only` | Generic PEWS is not implemented because PEWS is a family of variants. |
+| `brighton_pews` | `brighton-pews` | `pending_validation` | `pending_reusable_original_table` | Brighton selected as candidate, but no complete reusable original table was found. |
+| `bedside_pews` | `bedside-pews` | `pending_validation` | `pending_licensing_review` | Keep separate from Brighton pending table reuse/inventor/licensing review. |
 | `rdai` | `rdai` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
 | `brosjod` | `brosjod` | `pending_validation` | `keep_pending_until_reusable_table_or_permission` | Complete table located only in third-party Wiley mirror; reuse terms remain unresolved. |
 | `pass` | `pass` | `pending_validation` | `implement_if_table_complete` | Source may be located, but complete reusable table/formula and/or interpretation remains incomplete. |
@@ -120,9 +120,9 @@ Reason: CATCH and CHALICE were the only previously documented ready-for-implemen
 | `comfortneo` | `comfortneo` | COMFORTneo | neonatology | scale | `pending_validation` | `-` | pending_verification | medium | no | yes | yes | `implement_if_table_complete` |
 | `bhutani_nomogram` | `bhutani-nomogram` | Bhutani Nomogram | neonatology | nomogram | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `implement_if_table_complete` |
 | `neonatal_growth_fenton` | `neonatal-growth-fenton` | Fenton Neonatal Growth | neonatology | percentile | `pending_validation` | `-` | systematic_review | medium | no | yes | yes | `implement_if_table_complete` |
-| `pews` | `pews` | Pediatric Early Warning Score | emergency | score | `pending_validation` | `-` | pending_verification | medium | no | yes | yes | `requires_maintainer_decision` |
-| `brighton_pews` | `brighton-pews` | Brighton PEWS | emergency | score | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `requires_maintainer_decision` |
-| `bedside_pews` | `bedside-pews` | Bedside PEWS | emergency | score | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `requires_maintainer_decision` |
+| `pews` | `pews` | Pediatric Early Warning Score | emergency | score | `pending_validation` | `-` | pending_verification | medium | no | yes | yes | `catalog_umbrella_only` |
+| `brighton_pews` | `brighton-pews` | Brighton PEWS | emergency | score | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `pending_reusable_original_table` |
+| `bedside_pews` | `bedside-pews` | Bedside PEWS | emergency | score | `pending_validation` | `-` | original_derivation_study | medium | no | yes | yes | `pending_licensing_review` |
 | `westley_croup` | `westley-croup-score` | Westley Croup Score | respiratory | score | `implemented` | `active` | moderate | medium | yes | yes | no | `already_implemented` |
 | `pram` | `pram` | Pediatric Respiratory Assessment Measure | respiratory | score | `implemented` | `active` | moderate | medium | yes | yes | no | `already_implemented` |
 | `rdai` | `rdai` | Respiratory Distress Assessment Instrument | respiratory | score | `pending_validation` | `-` | pending_primary_source | medium | no | yes | yes | `implement_if_table_complete` |

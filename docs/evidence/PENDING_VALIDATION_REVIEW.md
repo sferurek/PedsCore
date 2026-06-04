@@ -25,9 +25,9 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | A | `cries` | `cries` | pain | Full 0/1/2 item table and licensing pending. | `pending_complete_scoring_table` |
 | B | `comfortneo` | `comfortneo` | neonatology | COMFORTneo sources located; official table, ventilated/non-ventilated handling, licensing, and expert review pending. | `pending_complete_scoring_table` |
 | A | `bhutani_nomogram` | `bhutani-nomogram` | neonatology | Reusable hour-specific curve values and current guideline context pending. | `pending_complete_scoring_table` |
-| B | `pews` | `pews` | emergency | Generic PEWS remains an umbrella; Brighton and Bedside variants must stay separate. | `pending_variant_selection` |
-| B | `brighton_pews` | `brighton-pews` | emergency | Brighton/Monaghan source located; complete reusable table, protocol separation, and license pending. | `pending_complete_scoring_table` |
-| A | `bedside_pews` | `bedside-pews` | emergency | Full table reuse, inventor/licensing review, and protocol separation pending. | `pending_licensing_review` |
+| B | `pews` | `pews` | emergency | Maintainer decision: generic PEWS is an umbrella/family and must not become an active calculator. | `catalog_umbrella_only` |
+| B | `brighton_pews` | `brighton-pews` | emergency | Maintainer selected Brighton as candidate, but no complete reusable original table was found. | `pending_reusable_original_table` |
+| A | `bedside_pews` | `bedside-pews` | emergency | Keep distinct from Brighton; table reuse, inventor/licensing review, and protocol separation pending. | `pending_licensing_review` |
 | B | `rdai` | `rdai` | respiratory | Direct primary source/table pending. | Not reviewed in detail. |
 | B | `pediatric_gcs` | `pediatric-glasgow-coma-scale` | neurology | Guideline source trail found; primary pediatric adaptation and complete verbal table unresolved. | `pending_primary_source` |
 | B | `revised_schwartz` | `revised-schwartz` | nephrology | Needs distinction from existing bedside Schwartz and exact formula variant. | Not reviewed in detail. |
@@ -69,8 +69,8 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | Modified Finnegan | neonatology | Yes | PMID `1163358` | No | Treatment-linked thresholds blocked | High | `pending_variant_selection` | Select exact version and avoid treatment recommendations. |
 | Wood-Downes-Ferres | respiratory | Yes | DOI `10.1001/archpedi.1972.02110090097011` plus open Evidencia table | Yes | 0-3, 4-7, 8-14 descriptive bands | Medium | `implemented_after_maintainer_variant_selection` | Maintain descriptive-only output and revisit if primary Ferres source is found. |
 | Pediatric GCS | neurology | No primary adaptation | Guideline/source trail only | No | Pending | Unknown | `pending_primary_source` | Locate primary pediatric adaptation and verbal table. |
-| PEWS | emergency | Variant source only | Brighton DOI `10.7748/paed2005.02.17.1.32.c964` | No | Institutional | Medium/high | `pending_variant_selection` | Keep generic PEWS as umbrella; select variant first. |
-| Brighton PEWS | emergency | Yes | DOI `10.7748/paed2005.02.17.1.32.c964` | No | Protocol-linked | Medium | `pending_complete_scoring_table` | Verify table and separate escalation protocol. |
+| PEWS | emergency | Variant source only | Brighton DOI `10.7748/paed2005.02.17.1.32.c964`; Bedside DOI `10.1186/cc7998` | Not applicable | Variant-specific | Medium/high | `catalog_umbrella_only` | Do not implement generic PEWS. |
+| Brighton PEWS | emergency | Yes | DOI `10.7748/paed2005.02.17.1.32.c964` | No reusable original table | Protocol-linked | Medium/high | `pending_reusable_original_table` | Block until complete original table reuse is clear. |
 | Bedside PEWS | emergency | Yes | DOI `10.1186/cc7998`; PMID `19678924` | Source-located, not cleared | Protocol-linked | Medium | `pending_licensing_review` | Confirm reuse/inventor terms. |
 | Orbegozo Growth | growth_nutrition | Official source | Official URL | Partial PDF tables | Percentile lookup | Medium/unknown | `pending_licensing_review` | Clarify data/LMS availability and license. |
 | STAMP | growth_nutrition | Yes | DOI `10.1111/j.1365-277X.2012.01234.x`; PMID `22568534` | No | Pending | High | `pending_licensing_review` | Verify STAMP© permissions. |
@@ -173,7 +173,7 @@ This block separates unresolved tools into decision classes:
 | `stamp` | `stamp` | growth_nutrition | `pending_validation` | `blocked_licensing_or_copyright` | copyright-marked tool | `blocked_licensing_or_copyright` | yes |
 | `pyms` | `pyms` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | table/reuse verification pending | `blocked_missing_complete_scoring_table` | no |
 | `strongkids` | `strongkids` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | licensing and table details pending | `blocked_missing_complete_scoring_table` | no |
-| `pews` | `pews` | emergency | `pending_validation` | `blocked_variant_selection_needed` | multiple PEWS families exist | `blocked_variant_selection_needed` | yes |
+| `pews` | `pews` | emergency | `pending_validation` | `catalog_umbrella_only` | multiple PEWS families exist | `do_not_implement_generic` | no |
 | `mass_casualty_triage` | `mass-casualty-triage` | emergency | `coming_soon` | `blocked_variant_selection_needed` | algorithm family selection unresolved | `catalog_only_recommended` | yes |
 
 ## 8B-5 Maintainer Decision Crosswalk

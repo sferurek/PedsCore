@@ -103,9 +103,9 @@ Legend:
 | comfortneo | pending_validation | pending-primary | Validation literature exists; original COMFORTneo table/source still required. |
 | bhutani-nomogram | pending_validation | prepare-after-table-review | Original paper located; need usable nomogram values/data and current AAP context. |
 | neonatal-growth-fenton | needs_primary_reference | prepare-after-table-review | Fenton 2013 located; use data with attribution and tests. |
-| pews | pending_validation | pending-primary | PEWS variants are heterogeneous; select exact version before implementation. |
-| brighton-pews | pending_validation | pending-primary | Locate Brighton-specific source/table and license. |
-| bedside-pews | pending_validation | prepare-after-table-review | Parshuram source located; verify table/license and variant. |
+| pews | pending_validation | catalog-umbrella-only | Maintainer decision: generic PEWS is a family, not an implementable calculator. |
+| brighton-pews | pending_validation | pending-reusable-original-table | Brighton selected as candidate, but complete reusable original table not found. |
+| bedside-pews | pending_validation | licensing-review | Parshuram source located; keep separate from Brighton and verify reuse/inventor terms. |
 | westley-croup-score | implemented | implemented-current | Current DOI/PMID source retained; verify table/test cases. |
 | pram | implemented | implemented-current | Original and validation sources retained; verify table/test cases. |
 | rdai | pending_validation | pending-primary | Source trail located but direct Lowell paper/table still needed. |
@@ -181,7 +181,7 @@ Legend:
 - Should PedsCore support copyrighted instruments only as linked informational pages?
 - Should resuscitation tools be restricted to non-therapeutic reference calculators, or excluded from automatic outputs?
 - Which growth reference should be default by locale: WHO/CDC/Orbegozo?
-- Should PEWS be split into separate pages for Brighton PEWS, Bedside PEWS, and generic/local PEWS?
+- PEWS is split into generic catalog umbrella, Brighton PEWS candidate, and Bedside PEWS blocked variant.
 - Should PRISM/PIM/PELOD remain outside MVP because of complexity, licensing, and mortality-risk regulatory concerns?
 
 ## Block 8B-3 Delta
@@ -254,7 +254,7 @@ MAINTAINER decision work does not change `implementationStatus` in this block, b
 |---|---|---|---|
 | `wood_downes_ferres` | `maintainer_variant_selection` | implemented after maintainer selection | Classic six-domain variant is active with descriptive-only output. |
 | `pediatric_gcs` | `maintainer_variant_selection` | keep pending_validation | Pediatric age-specific verbal table is not yet standardized in catalog evidence. |
-| `pews` family | `maintainer_variant_selection` | keep pending_validation | Multiple variants with different escalation semantics; avoid generic implementation. |
+| `pews` family | `maintainer_variant_selection` | generic PEWS remains catalog-only; Brighton candidate remains blocked; Bedside remains licensing-blocked | Multiple variants with different protocol semantics; avoid generic implementation. |
 | `resuscitation` (`pediatric_cpr`, `neonatal_cpr`, rhythm/brady/tachy rules) | `maintainer_governance` | keep catalog/reference-only | High therapeutic-protocol risk and guideline-reproduction constraints. |
 | `resuscitation_weight_dose_energy` | `maintainer_clinical_scope` | keep pending_validation | Dosing context overlaps treatment workflow; requires explicit scope policy. |
 | `who_growth_module` / `who_growth_percentiles` / `cdc_growth_percentiles` | `maintainer_scope_policy` | keep `who_growth_module` partially_implemented; keep source-specific tools pending_validation | Core WHO 0-5 LMS import plus WHO 5-19 BMI-for-age/height-for-age and printable chart labels are available; remaining 5-19 scope, interpolation policy, and age-boundary governance remain pending. |

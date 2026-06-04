@@ -1227,8 +1227,8 @@ const rflaccValidationNotes: LocalizedText = {
 };
 
 const pewsValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: PEWS tiene multiples variantes publicadas e institucionales. Fuente Brighton/Monaghan localizada, Bedside PEWS documentada aparte; PEWS generico no se activa hasta seleccionar version exacta y separar protocolos de escalado.",
-  en: "Block 8B-2: PEWS has multiple published and institutional variants. Brighton/Monaghan source located and Bedside PEWS is documented separately; generic PEWS is not activated until exact variant selection and escalation-protocol separation are complete."
+  es: "Bloque PEWS-IMPLEMENTATION-1: PEWS generico no se implementa porque PEWS es una familia de variantes publicadas e institucionales. Brighton PEWS se revisa como candidata separada; Bedside PEWS permanece bloqueada por tabla/licencia/reutilizacion.",
+  en: "Block PEWS-IMPLEMENTATION-1: generic PEWS is not implemented because PEWS is a family of published and institutional variants. Brighton PEWS is reviewed as a separate candidate; Bedside PEWS remains blocked by table/licensing/reuse review."
 };
 
 const pippValidationNotes: LocalizedText = {
@@ -1247,8 +1247,8 @@ const finneganValidationNotes: LocalizedText = {
 };
 
 const brightonPewsValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuente Brighton/Monaghan PEWS localizada con DOI. Pendiente tabla completa reutilizable, separacion de protocolo institucional/escalado y revision de licencia antes de implementar.",
-  en: "Block 8B-2: Brighton/Monaghan PEWS source located with DOI. Complete reusable table, institutional/escalation protocol separation, and licensing review remain pending before implementation."
+  es: "Bloque PEWS-IMPLEMENTATION-1: Brighton PEWS queda seleccionada como variante candidata, pero no se implementa porque la tabla completa no esta disponible en una fuente trazable y reutilizable; las tablas accesibles son mirrors/calculadoras o versiones modificadas.",
+  en: "Block PEWS-IMPLEMENTATION-1: Brighton PEWS is selected as the candidate variant, but it is not implemented because the complete table is not available from a traceable reusable source; accessible tables are mirrors/calculators or modified versions."
 };
 
 const orbegozoGrowthValidationNotes: LocalizedText = {

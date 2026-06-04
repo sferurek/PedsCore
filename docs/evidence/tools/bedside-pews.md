@@ -1,13 +1,23 @@
 # Bedside PEWS - Evidence Review
 
-Date: 2026-06-03
+Date: 2026-06-04
 
-## Decision
+## Current PedsCore status
 
-- Priority: A
-- Final decision: `pending_licensing_review`
-- Catalog status: keep `pending_validation`
-- Rationale: primary open-access source is verified, but the score has inventor/licensing considerations and must be separated from local escalation protocols before implementation.
+- id: `bedside_pews`
+- slug: `bedside-pews`
+- category: `emergency`
+- type: `score`
+- current implementationStatus: `pending_validation`
+- current calculationStatus: not active
+- current evidenceLevel: `original_derivation_study`
+
+## Maintainer decision
+
+- decision block: `PEWS-IMPLEMENTATION-1`
+- decision: keep Bedside PEWS blocked.
+- reason: Bedside PEWS is distinct from Brighton PEWS and requires its own table, inventor/licensing review and protocol separation before implementation.
+- selected candidate for this block: Brighton PEWS, not Bedside PEWS.
 
 ## Source
 
@@ -18,38 +28,45 @@ Date: 2026-06-03
 - Direct URL: https://pubmed.ncbi.nlm.nih.gov/19678924/
 - Access: open access via BioMed Central/PMC.
 
-## Version And Population
+## Version and population
 
-- Version selected: Bedside Paediatric Early Warning System score, original development/initial validation.
-- Population: hospitalized pediatric patients in the derivation/validation setting.
-- Use context: severity-of-illness/early warning score; no automatic escalation or treatment recommendation.
+- version selected: Bedside Paediatric Early Warning System score, original development/initial validation.
+- population: hospitalized pediatric patients in the derivation/validation setting.
+- use context: severity-of-illness / early-warning score; no automatic protocol or clinical conduct recommendation.
 
-## Variables And Scoring
+## Variables and scoring
 
-- Variables/options: score table exists in the source article, but PedsCore should not reproduce full table until licensing/reuse is reviewed.
-- Complete scoring table: source located, but reuse review pending.
-- Formula/algorithm: additive score from bedside observations; exact table and edge rules pending implementation review.
-- Interpretation/cutoffs: must separate published score performance from local escalation thresholds.
+- source-located: yes.
+- reproduced in PedsCore: no.
+- reason: named score with inventor/licensing considerations and local protocol separation remain unresolved.
+- do not mix with Brighton/Monaghan PEWS.
 
-## Interpretation And Licensing
+## Interpretation and licensing
 
-- Copyright/licensing: open article access, but named inventors and tool reuse terms require review before implementation.
-- Test cases needed: all-normal score, high-risk representative score, age/observation boundaries, missing-domain handling.
+- copyright/licensing: open article access exists, but tool reuse and inventor/licensing review are still required before implementation.
+- interpretation/cutoffs: must separate score performance from local escalation policies.
 
-## Implementation Gate
+## Implementation gate
 
-- Primary source: yes.
-- Complete table: source-located but not cleared for reuse.
-- Interpretation: pending local-protocol separation.
-- Variant selected: yes.
-- Licensing: pending review.
-- Ready for implementation: no.
+- primary source: yes.
+- complete table: source-located but not cleared for reuse.
+- interpretation: pending local-protocol separation.
+- variant selected: yes, but not selected for this implementation block.
+- licensing: pending review.
+- ready for implementation: no.
 
-## Block 8B-2 Extension
+## Safety notes
 
-- current implementationStatus: `pending_validation`
-- current evidenceLevel: `original_derivation_study`
-- decision unchanged: `pending_licensing_review`
-- added context: Bedside PEWS remains distinct from Brighton/Monaghan PEWS and generic PEWS.
-- safety note: implementation must not include local escalation protocols or treatment directions.
-- next action: confirm reuse rights for the full score table and define purely descriptive test cases.
+- no calculator is registered for `bedside_pews`.
+- future implementation must be descriptive only.
+- no local escalation protocol or clinical conduct wording should be implemented.
+
+## Tests
+
+- `packages/core/tests/block6aEvidenceGate.test.ts`
+- `packages/core/tests/catalog.test.ts`
+
+## Direct links
+
+- https://pubmed.ncbi.nlm.nih.gov/19678924/
+- https://doi.org/10.1186/cc7998

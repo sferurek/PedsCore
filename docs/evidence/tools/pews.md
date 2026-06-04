@@ -7,110 +7,88 @@
 - category: `emergency`
 - type: `score`
 - current implementationStatus: `pending_validation`
-- current evidenceLevel: `original_derivation_study`
+- current calculationStatus: not active
+- current evidenceLevel: `pending_verification`
 
-## Evidence validation status
+## Maintainer decision
 
-- final evidence status: `pending_variant_selection`
-- reason: PEWS is a family of scores; Brighton/Monaghan and Bedside PEWS are separate variants and generic PEWS must not be implemented.
+- decision block: `PEWS-IMPLEMENTATION-1`
+- decision: do not implement generic PEWS.
+- reason: PEWS is not a single score. It is a family of related early-warning variants with different tables, local modifications and protocol links.
+- selected path: keep `pews` as catalog umbrella only; evaluate variant-specific entries separately.
+- candidate variant: `brighton_pews`.
+- separately blocked variant: `bedside_pews`.
 
 ## Clinical purpose
 
-ES: detección descriptiva de deterioro clínico pediátrico. EN: descriptive pediatric deterioration early-warning scoring.
+ES: familia de sistemas de alerta temprana pediatrica para descripcion de deterioro clinico.
+
+EN: family of pediatric early-warning systems for descriptive clinical deterioration scoring.
 
 ## Target population
 
-Hospitalized or emergency pediatric patients depending on selected variant.
+Hospitalized or emergency pediatric patients depending on the selected variant and local use context.
 
 ## Version / variant
 
-- exact version: not selected for generic PEWS.
-- known variants: Brighton/Monaghan PEWS, Bedside PEWS, modified institutional PEWS.
-- selected version for PedsCore: none for generic `pews`.
+- exact version for generic `pews`: none.
+- known variants: Brighton/Monaghan PEWS, Bedside PEWS, modified institutional PEWS and national/local PEWS charts.
+- selected version for PedsCore generic `pews`: none.
 - variant risk: very high.
 
-## Primary source
+## Source trail
 
-- found: for Brighton PEWS only.
-- citation: Monaghan A. Detecting and managing deterioration in children: Critical Care Outreach and Paediatric Early Warning Score. Nursing Children and Young People. 2005;17(1):32-35.
+- Brighton/Monaghan source: Monaghan A. Detecting and managing deterioration in children: Critical Care Outreach and Paediatric Early Warning Score. Nursing Children and Young People. 2005;17(1):32-35.
 - DOI: `10.7748/paed2005.02.17.1.32.c964`
-- PMID: not confirmed.
 - URL: https://research.brighton.ac.uk/en/publications/detecting-and-managing-deterioration-in-children-critical-care-ou
-- access: `paywalled`
-- notes: this source should support `brighton_pews`, not generic PEWS implementation.
-
-## External validation
-
-Many PEWS validation studies exist; variant heterogeneity remains the central blocker.
-
-## Guidelines / official sources
-
-Institutional protocols vary and should not be copied as universal recommendations.
+- Bedside PEWS source: Parshuram CS, Hutchison J, Middaugh K. Development and initial validation of the Bedside Paediatric Early Warning System score. Crit Care. 2009;13(4):R135.
+- DOI: `10.1186/cc7998`
+- PMID: `19678924`
+- URL: https://pubmed.ncbi.nlm.nih.gov/19678924/
 
 ## Complete scoring table availability
 
-- complete table found: no for generic PEWS.
-- source: variant-specific.
-- copyright/licensing risk: medium.
-- notes: choose variant first.
+- complete generic table found: not applicable.
+- implementation blocker: a generic table would mix variants and create a misleading tool.
+- licensing/copyright risk: variant-specific.
 
 ## Variables and scoring
 
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| Behavior | Variant-dependent | Pending | Variant source | Not generic. |
-| Cardiovascular | Variant-dependent | Pending | Variant source | Not generic. |
-| Respiratory | Variant-dependent | Pending | Variant source | Not generic. |
-| Add-on criteria | Variant-dependent | Pending | Variant source | Often institutional. |
+Not implemented for generic `pews`. Variables must be defined only inside a specific variant.
 
 ## Interpretation bands / cutoffs
 
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| Pending | Pending | Escalation thresholds are institutional. | Variant source. |
+Not implemented for generic `pews`. Thresholds and responses are often institutional or system-specific.
 
 ## Formula / algorithm
 
-Variant-specific additive score; generic algorithm forbidden.
-
-## Unit handling
-
-Age-specific vital sign thresholds may vary by variant.
+No generic algorithm is implemented.
 
 ## Safety and regulatory notes
 
 - risk level: medium/high.
-- why: PEWS often links to escalation workflows.
-- should provide recommendations: no.
-- forbidden outputs: admission, rapid response, ICU, or treatment escalation directions.
+- no runtime calculator is registered for `pews`.
+- output should remain catalog/evidence-only until a specific variant is implemented.
+- future variant implementations must be descriptive and must not include protocol activation language.
 
 ## Licensing / copyright
 
-- appears implementable: unknown.
-- license-sensitive: yes for institutional protocols.
-- requires permission: unknown.
-- unknown: table reuse per variant.
-- notes: split variants.
+- appears implementable as generic PEWS: no.
+- license-sensitive: yes, because published and institutional variants differ.
+- required path: variant-specific source and table review.
 
 ## Implementation recommendation
 
-`select_variant_first`
+`keep_catalog_umbrella_only`
 
-## Proposed test cases
+## Tests
 
-- minimum: selected variant normal.
-- maximum: selected variant maximum.
-- intermediate: representative score.
-- missing input: missing age/vital domain.
-- invalid input: impossible vital signs.
-- edge cases: protocol add-ons.
-- forbidden wording tests: no escalation recommendations.
+- `packages/core/tests/block6aEvidenceGate.test.ts`
+- `packages/core/tests/catalog.test.ts`
+- `packages/core/tests/calculatorRegistry.test.ts`
 
 ## Direct links
 
 - https://doi.org/10.7748/paed2005.02.17.1.32.c964
 - https://research.brighton.ac.uk/en/publications/detecting-and-managing-deterioration-in-children-critical-care-ou
-
-## Notes
-
-Generic PEWS remains a catalog umbrella only.
+- https://pubmed.ncbi.nlm.nih.gov/19678924/

@@ -97,10 +97,10 @@ Conflating pediatric variants introduces avoidable interpretive risk.
 ## PEWS / Brighton PEWS / Bedside PEWS
 
 ### Current blocker
-- Evidence blocker: source trail exists but implementation scope differs by variant.
-- Variant blocker: Brighton PEWS, Bedside PEWS, institutional variants.
-- Regulatory blocker: protocol escalation semantics are outside deterministic MVP scope.
-- Maintainer decision needed: whether PEWS is exposed as umbrella or variant-specific entries.
+- Maintainer decision resolved in PEWS-IMPLEMENTATION-1.
+- Generic `pews` remains a catalog umbrella only.
+- `brighton_pews` is the preferred candidate variant but remains blocked until a complete reusable original table is documented.
+- `bedside_pews` remains blocked until table reuse, inventor/licensing review and protocol separation are complete.
 
 ### Available options
 - Option A: Keep umbrella `pews` as catalog-only.
@@ -109,10 +109,10 @@ Conflating pediatric variants introduces avoidable interpretive risk.
 - Option D: Delay until policy and hospital protocol mapping is defined.
 
 ### Recommended option
-Option B.
+Option B for product structure, with no runtime implementation in this block.
 
 ### Rationale
-Variant clarity and protocol coupling are the main blockers, not only source access.
+Variant clarity is now resolved at product level. Implementation remains blocked because Brighton PEWS lacks a complete reusable original table and Bedside PEWS remains license/reuse sensitive.
 
 ### Clinical safety constraints
 - No protocol or pathway activation.
@@ -120,20 +120,23 @@ Variant clarity and protocol coupling are the main blockers, not only source acc
 - No automatic intervention ranking.
 
 ### Evidence required before implementation
-- Exact selected variant source and table.
-- Clinical context and escalation-separation policy.
-- Reuse/license check for each variant.
+- For Brighton PEWS: complete original table from a reusable source or permission path.
+- For Bedside PEWS: reuse/license clearance and protocol separation.
+- For any PEWS variant: explicit non-protocol output scope and tests.
 
 ### Proposed implementation scope
-- Reference-only by default.
-- If implemented later: score-only and optional educational interpretation classification.
+- `pews`: catalog umbrella only.
+- `brighton_pews`: future score-only implementation if table/reuse gates pass.
+- `bedside_pews`: future score-only implementation only after licensing/reuse review.
 
 ### Recommended PedsCore status
-- keep_pending_validation
+- `pews`: keep `pending_validation` / catalog umbrella.
+- `brighton_pews`: keep `pending_validation`.
+- `bedside_pews`: keep `pending_validation`.
 
 ### Tests required
 - Variant-specific slug resolution.
-- Prevented status promotion while variant undecided.
+- Prevented status promotion while table/reuse gates are incomplete.
 - Forbidden wording checks on result outputs.
 
 ## RCP pediátrica y neonatal / algoritmos
