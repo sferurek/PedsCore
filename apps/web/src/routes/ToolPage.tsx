@@ -118,6 +118,13 @@ export function ToolPage({ language, tool }: ToolPageProps) {
             <p>{tool.description[language]}</p>
           </section>
 
+          {isWhoGrowth ? (
+            <section className="content-panel partial-active-panel">
+              <h2>{t.tool.partialActiveTitle}</h2>
+              <p>{t.tool.partialActiveBody}</p>
+            </section>
+          ) : null}
+
           {hasActiveCalculation ? (
             <>
               {isWhoGrowth ? (

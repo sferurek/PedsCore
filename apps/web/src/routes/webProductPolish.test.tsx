@@ -7,6 +7,7 @@ import { getSeoForRoute } from "../utils/seo";
 import { parseRoute } from "../utils/routes";
 import { EvidencePage } from "./EvidencePage";
 import { HomePage } from "./HomePage";
+import { ToolPage } from "./ToolPage";
 import { ToolsPage } from "./ToolsPage";
 
 const noopNavigate = () => undefined;
@@ -176,5 +177,24 @@ describe("public product web polish", () => {
     expect(getToolBySlug("who-growth")?.implementationStatus).toBe(
       "partially_implemented"
     );
+  });
+
+  it("renders WHO Growth as an active partial module", () => {
+    const whoGrowth = getToolBySlug("who-growth");
+
+    expect(whoGrowth).toBeDefined();
+
+    const html = renderToString(
+      <ToolPage
+        language="en"
+        navigate={noopNavigate}
+        tool={whoGrowth!}
+      />
+    );
+
+    expect(html).toContain("Active partial module");
+    expect(html).toContain("WHO growth data");
+    expect(html).not.toContain("Tool not active yet");
+    expect(html).not.toContain("Automatic calculation is not active");
   });
 });

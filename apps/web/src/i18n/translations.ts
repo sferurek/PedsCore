@@ -164,6 +164,9 @@ export const translations = {
       notActiveTitle: "Herramienta no activa todavia",
       automaticCalculationInactive:
         "El calculo automatico aun no esta activo para esta herramienta. La ficha se muestra para revision, trazabilidad y preparacion de implementacion.",
+      partialActiveTitle: "Modulo parcial activo",
+      partialActiveBody:
+        "Este modulo ya calcula el alcance OMS disponible en PedsCore. Sigue marcado como implementacion parcial porque quedan pendientes el alcance 5-19 restante, la politica de interpolacion y la revision final.",
       disclaimer:
         "Aviso: PedsCore es una fuente de consulta educativa e informativa para profesionales sanitarios. No sustituye el juicio clinico, los protocolos locales ni la valoracion individual del paciente. No debe utilizarse como unica base para tomar decisiones clinicas.",
       feedbackQuestion:
@@ -413,6 +416,9 @@ export const translations = {
       notActiveTitle: "Tool not active yet",
       automaticCalculationInactive:
         "Automatic calculation is not active for this tool yet. This page is shown for review, traceability and implementation preparation.",
+      partialActiveTitle: "Active partial module",
+      partialActiveBody:
+        "This module already calculates the WHO scope currently available in PedsCore. It remains marked as partially implemented while the remaining 5-19 scope, interpolation policy, and final review are pending.",
       disclaimer:
         "Disclaimer: PedsCore is an educational and informational reference for healthcare professionals. It does not replace clinical judgment, local protocols or individual patient assessment. It must not be used as the sole basis for clinical decision-making.",
       feedbackQuestion: "Found an error or want to suggest an improvement?",

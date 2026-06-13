@@ -1142,8 +1142,8 @@ const whoGrowthValidationNotes: LocalizedText = {
 };
 
 const whoGrowthModuleValidationNotes: LocalizedText = {
-  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-4A: módulo unificado OMS preparado. Indicadores principales OMS 0-5 y BMI-for-age/height-for-age OMS 5-19 importados desde tablas XLSX oficiales OMS con licencia de datos separada y con cálculo LMS, gráficas SVG imprimibles y punto del paciente. Alcance restante 5-19, política de interpolación y revisión final siguen pendientes antes de marcar el módulo completo como implementado.",
-  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-4A: unified WHO module prepared. Core WHO 0-5 indicators plus WHO Growth Reference 2007 BMI-for-age and height-for-age 5-19 were imported from official WHO XLSX tables under a separate data license and have LMS calculation, printable SVG charts, and patient points. Remaining 5-19 scope, interpolation policy, and final review remain pending before marking the full module implemented."
+  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-4A: modulo unificado OMS parcialmente activo. Indicadores principales OMS 0-5 y BMI-for-age/height-for-age OMS 5-19 importados desde tablas XLSX oficiales OMS con licencia de datos separada y con calculo LMS, graficas SVG imprimibles y punto del paciente. Alcance restante 5-19, politica de interpolacion y revision final siguen pendientes antes de marcar el modulo completo como implementado.",
+  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-4A: unified WHO module is partially active. Core WHO 0-5 indicators plus WHO Growth Reference 2007 BMI-for-age and height-for-age 5-19 were imported from official WHO XLSX tables under a separate data license and have LMS calculation, printable SVG charts, and patient points. Remaining 5-19 scope, interpolation policy, and final review remain pending before marking the full module implemented."
 };
 
 const cdcGrowthValidationNotes: LocalizedText = {
@@ -2797,8 +2797,8 @@ export const clinicalTools: ClinicalToolMetadata[] = [
     "percentile",
     "Ninos y adolescentes segun rangos OMS aplicables",
     "Children and adolescents according to applicable WHO ranges",
-    "Modulo unificado previsto para calcular indicadores OMS aplicables desde una entrada antropometrica comun.",
-    "Unified module planned to calculate applicable WHO indicators from one common anthropometric input.",
+    "Modulo unificado disponible para calcular indicadores OMS aplicables desde una entrada antropometrica comun.",
+    "Available unified module for applicable WHO indicators from one common anthropometric input.",
     "partially_implemented",
     "official_manual_or_institutional_protocol",
     "medium",
@@ -2817,7 +2817,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
         sourceType: "website",
         accessType: "open_access",
         notes:
-          "Official source for 0-5 year indicators. PedsCore must import and verify official LMS/data files before activating calculation.",
+          "Official source for 0-5 year indicators. PedsCore imports verified official LMS/data files for the currently available scope; remaining policy and review gates are documented separately.",
         appliesTo: ["who_growth_module"],
         priority: 1
       },
@@ -2834,7 +2834,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
         sourceType: "website",
         accessType: "open_access",
         notes:
-          "Official source for 5-19 year reference data. PedsCore must import and verify official LMS/data files before activating calculation.",
+          "Official source for 5-19 year reference data. PedsCore imports verified BMI-for-age and height-for-age LMS/data files for the currently available scope; remaining 5-19 scope and interpolation policy stay pending.",
         appliesTo: ["who_growth_module"],
         priority: 2
       }
