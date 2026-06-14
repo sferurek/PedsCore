@@ -17,8 +17,8 @@ https://peds-core.vercel.app/
 
 ## Estado Alpha Actual
 
-- 79 herramientas pediátricas y neonatales catalogadas.
-- 18 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
+- 80 herramientas pediátricas y neonatales catalogadas.
+- 19 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
 - 1 módulo parcialmente implementado: WHO Growth.
 - Web ES/EN desplegada en Vercel.
 - API serverless de analítica agregada en `/api/analytics/countries`.
@@ -71,7 +71,7 @@ Consulta [DISCLAIMER.md](DISCLAIMER.md) para el aviso legal completo.
 
 ## Herramientas Implementadas
 
-Las 18 herramientas completamente implementadas son:
+Las 19 herramientas completamente implementadas son:
 
 - Apgar.
 - Silverman-Andersen.
@@ -85,6 +85,7 @@ Las 18 herramientas completamente implementadas son:
 - Westley Croup Score.
 - PRAM.
 - Clinical Dehydration Scale.
+- Pediatric Appendicitis Score.
 - PECARN TCE menor de 2 años.
 - PECARN TCE 2 años o más.
 - CATCH.

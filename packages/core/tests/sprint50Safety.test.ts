@@ -21,6 +21,7 @@ const expectedImplementedToolIds = [
   "westley_croup",
   "pram",
   "clinical_dehydration_scale",
+  "pediatric_appendicitis_score",
   "pecarn_tbi_under_2",
   "pecarn_tbi_2_or_more",
   "catch_tbi",
@@ -37,6 +38,7 @@ const implementedTestFiles: Record<string, string> = {
   clinical_dehydration_scale: "clinicalDehydrationScale.test.ts",
   flacc: "flacc.test.ts",
   nips: "nips.test.ts",
+  pediatric_appendicitis_score: "pediatricAppendicitisScore.test.ts",
   pecarn_tbi_2_or_more: "pecarn2OrMore.test.ts",
   pecarn_tbi_under_2: "pecarnUnder2.test.ts",
   pram: "pram.test.ts",
@@ -140,7 +142,7 @@ describe("SPRINT-50 implementation safety gates", () => {
       .map((tool) => tool.id);
 
     expect(partiallyImplementedIds).toEqual(["who_growth_module"]);
-    expect(getImplementedTools()).toHaveLength(18);
+    expect(getImplementedTools()).toHaveLength(19);
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {

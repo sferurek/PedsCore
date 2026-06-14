@@ -25,6 +25,7 @@ const implementedToolIds = new Set([
   "westley_croup",
   "pram",
   "clinical_dehydration_scale",
+  "pediatric_appendicitis_score",
   "pecarn_tbi_under_2",
   "pecarn_tbi_2_or_more",
   "catch_tbi",
@@ -206,6 +207,27 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "abstract_only",
       appliesTo: ["clinical_dehydration_scale"],
       priority: 3
+    }
+  ],
+  pediatric_appendicitis_score: [
+    {
+      id: "pas_2002_original",
+      title: "Pediatric appendicitis score",
+      authors: "Samuel M",
+      year: 2002,
+      journalOrPublisher: "Journal of Pediatric Surgery",
+      citation:
+        "Samuel M. Pediatric appendicitis score. J Pediatr Surg. 2002;37(6):877-881.",
+      doi: "10.1053/jpsu.2002.32893",
+      pmid: "12037754",
+      url: "https://pubmed.ncbi.nlm.nih.gov/12037754/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Primary PAS derivation publication. PedsCore presents score total and conservative risk bands only; no local validation, diagnostic certainty, imaging advice, or surgical recommendation is implied.",
+      appliesTo: ["pediatric_appendicitis_score"],
+      priority: 1
     }
   ],
   pecarn_tbi_under_2: [
@@ -1199,6 +1221,11 @@ const brosjodValidationNotes: LocalizedText = {
 const gorelickValidationNotes: LocalizedText = {
   es: "Bloque 8B-3: fuente Gorelick dehydration localizada con DOI/PMID. Pendiente definir escala exacta, tabla completa y validacion frente a CDS antes de activar.",
   en: "Block 8B-3: Gorelick dehydration source located with DOI/PMID. Exact scale, complete table, and validation against CDS remain pending before activation."
+};
+
+const pediatricAppendicitisScoreValidationNotes: LocalizedText = {
+  es: "Fuente primaria de Samuel 2002 trazada para los 8 items y puntuacion 0-10. PedsCore muestra puntuacion y categorias educativas de riesgo; no hay validacion local, no confirma ni descarta apendicitis y no recomienda imagen, cirugia ni tratamiento.",
+  en: "Samuel 2002 primary source traced for the 8 items and 0-10 score. PedsCore shows score and educational risk categories; there is no local validation, it does not confirm or exclude appendicitis, and it does not recommend imaging, surgery, or treatment."
 };
 
 const catchValidationNotes: LocalizedText = {
@@ -2367,6 +2394,159 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       }
     ]
   },
+  pediatric_appendicitis_score: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Calculadora educativa del Pediatric Appendicitis Score. Muestra puntuacion e interpretacion de riesgo; no confirma ni descarta apendicitis y no genera recomendaciones terapeuticas, quirurgicas o de imagen. Las categorias de riesgo 0-3, 4-6 y 7-10 son bandas educativas usadas por PedsCore para facilitar la interpretacion. No deben interpretarse como validacion local ni como indicacion diagnostica o terapeutica.",
+      en: "Educational Pediatric Appendicitis Score calculator. It shows score and risk interpretation; it does not confirm or exclude appendicitis and does not generate treatment, surgical, or imaging recommendations. The 0-3, 4-6, and 7-10 risk categories are educational bands used by PedsCore to support interpretation. They must not be interpreted as local validation or as diagnostic or therapeutic guidance."
+    },
+    inputs: [
+      {
+        id: "right_iliac_fossa_tenderness",
+        label: {
+          es: "Dolor en fosa iliaca derecha",
+          en: "Right iliac fossa tenderness"
+        },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("present", "Presente", "Present", 2)
+        ]
+      },
+      {
+        id: "cough_percussion_hopping_tenderness",
+        label: {
+          es: "Dolor con tos, percusion o salto",
+          en: "Pain with cough, percussion, or hopping"
+        },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("present", "Presente", "Present", 2)
+        ]
+      },
+      {
+        id: "anorexia",
+        label: { es: "Anorexia", en: "Anorexia" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("present", "Presente", "Present", 1)
+        ]
+      },
+      {
+        id: "fever",
+        label: { es: "Fiebre", en: "Fever" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("present", "Presente", "Present", 1)
+        ]
+      },
+      {
+        id: "nausea_or_vomiting",
+        label: { es: "Nauseas o vomitos", en: "Nausea or vomiting" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("present", "Presente", "Present", 1)
+        ]
+      },
+      {
+        id: "pain_migration",
+        label: { es: "Migracion del dolor", en: "Migration of pain" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("present", "Presente", "Present", 1)
+        ]
+      },
+      {
+        id: "leukocytosis",
+        label: { es: "Leucocitosis", en: "Leukocytosis" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("present", "Presente", "Present", 1)
+        ]
+      },
+      {
+        id: "neutrophilia",
+        label: { es: "Neutrofilia", en: "Neutrophilia" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("absent", "Ausente", "Absent", 0),
+          option("present", "Presente", "Present", 1)
+        ]
+      }
+    ],
+    interpretationBands: [
+      {
+        id: "low_risk",
+        min: 0,
+        max: 3,
+        label: { es: "Bajo riesgo", en: "Low risk" },
+        description: {
+          es: "Categoria de bajo riesgo segun la puntuacion introducida. No descarta apendicitis; requiere valoracion clinica y seguimiento segun contexto.",
+          en: "Low-risk category based on the entered score. This does not exclude appendicitis; clinical assessment and follow-up depend on context."
+        }
+      },
+      {
+        id: "intermediate_risk",
+        min: 4,
+        max: 6,
+        label: { es: "Riesgo intermedio", en: "Intermediate risk" },
+        description: {
+          es: "Categoria de riesgo intermedio. Interpretar junto con exploracion, evolucion, pruebas complementarias y protocolos locales.",
+          en: "Intermediate-risk category. Interpret with examination, clinical course, complementary tests, and local protocols."
+        }
+      },
+      {
+        id: "high_risk",
+        min: 7,
+        max: 10,
+        label: { es: "Alto riesgo", en: "High risk" },
+        description: {
+          es: "Categoria de alto riesgo segun la puntuacion introducida. No equivale a diagnostico ni indica automaticamente tratamiento, cirugia o imagen.",
+          en: "High-risk category based on the entered score. This is not a diagnosis and does not automatically indicate treatment, surgery, or imaging."
+        }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "pas_two_point_items",
+        variable: {
+          es: "Items de 2 puntos",
+          en: "2-point items"
+        },
+        value: "0 or 2",
+        description: {
+          es: "Dolor en fosa iliaca derecha y dolor con tos, percusion o salto.",
+          en: "Right iliac fossa tenderness and pain with cough, percussion, or hopping."
+        }
+      },
+      {
+        id: "pas_one_point_items",
+        variable: {
+          es: "Items de 1 punto",
+          en: "1-point items"
+        },
+        value: "0 or 1",
+        description: {
+          es: "Anorexia, fiebre, nauseas/vomitos, migracion del dolor, leucocitosis y neutrofilia.",
+          en: "Anorexia, fever, nausea/vomiting, pain migration, leukocytosis, and neutrophilia."
+        }
+      }
+    ]
+  },
   sipa: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
@@ -2764,6 +2944,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("benes", "benes", "Benes", "Benes", "Benes", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Herramienta neurologica alternativa identificada.", "Alternative neurologic assessment tool identified.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("glasgow_adapted", "glasgow-adapted", "Glasgow adaptado", "Glasgow adaptado", "Adapted Glasgow", "neurology", "consciousness", "scale", "Ninos", "Children", "Variante adaptada de Glasgow identificada para revision.", "Adapted Glasgow variant identified for review.", "needs_primary_reference", "primary_reference_needed", "medium", baseValidationNotes.primary),
   makeTool("clinical_dehydration_scale", "clinical-dehydration-scale", "CDS", "Clinical Dehydration Scale", "Clinical Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Score clinico de gravedad de deshidratacion.", "Clinical score for dehydration severity.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
+  makeTool("pediatric_appendicitis_score", "pediatric-appendicitis-score", "PAS", "Pediatric Appendicitis Score", "Pediatric Appendicitis Score", "emergency", "abdominal_pain", "score", "Ninos con dolor abdominal y sospecha clinica de apendicitis", "Children with abdominal pain and clinical concern for appendicitis", "Calculadora educativa de riesgo de apendicitis pediatrica basada en ocho items clinicos y analiticos.", "Educational pediatric appendicitis risk calculator based on eight clinical and laboratory items.", "ready_for_implementation", "original_derivation_study", "medium", pediatricAppendicitisScoreValidationNotes),
   makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Escala alternativa de deshidratacion identificada.", "Alternative dehydration scale identified.", "pending_validation", "original_derivation_study", "medium", gorelickValidationNotes),
   makeTool("pecarn_tbi_under_2", "pecarn-tbi-under-2", "PECARN <2", "PECARN TCE menor de 2 anos", "PECARN TBI Under 2 Years", "emergency", "head_trauma", "clinical_rule", "Menores de 2 anos con traumatismo craneal", "Children under 2 years with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
   makeTool("pecarn_tbi_2_or_more", "pecarn-tbi-2-or-more", "PECARN >=2", "PECARN TCE 2 anos o mas", "PECARN TBI 2 Years or Older", "emergency", "head_trauma", "clinical_rule", "Ninos de 2 anos o mas con traumatismo craneal", "Children 2 years or older with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),

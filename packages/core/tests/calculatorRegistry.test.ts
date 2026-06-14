@@ -20,6 +20,7 @@ describe("calculator registry", () => {
       "westley_croup",
       "pram",
       "clinical_dehydration_scale",
+      "pediatric_appendicitis_score",
       "pecarn_tbi_under_2",
       "pecarn_tbi_2_or_more",
       "catch_tbi",

@@ -17,8 +17,8 @@ https://peds-core.vercel.app/
 
 ## Current Alpha Status
 
-- 79 cataloged pediatric and neonatal tools.
-- 18 fully implemented tools with active calculation or informational rule output.
+- 80 cataloged pediatric and neonatal tools.
+- 19 fully implemented tools with active calculation or informational rule output.
 - 1 partially implemented module: WHO Growth.
 - ES/EN web app deployed on Vercel.
 - Serverless aggregate analytics API at `/api/analytics/countries`.
@@ -71,7 +71,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full disclaimer.
 
 ## Implemented Tools
 
-The 18 fully implemented tools are:
+The 19 fully implemented tools are:
 
 - Apgar.
 - Silverman-Andersen.
@@ -85,6 +85,7 @@ The 18 fully implemented tools are:
 - Westley Croup Score.
 - PRAM.
 - Clinical Dehydration Scale.
+- Pediatric Appendicitis Score.
 - PECARN TBI under 2 years.
 - PECARN TBI 2 years or older.
 - CATCH.

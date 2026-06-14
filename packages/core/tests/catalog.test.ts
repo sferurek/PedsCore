@@ -25,6 +25,7 @@ const implementedToolIds = [
   "westley_croup",
   "pram",
   "clinical_dehydration_scale",
+  "pediatric_appendicitis_score",
   "pecarn_tbi_under_2",
   "pecarn_tbi_2_or_more",
   "catch_tbi",
@@ -83,7 +84,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(18);
+    expect(getImplementedTools()).toHaveLength(19);
   });
 
   it("keeps the implemented tool set unchanged during evidence audit", () => {

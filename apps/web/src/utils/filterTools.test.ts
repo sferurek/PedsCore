@@ -4,7 +4,7 @@ import { defaultFilters, filterTools } from "./filterTools";
 
 describe("tool filtering", () => {
   it("can access the full catalog from the web app", () => {
-    expect(getAllTools().length).toBe(79);
+    expect(getAllTools().length).toBe(80);
     expect(getToolBySlug("who-growth")?.id).toBe("who_growth_module");
   });
 

@@ -8,6 +8,7 @@ export * from "./schwartz.js";
 export * from "./westleyCroup.js";
 export * from "./pram.js";
 export * from "./clinicalDehydrationScale.js";
+export * from "./pediatricAppendicitisScore.js";
 export * from "./pecarn.js";
 export * from "./catch.js";
 export * from "./chalice.js";

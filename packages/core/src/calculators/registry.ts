@@ -20,6 +20,7 @@ import {
 import { catchCalculator } from "./catch.js";
 import { chaliceCalculator } from "./chalice.js";
 import { nipsCalculator } from "./nips.js";
+import { pediatricAppendicitisScoreCalculator } from "./pediatricAppendicitisScore.js";
 import { pramCalculator } from "./pram.js";
 import { sipaCalculator } from "./sipa.js";
 import { westleyCroupCalculator } from "./westleyCroup.js";
@@ -37,6 +38,7 @@ const calculators = [
   westleyCroupCalculator,
   pramCalculator,
   clinicalDehydrationScaleCalculator,
+  pediatricAppendicitisScoreCalculator,
   pecarnUnder2Calculator,
   pecarn2OrMoreCalculator,
   catchCalculator,
