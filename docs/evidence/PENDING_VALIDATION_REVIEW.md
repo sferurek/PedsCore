@@ -1,8 +1,8 @@
 # Pending Validation Review
 
-Date: 2026-06-03
+Date: 2026-06-17
 
-Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validation` and fully audited a Priority A batch of 8 tools. No clinical calculator was implemented, no scoring table was copied into code, and no tool was promoted to `ready_for_implementation`.
+Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validation` and fully audited a Priority A batch of 8 tools. Sprint 1 later implemented only Revised Schwartz after evidence gates were satisfied; Gorelick Dehydration and CRIES remain blocked.
 
 ## Priority Rules
 
@@ -22,7 +22,7 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | B | `modified_finnegan` | `modified-finnegan` | neonatology | Original Finnegan source located; modified variant, long table, licensing, and therapeutic threshold wording unresolved. | `pending_variant_selection` |
 | B | `pipp` | `pipp` | pain | Original PIPP source located; complete table, gestational-age adjustment, interpretation, and licensing pending. | `pending_complete_scoring_table` |
 | B | `pipp_r` | `pipp-r` | pain | PIPP-R validation sources located; complete table, adjustment, interpretation, and licensing pending. | `pending_complete_scoring_table` |
-| A | `cries` | `cries` | pain | Full 0/1/2 item table and licensing pending. | `pending_complete_scoring_table` |
+| A | `cries` | `cries` | pain | Full 0/1/2 item table is copyright/licensing-sensitive in available copies. | `pending_licensing_review` |
 | B | `comfortneo` | `comfortneo` | neonatology | COMFORTneo sources located; official table, ventilated/non-ventilated handling, licensing, and expert review pending. | `pending_complete_scoring_table` |
 | A | `bhutani_nomogram` | `bhutani-nomogram` | neonatology | Reusable hour-specific curve values and current guideline context pending. | `pending_complete_scoring_table` |
 | B | `pews` | `pews` | emergency | Maintainer decision: generic PEWS is an umbrella/family and must not become an active calculator. | `catalog_umbrella_only` |
@@ -30,7 +30,7 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | A | `bedside_pews` | `bedside-pews` | emergency | Keep distinct from Brighton; table reuse, inventor/licensing review, and protocol separation pending. | `pending_licensing_review` |
 | B | `rdai` | `rdai` | respiratory | Direct primary source/table pending. | Not reviewed in detail. |
 | B | `pediatric_gcs` | `pediatric-glasgow-coma-scale` | neurology | Guideline source trail found; primary pediatric adaptation and complete verbal table unresolved. | `pending_primary_source` |
-| B | `revised_schwartz` | `revised-schwartz` | nephrology | Needs distinction from existing bedside Schwartz and exact formula variant. | Not reviewed in detail. |
+| B | `revised_schwartz` | `revised-schwartz` | nephrology | Sprint 1 selected and implemented the 2009 multivariable CKiD equation, separate from bedside Schwartz. | `implemented_sprint_1` |
 | B | `prifle` | `prifle` | nephrology | Pediatric RIFLE source and exact criteria pending. | Not reviewed in detail. |
 | B | `kdigo_pediatric` | `kdigo-pediatric` | nephrology | Official guideline criteria and pediatric adaptation require careful implementation. | Not reviewed in detail. |
 | A | `who_growth_percentiles` | `who-growth-percentiles` | growth_nutrition | Official files/indicator selection, terms, and tests pending. | `pending_complete_scoring_table` |
@@ -52,7 +52,7 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | Ballard / New Ballard | DOI/PMID verified. | Pending. | Medium. | `pending_complete_scoring_table` |
 | Sarnat | DOI/PMID verified. | Pending. | Medium. | `requires_domain_expert_review` |
 | Thompson HIE | DOI verified; PMID not confirmed. | Pending. | Medium. | `pending_complete_scoring_table` |
-| CRIES | DOI/PMID verified. | Pending. | Medium. | `pending_complete_scoring_table` |
+| CRIES | DOI/PMID verified. | Copyright/licensing-sensitive in available table copies. | Medium/high. | `pending_licensing_review` |
 | Bhutani Nomogram | DOI/PMID verified. | Pending curve/data values. | Medium. | `pending_complete_scoring_table` |
 | Bedside PEWS | DOI/PMID/PMCID verified. | Source-located, reuse review pending. | Medium. | `pending_licensing_review` |
 | WHO Growth Percentiles | Official WHO source verified. | Official files not selected/imported. | Low/medium. | `pending_complete_scoring_table` |
@@ -94,10 +94,10 @@ Scope: Block 8B-1 reviewed all catalog tools currently marked `pending_validatio
 | RDAI | respiratory | Partial | Bibliographic URL only; DOI/PMID not verified | No | Pending | Unknown | `pending_primary_source` | Locate primary Lowell paper/table; do not use secondary calculators. |
 | BROSJOD | respiratory | Yes | DOI `10.1002/ppul.23546`; PMID `28328090` | Found only in third-party Wiley article mirror | Pending | Medium/high | `pending_reusable_original_table` | Do not implement until table reuse or permission is clear. |
 | PASS | respiratory | Yes | DOI `10.1197/j.aem.2003.07.015`; PMID `14709423` | No | Pending | Unknown | `pending_complete_scoring_table` | Verify complete table and interpretation from source. |
-| Gorelick dehydration | emergency | Yes | DOI `10.1542/peds.99.5.e6`; PMID `9113963` | No | Variant pending | Unknown | `pending_variant_selection` | Select exact 4-item/10-item implementation and table. |
+| Gorelick dehydration | emergency | Yes | DOI `10.1542/peds.99.5.e6`; PMID `9113963` | No reusable table confirmed | Variant pending | Unknown | `pending_variant_selection` | Select exact 4-item/10-item implementation and source-verified table. |
 | CATCH | emergency | Yes | DOI `10.1503/cmaj.091421`; PMID `20142371` | Yes, in open article | Rule criteria published | Low/medium | `ready_for_implementation` | Implement only as informational predictor classification; no CT recommendation. |
 | CHALICE | emergency | Yes | DOI `10.1136/adc.2005.083980`; PMID `17056862` | Yes, in open article | Rule criteria published | Low/medium | `ready_for_implementation` | Implement only as informational predictor classification; no CT recommendation. |
-| Revised Schwartz | nephrology | Yes | DOI `10.1681/ASN.2008030287`; PMID `19158356` | Formula source found | Variant pending | Low | `pending_variant_selection` | Select exact CKiD equation distinct from Bedside Schwartz. |
+| Revised Schwartz | nephrology | Yes | DOI `10.1681/ASN.2008030287`; PMID `19158356` | Formula source found | Descriptive estimate only | Low | `implemented_sprint_1` | Maintain CKiD 2009 variant separation from Bedside Schwartz and no management advice. |
 | pRIFLE | nephrology | Yes | DOI `10.1038/sj.ki.5002231`; PMID `17396113` | Criteria source found | Requires unit/expert review | Medium | `requires_domain_expert_review` | Verify eCCl baseline, urine-output windows, units, and expert review. |
 | rFLACC | pain | Yes | DOI `10.1111/j.1460-9592.2005.01773.x`; PMID `16490089` | No | Pending | Unknown | `pending_complete_scoring_table` | Verify revised descriptors and reuse/licensing. |
 | CHEOPS | pain | Citation trail only | No DOI/PMID confirmed for 1985 chapter | No | Pending | Unknown | `pending_primary_source` | Locate primary chapter/table or permissioned source. |
@@ -160,12 +160,12 @@ This block separates unresolved tools into decision classes:
 | `head_circumference_percentile` | `head-circumference-percentile` | growth_nutrition | `pending_validation` | `blocked_variant_selection_needed` | WHO/CDC strategy pending | `blocked_variant_selection_needed` | yes |
 | `adolescent_depression_risk` | `adolescent-depression-risk` | adolescent_medicine | `coming_soon` | `blocked_missing_primary_source` | no unified instrument selected | `catalog_only_recommended` | yes |
 | `adolescent_behavior_risk` | `adolescent-behavior-risk` | adolescent_medicine | `coming_soon` | `blocked_missing_primary_source` | no unified instrument selected | `catalog_only_recommended` | yes |
-| `cries` | `cries` | pain | `pending_validation` | `blocked_missing_complete_scoring_table` | primary citation trail exists; table incomplete | `blocked_missing_complete_scoring_table` | no |
+| `cries` | `cries` | pain | `pending_validation` | `blocked_licensing_or_copyright` | DOI/PMID verified; available table copies are copyright-marked | `blocked_licensing_or_copyright` | no |
 | `cheops` | `cheops` | pain | `pending_validation` | `blocked_missing_primary_source` | 1985 chapter not directly linked | `catalog_only_recommended` | no |
 | `visual_analogue_scale` | `visual-analogue-scale` | pain | `needs_primary_reference` | `blocked_variant_selection_needed` | format not selected | `catalog_only_recommended` | yes |
 | `thompson_hie` | `thompson-hie-score` | neonatology | `pending_validation` | `blocked_missing_complete_scoring_table` | tables and cutoffs not fully extracted | `blocked_missing_complete_scoring_table` | no |
 | `rflacc` | `rflacc` | pain | `pending_validation` | `blocked_missing_complete_scoring_table` | table/license confirmation pending | `blocked_missing_complete_scoring_table` | no |
-| `gorelick_dehydration` | `gorelick-dehydration` | emergency | `pending_validation` | `blocked_variant_selection_needed` | 4-item vs 10-item variant decision | `blocked_variant_selection_needed` | yes |
+| `gorelick_dehydration` | `gorelick-dehydration` | emergency | `pending_validation` | `blocked_variant_selection_needed` | DOI/PMID verified; 4-item vs 10-item variant and reusable table unresolved | `blocked_variant_selection_needed` | yes |
 | `who_growth_percentiles` | `who-growth-percentiles` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | official source located, LMS mapping pending | `catalog_only_recommended` | yes |
 | `who_growth_module` | `who-growth` | growth_nutrition | `partially_implemented` | `blocked_requires_domain_expert_review` | Core WHO 0-5 imported; WHO 5-19 BMI-for-age and height-for-age imported; remaining 5-19 scope/interpolation/final review pending | `implement_after_chart_and_ui_review` | yes |
 | `cdc_growth_percentiles` | `cdc-growth-percentiles` | growth_nutrition | `pending_validation` | `blocked_missing_complete_scoring_table` | official source located, data/model pending | `catalog_only_recommended` | yes |

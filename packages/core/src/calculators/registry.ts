@@ -10,7 +10,10 @@ import {
   qtcFridericiaCalculator,
   qtcHodgesCalculator
 } from "./qtc.js";
-import { bedsideSchwartzCalculator } from "./schwartz.js";
+import {
+  bedsideSchwartzCalculator,
+  revisedSchwartzCalculator
+} from "./schwartz.js";
 import { silvermanAndersenCalculator } from "./silvermanAndersen.js";
 import { clinicalDehydrationScaleCalculator } from "./clinicalDehydrationScale.js";
 import {
@@ -35,6 +38,7 @@ const calculators = [
   qtcFraminghamCalculator,
   qtcHodgesCalculator,
   bedsideSchwartzCalculator,
+  revisedSchwartzCalculator,
   westleyCroupCalculator,
   pramCalculator,
   clinicalDehydrationScaleCalculator,

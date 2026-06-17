@@ -18,6 +18,7 @@ const expectedImplementedToolIds = [
   "qtc_framingham",
   "qtc_hodges",
   "bedside_schwartz",
+  "revised_schwartz",
   "westley_croup",
   "pram",
   "clinical_dehydration_scale",
@@ -46,6 +47,7 @@ const implementedTestFiles: Record<string, string> = {
   qtc_framingham: "qtc.test.ts",
   qtc_fridericia: "qtc.test.ts",
   qtc_hodges: "qtc.test.ts",
+  revised_schwartz: "schwartz.test.ts",
   silverman_andersen: "silvermanAndersen.test.ts",
   sipa: "sipa.test.ts",
   wood_downes_ferres: "woodDownesFerres.test.ts",
@@ -142,7 +144,7 @@ describe("SPRINT-50 implementation safety gates", () => {
       .map((tool) => tool.id);
 
     expect(partiallyImplementedIds).toEqual(["who_growth_module"]);
-    expect(getImplementedTools()).toHaveLength(19);
+    expect(getImplementedTools()).toHaveLength(20);
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {

@@ -22,6 +22,7 @@ const implementedToolIds = new Set([
   "qtc_framingham",
   "qtc_hodges",
   "bedside_schwartz",
+  "revised_schwartz",
   "westley_croup",
   "pram",
   "clinical_dehydration_scale",
@@ -1219,8 +1220,13 @@ const brosjodValidationNotes: LocalizedText = {
 };
 
 const gorelickValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: fuente Gorelick dehydration localizada con DOI/PMID. Pendiente definir escala exacta, tabla completa y validacion frente a CDS antes de activar.",
-  en: "Block 8B-3: Gorelick dehydration source located with DOI/PMID. Exact scale, complete table, and validation against CDS remain pending before activation."
+  es: "Sprint 1: fuente Gorelick dehydration localizada con DOI/PMID, pero la tabla completa y la eleccion 4 frente a 10 items no quedan suficientemente trazadas desde una fuente reutilizable. No se implementa; queda bloqueada por seleccion de variante y tabla.",
+  en: "Sprint 1: Gorelick dehydration source located with DOI/PMID, but the complete table and 4-item versus 10-item choice are not sufficiently traced from a reusable source. It is not implemented; it remains blocked by variant selection and table review."
+};
+
+const revisedSchwartzReadyNotes: LocalizedText = {
+  es: "Sprint 1: variante CKiD 2009 multivariable seleccionada y trazada desde Schwartz et al. 2009. Calcula eGFR estimado con talla, creatinina, cistatina C, BUN y sexo; salida descriptiva sin recomendaciones terapeuticas.",
+  en: "Sprint 1: 2009 multivariable CKiD variant selected and traced to Schwartz et al. 2009. Calculates estimated GFR using height, creatinine, cystatin C, BUN, and sex; descriptive output only without therapeutic recommendations."
 };
 
 const pediatricAppendicitisScoreValidationNotes: LocalizedText = {
@@ -1236,11 +1242,6 @@ const catchValidationNotes: LocalizedText = {
 const chaliceValidationNotes: LocalizedText = {
   es: "Bloque 8B-3: CHALICE localizada con DOI/PMID/PMCID y regla publicada. Lista para implementacion tecnica como clasificacion informativa, sin recomendacion de TC ni manejo.",
   en: "Block 8B-3: CHALICE located with DOI/PMID/PMCID and published rule. Ready for technical implementation as informational classification only, without CT or management recommendations."
-};
-
-const revisedSchwartzValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: fuente CKiD/Schwartz 2009 localizada con DOI/PMID. Pendiente seleccionar variante exacta distinta de Bedside Schwartz y definir entradas biomarcadoras.",
-  en: "Block 8B-3: CKiD/Schwartz 2009 source located with DOI/PMID. Exact variant selection separate from Bedside Schwartz and biomarker inputs remain pending."
 };
 
 const prifleValidationNotes: LocalizedText = {
@@ -2033,6 +2034,86 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
           option("mg_dl", "mg/dL", "mg/dL"),
           option("umol_l", "umol/L", "umol/L")
         ]
+      }
+    ]
+  },
+  revised_schwartz: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Formula CKiD 2009 multivariable. Resultado estimado, educativo y descriptivo; no sustituye valoracion clinica ni protocolos locales.",
+      en: "2009 multivariable CKiD equation. Estimated, educational, and descriptive result; does not replace clinical assessment or local protocols."
+    },
+    inputs: [
+      {
+        id: "height_cm",
+        label: { es: "Talla", en: "Height" },
+        type: "number",
+        required: true,
+        unit: "cm",
+        min: 0,
+        step: 0.1
+      },
+      {
+        id: "serum_creatinine",
+        label: { es: "Creatinina serica", en: "Serum creatinine" },
+        type: "number",
+        required: true,
+        unit: "mg/dL o umol/L",
+        min: 0,
+        step: 0.01
+      },
+      {
+        id: "creatinine_unit",
+        label: { es: "Unidad de creatinina", en: "Creatinine unit" },
+        type: "select",
+        required: true,
+        options: [
+          option("mg_dl", "mg/dL", "mg/dL"),
+          option("umol_l", "umol/L", "umol/L")
+        ]
+      },
+      {
+        id: "cystatin_c_mg_l",
+        label: { es: "Cistatina C", en: "Cystatin C" },
+        type: "number",
+        required: true,
+        unit: "mg/L",
+        min: 0,
+        step: 0.01
+      },
+      {
+        id: "bun_mg_dl",
+        label: { es: "BUN", en: "BUN" },
+        type: "number",
+        required: true,
+        unit: "mg/dL",
+        min: 0,
+        step: 0.1,
+        helperText: {
+          es: "Usar nitrogeno ureico en sangre (BUN) en mg/dL, no urea en mmol/L.",
+          en: "Use blood urea nitrogen (BUN) in mg/dL, not urea in mmol/L."
+        }
+      },
+      {
+        id: "sex",
+        label: { es: "Sexo biologico usado en la ecuacion original", en: "Biological sex used in the original equation" },
+        type: "select",
+        required: true,
+        options: [
+          option("female", "Femenino", "Female"),
+          option("male", "Masculino", "Male")
+        ]
+      }
+    ],
+    scoringTable: [
+      {
+        id: "revised_schwartz_ckid_2009",
+        variable: { es: "Formula CKiD 2009", en: "2009 CKiD equation" },
+        value: "eGFR",
+        description: {
+          es: "39.1 x (talla m / creatinina mg/dL)^0.516 x (1.8 / cistatina C mg/L)^0.294 x (30 / BUN mg/dL)^0.169 x 1.099 si masculino x (talla m / 1.4)^0.188.",
+          en: "39.1 x (height m / creatinine mg/dL)^0.516 x (1.8 / cystatin C mg/L)^0.294 x (30 / BUN mg/dL)^0.169 x 1.099 if male x (height m / 1.4)^0.188."
+        }
       }
     ]
   },
@@ -2957,7 +3038,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("qtc_framingham", "qtc-framingham", "QTc Framingham", "QTc Framingham", "QTc Framingham", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Framingham.", "QT correction using Framingham formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("qtc_hodges", "qtc-hodges", "QTc Hodges", "QTc Hodges", "QTc Hodges", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Hodges.", "QT correction using Hodges formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("bedside_schwartz", "bedside-schwartz", "Bedside Schwartz", "Bedside Schwartz", "Bedside Schwartz", "nephrology", "egfr", "calculator", "Ninos con creatinina y talla disponibles", "Children with available creatinine and height", "Estimacion de filtrado glomerular pediatrico.", "Pediatric estimated glomerular filtration rate.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
-  makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con creatinina y talla disponibles", "Children with available creatinine and height", "Formula revisada de Schwartz para eGFR pediatrico.", "Revised Schwartz formula for pediatric eGFR.", "pending_validation", "original_derivation_study", "medium", revisedSchwartzValidationNotes),
+  makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con talla, creatinina, cistatina C, BUN y sexo disponibles", "Children with available height, creatinine, cystatin C, BUN, and sex", "Formula CKiD 2009 multivariable para eGFR pediatrico estimado.", "2009 multivariable CKiD equation for estimated pediatric eGFR.", "ready_for_implementation", "original_derivation_study", "medium", revisedSchwartzReadyNotes),
   makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificacion pediatrica de lesion renal aguda.", "Pediatric acute kidney injury classification.", "pending_validation", "original_derivation_study", "medium", prifleValidationNotes),
   makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO pediatrico", "KDIGO pediatrico", "Pediatric KDIGO", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Aplicacion pediatrica de criterios KDIGO para lesion renal aguda.", "Pediatric application of KDIGO criteria for acute kidney injury.", "pending_validation", "pending_verification", "medium"),
   makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Evalua disfuncion organica multiple pediatrica.", "Assesses pediatric multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),

@@ -22,6 +22,7 @@ const implementedToolIds = [
   "qtc_framingham",
   "qtc_hodges",
   "bedside_schwartz",
+  "revised_schwartz",
   "westley_croup",
   "pram",
   "clinical_dehydration_scale",
@@ -84,7 +85,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(19);
+    expect(getImplementedTools()).toHaveLength(20);
   });
 
   it("keeps the implemented tool set unchanged during evidence audit", () => {
@@ -274,7 +275,6 @@ describe("clinical tools catalog", () => {
       "brosjod",
       "pass",
       "gorelick_dehydration",
-      "revised_schwartz",
       "prifle",
       "rflacc",
       "cheops",
@@ -287,6 +287,27 @@ describe("clinical tools catalog", () => {
 
       expect(tool?.implementationStatus).not.toBe("ready_for_implementation");
       expect(tool?.implementationStatus).not.toBe("implemented");
+      expect(tool?.calculationStatus).not.toBe("active");
+    }
+  });
+
+  it("keeps Sprint 1 tools in their evidence-gated outcomes", () => {
+    const revisedSchwartz = getTool("revised_schwartz");
+    expect(revisedSchwartz?.implementationStatus).toBe("implemented");
+    expect(revisedSchwartz?.calculationStatus).toBe("active");
+    expect(revisedSchwartz?.validationNotes.en).toContain("CKiD");
+    expect(revisedSchwartz?.inputs?.map((input) => input.id)).toEqual([
+      "height_cm",
+      "serum_creatinine",
+      "creatinine_unit",
+      "cystatin_c_mg_l",
+      "bun_mg_dl",
+      "sex"
+    ]);
+
+    for (const id of ["gorelick_dehydration", "cries"]) {
+      const tool = getTool(id);
+      expect(tool?.implementationStatus).toBe("pending_validation");
       expect(tool?.calculationStatus).not.toBe("active");
     }
   });

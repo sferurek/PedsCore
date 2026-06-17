@@ -17,6 +17,7 @@ describe("calculator registry", () => {
       "qtc_framingham",
       "qtc_hodges",
       "bedside_schwartz",
+      "revised_schwartz",
       "westley_croup",
       "pram",
       "clinical_dehydration_scale",

@@ -1,96 +1,114 @@
 # Gorelick Dehydration Scale
 
 ## Current PedsCore status
-- id: gorelick_dehydration
-- slug: gorelick-dehydration
-- category: emergency
-- type: score
-- current implementationStatus: pending_validation
-- current evidenceLevel: original_derivation_study
+
+- id: `gorelick_dehydration`
+- slug: `gorelick-dehydration`
+- category: `emergency`
+- type: `score`
+- current implementationStatus: `pending_validation`
+- current evidenceLevel: `original_derivation_study`
 
 ## Evidence validation status
-- final evidence status: pending_complete_scoring_table
-- reason: Primary source found, but exact 4-item/10-item implementation variant and table need selection.
+
+- final evidence status: `pending_variant_selection`
+- reason: Sprint 1 confirmed the primary source, but did not find a sufficiently reusable complete 4-item versus 10-item table from a direct source. No calculator was implemented.
 
 ## Clinical purpose
-ES: Clinical signs for pediatric dehydration assessment.
-EN: Clinical signs for pediatric dehydration assessment.
+
+ES: valoración descriptiva de signos clínicos de deshidratación pediátrica.  
+EN: descriptive assessment of pediatric clinical dehydration signs.
 
 ## Target population
-Children with suspected dehydration in acute care.
+
+Children with suspected dehydration in acute care, as reflected by the Gorelick source population.
 
 ## Version / variant
-- exact version: Gorelick clinical signs; exact PedsCore variant not yet selected.
-- known variants: variant-specific review required before implementation.
-- selected version for PedsCore: Gorelick clinical signs; exact PedsCore variant not yet selected.
-- variant risk: medium
+
+- exact version: not selected.
+- known variants: clinical sign set from Gorelick 1997; derivative 4-sign and 10-sign interpretations in later reviews.
+- selected version for PedsCore: none yet.
+- variant risk: high if 4-item and 10-item sets are mixed.
 
 ## Primary source
-- found: yes
+
+- found: yes.
 - citation: Gorelick MH, Shaw KN, Murphy KO. Validity and reliability of clinical signs in the diagnosis of dehydration in children. Pediatrics. 1997;99(5):E6.
-- DOI: 10.1542/peds.99.5.e6
-- PMID: 9113963
+- DOI: `10.1542/peds.99.5.e6`
+- PMID: `9113963`
 - URL: https://pubmed.ncbi.nlm.nih.gov/9113963/
-- access: abstract_only
-- notes: Source recorded for traceability only; implementation still follows the evidence gate.
+- access: `abstract_only`
+- notes: direct source located, but complete reusable scoring table and variant choice remain unresolved.
 
 ## External validation
-Add validation studies only after source-specific review.
+
+Later dehydration reviews compare clinical signs and dehydration scales, but Sprint 1 did not use those as a primary table source.
 
 ## Guidelines / official sources
-No official guideline implementation is created in this block.
+
+No guideline implementation was created.
 
 ## Complete scoring table availability
-- complete table found: no
-- source: No. Complete sign set and cutoffs must be selected from source.
+
+- complete table found: no.
+- source: primary source likely defines assessed signs, but accessible/reusable implementation table was not confirmed.
 - copyright/licensing risk: unknown.
-- notes: Do not reconstruct tables from memory or secondary calculators.
+- notes: do not reconstruct 4-item or 10-item scale from memory or secondary calculators.
 
 ## Variables and scoring
+
 | variable | option | score/value | source | notes |
 |---|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/9113963/ | Complete table must be verified before calculator activation. |
+| Pending | Pending | Pending | Gorelick 1997 | Exact sign set and scoring variant must be selected. |
 
 ## Interpretation bands / cutoffs
+
 | range/value | category | interpretation | source |
 |---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/9113963/ |
+| Pending | Pending | Cutoffs differ by derivative variant. | Gorelick 1997 and later validation review needed. |
 
 ## Formula / algorithm
-Not applicable or pending complete scoring table.
+
+Not implemented. Candidate future algorithm would count source-verified clinical signs only after selecting one variant.
 
 ## Unit handling
-Units, age bands, and edge cases remain pending unless explicitly documented above.
+
+No units; all signs are clinical observations. Missing/unknown signs require explicit handling.
 
 ## Safety and regulatory notes
-- risk level: medium/high
-- why: Clinical outputs could influence care if worded as recommendations.
-- should provide recommendations: no; descriptive outputs only.
-- forbidden outputs: treatment, discharge, admission, CT instruction, medication, resuscitation instruction.
+
+- risk level: medium.
+- why: dehydration categorization can be linked to fluid management.
+- should provide recommendations: no.
+- forbidden outputs: oral/IV fluid instructions, admission/discharge, treatment, medication, or escalation advice.
 
 ## Licensing / copyright
-- appears implementable: not yet determined
-- license-sensitive: yes
-- requires permission: unknown
-- unknown: yes
-- notes: unknown.
+
+- appears implementable: unknown.
+- license-sensitive: unknown.
+- requires permission: unknown.
+- unknown: complete table/form reuse.
+- notes: keep blocked until variant and table are traceable.
 
 ## Implementation recommendation
-select_variant_first
+
+`select_variant_first`
 
 ## Proposed test cases
-- minimum
-- maximum
-- intermediate
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests: no treatment, CT, admission, discharge, medication, or resuscitation instructions.
+
+- minimum: no source-verified signs.
+- maximum: all source-verified signs.
+- intermediate: representative sign count.
+- missing input: unknown sign.
+- invalid input: non-boolean sign.
+- edge cases: 4-item versus 10-item mismatch.
+- forbidden wording tests: no fluid therapy, admission, discharge, medication, or escalation advice.
 
 ## Direct links
+
 - https://pubmed.ncbi.nlm.nih.gov/9113963/
 - https://doi.org/10.1542/peds.99.5.e6
-- https://pubmed.ncbi.nlm.nih.gov/9113963/
 
 ## Notes
-This fiche was updated in Block 8B-3. Validation does not mean implementation.
+
+Blocked in Sprint 1 because the evidence gate for complete table and variant selection was not met.
