@@ -17,8 +17,8 @@ https://peds-core.vercel.app/
 
 ## Current Alpha Status
 
-- 80 cataloged pediatric and neonatal tools.
-- 20 fully implemented tools with active calculation or informational rule output.
+- 81 cataloged pediatric and neonatal tools.
+- 21 fully implemented tools with active calculation or informational rule output.
 - 4 partially implemented WHO Growth entries: central module, WHO percentiles, BMI preset and head circumference preset.
 - ES/EN web app deployed on Vercel.
 - Serverless aggregate analytics API at `/api/analytics/countries`.
@@ -71,7 +71,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full disclaimer.
 
 ## Implemented Tools
 
-The 20 fully implemented tools are:
+The 21 fully implemented tools are:
 
 - Apgar.
 - Silverman-Andersen.
@@ -92,6 +92,7 @@ The 20 fully implemented tools are:
 - CHALICE.
 - SIPA.
 - NIPS.
+- Pediatric Burn TBSA Estimate.
 
 Many additional tools remain cataloged but blocked pending source, table, variant, licensing or expert review. This is a safety decision, not a missing feature.
 

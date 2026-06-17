@@ -28,7 +28,8 @@ const expectedImplementedToolIds = [
   "catch_tbi",
   "chalice_tbi",
   "sipa",
-  "nips"
+  "nips",
+  "pediatric_burn_tbsa"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -39,6 +40,7 @@ const implementedTestFiles: Record<string, string> = {
   clinical_dehydration_scale: "clinicalDehydrationScale.test.ts",
   flacc: "flacc.test.ts",
   nips: "nips.test.ts",
+  pediatric_burn_tbsa: "burnTbsa.test.ts",
   pediatric_appendicitis_score: "pediatricAppendicitisScore.test.ts",
   pecarn_tbi_2_or_more: "pecarn2OrMore.test.ts",
   pecarn_tbi_under_2: "pecarnUnder2.test.ts",
@@ -155,7 +157,7 @@ describe("SPRINT-50 implementation safety gates", () => {
       "bmi_percentile",
       "head_circumference_percentile"
     ]);
-    expect(getImplementedTools()).toHaveLength(20);
+    expect(getImplementedTools()).toHaveLength(21);
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {

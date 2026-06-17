@@ -24,6 +24,7 @@ import { catchCalculator } from "./catch.js";
 import { chaliceCalculator } from "./chalice.js";
 import { nipsCalculator } from "./nips.js";
 import { pediatricAppendicitisScoreCalculator } from "./pediatricAppendicitisScore.js";
+import { pediatricBurnTbsaCalculator } from "./burnTbsa.js";
 import { pramCalculator } from "./pram.js";
 import { sipaCalculator } from "./sipa.js";
 import { westleyCroupCalculator } from "./westleyCroup.js";
@@ -48,7 +49,8 @@ const calculators = [
   catchCalculator,
   chaliceCalculator,
   sipaCalculator,
-  nipsCalculator
+  nipsCalculator,
+  pediatricBurnTbsaCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

@@ -487,6 +487,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://peds-core.vercel.app/es/tools/pediatric-burn-tbsa</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/pediatric-burn-tbsa</loc>
+    <lastmod>2026-06-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://peds-core.vercel.app/es/tools/pecarn-tbi-under-2</loc>
     <lastmod>2026-06-17</lastmod>
     <changefreq>monthly</changefreq>

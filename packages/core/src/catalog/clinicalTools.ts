@@ -32,7 +32,8 @@ const implementedToolIds = new Set([
   "catch_tbi",
   "chalice_tbi",
   "sipa",
-  "nips"
+  "nips",
+  "pediatric_burn_tbsa"
 ]);
 
 type ToolSeed = Omit<
@@ -209,6 +210,69 @@ const implementedToolReferences: Record<string, Reference[]> = {
       appliesTo: ["clinical_dehydration_scale"],
       priority: 3
     }
+  ],
+  pediatric_burn_tbsa: [
+    {
+      id: "vumc_pediatric_burn_resuscitation_2025_tbsa_table",
+      title: "Pediatric Burn Fluid Resuscitation",
+      authors: "Monroe Carell Jr. Children's Hospital at Vanderbilt",
+      year: 2025,
+      journalOrPublisher: "Vanderbilt University Medical Center",
+      citation:
+        "Monroe Carell Jr. Children's Hospital at Vanderbilt. Pediatric Burn Fluid Resuscitation. March 2025.",
+      url: "https://www.vumc.org/burn/sites/default/files/public_files/Protocols/Pediatric-Burn-Fluid-Resuscitation-3.2025.pdf",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "institutional_protocol",
+      accessType: "open_access",
+      notes:
+        "Primary numeric table source for PedsCore TBSA regional percentages only. PedsCore does not implement protocol care-action sections.",
+      appliesTo: ["pediatric_burn_tbsa"],
+      priority: 1
+    },
+    {
+      id: "rch_burns_acute_management_tbsa",
+      title: "Clinical Practice Guidelines: Burns - acute management",
+      authors: "The Royal Children's Hospital Melbourne",
+      journalOrPublisher: "The Royal Children's Hospital Melbourne",
+      url: "https://www.rch.org.au/clinicalguide/guideline_index/burns/",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "guideline",
+      accessType: "open_access",
+      notes:
+        "Context source for using pediatric-specific TBSA tools and excluding epidermal burns/erythema from TBSA.",
+      appliesTo: ["pediatric_burn_tbsa"],
+      priority: 2
+    },
+    {
+      id: "jts_pediatric_lund_browder_2025",
+      title: "Pediatric Lund Browder Burn Estimate & Diagram",
+      authors: "Joint Trauma System",
+      year: 2025,
+      journalOrPublisher: "Defense Health Agency",
+      url: "https://jts.health.mil/assets/docs/forms/PEDIATRIC_LUND_BROWDER_BURN_ESTIMATE_DIAGRAM.pdf",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "institutional_protocol",
+      accessType: "open_access",
+      notes:
+        "Comparator source. PedsCore uses numeric values only and does not reproduce the diagram or form.",
+      appliesTo: ["pediatric_burn_tbsa"],
+      priority: 3
+    },
+    {
+      id: "pch_burns_surface_area_sheet",
+      title: "Burns Surface Area Sheet",
+      authors: "Perth Children's Hospital",
+      journalOrPublisher: "Perth Children's Hospital",
+      url: "https://pch.health.wa.gov.au/-/media/Files/Hospitals/PCH/General-documents/Health-professionals/ED-Guidelines/Flowchart-PDF/Burns-Surface-Area-sheet-PCH.pdf",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "institutional_protocol",
+      accessType: "open_access",
+      notes:
+        "Comparator source for age-adjusted Lund-Browder values. PedsCore does not reproduce institutional forms.",
+      appliesTo: ["pediatric_burn_tbsa"],
+      priority: 4
+    },
+    
   ],
   pediatric_appendicitis_score: [
     {
@@ -1396,6 +1460,11 @@ const pymsValidationNotes: LocalizedText = {
   en: "Block 8B-2: PYMS source located with DOI/PMID. Complete form/table, reuse terms, interpretation, and tests remain pending before implementation."
 };
 
+const pediatricBurnTbsaValidationNotes: LocalizedText = {
+  es: "Sprint 3A: estimador descriptivo TBSA pediatrico con tabla numerica Lund-Browder modificada de Vanderbilt como fuente primaria. No copia diagramas ni formularios; no genera decisiones asistenciales.",
+  en: "Sprint 3A: descriptive pediatric TBSA estimator using the Vanderbilt modified Lund-Browder numeric table as the primary source. It does not copy diagrams or forms; it does not generate care decisions."
+};
+
 const option = (
   id: string,
   es: string,
@@ -1434,7 +1503,128 @@ const booleanInput = (id: string, label: LocalizedText) => ({
   options: booleanOptions
 });
 
+const burnFractionOptions = [
+  option("0", "0%", "0%", 0),
+  option("0_25", "25%", "25%", 0.25),
+  option("0_5", "50%", "50%", 0.5),
+  option("0_75", "75%", "75%", 0.75),
+  option("1", "100%", "100%", 1)
+];
+
+const burnFractionInput = (regionId: string, label: LocalizedText) => ({
+  id: `burn_fraction_${regionId}`,
+  label,
+  description: {
+    es: "Fraccion de esta region con quemadura de espesor parcial o total. Deja 0 si no esta afectada.",
+    en: "Fraction of this region with partial-thickness or full-thickness burn. Leave 0 if unaffected."
+  },
+  type: "select" as const,
+  required: false,
+  options: burnFractionOptions
+});
+
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  pediatric_burn_tbsa: {
+    calculationNotes: {
+      es: "Estimacion descriptiva TBSA pediatrica por regiones numericas. Incluye solo quemaduras de espesor parcial y total; no incluye eritema superficial. No genera decisiones asistenciales.",
+      en: "Descriptive pediatric TBSA estimate by numeric regions. Include only partial-thickness and full-thickness burns; do not include superficial erythema. Does not generate care decisions."
+    },
+    inputs: [
+      {
+        id: "age_band",
+        label: { es: "Banda de edad", en: "Age band" },
+        description: {
+          es: "Selecciona la banda que corresponda a la tabla numerica pediatrica usada.",
+          en: "Select the band corresponding to the pediatric numeric table used."
+        },
+        type: "select",
+        required: true,
+        options: [
+          option("birth_to_1_year", "Lactante / 0 anos", "Infant / 0 years"),
+          option("one_to_four_years", "1-4 anos", "1-4 years"),
+          option("five_to_nine_years", "5-9 anos", "5-9 years"),
+          option("ten_to_fourteen_years", "10-14 anos", "10-14 years"),
+          option("fifteen_years", "15 anos", "15 years")
+        ],
+        helperText: {
+          es: "No hay banda adulta en la tabla primaria usada para esta herramienta.",
+          en: "The primary table used for this tool does not include an adult band."
+        }
+      },
+      burnFractionInput("head", { es: "Cabeza", en: "Head" }),
+      burnFractionInput("neck", { es: "Cuello", en: "Neck" }),
+      burnFractionInput("anterior_trunk", {
+        es: "Tronco anterior",
+        en: "Anterior trunk"
+      }),
+      burnFractionInput("posterior_trunk", {
+        es: "Tronco posterior",
+        en: "Posterior trunk"
+      }),
+      burnFractionInput("right_buttock", {
+        es: "Gluteo derecho",
+        en: "Right buttock"
+      }),
+      burnFractionInput("left_buttock", {
+        es: "Gluteo izquierdo",
+        en: "Left buttock"
+      }),
+      burnFractionInput("genitalia", {
+        es: "Genitales/perine",
+        en: "Genitalia/perineum"
+      }),
+      burnFractionInput("right_upper_arm", {
+        es: "Brazo derecho",
+        en: "Right upper arm"
+      }),
+      burnFractionInput("left_upper_arm", {
+        es: "Brazo izquierdo",
+        en: "Left upper arm"
+      }),
+      burnFractionInput("right_lower_arm", {
+        es: "Antebrazo derecho",
+        en: "Right lower arm"
+      }),
+      burnFractionInput("left_lower_arm", {
+        es: "Antebrazo izquierdo",
+        en: "Left lower arm"
+      }),
+      burnFractionInput("right_hand", { es: "Mano derecha", en: "Right hand" }),
+      burnFractionInput("left_hand", {
+        es: "Mano izquierda",
+        en: "Left hand"
+      }),
+      burnFractionInput("right_thigh", {
+        es: "Muslo derecho",
+        en: "Right thigh"
+      }),
+      burnFractionInput("left_thigh", {
+        es: "Muslo izquierdo",
+        en: "Left thigh"
+      }),
+      burnFractionInput("right_lower_leg", {
+        es: "Pierna derecha",
+        en: "Right lower leg"
+      }),
+      burnFractionInput("left_lower_leg", {
+        es: "Pierna izquierda",
+        en: "Left lower leg"
+      }),
+      burnFractionInput("right_foot", { es: "Pie derecho", en: "Right foot" }),
+      burnFractionInput("left_foot", { es: "Pie izquierdo", en: "Left foot" })
+    ],
+    scoringTable: [
+      {
+        id: "pediatric_burn_tbsa_formula",
+        variable: { es: "Contribucion regional", en: "Regional contribution" },
+        value: "regionalPercentForAge * fractionBurned",
+        description: {
+          es: "Suma porcentajes regionales numericos ajustados por edad. Cada region puede introducirse como 0, 25, 50, 75 o 100% afectado.",
+          en: "Sums numeric age-adjusted regional percentages. Each region can be entered as 0, 25, 50, 75, or 100% affected."
+        }
+      }
+    ]
+  },
   who_growth_percentiles: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
@@ -3173,6 +3363,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("clinical_dehydration_scale", "clinical-dehydration-scale", "CDS", "Clinical Dehydration Scale", "Clinical Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Score clinico de gravedad de deshidratacion.", "Clinical score for dehydration severity.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("pediatric_appendicitis_score", "pediatric-appendicitis-score", "PAS", "Pediatric Appendicitis Score", "Pediatric Appendicitis Score", "emergency", "abdominal_pain", "score", "Ninos con dolor abdominal y sospecha clinica de apendicitis", "Children with abdominal pain and clinical concern for appendicitis", "Calculadora educativa de riesgo de apendicitis pediatrica basada en ocho items clinicos y analiticos.", "Educational pediatric appendicitis risk calculator based on eight clinical and laboratory items.", "ready_for_implementation", "original_derivation_study", "medium", pediatricAppendicitisScoreValidationNotes),
   makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Escala alternativa de deshidratacion identificada.", "Alternative dehydration scale identified.", "pending_validation", "original_derivation_study", "medium", gorelickValidationNotes),
+  makeTool("pediatric_burn_tbsa", "pediatric-burn-tbsa", "TBSA Burns", "Estimacion TBSA de quemaduras pediatrica", "Pediatric Burn TBSA Estimate", "emergency", "burns", "calculator", "Pacientes pediatricos con quemaduras de espesor parcial o total", "Pediatric patients with partial-thickness or full-thickness burns", "Estimacion descriptiva de superficie corporal quemada usando porcentajes regionales pediatricos ajustados por edad.", "Descriptive burned total body surface area estimate using pediatric age-adjusted regional percentages.", "ready_for_implementation", "official_manual_or_institutional_protocol", "medium", pediatricBurnTbsaValidationNotes),
   makeTool("pecarn_tbi_under_2", "pecarn-tbi-under-2", "PECARN <2", "PECARN TCE menor de 2 anos", "PECARN TBI Under 2 Years", "emergency", "head_trauma", "clinical_rule", "Menores de 2 anos con traumatismo craneal", "Children under 2 years with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
   makeTool("pecarn_tbi_2_or_more", "pecarn-tbi-2-or-more", "PECARN >=2", "PECARN TCE 2 anos o mas", "PECARN TBI 2 Years or Older", "emergency", "head_trauma", "clinical_rule", "Ninos de 2 anos o mas con traumatismo craneal", "Children 2 years or older with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
   makeTool("catch_tbi", "catch-tbi", "CATCH", "CATCH", "CATCH", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "ready_for_implementation", "original_derivation_study", "medium", catchValidationNotes),

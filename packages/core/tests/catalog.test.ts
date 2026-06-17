@@ -32,7 +32,8 @@ const implementedToolIds = [
   "catch_tbi",
   "chalice_tbi",
   "sipa",
-  "nips"
+  "nips",
+  "pediatric_burn_tbsa"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -85,7 +86,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(20);
+    expect(getImplementedTools()).toHaveLength(21);
   });
 
   it("keeps the implemented tool set unchanged during evidence audit", () => {

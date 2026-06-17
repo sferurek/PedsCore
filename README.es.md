@@ -17,8 +17,8 @@ https://peds-core.vercel.app/
 
 ## Estado Alpha Actual
 
-- 80 herramientas pediátricas y neonatales catalogadas.
-- 20 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
+- 81 herramientas pediátricas y neonatales catalogadas.
+- 21 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
 - 4 entradas WHO Growth parcialmente implementadas: módulo central, percentiles WHO, preset IMC y preset perímetro craneal.
 - Web ES/EN desplegada en Vercel.
 - API serverless de analítica agregada en `/api/analytics/countries`.
@@ -71,7 +71,7 @@ Consulta [DISCLAIMER.md](DISCLAIMER.md) para el aviso legal completo.
 
 ## Herramientas Implementadas
 
-Las 20 herramientas completamente implementadas son:
+Las 21 herramientas completamente implementadas son:
 
 - Apgar.
 - Silverman-Andersen.
@@ -92,6 +92,7 @@ Las 20 herramientas completamente implementadas son:
 - CHALICE.
 - SIPA.
 - NIPS.
+- Estimación TBSA de quemaduras pediátrica.
 
 Muchas herramientas adicionales permanecen catalogadas pero bloqueadas por fuente, tabla, variante, licencia o revisión experta. Esto es una decisión de seguridad, no una omisión.
 

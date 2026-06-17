@@ -19,8 +19,8 @@ describe("public product web polish", () => {
     );
 
     expect(html).toContain("Open-source pediatric and neonatal clinical tools");
-    expect(html).toContain(">80<");
-    expect(html).toContain(">20<");
+    expect(html).toContain(">81<");
+    expect(html).toContain(">21<");
     expect(html).toContain(">4<");
     expect(html).toContain(">0<");
     expect(html).toContain("No clinical data storage");
@@ -166,10 +166,10 @@ describe("public product web polish", () => {
   it("keeps catalog implementation counts and partial WHO Growth preset IDs", () => {
     const tools = getAllTools();
 
-    expect(tools).toHaveLength(80);
+    expect(tools).toHaveLength(81);
     expect(
       tools.filter((tool) => tool.implementationStatus === "implemented")
-    ).toHaveLength(20);
+    ).toHaveLength(21);
     expect(
       tools.filter((tool) => tool.implementationStatus === "partially_implemented")
     ).toHaveLength(4);
@@ -182,6 +182,9 @@ describe("public product web polish", () => {
     );
     expect(getToolBySlug("head-circumference-percentile")?.implementationStatus).toBe(
       "partially_implemented"
+    );
+    expect(getToolBySlug("pediatric-burn-tbsa")?.implementationStatus).toBe(
+      "implemented"
     );
   });
 

@@ -14,4 +14,5 @@ export * from "./catch.js";
 export * from "./chalice.js";
 export * from "./sipa.js";
 export * from "./nips.js";
+export * from "./burnTbsa.js";
 export * from "./registry.js";

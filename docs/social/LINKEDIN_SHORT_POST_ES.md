@@ -4,9 +4,9 @@ Publico la alpha de **PedsCore**, un proyecto open source de herramientas clíni
 
 Estado actual:
 
-- 80 herramientas catalogadas.
+- 81 herramientas catalogadas.
 - 19 completamente implementadas.
-- 1 módulo parcialmente implementado: WHO Growth.
+- 4 entradas parcialmente implementadas de WHO Growth.
 - WHO Growth con datos OMS 0-5 y parte de 5-19.
 - Gráficas SVG imprimibles y percentiles escritos.
 - Código MIT.

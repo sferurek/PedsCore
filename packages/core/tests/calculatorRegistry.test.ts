@@ -27,7 +27,8 @@ describe("calculator registry", () => {
       "catch_tbi",
       "chalice_tbi",
       "sipa",
-      "nips"
+      "nips",
+      "pediatric_burn_tbsa"
     ]);
     expect(getImplementedTools().map((tool) => tool.id).sort()).toEqual(
       [...implementedCalculatorToolIds].sort()
