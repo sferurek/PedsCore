@@ -18,8 +18,8 @@ https://peds-core.vercel.app/
 ## Estado Alpha Actual
 
 - 80 herramientas pediátricas y neonatales catalogadas.
-- 19 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
-- 1 módulo parcialmente implementado: WHO Growth.
+- 20 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
+- 4 entradas WHO Growth parcialmente implementadas: módulo central, percentiles WHO, preset IMC y preset perímetro craneal.
 - Web ES/EN desplegada en Vercel.
 - API serverless de analítica agregada en `/api/analytics/countries`.
 - Sin login.
@@ -42,7 +42,7 @@ Términos útiles de descubrimiento: pediatric scores, neonatal scores, clinical
 
 ## Módulo WHO Growth
 
-El módulo WHO Growth está disponible como flujo de crecimiento parcialmente implementado.
+El módulo WHO Growth está disponible como flujo de crecimiento parcialmente implementado, con IMC y perímetro craneal como entradas de catálogo que actúan como presets sobre el mismo motor WHO.
 
 Alcance actual:
 
@@ -71,7 +71,7 @@ Consulta [DISCLAIMER.md](DISCLAIMER.md) para el aviso legal completo.
 
 ## Herramientas Implementadas
 
-Las 19 herramientas completamente implementadas son:
+Las 20 herramientas completamente implementadas son:
 
 - Apgar.
 - Silverman-Andersen.

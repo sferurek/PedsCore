@@ -8,6 +8,7 @@ import {
   calculateWhoGrowth,
   clinicalTools,
   findLmsRecord,
+  getWhoGrowthPresetIndicators,
   whoGrowthDataStatus,
   zScoreToPercentile
 } from "../src/index";
@@ -803,7 +804,66 @@ describe("WHO growth scaffold", () => {
       "measurement_mode",
       "head_circumference_cm"
     ]);
-    expect(tool?.validationNotes.en).toContain("Core WHO 0-5 indicators");
-    expect(tool?.validationNotes.en).toContain("separate data license");
+    expect(tool?.validationNotes.en).toContain("central WHO Growth engine");
+    expect(tool?.validationNotes.en).toContain("separate license");
+  });
+
+  it("exposes BMI and head circumference presets without duplicate engines", () => {
+    expect(getWhoGrowthPresetIndicators("bmi")).toEqual(["bmi_for_age"]);
+    expect(getWhoGrowthPresetIndicators("head_circumference")).toEqual([
+      "head_circumference_for_age"
+    ]);
+    expect(getWhoGrowthPresetIndicators("all")).toContain("bmi_for_age");
+    expect(getWhoGrowthPresetIndicators("all")).toContain(
+      "head_circumference_for_age"
+    );
+  });
+
+  it("returns explicit out-of-range messages for WHO 5-19 BMI and 0-5 head circumference", () => {
+    const bmiResult = calculateWhoGrowthWithBmiForAge5To19Data({
+      sex: "female",
+      ageMonths: 229,
+      weightKg: 60,
+      heightCm: 160
+    });
+    const bmiForAge = bmiResult.applicableResults.find(
+      (item) => item.indicator === "bmi_for_age"
+    );
+
+    expect(bmiForAge?.isApplicable).toBe(false);
+    expect(bmiForAge?.warning).toContain("5-19");
+
+    const headCircumferenceResult =
+      calculateWhoGrowthWithHeadCircumferenceForAgeData({
+        sex: "male",
+        ageMonths: 61,
+        headCircumferenceCm: 51
+      });
+    const headCircumferenceForAge =
+      headCircumferenceResult.applicableResults.find(
+        (item) => item.indicator === "head_circumference_for_age"
+      );
+
+    expect(headCircumferenceForAge?.isApplicable).toBe(false);
+    expect(headCircumferenceForAge?.warning).toContain("WHO 0-5");
+  });
+
+  it("keeps growth outputs descriptive without diagnosis or treatment wording", () => {
+    const result = calculateWhoGrowthWithImportedData({
+      sex: "female",
+      ageDays: 730,
+      weightKg: 12,
+      heightCm: 86
+    });
+    const serialized = JSON.stringify(result).toLocaleLowerCase("en");
+
+    expect(serialized).not.toContain("obesity");
+    expect(serialized).not.toContain("malnutrition");
+    expect(serialized).not.toContain("failure to thrive");
+    expect(serialized).not.toContain("microcephaly");
+    expect(serialized).not.toContain("macrocephaly");
+    expect(serialized).not.toContain("treat");
+    expect(serialized).not.toContain("therapy");
+    expect(serialized).not.toContain("diet");
   });
 });

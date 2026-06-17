@@ -164,7 +164,6 @@ describe("clinical tools catalog", () => {
       "cries",
       "bhutani_nomogram",
       "bedside_pews",
-      "who_growth_percentiles",
       "cdc_growth_percentiles"
     ];
 
@@ -360,6 +359,33 @@ describe("clinical tools catalog", () => {
         )
       ).toBe(false);
     }
+  });
+
+  it("tracks Sprint 2B WHO Growth presets as partial wrappers", () => {
+    const whoPresetIds = [
+      "who_growth_module",
+      "who_growth_percentiles",
+      "bmi_percentile",
+      "head_circumference_percentile"
+    ];
+
+    for (const id of whoPresetIds) {
+      const tool = getTool(id);
+
+      expect(tool?.implementationStatus).toBe("partially_implemented");
+      expect(tool?.calculationStatus).toBe("metadata_ready");
+      expect(tool?.references.some((reference) => Boolean(getReferenceUrl(reference)))).toBe(
+        true
+      );
+      expect(tool?.validationNotes.en).toContain("WHO");
+    }
+
+    expect(getTool("cdc_growth_percentiles")?.implementationStatus).toBe(
+      "pending_validation"
+    );
+    expect(getTool("neonatal_growth_fenton")?.implementationStatus).toBe(
+      "pending_validation"
+    );
   });
 
   it("does not promote intensive care or mortality-oriented tools to ready without expert review", () => {

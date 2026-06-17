@@ -10,8 +10,8 @@ describe("public launch repository documentation", () => {
     const readme = read("README.md");
 
     expect(readme).toContain("https://peds-core.vercel.app/");
-    expect(readme).toContain("19 fully implemented");
-    expect(readme).toContain("1 partially implemented module: WHO Growth");
+    expect(readme).toContain("20 fully implemented");
+    expect(readme).toContain("4 partially implemented WHO Growth entries");
     expect(readme).toContain("No clinical data storage");
     expect(readme).toContain("WHO growth data are kept under separate WHO licensing");
     expect(readme.toLowerCase()).not.toContain("certified");
@@ -22,8 +22,8 @@ describe("public launch repository documentation", () => {
     const readme = read("README.es.md");
 
     expect(readme).toContain("80 herramientas pediátricas y neonatales catalogadas");
-    expect(readme).toContain("19 herramientas completamente implementadas");
-    expect(readme).toContain("1 módulo parcialmente implementado: WHO Growth");
+    expect(readme).toContain("20 herramientas completamente implementadas");
+    expect(readme).toContain("4 entradas WHO Growth parcialmente implementadas");
     expect(readme).toContain("Sin almacenamiento de datos clínicos");
     expect(readme).toContain("licencia OMS separada");
   });

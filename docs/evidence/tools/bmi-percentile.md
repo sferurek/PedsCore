@@ -1,95 +1,99 @@
 # BMI Percentile
 
 ## Current PedsCore status
+
 - id: `bmi_percentile`
 - slug: `bmi-percentile`
 - category: growth_nutrition
 - type: percentile
-- current implementationStatus: `pending_validation`
-- current evidenceLevel: `pending_verification`
+- current implementationStatus: `partially_implemented`
+- current evidenceLevel: `official_manual_or_institutional_protocol`
 
 ## Evidence validation status
-- final evidence status: `blocked_missing_primary_source`
-- blocking reason: selected growth reference and exact LMS implementation are not fixed in this pass.
+
+- final evidence status: `partially_implemented`
+- blocking reason: exposed as a WHO Growth preset, not as a fully independent tool; final growth-module review and interpolation policy remain pending.
 - depends on maintainer decision: yes
-- maintainer decision needed: choose default WHO/CDC source strategy.
+- maintainer decision needed: confirm final WHO Growth module policy before promoting from partial to implemented.
 
 ## Clinical purpose
-ES: cálculo de percentil de IMC pediátrico según curva seleccionada.
-EN: pediatric BMI percentile calculation based on selected growth reference.
+
+ES: acceso rápido al cálculo descriptivo IMC-para-la-edad usando el motor WHO Growth.
+
+EN: shortcut to descriptive BMI-for-age calculation through the WHO Growth engine.
 
 ## Target population
-Children and adolescents (age-policy dependent).
+
+- WHO Child Growth Standards 0-5 years when age is supplied in days.
+- WHO Growth Reference 2007 5-19 years when age is supplied in completed months.
+- PedsCore returns an explicit unsupported/out-of-range state outside the available WHO datasets.
 
 ## Version / variant
-- exact version: pending reference selection.
+
+- exact version: WHO Child Growth Standards BMI-for-age 0-5 years and WHO Growth Reference 2007 BMI-for-age 5-19 years.
 - known variants: WHO, CDC, local references.
-- selected version for PedsCore: pending.
-- variant risk: medium
+- selected version for PedsCore Sprint 2B: WHO only.
+- variant risk: low for WHO preset; CDC and local references deferred.
 
 ## Primary source
-- found: partial
-- citation: WHO/CDC growth chart standards are potential source families.
-- DOI: 
-- PMID: 
-- URL: https://www.cdc.gov/growthcharts/
-- access: abstract_only
-- notes: exact selectable reference not decided.
 
-## External validation
-Not yet because source not fixed.
-
-## Guidelines / official sources
-- WHO growth standards
-- CDC growth charts
+- WHO BMI-for-age 0-5 years: https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age
+- WHO BMI-for-age 5-19 years: https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators/bmi-for-age
+- WHO Child Growth Standards: https://www.who.int/tools/child-growth-standards
+- WHO Growth Reference 5-19 years: https://www.who.int/tools/growth-reference-data-for-5to19-years
 
 ## Complete scoring table availability
-- complete table found: no
-- source: reference tables need import and policy selection.
-- copyright/licensing risk: unknown
-- notes: no implementation until reference policy is defined.
+
+- complete table found: yes for imported WHO BMI-for-age LMS datasets in the active scope.
+- source: official WHO LMS data files imported by the central WHO Growth module.
+- copyright/licensing risk: medium; WHO data are third-party source material under separate WHO terms.
+- notes: PedsCore code is MIT, but WHO datasets are not relicensed as MIT.
 
 ## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| BMI value | computed | numeric | https://www.cdc.gov/growthcharts/ | requires chosen LMS data |
 
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
+| variable | unit | source | notes |
 |---|---|---|---|
-| pending | pending | pending | pending |
+| sex | male/female | WHO LMS data split | required |
+| age | days or completed months | WHO range-specific datasets | 0-5 uses days; 5-19 uses months |
+| weight | kg | user input | required to calculate BMI |
+| stature | cm | user input | length/height measurement mode kept visible |
+| BMI | kg/m2 | computed | routed to WHO BMI-for-age LMS lookup |
 
 ## Formula / algorithm
-Not implemented; percentile interpolation pending source policy.
 
-## Unit handling
-Age unit, sex, and height/weight units to be standardized with chosen source.
+- BMI = weight kg / height m².
+- z-score is calculated from the WHO LMS record for sex, age and BMI.
+- percentile is derived from z-score.
+- No separate BMI percentile engine is created.
 
 ## Safety and regulatory notes
-- risk level: medium
-- why: growth interpretation requires context and growth-source transparency.
-- should provide recommendations: no.
-- forbidden outputs: treatment and growth-management directives.
+
+- Output is descriptive: BMI, z-score, percentile, source and range warnings.
+- No obesity, malnutrition or growth diagnosis is generated.
+- No diet, nutrition or treatment advice is generated.
 
 ## Licensing / copyright
-- appears implementable: unknown
-- license-sensitive: unknown
-- requires permission: no
-- unknown: yes
-- notes: pending source-policy decision.
+
+- appears implementable: yes, as WHO-attributed data/preset with separate data terms.
+- license-sensitive: yes.
+- requires permission: unknown for downstream redistribution contexts; keep attribution and no WHO endorsement.
+- notes: no WHO logos or chart image copies.
 
 ## Implementation recommendation
-blocked_variant_selection
+
+Partial wrapper over WHO Growth module; do not create separate calculation logic.
 
 ## Proposed test cases
-- minimum
-- maximum
-- missing input
-- invalid input
-- edge cases
+
+- BMI preset routes to WHO Growth.
+- male/female split.
+- 0-5 lower/upper age boundaries.
+- 5-19 lower/upper month boundaries.
+- missing weight or stature.
+- out-of-range age.
+- no diagnosis or treatment language.
 
 ## Direct links
-- https://www.cdc.gov/growthcharts/technical-manual/
 
-## Notes
-No implementation this pass.
+- https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age
+- https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators/bmi-for-age

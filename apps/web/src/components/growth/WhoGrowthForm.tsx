@@ -1,4 +1,8 @@
-import type { ClinicalToolMetadata, ToolInput } from "@peds-core/core";
+import type {
+  ClinicalToolMetadata,
+  ToolInput,
+  WhoGrowthPreset
+} from "@peds-core/core";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import type { FormValue, FormValues } from "../../utils/formState";
 import { getInputSummary, isEmptyFormValue } from "../../utils/formState";
@@ -21,15 +25,16 @@ interface WhoGrowthFormProps {
   values: FormValues;
   onChange: (values: FormValues) => void;
   onFormComplete?: () => void;
+  preset?: WhoGrowthPreset;
 }
 
 type WhoGrowthFormSection = "sex" | "age_mode" | "age" | "anthropometry";
 
-const requiredAnthropometryFields = [
-  "weight_kg",
-  "stature_cm",
-  "measurement_mode"
-];
+const requiredAnthropometryFieldsByPreset = {
+  all: ["weight_kg", "stature_cm", "measurement_mode"],
+  bmi: ["weight_kg", "stature_cm", "measurement_mode"],
+  head_circumference: ["head_circumference_cm"]
+} as const satisfies Record<WhoGrowthPreset, readonly string[]>;
 
 const copy = {
   es: {
@@ -142,7 +147,8 @@ export function WhoGrowthForm({
   tool,
   values,
   onChange,
-  onFormComplete
+  onFormComplete,
+  preset = "all"
 }: WhoGrowthFormProps) {
   const formCopy = copy[language];
   const [openSection, setOpenSection] = useState<WhoGrowthFormSection>("sex");
@@ -162,6 +168,8 @@ export function WhoGrowthForm({
   const anthropometryInputs = WHO_GROWTH_ANTHROPOMETRY_FIELDS.map((inputId) =>
     getInput(tool, inputId)
   );
+  const requiredAnthropometryFields =
+    requiredAnthropometryFieldsByPreset[preset];
   const anthropometryComplete = requiredAnthropometryFields.every((inputId) =>
     isFieldValid(getInput(tool, inputId), values[inputId] ?? null)
   );

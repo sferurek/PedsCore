@@ -126,7 +126,7 @@ describe("SPRINT-50 implementation safety gates", () => {
     }
   });
 
-  it("keeps WHO Growth partial and outside the fully implemented count", () => {
+  it("keeps WHO Growth presets partial and outside the fully implemented count", () => {
     const whoGrowthModule = clinicalTools.find(
       (tool) => tool.id === "who_growth_module"
     );
@@ -136,6 +136,12 @@ describe("SPRINT-50 implementation safety gates", () => {
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
       "who_growth_module"
     );
+    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
+      "bmi_percentile"
+    );
+    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
+      "head_circumference_percentile"
+    );
   });
 
   it("tracks partially implemented tools explicitly", () => {
@@ -143,7 +149,12 @@ describe("SPRINT-50 implementation safety gates", () => {
       .filter((tool) => tool.implementationStatus === "partially_implemented")
       .map((tool) => tool.id);
 
-    expect(partiallyImplementedIds).toEqual(["who_growth_module"]);
+    expect(partiallyImplementedIds).toEqual([
+      "who_growth_module",
+      "who_growth_percentiles",
+      "bmi_percentile",
+      "head_circumference_percentile"
+    ]);
     expect(getImplementedTools()).toHaveLength(20);
   });
 

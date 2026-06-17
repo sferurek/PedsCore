@@ -1,95 +1,92 @@
 # Head Circumference Percentile
 
 ## Current PedsCore status
+
 - id: `head_circumference_percentile`
 - slug: `head-circumference-percentile`
 - category: growth_nutrition
 - type: percentile
-- current implementationStatus: `pending_validation`
-- current evidenceLevel: `pending_verification`
+- current implementationStatus: `partially_implemented`
+- current evidenceLevel: `official_manual_or_institutional_protocol`
 
 ## Evidence validation status
-- final evidence status: `blocked_missing_primary_source`
-- blocking reason: growth-reference selection and LMS import not finalized.
+
+- final evidence status: `partially_implemented`
+- blocking reason: exposed as a WHO Growth preset limited to available WHO 0-5 head-circumference-for-age LMS data; final growth-module review remains pending.
 - depends on maintainer decision: yes
-- maintainer decision needed: source default for reference and age strata.
+- maintainer decision needed: confirm final WHO Growth module policy before promoting from partial to implemented.
 
 ## Clinical purpose
-ES: percentil de perímetro craneal pediátrico por edad y sexo.
-EN: pediatric head circumference percentile by age and sex.
+
+ES: acceso rápido al cálculo descriptivo perímetro-craneal-para-la-edad usando el motor WHO Growth.
+
+EN: shortcut to descriptive head-circumference-for-age calculation through the WHO Growth engine.
 
 ## Target population
-Infants and young children (age range not finalized).
+
+- Infants and children 0-5 years covered by WHO Child Growth Standards head-circumference-for-age data.
+- PedsCore returns an explicit unsupported/out-of-range state beyond the imported WHO 0-5 dataset.
 
 ## Version / variant
-- exact version: pending.
-- known variants: WHO, CDC, and local chart options.
-- selected version for PedsCore: pending.
-- variant risk: medium
+
+- exact version: WHO Child Growth Standards head circumference-for-age 0-5 years.
+- known variants: WHO, CDC, local references.
+- selected version for PedsCore Sprint 2B: WHO 0-5 only.
+- variant risk: low for WHO preset; non-WHO references deferred.
 
 ## Primary source
-- found: partial
-- citation: WHO/CDC growth frameworks.
-- DOI: 
-- PMID: 
-- URL: https://www.who.int/tools/child-growth-standards
-- access: open_access
-- notes: no finalized implementation policy in this pass.
 
-## External validation
-No.
-
-## Guidelines / official sources
-- WHO Child Growth Standards
-- CDC growth references
+- WHO head circumference-for-age 0-5 years: https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age
+- WHO Child Growth Standards: https://www.who.int/tools/child-growth-standards
 
 ## Complete scoring table availability
-- complete table found: no
-- source: tables depend on selected reference policy.
-- copyright/licensing risk: unknown
-- notes: pending source-policy resolution.
+
+- complete table found: yes for imported WHO 0-5 head-circumference-for-age LMS dataset.
+- source: official WHO LMS data files imported by the central WHO Growth module.
+- copyright/licensing risk: medium; WHO data are third-party source material under separate WHO terms.
+- notes: PedsCore code is MIT, but WHO datasets are not relicensed as MIT.
 
 ## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| head circumference | computed | numeric | pending | reference-dependent |
 
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
+| variable | unit | source | notes |
 |---|---|---|---|
-| pending | pending | pending | pending |
+| sex | male/female | WHO LMS data split | required |
+| age | days | WHO Child Growth Standards | required for 0-5 scope |
+| head circumference | cm | user input | routed to WHO LMS lookup |
 
 ## Formula / algorithm
-No implementation yet.
 
-## Unit handling
-Age and sex-specific LMS handling pending.
+- z-score is calculated from the WHO LMS record for sex, age and head circumference.
+- percentile is derived from z-score.
+- No separate head circumference percentile engine is created.
 
 ## Safety and regulatory notes
-- risk level: medium
-- why: growth interpretation can affect follow-up decisions.
-- should provide recommendations: no.
-- forbidden outputs: treatment or admission directives.
+
+- Output is descriptive: z-score, percentile, source and range warnings.
+- No microcephaly, macrocephaly or developmental diagnosis is generated.
+- No treatment, referral or imaging recommendation is generated.
 
 ## Licensing / copyright
-- appears implementable: unknown
-- license-sensitive: unknown
-- requires permission: no
-- unknown: yes
-- notes: maintain pending until policy settled.
+
+- appears implementable: yes, as WHO-attributed data/preset with separate data terms.
+- license-sensitive: yes.
+- requires permission: unknown for downstream redistribution contexts; keep attribution and no WHO endorsement.
+- notes: no WHO logos or chart image copies.
 
 ## Implementation recommendation
-blocked_variant_selection
+
+Partial wrapper over WHO Growth module; do not create separate calculation logic.
 
 ## Proposed test cases
-- minimum
-- maximum
-- missing input
-- invalid input
-- edge cases
+
+- head circumference preset routes to WHO Growth.
+- male/female split.
+- 0-5 lower/upper day boundaries.
+- missing head circumference.
+- out-of-range age.
+- no diagnosis or treatment language.
 
 ## Direct links
-- https://www.who.int/tools/child-growth-standards
 
-## Notes
-Pending implementation due reference selection.
+- https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age
+- https://www.who.int/tools/child-growth-standards

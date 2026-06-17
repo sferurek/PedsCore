@@ -4,6 +4,7 @@ import type {
   WhoGrowthDataStatus,
   WhoGrowthIndicator,
   WhoGrowthInput,
+  WhoGrowthPreset,
   WhoGrowthResult,
   WhoLmsRecord
 } from "./types.js";
@@ -14,6 +15,25 @@ const millisecondsPerDay = 24 * 60 * 60 * 1000;
 const averageDaysPerMonth = 365.25 / 12;
 const officialDataPendingWarning =
   "Official WHO LMS data are not yet imported and verified in PedsCore.";
+
+export const whoSupportedIndicators = [
+  "weight_for_age",
+  "length_height_for_age",
+  "head_circumference_for_age",
+  "weight_for_length",
+  "weight_for_height",
+  "bmi_for_age"
+] as const satisfies readonly WhoGrowthIndicator[];
+
+export const whoGrowthPresetIndicators = {
+  all: whoSupportedIndicators,
+  bmi: ["bmi_for_age"],
+  head_circumference: ["head_circumference_for_age"]
+} as const satisfies Record<WhoGrowthPreset, readonly WhoGrowthIndicator[]>;
+
+export const getWhoGrowthPresetIndicators = (
+  preset: WhoGrowthPreset = "all"
+): readonly WhoGrowthIndicator[] => whoGrowthPresetIndicators[preset];
 
 export const whoGrowthDataStatus: WhoGrowthDataStatus = {
   officialDataImported: false,
@@ -176,7 +196,8 @@ const buildResult = (
   value: number | undefined,
   unit: string,
   ageRange: string,
-  record: WhoLmsRecord | undefined
+  record: WhoLmsRecord | undefined,
+  unavailableReason?: string
 ): WhoGrowthApplicableResult => {
   if (value === undefined) {
     return {
@@ -199,7 +220,7 @@ const buildResult = (
       ageRange,
       source: "WHO official data pending",
       isApplicable: false,
-      warning: officialDataPendingWarning
+      warning: unavailableReason ?? officialDataPendingWarning
     };
   }
 
@@ -247,6 +268,10 @@ export const calculateWhoGrowth = (
       : undefined;
   const hasZeroToFiveAge =
     ageDays !== undefined && ageDays >= 0 && ageDays <= 1856;
+  const hasFiveToNineteenAge =
+    ageMonths !== undefined && ageMonths >= 61 && ageMonths <= 228;
+  const missingZeroToFiveAgeWarning =
+    "WHO 0-5 indicators require exact age in days from 0 to 1856.";
 
   if (!dataStatus.officialDataImported) {
     warnings.push(officialDataPendingWarning);
@@ -266,10 +291,10 @@ export const calculateWhoGrowth = (
       findLmsRecord({
         indicator: "weight_for_age",
         sex: input.sex,
-        ageDays,
-        ageMonths
+        ageDays: hasZeroToFiveAge ? ageDays : undefined
       },
-      lmsRecords)
+      lmsRecords),
+      missingZeroToFiveAgeWarning
     ),
     buildResult(
       "length_height_for_age",
@@ -280,24 +305,25 @@ export const calculateWhoGrowth = (
       findLmsRecord({
         indicator: "length_height_for_age",
         sex: input.sex,
-        ageDays,
-        ageMonths
+        ageDays: hasZeroToFiveAge ? ageDays : undefined,
+        ageMonths: hasFiveToNineteenAge ? ageMonths : undefined
       },
-      lmsRecords)
+      lmsRecords),
+      "WHO length/height-for-age requires 0-5 age in days or 5-19 completed age in months within range."
     ),
     buildResult(
       "head_circumference_for_age",
       "Head circumference-for-age",
       input.headCircumferenceCm,
       "cm",
-      "WHO indicator-specific range",
+      "WHO 0-5 years",
       findLmsRecord({
         indicator: "head_circumference_for_age",
         sex: input.sex,
-        ageDays,
-        ageMonths
+        ageDays: hasZeroToFiveAge ? ageDays : undefined
       },
-      lmsRecords)
+      lmsRecords),
+      missingZeroToFiveAgeWarning
     ),
     buildResult(
       "weight_for_length",
@@ -314,7 +340,8 @@ export const calculateWhoGrowth = (
             measureCm: input.lengthCm
           },
           lmsRecords)
-        : undefined
+        : undefined,
+      "WHO weight-for-length requires 0-5 age in days and recumbent length within range."
     ),
     buildResult(
       "weight_for_height",
@@ -331,7 +358,8 @@ export const calculateWhoGrowth = (
             measureCm: input.heightCm
           },
           lmsRecords)
-        : undefined
+        : undefined,
+      "WHO weight-for-height requires 0-5 age in days and standing height within range."
     ),
     buildResult(
       "bmi_for_age",
@@ -342,10 +370,11 @@ export const calculateWhoGrowth = (
       findLmsRecord({
         indicator: "bmi_for_age",
         sex: input.sex,
-        ageDays,
-        ageMonths
+        ageDays: hasZeroToFiveAge ? ageDays : undefined,
+        ageMonths: hasFiveToNineteenAge ? ageMonths : undefined
       },
-      lmsRecords)
+      lmsRecords),
+      "WHO BMI-for-age requires 0-5 age in days or 5-19 completed age in months within range."
     )
   ];
 

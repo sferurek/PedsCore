@@ -1,9 +1,11 @@
 import {
   calculateWhoGrowth,
+  getWhoGrowthPresetIndicators,
   type WhoGrowthApplicableResult,
   type WhoGrowthDataStatus,
   type WhoGrowthIndicator,
   type WhoGrowthMeasurementMode,
+  type WhoGrowthPreset,
   type WhoGrowthSex,
   type WhoLmsRecord
 } from "@peds-core/core";
@@ -20,6 +22,7 @@ import { WhoGrowthChart } from "./WhoGrowthChart";
 interface WhoGrowthResultPanelProps {
   language: Language;
   values: FormValues;
+  preset?: WhoGrowthPreset;
 }
 
 interface LoadedIndicatorRequest {
@@ -211,7 +214,7 @@ const isFiveToNineteenResult = (result: WhoGrowthApplicableResult) =>
   result.source.includes("5-19");
 
 export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanelProps>(
-  function WhoGrowthResultPanel({ language, values }, ref) {
+  function WhoGrowthResultPanel({ language, values, preset = "all" }, ref) {
     const [loadedData, setLoadedData] = useState<LoadedWhoData | null>(null);
     const [loadingFailed, setLoadingFailed] = useState(false);
     const sex = values.sex;
@@ -230,10 +233,16 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       : undefined;
     const lengthCm = measurementMode === "recumbent_length" ? statureCm : undefined;
     const heightCm = measurementMode === "standing_height" ? statureCm : undefined;
+    const requiredMeasurementsComplete =
+      preset === "head_circumference"
+        ? headCircumferenceCm !== undefined
+        : preset === "bmi"
+          ? weightKg !== undefined && statureCm !== undefined
+        : weightKg !== undefined;
     const canCalculate =
       resolvedSex !== null &&
       (ageDays !== undefined || ageMonths !== undefined) &&
-      weightKg !== undefined;
+      requiredMeasurementsComplete;
 
     useEffect(() => {
       let isActive = true;
@@ -318,9 +327,16 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     ]);
     const copy = {
       es: {
-        title: "Crecimiento OMS",
+        title:
+          preset === "bmi"
+            ? "BMI-for-age OMS"
+            : preset === "head_circumference"
+              ? "Perímetro cefálico OMS"
+              : "Crecimiento OMS",
         pending:
-          "Pendiente de cumplimentar sexo, modo de edad, edad correspondiente y peso para obtener resultados OMS. La longitud/talla y el perímetro cefálico activan indicadores adicionales.",
+          preset === "head_circumference"
+            ? "Pendiente de cumplimentar sexo, modo de edad, edad 0-5 y perímetro cefálico para obtener resultados OMS."
+            : "Pendiente de cumplimentar sexo, modo de edad, edad correspondiente y peso para obtener resultados OMS. La longitud/talla y el perímetro cefálico activan indicadores adicionales.",
         unavailable:
           "No hay indicadores OMS disponibles para estos datos. Revisa que la edad 0-5 esté en días, que la edad 5-19 esté en meses cumplidos y que las medidas estén dentro del rango de la tabla OMS.",
         loading: "Cargando datos oficiales OMS...",
@@ -328,13 +344,28 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         print: "Imprimir gráficas",
         printTitle: "Informe de crecimiento OMS",
         guidanceTitle: "Cómo introducir los datos",
-        guidance: [
-          "Para 0-5 años, lo más preciso es introducir fecha de nacimiento y fecha de medición.",
-          "Si introduces años/meses/días, PedsCore lo convierte a días y muestra la edad usada.",
-          "Para 5-19 años, utiliza meses cumplidos según la referencia OMS 2007.",
-          "Longitud tumbado activa peso para longitud; talla de pie activa peso para talla.",
-          "El perímetro cefálico solo se calcula si se introduce PC."
-        ],
+        guidance:
+          preset === "bmi"
+            ? [
+                "BMI-for-age usa el mismo motor WHO Growth y no un cálculo duplicado.",
+                "Para 0-5 años, lo más preciso es introducir fecha de nacimiento y fecha de medición.",
+                "Para 5-19 años, utiliza meses cumplidos según la referencia OMS 2007.",
+                "Introduce peso y longitud/talla para calcular BMI-for-age."
+              ]
+            : preset === "head_circumference"
+              ? [
+                  "Perímetro cefálico usa el mismo motor WHO Growth y no un cálculo duplicado.",
+                  "Este preset usa WHO head circumference-for-age 0-5.",
+                  "Introduce edad 0-5 en días o fechas, sexo y perímetro cefálico.",
+                  "Fuera del rango 0-5, el indicador se muestra como no aplicable."
+                ]
+              : [
+                  "Para 0-5 años, lo más preciso es introducir fecha de nacimiento y fecha de medición.",
+                  "Si introduces años/meses/días, PedsCore lo convierte a días y muestra la edad usada.",
+                  "Para 5-19 años, utiliza meses cumplidos según la referencia OMS 2007.",
+                  "Longitud tumbado activa peso para longitud; talla de pie activa peso para talla.",
+                  "El perímetro cefálico solo se calcula si se introduce PC."
+                ],
         ageGroupTitle: "Indicadores por edad",
         measureGroupTitle: "Indicadores por longitud/talla",
         inactiveGroupTitle: "Indicadores no aplicables",
@@ -349,9 +380,16 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
           "Estos resultados son informativos y deben interpretarse junto con la valoración clínica, la evolución longitudinal y los protocolos locales."
       },
       en: {
-        title: "WHO growth",
+        title:
+          preset === "bmi"
+            ? "WHO BMI-for-age"
+            : preset === "head_circumference"
+              ? "WHO head circumference"
+              : "WHO growth",
         pending:
-          "Complete sex, age input mode, the corresponding age and weight to obtain WHO results. Length/height and head circumference enable additional indicators.",
+          preset === "head_circumference"
+            ? "Complete sex, age input mode, 0-5 age and head circumference to obtain WHO results."
+            : "Complete sex, age input mode, the corresponding age and weight to obtain WHO results. Length/height and head circumference enable additional indicators.",
         unavailable:
           "No WHO indicators are available for these data. Check 0-5 age is entered in days, 5-19 age is entered in completed months and measurements are within the WHO table range.",
         loading: "Loading official WHO data...",
@@ -359,13 +397,28 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
         print: "Print charts",
         printTitle: "WHO growth report",
         guidanceTitle: "How to enter data",
-        guidance: [
-          "For 0-5 years, the most accurate option is date of birth plus measurement date.",
-          "If you enter years/months/days, PedsCore converts it to days and shows the age used.",
-          "For 5-19 years, use completed months according to the WHO Growth Reference 2007.",
-          "Recumbent length enables weight-for-length; standing height enables weight-for-height.",
-          "Head circumference is calculated only when head circumference is entered."
-        ],
+        guidance:
+          preset === "bmi"
+            ? [
+                "BMI-for-age uses the same WHO Growth engine and not a duplicated calculator.",
+                "For 0-5 years, the most accurate option is date of birth plus measurement date.",
+                "For 5-19 years, use completed months according to the WHO Growth Reference 2007.",
+                "Enter weight and length/height to calculate BMI-for-age."
+              ]
+            : preset === "head_circumference"
+              ? [
+                  "Head circumference uses the same WHO Growth engine and not a duplicated calculator.",
+                  "This preset uses WHO head circumference-for-age 0-5.",
+                  "Enter 0-5 age in days or dates, sex and head circumference.",
+                  "Outside the 0-5 range, the indicator is shown as not applicable."
+                ]
+              : [
+                  "For 0-5 years, the most accurate option is date of birth plus measurement date.",
+                  "If you enter years/months/days, PedsCore converts it to days and shows the age used.",
+                  "For 5-19 years, use completed months according to the WHO Growth Reference 2007.",
+                  "Recumbent length enables weight-for-length; standing height enables weight-for-height.",
+                  "Head circumference is calculated only when head circumference is entered."
+                ],
         ageGroupTitle: "Age-based indicators",
         measureGroupTitle: "Length/height-based indicators",
         inactiveGroupTitle: "Not applicable indicators",
@@ -446,7 +499,11 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
 
       return itemResult.warning;
     };
-    const displayResults: DisplayResult[] = displayIndicators[language].map(
+    const presetIndicators = getWhoGrowthPresetIndicators(preset);
+    const selectedDisplayIndicators = displayIndicators[language].filter(
+      (display) => presetIndicators.includes(display.indicator)
+    );
+    const displayResults: DisplayResult[] = selectedDisplayIndicators.map(
       (display) => ({
         display,
         result:

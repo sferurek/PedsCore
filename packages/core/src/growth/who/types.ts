@@ -12,6 +12,11 @@ export type WhoGrowthIndicator =
   | "weight_for_height"
   | "bmi_for_age";
 
+export type WhoGrowthPreset =
+  | "all"
+  | "bmi"
+  | "head_circumference";
+
 export interface WhoGrowthInput {
   sex: WhoGrowthSex;
   dateOfBirth?: string;

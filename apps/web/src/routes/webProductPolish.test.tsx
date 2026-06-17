@@ -21,7 +21,7 @@ describe("public product web polish", () => {
     expect(html).toContain("Open-source pediatric and neonatal clinical tools");
     expect(html).toContain(">80<");
     expect(html).toContain(">20<");
-    expect(html).toContain(">1<");
+    expect(html).toContain(">4<");
     expect(html).toContain(">0<");
     expect(html).toContain("No clinical data storage");
     expect(html).not.toContain("Support the project on GitHub");
@@ -163,7 +163,7 @@ describe("public product web polish", () => {
     );
   });
 
-  it("keeps catalog implementation counts and partial WHO Growth ID", () => {
+  it("keeps catalog implementation counts and partial WHO Growth preset IDs", () => {
     const tools = getAllTools();
 
     expect(tools).toHaveLength(80);
@@ -172,9 +172,15 @@ describe("public product web polish", () => {
     ).toHaveLength(20);
     expect(
       tools.filter((tool) => tool.implementationStatus === "partially_implemented")
-    ).toHaveLength(1);
+    ).toHaveLength(4);
     expect(getToolBySlug("who-growth")?.id).toBe("who_growth_module");
     expect(getToolBySlug("who-growth")?.implementationStatus).toBe(
+      "partially_implemented"
+    );
+    expect(getToolBySlug("bmi-percentile")?.implementationStatus).toBe(
+      "partially_implemented"
+    );
+    expect(getToolBySlug("head-circumference-percentile")?.implementationStatus).toBe(
       "partially_implemented"
     );
   });
@@ -196,5 +202,29 @@ describe("public product web polish", () => {
     expect(html).toContain("WHO growth data");
     expect(html).not.toContain("Tool not active yet");
     expect(html).not.toContain("Automatic calculation is not active");
+  });
+
+  it("renders BMI and head circumference as WHO Growth presets", () => {
+    const bmiTool = getToolBySlug("bmi-percentile");
+    const headCircumferenceTool = getToolBySlug("head-circumference-percentile");
+
+    expect(bmiTool).toBeDefined();
+    expect(headCircumferenceTool).toBeDefined();
+
+    const bmiHtml = renderToString(
+      <ToolPage language="en" navigate={noopNavigate} tool={bmiTool!} />
+    );
+    const headCircumferenceHtml = renderToString(
+      <ToolPage
+        language="en"
+        navigate={noopNavigate}
+        tool={headCircumferenceTool!}
+      />
+    );
+
+    expect(bmiHtml).toContain("WHO growth data");
+    expect(bmiHtml).toContain("BMI");
+    expect(headCircumferenceHtml).toContain("WHO growth data");
+    expect(headCircumferenceHtml).toContain("Head circumference");
   });
 });

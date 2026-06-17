@@ -18,8 +18,8 @@ https://peds-core.vercel.app/
 ## Current Alpha Status
 
 - 80 cataloged pediatric and neonatal tools.
-- 19 fully implemented tools with active calculation or informational rule output.
-- 1 partially implemented module: WHO Growth.
+- 20 fully implemented tools with active calculation or informational rule output.
+- 4 partially implemented WHO Growth entries: central module, WHO percentiles, BMI preset and head circumference preset.
 - ES/EN web app deployed on Vercel.
 - Serverless aggregate analytics API at `/api/analytics/countries`.
 - No login.
@@ -42,7 +42,7 @@ Relevant discovery terms: pediatric scores, neonatal scores, clinical calculator
 
 ## WHO Growth Module
 
-The WHO Growth module is available as a partially implemented growth workflow.
+The WHO Growth module is available as a partially implemented growth workflow, with BMI and head circumference catalog entries acting as presets over the same WHO engine.
 
 Current scope:
 
@@ -71,7 +71,7 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full disclaimer.
 
 ## Implemented Tools
 
-The 19 fully implemented tools are:
+The 20 fully implemented tools are:
 
 - Apgar.
 - Silverman-Andersen.

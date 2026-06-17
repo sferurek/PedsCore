@@ -553,6 +553,78 @@ const implementedToolReferences: Record<string, Reference[]> = {
         "Priority A evidence audit: official source located. Exact indicators, age ranges, LMS/data files, license terms, and test fixtures remain pending before implementation.",
       appliesTo: ["who_growth_percentiles"],
       priority: 1
+    },
+    {
+      id: "who_growth_reference_5_19_official",
+      title: "Growth reference data for 5-19 years",
+      authors: "World Health Organization",
+      year: 2007,
+      journalOrPublisher: "World Health Organization",
+      citation:
+        "World Health Organization. Growth reference data for 5-19 years.",
+      url: "https://www.who.int/tools/growth-reference-data-for-5to19-years",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Sprint 2B: official source for WHO Growth Reference 2007 BMI-for-age and height-for-age 5-19 data used by the central WHO Growth module.",
+      appliesTo: ["who_growth_percentiles"],
+      priority: 2
+    }
+  ],
+  bmi_percentile: [
+    {
+      id: "who_bmi_for_age_0_5_official",
+      title: "WHO Child Growth Standards: BMI-for-age",
+      authors: "World Health Organization",
+      year: 2006,
+      journalOrPublisher: "World Health Organization",
+      citation:
+        "World Health Organization. WHO Child Growth Standards: BMI-for-age.",
+      url: "https://www.who.int/toolkits/child-growth-standards/standards/body-mass-index-for-age-bmi-for-age",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Sprint 2B: BMI Percentile is a WHO Growth preset using the central WHO BMI-for-age engine for 0-5 years.",
+      appliesTo: ["bmi_percentile", "who_growth_module"],
+      priority: 1
+    },
+    {
+      id: "who_bmi_for_age_5_19_official",
+      title: "WHO Growth Reference 2007: BMI-for-age 5-19 years",
+      authors: "World Health Organization",
+      year: 2007,
+      journalOrPublisher: "World Health Organization",
+      citation:
+        "World Health Organization. Growth reference data for 5-19 years: BMI-for-age.",
+      url: "https://www.who.int/tools/growth-reference-data-for-5to19-years/indicators/bmi-for-age",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Sprint 2B: BMI Percentile is a WHO Growth preset using the central WHO BMI-for-age engine for 5-19 years.",
+      appliesTo: ["bmi_percentile", "who_growth_module"],
+      priority: 2
+    }
+  ],
+  head_circumference_percentile: [
+    {
+      id: "who_head_circumference_0_5_official",
+      title: "WHO Child Growth Standards: Head circumference-for-age",
+      authors: "World Health Organization",
+      year: 2006,
+      journalOrPublisher: "World Health Organization",
+      citation:
+        "World Health Organization. WHO Child Growth Standards: Head circumference-for-age.",
+      url: "https://www.who.int/toolkits/child-growth-standards/standards/head-circumference-for-age",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Sprint 2B: Head Circumference Percentile is a WHO Growth preset using the central WHO head circumference-for-age engine for 0-5 years.",
+      appliesTo: ["head_circumference_percentile", "who_growth_module"],
+      priority: 1
     }
   ],
   cdc_growth_percentiles: [
@@ -1160,13 +1232,23 @@ const bedsidePewsValidationNotes: LocalizedText = {
 };
 
 const whoGrowthValidationNotes: LocalizedText = {
-  es: "Bloque 8B-1: fuente oficial OMS localizada. Pendiente seleccionar indicadores y edades, enlazar ficheros LMS/datos oficiales, revisar terminos de uso y preparar tests antes de implementar percentiles.",
-  en: "Block 8B-1: official WHO source located. Indicator/age selection, official LMS/data files, terms-of-use review, and tests remain pending before percentile implementation."
+  es: "Sprint 2B: Percentiles OMS funciona como acceso al modulo WHO Growth central. No crea motor separado; usa datos LMS oficiales OMS 0-5 y BMI/talla OMS 5-19 disponibles, con licencia de datos separada.",
+  en: "Sprint 2B: WHO Growth Percentiles acts as an entry point to the central WHO Growth module. It does not create a separate engine; it uses available official WHO 0-5 LMS data plus WHO 5-19 BMI/height data under a separate data license."
 };
 
 const whoGrowthModuleValidationNotes: LocalizedText = {
-  es: "Bloques GROWTH-OMS-1/WHO-GROWTH-4A: modulo unificado OMS parcialmente activo. Indicadores principales OMS 0-5 y BMI-for-age/height-for-age OMS 5-19 importados desde tablas XLSX oficiales OMS con licencia de datos separada y con calculo LMS, graficas SVG imprimibles y punto del paciente. Alcance restante 5-19, politica de interpolacion y revision final siguen pendientes antes de marcar el modulo completo como implementado.",
-  en: "Blocks GROWTH-OMS-1/WHO-GROWTH-4A: unified WHO module is partially active. Core WHO 0-5 indicators plus WHO Growth Reference 2007 BMI-for-age and height-for-age 5-19 were imported from official WHO XLSX tables under a separate data license and have LMS calculation, printable SVG charts, and patient points. Remaining 5-19 scope, interpolation policy, and final review remain pending before marking the full module implemented."
+  es: "Sprint 2B: motor WHO Growth central para indicadores OMS disponibles. Incluye peso/edad, longitud-talla/edad, peso/longitud, peso/talla, BMI/edad y perimetro cefalico/edad OMS 0-5; BMI/edad y talla/edad OMS 5-19. Datos OMS con licencia separada; salida descriptiva sin diagnosticos ni recomendaciones nutricionales.",
+  en: "Sprint 2B: central WHO Growth engine for available WHO indicators. It includes WHO 0-5 weight-for-age, length/height-for-age, weight-for-length, weight-for-height, BMI-for-age and head circumference-for-age; plus WHO 5-19 BMI-for-age and height-for-age. WHO data use a separate license; output is descriptive without diagnoses or nutritional recommendations."
+};
+
+const bmiPercentileValidationNotes: LocalizedText = {
+  es: "Sprint 2B: IMC percentilado es un preset del motor WHO Growth, no una calculadora separada. Usa BMI-for-age OMS 0-5 y 5-19 cuando edad, sexo, peso y longitud/talla estan dentro de rango. CDC queda diferido.",
+  en: "Sprint 2B: BMI Percentile is a preset of the WHO Growth engine, not a separate calculator. It uses WHO BMI-for-age 0-5 and 5-19 when age, sex, weight and length/height are in range. CDC remains deferred."
+};
+
+const headCircumferencePercentileValidationNotes: LocalizedText = {
+  es: "Sprint 2B: Percentil de perimetro cefalico es un preset del motor WHO Growth, no una calculadora separada. Usa perimetro cefalico/edad OMS 0-5; fuera de ese rango se muestra como no aplicable.",
+  en: "Sprint 2B: Head Circumference Percentile is a preset of the WHO Growth engine, not a separate calculator. It uses WHO head circumference-for-age 0-5; outside that range it is shown as not applicable."
 };
 
 const cdcGrowthValidationNotes: LocalizedText = {
@@ -1353,6 +1435,49 @@ const booleanInput = (id: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  who_growth_percentiles: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Acceso al modulo WHO Growth central. Usa el mismo motor LMS y los mismos datos OMS; no crea un calculo separado.",
+      en: "Entry point to the central WHO Growth module. Uses the same LMS engine and WHO data; it does not create a separate calculation."
+    }
+  },
+  bmi_percentile: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Preset BMI-for-age del modulo WHO Growth. Requiere sexo, edad OMS aplicable, peso y longitud/talla.",
+      en: "BMI-for-age preset of the WHO Growth module. Requires sex, applicable WHO age, weight, and length/height."
+    },
+    scoringTable: [
+      {
+        id: "bmi_who_growth_preset",
+        variable: { es: "Preset WHO Growth", en: "WHO Growth preset" },
+        value: "BMI-for-age",
+        description: {
+          es: "Usa el motor WHO Growth central con BMI/edad OMS 0-5 y 5-19. No usa CDC ni Fenton.",
+          en: "Uses the central WHO Growth engine with WHO BMI-for-age 0-5 and 5-19. It does not use CDC or Fenton."
+        }
+      }
+    ]
+  },
+  head_circumference_percentile: {
+    calculationStatus: "metadata_ready",
+    calculationNotes: {
+      es: "Preset perimetro cefalico/edad del modulo WHO Growth. Limitado a datos OMS 0-5.",
+      en: "Head circumference-for-age preset of the WHO Growth module. Limited to WHO 0-5 data."
+    },
+    scoringTable: [
+      {
+        id: "head_circumference_who_growth_preset",
+        variable: { es: "Preset WHO Growth", en: "WHO Growth preset" },
+        value: "Head circumference-for-age",
+        description: {
+          es: "Usa el motor WHO Growth central con perimetro cefalico/edad OMS 0-5. Fuera de rango muestra no aplicable.",
+          en: "Uses the central WHO Growth engine with WHO head circumference-for-age 0-5. Outside range it shows not applicable."
+        }
+      }
+    ]
+  },
   who_growth_module: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
@@ -3123,11 +3248,11 @@ export const clinicalTools: ClinicalToolMetadata[] = [
       }
     ]
   ),
-  makeTool("who_growth_percentiles", "who-growth-percentiles", "OMS", "Percentiles OMS", "WHO Growth Percentiles", "growth_nutrition", "growth", "percentile", "Lactantes y ninos segun edad aplicable", "Infants and children depending on applicable age", "Curvas de crecimiento OMS para peso, talla y otros parametros.", "WHO growth curves for weight, height, and other parameters.", "pending_validation", "official_manual_or_institutional_protocol", "medium", whoGrowthValidationNotes),
+  makeTool("who_growth_percentiles", "who-growth-percentiles", "OMS", "Percentiles OMS", "WHO Growth Percentiles", "growth_nutrition", "growth", "percentile", "Lactantes, ninos y adolescentes segun rangos OMS aplicables", "Infants, children and adolescents according to applicable WHO ranges", "Acceso al modulo WHO Growth central para indicadores OMS disponibles.", "Entry point to the central WHO Growth module for available WHO indicators.", "partially_implemented", "official_manual_or_institutional_protocol", "medium", whoGrowthValidationNotes),
   makeTool("cdc_growth_percentiles", "cdc-growth-percentiles", "CDC", "Percentiles CDC", "CDC Growth Percentiles", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes segun edad aplicable", "Children and adolescents depending on applicable age", "Curvas de crecimiento CDC.", "CDC growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", cdcGrowthValidationNotes),
   makeTool("orbegozo_growth_percentiles", "orbegozo-growth-percentiles", "Orbegozo", "Percentiles Orbegozo", "Orbegozo Growth Percentiles", "growth_nutrition", "growth", "percentile", "Poblacion pediatrica segun tablas aplicables", "Pediatric population depending on applicable tables", "Curvas de crecimiento Fundacion Orbegozo.", "Fundacion Orbegozo growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", orbegozoGrowthValidationNotes),
-  makeTool("bmi_percentile", "bmi-percentile", "IMC percentilado", "IMC percentilado", "BMI Percentile", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes", "Children and adolescents", "Calcula IMC y percentil segun curva seleccionada.", "Calculates BMI and percentile according to selected curve.", "pending_validation", "pending_verification", "medium"),
-  makeTool("head_circumference_percentile", "head-circumference-percentile", "PC percentil", "Percentil de perimetro craneal", "Head Circumference Percentile", "growth_nutrition", "growth", "percentile", "Lactantes y ninos pequenos", "Infants and young children", "Percentil de perimetro craneal segun curva seleccionada.", "Head circumference percentile according to selected curve.", "pending_validation", "pending_verification", "medium"),
+  makeTool("bmi_percentile", "bmi-percentile", "IMC percentilado", "IMC percentilado", "BMI Percentile", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes en rangos OMS 0-5 o 5-19", "Children and adolescents in WHO 0-5 or 5-19 ranges", "Preset WHO Growth para BMI-for-age con salida descriptiva.", "WHO Growth preset for BMI-for-age with descriptive output.", "partially_implemented", "official_manual_or_institutional_protocol", "medium", bmiPercentileValidationNotes),
+  makeTool("head_circumference_percentile", "head-circumference-percentile", "PC percentil", "Percentil de perimetro cefalico", "Head Circumference Percentile", "growth_nutrition", "growth", "percentile", "Lactantes y ninos pequenos en rango OMS 0-5", "Infants and young children in the WHO 0-5 range", "Preset WHO Growth para perimetro cefalico/edad OMS 0-5 con salida descriptiva.", "WHO Growth preset for WHO 0-5 head circumference-for-age with descriptive output.", "partially_implemented", "official_manual_or_institutional_protocol", "medium", headCircumferencePercentileValidationNotes),
   makeTool("stamp", "stamp", "STAMP", "STAMP", "STAMP", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo nutricional.", "Nutritional risk screening tool.", "pending_validation", "original_derivation_study", "medium", stampValidationNotes),
   makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo de malnutricion.", "Malnutrition risk screening tool.", "pending_validation", "original_derivation_study", "medium", strongkidsValidationNotes),
   makeTool("pyms", "pyms", "PYMS", "PYMS", "PYMS", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado nutricional pediatrico.", "Pediatric nutritional screening tool.", "pending_validation", "original_derivation_study", "medium", pymsValidationNotes),

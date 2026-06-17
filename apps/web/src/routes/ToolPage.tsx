@@ -1,4 +1,8 @@
-import type { ClinicalToolMetadata } from "@peds-core/core";
+import {
+  getToolBySlug,
+  type ClinicalToolMetadata,
+  type WhoGrowthPreset
+} from "@peds-core/core";
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { DisclaimerBox } from "../components/DisclaimerBox";
 import { DynamicForm } from "../components/DynamicForm";
@@ -33,14 +37,33 @@ interface ToolPageProps {
   tool: ClinicalToolMetadata;
 }
 
+const getWhoGrowthPreset = (tool: ClinicalToolMetadata): WhoGrowthPreset | null => {
+  if (tool.id === "who_growth_module" || tool.id === "who_growth_percentiles") {
+    return "all";
+  }
+
+  if (tool.id === "bmi_percentile") {
+    return "bmi";
+  }
+
+  if (tool.id === "head_circumference_percentile") {
+    return "head_circumference";
+  }
+
+  return null;
+};
+
 export function ToolPage({ language, tool }: ToolPageProps) {
   const t = translations[language];
+  const whoGrowthPreset = getWhoGrowthPreset(tool);
+  const whoGrowthTool = whoGrowthPreset ? getToolBySlug("who-growth") : null;
+  const formTool = whoGrowthTool ?? tool;
   const [formValues, setFormValues] = useState<FormValues>(() =>
-    getInitialFormState(tool)
+    getInitialFormState(formTool)
   );
   const resultPanelRef = useRef<HTMLElement>(null);
   const completedToolIdRef = useRef<string | null>(null);
-  const isWhoGrowth = tool.id === "who_growth_module";
+  const isWhoGrowth = whoGrowthPreset !== null && whoGrowthTool !== null;
   const hasActiveCalculation = tool.calculationStatus === "active" || isWhoGrowth;
   const analyticsPath = makePath(language, "tools", tool.slug);
   const analyticsParams = useMemo(
@@ -54,9 +77,9 @@ export function ToolPage({ language, tool }: ToolPageProps) {
   );
 
   useEffect(() => {
-    setFormValues(getInitialFormState(tool));
+    setFormValues(getInitialFormState(formTool));
     completedToolIdRef.current = null;
-  }, [tool]);
+  }, [formTool, tool]);
 
   useEffect(() => {
     trackUsageEvent("case_opened", analyticsPath, language, analyticsParams);
@@ -130,7 +153,8 @@ export function ToolPage({ language, tool }: ToolPageProps) {
               {isWhoGrowth ? (
                 <WhoGrowthForm
                   language={language}
-                  tool={tool}
+                  preset={whoGrowthPreset ?? "all"}
+                  tool={formTool}
                   values={formValues}
                   onChange={setFormValues}
                   onFormComplete={handleFormComplete}
@@ -162,6 +186,7 @@ export function ToolPage({ language, tool }: ToolPageProps) {
                   <WhoGrowthResultPanel
                     ref={resultPanelRef}
                     language={language}
+                    preset={whoGrowthPreset ?? "all"}
                     values={formValues}
                   />
                 </Suspense>
