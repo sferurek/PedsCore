@@ -1210,8 +1210,23 @@ const rdaiValidationNotes: LocalizedText = {
 };
 
 const passValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: fuente PASS original localizada con DOI/PMID. Pendiente revisar tabla completa, interpretacion y permisos antes de activar calculo.",
-  en: "Block 8B-3: original PASS source located with DOI/PMID. Complete table, interpretation, and permissions remain pending before calculation."
+  es: "Sprint 2A: fuente PASS original localizada con DOI/PMID, pero la tabla completa, interpretacion y reutilizacion no estan suficientemente verificadas. No se implementa ni se activa calculo.",
+  en: "Sprint 2A: original PASS source located with DOI/PMID, but the complete table, interpretation, and reuse status are not sufficiently verified. It is not implemented and calculation is not activated."
+};
+
+const pramQaValidationNotes: LocalizedText = {
+  es: "Sprint 2A QA: PRAM permanece implementado como score descriptivo de gravedad. Fuente original y validacion enlazadas; salida informativa sin instrucciones de manejo ni decisiones de disposicion.",
+  en: "Sprint 2A QA: PRAM remains implemented as a descriptive severity score. Original and validation sources are linked; output is informational without management instructions or disposition decisions."
+};
+
+const westleyQaValidationNotes: LocalizedText = {
+  es: "Sprint 2A QA: Westley Croup permanece implementado como score descriptivo de gravedad. Fuente primaria enlazada; cortes revisados como 0-2, 3-7, 8-11 y 12-17 sin instrucciones de manejo.",
+  en: "Sprint 2A QA: Westley Croup remains implemented as a descriptive severity score. Primary source is linked; bands reviewed as 0-2, 3-7, 8-11, and 12-17 without management instructions."
+};
+
+const nipsQaValidationNotes: LocalizedText = {
+  es: "Sprint 2A QA: NIPS permanece implementado como escala descriptiva neonatal. Fuente primaria enlazada; rango 0-7 y umbral descriptivo >3, sin instrucciones de manejo.",
+  en: "Sprint 2A QA: NIPS remains implemented as a descriptive neonatal scale. Primary source is linked; 0-7 range and descriptive >3 threshold, without management instructions."
 };
 
 const brosjodValidationNotes: LocalizedText = {
@@ -2120,8 +2135,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   nips: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
-      es: "Escala NIPS preparada con seis dominios documentados localmente. El calculo suma 0-1 en cinco dominios y 0-2 en llanto.",
-      en: "NIPS scale prepared with six locally documented domains. Calculation sums 0-1 in five domains and 0-2 in cry."
+      es: "Escala NIPS descriptiva con seis dominios. El calculo suma 0-1 en cinco dominios y 0-2 en llanto; salida informativa y trazable.",
+      en: "Descriptive NIPS scale with six domains. Calculation sums 0-1 in five domains and 0-2 in cry; output is informational and traceable."
     },
     inputs: [
       {
@@ -2240,7 +2255,10 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   pram: {
     calculationStatus: "metadata_ready",
-    calculationNotes: pendingCalculationNotes,
+    calculationNotes: {
+      es: "Score PRAM descriptivo de gravedad respiratoria. Resultado informativo y trazable, sin instrucciones de manejo.",
+      en: "Descriptive PRAM respiratory severity score. Informational and traceable result, without management instructions."
+    },
     inputs: [
       {
         id: "suprasternal_retractions",
@@ -2297,21 +2315,21 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         min: 0,
         max: 3,
         label: { es: "Leve", en: "Mild" },
-        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+        description: { es: "Banda descriptiva PRAM 0-3.", en: "Descriptive PRAM band 0-3." }
       },
       {
         id: "moderate",
         min: 4,
         max: 7,
         label: { es: "Moderada", en: "Moderate" },
-        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+        description: { es: "Banda descriptiva PRAM 4-7.", en: "Descriptive PRAM band 4-7." }
       },
       {
         id: "severe",
         min: 8,
         max: 12,
         label: { es: "Grave", en: "Severe" },
-        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+        description: { es: "Banda descriptiva PRAM 8-12.", en: "Descriptive PRAM band 8-12." }
       }
     ],
     scoringTable: [
@@ -2320,15 +2338,18 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         variable: { es: "Saturacion, retracciones, escalenos, entrada de aire y sibilancias", en: "Saturation, retractions, scalene muscles, air entry, and wheezing" },
         value: "0-3",
         description: {
-          es: "Tabla preparada como estructura; el texto exacto de opciones requiere validacion.",
-          en: "Table prepared as structure; exact option wording requires validation."
+          es: "Cinco dominios: saturacion 0-2; retracciones suprasternales 0/2; contraccion de escalenos 0/2; entrada de aire 0-3; sibilancias 0-3.",
+          en: "Five domains: saturation 0-2; suprasternal retractions 0/2; scalene contraction 0/2; air entry 0-3; wheezing 0-3."
         }
       }
     ]
   },
   westley_croup: {
     calculationStatus: "metadata_ready",
-    calculationNotes: pendingCalculationNotes,
+    calculationNotes: {
+      es: "Score Westley descriptivo de gravedad de crup. Resultado informativo y trazable, sin instrucciones de manejo.",
+      en: "Descriptive Westley croup severity score. Informational and traceable result, without management instructions."
+    },
     inputs: [
       {
         id: "level_of_consciousness",
@@ -2389,28 +2410,28 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         min: 0,
         max: 2,
         label: { es: "Leve", en: "Mild" },
-        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+        description: { es: "Banda descriptiva Westley 0-2.", en: "Descriptive Westley band 0-2." }
       },
       {
         id: "moderate",
         min: 3,
-        max: 5,
+        max: 7,
         label: { es: "Moderado", en: "Moderate" },
-        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+        description: { es: "Banda descriptiva Westley 3-7.", en: "Descriptive Westley band 3-7." }
       },
       {
         id: "severe",
-        min: 6,
+        min: 8,
         max: 11,
         label: { es: "Severo", en: "Severe" },
-        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+        description: { es: "Banda descriptiva Westley 8-11.", en: "Descriptive Westley band 8-11." }
       },
       {
         id: "impending_respiratory_failure",
         min: 12,
         max: 17,
         label: { es: "Fallo respiratorio inminente", en: "Impending respiratory failure" },
-        description: { es: "Pendiente de validacion final.", en: "Pending final validation." }
+        description: { es: "Banda descriptiva Westley 12-17.", en: "Descriptive Westley band 12-17." }
       }
     ],
     scoringTable: [
@@ -2419,8 +2440,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         variable: { es: "Retracciones, estridor, cianosis, conciencia y entrada de aire", en: "Retractions, stridor, cyanosis, consciousness, and air entry" },
         value: "0-5",
         description: {
-          es: "Estructura preparada; los pesos exactos permanecen pendientes de validacion.",
-          en: "Structure prepared; exact weights remain pending validation."
+          es: "Cinco dominios: conciencia 0/5; cianosis 0/4/5; estridor 0/1/2; entrada de aire 0/1/2; retracciones 0-3.",
+          en: "Five domains: consciousness 0/5; cyanosis 0/4/5; stridor 0/1/2; air entry 0/1/2; retractions 0-3."
         }
       }
     ]
@@ -3004,7 +3025,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico para gravedad de EHI neonatal.", "Clinical score for neonatal HIE severity.", "pending_validation", "original_derivation_study", "medium", thompsonHieEvidenceValidationNotes),
   makeTool("modified_finnegan", "modified-finnegan", "Finnegan", "Finnegan modificado / NAS", "Modified Finnegan NAS Score", "neonatology", "neonatal_abstinence", "score", "Recien nacidos con sospecha de sindrome de abstinencia neonatal", "Newborns with suspected neonatal abstinence syndrome", "Valora signos de abstinencia neonatal.", "Assesses neonatal abstinence signs.", "pending_validation", "pending_verification", "medium", finneganValidationNotes),
   makeTool("eat_sleep_console", "eat-sleep-console", "ESC", "Eat Sleep Console", "Eat Sleep Console", "neonatology", "neonatal_abstinence", "algorithm", "Recien nacidos expuestos a opioides", "Opioid-exposed newborns", "Modelo funcional para seguimiento de abstinencia neonatal.", "Functional model for neonatal withdrawal assessment.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
-  makeTool("nips", "nips", "NIPS", "Neonatal Infant Pain Scale", "Neonatal Infant Pain Scale", "pain", "neonatal_pain", "scale", "Neonatos", "Neonates", "Escala observacional de dolor neonatal.", "Observational neonatal pain scale.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready, [docRef("nips_kb", "PedsCore_Knowledge_Base_v1: NIPS", "pending_verification")]),
+  makeTool("nips", "nips", "NIPS", "Neonatal Infant Pain Scale", "Neonatal Infant Pain Scale", "pain", "neonatal_pain", "scale", "Neonatos", "Neonates", "Escala observacional de dolor neonatal.", "Observational neonatal pain scale.", "ready_for_implementation", "moderate", "low", nipsQaValidationNotes, [docRef("nips_kb", "PedsCore_Knowledge_Base_v1: NIPS", "pending_verification")]),
   makeTool("pipp", "pipp", "PIPP", "Premature Infant Pain Profile", "Premature Infant Pain Profile", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Escala de dolor neonatal, especialmente en prematuros.", "Neonatal pain scale, especially for preterm infants.", "pending_validation", "pending_verification", "medium", pippValidationNotes),
   makeTool("pipp_r", "pipp-r", "PIPP-R", "Premature Infant Pain Profile-Revised", "Premature Infant Pain Profile-Revised", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Version revisada de PIPP.", "Revised version of PIPP.", "pending_validation", "pending_verification", "medium", pippValidationNotes),
   makeTool("cries", "cries", "CRIES", "CRIES", "CRIES", "pain", "neonatal_pain", "scale", "Neonatos con dolor postoperatorio", "Neonates with postoperative pain", "Escala neonatal de dolor basada en cinco dominios.", "Neonatal pain scale based on five domains.", "pending_validation", "pending_verification", "low", criesValidationNotes, [docRef("cries_kb", "PedsCore_Knowledge_Base_v1: CRIES", "pending_verification")]),
@@ -3014,8 +3035,8 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pews", "pews", "PEWS", "Pediatric Early Warning Score", "Pediatric Early Warning Score", "emergency", "early_warning", "score", "Ninos hospitalizados o en urgencias", "Hospitalized children or children in emergency care", "Score de deteccion precoz de deterioro clinico con multiples variantes.", "Early warning score for clinical deterioration with multiple variants.", "pending_validation", "pending_verification", "medium", pewsValidationNotes),
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", bedsidePewsValidationNotes),
-  makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
-  makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos con crisis asmatica o sibilancias", "Children with asthma exacerbation or wheezing", "Mide gravedad de broncoespasmo pediatrico.", "Measures pediatric wheezing/asthma severity.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
+  makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
+  makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos con crisis asmatica o sibilancias", "Children with asthma exacerbation or wheezing", "Mide gravedad de broncoespasmo pediatrico.", "Measures pediatric wheezing/asthma severity.", "ready_for_implementation", "moderate", "medium", pramQaValidationNotes),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
   makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "pending_validation", "original_derivation_study", "medium", passValidationNotes),

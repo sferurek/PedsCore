@@ -10,7 +10,7 @@
 
 ## Evidence validation status
 - final evidence status: pending_complete_scoring_table
-- reason: Primary source found, but PedsCore still needs complete table, interpretation, and permission review.
+- reason: Sprint 2A confirms PASS remains blocked. Primary source is located, but the complete reusable table, interpretation bands, and reuse/licensing position are not sufficiently verified for implementation.
 
 ## Clinical purpose
 ES: Acute pediatric asthma severity scoring.
@@ -44,7 +44,7 @@ No official guideline implementation is created in this block.
 - complete table found: no
 - source: No. Full table must be verified from the article before implementation.
 - copyright/licensing risk: unknown; likely implementable after table and reuse review.
-- notes: Do not reconstruct tables from memory or secondary calculators.
+- notes: Do not reconstruct tables from memory, secondary calculators, pathway PDFs, or commercial tools.
 
 ## Variables and scoring
 | variable | option | score/value | source | notes |
@@ -76,7 +76,7 @@ Units, age bands, and edge cases remain pending unless explicitly documented abo
 - notes: unknown; likely implementable after table and reuse review.
 
 ## Implementation recommendation
-implement_after_expert_review
+keep_blocked_until_table_and_reuse_review
 
 ## Proposed test cases
 - minimum

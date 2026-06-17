@@ -3,8 +3,8 @@ import {
   findInterpretation,
   getNumericScore,
   getTool,
-  invalidScoreResult,
-  missingResult
+  missingResult,
+  warning
 } from "./common.js";
 import type { CalculatorDefinition } from "./common.js";
 
@@ -31,7 +31,17 @@ export const westleyCroupCalculator: CalculatorDefinition = {
       const score = getNumericScore(tool, input, inputId);
 
       if (score === null || score < 0 || score > 5) {
-        return invalidScoreResult(tool.id, inputId, input[inputId]);
+        return {
+          toolId: tool.id,
+          warnings: [
+            warning(
+              "invalid_score_input",
+              "Seleccion no valida para la puntuacion Westley.",
+              "Invalid selection for the Westley score."
+            )
+          ],
+          trace: [{ inputId, value: input[inputId] }]
+        };
       }
 
       scores.push(score);

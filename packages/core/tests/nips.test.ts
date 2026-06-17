@@ -53,6 +53,26 @@ describe("NIPS calculator", () => {
     ).toBe("above_documented_threshold");
   });
 
+  it("traces all NIPS domains with an intermediate score", () => {
+    const result = nipsCalculator.calculate({
+      ...minInput,
+      facial_expression: "grimace",
+      cry: "whimper",
+      breathing_patterns: "altered"
+    });
+
+    expect(result.score).toBe(3);
+    expect(result.interpretation?.id).toBe("below_documented_threshold");
+    expect(result.trace.map((entry) => entry.inputId).sort()).toEqual([
+      "arms",
+      "breathing_patterns",
+      "cry",
+      "facial_expression",
+      "legs",
+      "state_of_arousal"
+    ]);
+  });
+
   it("warns on incomplete and invalid input", () => {
     expect(nipsCalculator.calculate({}).warnings[0]?.id).toBe("missing_required_inputs");
     expect(nipsCalculator.calculate({ ...minInput, facial_expression: "bad" }).warnings[0]?.id).toBe(

@@ -4,7 +4,6 @@ import {
   getNumber,
   getNumericScore,
   getTool,
-  invalidScoreResult,
   missingResult,
   warning
 } from "./common.js";
@@ -71,7 +70,17 @@ export const pramCalculator: CalculatorDefinition = {
       const score = getNumericScore(tool, input, inputId);
 
       if (score === null || score < 0 || score > 3) {
-        return invalidScoreResult(tool.id, inputId, input[inputId]);
+        return {
+          toolId: tool.id,
+          warnings: [
+            warning(
+              "invalid_score_input",
+              "Seleccion no valida para la puntuacion PRAM.",
+              "Invalid selection for the PRAM score."
+            )
+          ],
+          trace: [{ inputId, value: input[inputId] }]
+        };
       }
 
       scores.push(score);
