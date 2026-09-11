@@ -6,6 +6,7 @@ import { OssSupportBanner } from "../components/OssSupportBanner";
 import { getSeoForRoute } from "../utils/seo";
 import { parseRoute } from "../utils/routes";
 import { EvidencePage } from "./EvidencePage";
+import { GlobalStatsPage } from "./GlobalStatsPage";
 import { HomePage } from "./HomePage";
 import { ToolPage } from "./ToolPage";
 import { ToolsPage } from "./ToolsPage";
@@ -75,13 +76,16 @@ describe("public product web polish", () => {
           status: "ok",
           configured: true,
           disabled: false,
-          range: "all_time",
+          provider: "vercel",
+          metric: "visitors",
+          totalsRange: "since_analytics_enabled",
+          countriesRange: null,
           minimumThreshold: 5,
           totals: {
-            visits: 1234,
+            visitors: 1234,
             pageviews: 2345,
             countriesReached: 4,
-            last7DaysVisits: 56
+            last7DaysVisitors: 56
           },
           countries: []
         }}
@@ -89,7 +93,7 @@ describe("public product web polish", () => {
     );
 
     expect(html).toContain(
-      "PedsCore has received 56 visits this week and 1,234 since launch."
+      "PedsCore has received 56 visitors this week and 1,234 since analytics was enabled."
     );
     expect(html).toContain("View global stats");
     expect(html).toContain("/en/stats/global");
@@ -103,13 +107,15 @@ describe("public product web polish", () => {
           status: "not_configured",
           configured: false,
           disabled: false,
-          range: "all_time",
+          metric: "visitors",
+          totalsRange: "since_analytics_enabled",
+          countriesRange: null,
           minimumThreshold: 5,
           totals: {
-            visits: 0,
+            visitors: 0,
             pageviews: 0,
             countriesReached: 0,
-            last7DaysVisits: 0
+            last7DaysVisitors: 0
           },
           countries: []
         }}
@@ -119,7 +125,7 @@ describe("public product web polish", () => {
     expect(html).toBe("");
   });
 
-  it("uses visits wording instead of people or users", () => {
+  it("uses visitors wording and renders with no visible countries", () => {
     const html = renderToString(
       <FooterUsageSummaryContent
         language="es"
@@ -127,24 +133,44 @@ describe("public product web polish", () => {
           status: "ok",
           configured: true,
           disabled: false,
-          range: "all_time",
+          provider: "vercel",
+          metric: "visitors",
+          totalsRange: "since_analytics_enabled",
+          countriesRange: {
+            kind: "reporting_window",
+            since: "2026-08-12",
+            until: "2026-09-11"
+          },
           minimumThreshold: 5,
           totals: {
-            visits: 10,
+            visitors: 10,
             pageviews: 20,
             countriesReached: 1,
-            last7DaysVisits: 2
+            last7DaysVisitors: 2
           },
           countries: []
         }}
       />
     );
 
-    expect(html).toContain("visitas");
+    expect(html).toContain("visitantes");
     expect(html.toLowerCase()).not.toContain("people");
     expect(html.toLowerCase()).not.toContain("users");
     expect(html.toLowerCase()).not.toContain("personas");
     expect(html.toLowerCase()).not.toContain("usuarios");
+  });
+
+  it("renders semantically correct visitor labels in Global Stats for ES and EN", () => {
+    const spanishHtml = renderToString(<GlobalStatsPage language="es" />);
+    const englishHtml = renderToString(<GlobalStatsPage language="en" />);
+
+    expect(spanishHtml).toContain("Visitantes desde la activacion de analytics");
+    expect(spanishHtml).toContain("Visitantes en los ultimos 7 dias");
+    expect(englishHtml).toContain("Visitors since analytics was enabled");
+    expect(englishHtml).toContain("Visitors in the last 7 days");
+    expect(`${spanishHtml}${englishHtml}`.toLowerCase()).not.toContain(
+      "total visits"
+    );
   });
 
   it("renders compact OSS support links for internal pages", () => {

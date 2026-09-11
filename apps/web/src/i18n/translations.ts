@@ -128,15 +128,17 @@ export const translations = {
       title: "Uso global de PedsCore",
       lead:
         "Estadisticas publicas agregadas por pais. No incluyen IPs, identificadores, datos clinicos, valores de formularios ni texto libre.",
-      totalVisits: "Visitas totales",
+      totalVisitors: "Visitantes desde la activacion de analytics",
       countriesReached: "Paises alcanzados",
-      last7DaysVisits: "Visitas en los ultimos 7 dias",
+      last7DaysVisitors: "Visitantes en los ultimos 7 dias",
       pageviews: "Paginas vistas",
       worldMap: "Mapa mundial",
       country: "Pais",
-      visits: "Visitas",
+      visitors: "Visitantes",
       thresholdNote:
-        "Solo se muestran paises con al menos {threshold} visitas para evitar exposicion de grupos pequenos.",
+        "Solo se muestran paises con al menos {threshold} visitantes para evitar exposicion de grupos pequenos.",
+      countryRange:
+        "Paises agregados en la ventana de reporting del proveedor: {since} a {until}.",
       loading: "Cargando estadisticas agregadas...",
       notConfigured:
         "La analitica publica no esta configurada todavia para este despliegue.",
@@ -258,7 +260,7 @@ export const translations = {
       whoLicense: "Datos OMS con licencia separada",
       noClinicalStorage: "Sin almacenamiento de datos clinicos",
       usageSummary:
-        "PedsCore ha recibido {last7DaysVisits} visitas esta semana y {totalVisits} desde su publicación.",
+        "PedsCore ha recibido {last7DaysVisitors} visitantes esta semana y {totalVisitors} desde que se activo analytics.",
       usageSummaryLink: "Ver estadísticas globales →"
     }
   },
@@ -380,15 +382,17 @@ export const translations = {
       title: "Global PedsCore usage",
       lead:
         "Public aggregate statistics by country. They do not include IPs, identifiers, clinical data, form values or free text.",
-      totalVisits: "Total visits",
+      totalVisitors: "Visitors since analytics was enabled",
       countriesReached: "Countries reached",
-      last7DaysVisits: "Last 7 days visits",
+      last7DaysVisitors: "Visitors in the last 7 days",
       pageviews: "Pageviews",
       worldMap: "World map",
       country: "Country",
-      visits: "Visits",
+      visitors: "Visitors",
       thresholdNote:
-        "Only countries with at least {threshold} visits are shown to avoid exposing small groups.",
+        "Only countries with at least {threshold} visitors are shown to avoid exposing small groups.",
+      countryRange:
+        "Countries aggregated within the provider reporting window: {since} to {until}.",
       loading: "Loading aggregate statistics...",
       notConfigured:
         "Public analytics are not configured for this deployment yet.",
@@ -509,7 +513,7 @@ export const translations = {
       whoLicense: "WHO data under separate license",
       noClinicalStorage: "No clinical data storage",
       usageSummary:
-        "PedsCore has received {last7DaysVisits} visits this week and {totalVisits} since launch.",
+        "PedsCore has received {last7DaysVisitors} visitors this week and {totalVisitors} since analytics was enabled.",
       usageSummaryLink: "View global stats →"
     }
   }

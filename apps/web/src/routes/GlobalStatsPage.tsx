@@ -12,41 +12,43 @@ interface GlobalStatsPageProps {
 }
 
 const fallbackStats: GlobalUsageStats = {
-  status: "empty",
+  status: "not_configured",
   configured: false,
   disabled: false,
-  range: "all_time",
+  metric: "visitors",
+  totalsRange: "since_analytics_enabled",
+  countriesRange: null,
   minimumThreshold: 5,
   totals: {
-    visits: 0,
+    visitors: 0,
     pageviews: 0,
     countriesReached: 0,
-    last7DaysVisits: 0
+    last7DaysVisitors: 0
   },
   countries: []
 };
 
 const countryPositions: Record<string, { x: number; y: number }> = {
-  AR: { x: 35, y: 73 },
-  AU: { x: 83, y: 76 },
-  BR: { x: 39, y: 68 },
+  AR: { x: 35, y: 47 },
+  AU: { x: 83, y: 46 },
+  BR: { x: 39, y: 42 },
   CA: { x: 23, y: 30 },
-  CL: { x: 31, y: 78 },
+  CL: { x: 31, y: 49 },
   CN: { x: 73, y: 43 },
-  CO: { x: 33, y: 59 },
+  CO: { x: 33, y: 37 },
   DE: { x: 50, y: 36 },
   ES: { x: 47, y: 43 },
   FR: { x: 48, y: 40 },
   GB: { x: 46, y: 34 },
-  IN: { x: 67, y: 53 },
+  IN: { x: 67, y: 40 },
   IT: { x: 51, y: 43 },
   JP: { x: 82, y: 45 },
   MA: { x: 47, y: 49 },
-  MX: { x: 24, y: 51 },
-  PE: { x: 32, y: 66 },
+  MX: { x: 24, y: 35 },
+  PE: { x: 32, y: 42 },
   PT: { x: 45, y: 43 },
   US: { x: 25, y: 42 },
-  ZA: { x: 54, y: 78 }
+  ZA: { x: 54, y: 48 }
 };
 
 const formatNumber = (value: number, language: Language) =>
@@ -75,7 +77,7 @@ const getStatusMessage = (
     return t.failed;
   }
 
-  if (stats.status === "empty" || stats.countries.length === 0) {
+  if (stats.status === "ok" && stats.countries.length === 0) {
     return t.empty;
   }
 
@@ -83,8 +85,13 @@ const getStatusMessage = (
 };
 
 function GlobalUsageMap({ countries }: { countries: CountryUsageStat[] }) {
-  const maxVisits = Math.max(...countries.map((country) => country.visits), 1);
-  const plottedCountries = countries.slice(0, 30);
+  const plottedCountries = countries
+    .filter((country) => countryPositions[country.code])
+    .slice(0, 30);
+  const maxVisitors = Math.max(
+    ...plottedCountries.map((country) => country.visitors),
+    1
+  );
 
   return (
     <svg
@@ -103,11 +110,12 @@ function GlobalUsageMap({ countries }: { countries: CountryUsageStat[] }) {
         d="M21 34c10-2 15 4 21 9-12 5-22 2-27-5 2-2 4-3 6-4Zm39 4c8-5 19-3 25 3-6 5-18 6-28 1 0-2 1-3 3-4Z"
       />
       {plottedCountries.map((country) => {
-        const position = countryPositions[country.code] ?? {
-          x: 50 + ((country.code.charCodeAt(0) % 40) - 20),
-          y: 28 + ((country.code.charCodeAt(1) % 22) - 11)
-        };
-        const radius = 1.8 + (country.visits / maxVisits) * 5.4;
+        const position = countryPositions[country.code];
+        const radius = 1.8 + (country.visitors / maxVisitors) * 5.4;
+
+        if (!position) {
+          return null;
+        }
 
         return (
           <circle
@@ -132,6 +140,14 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
     "{threshold}",
     formatNumber(stats.minimumThreshold, language)
   );
+  const countryRangeMessage =
+    stats.countriesRange?.kind === "reporting_window" &&
+    stats.countriesRange.since &&
+    stats.countriesRange.until
+      ? t.stats.countryRange
+          .replace("{since}", stats.countriesRange.since)
+          .replace("{until}", stats.countriesRange.until)
+      : null;
   const topCountries = useMemo(() => stats.countries.slice(0, 20), [stats]);
 
   useEffect(() => {
@@ -164,16 +180,16 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
 
       <section className="stats-metric-grid" aria-label={t.stats.title}>
         <div className="stats-metric-card">
-          <span>{t.stats.totalVisits}</span>
-          <strong>{formatNumber(stats.totals.visits, language)}</strong>
+          <span>{t.stats.totalVisitors}</span>
+          <strong>{formatNumber(stats.totals.visitors, language)}</strong>
         </div>
         <div className="stats-metric-card">
           <span>{t.stats.countriesReached}</span>
           <strong>{formatNumber(stats.totals.countriesReached, language)}</strong>
         </div>
         <div className="stats-metric-card">
-          <span>{t.stats.last7DaysVisits}</span>
-          <strong>{formatNumber(stats.totals.last7DaysVisits, language)}</strong>
+          <span>{t.stats.last7DaysVisitors}</span>
+          <strong>{formatNumber(stats.totals.last7DaysVisitors, language)}</strong>
         </div>
         <div className="stats-metric-card">
           <span>{t.stats.pageviews}</span>
@@ -185,6 +201,7 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
         <div className="section-heading">
           <h2>{t.stats.worldMap}</h2>
           <p>{thresholdMessage}</p>
+          {countryRangeMessage ? <p>{countryRangeMessage}</p> : null}
         </div>
         <GlobalUsageMap countries={stats.countries} />
         {stats.updatedAt ? (
@@ -209,7 +226,7 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
               <thead>
                 <tr>
                   <th>{t.stats.country}</th>
-                  <th>{t.stats.visits}</th>
+                  <th>{t.stats.visitors}</th>
                   <th>{t.stats.pageviews}</th>
                 </tr>
               </thead>
@@ -220,7 +237,7 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
                       <strong>{country.code}</strong>
                       <span>{country.name}</span>
                     </td>
-                    <td>{formatNumber(country.visits, language)}</td>
+                    <td>{formatNumber(country.visitors, language)}</td>
                     <td>{formatNumber(country.pageviews, language)}</td>
                   </tr>
                 ))}

@@ -1,6 +1,12 @@
+import { track as trackVercelEvent } from "@vercel/analytics";
 import type { Language } from "./language";
 
-export type AnalyticsProvider = "none" | "plausible" | "umami" | "cloudflare";
+export type AnalyticsProvider =
+  | "none"
+  | "plausible"
+  | "umami"
+  | "cloudflare"
+  | "vercel";
 
 export type AnalyticsEventName =
   | "app_open"
@@ -47,7 +53,13 @@ declare global {
   }
 }
 
-const providerValues = ["none", "plausible", "umami", "cloudflare"] as const;
+const providerValues = [
+  "none",
+  "plausible",
+  "umami",
+  "cloudflare",
+  "vercel"
+] as const;
 const analyticsEventNames = [
   "app_open",
   "screen_view",
@@ -105,12 +117,21 @@ export const isAnalyticsEnabled = (): boolean => {
     return Boolean(config.cloudflareToken && config.scriptUrl);
   }
 
+  if (config.provider === "vercel") {
+    return true;
+  }
+
   return false;
 };
 
 export const normalizeAnalyticsPath = (path: string): string => {
   const [cleanPath] = path.split(/[?#]/);
   return cleanPath || "/";
+};
+
+export const sanitizeAnalyticsUrl = (url: string): string => {
+  const [cleanUrl] = url.split(/[?#]/);
+  return cleanUrl || "/";
 };
 
 const sanitizeToken = (value: unknown): string | undefined => {
@@ -249,10 +270,34 @@ const sendAnalyticsEvent = (
 
     if (payload.provider === "umami") {
       window.umami?.track?.(eventName, payload);
+      return;
+    }
+
+    if (payload.provider === "vercel") {
+      trackVercelEvent(eventName, toVercelEventProperties(payload));
     }
   } catch {
     // Analytics must never break clinical tool rendering.
   }
+};
+
+const toVercelEventProperties = (
+  payload: AnalyticsPayload
+): Record<string, string | number | boolean | null> => {
+  const properties: Record<string, string | number | boolean | null> = {};
+
+  for (const [key, value] of Object.entries(payload)) {
+    if (
+      typeof value === "string" ||
+      typeof value === "number" ||
+      typeof value === "boolean" ||
+      value === null
+    ) {
+      properties[key] = value;
+    }
+  }
+
+  return properties;
 };
 
 export const trackPageView = (path: string, language: Language): void => {

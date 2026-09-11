@@ -1,15 +1,34 @@
 import { useEffect } from "react";
-import { getAnalyticsConfig, isAnalyticsEnabled } from "../utils/analytics";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
+import type { BeforeSendEvent } from "@vercel/analytics/react";
+import {
+  getAnalyticsConfig,
+  isAnalyticsEnabled,
+  sanitizeAnalyticsUrl
+} from "../utils/analytics";
 
 const scriptId = "peds-core-analytics-script";
 
+const sanitizeVercelAnalyticsEvent = (
+  event: BeforeSendEvent
+): BeforeSendEvent => ({
+  ...event,
+  url: sanitizeAnalyticsUrl(event.url)
+});
+
 export function AnalyticsProvider() {
+  const config = getAnalyticsConfig();
+  const analyticsEnabled = isAnalyticsEnabled();
+
   useEffect(() => {
-    if (!isAnalyticsEnabled() || document.getElementById(scriptId)) {
+    if (
+      !analyticsEnabled ||
+      config.provider === "vercel" ||
+      document.getElementById(scriptId)
+    ) {
       return;
     }
 
-    const config = getAnalyticsConfig();
     const script = document.createElement("script");
     script.id = scriptId;
     script.async = true;
@@ -36,7 +55,23 @@ export function AnalyticsProvider() {
     return () => {
       script.remove();
     };
-  }, []);
+  }, [
+    analyticsEnabled,
+    config.cloudflareToken,
+    config.domain,
+    config.provider,
+    config.scriptUrl,
+    config.umamiWebsiteId
+  ]);
+
+  if (config.provider === "vercel" && analyticsEnabled) {
+    return (
+      <VercelAnalytics
+        beforeSend={sanitizeVercelAnalyticsEvent}
+        mode="production"
+      />
+    );
+  }
 
   return null;
 }

@@ -37,10 +37,10 @@ export function FooterUsageSummaryContent({
   const href = makePath(language, "stats", "global");
   const summary = t.usageSummary
     .replace(
-      "{last7DaysVisits}",
-      formatUsageCount(stats.totals.last7DaysVisits, language)
+      "{last7DaysVisitors}",
+      formatUsageCount(stats.totals.last7DaysVisitors, language)
     )
-    .replace("{totalVisits}", formatUsageCount(stats.totals.visits, language));
+    .replace("{totalVisitors}", formatUsageCount(stats.totals.visitors, language));
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (!navigate) {

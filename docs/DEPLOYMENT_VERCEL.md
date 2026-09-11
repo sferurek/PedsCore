@@ -1,141 +1,147 @@
-# Vercel Deployment with Umami Analytics
+# Vercel deployment with Web Analytics
 
-This guide documents the preferred PedsCore production deployment on Vercel with Umami enabled through environment variables.
+Production URL: `https://peds-core.vercel.app`
 
-Production app:
+PedsCore is a Vite static app with one Vercel Function:
 
-```text
-https://peds-core.vercel.app
-```
+- build command: `npm run build`
+- output directory: `apps/web/dist`
+- public API: `/api/analytics/countries`
+- public stats: `/es/stats/global` and `/en/stats/global`
 
-## Runtime Model
+The repository-root [vercel.json](../vercel.json) routes the API to its function
+and rewrites non-API, non-asset paths to the SPA. GitHub Pages serves only the
+legacy redirect and cannot execute the analytics function.
 
-PedsCore is a TypeScript/Vite static web app with one Vercel-compatible serverless endpoint:
+## Production configuration
 
-- Static app output: `apps/web/dist`
-- Serverless endpoint: `/api/analytics/countries`
-- Public stats routes: `/es/stats/global` and `/en/stats/global`
+Keep the repository root as the Vercel project root. Use the default npm install
+step and Node.js 22.x.
 
-Vercel is the preferred public app because it serves both the static web app and `/api/analytics/countries`. GitHub Pages is legacy/deprecated and should only redirect visitors to Vercel; it cannot execute `/api/analytics/countries`.
+First open the project's **Analytics** page and click **Enable**. Vercel creates
+the Web Analytics collection routes on the next deployment.
 
-## Import into Vercel
-
-1. Import `https://github.com/sferurek/PedsCore` into Vercel.
-2. Keep the repository root as the Vercel project root.
-3. Use the existing npm workspace scripts.
-4. Configure:
-   - Build command: `npm run build`
-   - Output directory: `apps/web/dist`
-   - Install command: Vercel default, or `npm install`
-   - Node.js: `22.x` is recommended. The serverless function is configured as `nodejs22.x`.
-
-The repository includes `vercel.json` with:
-
-- `buildCommand`: `npm run build`
-- `outputDirectory`: `apps/web/dist`
-- `/api/analytics/countries` routed to the serverless function
-- `/assets/*` excluded from the SPA fallback
-- non-API routes rewritten to `/index.html` for SPA routing
-
-## Frontend Environment Variables
-
-These are public build-time variables. They are embedded in the browser bundle.
+Add these public build-time variables to Production:
 
 ```bash
-VITE_ANALYTICS_PROVIDER=umami
-VITE_ANALYTICS_SCRIPT_URL=https://<your-umami-domain>/script.js
-VITE_UMAMI_WEBSITE_ID=<website-id>
+VITE_ANALYTICS_PROVIDER=vercel
 VITE_PUBLIC_STATS_ENABLED=true
 VITE_PUBLIC_STATS_ENDPOINT=/api/analytics/countries
 ```
 
-Do not put private tokens in `VITE_*` variables.
-
-## Server-side Environment Variables
-
-These must be configured only in Vercel server-side environment variables:
+Add these server-only variables to Production:
 
 ```bash
-UMAMI_API_URL=https://<your-umami-domain>
-UMAMI_WEBSITE_ID=<website-id>
-UMAMI_API_TOKEN=<server-side-api-token>
-UMAMI_COUNTRY_MIN_THRESHOLD=5
-UMAMI_COUNTRY_CACHE_SECONDS=3600
-UMAMI_PUBLIC_STATS_ENABLED=true
+ANALYTICS_STATS_PROVIDER=vercel
+ANALYTICS_PUBLIC_STATS_ENABLED=true
+VERCEL_ACCESS_TOKEN=<sensitive token>
+VERCEL_ANALYTICS_PROJECT_ID=<prj_...>
+ANALYTICS_COUNTRY_MIN_THRESHOLD=5
+ANALYTICS_COUNTRY_CACHE_SECONDS=3600
 ```
 
-Rules:
+For a team-owned project, also set one of:
 
-- Never commit real tokens.
-- `UMAMI_API_TOKEN` must never be prefixed with `VITE_`.
-- `UMAMI_COUNTRY_MIN_THRESHOLD` hides countries below the threshold.
-- `UMAMI_COUNTRY_CACHE_SECONDS` controls public cache headers for the aggregate endpoint.
-- Set `UMAMI_PUBLIC_STATS_ENABLED=false` to disable the endpoint without redeploying code.
+```bash
+VERCEL_ANALYTICS_TEAM_ID=<team_...>
+VERCEL_ANALYTICS_TEAM_SLUG=<team-slug>
+```
 
-## Local Build Verification
+The explicit project and team variables can be omitted when the Vercel project
+has **Automatically expose System Environment Variables** enabled, because the
+function then uses `VERCEL_PROJECT_ID` and `VERCEL_TEAM_ID`.
 
-Run before deploying:
+Only `VERCEL_ACCESS_TOKEN` is secret. Mark it sensitive. Never put it, a team id
+or a project id into a browser variable merely to make the API work. Values are
+applied only to deployments created after the variables are saved.
+
+`VERCEL_ANALYTICS_COUNTRY_SINCE=YYYY-MM-DD` is an optional server variable for a
+shorter supported country interval. Without it, PedsCore requests the last 30
+days, which is compatible with Vercel's reporting-window model.
+
+## Local validation
+
+Run from the repository root:
 
 ```bash
 npm run lint
 npm run test
 npm run build
 npm run seo:check
+git diff --check
 ```
 
-## Smoke Tests
+Without credentials, the function deliberately returns a safe unconfigured
+response. Tests mock Vercel responses; they never require or print a real token.
 
-Without server-side env vars, the endpoint should fail safe:
+## Preview deployment
+
+Preview can validate the bundle, SPA routes and fail-safe API before production.
+If Production-only variables are not copied to Preview, `configured:false` is
+expected there. Do not treat that response as proof that Production is broken.
+
+After a preview deploy, check:
 
 ```bash
-npm run build
-vercel dev
-curl -s http://localhost:3000/api/analytics/countries
+curl -I <preview-url>/
+curl -I <preview-url>/es/stats/global
+curl -I <preview-url>/en/stats/global
+curl -s <preview-url>/api/analytics/countries
 ```
 
-Expected shape:
+## Production deployment and smoke test
 
-```json
-{
-  "configured": false,
-  "disabled": false,
-  "range": "all_time",
-  "totalVisits": 0,
-  "totalPageviews": 0,
-  "last7DaysVisits": 0,
-  "countriesReached": 0,
-  "countries": []
-}
-```
+After Web Analytics and the Production variables are configured, deploy from
+the Git-connected `main` branch or with `vercel --prod`.
 
-The frontend stats page should render a not-configured state:
-
-```text
-http://localhost:3000/es/stats/global
-http://localhost:3000/en/stats/global
-```
-
-After configuring Umami env vars in Vercel, verify:
+Verify:
 
 ```bash
+curl -I https://peds-core.vercel.app/
+curl -I https://peds-core.vercel.app/es/stats/global
+curl -I https://peds-core.vercel.app/en/stats/global
 curl -s https://peds-core.vercel.app/api/analytics/countries
 ```
 
-The response must contain only aggregate fields:
+The API must return HTTP 200 with:
 
-- `configured`
-- `disabled`
-- `range`
-- `totalVisits`
-- `totalPageviews`
-- `last7DaysVisits`
-- `countriesReached`
-- `countries: [{ code, name, visits, pageviews }]`
+```json
+{
+  "status": "ok",
+  "configured": true,
+  "provider": "vercel",
+  "metric": "visitors"
+}
+```
 
-It must not contain IPs, user agents, referrers, raw events, identifiers, clinical values, form values or search text.
+Zero visitors immediately after activation is valid. An authentication failure
+returns HTTP 502 with `configured:true`, while missing configuration returns
+HTTP 200 with `configured:false`.
 
-## Privacy Notes
+Open the production site once, navigate to one tool and inspect Network for a
+request below Vercel's insights route. Allow normal aggregation time, then check
+the API, footer and both Global Stats languages again. One or two controlled
+visits are sufficient.
 
-The browser loads the Umami script only when configured with public `VITE_*` variables. Public stats are retrieved from `/api/analytics/countries`; the browser never calls authenticated Umami APIs directly.
+## Privacy and fail-safe behavior
 
-The serverless endpoint uses Umami aggregate endpoints and returns only country-level aggregate counts above the configured threshold.
+The official component automatically records pageviews after query strings and
+fragments are removed. PedsCore custom events include only categorical route and
+tool metadata. Age, sex, measurements, form values, selected criteria, scores,
+results, diagnoses and free text are never sent.
+
+The browser never receives the Vercel token and never queries the authenticated
+Vercel API. `/api/analytics/countries` returns only aggregate visitor,
+pageview and country fields. Countries below the configured threshold are
+omitted without hiding the footer totals.
+
+## Troubleshooting
+
+- No tracking request: enable Web Analytics, set the frontend provider to
+  `vercel`, and redeploy.
+- `configured:false`: verify the server provider, token and project id names.
+- HTTP 502: verify token access and team scope; the function keeps
+  `configured:true` because the credentials were present.
+- Empty country list: the reporting window has no country above the threshold.
+- Old behavior after changing variables: create a new deployment; Vercel does
+  not apply new environment values retroactively.

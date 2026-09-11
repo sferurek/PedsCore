@@ -5,6 +5,7 @@ import {
   getAnalyticsProvider,
   isAnalyticsEnabled,
   normalizeAnalyticsPath,
+  sanitizeAnalyticsUrl,
   sanitizeAnalyticsParams,
   trackPageView,
   trackUsageEvent
@@ -56,6 +57,16 @@ describe("privacy-first analytics utilities", () => {
     );
   });
 
+  it("removes query strings and fragments from automatic Vercel pageviews", () => {
+    expect(
+      sanitizeAnalyticsUrl(
+        "https://peds-core.vercel.app/es/tools/apgar?weight=12#result"
+      )
+    ).toBe("https://peds-core.vercel.app/es/tools/apgar");
+    expect(sanitizeAnalyticsUrl("?weight=12#result")).toBe("/");
+    expect(sanitizeAnalyticsUrl("#result")).toBe("/");
+  });
+
   it("sanitizes event parameters to categorical allowlisted fields", () => {
     const params = sanitizeAnalyticsParams({
       toolId: "apgar",
@@ -84,6 +95,18 @@ describe("privacy-first analytics utilities", () => {
 
     expect(getAnalyticsProvider()).toBe("none");
     expect(isAnalyticsEnabled()).toBe(false);
+  });
+
+  it("enables Vercel Web Analytics without a public script URL", () => {
+    vi.stubEnv("VITE_ANALYTICS_PROVIDER", "vercel");
+
+    expect(getAnalyticsProvider()).toBe("vercel");
+    expect(isAnalyticsEnabled()).toBe(true);
+    expect(createAnalyticsPayload("/en/tools", "en")).toMatchObject({
+      path: "/en/tools",
+      language: "en",
+      provider: "vercel"
+    });
   });
 
   it("does not need cookies or localStorage to track a route", () => {
