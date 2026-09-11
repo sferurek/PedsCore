@@ -1,0 +1,20 @@
+/* Clinical Atlas v2. Breakpoints: compact <640, medium 640–959, wide 960+, large 1280+. */
+:root {
+  --ink-950:#071827; --ink-900:#0b2239; --ink-800:#123451; --ink-700:#1c496b;
+  --paper-50:#f8fbfd; --paper-100:#f1f6f9; --paper-warm:#faf7f2; --surface:#fff;
+  --line:#d9e4eb; --line-strong:#b9cad6; --text:#102a43; --text-muted:#587086;
+  --text-on-dark:#f6fafd; --text-on-dark-muted:#c7d6e2;
+  --tools:#2f80ed; --tools-soft:#eaf3ff; --learn:#20a58f; --learn-soft:#e7f7f3;
+  --sim:#7867e8; --sim-soft:#f0edff; --live:#f07a52; --live-soft:#fff0e9;
+  --success:#16866f; --warning:#c88416; --danger:#c94b55; --info:#3478c8;
+  --action:#1464c9; --action-hover:#104f9e; --hero-accent:#9bcaff;
+  --font-ui:Inter,"Helvetica Neue",Arial,sans-serif; --font-editorial:Georgia,"Times New Roman",serif;
+  --display:clamp(3.25rem,6.2vw,6.5rem); --display-line:1;
+  --h1:clamp(2.1rem,4vw,3.6rem); --h2:clamp(1.75rem,3.4vw,3rem);
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px; --s10:40px; --s12:48px; --s16:64px; --s20:80px; --s24:96px; --s32:128px;
+  --radius-xs:4px; --radius-sm:6px; --radius-md:10px; --radius-lg:16px; --radius-xl:24px; --radius-pill:999px;
+  --elevation-0:none; --elevation-1:0 4px 20px #07182714; --elevation-2:0 16px 48px #07182733;
+  --motion-fast:140ms; --motion-standard:220ms; --motion-slow:400ms;
+  --container-reading:760px; --container-clinical:1248px; --container-home:1440px;
+  --bg:var(--paper-100); --muted:var(--text-muted); --primary:var(--action); --primary-strong:var(--action-hover); --surface-strong:var(--paper-100); --radius:var(--radius-md); --shadow:var(--elevation-1);
+}

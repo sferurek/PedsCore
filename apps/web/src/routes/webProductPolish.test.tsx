@@ -19,7 +19,8 @@ describe("public product web polish", () => {
       <HomePage language="en" navigate={noopNavigate} />
     );
 
-    expect(html).toContain("Open-source pediatric and neonatal clinical tools");
+    expect(html).toContain("Evidence today.");
+    expect(html).toContain("Healthier tomorrows.");
     expect(html).toContain(">81<");
     expect(html).toContain(">21<");
     expect(html).toContain(">4<");

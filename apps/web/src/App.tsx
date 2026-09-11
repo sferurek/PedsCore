@@ -71,7 +71,7 @@ export function App() {
   const navigate = (href: string) => {
     window.history.pushState(null, "", toBrowserPath(href));
     setPath(href);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
 
   const changeLanguage = (nextLanguage: "es" | "en") => {

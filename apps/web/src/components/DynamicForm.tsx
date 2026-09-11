@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ClinicalToolMetadata, ToolInput } from "@peds-core/core";
+import { atlas } from "../i18n/atlas";
 import { translations } from "../i18n/translations";
 import type { FormValue, FormValues } from "../utils/formState";
 import {
@@ -86,7 +87,7 @@ export function DynamicForm({
 
   return (
     <section className="content-panel">
-      <h2>{t.form.title}</h2>
+      <div className="atlas-form-heading"><h2>{t.form.title}</h2><button type="button" onClick={() => { setValues(initialState); setOpenInputId(getFirstInputId(tool)); onStateChange(initialState); }}>{atlas[language].reset}</button></div>
       <p className="muted">{t.form.privacyNote}</p>
       <form className="dynamic-form" noValidate>
         {tool.inputs?.map((input, index) => (
@@ -171,7 +172,7 @@ function FormField({
         <span className="accordion-label">
           <span className="step-badge">{stepNumber}</span>
           <span>
-            <strong>
+            <strong id={`label-${input.id}`}>
               {input.label[language]}
               {input.required ? <span aria-label={t.form.required}> *</span> : null}
             </strong>
@@ -186,7 +187,7 @@ function FormField({
         <div className="accordion-content">
           {fieldDescription ? <p>{fieldDescription}</p> : null}
           {input.type === "single_choice" ? (
-            <div className="option-grid">
+            <div className="option-grid" role="group" aria-labelledby={`label-${input.id}`}>
               {input.options?.map((option) => (
                 <label
                   className={
@@ -208,8 +209,9 @@ function FormField({
             </div>
           ) : null}
           {input.type === "boolean" ? (
-            <div className="boolean-toggle" role="group">
+            <div className="boolean-toggle" role="group" aria-labelledby={`label-${input.id}`}>
               <button
+                aria-pressed={value === false}
                 className={value === false ? "selected" : ""}
                 type="button"
                 onClick={() => onChange(false, true)}
@@ -217,6 +219,7 @@ function FormField({
                 {language === "es" ? "No" : "No"}
               </button>
               <button
+                aria-pressed={value === true}
                 className={value === true ? "selected" : ""}
                 type="button"
                 onClick={() => onChange(true, true)}
@@ -229,6 +232,7 @@ function FormField({
             <div className="number-accordion-row">
               <label className="number-input">
                 <input
+                  aria-labelledby={`label-${input.id}`}
                   max={input.max}
                   min={input.min}
                   placeholder={input.placeholder?.[language]}
@@ -256,6 +260,7 @@ function FormField({
             <div className="number-accordion-row">
               <label className="number-input">
                 <input
+                  aria-labelledby={`label-${input.id}`}
                   placeholder={input.placeholder?.[language]}
                   type="text"
                   value={typeof value === "string" ? value : ""}
@@ -275,6 +280,7 @@ function FormField({
           ) : null}
           {input.type === "select" ? (
             <select
+              aria-labelledby={`label-${input.id}`}
               value={typeof value === "string" ? value : ""}
               onChange={(event) => onChange(event.target.value, true)}
             >
@@ -287,7 +293,7 @@ function FormField({
             </select>
           ) : null}
           {input.type === "multi_select" ? (
-            <div className="option-grid">
+            <div className="option-grid" role="group" aria-labelledby={`label-${input.id}`}>
               {input.options?.map((option) => {
                 const currentValues = Array.isArray(value) ? value : [];
                 return (

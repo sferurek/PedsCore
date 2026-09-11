@@ -1,4 +1,9 @@
 import { Fragment, useMemo } from "react";
+import { atlas } from "../i18n/atlas";
+import { SearchCommand } from "../components/atlas/SearchCommand";
+import { UsageStrip } from "../components/atlas/UsageStrip";
+import { HomeStories } from "../components/atlas/HomeStories";
+import { Icon } from "../components/atlas/Icon";
 import { getAllTools } from "@peds-core/core";
 import type { ToolCategory } from "@peds-core/core";
 import { categoryLabels, translations } from "../i18n/translations";
@@ -99,6 +104,7 @@ const categoryDetails: Record<
 
 export function HomePage({ language, navigate }: HomePageProps) {
   const t = translations[language];
+  const a = atlas[language];
   const allTools = getAllTools();
   const implementedCount = getImplementedCount(allTools);
   const partialCount = getPartialCount(allTools);
@@ -121,34 +127,13 @@ export function HomePage({ language, navigate }: HomePageProps) {
 
   return (
     <div className="page-stack home-page">
-      <section className="hero-section">
-        <div className="hero-copy">
-          <p className="eyebrow">PedsCore OSS</p>
-          <h1>{t.home.title}</h1>
-          <p className="hero-subtitle">{t.home.subtitle}</p>
-          <p className="hero-lead">{t.home.lead}</p>
-          <p className="hero-disclaimer">{t.home.miniDisclaimer}</p>
-        </div>
-        <div className="hero-metrics-grid" aria-label={t.home.toolsMetric}>
-          <div className="hero-metric">
-            <strong>{allTools.length}</strong>
-            <span>{t.home.cataloguedMetric}</span>
-          </div>
-          <div className="hero-metric">
-            <strong>{implementedCount}</strong>
-            <span>{t.home.implementedMetric}</span>
-          </div>
-          <div className="hero-metric">
-            <strong>{partialCount}</strong>
-            <span>{t.home.partialMetric}</span>
-          </div>
-          <div className="hero-metric">
-            <strong>0</strong>
-            <span>{t.home.clinicalDataMetric}</span>
-          </div>
-        </div>
+      <section className="atlas-hero">
+        <picture className="atlas-hero-media"><source type="image/webp" srcSet={`${import.meta.env.BASE_URL}media/clinical-hero-768.webp 768w, ${import.meta.env.BASE_URL}media/clinical-hero.webp 1536w`} sizes="100vw" /><img src={`${import.meta.env.BASE_URL}media/clinical-hero.webp`} alt="" width="1536" height="1024" fetchPriority="high" /></picture>
+        <div className="atlas-hero-inner"><div className="atlas-hero-copy"><p className="eyebrow">{a.eyebrow}</p><h1>{a.title}<br /><span>{a.future}</span></h1><p>{a.lead}</p><SearchCommand language={language} navigate={navigate} /><small>PRAM · Westley · PECARN · WHO Growth</small></div><p className="atlas-hero-note">{a.note}</p>
+        <div className="atlas-gateways">{(["tools", "learn", "sim", "live"] as const).map((product, i) => <a className={`atlas-gateway atlas-${product}`} key={product} href={`#${product}`}><div><span className="atlas-product-icon"><Icon name={product} /></span><strong>{product[0].toUpperCase() + product.slice(1)}</strong><Icon name="arrow" /></div><p>{a.capabilities[i][0]}</p><small>{product === "tools" ? <><b>{implementedCount}</b> {t.home.implementedMetric} · <b>{allTools.length}</b> {t.home.cataloguedMetric}</> : a.soon}</small></a>)}</div></div>
       </section>
-
+      <UsageStrip language={language} navigate={navigate} />
+      <HomeStories language={language} navigate={navigate} />
       <section className="category-strip-section" id="categories">
         <div className="section-heading">
           <h2>{t.home.categoriesTitle}</h2>
@@ -204,6 +189,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
         </div>
       </section>
 
+      <section className="atlas-trust"><p className="eyebrow">PEDSCORE / OPEN SCIENCE</p><h2>{a.open}</h2><p>{a.openBody}</p><div className="atlas-catalog-facts"><span><b>{allTools.length}</b> {t.home.cataloguedMetric}</span><span><b>{implementedCount}</b> {t.home.implementedMetric}</span><span><b>{partialCount}</b> {t.home.partialMetric}</span><span><b>0</b> {t.home.clinicalDataMetric}</span></div><p>{t.home.subtitle}</p></section>
       <section className="transparency-band">
         <h2>{t.home.transparencyTitle}</h2>
         <ul>

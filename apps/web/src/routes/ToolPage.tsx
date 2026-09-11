@@ -1,9 +1,12 @@
 import {
   getToolBySlug,
+  getAllTools,
   type ClinicalToolMetadata,
   type WhoGrowthPreset
 } from "@peds-core/core";
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { atlas } from "../i18n/atlas";
+import { categoryLabels } from "../i18n/translations";
 import { DisclaimerBox } from "../components/DisclaimerBox";
 import { DynamicForm } from "../components/DynamicForm";
 import { GitHubFeedbackLink } from "../components/GitHubFeedbackLink";
@@ -53,8 +56,10 @@ const getWhoGrowthPreset = (tool: ClinicalToolMetadata): WhoGrowthPreset | null 
   return null;
 };
 
-export function ToolPage({ language, tool }: ToolPageProps) {
+export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const t = translations[language];
+  const a = atlas[language];
+  const isCanonical = tool.slug === "pram";
   const whoGrowthPreset = getWhoGrowthPreset(tool);
   const whoGrowthTool = whoGrowthPreset ? getToolBySlug("who-growth") : null;
   const formTool = whoGrowthTool ?? tool;
@@ -119,9 +124,12 @@ export function ToolPage({ language, tool }: ToolPageProps) {
   };
 
   return (
-    <div className="tool-page">
+    <div className={isCanonical ? "tool-page atlas-canonical" : "tool-page"}>
+      <nav className="atlas-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}><a href={makePath(language, "tools")} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools")); }}>Tools</a><span>/</span><a href={makePath(language, "categories", tool.category)} onClick={e => { e.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>{categoryLabels[tool.category][language]}</a><span>/</span><span>{isCanonical ? "PRAM" : tool.name[language]}</span></nav>
       <section className="tool-hero">
-        <h1>{tool.name[language]}</h1>
+        <h1>{isCanonical ? "PRAM" : tool.name[language]}</h1>
+        {isCanonical ? <p className="atlas-expanded-name">{tool.name[language]}</p> : null}
+        <p>{tool.description[language]}</p>
         <div className="tool-hero-meta">
           <ToolStatusBadge
             language={language}
@@ -132,11 +140,12 @@ export function ToolPage({ language, tool }: ToolPageProps) {
         </div>
       </section>
 
+      {isCanonical ? <nav className="atlas-section-nav" aria-label={language === "es" ? "Secciones de la herramienta" : "Tool sections"}>{[["calculator", a.calculator], ["about-tool", a.about], ["evidence", a.evidence], ["references", a.references], ["related", a.related]].map(([id, label]) => <a href={`#${id}`} key={id}>{label}</a>)}</nav> : null}
       <div className="tool-layout">
         <div className="tool-main tool-page-main">
           <DisclaimerBox language={language} />
 
-          <section className="content-panel">
+          <section className="content-panel" id="about-tool">
             <h2>{t.tool.description}</h2>
             <p>{tool.description[language]}</p>
           </section>
@@ -149,7 +158,7 @@ export function ToolPage({ language, tool }: ToolPageProps) {
           ) : null}
 
           {hasActiveCalculation ? (
-            <>
+            <div className={isCanonical ? "atlas-workspace" : "atlas-legacy-workspace"} id="calculator">
               {isWhoGrowth ? (
                 <WhoGrowthForm
                   language={language}
@@ -198,7 +207,7 @@ export function ToolPage({ language, tool }: ToolPageProps) {
                   values={formValues}
                 />
               )}
-            </>
+            </div>
           ) : (
             <section className="content-panel inactive-tool-panel">
               <h2>{t.tool.notActiveTitle}</h2>
@@ -223,12 +232,12 @@ export function ToolPage({ language, tool }: ToolPageProps) {
             </>
           ) : null}
 
-          <section className="content-panel">
+          <section className="content-panel" id="references">
             <h2>{t.tool.sourcesAndEvidence}</h2>
             <ReferenceList language={language} references={tool.references} />
           </section>
 
-          <section className="content-panel">
+          <section className="content-panel" id="evidence">
             <h2>{t.tool.validationNotes}</h2>
             <p>{tool.validationNotes[language]}</p>
           </section>
@@ -256,6 +265,7 @@ export function ToolPage({ language, tool }: ToolPageProps) {
         </div>
         <ToolMetadataPanel language={language} tool={tool} />
       </div>
+      {isCanonical ? <section className="atlas-related" id="related"><h2>{a.related}</h2><div>{getAllTools().filter(item => item.category === tool.category && item.id !== tool.id && item.calculationStatus === "active").map(item => <a key={item.id} href={makePath(language, "tools", item.slug)} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools", item.slug)); }}>{item.name[language]} →</a>)}</div></section> : null}
     </div>
   );
 }
