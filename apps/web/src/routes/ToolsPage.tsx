@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { getAllTools } from "@peds-core/core";
 import type { ImplementationStatus, ToolCategory, ToolType } from "@peds-core/core";
-import { SearchBar } from "../components/SearchBar";
+import { SearchBar } from "../components/SearchBar";\nimport { PedsCoreFinder } from "../components/PedsCoreFinder";
 import { ToolsList } from "../components/ToolsList";
 import {
   categoryLabels,
