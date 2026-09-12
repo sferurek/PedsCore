@@ -34,7 +34,7 @@ Access date for external web sources: **2026-09-12**. Searches used title/acrony
 | 19 | Brighton PEWS | Prior PEWS dossier; exact-table searches | Variant identified | Modified variants exist | Reusable original table absent | Obtain original table/rights |
 | 20 | Bedside PEWS | Prior dossier; inventor/table search | Bedside PEWS publication trail | Pediatric validations exist | Inventor/table rights unresolved | Permission and protocol separation |
 | 21 | Westley Croup | Calculator/tests; DOI/PMID | Westley et al. 1978, PMID 347921 | Current use corroborated | No explicit scale licence | Later severity-band source |
-| 22 | PRAM | Calculator/tests; 2000/2008 papers; official teaching tables | Chalut et al. 2000, PMID 11113831 | Ducharme et al. 2008, PMID 18346499; 2020 systematic review | No explicit instrument licence | Ambient-air input condition and wording rights |
+| 22 | PRAM | Calculator/tests; full 2008 paper/figure; 2000 derivation; 2010 external validation; 2013 teaching study; BCCH operational policy; variant and rights searches | Chalut et al. 2000, PMID 11113831 | Ducharme et al. 2008, PMID 18346499; Gouin et al. 2010, PMID 20624139 | Algorithm and short functional descriptors independently represented; no source figure/form/media copied | Resolved in Batch 0B1: age 2-<18, acute asthma, canonical domains, stable room-air SpO₂ ≥1 minute, unscorable supplemental-oxygen reading, descriptive output |
 | 23 | RDAI | Prior dossier; acronym+bronchiolitis+primary queries | Lowell instrument likely; not verified to implementation standard | Reliability/use studies secondary | None | Primary table and provenance |
 | 24 | BROSJOD | Prior dossier; Spanish bronchiolitis source/permission trail | Instrument identified regionally | Limited/regional | Permission-sensitive table | Written permission |
 | 25 | PASS | PubMed primary; systematic respiratory score review | Gorelick et al. 2004, PMID 14709423, DOI 10.1197/j.aem.2003.07.015 | n=852 + n=369; AUC hospitalization 0.82 | Full table terms not established | Obtain full table and independent descriptors |
@@ -162,3 +162,18 @@ Thirty-nine distinct source pages/publications were retained as decision-relevan
 - “No licence found” is recorded as UNKNOWN, never as open permission.
 - A bibliographic match does not prove the article contains every required input definition; tools remain conditional/blocked until the full definition is extracted.
 - No copyrighted article, form, table, figure or proprietary norm set was copied into this audit.
+
+## Batch 0B1 PRAM follow-up ledger
+
+This follow-up is separate from the 39-source Phase A snapshot count above.
+
+1. Chalut DS, Ducharme FM, Davis GM. J Pediatr. 2000;137(6):762-768. DOI `10.1067/mpd.2000.110121`; PMID `11113831`. Original derivation/internal validation, ages 3-6, n=217, acute asthma in a pediatric ED.
+2. Ducharme FM et al. J Pediatr. 2008;152(4):476-480.e1. DOI `10.1016/j.jpeds.2007.08.034`; PMID `18346499`. Full article and canonical figure inspected; prospective ages 2-17 validation; triage/post-bronchodilation/disposition measurements; inter-rater, responsiveness, and admission-association analyses.
+3. Gouin S et al. Acad Emerg Med. 2010;17(6):598-603. DOI `10.1111/j.1553-2712.2010.00775.x`; PMID `20624139`. Prospective external comparison, ages 18 months-7 years.
+4. Lehr AR et al. Can Respir J. 2013;20(6):435-441. DOI `10.1155/2013/148645`; PMID `24046819`; PMCID `PMC3917818`. Open full text inspected for domain assessment modality, training, and inter-rater context.
+5. BC Children's Hospital, Child and Youth Health Policy Manual CC.09.27, effective 2015. Open institutional policy inspected for stable ambient-air oximetry for at least 1 minute, supplemental-oxygen handling, examination method, and asymmetry rules. Its document/form/teaching prose was not copied.
+6. Chacko J et al. JACEP Open. 2020;1(5):1000-1008. DOI `10.1002/emp2.12083`; PMID `33145551`; PMCID `PMC7593416`. Systematic review used for broader score/variant context, not as the canonical definition.
+7. Arnold DH et al. *Direct Concurrent Comparison of Multiple Pediatric Acute Asthma Scoring Instruments.* J Asthma. 2017;54(7):741-748. PMCID `PMC5425314`. Independently reproduced canonical PRAM components and compared PRAM with other instruments.
+8. Alberta Health Services pediatric asthma protocol HCS-324-01, effective 2024. Inspected only to document an explicitly altitude-adjusted variant (different SpO₂ thresholds and severity bands); not mixed into PedsCore.
+
+Search outcome for reuse: no PRAM-specific electronic licence or prohibition was located. Publisher and institutional figures/forms remain copyrighted. PedsCore therefore implements the numerical method and concise clinical observations in an independent data structure and presentation with citations; it does not reproduce a source layout, logo, form, tutorial media, or pathway.

@@ -1,13 +1,13 @@
 # Existing implementation reverse QA
 
-Audit date: 2026-09-12. The Phase A assessment was read-only. Batch 0A subsequently corrected and re-verified SIPA under its dedicated clinical stop gate; the other 20 dispositions remain unchanged.
+Audit date: 2026-09-12. The Phase A assessment was read-only. Batch 0A subsequently corrected and re-verified SIPA. Batch 0B1 reconciled and corrected PRAM under its dedicated preview stop gate; production remains unchanged pending owner approval.
 
 ## Urgent review queue
 
 | Severity | Tool(s) | Observed implementation | Evidence conflict or gap | Required next action |
 |---|---|---|---|---|
 | Resolved | SIPA | Original finding: age bands `4–<6`, `6–<12`, `≥12`; thresholds 1.2/1.0/0.9; classification on rounded ratio | Batch 0A confirmed original and prospective definitions: 4–6, 7–12, 13–16 and strict >1.22/>1.0/>0.9 (PMIDs 25638631, 27717564) | Corrected to `[4,7)`, `[7,13)`, `[13,17)`; raw-ratio classification; unsupported ages rejected; complete boundary suite added. See `SIPA_FORENSIC_REVIEW.md` |
-| High | PRAM | SpO₂ numeric input has no acquisition condition | PRAM operational material requires stable ambient-air measurement; oxygen therapy can change score | Confirm condition in selected authoritative source and decide safe UI representation before changing code |
+| Resolved | PRAM | Original finding: SpO₂ input had no acquisition condition, no validated age gate, and population wording included generic wheeze | 2000/2008 studies define the score and ages 2-17; BCCH/Sainte-Justine-derived operational material requires stable ambient-air SpO₂ for at least 1 minute | Batch 0B1 requires age 2-<18 and explicit qualifying SpO₂ condition; unconfirmed/supplemental-oxygen readings return no score. See `PRAM_FORENSIC_REVIEW.md` |
 | Moderate/high | Apgar, Silverman-Andersen, CDS, FLACC | Domain choices are mostly labels such as “0 points” rather than clinical observations | A user cannot map an observation to a point from PedsCore; faithful instrument definition is absent | Rights review, source-exact independent descriptors, clinician review, then source-derived tests |
 | Moderate | Apgar | Score 0–3 returns no interpretation; 4–7 and 8–10 bands are labelled but self-declared as awaiting tracing | No complete output partition; original 1953 paper alone does not justify modern action-oriented interpretation | Trace intended bands to a modern professional source and keep resuscitation decisions out of scope |
 
@@ -20,7 +20,7 @@ Audit date: 2026-09-12. The Phase A assessment was read-only. Batch 0A subsequen
 | Wood-Downes-Ferrés | **REUSE REVIEW NEEDED** | Selected six-domain sum and 0–14 bounds are internally tested | Selected variant is explicit | Descriptive only; management excluded | Original Wood-Downes paper is not the implemented Ferrés table; secondary open table remains provenance weakness |
 | NIPS | **REUSE REVIEW NEEDED** | Six-domain 0–7 score matches the catalog model | Operational labels are present | Threshold >3 is descriptive only | Primary PMID verified; no affirmative electronic-reuse conclusion for wording |
 | Westley Croup | **MINOR REVIEW NEEDED** | Five-domain 0–17 sum appears internally consistent | Operational labels are present | Bands are descriptive and separated from management | Derivation PMID/DOI verified; trace later band source and reuse status |
-| PRAM | **MAJOR REVIEW NEEDED** | Point assignments and total 0–12 match the selected version | SpO₂ ambient-air/stabilization condition is missing | Descriptive bands only | Pediatric derivation and validation strong; correct measurement context before declaring verified |
+| PRAM | **VERIFIED** | Canonical five-domain sum 0-12; every option and boundary independently tested | Age 2-<18; stable room-air SpO₂ for at least 1 minute required; asymmetry and assessment modality documented | Descriptive 0-3/4-7/8-12 bands; no management/disposition output | Original, pediatric, external-validation, operational, variant, and reuse gates closed in `PRAM_FORENSIC_REVIEW.md` |
 | Clinical Dehydration Scale | **MAJOR REVIEW NEEDED** | Four domains sum to 0–8 | All domains are point-only | Bands are marked pending | Primary and external studies verified; external discrimination is fair, not diagnostic |
 | Pediatric Appendicitis Score | **MINOR REVIEW NEEDED** | Eight items sum to 0–10 | Operational items exist | Non-diagnostic caveats are good; band provenance needs exact tracing | Pediatric derivation verified; systematic reviews show imperfect rule performance |
 | Pediatric Burn TBSA | **REUSE REVIEW NEEDED** | Regional percentages and fractional contributions are deterministic | Age bands and fractions are explicit | Estimate only; fluids/treatment excluded | Institutional numeric table is identified, but public availability is not an MIT-compatible license grant |
@@ -41,14 +41,14 @@ Audit date: 2026-09-12. The Phase A assessment was read-only. Batch 0A subsequen
 
 | Review result | Count |
 |---|---:|
-| VERIFIED | 1 |
+| VERIFIED | 2 |
 | MINOR REVIEW NEEDED | 8 |
-| MAJOR REVIEW NEEDED | 5 |
+| MAJOR REVIEW NEEDED | 4 |
 | EVIDENCE GAP | 4 |
 | REUSE REVIEW NEEDED | 3 |
 | **Total active tools** | **21** |
 
-SIPA is the first active tool to close every Phase A evidence, definition, population, reuse, and independent-test gate. A correct-looking formula with tests alone remains insufficient for `VERIFIED` status.
+SIPA and PRAM have closed every Phase A evidence, definition, population, reuse, and independent-test gate. A correct-looking formula with tests alone remains insufficient for `VERIFIED` status.
 
 ## Verification policy for the corrective phase
 

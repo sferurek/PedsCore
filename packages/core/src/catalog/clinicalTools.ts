@@ -151,12 +151,49 @@ const implementedToolReferences: Record<string, Reference[]> = {
       journalOrPublisher: "The Journal of Pediatrics",
       citation:
         "Ducharme FM, Chalut D, Plotnick L, Savdie C, Kudirka D, Zhang X, Meng L, McGillivray D. The Pediatric Respiratory Assessment Measure: a valid clinical score for assessing acute asthma severity from toddlers to teenagers. J Pediatr. 2008;152(4):476-480.e1.",
+      doi: "10.1016/j.jpeds.2007.08.034",
       pmid: "18346499",
+      url: "https://pubmed.ncbi.nlm.nih.gov/18346499/",
       evidenceLevel: "external_validation_study",
       sourceType: "journal_article",
       accessType: "abstract_only",
       appliesTo: ["pram"],
       priority: 2
+    },
+    {
+      id: "pram_2010_external_validation",
+      title:
+        "Prospective evaluation of two clinical scores for acute asthma in children 18 months to 7 years of age",
+      authors: "Gouin S, Robidas I, Gravel J, Guimont C, Chalut D, Amre D",
+      year: 2010,
+      journalOrPublisher: "Academic Emergency Medicine",
+      citation:
+        "Gouin S, Robidas I, Gravel J, Guimont C, Chalut D, Amre D. Prospective evaluation of two clinical scores for acute asthma in children 18 months to 7 years of age. Acad Emerg Med. 2010;17(6):598-603.",
+      doi: "10.1111/j.1553-2712.2010.00775.x",
+      pmid: "20624139",
+      url: "https://pubmed.ncbi.nlm.nih.gov/20624139/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["pram"],
+      priority: 3
+    },
+    {
+      id: "pram_bcch_operational_2015",
+      title: "PRAM (Pediatric Respiratory Assessment Measure): Score Assessment for Asthma",
+      authors: "BC Children's Hospital",
+      year: 2015,
+      journalOrPublisher: "BC Children's Hospital",
+      citation:
+        "BC Children's Hospital. PRAM (Pediatric Respiratory Assessment Measure): Score Assessment for Asthma. Child and Youth Health Policy Manual CC.09.27. Effective July 13, 2015.",
+      url: "https://www.childhealthindicatorsbc.ca/sites/default/files/BCCH%20PRAM%20score%20for%20assessment%20for%20Asthma%20%282%29.pdf",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "institutional_protocol",
+      accessType: "open_access",
+      notes:
+        "Operational source for a stable room-air oximetry reading maintained for at least 1 minute and for domain examination technique.",
+      appliesTo: ["pram"],
+      priority: 4
     }
   ],
   clinical_dehydration_scale: [
@@ -1384,8 +1421,8 @@ const passValidationNotes: LocalizedText = {
 };
 
 const pramQaValidationNotes: LocalizedText = {
-  es: "Sprint 2A QA: PRAM permanece implementado como score descriptivo de gravedad. Fuente original y validacion enlazadas; salida informativa sin instrucciones de manejo ni decisiones de disposicion.",
-  en: "Sprint 2A QA: PRAM remains implemented as a descriptive severity score. Original and validation sources are linked; output is informational without management instructions or disposition decisions."
+  es: "Batch 0B1: definicion PRAM verificada frente al estudio original, la validacion pediatrica de 2 a 17 anos, validacion externa y material operativo. Exige SpO2 estable en aire ambiente durante al menos 1 minuto; salida descriptiva sin instrucciones de manejo ni decisiones de disposicion.",
+  en: "Batch 0B1: PRAM definition verified against the original study, pediatric validation from ages 2 to 17, external validation, and operational material. It requires stable room-air SpO2 for at least 1 minute; output is descriptive without management or disposition instructions."
 };
 
 const westleyQaValidationNotes: LocalizedText = {
@@ -2599,51 +2636,112 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   pram: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
-      es: "Score PRAM descriptivo de gravedad respiratoria. Resultado informativo y trazable, sin instrucciones de manejo.",
-      en: "Descriptive PRAM respiratory severity score. Informational and traceable result, without management instructions."
+      es: "PRAM describe la gravedad de una exacerbacion de asma aguda en ninos de 2 a menos de 18 anos. Resultado informativo y trazable, sin instrucciones de manejo.",
+      en: "PRAM describes acute asthma exacerbation severity in children aged 2 to under 18 years. The result is informational and traceable, without management instructions."
     },
     inputs: [
       {
+        id: "age_years",
+        label: { es: "Edad", en: "Age" },
+        description: {
+          es: "PRAM fue validado para pacientes de 2 a menos de 18 anos con asma aguda.",
+          en: "PRAM was validated for patients aged 2 to under 18 years with acute asthma."
+        },
+        type: "number",
+        required: true,
+        unit: "years",
+        min: 2,
+        max: 17.99,
+        step: 0.1
+      },
+      {
         id: "suprasternal_retractions",
         label: { es: "Retracciones suprasternales", en: "Suprasternal retractions" },
+        description: {
+          es: "Valoracion visual de la retraccion suprasternal con cada inspiracion.",
+          en: "Visual assessment of suprasternal indrawing with each inspiration."
+        },
         type: "single_choice",
         required: true,
-        options: [option("absent", "No", "No", 0), option("present", "Si", "Yes", 2)]
+        options: [option("absent", "Ausentes", "Absent", 0), option("present", "Presentes", "Present", 2)]
       },
       {
         id: "scalene_muscle_contraction",
         label: { es: "Contraccion de musculos escalenos", en: "Scalene muscle contraction" },
+        description: {
+          es: "Valoracion por palpacion; la contraccion de los escalenos no se determina visualmente.",
+          en: "Assess by palpation; scalene contraction is not determined visually."
+        },
         type: "single_choice",
         required: true,
-        options: [option("absent", "No", "No", 0), option("present", "Si", "Yes", 2)]
+        options: [option("absent", "Ausente", "Absent", 0), option("present", "Presente", "Present", 2)]
       },
       {
         id: "air_entry",
         label: { es: "Entrada de aire", en: "Air entry" },
+        description: {
+          es: "Si hay asimetria entre ambos pulmones, puntua el lado mas afectado.",
+          en: "If findings are asymmetric between lungs, score the more severely affected side."
+        },
         type: "single_choice",
         required: true,
         options: [
           option("normal", "Normal", "Normal", 0),
           option("decreased_bases", "Disminuida en bases", "Decreased at bases", 1),
-          option("decreased_apex_bases", "Disminuida en apices y bases", "Decreased at apex and bases", 2),
-          option("minimal_absent", "Minima o ausente", "Minimal or absent", 3)
+          option("widespread_decrease", "Disminucion generalizada", "Widespread decrease", 2),
+          option("absent_minimal", "Ausente o minima", "Absent or minimal", 3)
         ]
       },
       {
         id: "wheezing",
         label: { es: "Sibilancias", en: "Wheezing" },
+        description: {
+          es: "Si los hallazgos son asimetricos, puntua las zonas de auscultacion mas afectadas.",
+          en: "If findings are asymmetric, score the most severely affected auscultation zones."
+        },
         type: "single_choice",
         required: true,
         options: [
           option("absent", "Ausentes", "Absent", 0),
           option("expiratory_only", "Solo espiratorias", "Expiratory only", 1),
-          option("inspiratory_or_expiratory", "Inspiratorias +/- espiratorias", "Inspiratory +/- expiratory", 2),
-          option("audible_or_silent", "Audibles sin estetoscopio o torax silencioso", "Audible without stethoscope or silent chest", 3)
+          option("inspiratory_and_expiratory", "Inspiratorias y espiratorias", "Inspiratory and expiratory", 2),
+          option(
+            "audible_or_silent_chest",
+            "Audibles sin estetoscopio o torax silencioso con entrada de aire minima",
+            "Audible without stethoscope or silent chest with minimal air entry",
+            3
+          )
+        ]
+      },
+      {
+        id: "oxygen_measurement_condition",
+        label: { es: "Condicion de medicion de SpO2", en: "SpO2 measurement condition" },
+        description: {
+          es: "La puntuacion de oxigenacion PRAM solo es valida con una lectura estable en aire ambiente durante al menos 1 minuto.",
+          en: "The PRAM oxygenation score is valid only with a stable room-air reading maintained for at least 1 minute."
+        },
+        type: "single_choice",
+        required: true,
+        options: [
+          option(
+            "stable_room_air_one_minute",
+            "Estable en aire ambiente durante al menos 1 minuto",
+            "Stable on room air for at least 1 minute"
+          ),
+          option(
+            "unconfirmed_or_supplemental_oxygen",
+            "No confirmado o medido con oxigeno suplementario",
+            "Unconfirmed or measured with supplemental oxygen"
+          )
         ]
       },
       {
         id: "oxygen_saturation",
-        label: { es: "Saturacion de oxigeno", en: "Oxygen saturation" },
+        label: { es: "SpO2 estable en aire ambiente", en: "Stable room-air SpO2" },
+        description: {
+          es: "Introduce el valor estabilizado durante al menos 1 minuto y sin oxigeno suplementario.",
+          en: "Enter the value after it has remained stable for at least 1 minute without supplemental oxygen."
+        },
         type: "number",
         required: true,
         unit: "%",
@@ -2677,12 +2775,21 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     ],
     scoringTable: [
       {
-        id: "pram_domains",
-        variable: { es: "Saturacion, retracciones, escalenos, entrada de aire y sibilancias", en: "Saturation, retractions, scalene muscles, air entry, and wheezing" },
+        id: "pram_oxygen_saturation",
+        variable: { es: "SpO2 estable en aire ambiente", en: "Stable room-air SpO2" },
+        value: "0-2",
+        description: {
+          es: "Medida en aire ambiente, estable durante al menos 1 minuto: >=95% = 0; 92-94% = 1; <92% = 2.",
+          en: "Measured on room air and stable for at least 1 minute: >=95% = 0; 92-94% = 1; <92% = 2."
+        }
+      },
+      {
+        id: "pram_physical_findings",
+        variable: { es: "Hallazgos clinicos", en: "Clinical findings" },
         value: "0-3",
         description: {
-          es: "Cinco dominios: saturacion 0-2; retracciones suprasternales 0/2; contraccion de escalenos 0/2; entrada de aire 0-3; sibilancias 0-3.",
-          en: "Five domains: saturation 0-2; suprasternal retractions 0/2; scalene contraction 0/2; air entry 0-3; wheezing 0-3."
+          es: "Retraccion suprasternal 0/2; contraccion palpable de escalenos 0/2; entrada de aire 0-3; sibilancias 0-3. En hallazgos asimetricos se puntua el lado mas afectado.",
+          en: "Suprasternal retraction 0/2; palpable scalene contraction 0/2; air entry 0-3; wheezing 0-3. For asymmetric findings, score the more severely affected side."
         }
       }
     ]
@@ -3379,7 +3486,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
-  makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos con crisis asmatica o sibilancias", "Children with asthma exacerbation or wheezing", "Mide gravedad de broncoespasmo pediatrico.", "Measures pediatric wheezing/asthma severity.", "ready_for_implementation", "moderate", "medium", pramQaValidationNotes),
+  makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
   makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "pending_validation", "original_derivation_study", "medium", passValidationNotes),

@@ -16,6 +16,13 @@ const optionInputIds = [
   "wheezing"
 ];
 
+const requiredInputIds = [
+  "age_years",
+  ...optionInputIds,
+  "oxygen_measurement_condition",
+  "oxygen_saturation"
+];
+
 const oxygenSaturationScore = (spo2: number): number => {
   if (spo2 >= 95) {
     return 0;
@@ -32,10 +39,53 @@ export const pramCalculator: CalculatorDefinition = {
   toolId: "pram",
   calculate: (input): CalculationResult => {
     const tool = getTool("pram");
+    const ageYears = getNumber(input, "age_years");
     const oxygenSaturation = getNumber(input, "oxygen_saturation");
 
-    if (oxygenSaturation === null) {
-      return missingResult(tool.id, [...optionInputIds, "oxygen_saturation"]);
+    if (
+      ageYears === null ||
+      oxygenSaturation === null ||
+      requiredInputIds.some(
+        (inputId) =>
+          input[inputId] === undefined ||
+          input[inputId] === null ||
+          input[inputId] === ""
+      )
+    ) {
+      return missingResult(tool.id, requiredInputIds);
+    }
+
+    if (ageYears < 2 || ageYears >= 18) {
+      return {
+        toolId: tool.id,
+        warnings: [
+          warning(
+            "unsupported_age",
+            "PRAM se valido para ninos de 2 a menos de 18 anos con asma aguda. No se calcula una puntuacion fuera de ese intervalo.",
+            "PRAM was validated for children aged 2 to under 18 years with acute asthma. A score is not calculated outside that range."
+          )
+        ],
+        trace: [{ inputId: "age_years", value: ageYears }]
+      };
+    }
+
+    if (input.oxygen_measurement_condition !== "stable_room_air_one_minute") {
+      return {
+        toolId: tool.id,
+        warnings: [
+          warning(
+            "invalid_oxygen_measurement_condition",
+            "El componente de oxigenacion de PRAM requiere una SpO2 estable medida en aire ambiente durante al menos 1 minuto. No se calcula una puntuacion si esta condicion no esta confirmada o si la lectura se obtuvo con oxigeno suplementario.",
+            "The PRAM oxygenation component requires a stable SpO2 measured on room air for at least 1 minute. A score is not calculated when this condition is unconfirmed or the reading was obtained with supplemental oxygen."
+          )
+        ],
+        trace: [
+          {
+            inputId: "oxygen_measurement_condition",
+            value: input.oxygen_measurement_condition
+          }
+        ]
+      };
     }
 
     if (oxygenSaturation < 0 || oxygenSaturation > 100) {
@@ -56,6 +106,14 @@ export const pramCalculator: CalculatorDefinition = {
     const scores = [oxygenScore];
     const trace: CalculationResult["trace"] = [
       {
+        inputId: "age_years",
+        value: ageYears
+      },
+      {
+        inputId: "oxygen_measurement_condition",
+        value: input.oxygen_measurement_condition
+      },
+      {
         inputId: "oxygen_saturation",
         value: oxygenSaturation,
         score: oxygenScore
@@ -63,10 +121,6 @@ export const pramCalculator: CalculatorDefinition = {
     ];
 
     for (const inputId of optionInputIds) {
-      if (input[inputId] === undefined || input[inputId] === null || input[inputId] === "") {
-        return missingResult(tool.id, [...optionInputIds, "oxygen_saturation"]);
-      }
-
       const score = getNumericScore(tool, input, inputId);
 
       if (score === null || score < 0 || score > 3) {
