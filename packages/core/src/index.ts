@@ -9,3 +9,5 @@ export * from "./calculators/index.js";
 export * from "./evidence/referenceLinks.js";
 export * from "./evidence/sortReferences.js";
 export * from "./growth/who/index.js";
+
+export * from "./discovery/toolDiscovery.js";
