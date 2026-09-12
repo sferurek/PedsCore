@@ -11,8 +11,6 @@ const baseUrl = "https://peds-core.vercel.app";
 
 const { getAllTools } = await import(pathToFileURL(coreDist).href);
 
-const today = new Date().toISOString().slice(0, 10);
-
 const staticPaths = [
   { path: "/", priority: "1.0", changefreq: "weekly" },
   { path: "/es", priority: "0.9", changefreq: "weekly" },
@@ -36,17 +34,24 @@ const toolPaths = getAllTools().flatMap((tool) => [
   { path: `/en/tools/${tool.slug}`, priority: "0.7", changefreq: "monthly" }
 ]);
 
-const urls = [...staticPaths, ...toolPaths];
+const indexableCategories = ["cardiology", "emergency", "nephrology", "respiratory"];
+const categoryPaths = indexableCategories.flatMap((category) => [
+  { path: `/es/categories/${category}`, priority: "0.7", changefreq: "monthly" },
+  { path: `/en/categories/${category}`, priority: "0.7", changefreq: "monthly" }
+]);
+
+const urls = [...staticPaths, ...categoryPaths, ...toolPaths];
+const localizedPath = (path) => path.startsWith("/es") ? path.replace(/^\/es/, "/en") : path.replace(/^\/en/, "/es");
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls
   .map(
-    (entry) => `  <url>
-    <loc>${baseUrl}${entry.path === "/" ? "/" : entry.path}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>${entry.changefreq}</changefreq>
-    <priority>${entry.priority}</priority>
-  </url>`
+    (entry) => {
+      const alternateLinks = entry.path.startsWith("/es") || entry.path.startsWith("/en")
+        ? `    <xhtml:link rel="alternate" hreflang="${entry.path.startsWith("/es") ? "es" : "en"}" href="${baseUrl}${entry.path}" />\n    <xhtml:link rel="alternate" hreflang="${entry.path.startsWith("/es") ? "en" : "es"}" href="${baseUrl}${localizedPath(entry.path)}" />\n`
+        : "";
+      return `  <url>\n    <loc>${baseUrl}${entry.path === "/" ? "/" : entry.path}</loc>\n${alternateLinks}    <changefreq>${entry.changefreq}</changefreq>\n    <priority>${entry.priority}</priority>\n  </url>`;
+    }
   )
   .join("\n")}
 </urlset>

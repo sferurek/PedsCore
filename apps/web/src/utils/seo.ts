@@ -1,8 +1,9 @@
-import { getToolBySlug } from "@peds-core/core";
+import { getToolBySlug, getToolsByCategory } from "@peds-core/core";
 import type { ClinicalToolMetadata } from "@peds-core/core";
 import type { Language } from "./language";
 import type { ParsedRoute, RouteKind } from "./routes";
 import { toBrowserPath } from "./routes";
+import { categoryDescriptions, categoryLabels } from "../i18n/translations";
 
 const siteUrl = "https://peds-core.vercel.app";
 
@@ -169,6 +170,17 @@ export const getSeoForRoute = (
     return { ...homeSeo[language], url, language };
   }
 
+  if (route.kind === "category" && route.category && route.category in categoryLabels) {
+    const category = route.category as keyof typeof categoryLabels;
+    const categoryTools = getToolsByCategory(category);
+    return {
+      title: `${categoryLabels[category][language]} | ${language === "es" ? "Herramientas clínicas pediátricas" : "Pediatric clinical tools"} | PedsCore`,
+      description: `${categoryDescriptions[category][language]} ${categoryTools.length} ${language === "es" ? "herramientas disponibles en PedsCore." : "tools available in PedsCore."}`,
+      url,
+      language
+    };
+  }
+
   const fallback =
     routeSeo[route.kind]?.[language] ?? routeSeo.not_found?.[language] ?? homeSeo[language];
 
@@ -179,8 +191,8 @@ export const getSeoForRoute = (
   };
 };
 
-const ensureMeta = (selector: string, create: () => HTMLMetaElement | HTMLLinkElement) => {
-  const existing = document.head.querySelector<HTMLMetaElement | HTMLLinkElement>(selector);
+const ensureMeta = <T extends HTMLElement>(selector: string, create: () => T): T => {
+  const existing = document.head.querySelector<T>(selector);
 
   if (existing) {
     return existing;
@@ -217,6 +229,29 @@ export const updateDocumentSeo = (seo: SeoMetadata) => {
   }) as HTMLLinkElement;
   canonical.setAttribute("href", seo.url);
 
+  const alternateLanguage: Language = seo.language === "es" ? "en" : "es";
+  const alternateUrl = seo.url.replace(`/${seo.language}`, `/${alternateLanguage}`);
+  const setAlternate = (language: Language, href: string) => {
+    const link = ensureMeta(`link[rel="alternate"][hreflang="${language}"]`, () => {
+      const alternate = document.createElement("link");
+      alternate.setAttribute("rel", "alternate");
+      alternate.setAttribute("hreflang", language);
+      return alternate;
+    }) as HTMLLinkElement;
+    link.setAttribute("href", href);
+  };
+  setAlternate(seo.language, seo.url);
+  setAlternate(alternateLanguage, alternateUrl);
+  setAlternate("es", seo.language === "es" ? seo.url : alternateUrl);
+  setAlternate("en", seo.language === "en" ? seo.url : alternateUrl);
+  const xDefault = ensureMeta('link[rel="alternate"][hreflang="x-default"]', () => {
+    const link = document.createElement("link");
+    link.setAttribute("rel", "alternate");
+    link.setAttribute("hreflang", "x-default");
+    return link;
+  }) as HTMLLinkElement;
+  xDefault.setAttribute("href", `${siteUrl}/`);
+
   const setProperty = (property: string, content: string) => {
     setMetaContent(`meta[property="${property}"]`, content, () => {
       const meta = document.createElement("meta");
@@ -228,6 +263,11 @@ export const updateDocumentSeo = (seo: SeoMetadata) => {
   setProperty("og:title", seo.title);
   setProperty("og:description", seo.description);
   setProperty("og:url", seo.url);
+  setProperty("og:locale", seo.language === "es" ? "es_ES" : "en_US");
+  setProperty("og:locale:alternate", seo.language === "es" ? "en_US" : "es_ES");
+  setProperty("og:image", `${siteUrl}/media/clinical-hero.webp`);
+  setProperty("og:image:width", "1536");
+  setProperty("og:image:height", "1024");
 
   setMetaContent('meta[name="twitter:title"]', seo.title, () => {
     const meta = document.createElement("meta");
@@ -238,5 +278,26 @@ export const updateDocumentSeo = (seo: SeoMetadata) => {
     const meta = document.createElement("meta");
     meta.setAttribute("name", "twitter:description");
     return meta;
+  });
+  setMetaContent('meta[name="twitter:image"]', `${siteUrl}/media/clinical-hero.webp`, () => {
+    const meta = document.createElement("meta");
+    meta.setAttribute("name", "twitter:image");
+    return meta;
+  });
+
+  const structuredData = ensureMeta('script[data-peds-seo]', () => {
+    const script = document.createElement("script");
+    script.setAttribute("type", "application/ld+json");
+    script.setAttribute("data-peds-seo", "true");
+    return script;
+  }) as HTMLScriptElement;
+  structuredData.textContent = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: seo.title,
+    description: seo.description,
+    url: seo.url,
+    inLanguage: seo.language,
+    isPartOf: { "@type": "WebSite", name: "PedsCore", url: `${siteUrl}/` }
   });
 };

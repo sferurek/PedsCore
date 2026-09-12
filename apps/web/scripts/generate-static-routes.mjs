@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { getStaticSeo, renderSeoHead } from "./static-seo.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "../../..");
@@ -11,6 +12,7 @@ const distRoot = resolve(webRoot, "dist");
 
 const distTemplate = await readFile(distIndexPath, "utf8");
 const sitemap = await readFile(publicSitemapPath, "utf8");
+const { getAllTools } = await import(pathToFileURL(resolve(repoRoot, "packages/core/dist/index.js")).href);
 
 const baseUrl = "https://peds-core.vercel.app";
 const urlEntries = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
@@ -40,7 +42,8 @@ for (const route of routes) {
 
   const outputDir = resolve(distRoot, route);
   await mkdir(outputDir, { recursive: true });
-  await writeFile(resolve(outputDir, "index.html"), distTemplate, "utf8");
+  const seo = getStaticSeo(`/${route === "index" ? "" : route}`, getAllTools());
+  await writeFile(resolve(outputDir, "index.html"), renderSeoHead(distTemplate, seo), "utf8");
   count++;
 }
 
