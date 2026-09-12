@@ -106,9 +106,9 @@ describe("clinical tools catalog", () => {
     );
 
     expect(originalReference?.pmid).toBe("13083014");
-    expect(originalReference?.doi).toBeUndefined();
+    expect(originalReference?.doi).toBe("10.1213/00000539-195301000-00041");
     expect(getReferenceUrl(originalReference!)).toBe(
-      "https://pubmed.ncbi.nlm.nih.gov/13083014/"
+      "https://doi.org/10.1213/00000539-195301000-00041"
     );
   });
 

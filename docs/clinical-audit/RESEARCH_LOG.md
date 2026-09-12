@@ -177,3 +177,11 @@ This follow-up is separate from the 39-source Phase A snapshot count above.
 8. Alberta Health Services pediatric asthma protocol HCS-324-01, effective 2024. Inspected only to document an explicitly altitude-adjusted variant (different SpO₂ thresholds and severity bands); not mixed into PedsCore.
 
 Search outcome for reuse: no PRAM-specific electronic licence or prohibition was located. Publisher and institutional figures/forms remain copyrighted. PedsCore therefore implements the numerical method and concise clinical observations in an independent data structure and presentation with citations; it does not reproduce a source layout, logo, form, tutorial media, or pathway.
+
+## Batch 0B2 Apgar follow-up ledger
+
+1. Apgar V. *A Proposal for a New Method of Evaluation of the Newborn Infant.* Curr Res Anesth Analg. 1953;32(4):260-267. DOI `10.1213/00000539-195301000-00041`; PMID `13083014`. Original five domains and 0/1/2 scoring method.
+2. AAP Committee on Fetus and Newborn; ACOG Committee on Obstetric Practice. *The Apgar Score.* Pediatrics. 2015;136(4):819-822. DOI `10.1542/peds.2015-2651`; PMID `26416932`; parallel Obstet Gynecol DOI `10.1097/AOG.0000000000001108`; PMID `26393460`. Timing at 1/5 minutes, repeat every 5 minutes to 20 when 5-minute score <7, limitations, resuscitation safety, and expanded reporting context.
+3. ACOG/AAP Task Force. *Neonatal Encephalopathy and Neurologic Outcome, Second Edition.* 2014; AAP endorsement DOI `10.1542/peds.2014-0724`. Five-minute bands 7-10 reassuring, 4-6 moderately abnormal, 0-3 low in term and late-preterm infants; Apgar alone is insufficient for asphyxia or neurologic diagnosis.
+
+Batch 0B2 outcome: current point-only domain UI and incomplete interpretation were material errors. Preview correction adds independently worded descriptors, selected 1/5-minute assessment, time-specific interpretation, safety limits, and tests. No expanded/combined Apgar elements were mixed into the classic score. No source form or table layout was copied; reuse is limited to the scoring method and independent wording.

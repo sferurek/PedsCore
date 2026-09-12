@@ -59,6 +59,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       journalOrPublisher: "Current Researches in Anesthesia and Analgesia",
       citation:
         "Apgar V. A proposal for a new method of evaluation of the newborn infant. Curr Res Anesth Analg. 1953;32(4):260-267.",
+      doi: "10.1213/00000539-195301000-00041",
       pmid: "13083014",
       url: "https://pubmed.ncbi.nlm.nih.gov/13083014/",
       evidenceLevel: "original_derivation_study",
@@ -66,6 +67,39 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       appliesTo: ["apgar"],
       priority: 1
+    },
+    {
+      id: "apgar_aap_acog_2015",
+      title: "The Apgar Score",
+      authors: "American Academy of Pediatrics Committee on Fetus and Newborn; American College of Obstetricians and Gynecologists Committee on Obstetric Practice",
+      year: 2015,
+      journalOrPublisher: "Pediatrics / Obstetrics & Gynecology",
+      citation: "American Academy of Pediatrics Committee on Fetus and Newborn; American College of Obstetricians and Gynecologists Committee on Obstetric Practice. The Apgar Score. Pediatrics. 2015;136(4):819-822; Obstet Gynecol. 2015;126(4):e52-e55.",
+      doi: "10.1542/peds.2015-2651",
+      pmid: "26416932",
+      url: "https://publications.aap.org/pediatrics/article/136/4/819/73821/The-Apgar-Score",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "society_statement",
+      accessType: "open_access",
+      notes: "Defines timing, repeat assessments, interpretation at 5 minutes, limitations, and the requirement that resuscitation must not wait for Apgar scoring.",
+      appliesTo: ["apgar"],
+      priority: 2
+    },
+    {
+      id: "apgar_aap_acog_2014_neonatal_encephalopathy",
+      title: "Neonatal Encephalopathy and Neurologic Outcome, Second Edition",
+      authors: "American College of Obstetricians and Gynecologists Task Force on Neonatal Encephalopathy; American Academy of Pediatrics",
+      year: 2014,
+      journalOrPublisher: "American College of Obstetricians and Gynecologists / American Academy of Pediatrics",
+      citation: "American College of Obstetricians and Gynecologists; American Academy of Pediatrics. Neonatal Encephalopathy and Neurologic Outcome. 2nd ed. 2014.",
+      doi: "10.1542/peds.2014-0724",
+      url: "https://www.acog.org/clinical/clinical-guidance/task-force-report/articles/2014/neonatal-encephalopathy-and-neurologic-outcome",
+      evidenceLevel: "consensus_statement",
+      sourceType: "society_statement",
+      accessType: "open_access",
+      notes: "Supports 5-minute bands of 7-10 reassuring, 4-6 moderately abnormal, and 0-3 low in term and late-preterm infants; Apgar alone is not diagnostic of asphyxia or neurologic outcome.",
+      appliesTo: ["apgar"],
+      priority: 3
     }
   ],
   silverman_andersen: [
@@ -1972,15 +2006,32 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     ]
   },
   apgar: {
-    calculationStatus: "metadata_ready",
-    calculationNotes: pendingCalculationNotes,
+    calculationStatus: "active",
+    calculationNotes: {
+      es: "Apgar describe el estado fisiologico inmediato del recien nacido. Selecciona el momento de evaluacion; las bandas interpretativas se aplican solo al score de 5 minutos. No debe retrasar la reanimacion ni diagnosticar asfixia o pronostico neurologico.",
+      en: "Apgar describes the newborn's immediate physiologic condition. Select the assessment time; interpretation bands apply only to the 5-minute score. It must not delay resuscitation or diagnose asphyxia or neurologic prognosis."
+    },
     inputs: [
+      {
+        id: "assessment_time",
+        label: { es: "Momento de evaluacion", en: "Assessment time" },
+        description: {
+          es: "Registra 1 y 5 minutos para todos los recien nacidos. Si el score de 5 minutos es menor de 7, la evaluacion se repite cada 5 minutos hasta 20 minutos; este calculador registra una evaluacion cada vez.",
+          en: "Record at 1 and 5 minutes for all newborns. If the 5-minute score is below 7, repeat every 5 minutes up to 20 minutes; this calculator records one assessment at a time."
+        },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("one_minute", "1 minuto", "1 minute"),
+          option("five_minutes", "5 minutos", "5 minutes")
+        ]
+      },
       {
         id: "heart_rate",
         label: { es: "Frecuencia cardiaca", en: "Heart rate" },
         description: {
-          es: "Dominio observacional del test de Apgar.",
-          en: "Observational Apgar domain."
+          es: "Pulso auscultado o por otra valoración clínica al momento seleccionado.",
+          en: "Heart rate assessed clinically at the selected time."
         },
         type: "single_choice",
         required: true,
@@ -1995,49 +2046,79 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         label: { es: "Esfuerzo respiratorio", en: "Respiratory effort" },
         type: "single_choice",
         required: true,
-        options: scoreOptions("respiratory_effort")
+        options: [
+          option("absent", "Ausente; no respira", "Absent; not breathing", 0),
+          option("slow_irregular", "Lento, irregular, débil o jadeante", "Slow, irregular, weak or gasping", 1),
+          option("good_cry", "Respiración buena con llanto vigoroso", "Good respirations with a vigorous cry", 2)
+        ]
       },
       {
         id: "muscle_tone",
         label: { es: "Tono muscular", en: "Muscle tone" },
         type: "single_choice",
         required: true,
-        options: scoreOptions("muscle_tone")
+        options: [
+          option("flaccid", "Flacido, sin actividad", "Limp, no activity", 0),
+          option("some_flexion", "Alguna flexion de extremidades", "Some flexion of the extremities", 1),
+          option("active_motion", "Movimiento activo o bien flexionado", "Active motion or well flexed", 2)
+        ]
       },
       {
         id: "reflex_irritability",
         label: { es: "Irritabilidad refleja", en: "Reflex irritability" },
         type: "single_choice",
         required: true,
-        options: scoreOptions("reflex_irritability")
+        options: [
+          option("none", "Sin respuesta a la estimulacion", "No response to stimulation", 0),
+          option("grimace", "Mueca o respuesta debil", "Grimace or weak response", 1),
+          option("vigorous_response", "Llanto, tos, estornudo o retirada vigorosa", "Cry, cough, sneeze or vigorous withdrawal", 2)
+        ]
       },
       {
         id: "color",
         label: { es: "Coloracion", en: "Color" },
         type: "single_choice",
         required: true,
-        options: scoreOptions("color")
+        description: {
+          es: "La coloracion es subjetiva y puede ser menos fiable para valorar cianosis según la pigmentacion cutanea; interpretar junto con la evaluacion clinica completa.",
+          en: "Color is subjective and may be less reliable for assessing cyanosis across skin pigmentation; interpret with the complete clinical assessment."
+        },
+        options: [
+          option("blue_pale", "Azul o palida en todo el cuerpo", "Blue or pale all over", 0),
+          option("pink_body_blue_extremities", "Cuerpo rosado con extremidades azules", "Pink body with blue extremities", 1),
+          option("completely_pink", "Completamente rosada", "Completely pink", 2)
+        ]
       }
     ],
     interpretationBands: [
       {
-        id: "normal_transition",
-        min: 8,
+        id: "reassuring",
+        min: 7,
         max: 10,
-        label: { es: "Adaptacion normal", en: "Normal transition" },
+        label: { es: "Reasegurador a los 5 minutos", en: "Reassuring at 5 minutes" },
         description: {
-          es: "Rango documentado en la base de conocimiento; requiere trazabilidad final.",
-          en: "Range documented in the knowledge base; final traceability required."
+          es: "Banda descriptiva para el score de 5 minutos en recien nacidos a termino y prematuros tardios.",
+          en: "Descriptive band for the 5-minute score in term and late-preterm newborns."
         }
       },
       {
-        id: "observation",
+        id: "moderately_abnormal",
         min: 4,
-        max: 7,
-        label: { es: "Vigilancia", en: "Observation" },
+        max: 6,
+        label: { es: "Moderadamente anormal a los 5 minutos", en: "Moderately abnormal at 5 minutes" },
         description: {
-          es: "Rango documentado en la base de conocimiento; requiere trazabilidad final.",
-          en: "Range documented in the knowledge base; final traceability required."
+          es: "Banda descriptiva para el score de 5 minutos; no diagnostica asfixia ni predice el resultado individual.",
+          en: "Descriptive 5-minute band; it does not diagnose asphyxia or predict individual outcome."
+        }
+      },
+      {
+        id: "low",
+        min: 0,
+        max: 3,
+        label: { es: "Bajo a los 5 minutos", en: "Low at 5 minutes" },
+        description: {
+          es: "Signo inespecifico de enfermedad que requiere contexto clinico; no diagnostica asfixia.",
+          en: "Nonspecific sign of illness requiring clinical context; it does not diagnose asphyxia."
         }
       }
     ],
@@ -2047,8 +2128,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         variable: { es: "Cinco dominios", en: "Five domains" },
         value: "0-2",
         description: {
-          es: "Frecuencia cardiaca, esfuerzo respiratorio, tono, reflejo y coloracion.",
-          en: "Heart rate, respiratory effort, tone, reflex irritability, and color."
+          es: "Cada dominio se puntua 0, 1 o 2 con descriptores observacionales; total 0-10. Las bandas solo se interpretan a los 5 minutos.",
+          en: "Each domain is scored 0, 1 or 2 using observational descriptors; total 0-10. Bands are interpreted only at 5 minutes."
         }
       }
     ]
@@ -3461,7 +3542,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
     "Evalua la adaptacion inicial del recien nacido mediante cinco dominios observacionales.",
     "Assesses early newborn transition through five observational domains.",
     "ready_for_implementation",
-    "moderate",
+    "high",
     "low",
     baseValidationNotes.ready,
     [docRef("apgar_kb", "PedsCore_Knowledge_Base_v1: Apgar", "pending_verification")]

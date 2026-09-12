@@ -2,7 +2,7 @@
 
 Audit date: 2026-09-12
 
-Scope: the canonical 81-tool catalog at `main` before any Phase B implementation.
+Scope: the canonical 81-tool catalog at `main` before any Phase B implementation. Batch 0B2 subsequently reconciled and corrected Apgar in a preview-only change.
 
 Method: repository reconstruction, reverse QA of every active calculator, review of existing evidence files, and targeted external verification against primary publications, validation studies, official datasets, and rights-holder terms. Facts, inferences, and unknowns are labelled in the detailed companion files.
 
@@ -12,8 +12,8 @@ These findings originated in the read-only Phase A audit. SIPA has since been re
 
 1. **SIPA — resolved in Batch 0A.** Forensic review of the original derivation (PMID 25638631) and prospective validation (PMID 27717564) confirmed strict thresholds `>1.22` (ages 4–6), `>1.0` (7–12), and `>0.9` (13–16). The implementation now uses precise half-open bands, raw-ratio classification, and rejects unsupported ages. See `SIPA_FORENSIC_REVIEW.md`.
 2. **PRAM — resolved in Batch 0B1 preview.** The original calculator accepted SpO₂ without acquisition context, did not gate the directly validated 2-to-17-year population, and used overbroad wheeze wording. Reconciliation of the 2000 derivation, 2008 pediatric validation, 2010 external validation, and BCCH/Sainte-Justine-derived operational material established the canonical score and stable ambient-air measurement for at least 1 minute. The preview returns no score for unsupported age or unconfirmed/supplemental-oxygen readings and provides no treatment direction. See `PRAM_FORENSIC_REVIEW.md`.
-3. **Apgar, Silverman-Andersen, Clinical Dehydration Scale, and FLACC — clinical descriptors absent (major review).** For most/all domains, the active catalog offers only `0 points`, `1 point`, `2 points`. The arithmetic is deterministic, but the application does not supply the observation-to-point definitions needed to calculate the instrument independently and safely.
-4. **Apgar — uncovered output range and unverified bands (major review).** A score of 0–3 has no interpretation band. The catalog itself says final primary-source tracing is required while calculation is active. The 4–7 and 8–10 labels should be traced to the intended modern source and purpose, rather than inferred from the 1953 derivation paper.
+3. **Apgar — resolved in Batch 0B2 preview.** AAP/ACOG policy and the original method establish the five descriptor-based domains, 1/5-minute timing, repeat rule, 5-minute bands 7–10/4–6/0–3, limitations, and the prohibition on delaying resuscitation. The preview now exposes these criteria without reproducing a protected form. See `APGAR_FORENSIC_REVIEW.md`.
+4. **Silverman-Andersen, Clinical Dehydration Scale, and FLACC — clinical descriptors absent (major review).** These remain unchanged and outside Batch 0B2 scope.
 5. **Active evidence metadata debt (evidence/reuse review).** Silverman-Andersen, CDS, FLACC, PECARN, the four QTc formulas, and bedside Schwartz remain marked internally as requiring final tracing or have no explicit reuse conclusion. SIPA closed this gate in Batch 0A and PRAM in Batch 0B1. The remaining metadata debt does not by itself prove a formula error, but it is incompatible with declaring those implementations fully verified.
 
 ## Decision rules and score
@@ -34,7 +34,7 @@ Abbreviations: `Def` definition completeness; `Impl` implementability; `Test` in
 
 | ID | Tool | Category | Current status | Purpose | Pediatric evidence | Grade | Canonical version | Def | Reuse | Impl | Test | Risk | Relevance | Phase B decision | Priority | Primary source | Key issue |
 |---:|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---:|---|---|
-| 1 | Apgar | Neonatology | implemented | Newborn transition description | Yes; neonatal | B | Original 5-domain score | Partial in UI | YELLOW | High arithmetic | Gap | Moderate | Current | AUDIT ONLY | — | PMID [13083014](https://pubmed.ncbi.nlm.nih.gov/13083014/) | Four domains are point-only; 0–3 has no band |
+| 1 | Apgar | Neonatology | implemented | Newborn transition description | Yes; neonatal | A | Original 5-domain score + AAP/ACOG policy | Complete in preview | GREEN | High | Descriptor/timing/boundary vectors | Moderate | Current | AUDIT CLOSED — VERIFIED | — | PMID [13083014](https://pubmed.ncbi.nlm.nih.gov/13083014/) | Preview correction closes descriptors, timing, bands, safety, and reuse |
 | 2 | Combined Apgar | Neonatology | needs_primary_reference | Expanded newborn assessment | Unclear | D | Not identified | Conflict | UNKNOWN | Blocked | Gap | Moderate | Unclear | WHITE DEFER | — | Not verified | Undefined variant and overlaps Apgar |
 | 3 | Silverman-Andersen | Neonatology | implemented | Neonatal respiratory distress | Yes; preterm newborns | B | 1956 five-sign scale | Partial in UI | YELLOW | High arithmetic | Gap | Moderate | Current | AUDIT ONLY | — | [Silverman 1956](https://publications.aap.org/pediatrics/article/17/1/1/39942/) | All inputs are point-only; bands need tracing |
 | 4 | Wood-Downes-Ferrés | Respiratory | implemented | Bronchiolitis/distress severity | Pediatric; selected secondary variant | C | Six-domain Ferrés variant | Complete for selected table | YELLOW | High | Local vectors | Moderate | Current but regional | AUDIT ONLY | — | DOI [10.1001/archpedi.1972.02110090097011](https://doi.org/10.1001/archpedi.1972.02110090097011) | Original paper is not the implemented Ferrés table |

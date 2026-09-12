@@ -6,7 +6,7 @@ This register answers the definition gate without copying protected forms. “Un
 
 | Tool | Supported population/setting | Inputs and units | Calculation/boundaries | Output; source does not establish |
 |---|---|---|---|---|
-| Apgar | Newborn transition at specified post-birth times | HR plus respiratory effort, tone, reflex irritability, color; five 0–2 domains | Sum 0–10; current UI lacks four descriptor maps | Score; current catalog bands omit 0–3 and must not drive resuscitation |
+| Apgar | Newborn transition at 1 or 5 minutes after birth | HR, respiratory effort, tone, reflex irritability, color; five descriptor-based 0–2 domains | Sum 0–10; 5-minute bands 0–3/4–6/7–10 only | Descriptive score; no resuscitation delay, asphyxia diagnosis, or individual prognosis |
 | Silverman-Andersen | Premature/newborn respiratory distress | Thoracoabdominal movement, intercostal/xiphoid retraction, nasal flaring, grunt; 0–2 each | Sum 0–10; current descriptors absent | Severity description only; current bands need source tracing |
 | Wood-Downes-Ferrés | Selected pediatric bronchiolitis/lower-respiratory variant | Wheeze/retractions/air entry/RR 0–3; HR/cyanosis 0–1 | Sum 0–14; bands 0–3, 4–7, 8–14 | Descriptive severity; no treatment/disposition |
 | NIPS | Hospitalized newborn procedural pain | Face 0–1, cry 0–2, breathing/arms/legs/arousal 0–1 | Sum 0–7; catalog threshold 0–3 vs 4–7 | Observed pain score; no analgesic order |

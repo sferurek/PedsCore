@@ -1,6 +1,6 @@
 # Existing implementation reverse QA
 
-Audit date: 2026-09-12. The Phase A assessment was read-only. Batch 0A subsequently corrected and re-verified SIPA. Batch 0B1 reconciled and corrected PRAM under its dedicated preview stop gate; production remains unchanged pending owner approval.
+Audit date: 2026-09-12. The Phase A assessment was read-only. Batch 0A subsequently corrected and re-verified SIPA, Batch 0B1 reconciled and corrected PRAM, and Batch 0B2 reconciled and corrected Apgar under dedicated preview stop gates.
 
 ## Urgent review queue
 
@@ -8,14 +8,13 @@ Audit date: 2026-09-12. The Phase A assessment was read-only. Batch 0A subsequen
 |---|---|---|---|---|
 | Resolved | SIPA | Original finding: age bands `4–<6`, `6–<12`, `≥12`; thresholds 1.2/1.0/0.9; classification on rounded ratio | Batch 0A confirmed original and prospective definitions: 4–6, 7–12, 13–16 and strict >1.22/>1.0/>0.9 (PMIDs 25638631, 27717564) | Corrected to `[4,7)`, `[7,13)`, `[13,17)`; raw-ratio classification; unsupported ages rejected; complete boundary suite added. See `SIPA_FORENSIC_REVIEW.md` |
 | Resolved | PRAM | Original finding: SpO₂ input had no acquisition condition, no validated age gate, and population wording included generic wheeze | 2000/2008 studies define the score and ages 2-17; BCCH/Sainte-Justine-derived operational material requires stable ambient-air SpO₂ for at least 1 minute | Batch 0B1 requires age 2-<18 and explicit qualifying SpO₂ condition; unconfirmed/supplemental-oxygen readings return no score. See `PRAM_FORENSIC_REVIEW.md` |
-| Moderate/high | Apgar, Silverman-Andersen, CDS, FLACC | Domain choices are mostly labels such as “0 points” rather than clinical observations | A user cannot map an observation to a point from PedsCore; faithful instrument definition is absent | Rights review, source-exact independent descriptors, clinician review, then source-derived tests |
-| Moderate | Apgar | Score 0–3 returns no interpretation; 4–7 and 8–10 bands are labelled but self-declared as awaiting tracing | No complete output partition; original 1953 paper alone does not justify modern action-oriented interpretation | Trace intended bands to a modern professional source and keep resuscitation decisions out of scope |
+| Resolved | Apgar | Original point-only domain choices and incomplete bands | AAP/ACOG policy closes descriptors, timing, 5-minute bands, limitations, and resuscitation boundary | Batch 0B2 adds independent descriptors, 1/5-minute selection, 0–3/4–6/7–10 bands, safety wording, references, and tests. See `APGAR_FORENSIC_REVIEW.md` |
 
 ## Per-tool disposition
 
 | Tool | Review result | Formula/rule | Inputs and boundaries | Output and management gate | Evidence/reuse conclusion |
 |---|---|---|---|---|---|
-| Apgar | **MAJOR REVIEW NEEDED** | Sum is mechanically correct | Heart rate is described; four domains are point-only | 0–3 uncovered; no management output | Primary PMID verified, complete modern definition and reuse unresolved |
+| Apgar | **VERIFIED** | Five descriptor-based 0–2 domains sum to 0–10; interpretation only at 5 minutes | 1/5-minute selector and all clinical criteria are present | Descriptive bands only; no resuscitation, treatment, asphyxia, or prognosis claim | Original, AAP/ACOG policy, timing, limitations, and reuse gates closed in `APGAR_FORENSIC_REVIEW.md` |
 | Silverman-Andersen | **MAJOR REVIEW NEEDED** | Five 0–2 domains sum to 0–10 | Every domain is point-only | Severity bands state “pending final validation” | Original AAP article identified; operational table and reuse not closed |
 | Wood-Downes-Ferrés | **REUSE REVIEW NEEDED** | Selected six-domain sum and 0–14 bounds are internally tested | Selected variant is explicit | Descriptive only; management excluded | Original Wood-Downes paper is not the implemented Ferrés table; secondary open table remains provenance weakness |
 | NIPS | **REUSE REVIEW NEEDED** | Six-domain 0–7 score matches the catalog model | Operational labels are present | Threshold >3 is descriptive only | Primary PMID verified; no affirmative electronic-reuse conclusion for wording |
@@ -41,9 +40,9 @@ Audit date: 2026-09-12. The Phase A assessment was read-only. Batch 0A subsequen
 
 | Review result | Count |
 |---|---:|
-| VERIFIED | 2 |
+| VERIFIED | 3 |
 | MINOR REVIEW NEEDED | 8 |
-| MAJOR REVIEW NEEDED | 4 |
+| MAJOR REVIEW NEEDED | 3 |
 | EVIDENCE GAP | 4 |
 | REUSE REVIEW NEEDED | 3 |
 | **Total active tools** | **21** |

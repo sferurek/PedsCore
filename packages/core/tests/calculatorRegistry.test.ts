@@ -37,6 +37,7 @@ describe("calculator registry", () => {
 
   it("calculates through the dispatcher", () => {
     const result = calculateTool("apgar", {
+      assessment_time: "five_minutes",
       heart_rate: 2,
       respiratory_effort: 2,
       muscle_tone: 2,
