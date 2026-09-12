@@ -13,11 +13,16 @@ const assertIncludes = (value, expected, label) => {
   }
 };
 
-const [indexHtml, sitemap, robots] = await Promise.all([
+const [indexHtml, sitemap, robots, indexNowKey] = await Promise.all([
   read("index.html"),
   read("sitemap.xml"),
-  read("robots.txt")
+  read("robots.txt"),
+  read("5845ab92b382405cbba356bf63969310.txt")
 ]);
+
+if (indexNowKey !== "5845ab92b382405cbba356bf63969310") {
+  throw new Error("IndexNow key file content is invalid");
+}
 
 assertIncludes(indexHtml, "PedsCore — Open-source pediatric and neonatal clinical tools", "index.html");
 assertIncludes(indexHtml, "Open-source pediatric and neonatal clinical scores", "index.html");
