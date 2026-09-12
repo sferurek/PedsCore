@@ -347,8 +347,31 @@ const implementedToolReferences: Record<string, Reference[]> = {
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
       accessType: "abstract_only",
+      notes:
+        "Canonical SIPA derivation definition: emergency-department heart rate divided by systolic blood pressure; elevated when >1.22 at ages 4-6, >1.0 at ages 7-12, or >0.9 at ages 13-16.",
       appliesTo: ["sipa"],
       priority: 1
+    },
+    {
+      id: "sipa_2017_prospective_validation",
+      title:
+        "Prospective validation of the shock index pediatric-adjusted (SIPA) in blunt liver and spleen trauma: An ATOMAC+ study",
+      authors:
+        "Linnaus ME, Notrica DM, Langlais CS, St Peter SD, Leys CM, Ostlie DJ, et al.",
+      year: 2017,
+      journalOrPublisher: "Journal of Pediatric Surgery",
+      citation:
+        "Linnaus ME, Notrica DM, Langlais CS, St Peter SD, Leys CM, Ostlie DJ, et al. Prospective validation of the shock index pediatric-adjusted (SIPA) in blunt liver and spleen trauma: An ATOMAC+ study. J Pediatr Surg. 2017;52(2):340-344.",
+      doi: "10.1016/j.jpedsurg.2016.09.060",
+      pmid: "27717564",
+      url: "https://pubmed.ncbi.nlm.nih.gov/27717564/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Prospective multicenter validation in patients aged 4-16 years with blunt liver and/or spleen injury; it retained the original strict comparators and 1.22/1.0/0.9 thresholds.",
+      appliesTo: ["sipa"],
+      priority: 2
     }
   ],
   qtc_bazett: [
@@ -1463,6 +1486,11 @@ const pymsValidationNotes: LocalizedText = {
 const pediatricBurnTbsaValidationNotes: LocalizedText = {
   es: "Sprint 3A: estimador descriptivo TBSA pediatrico con tabla numerica Lund-Browder modificada de Vanderbilt como fuente primaria. No copia diagramas ni formularios; no genera decisiones asistenciales.",
   en: "Sprint 3A: descriptive pediatric TBSA estimator using the Vanderbilt modified Lund-Browder numeric table as the primary source. It does not copy diagrams or forms; it does not generate care decisions."
+};
+
+const sipaValidationNotes: LocalizedText = {
+  es: "Definicion verificada frente al estudio original y una validacion prospectiva multicentrica: FC/PAS al ingreso en urgencias; >1,22 (4-6 anos), >1,0 (7-12 anos) y >0,9 (13-16 anos). Es un marcador pronostico en trauma pediatrico, no un diagnostico de shock ni una indicacion de tratamiento.",
+  en: "Definition verified against the original study and a prospective multicenter validation: ED admission HR/SBP; >1.22 (ages 4-6), >1.0 (ages 7-12), and >0.9 (ages 13-16). It is a prognostic marker in pediatric trauma, not a diagnosis of shock or a treatment indication."
 };
 
 const option = (
@@ -2967,8 +2995,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   sipa: {
     calculationStatus: "metadata_ready",
     calculationNotes: {
-      es: "Calcula indice de shock como frecuencia cardiaca / presion arterial sistolica. La interpretacion solo se activa para rangos de edad con umbrales documentados localmente.",
-      en: "Calculates shock index as heart rate / systolic blood pressure. Interpretation is only enabled for age ranges with locally documented thresholds."
+      es: "Calcula FC/PAS y compara el valor bruto con los umbrales SIPA publicados para pacientes de 4 a 16 anos con traumatismo. La salida describe la asociacion con riesgo; no diagnostica shock ni recomienda tratamiento.",
+      en: "Calculates HR/SBP and compares the raw value with published SIPA thresholds for trauma patients aged 4 to 16 years. The output describes risk association; it does not diagnose shock or recommend treatment."
     },
     inputs: [
       {
@@ -2977,7 +3005,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         type: "number",
         required: true,
         unit: "anos",
-        min: 0,
+        min: 4,
         step: 0.1
       },
       {
@@ -3005,22 +3033,22 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         variable: { es: "Indice de shock", en: "Shock index" },
         value: "heart_rate_bpm / systolic_blood_pressure_mm_hg",
         description: {
-          es: "Formula documentada en la base de conocimiento del proyecto.",
-          en: "Formula documented in the project knowledge base."
+          es: "Formula publicada para SIPA; la clasificacion utiliza el cociente sin redondear.",
+          en: "Published SIPA formula; classification uses the unrounded ratio."
         }
       },
       {
         id: "sipa_4_6",
-        variable: { es: "4 a <6 anos", en: "4 to <6 years" },
-        value: "> 1.2",
+        variable: { es: "4 a 6 anos", en: "4 to 6 years" },
+        value: "> 1.22",
         description: {
           es: "Umbral documentado para interpretacion trazable.",
           en: "Documented threshold for traceable interpretation."
         }
       },
       {
-        id: "sipa_6_12",
-        variable: { es: "6 a 12 anos", en: "6 to 12 years" },
+        id: "sipa_7_12",
+        variable: { es: "7 a 12 anos", en: "7 to 12 years" },
         value: "> 1.0",
         description: {
           es: "Umbral documentado para interpretacion trazable.",
@@ -3028,8 +3056,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         }
       },
       {
-        id: "sipa_over_12",
-        variable: { es: "Mas de 12 anos", en: "Older than 12 years" },
+        id: "sipa_13_16",
+        variable: { es: "13 a 16 anos", en: "13 to 16 years" },
         value: "> 0.9",
         description: {
           es: "Umbral documentado para interpretacion trazable.",
@@ -3368,7 +3396,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pecarn_tbi_2_or_more", "pecarn-tbi-2-or-more", "PECARN >=2", "PECARN TCE 2 anos o mas", "PECARN TBI 2 Years or Older", "emergency", "head_trauma", "clinical_rule", "Ninos de 2 anos o mas con traumatismo craneal", "Children 2 years or older with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
   makeTool("catch_tbi", "catch-tbi", "CATCH", "CATCH", "CATCH", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "ready_for_implementation", "original_derivation_study", "medium", catchValidationNotes),
   makeTool("chalice_tbi", "chalice-tbi", "CHALICE", "CHALICE", "CHALICE", "emergency", "head_trauma", "clinical_rule", "Ninos con traumatismo craneal", "Children with head trauma", "Regla de decision de TCE identificada para revision.", "TBI decision rule identified for review.", "ready_for_implementation", "original_derivation_study", "medium", chaliceValidationNotes),
-  makeTool("sipa", "sipa", "SIPA", "Shock Index Pediatric Age-adjusted", "Shock Index Pediatric Age-adjusted", "emergency", "shock", "calculator", "Ninos con posible shock o trauma", "Children with possible shock or trauma", "Indice de shock ajustado por edad.", "Age-adjusted shock index.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready, [docRef("sipa_kb", "PedsCore_Knowledge_Base_v1: SIPA", "pending_verification")]),
+  makeTool("sipa", "sipa", "SIPA", "Shock Index Pediatric Age-adjusted", "Shock Index Pediatric Age-adjusted", "emergency", "shock", "calculator", "Pacientes de 4 a 16 anos con traumatismo", "Trauma patients aged 4 to 16 years", "Indice de shock ajustado por edad para estratificacion pronostica en trauma pediatrico.", "Age-adjusted shock index for prognostic stratification in pediatric trauma.", "ready_for_implementation", "external_validation_study", "medium", sipaValidationNotes),
   makeTool("regional_sepsis_scores", "regional-sepsis-scores", "Sepsis scores", "Escalas regionales de sepsis", "Regional Sepsis Scores", "emergency", "sepsis", "score", "Ninos con sospecha de sepsis", "Children with suspected sepsis", "Familia de escalas regionales identificada para fases futuras.", "Family of regional scales identified for future phases.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("qtc_bazett", "qtc-bazett", "QTc Bazett", "QTc Bazett", "QTc Bazett", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Bazett.", "QT correction using Bazett formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("qtc_fridericia", "qtc-fridericia", "QTc Fridericia", "QTc Fridericia", "QTc Fridericia", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Fridericia.", "QT correction using Fridericia formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
