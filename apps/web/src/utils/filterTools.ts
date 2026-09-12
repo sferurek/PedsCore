@@ -21,6 +21,7 @@ export interface ToolFilters {
   type: ToolType | "all";
   status: ImplementationStatus | "all";
   specialty: ClinicalSpecialty | "all";
+  clinicalProblem: string | "all";
   ageGroup: AgeGroupTag | "all";
   setting: CareSettingTag | "all";
   clinicalFunction: ClinicalFunctionTag | "all";
@@ -35,6 +36,7 @@ export const defaultFilters: ToolFilters = {
   type: "all",
   status: "all",
   specialty: "all",
+  clinicalProblem: "all",
   ageGroup: "all",
   setting: "all",
   clinicalFunction: "all",
@@ -63,6 +65,7 @@ export const filterTools = (
     if (!discovery) return false;
 
     if (filters.specialty !== "all" && !discovery.specialties.includes(filters.specialty)) return false;
+    if (filters.clinicalProblem !== "all" && !discovery.clinicalProblems.includes(filters.clinicalProblem)) return false;
     if (filters.ageGroup !== "all" && !discovery.ageGroups.includes(filters.ageGroup)) return false;
     if (filters.setting !== "all" && !discovery.careSettings.includes(filters.setting)) return false;
     if (filters.clinicalFunction !== "all" && !discovery.clinicalFunctions.includes(filters.clinicalFunction)) return false;
