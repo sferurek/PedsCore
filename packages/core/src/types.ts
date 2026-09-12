@@ -176,7 +176,7 @@ export interface ClinicalToolDiscoveryMetadata {
   calculationAvailability: DiscoveryCalculationAvailability;
   reuseStatus: ContentReuseStatus;
   clinicalRiskTier: ClinicalRiskTier;
-  aliases: LocalizedText & { es: string; en: string };
+  aliases: Record<Language, string[]>;
   comparisonGroupIds: string[];
   relatedToolIds: string[];
 }
