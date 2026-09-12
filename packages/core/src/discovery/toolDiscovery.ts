@@ -144,7 +144,7 @@ export const getToolDiscovery = (toolId: string): ClinicalToolDiscoveryMetadata 
 
 export const discoveryValues = {
   specialties: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.specialties))].sort(),
-  ageGroups: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.ageGroups))].sort(),
+  clinicalProblems: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.clinicalProblems))].sort(),\n  ageGroups: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.ageGroups))].sort(),
   careSettings: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.careSettings))].sort(),
   clinicalFunctions: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.clinicalFunctions))].sort(),
   interactionModes: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.interactionModes))].sort()
