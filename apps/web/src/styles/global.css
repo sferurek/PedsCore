@@ -5065,3 +5065,20 @@ td {
     grid-template-columns: 1fr;
   }
 }
+
+
+.tool-discovery-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.tool-discovery-chip-row span {
+  padding: 0.28rem 0.48rem;
+  border: 1px solid rgba(161, 191, 204, 0.72);
+  border-radius: 999px;
+  background: rgba(241, 248, 250, 0.88);
+  color: #315769;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
