@@ -4630,3 +4630,209 @@ td {
     min-height: 12rem;
   }
 }
+
+
+/* PedsCore Finder — deterministic, local conversational discovery. */
+.finder-shell {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border: 1px solid rgba(170, 202, 214, 0.9);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 92% 6%, rgba(68, 157, 184, 0.13), transparent 22rem),
+    linear-gradient(145deg, rgba(250, 253, 255, 0.99), rgba(242, 249, 251, 0.97));
+  box-shadow: 0 16px 36px rgba(30, 78, 112, 0.08);
+}
+
+.finder-header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.finder-header h2 {
+  margin: 0.1rem 0 0.35rem;
+  color: #15384a;
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+}
+
+.finder-header p {
+  max-width: 56rem;
+  margin: 0;
+  color: #526b76;
+}
+
+.finder-eyebrow {
+  color: #0b6280 !important;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.finder-local-badge {
+  flex: 0 0 auto;
+  padding: 0.42rem 0.68rem;
+  border: 1px solid rgba(26, 121, 145, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #0b6280;
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+
+.finder-chat {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.finder-message {
+  max-width: min(48rem, 92%);
+  padding: 0.72rem 0.86rem;
+  border-radius: 16px;
+}
+
+.finder-message p {
+  margin: 0;
+}
+
+.finder-message-assistant {
+  justify-self: start;
+  border: 1px solid rgba(180, 205, 215, 0.78);
+  border-bottom-left-radius: 5px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #294b5a;
+}
+
+.finder-message-user {
+  justify-self: end;
+  border-bottom-right-radius: 5px;
+  background: #0b6280;
+  color: #fff;
+}
+
+.finder-follow-up {
+  margin-top: 0.55rem !important;
+  color: #0b6280;
+  font-weight: 800;
+}
+
+.finder-results {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.15rem;
+}
+
+.finder-result-card {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  border: 1px solid rgba(180, 205, 215, 0.8);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.finder-result-heading {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.finder-result-heading > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.finder-result-heading strong {
+  color: #15384a;
+}
+
+.finder-result-heading span {
+  color: #607783;
+  font-size: 0.82rem;
+}
+
+.finder-result-card details {
+  color: #425d68;
+  font-size: 0.84rem;
+}
+
+.finder-result-card summary {
+  cursor: pointer;
+  color: #0b6280;
+  font-weight: 800;
+}
+
+.finder-result-card ul,
+.finder-caveats ul {
+  margin: 0.45rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.finder-caveats {
+  padding: 0.58rem 0.68rem;
+  border-radius: 10px;
+  background: rgba(247, 242, 224, 0.75);
+  color: #66572c;
+  font-size: 0.82rem;
+}
+
+.finder-composer {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.finder-composer textarea {
+  width: 100%;
+  min-height: 4.2rem;
+  resize: vertical;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid rgba(159, 191, 203, 0.9);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #15384a;
+  font: inherit;
+}
+
+.finder-composer textarea:focus {
+  outline: 2px solid rgba(11, 98, 128, 0.18);
+  border-color: #0b6280;
+}
+
+.finder-example-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+@media (max-width: 719px) {
+  .finder-header {
+    display: grid;
+  }
+
+  .finder-local-badge {
+    width: fit-content;
+  }
+
+  .finder-composer {
+    grid-template-columns: 1fr;
+  }
+
+  .finder-composer .primary-action {
+    width: 100%;
+  }
+
+  .finder-result-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .finder-result-heading .secondary-action {
+    width: 100%;
+  }
+}
