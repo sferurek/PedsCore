@@ -1,7 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { getAllTools } from "@peds-core/core";
-import type { ImplementationStatus, ToolCategory, ToolType } from "@peds-core/core";
-import { SearchBar } from "../components/SearchBar";\nimport { PedsCoreFinder } from "../components/PedsCoreFinder";
+import {
+  discoveryValues,
+  getAllTools
+} from "@peds-core/core";
+import type {
+  AgeGroupTag,
+  CareSettingTag,
+  ClinicalFunctionTag,
+  ClinicalSpecialty,
+  ImplementationStatus,
+  InteractionMode,
+  ToolCategory,
+  ToolType
+} from "@peds-core/core";
+import { PedsCoreFinder } from "../components/PedsCoreFinder";
+import { SearchBar } from "../components/SearchBar";
 import { ToolsList } from "../components/ToolsList";
 import {
   categoryLabels,
@@ -20,6 +33,54 @@ interface ToolsPageProps {
   navigate: (href: string) => void;
 }
 
+const humanize = (value: string, language: Language): string => {
+  const labels: Record<string, { es: string; en: string }> = {
+    neonatology: { es: "Neonatología", en: "Neonatology" },
+    emergency_medicine: { es: "Urgencias", en: "Emergency" },
+    intensive_care: { es: "Cuidados intensivos", en: "Intensive care" },
+    respiratory: { es: "Respiratorio", en: "Respiratory" },
+    cardiology: { es: "Cardiología", en: "Cardiology" },
+    nephrology: { es: "Nefrología", en: "Nephrology" },
+    gastroenterology: { es: "Gastroenterología", en: "Gastroenterology" },
+    neurology: { es: "Neurología", en: "Neurology" },
+    rheumatology: { es: "Reumatología", en: "Rheumatology" },
+    pain_medicine: { es: "Dolor", en: "Pain" },
+    nutrition: { es: "Nutrición", en: "Nutrition" },
+    trauma: { es: "Trauma", en: "Trauma" },
+    preterm: { es: "Prematuro", en: "Preterm" },
+    term_newborn: { es: "Recién nacido a término", en: "Term newborn" },
+    neonate_0_28d: { es: "Neonato 0–28 días", en: "Neonate 0–28 d" },
+    young_infant_0_60d: { es: "Lactante 0–60 días", en: "Young infant 0–60 d" },
+    young_infant_0_90d: { es: "Lactante 0–90 días", en: "Young infant 0–90 d" },
+    infant: { es: "Lactante", en: "Infant" },
+    toddler: { es: "1–3 años", en: "Toddler" },
+    preschool: { es: "Preescolar", en: "Preschool" },
+    school_age: { es: "Escolar", en: "School age" },
+    adolescent: { es: "Adolescente", en: "Adolescent" },
+    all_pediatric: { es: "Toda pediatría", en: "All pediatric ages" },
+    emergency_department: { es: "Urgencias", en: "Emergency department" },
+    picu: { es: "UCIP", en: "PICU" },
+    nicu: { es: "UCIN", en: "NICU" },
+    primary_care: { es: "Atención primaria", en: "Primary care" },
+    outpatient_clinic: { es: "Consulta", en: "Outpatient clinic" },
+    severity: { es: "Gravedad", en: "Severity" },
+    risk_stratification: { es: "Estratificación de riesgo", en: "Risk stratification" },
+    disease_activity: { es: "Actividad de enfermedad", en: "Disease activity" },
+    longitudinal_monitoring: { es: "Seguimiento longitudinal", en: "Longitudinal monitoring" },
+    screening: { es: "Cribado", en: "Screening" },
+    pain_assessment: { es: "Dolor", en: "Pain assessment" },
+    calculator: { es: "Calculadora", en: "Calculator" },
+    clinical_rule: { es: "Regla clínica", en: "Clinical rule" },
+    reference_scale: { es: "Escala de referencia", en: "Reference scale" },
+    longitudinal_staging: { es: "Estadificación longitudinal", en: "Longitudinal staging" },
+    visual_atlas: { es: "Atlas visual", en: "Visual atlas" },
+    clinical_framework: { es: "Marco clínico", en: "Clinical framework" },
+    licensed_external_tool: { es: "Herramienta externa", en: "External tool" }
+  };
+  return labels[value]?.[language] ??
+    value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+};
+
 export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const t = translations[language];
   const allTools = getAllTools();
@@ -37,56 +98,24 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
     "not_implemented_due_to_licensing"
   ] satisfies ImplementationStatus[];
   const statusCounts = getToolStatusCounts(allTools);
-  const quickFilters = [
-    {
-      label: t.tools.quickImplemented,
-      action: () => setFilters({ ...defaultFilters, status: "implemented" })
-    },
-    {
-      label: "WHO Growth",
-      action: () =>
-        setFilters({
-          ...defaultFilters,
-          query: "WHO Growth",
-          status: "partially_implemented"
-        })
-    },
-    {
-      label: t.tools.quickEmergency,
-      action: () => setFilters({ ...defaultFilters, category: "emergency" })
-    },
-    {
-      label: t.tools.quickNeonatology,
-      action: () => setFilters({ ...defaultFilters, category: "neonatology" })
-    },
-    {
-      label: t.tools.quickGrowth,
-      action: () =>
-        setFilters({ ...defaultFilters, category: "growth_nutrition" })
-    },
-    {
-      label: t.tools.quickPain,
-      action: () => setFilters({ ...defaultFilters, category: "pain" })
-    },
-    {
-      label: t.tools.quickRespiratory,
-      action: () => setFilters({ ...defaultFilters, category: "respiratory" })
-    }
-  ];
+
   const filteredTools = useMemo(
     () => filterTools(allTools, filters, language),
     [allTools, filters, language]
   );
 
-  useEffect(() => {
-    const hasQuery = filters.query.trim().length > 0;
+  const activeFilterCount = Object.entries(filters).filter(([key, value]) => {
+    if (key === "query") return Boolean(String(value).trim());
+    if (typeof value === "boolean") return value;
+    return value !== "all";
+  }).length;
 
-    if (!hasQuery || lastTrackedSearchRef.current === filters.query.trim()) {
-      return;
-    }
+  useEffect(() => {
+    const query = filters.query.trim();
+    if (!query || lastTrackedSearchRef.current === query) return;
 
     const timeoutId = window.setTimeout(() => {
-      lastTrackedSearchRef.current = filters.query.trim();
+      lastTrackedSearchRef.current = query;
       trackUsageEvent("search_used", makePath(language, "tools"), language, {
         hasQuery: true,
         searchScope: "tools"
@@ -96,106 +125,279 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
     return () => window.clearTimeout(timeoutId);
   }, [filters.query, language]);
 
+  const setQuick = (patch: Partial<typeof filters>) =>
+    setFilters({ ...defaultFilters, ...patch });
+
   return (
-    <div className="page-stack">
-      <section className="page-hero">
-        <h1>{t.tools.title}</h1>
-        <p>
-          {filteredTools.length} {t.tools.found}
-        </p>
+    <div className="page-stack tools-discovery-page">
+      <section className="page-hero tools-hero">
+        <div>
+          <p className="finder-eyebrow">PedsCore Clinical Tools</p>
+          <h1>{t.tools.title}</h1>
+          <p>
+            {language === "es"
+              ? "Busca por contexto clínico, filtra con precisión o deja que Finder te lleve a la herramienta adecuada."
+              : "Search by clinical context, filter precisely, or let Finder guide you to the right tool."}
+          </p>
+        </div>
+        <div className="tools-hero-count">
+          <strong>{filteredTools.length}</strong>
+          <span>{t.tools.found}</span>
+        </div>
       </section>
 
-      <section className="status-counter-strip" aria-label={t.tools.statusCounts}>
-        {statuses.map((status) => (
-          <button
-            className="status-counter"
-            key={status}
-            type="button"
-            onClick={() => setFilters({ ...defaultFilters, status })}
-          >
-            <span>{statusLabels[status][language]}</span>
-            <strong>{statusCounts.get(status) ?? 0}</strong>
+      <PedsCoreFinder tools={allTools} language={language} navigate={navigate} />
+
+      <section className="tool-discovery-controls">
+        <div className="tool-filter-topbar">
+          <SearchBar
+            label={language === "es" ? "Buscar directamente" : "Direct search"}
+            placeholder={t.home.searchPlaceholder}
+            value={filters.query}
+            onChange={(query) => setFilters({ ...filters, query })}
+          />
+
+          <label>
+            <span>{language === "es" ? "Edad" : "Age"}</span>
+            <select
+              value={filters.ageGroup}
+              onChange={(event) =>
+                setFilters({
+                  ...filters,
+                  ageGroup: event.target.value as AgeGroupTag | "all"
+                })
+              }
+            >
+              <option value="all">{t.tools.all}</option>
+              {discoveryValues.ageGroups.map((value) => (
+                <option key={value} value={value}>
+                  {humanize(value, language)}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            <span>{language === "es" ? "Especialidad" : "Specialty"}</span>
+            <select
+              value={filters.specialty}
+              onChange={(event) =>
+                setFilters({
+                  ...filters,
+                  specialty: event.target.value as ClinicalSpecialty | "all"
+                })
+              }
+            >
+              <option value="all">{t.tools.all}</option>
+              {discoveryValues.specialties.map((value) => (
+                <option key={value} value={value}>
+                  {humanize(value, language)}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label>
+            <span>{language === "es" ? "Problema clínico" : "Clinical problem"}</span>
+            <select
+              value={filters.clinicalProblem}
+              onChange={(event) =>
+                setFilters({ ...filters, clinicalProblem: event.target.value })
+              }
+            >
+              <option value="all">{t.tools.all}</option>
+              {discoveryValues.clinicalProblems.map((value) => (
+                <option key={value} value={value}>
+                  {humanize(value, language)}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <div className="quick-filter-row" aria-label={t.tools.quickFilters}>
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ specialty: "emergency_medicine" })}>
+            {language === "es" ? "Urgencias" : "Emergency"}
           </button>
-        ))}
-      </section>
-
-      <section className="quick-filter-row" aria-label={t.tools.quickFilters}>
-        {quickFilters.map((filter) => (
-          <button
-            className="quick-filter-chip"
-            key={filter.label}
-            type="button"
-            onClick={filter.action}
-          >
-            {filter.label}
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ specialty: "neonatology" })}>
+            {language === "es" ? "Neonatología" : "Neonatology"}
           </button>
-        ))}
-      </section>
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ setting: "picu" })}>
+            UCIP / PICU
+          </button>
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ clinicalFunction: "longitudinal_monitoring", longitudinalOnly: true })}>
+            {language === "es" ? "Seguimiento" : "Longitudinal"}
+          </button>
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ localCalculationOnly: true })}>
+            {language === "es" ? "Calculadoras activas" : "Active calculators"}
+          </button>
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ interactionMode: "visual_atlas" })}>
+            {language === "es" ? "Atlas" : "Atlases"}
+          </button>
+        </div>
 
-      <section className="filter-panel">
-        <SearchBar
-          label={t.nav.tools}
-          placeholder={t.home.searchPlaceholder}
-          value={filters.query}
-          onChange={(query) => setFilters({ ...filters, query })}
-        />
-        <label>
-          <span>{t.tools.category}</span>
-          <select
-            value={filters.category}
-            onChange={(event) =>
-              setFilters({
-                ...filters,
-                category: event.target.value as ToolCategory | "all"
-              })
-            }
+        <details className="advanced-filter-panel">
+          <summary>
+            {language === "es" ? "Más filtros" : "More filters"}
+            {activeFilterCount ? <span>{activeFilterCount}</span> : null}
+          </summary>
+          <div className="advanced-filter-grid">
+            <label>
+              <span>{language === "es" ? "Entorno" : "Setting"}</span>
+              <select
+                value={filters.setting}
+                onChange={(event) =>
+                  setFilters({
+                    ...filters,
+                    setting: event.target.value as CareSettingTag | "all"
+                  })
+                }
+              >
+                <option value="all">{t.tools.all}</option>
+                {discoveryValues.careSettings.map((value) => (
+                  <option key={value} value={value}>
+                    {humanize(value, language)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              <span>{language === "es" ? "Objetivo" : "Purpose"}</span>
+              <select
+                value={filters.clinicalFunction}
+                onChange={(event) =>
+                  setFilters({
+                    ...filters,
+                    clinicalFunction: event.target.value as ClinicalFunctionTag | "all"
+                  })
+                }
+              >
+                <option value="all">{t.tools.all}</option>
+                {discoveryValues.clinicalFunctions.map((value) => (
+                  <option key={value} value={value}>
+                    {humanize(value, language)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              <span>{language === "es" ? "Modalidad" : "Interaction"}</span>
+              <select
+                value={filters.interactionMode}
+                onChange={(event) =>
+                  setFilters({
+                    ...filters,
+                    interactionMode: event.target.value as InteractionMode | "all"
+                  })
+                }
+              >
+                <option value="all">{t.tools.all}</option>
+                {discoveryValues.interactionModes.map((value) => (
+                  <option key={value} value={value}>
+                    {humanize(value, language)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              <span>{t.tools.category}</span>
+              <select
+                value={filters.category}
+                onChange={(event) =>
+                  setFilters({
+                    ...filters,
+                    category: event.target.value as ToolCategory | "all"
+                  })
+                }
+              >
+                <option value="all">{t.tools.all}</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {categoryLabels[category][language]}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              <span>{t.tools.type}</span>
+              <select
+                value={filters.type}
+                onChange={(event) =>
+                  setFilters({
+                    ...filters,
+                    type: event.target.value as ToolType | "all"
+                  })
+                }
+              >
+                <option value="all">{t.tools.all}</option>
+                {types.map((type) => (
+                  <option key={type} value={type}>
+                    {typeLabels[type][language]}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label>
+              <span>{t.tools.status}</span>
+              <select
+                value={filters.status}
+                onChange={(event) =>
+                  setFilters({
+                    ...filters,
+                    status: event.target.value as ImplementationStatus | "all"
+                  })
+                }
+              >
+                <option value="all">{t.tools.all}</option>
+                {statuses.map((status) => (
+                  <option key={status} value={status}>
+                    {statusLabels[status][language]} ({statusCounts.get(status) ?? 0})
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="filter-toggle-row">
+            <label className="filter-toggle">
+              <input
+                type="checkbox"
+                checked={filters.localCalculationOnly}
+                onChange={(event) =>
+                  setFilters({ ...filters, localCalculationOnly: event.target.checked })
+                }
+              />
+              <span>{language === "es" ? "Solo cálculo local activo" : "Local calculation only"}</span>
+            </label>
+            <label className="filter-toggle">
+              <input
+                type="checkbox"
+                checked={filters.longitudinalOnly}
+                onChange={(event) =>
+                  setFilters({ ...filters, longitudinalOnly: event.target.checked })
+                }
+              />
+              <span>{language === "es" ? "Útiles para seguimiento" : "Useful for follow-up"}</span>
+            </label>
+          </div>
+        </details>
+
+        {activeFilterCount ? (
+          <button
+            className="filter-reset-button"
+            type="button"
+            onClick={() => setFilters(defaultFilters)}
           >
-            <option value="all">{t.tools.all}</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {categoryLabels[category][language]}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>{t.tools.type}</span>
-          <select
-            value={filters.type}
-            onChange={(event) =>
-              setFilters({
-                ...filters,
-                type: event.target.value as ToolType | "all"
-              })
-            }
-          >
-            <option value="all">{t.tools.all}</option>
-            {types.map((type) => (
-              <option key={type} value={type}>
-                {typeLabels[type][language]}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <span>{t.tools.status}</span>
-          <select
-            value={filters.status}
-            onChange={(event) =>
-              setFilters({
-                ...filters,
-                status: event.target.value as ImplementationStatus | "all"
-              })
-            }
-          >
-            <option value="all">{t.tools.all}</option>
-            {statuses.map((status) => (
-              <option key={status} value={status}>
-                {statusLabels[status][language]} ({statusCounts.get(status) ?? 0})
-              </option>
-            ))}
-          </select>
-        </label>
+            {language === "es"
+              ? `Limpiar filtros (${activeFilterCount})`
+              : `Clear filters (${activeFilterCount})`}
+          </button>
+        ) : null}
       </section>
 
       {filteredTools.length > 0 ? (
