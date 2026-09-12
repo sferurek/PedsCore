@@ -24,6 +24,163 @@ export type ToolCategory =
   | "resuscitation"
   | "adolescent_medicine";
 
+
+export type ClinicalSpecialty =
+  | "neonatology"
+  | "emergency_medicine"
+  | "intensive_care"
+  | "respiratory"
+  | "cardiology"
+  | "nephrology"
+  | "gastroenterology"
+  | "inflammatory_bowel_disease"
+  | "hepatology"
+  | "rheumatology"
+  | "neurology"
+  | "endocrinology"
+  | "growth_development"
+  | "pain_medicine"
+  | "sedation"
+  | "infectious_disease"
+  | "hematology"
+  | "oncology"
+  | "adolescent_medicine"
+  | "behavioral_health"
+  | "developmental_pediatrics"
+  | "nutrition"
+  | "trauma"
+  | "burns"
+  | "patient_safety"
+  | "disaster_medicine"
+  | "transplant_medicine"
+  | "general_pediatrics";
+
+export type AgeGroupTag =
+  | "preterm"
+  | "term_newborn"
+  | "neonate_0_28d"
+  | "young_infant_0_60d"
+  | "young_infant_0_90d"
+  | "infant"
+  | "toddler"
+  | "preschool"
+  | "school_age"
+  | "adolescent"
+  | "young_adult_transition"
+  | "all_pediatric"
+  | "age_defined_by_tool";
+
+export type CareSettingTag =
+  | "prehospital"
+  | "mass_casualty"
+  | "delivery_room"
+  | "newborn_ward"
+  | "nicu"
+  | "emergency_department"
+  | "picu"
+  | "inpatient_ward"
+  | "outpatient_clinic"
+  | "primary_care"
+  | "specialty_clinic"
+  | "operating_room"
+  | "postoperative"
+  | "transport"
+  | "home_followup"
+  | "research_case_mix";
+
+export type ClinicalFunctionTag =
+  | "screening"
+  | "diagnostic_support"
+  | "risk_stratification"
+  | "severity"
+  | "disease_activity"
+  | "organ_dysfunction"
+  | "prognosis"
+  | "mortality_risk"
+  | "triage"
+  | "treatment_response"
+  | "longitudinal_monitoring"
+  | "functional_status"
+  | "developmental_assessment"
+  | "maturity_assessment"
+  | "growth_assessment"
+  | "pain_assessment"
+  | "sedation_assessment"
+  | "withdrawal_assessment"
+  | "delirium_assessment"
+  | "nutrition_screening"
+  | "psychosocial_screening"
+  | "quality_of_life"
+  | "physical_examination"
+  | "staging"
+  | "reference_only";
+
+export type InteractionMode =
+  | "calculator"
+  | "clinical_rule"
+  | "clinical_screen"
+  | "reference_scale"
+  | "longitudinal_staging"
+  | "longitudinal_monitoring"
+  | "visual_atlas"
+  | "examination_framework"
+  | "clinical_framework"
+  | "licensed_external_tool";
+
+export type LongitudinalUse = "primary" | "supported" | "possible" | "not_applicable";
+
+export type DiscoveryCalculationAvailability =
+  | "local_active"
+  | "local_planned"
+  | "external_official"
+  | "not_applicable"
+  | "blocked_by_rights"
+  | "blocked_by_evidence";
+
+export type ContentReuseStatus =
+  | "open"
+  | "public_domain"
+  | "attribution_required"
+  | "external_only"
+  | "permission_required"
+  | "unresolved";
+
+export type ClinicalRiskTier = "low" | "moderate" | "high" | "critical";
+
+export type InputModality =
+  | "clinical_observation"
+  | "history"
+  | "vital_signs"
+  | "physical_examination"
+  | "laboratory"
+  | "blood_gas"
+  | "urinalysis"
+  | "ecg"
+  | "eeg_aeeg"
+  | "imaging"
+  | "growth_measurements"
+  | "questionnaire_self_report"
+  | "questionnaire_parent_report"
+  | "questionnaire_clinician_report"
+  | "functional_test";
+
+export interface ClinicalToolDiscoveryMetadata {
+  specialties: ClinicalSpecialty[];
+  clinicalProblems: string[];
+  ageGroups: AgeGroupTag[];
+  careSettings: CareSettingTag[];
+  clinicalFunctions: ClinicalFunctionTag[];
+  interactionModes: InteractionMode[];
+  longitudinalUse: LongitudinalUse;
+  inputModalities: InputModality[];
+  calculationAvailability: DiscoveryCalculationAvailability;
+  reuseStatus: ContentReuseStatus;
+  clinicalRiskTier: ClinicalRiskTier;
+  aliases: LocalizedText & { es: string; en: string };
+  comparisonGroupIds: string[];
+  relatedToolIds: string[];
+}
+
 export type ImplementationStatus =
   | "implemented"
   | "partially_implemented"
