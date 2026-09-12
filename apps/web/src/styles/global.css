@@ -4538,6 +4538,7 @@ td {
 .global-usage-map {
   display: block;
   width: 100%;
+  aspect-ratio: 960 / 520;
   min-height: 17rem;
   margin-top: 0.8rem;
   border-radius: 16px;
@@ -4547,19 +4548,28 @@ td {
   fill: #eaf6fb;
 }
 
-.map-land {
-  fill: #cfe5dd;
-  opacity: 0.88;
+.map-country {
+  fill: #9eb5c0;
+  stroke: #6f8a98;
+  stroke-width: 0.55;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
-.map-land.secondary {
-  fill: #dbead6;
+.map-country.is-active {
+  fill: #477f91;
+  stroke: #285d70;
 }
 
 .map-country-dot {
-  fill: rgba(11, 98, 128, 0.34);
+  fill: #f6fbfd;
   stroke: #0b6280;
-  stroke-width: 0.45;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.map-country-core {
+  fill: #0b6280;
 }
 
 .stats-table-wrap {

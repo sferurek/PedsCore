@@ -6,6 +6,8 @@ import {
   type CountryUsageStat,
   type GlobalUsageStats
 } from "../utils/statsApi";
+import { naturalEarthCountries } from "../data/naturalEarth50m";
+import { getCountryGeometry } from "../utils/globalMap";
 
 interface GlobalStatsPageProps {
   language: Language;
@@ -26,29 +28,6 @@ const fallbackStats: GlobalUsageStats = {
     last7DaysVisitors: 0
   },
   countries: []
-};
-
-const countryPositions: Record<string, { x: number; y: number }> = {
-  AR: { x: 35, y: 47 },
-  AU: { x: 83, y: 46 },
-  BR: { x: 39, y: 42 },
-  CA: { x: 23, y: 30 },
-  CL: { x: 31, y: 49 },
-  CN: { x: 73, y: 43 },
-  CO: { x: 33, y: 37 },
-  DE: { x: 50, y: 36 },
-  ES: { x: 47, y: 43 },
-  FR: { x: 48, y: 40 },
-  GB: { x: 46, y: 34 },
-  IN: { x: 67, y: 40 },
-  IT: { x: 51, y: 43 },
-  JP: { x: 82, y: 45 },
-  MA: { x: 47, y: 49 },
-  MX: { x: 24, y: 35 },
-  PE: { x: 32, y: 42 },
-  PT: { x: 45, y: 43 },
-  US: { x: 25, y: 42 },
-  ZA: { x: 54, y: 48 }
 };
 
 const formatNumber = (value: number, language: Language) =>
@@ -84,47 +63,41 @@ const getStatusMessage = (
   return null;
 };
 
-function GlobalUsageMap({ countries }: { countries: CountryUsageStat[] }) {
-  const plottedCountries = countries
-    .filter((country) => countryPositions[country.code])
-    .slice(0, 30);
-  const maxVisitors = Math.max(
-    ...plottedCountries.map((country) => country.visitors),
-    1
-  );
+function GlobalUsageMap({ countries, language }: { countries: CountryUsageStat[]; language: Language }) {
+  const activeCountries = countries.filter((country) => getCountryGeometry(country.code)).slice(0, 30);
+  const maxVisitors = Math.max(...activeCountries.map((country) => country.visitors), 1);
+  const formatVisitors = (country: CountryUsageStat) =>
+    `${country.name} — ${formatNumber(country.visitors, language)} ${language === "es" ? "visitantes" : "visitors"}`;
 
   return (
     <svg
-      aria-hidden="true"
+      aria-label={language === "es" ? "Mapa mundial de países con visitas" : "World map of countries with visitors"}
       className="global-usage-map"
       role="img"
-      viewBox="0 0 100 54"
+      viewBox="0 0 960 520"
     >
-      <rect className="map-ocean" height="54" rx="8" width="100" />
-      <path
-        className="map-land"
-        d="M11 21c8-9 19-11 31-8 7 1 12 5 20 2 12-5 22-2 29 6-4 3-9 5-16 4-6-1-11 0-16 5-7 6-15 5-23 1-7-4-14-3-25-10Z"
-      />
-      <path
-        className="map-land secondary"
-        d="M21 34c10-2 15 4 21 9-12 5-22 2-27-5 2-2 4-3 6-4Zm39 4c8-5 19-3 25 3-6 5-18 6-28 1 0-2 1-3 3-4Z"
-      />
-      {plottedCountries.map((country) => {
-        const position = countryPositions[country.code];
-        const radius = 1.8 + (country.visitors / maxVisitors) * 5.4;
-
-        if (!position) {
-          return null;
-        }
-
+      <rect className="map-ocean" height="520" rx="16" width="960" />
+      <g className="map-country-layer">
+        {naturalEarthCountries.map((country, index) => {
+          const active = countries.find((item) => item.code === country.code);
+          return (
+            <path className={`map-country ${active ? "is-active" : ""}`} d={country.path} key={`${country.code}-${index}`}>
+              {active ? <title>{formatVisitors(active)}</title> : null}
+            </path>
+          );
+        })}
+      </g>
+      {activeCountries.map((country) => {
+        const geometry = getCountryGeometry(country.code);
+        if (!geometry) return null;
+        const radius = 3 + (country.visitors / maxVisitors) * 5;
         return (
-          <circle
-            className="map-country-dot"
-            cx={position.x}
-            cy={position.y}
-            key={country.code}
-            r={radius}
-          />
+          <g className="map-country-marker" key={`marker-${country.code}`}>
+            <circle className="map-country-dot" cx={geometry.x} cy={geometry.y} r={radius}>
+              <title>{formatVisitors(country)}</title>
+            </circle>
+            <circle className="map-country-core" cx={geometry.x} cy={geometry.y} r="2" />
+          </g>
         );
       })}
     </svg>
@@ -203,7 +176,7 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
           <p>{thresholdMessage}</p>
           {countryRangeMessage ? <p>{countryRangeMessage}</p> : null}
         </div>
-        <GlobalUsageMap countries={stats.countries} />
+        <GlobalUsageMap countries={stats.countries} language={language} />
         {stats.updatedAt ? (
           <p className="muted">
             {t.stats.updated}: {new Date(stats.updatedAt).toLocaleString()}
