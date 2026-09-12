@@ -87,7 +87,7 @@ export function EvidencePage({ language }: EvidencePageProps) {
 
   return (
     <article className="info-page evidence-page">
-      <p className="eyebrow">PedsCore evidence</p>
+      <p className="eyebrow">{t.evidence.eyebrow}</p>
       <h1>{t.evidence.title}</h1>
       <p>{t.evidence.lead}</p>
 

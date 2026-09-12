@@ -189,7 +189,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="atlas-trust"><p className="eyebrow">PEDSCORE / OPEN SCIENCE</p><h2>{a.open}</h2><p>{a.openBody}</p><div className="atlas-catalog-facts"><span><b>{allTools.length}</b> {t.home.cataloguedMetric}</span><span><b>{implementedCount}</b> {t.home.implementedMetric}</span><span><b>{partialCount}</b> {t.home.partialMetric}</span><span><b>0</b> {t.home.clinicalDataMetric}</span></div><p>{t.home.subtitle}</p></section>
+      <section className="atlas-trust"><p className="eyebrow">{a.openEyebrow}</p><h2>{a.open}</h2><p>{a.openBody}</p><div className="atlas-catalog-facts"><span><b>{allTools.length}</b> {t.home.cataloguedMetric}</span><span><b>{implementedCount}</b> {t.home.implementedMetric}</span><span><b>{partialCount}</b> {t.home.partialMetric}</span><span><b>0</b> {t.home.clinicalDataMetric}</span></div><p>{t.home.subtitle}</p></section>
       <section className="transparency-band">
         <h2>{t.home.transparencyTitle}</h2>
         <ul>

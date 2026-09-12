@@ -173,7 +173,7 @@ export function GlobalStatsPage({ language }: GlobalStatsPageProps) {
   return (
     <div className="page-stack global-stats-page">
       <section className="page-hero stats-hero">
-        <p className="eyebrow">PedsCore analytics</p>
+        <p className="eyebrow">{t.stats.eyebrow}</p>
         <h1>{t.stats.title}</h1>
         <p>{t.stats.lead}</p>
       </section>

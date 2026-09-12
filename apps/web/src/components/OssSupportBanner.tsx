@@ -9,7 +9,7 @@ export function OssSupportBanner({ language }: OssSupportBannerProps) {
   const t = translations[language];
 
   return (
-    <section className="oss-support-banner" aria-label="Open source support">
+    <section className="oss-support-banner" aria-label={t.ossSupport.ariaLabel}>
       <p className="oss-support-message">{t.ossSupport.message}</p>
       <div className="oss-support-actions">
         <a

@@ -15,9 +15,9 @@ interface SeoMetadata {
 
 const homeSeo = {
   es: {
-    title: "PedsCore — herramientas clínicas pediátricas y neonatales open source",
+    title: "PedsCore — herramientas clínicas pediátricas y neonatales de código abierto",
     description:
-      "PedsCore es una biblioteca open source de herramientas clínicas pediátricas y neonatales con trazabilidad de evidencia, gráficas WHO Growth y sin almacenamiento de datos clínicos."
+      "PedsCore es una biblioteca de código abierto con herramientas clínicas pediátricas y neonatales, trazabilidad de evidencia, gráficas WHO Growth y sin almacenamiento de datos clínicos."
   },
   en: {
     title: "PedsCore — open-source pediatric and neonatal clinical tools",
@@ -31,12 +31,12 @@ const routeSeo: Partial<Record<RouteKind, Record<Language, { title: string; desc
     es: {
       title: "Herramientas clínicas pediátricas — PedsCore",
       description:
-        "Catálogo de herramientas clínicas pediátricas y neonatales open source con búsqueda, estados de validación y referencias."
+        "Catálogo de herramientas clínicas pediátricas y neonatales de código abierto con búsqueda, estados de validación y referencias."
     },
     en: {
       title: "Pediatric clinical tools — PedsCore",
       description:
-        "Catalog of open-source pediatric and neonatal clinical tools with search, validation status and references."
+        "Open-source pediatric and neonatal clinical tools with search, implementation status and references."
     }
   },
   evidence: {
@@ -67,7 +67,7 @@ const routeSeo: Partial<Record<RouteKind, Record<Language, { title: string; desc
     es: {
       title: "Acerca de PedsCore",
       description:
-        "PedsCore es un proyecto open source de herramientas clínicas pediátricas y neonatales con trazabilidad de evidencia."
+        "PedsCore es un proyecto de código abierto con herramientas clínicas pediátricas y neonatales y trazabilidad de evidencia."
     },
     en: {
       title: "About PedsCore",
@@ -91,7 +91,7 @@ const routeSeo: Partial<Record<RouteKind, Record<Language, { title: string; desc
     es: {
       title: "Contribuir — PedsCore",
       description:
-        "Cómo contribuir a PedsCore aportando evidencia, revisiones, correcciones y mejoras open source."
+        "Cómo contribuir a PedsCore aportando evidencia, revisiones, correcciones y mejoras de código abierto."
     },
     en: {
       title: "Contribute — PedsCore",

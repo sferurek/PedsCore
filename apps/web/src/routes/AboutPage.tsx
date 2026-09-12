@@ -14,12 +14,12 @@ export function AboutPage({ language }: AboutPageProps) {
       <p>{t.pages.aboutBody}</p>
       <div className="info-grid">
         <article>
-          <h2>Core</h2>
-          <p>TypeScript contracts, metadata and future deterministic engines.</p>
+          <h2>{t.pages.coreTitle}</h2>
+          <p>{t.pages.coreBody}</p>
         </article>
         <article>
-          <h2>Web</h2>
-          <p>Bilingual catalog interface deployed on Vercel.</p>
+          <h2>{t.pages.webTitle}</h2>
+          <p>{t.pages.webBody}</p>
         </article>
       </div>
     </section>

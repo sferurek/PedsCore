@@ -165,8 +165,8 @@ describe("public product web polish", () => {
     const spanishHtml = renderToString(<GlobalStatsPage language="es" />);
     const englishHtml = renderToString(<GlobalStatsPage language="en" />);
 
-    expect(spanishHtml).toContain("Visitantes desde la activacion de analytics");
-    expect(spanishHtml).toContain("Visitantes en los ultimos 7 dias");
+    expect(spanishHtml).toContain("Visitantes desde la activación de la analítica");
+    expect(spanishHtml).toContain("Visitantes en los últimos 7 días");
     expect(englishHtml).toContain("Visitors since analytics was enabled");
     expect(englishHtml).toContain("Visitors in the last 7 days");
     expect(`${spanishHtml}${englishHtml}`.toLowerCase()).not.toContain(
