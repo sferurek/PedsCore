@@ -106,9 +106,9 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
   max-width:none;
   margin:0 0 6px;
   font-family:var(--font-editorial);
-  font-size:clamp(1.45rem,2vw,1.95rem);
+  font-size:clamp(1.3rem,1.65vw,1.7rem);
   font-weight:400;
-  line-height:1.05;
+  line-height:1.02;
   color:inherit;
   white-space:nowrap;
 }
