@@ -53,12 +53,12 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
         <div>
           <p className="finder-eyebrow">PedsCore Finder</p>
           <h2 id="finder-title">
-            {es ? "¿Qué necesitas valorar?" : "What do you need to assess?"}
+            {es ? "¿Qué quieres valorar?" : "What would you like to assess?"}
           </h2>
           <p>
             {es
-              ? "Descríbelo como lo harías a un compañero. El motor es determinista y funciona localmente en tu navegador."
-              : "Describe it as you would to a colleague. The deterministic engine runs locally in your browser."}
+              ? "Cuéntame el caso en una frase, como se lo contarías a un compañero. Finder cruza edad, problema clínico y contexto para proponerte herramientas relevantes."
+              : "Describe the case in one sentence, as you would to a colleague. Finder combines age, clinical problem and context to suggest relevant tools."}
           </p>
         </div>
       </div>
@@ -67,8 +67,8 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
         <div className="finder-message finder-message-assistant">
           <p>
             {es
-              ? "Cuéntame la edad, el problema clínico o qué quieres medir."
-              : "Tell me the age, clinical problem, or what you want to measure."}
+              ? "Puedes incluir edad, motivo de consulta y qué necesitas estimar, clasificar o seguir."
+              : "You can include age, the clinical problem and what you need to estimate, classify or follow."}
           </p>
         </div>
 
@@ -124,7 +124,7 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
                 {match.reasons.length ? (
                   <details>
                     <summary>
-                      {es ? "¿Por qué aparece?" : "Why is this shown?"}
+                      {es ? "Por qué puede encajar" : "Why it may fit"}
                     </summary>
                     <ul>
                       {match.reasons.map((reason) => (
@@ -136,7 +136,7 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
 
                 {match.caveats.length ? (
                   <div className="finder-caveats">
-                    <strong>{es ? "A tener en cuenta" : "Keep in mind"}</strong>
+                    <strong>{es ? "Antes de usarla" : "Before you use it"}</strong>
                     <ul>
                       {match.caveats.map((caveat) => (
                         <li key={caveat}>{caveat}</li>
@@ -153,8 +153,8 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
           <details className="finder-excluded">
             <summary>
               {es
-                ? "Herramientas relacionadas que no encajan"
-                : "Related tools that do not fit"}
+                ? "Relacionadas, pero menos adecuadas para este caso"
+                : "Related tools that are a poorer fit for this case"}
             </summary>
             <ul>
               {response.excluded.map((item) => (
@@ -178,8 +178,8 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
                   ? "Ocultar comparación"
                   : "Hide comparison"
                 : es
-                  ? "Comparar las dos primeras"
-                  : "Compare top two"}
+                  ? "Comparar las dos opciones principales"
+                  : "Compare the top two options"}
             </button>
           </div>
         ) : null}
@@ -233,8 +233,8 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
           value={draft}
           placeholder={
             es
-              ? "Ej.: niño de 8 años con crisis de asma, quiero valorar gravedad"
-              : "E.g. 8-year-old with acute asthma, assess severity"
+              ? "Ej.: niño de 8 años con crisis asmática; quiero valorar la gravedad"
+              : "E.g. 8-year-old with an asthma exacerbation; assess severity"
           }
           onChange={(event) => setDraft(event.target.value)}
         />
