@@ -515,3 +515,135 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
   .footer-notes { justify-content:flex-start; }
   .footer-usage-summary,.footer-links { grid-column:auto; }
 }
+
+
+/* EDITORIAL-VISUAL-POLISH-V1 — category and tool-detail refinement */
+.page-stack > .page-hero:not(.tools-hero):not(.stats-hero) {
+  padding: clamp(28px,4vw,48px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 94% 0%, rgba(47,128,237,.08), transparent 22rem),
+    linear-gradient(145deg,#fff,#f7fafc);
+  box-shadow: var(--editorial-shadow-soft);
+}
+.page-stack > .page-hero:not(.tools-hero):not(.stats-hero) h1 {
+  max-width: 16ch;
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  line-height: 1.04;
+}
+.page-stack > .page-hero:not(.tools-hero):not(.stats-hero) > p {
+  max-width: 720px;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+.page-stack > .page-hero:not(.tools-hero):not(.stats-hero) > strong {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 10px;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,.72);
+  color: var(--text-muted);
+  font-size: .78rem;
+}
+
+.tool-page .tool-hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px,4vw,48px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 92% 8%, rgba(47,128,237,.10), transparent 24rem),
+    linear-gradient(145deg,#fff,#f6fafe);
+  box-shadow: var(--editorial-shadow-soft);
+}
+.tool-page .tool-hero h1 {
+  max-width: 18ch;
+  font-family: var(--font-editorial);
+  font-weight: 400;
+  line-height: 1.04;
+}
+.tool-page .tool-hero > p {
+  max-width: 780px;
+  color: var(--text-muted);
+  line-height: 1.68;
+}
+.tool-page .tool-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin-top: 18px;
+}
+.tool-page .tool-hero-meta > span:not(.status-badge) {
+  padding: 6px 0;
+  color: var(--text-muted);
+  font-size: .76rem;
+}
+.tool-page .tool-layout {
+  gap: 24px;
+}
+.tool-page .tool-page-main {
+  gap: 20px;
+}
+.tool-page .content-panel,
+.tool-page .metadata-panel {
+  padding: clamp(20px,2.5vw,28px);
+  border-color: rgba(185,202,214,.78);
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,.90);
+}
+.tool-page .content-panel h2,
+.tool-page .metadata-panel h2 {
+  margin-bottom: 12px;
+  letter-spacing: -.025em;
+}
+.tool-page .content-panel > p {
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+.tool-page .disclaimer-box {
+  padding: 14px 18px;
+  border-left: 3px solid color-mix(in srgb,var(--tools) 55%,var(--line));
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: color-mix(in srgb,var(--tools-soft) 50%,white);
+  color: var(--text-muted);
+}
+.tool-page .disclaimer-box p {
+  margin: 0;
+  line-height: 1.55;
+}
+.tool-page .metadata-panel dl {
+  gap: 0;
+}
+.tool-page .metadata-panel dl > div {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tool-page .metadata-panel dl > div:last-child {
+  border-bottom: 0;
+}
+.reference-card {
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg,#fff,#fbfcfd);
+}
+.feedback-box {
+  padding: 18px 0 0;
+  border-top: 1px solid var(--line);
+}
+.feedback-box p {
+  color: var(--text-muted);
+}
+
+@media (max-width:719px) {
+  .tool-page .tool-hero,
+  .page-stack > .page-hero:not(.tools-hero):not(.stats-hero) {
+    padding: 24px 20px;
+    border-radius: var(--radius-lg);
+  }
+}
