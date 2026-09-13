@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  clinicalComparisonGroups,
   clinicalTools,
   getToolDiscovery,
   toolDiscoveryById
@@ -18,6 +19,12 @@ describe("clinical discovery taxonomy", () => {
       expect(discovery?.careSettings.length, tool.id).toBeGreaterThan(0);
       expect(discovery?.clinicalFunctions.length, tool.id).toBeGreaterThan(0);
       expect(discovery?.interactionModes.length, tool.id).toBeGreaterThan(0);
+      expect(discovery?.surfaceStatus, tool.id).toBeDefined();
+      expect(discovery?.inputModalities.length, tool.id).toBeGreaterThan(0);
+      expect(discovery?.calculationAvailability, tool.id).toBeDefined();
+      expect(discovery?.reuseStatus, tool.id).toBeDefined();
+      expect(discovery?.clinicalRiskTier, tool.id).toBeDefined();
+      expect(discovery?.exclusions, tool.id).toBeDefined();
       expect(discovery?.aliases.es.length, tool.id).toBeGreaterThan(0);
       expect(discovery?.aliases.en.length, tool.id).toBeGreaterThan(0);
     }
@@ -27,6 +34,18 @@ describe("clinical discovery taxonomy", () => {
     const catalogIds = new Set(clinicalTools.map((tool) => tool.id));
     for (const id of Object.keys(toolDiscoveryById)) {
       expect(catalogIds.has(id), id).toBe(true);
+    }
+  });
+
+  it("keeps discovery relationships resolvable", () => {
+    const catalogIds = new Set(clinicalTools.map((tool) => tool.id));
+    for (const [id, discovery] of Object.entries(toolDiscoveryById)) {
+      for (const relatedId of discovery.relatedToolIds) {
+        expect(catalogIds.has(relatedId), `${id} -> ${relatedId}`).toBe(true);
+      }
+      for (const groupId of discovery.comparisonGroupIds) {
+        expect(clinicalComparisonGroups[groupId as keyof typeof clinicalComparisonGroups], `${id} -> ${groupId}`).toBeDefined();
+      }
     }
   });
 

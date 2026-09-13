@@ -5,7 +5,6 @@ import type { ClinicalToolMetadata } from "@peds-core/core";
 import {
   categoryLabels,
   evidenceLabels,
-  riskLabels,
   translations,
   typeLabels
 } from "../i18n/translations";

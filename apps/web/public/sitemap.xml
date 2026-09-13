@@ -1293,4 +1293,620 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/capd</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/capd" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/capd" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/capd</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/capd" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/capd" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/wat-1</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/wat-1" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/wat-1" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/wat-1</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/wat-1" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/wat-1" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/state-behavioral-scale</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/state-behavioral-scale" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/state-behavioral-scale" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/state-behavioral-scale</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/state-behavioral-scale" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/state-behavioral-scale" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/sos-pd</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/sos-pd" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/sos-pd" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/sos-pd</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/sos-pd" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/sos-pd" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/pcam-icu</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pcam-icu" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pcam-icu" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/pcam-icu</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pcam-icu" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pcam-icu" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/pscam-icu</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pscam-icu" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pscam-icu" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/pscam-icu</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pscam-icu" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pscam-icu" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/step-by-step-febrile-infant</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/step-by-step-febrile-infant" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/step-by-step-febrile-infant" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/step-by-step-febrile-infant</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/step-by-step-febrile-infant" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/step-by-step-febrile-infant" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/pecarn-febrile-infant</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pecarn-febrile-infant" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pecarn-febrile-infant" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/pecarn-febrile-infant</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pecarn-febrile-infant" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pecarn-febrile-infant" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/yale-observation-scale</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/yale-observation-scale" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/yale-observation-scale" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/yale-observation-scale</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/yale-observation-scale" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/yale-observation-scale" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/greulich-pyle</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/greulich-pyle" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/greulich-pyle" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/greulich-pyle</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/greulich-pyle" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/greulich-pyle" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/tanner-whitehouse-3</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/tanner-whitehouse-3" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/tanner-whitehouse-3" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/tanner-whitehouse-3</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/tanner-whitehouse-3" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/tanner-whitehouse-3" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/tanner-staging</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/tanner-staging" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/tanner-staging" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/tanner-staging</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/tanner-staging" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/tanner-staging" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/braden-qd</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/braden-qd" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/braden-qd" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/braden-qd</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/braden-qd" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/braden-qd" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/humpty-dumpty-2</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/humpty-dumpty-2" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/humpty-dumpty-2" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/humpty-dumpty-2</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/humpty-dumpty-2" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/humpty-dumpty-2" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/mchat-rf</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/mchat-rf" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/mchat-rf" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/mchat-rf</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/mchat-rf" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/mchat-rf" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/hjhs-21</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/hjhs-21" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/hjhs-21" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/hjhs-21</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/hjhs-21" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/hjhs-21" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/garcia-alix-ne-rs</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/garcia-alix-ne-rs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/garcia-alix-ne-rs" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/garcia-alix-ne-rs</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/garcia-alix-ne-rs" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/garcia-alix-ne-rs" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/pucai</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pucai" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pucai" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/pucai</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pucai" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pucai" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/pcdai</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pcdai" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pcdai" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/pcdai</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pcdai" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pcdai" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/phoenix-sepsis</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/phoenix-sepsis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/phoenix-sepsis" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/phoenix-sepsis</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/phoenix-sepsis" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/phoenix-sepsis" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/parc</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/parc" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/parc" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/parc</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/parc" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/parc" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/bacterial-meningitis-score</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/bacterial-meningitis-score" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/bacterial-meningitis-score" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/bacterial-meningitis-score</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/bacterial-meningitis-score" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/bacterial-meningitis-score" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/jumpstart</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/jumpstart" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/jumpstart" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/jumpstart</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/jumpstart" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/jumpstart" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/salt-triage</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/salt-triage" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/salt-triage" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/salt-triage</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/salt-triage" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/salt-triage" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/peld</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/peld" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/peld" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/peld</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/peld" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/peld" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/ckid-u25</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/ckid-u25" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/ckid-u25" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/ckid-u25</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/ckid-u25" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/ckid-u25" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/jadas10</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/jadas10" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/jadas10" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/jadas10</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/jadas10" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/jadas10" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/cjadas10</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/cjadas10" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/cjadas10" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/cjadas10</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/cjadas10" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/cjadas10" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/pvas</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pvas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pvas" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/pvas</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pvas" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pvas" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/pednihss</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pednihss" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pednihss" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/pednihss</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/pednihss" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/pednihss" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/modified-bell-nec</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/modified-bell-nec" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/modified-bell-nec" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/modified-bell-nec</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/modified-bell-nec" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/modified-bell-nec" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/snappe-ii</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/snappe-ii" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/snappe-ii" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/snappe-ii</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/snappe-ii" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/snappe-ii" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/crib-ii</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/crib-ii" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/crib-ii" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/crib-ii</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/crib-ii" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/crib-ii" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/nsofa</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/nsofa" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/nsofa" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/nsofa</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/nsofa" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/nsofa" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/ispad-pediatric-dka-severity</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/ispad-pediatric-dka-severity" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/ispad-pediatric-dka-severity" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/ispad-pediatric-dka-severity</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/ispad-pediatric-dka-severity" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/ispad-pediatric-dka-severity" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/c-act</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/c-act" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/c-act" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/c-act</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/c-act" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/c-act" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/track</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/track" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/track" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/track</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/track" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/track" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/asq-suicide-screen</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/asq-suicide-screen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/asq-suicide-screen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/asq-suicide-screen</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/asq-suicide-screen" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/asq-suicide-screen" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/crafft-21</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/crafft-21" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/crafft-21" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/crafft-21</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/crafft-21" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/crafft-21" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/phq-9-adolescent</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/phq-9-adolescent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/phq-9-adolescent" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/phq-9-adolescent</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/phq-9-adolescent" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/phq-9-adolescent" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/gad-7-adolescent</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/gad-7-adolescent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/gad-7-adolescent" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/gad-7-adolescent</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/gad-7-adolescent" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/gad-7-adolescent" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/scoff</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/scoff" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/scoff" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/scoff</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/scoff" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/scoff" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/nichq-vanderbilt</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/nichq-vanderbilt" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/nichq-vanderbilt" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/nichq-vanderbilt</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/nichq-vanderbilt" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/nichq-vanderbilt" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/tools/headsss</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/headsss" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/headsss" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/tools/headsss</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/headsss" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/headsss" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

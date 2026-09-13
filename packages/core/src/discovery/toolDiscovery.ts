@@ -6,16 +6,21 @@ import type {
   ClinicalSpecialty,
   ClinicalToolDiscoveryMetadata,
   ContentReuseStatus,
+  DiscoveryExclusion,
   DiscoveryCalculationAvailability,
+  ExactAgeApplicability,
   InputModality,
   InteractionMode,
-  LongitudinalUse
+  LongitudinalUse,
+  SurfaceStatus
 } from "../types.js";
 
 type Seed = {
+  surfaceStatus?: SurfaceStatus;
   specialties: ClinicalSpecialty[];
   problems: string[];
   ages: AgeGroupTag[];
+  exactAgeApplicability?: ExactAgeApplicability;
   settings: CareSettingTag[];
   functions: ClinicalFunctionTag[];
   modes: InteractionMode[];
@@ -26,26 +31,38 @@ type Seed = {
   risk?: ClinicalRiskTier;
   es?: string[];
   en?: string[];
+  exclusions?: DiscoveryExclusion[];
   compare?: string[];
   related?: string[];
 };
 
-const d = (seed: Seed): ClinicalToolDiscoveryMetadata => ({
+const defaultSurfaceStatus = (
+  calculationAvailability: DiscoveryCalculationAvailability
+): SurfaceStatus => calculationAvailability === "local_planned" ? "draft" : "active";
+
+const d = (seed: Seed): ClinicalToolDiscoveryMetadata => {
+  const calculationAvailability = seed.calc ?? "local_planned";
+
+  return {
+  surfaceStatus: seed.surfaceStatus ?? defaultSurfaceStatus(calculationAvailability),
   specialties: seed.specialties,
   clinicalProblems: seed.problems,
   ageGroups: seed.ages,
+  ...(seed.exactAgeApplicability ? { exactAgeApplicability: seed.exactAgeApplicability } : {}),
   careSettings: seed.settings,
   clinicalFunctions: seed.functions,
   interactionModes: seed.modes,
   longitudinalUse: seed.longitudinal ?? "possible",
   inputModalities: seed.inputs ?? ["clinical_observation"],
-  calculationAvailability: seed.calc ?? "local_planned",
+  calculationAvailability,
   reuseStatus: seed.reuse ?? "unresolved",
   clinicalRiskTier: seed.risk ?? "moderate",
   aliases: { es: seed.es ?? [], en: seed.en ?? [] },
+  exclusions: seed.exclusions ?? [],
   comparisonGroupIds: seed.compare ?? [],
   relatedToolIds: seed.related ?? []
-});
+  };
+};
 
 const neo = ["neonatology"] as ClinicalSpecialty[];
 const ed = ["emergency_medicine"] as ClinicalSpecialty[];
@@ -55,7 +72,7 @@ const neuro = ["neurology"] as ClinicalSpecialty[];
 const pain = ["pain_medicine"] as ClinicalSpecialty[];
 const renal = ["nephrology"] as ClinicalSpecialty[];
 
-export const toolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = {
+const existingToolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = {
   apgar: d({ specialties: neo, problems:["newborn_transition"], ages:["term_newborn","neonate_0_28d"], settings:["delivery_room"], functions:["severity","reference_only"], modes:["calculator","reference_scale"], longitudinal:"supported", risk:"high", calc:"local_active", reuse:"open", es:["apgar","test de apgar"], en:["apgar","apgar score"] }),
   combined_apgar: d({ specialties: neo, problems:["newborn_transition"], ages:["neonate_0_28d"], settings:["delivery_room","nicu"], functions:["reference_only"], modes:["reference_scale"], calc:"blocked_by_evidence", risk:"high", es:["apgar expandido","combined apgar"], en:["combined apgar","expanded apgar"] }),
   silverman_andersen: d({ specialties:[...neo,...resp], problems:["neonatal_respiratory_distress","respiratory_distress"], ages:["preterm","term_newborn","neonate_0_28d"], settings:["delivery_room","newborn_ward","nicu"], functions:["severity","longitudinal_monitoring"], modes:["calculator","reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"local_active", reuse:"open", risk:"high", es:["silverman","silverman-andersen","dificultad respiratoria neonatal"], en:["silverman andersen","neonatal respiratory distress"], compare:["neonatal_respiratory_distress"] }),
@@ -77,7 +94,7 @@ export const toolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = 
   brighton_pews: d({ specialties:[...ed,"general_pediatrics"], problems:["clinical_deterioration"], ages:["all_pediatric"], settings:["inpatient_ward"], functions:["risk_stratification","severity"], modes:["reference_scale"], calc:"blocked_by_rights", reuse:"permission_required", risk:"high", es:["brighton pews"], en:["brighton pews"], compare:["pediatric_early_warning"] }),
   bedside_pews: d({ specialties:[...ed,...picu,"general_pediatrics"], problems:["clinical_deterioration"], ages:["all_pediatric"], settings:["inpatient_ward","picu"], functions:["risk_stratification","severity","longitudinal_monitoring"], modes:["calculator","reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"local_planned", reuse:"open", risk:"high", es:["bedside pews"], en:["bedside pews"], compare:["pediatric_early_warning"] }),
   westley_croup: d({ specialties:[...resp,...ed], problems:["croup","upper_airway_obstruction"], ages:["infant","toddler","preschool","school_age"], settings:["emergency_department","primary_care","inpatient_ward"], functions:["severity"], modes:["calculator","reference_scale"], calc:"local_active", reuse:"open", risk:"high", es:["westley","crup","laringitis"], en:["westley croup","croup"], compare:["croup_severity"] }),
-  pram: d({ specialties:[...resp,...ed], problems:["asthma","acute_asthma"], ages:["preschool","school_age","adolescent"], settings:["emergency_department","inpatient_ward"], functions:["severity","treatment_response"], modes:["calculator","reference_scale"], longitudinal:"supported", calc:"local_active", reuse:"open", risk:"high", inputs:["clinical_observation","vital_signs","physical_examination"], es:["pram","asma aguda","crisis asmatica"], en:["pram","acute asthma"], compare:["acute_asthma_severity"], related:["pass"] }),
+  pram: d({ specialties:[...resp,...ed], problems:["asthma","acute_asthma"], ages:["preschool","school_age","adolescent"], exactAgeApplicability:{ minimumAgeDays:730.5, maximumAgeDaysExclusive:6574.5 }, settings:["emergency_department","inpatient_ward"], functions:["severity","treatment_response"], modes:["calculator","reference_scale"], longitudinal:"supported", calc:"local_active", reuse:"open", risk:"high", inputs:["clinical_observation","vital_signs","physical_examination"], es:["pram","asma aguda","crisis asmatica"], en:["pram","acute asthma"], compare:["acute_asthma_severity"], related:["pass"] }),
   rdai: d({ specialties:[...resp,...ed], problems:["bronchiolitis","wheezing"], ages:["infant","toddler"], settings:["emergency_department","inpatient_ward"], functions:["severity"], modes:["reference_scale"], calc:"blocked_by_rights", reuse:"permission_required", es:["rdai","bronquiolitis"], en:["rdai","respiratory distress assessment instrument"], compare:["bronchiolitis_severity"], related:["brosjod"] }),
   brosjod: d({ specialties:[...resp,...ed], problems:["bronchiolitis"], ages:["infant"], settings:["emergency_department","inpatient_ward"], functions:["severity","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"supported", calc:"blocked_by_rights", reuse:"permission_required", es:["brosjod","bronquiolitis"], en:["brosjod bronchiolitis"], compare:["bronchiolitis_severity"], related:["rdai"] }),
   pass: d({ specialties:[...resp,...ed], problems:["asthma","acute_asthma"], ages:["toddler","preschool","school_age","adolescent"], settings:["emergency_department"], functions:["severity"], modes:["calculator","reference_scale"], calc:"local_planned", reuse:"open", risk:"high", es:["pass","asma"], en:["pediatric asthma severity score","pass"], compare:["acute_asthma_severity"], related:["pram"] }),
@@ -90,11 +107,11 @@ export const toolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = 
   pediatric_appendicitis_score: d({ specialties:ed, problems:["appendicitis","abdominal_pain"], ages:["school_age","adolescent","age_defined_by_tool"], settings:["emergency_department"], functions:["risk_stratification","diagnostic_support"], modes:["calculator","clinical_rule"], calc:"local_active", reuse:"open", risk:"high", es:["pas","score apendicitis pediatrica"], en:["pediatric appendicitis score","pas"], compare:["appendicitis_risk"] }),
   gorelick_dehydration: d({ specialties:[...ed,"gastroenterology"], problems:["dehydration","gastroenteritis"], ages:["infant","toddler","preschool"], settings:["emergency_department"], functions:["severity","risk_stratification"], modes:["calculator","reference_scale"], calc:"local_planned", reuse:"open", risk:"high", es:["gorelick","deshidratacion"], en:["gorelick dehydration"], compare:["pediatric_dehydration"], related:["clinical_dehydration_scale"] }),
   pediatric_burn_tbsa: d({ specialties:[...ed,"burns","trauma"], problems:["burns","tbsa"], ages:["all_pediatric"], settings:["emergency_department","prehospital","inpatient_ward"], functions:["severity","risk_stratification"], modes:["calculator","visual_atlas"], calc:"local_active", reuse:"open", risk:"critical", inputs:["physical_examination"], es:["lund browder","superficie corporal quemada","scq"], en:["pediatric tbsa","lund browder","burn surface area"], compare:["burn_assessment"] }),
-  pecarn_tbi_under_2: d({ specialties:[...ed,"trauma"], problems:["traumatic_brain_injury","head_trauma"], ages:["infant","toddler"], settings:["emergency_department"], functions:["risk_stratification","diagnostic_support"], modes:["clinical_rule","calculator"], longitudinal:"not_applicable", calc:"local_active", reuse:"open", risk:"critical", es:["pecarn tce menor 2","tce lactante"], en:["pecarn tbi under 2","head injury"], compare:["pediatric_head_injury"], related:["pecarn_tbi_2_or_more","catch_tbi","chalice_tbi"] }),
-  pecarn_tbi_2_or_more: d({ specialties:[...ed,"trauma"], problems:["traumatic_brain_injury","head_trauma"], ages:["toddler","preschool","school_age","adolescent"], settings:["emergency_department"], functions:["risk_stratification","diagnostic_support"], modes:["clinical_rule","calculator"], longitudinal:"not_applicable", calc:"local_active", reuse:"open", risk:"critical", es:["pecarn tce mayor 2","tce"], en:["pecarn tbi 2 or more","head injury"], compare:["pediatric_head_injury"], related:["pecarn_tbi_under_2","catch_tbi","chalice_tbi"] }),
+  pecarn_tbi_under_2: d({ specialties:[...ed,"trauma"], problems:["traumatic_brain_injury","head_trauma"], ages:["infant","toddler"], exactAgeApplicability:{ maximumAgeDaysExclusive:730.5 }, settings:["emergency_department"], functions:["risk_stratification","diagnostic_support"], modes:["clinical_rule","calculator"], longitudinal:"not_applicable", calc:"local_active", reuse:"open", risk:"critical", es:["pecarn tce menor 2","tce lactante"], en:["pecarn tbi under 2","head injury"], compare:["pediatric_head_injury"], related:["pecarn_tbi_2_or_more","catch_tbi","chalice_tbi"] }),
+  pecarn_tbi_2_or_more: d({ specialties:[...ed,"trauma"], problems:["traumatic_brain_injury","head_trauma"], ages:["toddler","preschool","school_age","adolescent"], exactAgeApplicability:{ minimumAgeDays:730.5 }, settings:["emergency_department"], functions:["risk_stratification","diagnostic_support"], modes:["clinical_rule","calculator"], longitudinal:"not_applicable", calc:"local_active", reuse:"open", risk:"critical", es:["pecarn tce mayor 2","tce"], en:["pecarn tbi 2 or more","head injury"], compare:["pediatric_head_injury"], related:["pecarn_tbi_under_2","catch_tbi","chalice_tbi"] }),
   catch_tbi: d({ specialties:[...ed,"trauma"], problems:["traumatic_brain_injury","head_trauma"], ages:["all_pediatric"], settings:["emergency_department"], functions:["risk_stratification","diagnostic_support"], modes:["clinical_rule","calculator"], longitudinal:"not_applicable", calc:"local_active", reuse:"open", risk:"critical", es:["catch","tce"], en:["catch head injury"], compare:["pediatric_head_injury"] }),
   chalice_tbi: d({ specialties:[...ed,"trauma"], problems:["traumatic_brain_injury","head_trauma"], ages:["all_pediatric"], settings:["emergency_department"], functions:["risk_stratification","diagnostic_support"], modes:["clinical_rule","calculator"], longitudinal:"not_applicable", calc:"local_active", reuse:"open", risk:"critical", es:["chalice","tce"], en:["chalice head injury"], compare:["pediatric_head_injury"] }),
-  sipa: d({ specialties:[...ed,"trauma"], problems:["shock","trauma"], ages:["preschool","school_age","adolescent"], settings:["emergency_department","prehospital"], functions:["risk_stratification","severity"], modes:["calculator"], longitudinal:"supported", calc:"local_active", reuse:"open", risk:"critical", inputs:["vital_signs"], es:["sipa","indice shock pediatrico"], en:["shock index pediatric adjusted","sipa"], compare:["pediatric_shock"] }),
+  sipa: d({ specialties:[...ed,"trauma"], problems:["shock","trauma"], ages:["preschool","school_age","adolescent"], exactAgeApplicability:{ minimumAgeDays:1461, maximumAgeDaysExclusive:6209.25 }, settings:["emergency_department","prehospital"], functions:["risk_stratification","severity"], modes:["calculator"], longitudinal:"supported", calc:"local_active", reuse:"open", risk:"critical", inputs:["vital_signs"], es:["sipa","indice shock pediatrico"], en:["shock index pediatric adjusted","sipa"], compare:["pediatric_shock"] }),
   regional_sepsis_scores: d({ specialties:[...ed,...picu,"infectious_disease"], problems:["sepsis"], ages:["all_pediatric"], settings:["emergency_department","picu"], functions:["risk_stratification","severity"], modes:["reference_scale"], calc:"blocked_by_evidence", risk:"critical", es:["sepsis pediatrica"], en:["pediatric sepsis score"] }),
   qtc_bazett: d({ specialties:["cardiology"], problems:["prolonged_qt","ecg"], ages:["all_pediatric"], settings:["emergency_department","outpatient_clinic","inpatient_ward"], functions:["diagnostic_support"], modes:["calculator"], calc:"local_active", reuse:"public_domain", inputs:["ecg"], es:["qtc bazett","qt corregido"], en:["bazett qtc"], compare:["qtc_formula"] }),
   qtc_fridericia: d({ specialties:["cardiology"], problems:["prolonged_qt","ecg"], ages:["all_pediatric"], settings:["emergency_department","outpatient_clinic","inpatient_ward"], functions:["diagnostic_support"], modes:["calculator"], calc:"local_active", reuse:"public_domain", inputs:["ecg"], es:["qtc fridericia"], en:["fridericia qtc"], compare:["qtc_formula"] }),
@@ -139,12 +156,122 @@ export const toolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = 
   adolescent_behavior_risk: d({ specialties:["adolescent_medicine","behavioral_health"], problems:["psychosocial_risk","risk_behavior"], ages:["adolescent"], settings:["primary_care","outpatient_clinic"], functions:["psychosocial_screening","screening"], modes:["clinical_framework"], calc:"blocked_by_evidence", reuse:"unresolved", risk:"high", es:["conductas de riesgo adolescente"], en:["adolescent risk behavior"] })
 };
 
+const priorityExpansionDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = {
+  capd: d({ specialties:picu, problems:["delirium"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["picu","inpatient_ward"], functions:["delirium_assessment","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", inputs:["clinical_observation"], es:["capd","delirium pediatrico"], en:["capd","pediatric delirium"], compare:["pediatric_delirium"], related:["sos_pd","pcam_icu","pscam_icu"] }),
+  wat_1: d({ specialties:picu, problems:["withdrawal","sedation"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["picu","inpatient_ward"], functions:["withdrawal_assessment","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", inputs:["clinical_observation"], es:["wat-1","abstinencia sedacion"], en:["wat-1","sedation withdrawal"], compare:["pediatric_withdrawal"], related:["sbs"] }),
+  sbs: d({ specialties:picu, problems:["sedation","agitation"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["picu"], functions:["sedation_assessment","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", inputs:["clinical_observation"], es:["sbs","sedacion pediatrica"], en:["sbs","pediatric sedation"], compare:["pediatric_sedation"], related:["wat_1"] }),
+  sos_pd: d({ specialties:picu, problems:["delirium"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["picu","inpatient_ward"], functions:["delirium_assessment","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", inputs:["clinical_observation"], es:["sos-pd","delirium pediatrico"], en:["sos-pd","pediatric delirium"], compare:["pediatric_delirium"], related:["capd","pcam_icu","pscam_icu"] }),
+  pcam_icu: d({ specialties:picu, problems:["delirium"], ages:["school_age","adolescent"], settings:["picu"], functions:["delirium_assessment"], modes:["reference_scale"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", inputs:["clinical_observation"], es:["pcam-icu","delirium ucip"], en:["pcam-icu","picu delirium"], compare:["pediatric_delirium"], related:["capd","pscam_icu","sos_pd"] }),
+  pscam_icu: d({ specialties:picu, problems:["delirium"], ages:["infant","toddler","preschool"], settings:["picu"], functions:["delirium_assessment"], modes:["reference_scale"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", inputs:["clinical_observation"], es:["pscam-icu","delirium ninos pequenos"], en:["pscam-icu","young child delirium"], compare:["pediatric_delirium"], related:["capd","pcam_icu","sos_pd"] }),
+  step_by_step: d({ specialties:[...ed,"infectious_disease"], problems:["fever","febrile_infant","invasive_bacterial_infection"], ages:["young_infant_0_60d"], settings:["emergency_department"], functions:["risk_stratification"], modes:["clinical_rule"], longitudinal:"not_applicable", calc:"blocked_by_evidence", reuse:"unresolved", risk:"critical", inputs:["clinical_observation","urinalysis","laboratory"], es:["step by step","lactante febril"], en:["step-by-step","febrile infant"], compare:["febrile_infant"], related:["pecarn_febrile_infant","yos"] }),
+  pecarn_febrile_infant: d({ specialties:[...ed,"infectious_disease"], problems:["fever","febrile_infant","invasive_bacterial_infection"], ages:["young_infant_0_60d"], exactAgeApplicability:{ maximumAgeDaysExclusive:61 }, settings:["emergency_department"], functions:["risk_stratification"], modes:["clinical_rule"], longitudinal:"not_applicable", calc:"blocked_by_evidence", reuse:"unresolved", risk:"critical", inputs:["clinical_observation","urinalysis","laboratory"], es:["pecarn lactante febril","fiebre menor 60 dias"], en:["pecarn febrile infant","fever under 60 days"], compare:["febrile_infant"], related:["step_by_step","yos"] }),
+  yos: d({ specialties:[...ed,"infectious_disease"], problems:["fever","febrile_infant"], ages:["infant","toddler","preschool"], settings:["emergency_department","primary_care"], functions:["severity","reference_only"], modes:["reference_scale"], calc:"blocked_by_evidence", reuse:"unresolved", risk:"high", inputs:["clinical_observation"], es:["yos","escala observacion yale"], en:["yos","yale observation scale"], compare:["febrile_infant"], related:["step_by_step","pecarn_febrile_infant"] }),
+  greulich_pyle: d({ specialties:["growth_development","endocrinology"], problems:["bone_age","growth"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["outpatient_clinic","specialty_clinic"], functions:["maturity_assessment"], modes:["visual_atlas","reference_scale"], longitudinal:"possible", calc:"external_official", reuse:"external_only", risk:"moderate", inputs:["imaging"], es:["greulich-pyle","edad osea"], en:["greulich-pyle","bone age"], compare:["bone_age"], related:["tw3"] }),
+  tw3: d({ specialties:["growth_development","endocrinology"], problems:["bone_age","growth"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["outpatient_clinic","specialty_clinic"], functions:["maturity_assessment"], modes:["visual_atlas","reference_scale"], longitudinal:"possible", calc:"external_official", reuse:"external_only", risk:"moderate", inputs:["imaging"], es:["tw3","tanner whitehouse","edad osea"], en:["tw3","tanner-whitehouse","bone age"], compare:["bone_age"], related:["greulich_pyle"] }),
+  tanner_staging: d({ specialties:["growth_development","endocrinology"], problems:["pubertal_development"], ages:["school_age","adolescent"], settings:["primary_care","outpatient_clinic","specialty_clinic"], functions:["staging","physical_examination"], modes:["reference_scale","examination_framework"], calc:"not_applicable", reuse:"open", risk:"moderate", inputs:["physical_examination"], es:["tanner","estadios puberales"], en:["tanner staging","sexual maturity rating"], compare:["pubertal_development"] }),
+  braden_qd: d({ specialties:[...picu,"patient_safety"], problems:["pressure_injury_risk"], ages:["all_pediatric"], settings:["picu","inpatient_ward"], functions:["risk_stratification"], modes:["reference_scale"], longitudinal:"supported", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", inputs:["clinical_observation"], es:["braden qd","lesion por presion"], en:["braden qd","pressure injury"], compare:["patient_safety"] }),
+  humpty_dumpty_2: d({ specialties:["patient_safety","general_pediatrics"], problems:["fall_risk"], ages:["all_pediatric"], settings:["inpatient_ward","picu"], functions:["risk_stratification"], modes:["licensed_external_tool","reference_scale"], calc:"external_official", reuse:"external_only", risk:"high", inputs:["history","clinical_observation"], es:["humpty dumpty","riesgo caidas"], en:["humpty dumpty","fall risk"], compare:["patient_safety"] }),
+  mchat_rf: d({ specialties:["developmental_pediatrics","behavioral_health"], problems:["autism_screening","developmental_screening"], ages:["toddler"], settings:["primary_care","outpatient_clinic"], functions:["screening"], modes:["licensed_external_tool","clinical_screen"], calc:"external_official", reuse:"external_only", risk:"high", inputs:["questionnaire_parent_report"], es:["m-chat-r/f","cribado autismo"], en:["m-chat-r/f","autism screening"], compare:["developmental_assessment"] })
+};
+
+const activeReference = (
+  seed: Omit<Seed, "modes"> & { modes?: InteractionMode[] }
+): ClinicalToolDiscoveryMetadata =>
+  d({
+    ...seed,
+    modes: seed.modes ?? ["reference_scale"],
+    calc: seed.calc ?? "blocked_by_rights",
+    reuse: seed.reuse ?? "permission_required",
+    risk: seed.risk ?? "high"
+  });
+
+const targetExpansionDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = {
+  hjhs_21: activeReference({ specialties:["hematology"], problems:["hemophilic_arthropathy"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["functional_status","longitudinal_monitoring"], modes:["licensed_external_tool","reference_scale"], longitudinal:"primary", calc:"external_official", reuse:"external_only", es:["hjhs","salud articular hemofilia"], en:["hjhs","hemophilia joint health"] }),
+  garcia_alix_ners: activeReference({ specialties:[...neo,...neuro], problems:["neonatal_encephalopathy","hypoxic_ischemic_encephalopathy"], ages:["term_newborn","neonate_0_28d"], settings:["nicu"], functions:["severity","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_evidence", reuse:"unresolved", es:["garcia-alix","encefalopatia neonatal"], en:["garcia-alix","neonatal encephalopathy"], compare:["neonatal_encephalopathy"], related:["sarnat","thompson_hie"] }),
+  pucai: activeReference({ specialties:["gastroenterology","inflammatory_bowel_disease"], problems:["ulcerative_colitis","inflammatory_bowel_disease"], ages:["school_age","adolescent"], settings:["outpatient_clinic","specialty_clinic"], functions:["disease_activity","longitudinal_monitoring"], modes:["calculator","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_evidence", reuse:"unresolved", es:["pucai","colitis ulcerosa pediatrica"], en:["pucai","pediatric ulcerative colitis"], compare:["ibd_activity"], related:["pcdai"] }),
+  pcdai: activeReference({ specialties:["gastroenterology","inflammatory_bowel_disease"], problems:["crohn_disease","inflammatory_bowel_disease"], ages:["school_age","adolescent"], settings:["outpatient_clinic","specialty_clinic"], functions:["disease_activity","longitudinal_monitoring"], modes:["calculator","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_evidence", reuse:"unresolved", es:["pcdai","actividad crohn pediatrico"], en:["pcdai","pediatric crohn activity"], compare:["ibd_activity"], related:["pucai"] }),
+  phoenix_sepsis: activeReference({ specialties:[...ed,...picu,"infectious_disease"], problems:["sepsis","organ_dysfunction"], ages:["all_pediatric"], settings:["emergency_department","picu"], functions:["organ_dysfunction","severity"], modes:["reference_scale","clinical_framework"], calc:"blocked_by_evidence", reuse:"unresolved", risk:"critical", inputs:["vital_signs","laboratory","clinical_observation"], es:["phoenix","sepsis pediatrica"], en:["phoenix sepsis","pediatric sepsis"] }),
+  parc: activeReference({ specialties:ed, problems:["appendicitis","abdominal_pain"], ages:["school_age","adolescent"], settings:["emergency_department"], functions:["risk_stratification","diagnostic_support"], modes:["clinical_rule"], calc:"blocked_by_evidence", reuse:"unresolved", risk:"critical", inputs:["history","laboratory","physical_examination"], es:["parc","riesgo apendicitis"], en:["parc","appendicitis risk"], compare:["appendicitis_risk"], related:["pediatric_appendicitis_score"] }),
+  bacterial_meningitis_score: activeReference({ specialties:[...ed,"infectious_disease"], problems:["meningitis"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["emergency_department","inpatient_ward"], functions:["risk_stratification"], modes:["clinical_rule"], calc:"blocked_by_evidence", reuse:"unresolved", risk:"critical", inputs:["laboratory","clinical_observation"], es:["bms","meningitis bacteriana"], en:["bacterial meningitis score","bms"] }),
+  jumpstart: activeReference({ specialties:["disaster_medicine","emergency_medicine"], problems:["mass_casualty","triage"], ages:["all_pediatric"], settings:["mass_casualty","prehospital"], functions:["triage"], modes:["clinical_framework"], calc:"external_official", reuse:"external_only", risk:"critical", es:["jumpstart","triaje pediatrico"], en:["jumpstart","pediatric triage"], compare:["mass_casualty_triage"], related:["salt_triage"] }),
+  salt_triage: activeReference({ specialties:["disaster_medicine","emergency_medicine"], problems:["mass_casualty","triage"], ages:["all_pediatric"], settings:["mass_casualty","prehospital"], functions:["triage"], modes:["clinical_framework"], calc:"external_official", reuse:"external_only", risk:"critical", es:["salt","triaje incidentes multiples victimas"], en:["salt","mass casualty triage"], compare:["mass_casualty_triage"], related:["jumpstart"] }),
+  peld: activeReference({ specialties:["hepatology","transplant_medicine","gastroenterology"], problems:["liver_failure","transplant_priority"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["specialty_clinic","inpatient_ward"], functions:["prognosis","risk_stratification"], modes:["reference_scale"], calc:"external_official", reuse:"external_only", risk:"critical", inputs:["laboratory"], es:["peld","prioridad trasplante hepatico"], en:["peld","pediatric liver transplant"] }),
+  ckid_u25: activeReference({ specialties:renal, problems:["kidney_function","chronic_kidney_disease"], ages:["adolescent","young_adult_transition"], settings:["outpatient_clinic","specialty_clinic"], functions:["diagnostic_support","longitudinal_monitoring"], modes:["calculator"], longitudinal:"primary", calc:"blocked_by_evidence", reuse:"unresolved", inputs:["laboratory","growth_measurements"], es:["ckid u25","filtrado glomerular"], en:["ckid u25","egfr"] }),
+  jadas10: activeReference({ specialties:["rheumatology"], problems:["juvenile_idiopathic_arthritis"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["disease_activity","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", es:["jadas10","artritis idiopatica juvenil"], en:["jadas10","juvenile idiopathic arthritis"], compare:["jia_activity"], related:["cjadas10"] }),
+  cjadas10: activeReference({ specialties:["rheumatology"], problems:["juvenile_idiopathic_arthritis"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["disease_activity","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", es:["cjadas10","artritis idiopatica juvenil"], en:["cjadas10","juvenile idiopathic arthritis"], compare:["jia_activity"], related:["jadas10"] }),
+  pvas: activeReference({ specialties:["rheumatology"], problems:["systemic_vasculitis"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["disease_activity","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", es:["pvas","vasculitis pediatrica"], en:["pvas","pediatric vasculitis"] }),
+  pednihss: activeReference({ specialties:[...neuro,...ed], problems:["stroke"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["emergency_department","picu"], functions:["severity"], modes:["reference_scale"], calc:"blocked_by_rights", reuse:"permission_required", risk:"critical", inputs:["physical_examination"], es:["pednihss","ictus pediatrico"], en:["pednihss","pediatric stroke"] }),
+  modified_bell_nec: activeReference({ specialties:neo, problems:["necrotizing_enterocolitis"], ages:["preterm","term_newborn","neonate_0_28d"], settings:["nicu"], functions:["staging","severity"], modes:["reference_scale","longitudinal_staging"], longitudinal:"supported", calc:"blocked_by_rights", reuse:"permission_required", risk:"critical", inputs:["clinical_observation","laboratory","imaging"], es:["bell","enterocolitis necrosante"], en:["modified bell","necrotizing enterocolitis"] }),
+  snappii: activeReference({ specialties:neo, problems:["neonatal_severity"], ages:["preterm","term_newborn","neonate_0_28d"], settings:["nicu"], functions:["severity","mortality_risk"], modes:["reference_scale"], calc:"blocked_by_rights", reuse:"permission_required", risk:"critical", inputs:["vital_signs","laboratory"], es:["snappe-ii","gravedad neonatal"], en:["snappe-ii","neonatal severity"] }),
+  crib_ii: activeReference({ specialties:neo, problems:["neonatal_severity"], ages:["preterm","term_newborn"], settings:["nicu"], functions:["mortality_risk","severity"], modes:["reference_scale"], calc:"blocked_by_rights", reuse:"permission_required", risk:"critical", inputs:["vital_signs","laboratory"], es:["crib ii","prematuro"], en:["crib ii","preterm"] }),
+  nsofa: activeReference({ specialties:neo, problems:["neonatal_sepsis","organ_dysfunction"], ages:["preterm","term_newborn","neonate_0_28d"], settings:["nicu"], functions:["organ_dysfunction","severity"], modes:["reference_scale"], calc:"blocked_by_evidence", reuse:"unresolved", risk:"critical", inputs:["vital_signs","laboratory"], es:["nsofa","sepsis neonatal"], en:["nsofa","neonatal sepsis"] }),
+  ispad_dka: activeReference({ specialties:["endocrinology","intensive_care"], problems:["diabetic_ketoacidosis"], ages:["school_age","adolescent"], settings:["emergency_department","picu"], functions:["severity"], modes:["clinical_framework","reference_scale"], calc:"external_official", reuse:"external_only", risk:"critical", inputs:["blood_gas","laboratory","vital_signs"], es:["ispad dka","cetoacidosis diabetica"], en:["ispad dka","diabetic ketoacidosis"] }),
+  c_act: activeReference({ specialties:resp, problems:["asthma"], ages:["school_age"], settings:["outpatient_clinic","primary_care"], functions:["longitudinal_monitoring"], modes:["licensed_external_tool","longitudinal_monitoring"], longitudinal:"primary", calc:"external_official", reuse:"external_only", inputs:["questionnaire_self_report","questionnaire_parent_report"], es:["c-act","control asma infantil"], en:["c-act","childhood asthma control"], compare:["asthma_control"], related:["track"] }),
+  track: activeReference({ specialties:resp, problems:["asthma"], ages:["toddler","preschool"], settings:["outpatient_clinic","primary_care"], functions:["longitudinal_monitoring"], modes:["licensed_external_tool","longitudinal_monitoring"], longitudinal:"primary", calc:"external_official", reuse:"external_only", inputs:["questionnaire_parent_report"], es:["track","control asma preescolar"], en:["track","preschool asthma control"], compare:["asthma_control"], related:["c_act"] }),
+  asq: activeReference({ specialties:["adolescent_medicine","behavioral_health"], problems:["suicide_risk"], ages:["adolescent"], settings:["emergency_department","primary_care","outpatient_clinic"], functions:["screening"], modes:["clinical_screen","licensed_external_tool"], calc:"external_official", reuse:"external_only", risk:"critical", inputs:["questionnaire_self_report"], es:["asq","riesgo suicida"], en:["asq","suicide screen"] }),
+  crafft_21: activeReference({ specialties:["adolescent_medicine","behavioral_health"], problems:["substance_use"], ages:["adolescent"], settings:["primary_care","outpatient_clinic","emergency_department"], functions:["screening"], modes:["clinical_screen","licensed_external_tool"], calc:"external_official", reuse:"external_only", inputs:["questionnaire_self_report"], es:["crafft","consumo sustancias"], en:["crafft","substance use"] }),
+  phq9_adolescent: activeReference({ specialties:["adolescent_medicine","behavioral_health"], problems:["depression"], ages:["adolescent"], settings:["primary_care","outpatient_clinic"], functions:["screening"], modes:["clinical_screen","licensed_external_tool"], calc:"external_official", reuse:"external_only", inputs:["questionnaire_self_report"], es:["phq-9","depresion adolescente"], en:["phq-9","adolescent depression"] }),
+  gad7_adolescent: activeReference({ specialties:["adolescent_medicine","behavioral_health"], problems:["anxiety"], ages:["adolescent"], settings:["primary_care","outpatient_clinic"], functions:["screening"], modes:["clinical_screen","licensed_external_tool"], calc:"external_official", reuse:"external_only", inputs:["questionnaire_self_report"], es:["gad-7","ansiedad adolescente"], en:["gad-7","adolescent anxiety"] }),
+  scoff: activeReference({ specialties:["adolescent_medicine","behavioral_health"], problems:["eating_disorder"], ages:["adolescent"], settings:["primary_care","outpatient_clinic"], functions:["screening"], modes:["clinical_screen","licensed_external_tool"], calc:"external_official", reuse:"external_only", inputs:["questionnaire_self_report"], es:["scoff","trastorno conducta alimentaria"], en:["scoff","eating disorder"] }),
+  vanderbilt: activeReference({ specialties:["developmental_pediatrics","behavioral_health"], problems:["adhd"], ages:["school_age","adolescent"], settings:["primary_care","outpatient_clinic"], functions:["screening"], modes:["licensed_external_tool","clinical_screen"], calc:"external_official", reuse:"external_only", inputs:["questionnaire_parent_report","questionnaire_clinician_report"], es:["vanderbilt","tdah"], en:["vanderbilt","adhd"] }),
+  headsss: activeReference({ specialties:["adolescent_medicine","behavioral_health"], problems:["psychosocial_risk"], ages:["adolescent"], settings:["primary_care","outpatient_clinic"], functions:["psychosocial_screening"], modes:["clinical_framework"], calc:"not_applicable", reuse:"open", inputs:["history"], es:["headsss","entrevista adolescente"], en:["headsss","adolescent interview"] })
+};
+
+export const toolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = {
+  ...existingToolDiscoveryById,
+  ...priorityExpansionDiscoveryById,
+  ...targetExpansionDiscoveryById
+};
+
 export const getToolDiscovery = (toolId: string): ClinicalToolDiscoveryMetadata | undefined =>
   toolDiscoveryById[toolId];
 
+export const clinicalComparisonGroups = {
+  acute_asthma_severity: { id: "acute_asthma_severity" },
+  asthma_control: { id: "asthma_control" },
+  appendicitis_risk: { id: "appendicitis_risk" },
+  bone_age: { id: "bone_age" },
+  bronchiolitis_severity: { id: "bronchiolitis_severity" },
+  burn_assessment: { id: "burn_assessment" },
+  consciousness: { id: "consciousness" },
+  croup_severity: { id: "croup_severity" },
+  developmental_assessment: { id: "developmental_assessment" },
+  febrile_infant: { id: "febrile_infant" },
+  gestational_age_assessment: { id: "gestational_age_assessment" },
+  growth_reference: { id: "growth_reference" },
+  ibd_activity: { id: "ibd_activity" },
+  jia_activity: { id: "jia_activity" },
+  mass_casualty_triage: { id: "mass_casualty_triage" },
+  neonatal_encephalopathy: { id: "neonatal_encephalopathy" },
+  neonatal_hyperbilirubinemia: { id: "neonatal_hyperbilirubinemia" },
+  neonatal_pain: { id: "neonatal_pain" },
+  neonatal_respiratory_distress: { id: "neonatal_respiratory_distress" },
+  neonatal_sedation: { id: "neonatal_sedation" },
+  neonatal_withdrawal: { id: "neonatal_withdrawal" },
+  nutrition_screening: { id: "nutrition_screening" },
+  pediatric_aki: { id: "pediatric_aki" },
+  pediatric_dehydration: { id: "pediatric_dehydration" },
+  pediatric_early_warning: { id: "pediatric_early_warning" },
+  pediatric_egfr: { id: "pediatric_egfr" },
+  pediatric_head_injury: { id: "pediatric_head_injury" },
+  pediatric_pain: { id: "pediatric_pain" },
+  pediatric_delirium: { id: "pediatric_delirium" },
+  pediatric_sedation: { id: "pediatric_sedation" },
+  pediatric_shock: { id: "pediatric_shock" },
+  pediatric_withdrawal: { id: "pediatric_withdrawal" },
+  patient_safety: { id: "patient_safety" },
+  picu_mortality: { id: "picu_mortality" },
+  picu_organ_dysfunction: { id: "picu_organ_dysfunction" },
+  preterm_growth: { id: "preterm_growth" },
+  pubertal_development: { id: "pubertal_development" },
+  qtc_formula: { id: "qtc_formula" },
+  respiratory_mortality: { id: "respiratory_mortality" }
+} as const;
+
 export const discoveryValues = {
   specialties: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.specialties))].sort(),
-  clinicalProblems: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.clinicalProblems))].sort(),\n  ageGroups: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.ageGroups))].sort(),
+  clinicalProblems: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.clinicalProblems))].sort(),
+  ageGroups: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.ageGroups))].sort(),
   careSettings: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.careSettings))].sort(),
   clinicalFunctions: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.clinicalFunctions))].sort(),
   interactionModes: [...new Set(Object.values(toolDiscoveryById).flatMap((item) => item.interactionModes))].sort()

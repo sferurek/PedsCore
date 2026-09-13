@@ -17,7 +17,7 @@ https://peds-core.vercel.app/
 
 ## Estado Alpha Actual
 
-- 81 herramientas pediátricas y neonatales catalogadas.
+- 125 herramientas pediátricas y neonatales catalogadas.
 - 21 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
 - 4 entradas WHO Growth parcialmente implementadas: módulo central, percentiles WHO, preset IMC y preset perímetro craneal.
 - Web ES/EN desplegada en Vercel.

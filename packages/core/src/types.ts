@@ -147,6 +147,17 @@ export type ContentReuseStatus =
 
 export type ClinicalRiskTier = "low" | "moderate" | "high" | "critical";
 
+export type SurfaceStatus = "active" | "draft" | "blocked" | "deprecated";
+
+export interface ExactAgeApplicability {
+  minimumAgeDays?: number;
+  maximumAgeDaysExclusive?: number;
+}
+
+export interface DiscoveryExclusion {
+  reason: LocalizedText;
+}
+
 export type InputModality =
   | "clinical_observation"
   | "history"
@@ -165,9 +176,11 @@ export type InputModality =
   | "functional_test";
 
 export interface ClinicalToolDiscoveryMetadata {
+  surfaceStatus: SurfaceStatus;
   specialties: ClinicalSpecialty[];
   clinicalProblems: string[];
   ageGroups: AgeGroupTag[];
+  exactAgeApplicability?: ExactAgeApplicability;
   careSettings: CareSettingTag[];
   clinicalFunctions: ClinicalFunctionTag[];
   interactionModes: InteractionMode[];
@@ -177,6 +190,7 @@ export interface ClinicalToolDiscoveryMetadata {
   reuseStatus: ContentReuseStatus;
   clinicalRiskTier: ClinicalRiskTier;
   aliases: Record<Language, string[]>;
+  exclusions: DiscoveryExclusion[];
   comparisonGroupIds: string[];
   relatedToolIds: string[];
 }

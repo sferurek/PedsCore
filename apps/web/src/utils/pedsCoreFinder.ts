@@ -101,21 +101,22 @@ const parseAgeDays = (query: string): number | undefined => {
 
 const strictAgeGate = (
   toolId: string,
-  ageDays?: number
+  ageDays: number | undefined,
+  language: Language
 ): { compatible: boolean; reason?: string } => {
   if (ageDays === undefined) return { compatible: true };
-  const years = ageDays / 365.25;
-  if (toolId === "pram" && (years < 2 || years >= 18)) {
-    return { compatible: false, reason: "PRAM está validada para 2 a <18 años." };
-  }
-  if (toolId === "sipa" && (years < 4 || years >= 17)) {
-    return { compatible: false, reason: "SIPA en PedsCore se limita a 4–16 años." };
-  }
-  if (toolId === "pecarn_tbi_under_2" && years >= 2) {
-    return { compatible: false, reason: "La rama PECARN <2 años no corresponde a esta edad." };
-  }
-  if (toolId === "pecarn_tbi_2_or_more" && years < 2) {
-    return { compatible: false, reason: "La rama PECARN ≥2 años no corresponde a esta edad." };
+  const applicability = getToolDiscovery(toolId)?.exactAgeApplicability;
+  if (!applicability) return { compatible: true };
+
+  const belowMinimum = applicability.minimumAgeDays !== undefined && ageDays < applicability.minimumAgeDays;
+  const aboveMaximum = applicability.maximumAgeDaysExclusive !== undefined && ageDays >= applicability.maximumAgeDaysExclusive;
+  if (belowMinimum || aboveMaximum) {
+    return {
+      compatible: false,
+      reason: language === "es"
+        ? "La edad indicada queda fuera de la aplicabilidad definida para esta herramienta."
+        : "The stated age is outside this tool's defined applicability."
+    };
   }
   return { compatible: true };
 };
@@ -191,7 +192,7 @@ export const runPedsCoreFinder = (
       const discovery = getToolDiscovery(tool.id);
       if (!discovery) return null;
 
-      const gate = strictAgeGate(tool.id, ageDays);
+      const gate = strictAgeGate(tool.id, ageDays, language);
       const problemMatch = discovery.clinicalProblems.some((problem) => problems.includes(problem));
       const aliases = [...discovery.aliases.es, ...discovery.aliases.en].map(strip);
       const aliasMatch = aliases.some((alias) => alias && (normalized.includes(alias) || alias.includes(normalized)));
