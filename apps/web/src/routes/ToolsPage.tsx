@@ -164,6 +164,9 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
         </div>
 
         <div className="quick-filter-row" aria-label={t.tools.quickFilters}>
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ status: "active" })}>
+            {language === "es" ? "Disponibles" : "Available"}
+          </button>
           <button className="quick-filter-chip" type="button" onClick={() => setQuick({ specialty: "emergency_medicine" })}>
             {language === "es" ? "Urgencias" : "Emergency"}
           </button>
