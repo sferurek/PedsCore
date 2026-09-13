@@ -125,7 +125,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
 
   return (
     <div className={isCanonical ? "tool-page atlas-canonical" : "tool-page"}>
-      <nav className="atlas-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}><a href={makePath(language, "tools")} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools")); }}>Tools</a><span>/</span><a href={makePath(language, "categories", tool.category)} onClick={e => { e.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>{categoryLabels[tool.category][language]}</a><span>/</span><span>{isCanonical ? "PRAM" : tool.name[language]}</span></nav>
+      <nav className="atlas-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}><a href={makePath(language, "tools")} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools")); }}>{language === "es" ? "Herramientas" : "Tools"}</a><span>/</span><a href={makePath(language, "categories", tool.category)} onClick={e => { e.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>{categoryLabels[tool.category][language]}</a><span>/</span><span>{isCanonical ? "PRAM" : tool.name[language]}</span></nav>
       <section className="tool-hero">
         <h1>{isCanonical ? "PRAM" : tool.name[language]}</h1>
         {isCanonical ? <p className="atlas-expanded-name">{tool.name[language]}</p> : null}
@@ -186,8 +186,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
                     >
                       <p className="inactive-calculation">
                         {language === "es"
-                          ? "Cargando modulo de crecimiento OMS..."
-                          : "Loading WHO growth module..."}
+                          ? "Cargando módulo de crecimiento OMS…"
+                          : "Loading WHO growth module…"}
                       </p>
                     </section>
                   }
