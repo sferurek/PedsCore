@@ -217,11 +217,93 @@ const targetExpansionDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata
   headsss: activeReference({ specialties:["adolescent_medicine","behavioral_health"], problems:["psychosocial_risk"], ages:["adolescent"], settings:["primary_care","outpatient_clinic"], functions:["psychosocial_screening"], modes:["clinical_framework"], calc:"not_applicable", reuse:"open", inputs:["history"], es:["headsss","entrevista adolescente"], en:["headsss","adolescent interview"] })
 };
 
-export const toolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = {
+const societyExpansionDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = {
+  comfort_b: activeReference({ specialties:["intensive_care","sedation"], problems:["distress","sedation"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["picu"], functions:["sedation_assessment","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", es:["comfort-b","comfort b","sedacion pediatrica"], en:["comfort-b","comfort b","pediatric sedation"], compare:["pediatric_sedation"] }),
+  n_pass: activeReference({ specialties:["neonatology","pain_medicine","sedation"], problems:["neonatal_pain","neonatal_sedation"], ages:["preterm","term_newborn","neonate_0_28d"], settings:["nicu","newborn_ward"], functions:["pain_assessment","sedation_assessment","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", es:["n-pass","dolor neonatal","sedacion neonatal"], en:["n-pass","neonatal pain agitation sedation"], compare:["neonatal_pain","neonatal_sedation"] }),
+  edin: activeReference({ specialties:["neonatology","pain_medicine"], problems:["neonatal_pain","prolonged_pain"], ages:["preterm","term_newborn","neonate_0_28d"], settings:["nicu","newborn_ward"], functions:["pain_assessment","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"moderate", es:["edin","dolor neonatal prolongado"], en:["edin","prolonged neonatal pain"], compare:["neonatal_pain"] }),
+  nfcs: activeReference({ specialties:["neonatology","pain_medicine"], problems:["neonatal_pain","procedural_pain"], ages:["preterm","term_newborn","neonate_0_28d"], settings:["nicu","newborn_ward"], functions:["pain_assessment"], modes:["reference_scale"], calc:"blocked_by_rights", reuse:"permission_required", risk:"moderate", es:["nfcs","sistema facial neonatal"], en:["nfcs","neonatal facial coding system"], compare:["neonatal_pain"] }),
+  cmas: activeReference({ specialties:["rheumatology","neurology"], problems:["juvenile_myositis"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["functional_status","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"moderate", es:["cmas","miositis juvenil"], en:["cmas","childhood myositis assessment scale"], compare:["juvenile_myositis"] }),
+  mmt8: activeReference({ specialties:["rheumatology","neurology"], problems:["juvenile_myositis"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["functional_status","longitudinal_monitoring"], modes:["reference_scale","examination_framework"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"moderate", es:["mmt8","fuerza muscular miositis"], en:["mmt8","manual muscle testing 8"], compare:["juvenile_myositis"] }),
+  chaq: activeReference({ specialties:["rheumatology"], problems:["juvenile_idiopathic_arthritis","functional_disability"], ages:["toddler","preschool","school_age","adolescent"], settings:["specialty_clinic","outpatient_clinic"], functions:["functional_status","longitudinal_monitoring"], modes:["licensed_external_tool","longitudinal_monitoring"], longitudinal:"primary", calc:"external_official", reuse:"external_only", risk:"moderate", es:["chaq","cuestionario salud infantil"], en:["chaq","childhood health assessment questionnaire"], compare:["jia_activity"] }),
+  j4s: activeReference({ specialties:["rheumatology"], problems:["juvenile_idiopathic_arthritis","functional_disability"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["functional_status","longitudinal_monitoring"], modes:["reference_scale"], longitudinal:"primary", calc:"blocked_by_evidence", reuse:"unresolved", risk:"moderate", es:["j4s"], en:["j4s"], compare:["jia_activity"] }),
+  jdm_disease_activity_score: activeReference({ specialties:["rheumatology"], problems:["juvenile_myositis"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["disease_activity","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", es:["jdm das","dermatomiositis juvenil"], en:["jdm das","juvenile dermatomyositis disease activity score"], compare:["juvenile_myositis"] }),
+  myositis_damage_index: activeReference({ specialties:["rheumatology"], problems:["juvenile_myositis"], ages:["school_age","adolescent"], settings:["specialty_clinic"], functions:["longitudinal_monitoring","reference_only"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"moderate", es:["mdi","indice daño miositis"], en:["mdi","myositis damage index"], compare:["juvenile_myositis"] }),
+  pgals: activeReference({ specialties:["rheumatology","general_pediatrics"], problems:["musculoskeletal_assessment"], ages:["toddler","preschool","school_age","adolescent"], settings:["primary_care","outpatient_clinic","specialty_clinic"], functions:["physical_examination","screening"], modes:["examination_framework"], calc:"not_applicable", reuse:"open", risk:"low", es:["pgals","exploracion musculoesqueletica pediatrica"], en:["pgals","pediatric gait arms legs spine"], compare:["juvenile_myositis"] }),
+  prems: activeReference({ specialties:["emergency_medicine","general_pediatrics"], problems:["clinical_deterioration","critical_illness"], ages:["all_pediatric"], settings:["emergency_department","inpatient_ward"], functions:["severity","risk_stratification"], modes:["reference_scale"], calc:"blocked_by_evidence", reuse:"unresolved", risk:"high", es:["prems","pediatric rapid emergency medicine score"], en:["prems","pediatric rapid emergency medicine score"], compare:["pediatric_early_warning"] }),
+  modified_ross: activeReference({ specialties:["cardiology","general_pediatrics"], problems:["heart_failure"], ages:["infant","toddler","preschool","school_age","adolescent"], settings:["outpatient_clinic","inpatient_ward","specialty_clinic"], functions:["severity","staging","longitudinal_monitoring"], modes:["reference_scale","longitudinal_staging"], longitudinal:"supported", calc:"not_applicable", reuse:"open", risk:"high", es:["ross modificado","insuficiencia cardiaca pediatrica"], en:["modified ross","pediatric heart failure"], compare:["pediatric_heart_failure"] }),
+  pedmidas: activeReference({ specialties:["neurology"], problems:["migraine","functional_disability"], ages:["school_age","adolescent"], settings:["outpatient_clinic","specialty_clinic"], functions:["functional_status","longitudinal_monitoring"], modes:["licensed_external_tool","longitudinal_monitoring"], longitudinal:"primary", calc:"external_official", reuse:"external_only", risk:"moderate", es:["pedmidas","migraña pediatrica"], en:["pedmidas","pediatric migraine disability"], compare:["migraine_disability"] }),
+  scared: activeReference({ specialties:["behavioral_health","adolescent_medicine"], problems:["anxiety"], ages:["school_age","adolescent"], settings:["primary_care","outpatient_clinic"], functions:["screening"], modes:["licensed_external_tool","clinical_screen"], calc:"external_official", reuse:"external_only", risk:"high", es:["scared","ansiedad pediatrica"], en:["scared","anxiety screen"], compare:["behavioral_screening"] }),
+  psc: activeReference({ specialties:["behavioral_health","general_pediatrics"], problems:["psychosocial_risk"], ages:["preschool","school_age","adolescent"], settings:["primary_care","outpatient_clinic"], functions:["psychosocial_screening","screening"], modes:["licensed_external_tool","clinical_screen"], calc:"external_official", reuse:"external_only", risk:"high", es:["psc","pediatric symptom checklist"], en:["psc","pediatric symptom checklist"], compare:["behavioral_screening"] }),
+  acq: activeReference({ specialties:["respiratory"], problems:["asthma"], ages:["age_defined_by_tool"], settings:["outpatient_clinic","primary_care"], functions:["longitudinal_monitoring"], modes:["licensed_external_tool","longitudinal_monitoring"], longitudinal:"primary", calc:"external_official", reuse:"external_only", risk:"high", inputs:["questionnaire_self_report"], es:["acq","control del asma"], en:["acq","asthma control questionnaire"], compare:["asthma_control"], related:["c_act","track"] }),
+  wpcdai: activeReference({ surfaceStatus:"active", specialties:["gastroenterology","inflammatory_bowel_disease"], problems:["crohn_disease","inflammatory_bowel_disease"], ages:["school_age","adolescent"], settings:["outpatient_clinic","specialty_clinic"], functions:["disease_activity","longitudinal_monitoring"], modes:["calculator","longitudinal_monitoring"], longitudinal:"primary", calc:"local_planned", reuse:"unresolved", risk:"high", inputs:["history","clinical_observation","laboratory","growth_measurements"], es:["wpcdai","crohn pediatrico ponderado"], en:["wpcdai","weighted pediatric crohn disease activity index"], compare:["ibd_activity"], related:["pcdai"] }),
+  fnass_21: activeReference({ specialties:["neonatology"], problems:["neonatal_withdrawal","neonatal_abstinence"], ages:["term_newborn","neonate_0_28d","infant"], settings:["newborn_ward","nicu"], functions:["withdrawal_assessment","longitudinal_monitoring"], modes:["reference_scale","longitudinal_monitoring"], longitudinal:"primary", calc:"blocked_by_rights", reuse:"permission_required", risk:"high", es:["fnass","finnegan 21 items","abstinencia neonatal"], en:["fnass","finnegan 21 item","neonatal abstinence"], compare:["neonatal_withdrawal"], related:["eat_sleep_console"] })
+};
+
+const retiredFinalSurfaceIds = new Set([
+  "combined_apgar",
+  "modified_finnegan",
+  "pews",
+  "benes",
+  "glasgow_adapted",
+  "regional_sepsis_scores",
+  "resuscitation_weight_dose_energy",
+  "mass_casualty_triage",
+  "adolescent_depression_risk",
+  "adolescent_behavior_risk",
+  "bayley",
+  "denver_ii"
+]);
+
+const finalDiscoveryOverrides: Record<string, Partial<ClinicalToolDiscoveryMetadata>> = {
+  thompson_hie: { surfaceStatus:"active", calculationAvailability:"blocked_by_evidence" },
+  pipp: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
+  neonatal_growth_fenton: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  brighton_pews: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
+  bedside_pews: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  risc: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  mrisc: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  gorelick_dehydration: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  pediatric_burn_tbsa: { surfaceStatus:"active", calculationAvailability:"local_active" },
+  prifle: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  pelod: { surfaceStatus:"deprecated", calculationAvailability:"not_applicable" },
+  pelod_2: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  prism_iii: { surfaceStatus:"deprecated", calculationAvailability:"not_applicable" },
+  prism_iv: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  pim2: { surfaceStatus:"deprecated", calculationAvailability:"not_applicable" },
+  pim3: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  cdc_growth_percentiles: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  orbegozo_growth_percentiles: { surfaceStatus:"blocked" },
+  stamp: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights" },
+  strongkids: { surfaceStatus:"active", calculationAvailability:"blocked_by_evidence" },
+  pyms: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights" },
+  flacc: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
+  rflacc: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
+  cheops: { surfaceStatus:"active", calculationAvailability:"blocked_by_rights" },
+  visual_analogue_scale: { surfaceStatus:"active", calculationAvailability:"local_planned" },
+  pediatric_cpr: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights" },
+  neonatal_cpr: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights" },
+  pediatric_bradycardia: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights" },
+  pediatric_tachycardia: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights" },
+  shockable_rhythm_algorithm: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights" },
+  non_shockable_rhythm_algorithm: { surfaceStatus:"blocked", calculationAvailability:"blocked_by_rights" }
+};
+
+const rawToolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> = {
   ...existingToolDiscoveryById,
   ...priorityExpansionDiscoveryById,
-  ...targetExpansionDiscoveryById
+  ...targetExpansionDiscoveryById,
+  ...societyExpansionDiscoveryById
 };
+
+export const toolDiscoveryById: Record<string, ClinicalToolDiscoveryMetadata> =
+  Object.fromEntries(
+    Object.entries(rawToolDiscoveryById)
+      .filter(([toolId]) => !retiredFinalSurfaceIds.has(toolId))
+      .map(([toolId, metadata]) => [
+        toolId,
+        { ...metadata, ...(finalDiscoveryOverrides[toolId] ?? {}) }
+      ])
+  );
 
 export const getToolDiscovery = (toolId: string): ClinicalToolDiscoveryMetadata | undefined =>
   toolDiscoveryById[toolId];
@@ -265,7 +347,11 @@ export const clinicalComparisonGroups = {
   preterm_growth: { id: "preterm_growth" },
   pubertal_development: { id: "pubertal_development" },
   qtc_formula: { id: "qtc_formula" },
-  respiratory_mortality: { id: "respiratory_mortality" }
+  respiratory_mortality: { id: "respiratory_mortality" },
+  juvenile_myositis: { id: "juvenile_myositis" },
+  pediatric_heart_failure: { id: "pediatric_heart_failure" },
+  migraine_disability: { id: "migraine_disability" },
+  behavioral_screening: { id: "behavioral_screening" }
 } as const;
 
 export const discoveryValues = {

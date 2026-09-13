@@ -8,8 +8,8 @@ import {
 
 describe("evidence status helpers", () => {
   it("describes each implementation status in both languages", () => {
-    expect(evidenceStatusDescriptions.implemented.es).toContain("Calculo activo");
-    expect(evidenceStatusDescriptions.pending_validation.en).toContain("Pending validation");
+    expect(evidenceStatusDescriptions.implemented.es).toContain("Cálculo activo");
+    expect(evidenceStatusDescriptions.pending_validation.en).toContain("under review");
     expect(evidenceStatusDescriptions.needs_primary_reference.es).toContain("fuente primaria");
     expect(evidenceStatusDescriptions.not_implemented_due_to_licensing.en).toContain("licensing");
   });

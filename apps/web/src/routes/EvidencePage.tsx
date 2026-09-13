@@ -1,5 +1,5 @@
-import { clinicalTools } from "@peds-core/core";
-import { statusLabels, translations } from "../i18n/translations";
+import { clinicalTools, getToolDiscovery } from "@peds-core/core";
+import { statusLabels, surfaceStatusLabels, translations } from "../i18n/translations";
 import { evidenceStatusDescriptions } from "../utils/evidenceStatus";
 import type { Language } from "../utils/language";
 
@@ -20,22 +20,22 @@ const statuses = [
 const evidenceHierarchy = [
   {
     id: "original_derivation_study",
-    es: "Estudio original o de derivacion",
+    es: "Estudio original o de derivación",
     en: "Original or derivation study"
   },
   {
     id: "external_validation_study",
-    es: "Validacion externa",
+    es: "Validación externa",
     en: "External validation study"
   },
   {
     id: "clinical_practice_guideline",
-    es: "Guia clinica oficial",
+    es: "Guía clínica oficial",
     en: "Official clinical practice guideline"
   },
   {
     id: "systematic_review",
-    es: "Revision sistematica",
+    es: "Revisión sistemática",
     en: "Systematic review"
   },
   {
@@ -50,7 +50,7 @@ const evidenceHierarchy = [
   },
   {
     id: "peer_reviewed_review",
-    es: "Revision revisada por pares",
+    es: "Revisión por pares",
     en: "Peer-reviewed review"
   },
   {
@@ -60,7 +60,7 @@ const evidenceHierarchy = [
   },
   {
     id: "local_project_documentation",
-    es: "Documentacion local de PedsCore",
+    es: "Documentación local de PedsCore",
     en: "PedsCore local documentation"
   },
   {
@@ -70,19 +70,15 @@ const evidenceHierarchy = [
   }
 ] as const;
 
-const summaryStatuses = [
-  "implemented",
-  "partially_implemented",
-  "pending_validation",
-  "needs_primary_reference",
-  "not_implemented_due_to_licensing"
-] as const;
+const summaryStatuses = ["active", "draft", "blocked", "deprecated"] as const;
 
 export function EvidencePage({ language }: EvidencePageProps) {
   const t = translations[language];
   const statusCounts = summaryStatuses.map((status) => ({
     status,
-    count: clinicalTools.filter((tool) => tool.implementationStatus === status).length
+    count: clinicalTools.filter(
+      (tool) => getToolDiscovery(tool.id)?.surfaceStatus === status
+    ).length
   }));
 
   return (
@@ -121,7 +117,7 @@ export function EvidencePage({ language }: EvidencePageProps) {
         <dl className="evidence-summary-grid">
           {statusCounts.map((item) => (
             <div key={item.status}>
-              <dt>{statusLabels[item.status][language]}</dt>
+              <dt>{surfaceStatusLabels[item.status][language]}</dt>
               <dd>{item.count}</dd>
             </div>
           ))}

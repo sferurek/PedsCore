@@ -1,6 +1,7 @@
 import {
   getToolBySlug,
   getAllTools,
+  getToolDiscovery,
   type ClinicalToolMetadata,
   type WhoGrowthPreset
 } from "@peds-core/core";
@@ -60,6 +61,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const t = translations[language];
   const a = atlas[language];
   const isCanonical = tool.slug === "pram";
+  const discovery = getToolDiscovery(tool.id);
   const whoGrowthPreset = getWhoGrowthPreset(tool);
   const whoGrowthTool = whoGrowthPreset ? getToolBySlug("who-growth") : null;
   const formTool = whoGrowthTool ?? tool;
@@ -69,7 +71,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const resultPanelRef = useRef<HTMLElement>(null);
   const completedToolIdRef = useRef<string | null>(null);
   const isWhoGrowth = whoGrowthPreset !== null && whoGrowthTool !== null;
-  const hasActiveCalculation = tool.calculationStatus === "active" || isWhoGrowth;
+  const hasActiveCalculation = discovery?.calculationAvailability === "local_active" || isWhoGrowth;
+  const isActiveReference = discovery?.surfaceStatus === "active" && !hasActiveCalculation;
   const analyticsPath = makePath(language, "tools", tool.slug);
   const analyticsParams = useMemo(
     () => ({
@@ -125,16 +128,13 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
 
   return (
     <div className={isCanonical ? "tool-page atlas-canonical" : "tool-page"}>
-      <nav className="atlas-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}><a href={makePath(language, "tools")} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools")); }}>Tools</a><span>/</span><a href={makePath(language, "categories", tool.category)} onClick={e => { e.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>{categoryLabels[tool.category][language]}</a><span>/</span><span>{isCanonical ? "PRAM" : tool.name[language]}</span></nav>
+      <nav className="atlas-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}><a href={makePath(language, "tools")} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools")); }}>{language === "es" ? "Herramientas" : "Tools"}</a><span>/</span><a href={makePath(language, "categories", tool.category)} onClick={e => { e.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>{categoryLabels[tool.category][language]}</a><span>/</span><span>{isCanonical ? "PRAM" : tool.name[language]}</span></nav>
       <section className="tool-hero">
         <h1>{isCanonical ? "PRAM" : tool.name[language]}</h1>
         {isCanonical ? <p className="atlas-expanded-name">{tool.name[language]}</p> : null}
         <p>{tool.description[language]}</p>
         <div className="tool-hero-meta">
-          <ToolStatusBadge
-            language={language}
-            status={tool.implementationStatus}
-          />
+          <ToolStatusBadge language={language} status={tool.implementationStatus} toolId={tool.id} />
           <span>{evidenceLabels[tool.evidenceLevel][language]}</span>
           <span>{riskLabels[tool.regulatoryRisk][language]}</span>
         </div>
@@ -186,8 +186,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
                     >
                       <p className="inactive-calculation">
                         {language === "es"
-                          ? "Cargando modulo de crecimiento OMS..."
-                          : "Loading WHO growth module..."}
+                          ? "Cargando módulo de crecimiento OMS…"
+                          : "Loading WHO growth module…"}
                       </p>
                     </section>
                   }
@@ -210,17 +210,40 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </div>
           ) : (
             <section className="content-panel inactive-tool-panel">
-              <h2>{t.tool.notActiveTitle}</h2>
-              <p>{t.tool.automaticCalculationInactive}</p>
+              <h2>
+                {isActiveReference
+                  ? t.tool.referenceTitle
+                  : discovery?.surfaceStatus === "blocked"
+                    ? t.tool.limitedTitle
+                    : discovery?.surfaceStatus === "draft"
+                      ? t.tool.preparationTitle
+                      : t.tool.notActiveTitle}
+              </h2>
+              <p>
+                {isActiveReference
+                  ? t.tool.referenceBody
+                  : discovery?.surfaceStatus === "blocked"
+                    ? t.tool.limitedBody
+                    : t.tool.automaticCalculationInactive}
+              </p>
               <p>{tool.validationNotes[language]}</p>
-              <a
-                className="primary-link"
-                href="https://github.com/sferurek/PedsCore/issues/new/choose"
-                rel="noreferrer"
-                target="_blank"
-              >
-                {t.evidence.submitEvidence}
-              </a>
+              {discovery?.calculationAvailability === "external_official" ? (
+                <p className="surface-availability-note">
+                  {language === "es"
+                    ? "El uso operativo depende de la fuente o herramienta oficial externa."
+                    : "Operational use depends on the official external source or tool."}
+                </p>
+              ) : null}
+              {discovery?.surfaceStatus !== "active" ? (
+                <a
+                  className="primary-link"
+                  href="https://github.com/sferurek/PedsCore/issues/new/choose"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {t.evidence.submitEvidence}
+                </a>
+              ) : null}
             </section>
           )}
 
@@ -242,7 +265,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             <p>{tool.validationNotes[language]}</p>
           </section>
 
-          {hasEvidenceBlock(tool.implementationStatus) ? (
+          {hasEvidenceBlock(tool.implementationStatus) && discovery?.surfaceStatus !== "active" ? (
             <section className="content-panel evidence-help">
               <h2>{t.evidence.unlockTitle}</h2>
               <ul>

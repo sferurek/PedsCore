@@ -59,10 +59,46 @@ describe("clinical discovery taxonomy", () => {
   });
 
   it("keeps external or rights-blocked tools out of local active calculation", () => {
-    for (const id of ["wong_baker_faces", "flacc", "rflacc", "bayley", "denver_ii"]) {
+    for (const id of ["wong_baker_faces", "flacc", "rflacc"]) {
       const status = getToolDiscovery(id)?.calculationAvailability;
       expect(status).not.toBe("local_active");
     }
+  });
+
+  it("reconciles the final v12 physical surface set", () => {
+    expect(clinicalTools).toHaveLength(132);
+
+    for (const removedId of [
+      "combined_apgar","modified_finnegan","pews","benes","glasgow_adapted",
+      "regional_sepsis_scores","resuscitation_weight_dose_energy",
+      "mass_casualty_triage","adolescent_depression_risk",
+      "adolescent_behavior_risk","bayley","denver_ii"
+    ]) {
+      expect(clinicalTools.some((tool) => tool.id === removedId), removedId).toBe(false);
+      expect(getToolDiscovery(removedId), removedId).toBeUndefined();
+    }
+
+    for (const addedId of [
+      "comfort_b","n_pass","edin","nfcs","cmas","mmt8","chaq","j4s",
+      "jdm_disease_activity_score","myositis_damage_index","pgals","prems",
+      "modified_ross","pedmidas","scared","psc","acq","wpcdai","fnass_21"
+    ]) {
+      expect(clinicalTools.some((tool) => tool.id === addedId), addedId).toBe(true);
+      expect(getToolDiscovery(addedId)?.surfaceStatus, addedId).toBe("active");
+    }
+  });
+
+  it("separates active references from local calculations", () => {
+    const discovery = Object.values(toolDiscoveryById);
+    expect(discovery.filter((item) => item.surfaceStatus === "active")).toHaveLength(115);
+    expect(discovery.filter((item) => item.surfaceStatus === "draft")).toHaveLength(1);
+    expect(discovery.filter((item) => item.surfaceStatus === "blocked")).toHaveLength(13);
+    expect(discovery.filter((item) => item.surfaceStatus === "deprecated")).toHaveLength(3);
+    expect(discovery.filter((item) => item.calculationAvailability === "local_active")).toHaveLength(24);
+    expect(getToolDiscovery("flacc")?.surfaceStatus).toBe("blocked");
+    expect(getToolDiscovery("flacc")?.calculationAvailability).toBe("blocked_by_rights");
+    expect(getToolDiscovery("wpcdai")?.surfaceStatus).toBe("active");
+    expect(getToolDiscovery("wpcdai")?.calculationAvailability).toBe("local_planned");
   });
 
   it("marks current calculators as locally active where applicable", () => {

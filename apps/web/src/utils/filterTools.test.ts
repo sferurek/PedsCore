@@ -4,7 +4,7 @@ import { defaultFilters, filterTools } from "./filterTools";
 
 describe("tool filtering", () => {
   it("can access the full catalog from the web app", () => {
-    expect(getAllTools().length).toBe(125);
+    expect(getAllTools().length).toBe(132);
     expect(getToolBySlug("who-growth")?.id).toBe("who_growth_module");
   });
 
@@ -21,14 +21,15 @@ describe("tool filtering", () => {
         query: "PECARN",
         category: "emergency",
         type: "clinical_rule",
-        status: "implemented"
+        status: "active"
       },
       "en"
     );
 
     expect(filteredTools.map((tool) => tool.slug)).toEqual([
       "pecarn-tbi-under-2",
-      "pecarn-tbi-2-or-more"
+      "pecarn-tbi-2-or-more",
+      "pecarn-febrile-infant"
     ]);
   });
 });

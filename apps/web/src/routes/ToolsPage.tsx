@@ -8,7 +8,7 @@ import type {
   CareSettingTag,
   ClinicalFunctionTag,
   ClinicalSpecialty,
-  ImplementationStatus,
+  SurfaceStatus,
   InteractionMode,
   ToolCategory,
   ToolType
@@ -18,68 +18,24 @@ import { SearchBar } from "../components/SearchBar";
 import { ToolsList } from "../components/ToolsList";
 import {
   categoryLabels,
-  statusLabels,
+  surfaceStatusLabels,
   translations,
   typeLabels
 } from "../i18n/translations";
 import { defaultFilters, filterTools } from "../utils/filterTools";
+import { discoveryLabel } from "../utils/discoveryLabels";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 import { trackUsageEvent } from "../utils/analytics";
-import { getToolStatusCounts } from "../utils/toolStats";
+import { getSurfaceStatusCounts } from "../utils/toolStats";
 
 interface ToolsPageProps {
   language: Language;
   navigate: (href: string) => void;
 }
 
-const humanize = (value: string, language: Language): string => {
-  const labels: Record<string, { es: string; en: string }> = {
-    neonatology: { es: "Neonatología", en: "Neonatology" },
-    emergency_medicine: { es: "Urgencias", en: "Emergency" },
-    intensive_care: { es: "Cuidados intensivos", en: "Intensive care" },
-    respiratory: { es: "Respiratorio", en: "Respiratory" },
-    cardiology: { es: "Cardiología", en: "Cardiology" },
-    nephrology: { es: "Nefrología", en: "Nephrology" },
-    gastroenterology: { es: "Gastroenterología", en: "Gastroenterology" },
-    neurology: { es: "Neurología", en: "Neurology" },
-    rheumatology: { es: "Reumatología", en: "Rheumatology" },
-    pain_medicine: { es: "Dolor", en: "Pain" },
-    nutrition: { es: "Nutrición", en: "Nutrition" },
-    trauma: { es: "Trauma", en: "Trauma" },
-    preterm: { es: "Prematuro", en: "Preterm" },
-    term_newborn: { es: "Recién nacido a término", en: "Term newborn" },
-    neonate_0_28d: { es: "Neonato 0–28 días", en: "Neonate 0–28 d" },
-    young_infant_0_60d: { es: "Lactante 0–60 días", en: "Young infant 0–60 d" },
-    young_infant_0_90d: { es: "Lactante 0–90 días", en: "Young infant 0–90 d" },
-    infant: { es: "Lactante", en: "Infant" },
-    toddler: { es: "1–3 años", en: "Toddler" },
-    preschool: { es: "Preescolar", en: "Preschool" },
-    school_age: { es: "Escolar", en: "School age" },
-    adolescent: { es: "Adolescente", en: "Adolescent" },
-    all_pediatric: { es: "Toda pediatría", en: "All pediatric ages" },
-    emergency_department: { es: "Urgencias", en: "Emergency department" },
-    picu: { es: "UCIP", en: "PICU" },
-    nicu: { es: "UCIN", en: "NICU" },
-    primary_care: { es: "Atención primaria", en: "Primary care" },
-    outpatient_clinic: { es: "Consulta", en: "Outpatient clinic" },
-    severity: { es: "Gravedad", en: "Severity" },
-    risk_stratification: { es: "Estratificación de riesgo", en: "Risk stratification" },
-    disease_activity: { es: "Actividad de enfermedad", en: "Disease activity" },
-    longitudinal_monitoring: { es: "Seguimiento longitudinal", en: "Longitudinal monitoring" },
-    screening: { es: "Cribado", en: "Screening" },
-    pain_assessment: { es: "Dolor", en: "Pain assessment" },
-    calculator: { es: "Calculadora", en: "Calculator" },
-    clinical_rule: { es: "Regla clínica", en: "Clinical rule" },
-    reference_scale: { es: "Escala de referencia", en: "Reference scale" },
-    longitudinal_staging: { es: "Estadificación longitudinal", en: "Longitudinal staging" },
-    visual_atlas: { es: "Atlas visual", en: "Visual atlas" },
-    clinical_framework: { es: "Marco clínico", en: "Clinical framework" },
-    licensed_external_tool: { es: "Herramienta externa", en: "External tool" }
-  };
-  return labels[value]?.[language] ??
-    value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
-};
+const humanize = (value: string, language: Language): string =>
+  discoveryLabel(value, language);
 
 export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const t = translations[language];
@@ -88,16 +44,8 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const lastTrackedSearchRef = useRef("");
   const categories = [...new Set(allTools.map((tool) => tool.category))].sort();
   const types = [...new Set(allTools.map((tool) => tool.type))].sort();
-  const statuses = [
-    "implemented",
-    "partially_implemented",
-    "ready_for_implementation",
-    "pending_validation",
-    "needs_primary_reference",
-    "coming_soon",
-    "not_implemented_due_to_licensing"
-  ] satisfies ImplementationStatus[];
-  const statusCounts = getToolStatusCounts(allTools);
+  const statuses = ["active", "draft", "blocked", "deprecated"] satisfies SurfaceStatus[];
+  const statusCounts = getSurfaceStatusCounts(allTools);
 
   const filteredTools = useMemo(
     () => filterTools(allTools, filters, language),
@@ -132,12 +80,12 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
     <div className="page-stack tools-discovery-page">
       <section className="page-hero tools-hero">
         <div>
-          <p className="finder-eyebrow">PedsCore Clinical Tools</p>
+          <p className="finder-eyebrow">PedsCore · catálogo clínico</p>
           <h1>{t.tools.title}</h1>
           <p>
             {language === "es"
-              ? "Busca por contexto clínico, filtra con precisión o deja que Finder te lleve a la herramienta adecuada."
-              : "Search by clinical context, filter precisely, or let Finder guide you to the right tool."}
+              ? "Encuentra la herramienta que encaja con el paciente y el contexto. Puedes buscar como piensas en clínica o afinar por edad, especialidad y objetivo."
+              : "Find the tool that fits the patient and the context. Search the way you think clinically, or narrow things down by age, specialty and purpose."}
           </p>
         </div>
         <div className="tools-hero-count">
@@ -151,7 +99,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
       <section className="tool-discovery-controls">
         <div className="tool-filter-topbar">
           <SearchBar
-            label={language === "es" ? "Buscar directamente" : "Direct search"}
+            label={language === "es" ? "Buscar por nombre" : "Search by name"}
             placeholder={t.home.searchPlaceholder}
             value={filters.query}
             onChange={(query) => setFilters({ ...filters, query })}
@@ -216,6 +164,9 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
         </div>
 
         <div className="quick-filter-row" aria-label={t.tools.quickFilters}>
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ status: "active" })}>
+            {language === "es" ? "Disponibles" : "Available"}
+          </button>
           <button className="quick-filter-chip" type="button" onClick={() => setQuick({ specialty: "emergency_medicine" })}>
             {language === "es" ? "Urgencias" : "Emergency"}
           </button>
@@ -238,7 +189,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
 
         <details className="advanced-filter-panel">
           <summary>
-            {language === "es" ? "Más filtros" : "More filters"}
+            {language === "es" ? "Afinar búsqueda" : "Refine search"}
             {activeFilterCount ? <span>{activeFilterCount}</span> : null}
           </summary>
           <div className="advanced-filter-grid">
@@ -349,14 +300,14 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
                 onChange={(event) =>
                   setFilters({
                     ...filters,
-                    status: event.target.value as ImplementationStatus | "all"
+                    status: event.target.value as SurfaceStatus | "all"
                   })
                 }
               >
                 <option value="all">{t.tools.all}</option>
                 {statuses.map((status) => (
                   <option key={status} value={status}>
-                    {statusLabels[status][language]} ({statusCounts.get(status) ?? 0})
+                    {surfaceStatusLabels[status][language]} ({statusCounts.get(status) ?? 0})
                   </option>
                 ))}
               </select>
@@ -372,7 +323,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
                   setFilters({ ...filters, localCalculationOnly: event.target.checked })
                 }
               />
-              <span>{language === "es" ? "Solo cálculo local activo" : "Local calculation only"}</span>
+              <span>{language === "es" ? "Solo herramientas con cálculo activo" : "Active local calculations only"}</span>
             </label>
             <label className="filter-toggle">
               <input
@@ -382,7 +333,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
                   setFilters({ ...filters, longitudinalOnly: event.target.checked })
                 }
               />
-              <span>{language === "es" ? "Útiles para seguimiento" : "Useful for follow-up"}</span>
+              <span>{language === "es" ? "Útiles para seguimiento longitudinal" : "Useful for longitudinal follow-up"}</span>
             </label>
           </div>
         </details>
