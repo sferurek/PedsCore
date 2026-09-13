@@ -47,7 +47,7 @@ export function ReferenceList({ language, references }: ReferenceListProps) {
               ) : null}
               {reference.year ? (
                 <div>
-                  <dt>{language === "es" ? "Ano" : "Year"}</dt>
+                  <dt>{language === "es" ? "Año" : "Year"}</dt>
                   <dd>{reference.year}</dd>
                 </div>
               ) : null}
