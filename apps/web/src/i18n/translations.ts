@@ -29,14 +29,14 @@ export const translations = {
       viewSourceButton: "Ver código fuente"
     },
     home: {
-      title: "Herramientas clínicas pediátricas y neonatales de código abierto",
+      title: "Herramientas clínicas para pediatría y neonatología",
       subtitle:
-        "Scores, escalas, calculadoras, percentiles y reglas clínicas con trazabilidad de evidencia, sin almacenamiento de datos clínicos.",
+        "Escalas, reglas, calculadoras y referencias clínicas con fuentes visibles, funcionamiento transparente y sin almacenar datos clínicos.",
       lead:
-        "Catálogo público en fase alfa para profesionales sanitarios, con una distinción clara entre herramientas implementadas, parciales y pendientes de validación.",
+        "Un catálogo abierto para profesionales sanitarios, pensado para encontrar rápido lo útil y saber siempre qué está activo, qué sigue en revisión y en qué evidencia se apoya.",
       searchPlaceholder: "Buscar score, escala o calculadora...",
-      transparencyTitle: "Transparencia desde el inicio",
-      featuredTitle: "Herramientas destacadas",
+      transparencyTitle: "Transparencia, de principio a fin",
+      featuredTitle: "Herramientas para empezar",
       categoriesTitle: "Categorías",
       allToolsCta: "Explorar herramientas",
       evidenceCta: "Ver evidencia",
@@ -47,17 +47,17 @@ export const translations = {
       partialMetric: "implementación parcial",
       clinicalDataMetric: "datos clínicos almacenados",
       miniDisclaimer:
-        "Uso educativo y profesional. No sustituye el juicio clínico ni los protocolos locales.",
+        "Para uso profesional y educativo. PedsCore acompaña la decisión clínica; no sustituye el juicio profesional ni los protocolos locales.",
       availableTitle: "Disponible ahora",
       fullyImplementedTitle: "Implementadas",
       fullyImplementedBody:
-        "Herramientas con cálculo o salida activa, pruebas y referencias visibles.",
+        "Herramientas listas para usar, con lógica comprobada, referencias visibles y una salida clínica claramente explicada.",
       partiallyImplementedTitle: "Implementación parcial",
       partiallyImplementedBody:
         "WHO Growth: OMS 0-5 + BMI/talla 5-19, graficas imprimibles, pendiente revision/interpolacion final.",
       cataloguedValidationTitle: "Catalogadas y en validación",
       cataloguedValidationBody:
-        "No se activan hasta validar fuente, tabla, variante y licencia.",
+        "Una herramienta no se activa hasta que su fuente, versión, tabla y condiciones de uso estén suficientemente claras.",
       whoGrowthTitle: "Modulo WHO Growth",
       whoGrowthBody:
         "Percentiles OMS 0-5 y soporte parcial 5-19 con graficas imprimibles.",
@@ -82,15 +82,15 @@ export const translations = {
       ]
     },
     tools: {
-      title: "Todas las herramientas",
+      title: "Herramientas clínicas",
       found: "herramientas encontradas",
       category: "Categoría",
       type: "Tipo",
       status: "Estado",
       all: "Todas",
       empty:
-        "No hay herramientas que coincidan con los filtros actuales. Prueba otra busqueda o limpia los filtros para volver al catalogo completo.",
-      emptyTitle: "Sin resultados con esos filtros",
+        "No encontramos una herramienta que encaje con esos filtros. Prueba a simplificar la búsqueda o vuelve al catálogo completo.",
+      emptyTitle: "No encontramos coincidencias",
       clearFilters: "Limpiar filtros",
       statusCounts: "Contadores por estado",
       quickFilters: "Filtros rápidos",
@@ -104,33 +104,33 @@ export const translations = {
     evidence: {
       eyebrow: "PedsCore / evidencia",
       title: "Matriz de evidencia",
-      lead: "PedsCore no activa calculadoras clinicas hasta confirmar fuente primaria, tabla completa, variante exacta, puntos de corte y riesgos de licencia.",
-      whyTitle: "Por que existe esta matriz",
+      lead: "Antes de activar una herramienta clínica, PedsCore comprueba la fuente primaria, la versión exacta, las tablas necesarias, los puntos de corte y las condiciones de uso.",
+      whyTitle: "Por qué existe esta matriz",
       whyBody:
-        "La matriz de evidencia documenta por que una herramienta esta implementada, pendiente de validacion o bloqueada por fuente/licencia. Esto evita formulas dudosas y mantiene trazabilidad publica.",
+        "Esta matriz deja a la vista por qué una herramienta está activa, en revisión o limitada por evidencia o licencia. Así puedes distinguir con rapidez qué está cerrado y qué todavía exige cautela.",
       statusTitle: "Estados de implementacion",
-      contributeTitle: "Como contribuir evidencia",
+      contributeTitle: "Cómo aportar evidencia",
       contributeBody:
-        "Puedes aportar DOI, PMID, enlaces estables, tablas completas, variantes exactas, puntos de corte publicados y notas de licencia mediante GitHub Issues.",
+        "Si conoces una fuente primaria, una validación relevante o una referencia que falta, puedes compartir DOI, PMID, enlaces estables y notas de licencia a través de GitHub Issues.",
       docsLink: "Ver docs/evidence en GitHub",
       submitEvidence: "Proponer evidencia en GitHub",
-      unlockTitle: "Como ayudar a desbloquear esta herramienta",
-      hierarchyTitle: "Jerarquia de evidencia",
+      unlockTitle: "Qué falta para completar esta herramienta",
+      hierarchyTitle: "Jerarquía de la evidencia",
       hierarchyBody:
-        "Las referencias se clasifican desde estudios originales y validaciones externas hasta documentacion local o fuentes primarias pendientes.",
-      sortingTitle: "Orden de las fuentes",
+        "Las referencias se ordenan según su solidez y cercanía a la fuente original, desde estudios primarios y validaciones externas hasta documentación secundaria o fuentes aún pendientes.",
+      sortingTitle: "Cómo ordenamos las fuentes",
       sortingBody:
-        "PedsCore ordena las fuentes por nivel de evidencia, prioridad editorial, ano mas reciente dentro del mismo nivel y titulo como desempate.",
+        "Dentro de cada herramienta, las fuentes se presentan por nivel de evidencia y prioridad editorial, favoreciendo las referencias más recientes cuando son comparables.",
       summaryTitle: "Resumen por estado",
       whyNotEverythingTitle: "¿Por qué no está todo implementado?",
       whyNotEverythingBody:
-        "En salud digital, no implementar algo dudoso tambien es una decision de seguridad."
+        "En una herramienta clínica, dejar algo sin activar hasta tenerlo claro también es una decisión de seguridad."
     },
     stats: {
       eyebrow: "PedsCore / analítica",
       title: "Uso global de PedsCore",
       lead:
-        "Estadísticas públicas agregadas por país. No incluyen IP, identificadores, datos clínicos, valores de formularios ni texto libre.",
+        "Una vista agregada del alcance de PedsCore por país. No recoge IP, identificadores, datos clínicos, valores introducidos en formularios ni texto libre.",
       totalVisitors: "Visitantes desde la activación de la analítica",
       countriesReached: "Países alcanzados",
       last7DaysVisitors: "Visitantes en los últimos 7 días",
@@ -154,7 +154,7 @@ export const translations = {
       updated: "Actualizado"
     },
     tool: {
-      metadata: "Ficha técnica",
+      metadata: "Detalles de la herramienta",
       description: "Descripción",
       status: "Estado de implementación",
       references: "Referencias",
@@ -166,25 +166,25 @@ export const translations = {
       sourceType: "Tipo de fuente",
       accessType: "Acceso",
       validationNotes: "Notas de validación",
-      notActiveTitle: "Herramienta no activa todavia",
+      notActiveTitle: "Esta herramienta aún no está activa",
       automaticCalculationInactive:
-        "El calculo automatico aun no esta activo para esta herramienta. La ficha se muestra para revision, trazabilidad y preparacion de implementacion.",
+        "El cálculo automático todavía no está disponible. Conservamos esta ficha para que puedas consultar su propósito, su estado y las fuentes que guían su revisión.",
       partialActiveTitle: "Modulo parcial activo",
       partialActiveBody:
         "Este modulo ya calcula el alcance OMS disponible en PedsCore. Sigue marcado como implementacion parcial porque quedan pendientes el alcance 5-19 restante, la politica de interpolacion y la revision final.",
       disclaimer:
         "Aviso: PedsCore es una fuente de consulta educativa e informativa para profesionales sanitarios. No sustituye el juicio clinico, los protocolos locales ni la valoracion individual del paciente. No debe utilizarse como unica base para tomar decisiones clinicas.",
       feedbackQuestion:
-        "¿Has encontrado un error o quieres proponer una mejora?",
+        "¿Has visto algo que podamos mejorar?",
       feedbackLink: "Abrir una incidencia en GitHub",
       noReferences:
-        "Esta herramienta requiere revision de fuente primaria antes de activar calculo."
+        "Aún falta cerrar la revisión de la fuente primaria antes de activar el cálculo."
     },
     form: {
-      title: "Formulario",
-      noActiveForm: "Esta herramienta aun no tiene formulario activo.",
+      title: "Datos para el cálculo",
+      noActiveCalculation inputs: "Esta herramienta todavía no tiene un formulario activo.",
       privacyNote:
-        "Los valores introducidos permanecen en esta pagina. No se almacenan ni se envian a ningun backend.",
+        "Los datos que introduzcas se procesan en esta página y no se almacenan ni se envían a un servidor.",
       required: "Campo requerido",
       requiredMessage: "Completa este campo requerido.",
       completed: "Completado",
@@ -198,20 +198,20 @@ export const translations = {
       inactiveCalculation:
         "El calculo automatico aun no esta activo para esta herramienta.",
       completeRequired:
-        "Pendiente de cumplimentar el formulario para obtener el resultado del calculo.",
+        "Completa los datos necesarios para obtener el resultado.",
       value: "Valor",
       interpretation: "Interpretacion",
       warnings: "Advertencias",
       trace: "Trazabilidad",
       noInterpretation:
-        "No hay banda de interpretacion automatica para este resultado.",
+        "Este resultado no tiene una banda de interpretación automática validada.",
       score: "Puntuacion",
       maxScore: "Maximo",
       classification: "Clasificacion",
       criteriaMatched: "Criterios identificados",
       noCriteriaMatched: "No se identifican criterios positivos.",
       clinicalRuleNote:
-        "Esta regla se muestra solo como apoyo informativo y de trazabilidad. No sustituye la valoracion clinica, los protocolos locales ni la decision medica."
+        "Esta regla ofrece contexto y trazabilidad. Debe interpretarse junto con la valoración clínica y los protocolos aplicables."
     },
     tables: {
       interpretation: "Tabla de interpretacion",
@@ -230,11 +230,11 @@ export const translations = {
     pages: {
       aboutTitle: "Sobre PedsCore",
       aboutBody:
-        "PedsCore es una biblioteca de código abierto con herramientas clínicas pediátricas y neonatales para profesionales sanitarios. El proyecto prioriza la transparencia, la trazabilidad, las referencias visibles y la ausencia de almacenamiento de datos clínicos.",
+        "PedsCore es un proyecto abierto de herramientas clínicas para pediatría y neonatología. Nace con una idea sencilla: que encontrar una escala o una regla útil sea fácil, y que entender de dónde sale sea todavía más fácil.",
       coreTitle: "Núcleo",
-      coreBody: "Contratos TypeScript, metadatos y futuros motores deterministas.",
+      coreBody: "La capa que reúne la lógica determinista, los metadatos clínicos y las reglas que sostienen cada herramienta.",
       webTitle: "Web",
-      webBody: "Interfaz bilingüe del catálogo desplegada en Vercel.",
+      webBody: "La experiencia web bilingüe desde la que se exploran, consultan y utilizan las herramientas.",
       disclaimerTitle: "Aviso legal",
       disclaimerBody:
         "PedsCore es un recurso educativo e informativo. No proporciona consejo médico ni recomendaciones terapéuticas y no sustituye el juicio clínico, los protocolos locales ni los requisitos institucionales.",
@@ -242,9 +242,9 @@ export const translations = {
         "PedsCore puede utilizar analítica agregada y respetuosa con la privacidad para conocer el uso general de la web. No se almacenan direcciones IP, no se usan cookies de seguimiento, no se crean perfiles de usuario y no se recogen datos clínicos ni valores introducidos en los formularios.",
       contributeTitle: "Contribuir",
       contributeBody:
-        "Las contribuciones deben aportar referencias primarias, describir variables y rangos, e indicar el nivel de evidencia. Usa GitHub Issues para proponer herramientas, corregir referencias o solicitar revisión clínica.",
+        "PedsCore mejora cuando alguien detecta una referencia que falta, una herramienta que merece estar o una explicación que puede ser más clara. GitHub Issues es el punto de entrada para proponer cambios y revisión clínica.",
       notFoundTitle: "Página no encontrada",
-      notFoundBody: "La ruta solicitada no existe en PedsCore."
+      notFoundBody: "Esa página no está disponible. Puedes volver al catálogo y seguir explorando desde allí."
     },
     common: {
       language: "Idioma",
@@ -290,14 +290,14 @@ export const translations = {
       viewSourceButton: "View source"
     },
     home: {
-      title: "Open-source pediatric and neonatal clinical tools",
+      title: "Clinical tools for pediatrics and neonatology",
       subtitle:
-        "Scores, scales, calculators, percentiles and clinical rules with evidence traceability and no clinical data storage.",
+        "Scores, rules, calculators and clinical references with visible sources, transparent logic and no clinical data storage.",
       lead:
-        "A public-alpha OSS catalog for healthcare professionals that separates implemented, partial and pending-validation tools.",
+        "An open catalog for healthcare professionals, designed to make useful tools easy to find and their evidence and implementation status easy to understand.",
       searchPlaceholder: "Search score, scale or calculator...",
-      transparencyTitle: "Transparent by design",
-      featuredTitle: "Featured tools",
+      transparencyTitle: "Transparency, end to end",
+      featuredTitle: "A good place to start",
       categoriesTitle: "Categories",
       allToolsCta: "Explore tools",
       evidenceCta: "View evidence",
@@ -308,17 +308,17 @@ export const translations = {
       partialMetric: "partial implementation",
       clinicalDataMetric: "clinical data stored",
       miniDisclaimer:
-        "Educational/professional use. Does not replace clinical judgment or local protocols.",
+        "For professional and educational use. PedsCore supports clinical decisions; it does not replace clinical judgment or local protocols.",
       availableTitle: "Available now",
       fullyImplementedTitle: "Fully implemented",
       fullyImplementedBody:
-        "Tools with active calculation or output, tests and visible references.",
+        "Tools ready to use, with tested logic, visible references and clearly explained outputs.",
       partiallyImplementedTitle: "Partially implemented",
       partiallyImplementedBody:
         "WHO Growth: WHO 0-5 + BMI/height 5-19, printable charts, pending final review/interpolation.",
       cataloguedValidationTitle: "Catalogued / in validation",
       cataloguedValidationBody:
-        "Tools are not activated until source, table, variant and license are validated.",
+        "A tool is not activated until its source, version, required tables and conditions of use are sufficiently clear.",
       whoGrowthTitle: "WHO Growth module",
       whoGrowthBody:
         "WHO 0-5 percentiles and partial 5-19 support with printable charts.",
@@ -343,15 +343,15 @@ export const translations = {
       ]
     },
     tools: {
-      title: "All tools",
+      title: "Clinical tools",
       found: "tools found",
       category: "Category",
       type: "Type",
       status: "Implementation status",
       all: "All",
       empty:
-        "No tools match the current filters. Try a different search or clear filters to return to the full catalog.",
-      emptyTitle: "No results for those filters",
+        "We could not find a tool that fits those filters. Try simplifying the search or return to the full catalog.",
+      emptyTitle: "No matching tools",
       clearFilters: "Clear filters",
       statusCounts: "Status counts",
       quickFilters: "Quick filters",
@@ -365,33 +365,33 @@ export const translations = {
     evidence: {
       eyebrow: "PedsCore / evidence",
       title: "Evidence matrix",
-      lead: "PedsCore does not activate clinical calculators until primary source, complete table, exact variant, cut-offs, and licensing risks are confirmed.",
-      whyTitle: "Why this matrix exists",
+      lead: "Before a clinical tool goes live, PedsCore checks the primary source, exact version, required tables, cut-offs and conditions of use.",
+      whyTitle: "Why this evidence matrix exists",
       whyBody:
-        "The evidence matrix documents why a tool is implemented, pending validation, or blocked by source/licensing gaps. This prevents doubtful formulas and keeps public traceability.",
+        "This matrix makes it clear why a tool is active, under review or limited by evidence or licensing. It lets you see quickly what is settled and what still requires caution.",
       statusTitle: "Implementation statuses",
-      contributeTitle: "How to contribute evidence",
+      contributeTitle: "Contribute evidence",
       contributeBody:
-        "You can provide DOI, PMID, stable links, complete tables, exact variants, published cut-offs, and licensing notes through GitHub Issues.",
+        "If you know a primary source, relevant validation or missing reference, you can share DOI, PMID, stable links and licensing notes through GitHub Issues.",
       docsLink: "View docs/evidence on GitHub",
       submitEvidence: "Submit evidence on GitHub",
-      unlockTitle: "How to help unlock this tool",
+      unlockTitle: "What is still needed for this tool",
       hierarchyTitle: "Evidence hierarchy",
       hierarchyBody:
-        "References are classified from original studies and external validations through local documentation or pending primary sources.",
-      sortingTitle: "Source ordering",
+        "References are ordered by strength and proximity to the original source, from primary studies and external validations to secondary documentation or sources still being confirmed.",
+      sortingTitle: "How sources are ordered",
       sortingBody:
-        "PedsCore sorts sources by evidence level, editorial priority, most recent year within the same level, and title as final tie-breaker.",
+        "Within each tool, sources are presented by evidence level and editorial priority, favouring more recent references when they are otherwise comparable.",
       summaryTitle: "Status summary",
       whyNotEverythingTitle: "Why not everything is implemented?",
       whyNotEverythingBody:
-        "In digital health, not implementing doubtful content is also a safety decision."
+        "In a clinical tool, leaving something inactive until it is clear enough is also a safety decision."
     },
     stats: {
       eyebrow: "PedsCore / analytics",
       title: "Global PedsCore usage",
       lead:
-        "Public aggregate statistics by country. They do not include IPs, identifiers, clinical data, form values or free text.",
+        "An aggregate view of PedsCore's reach by country. It does not collect IPs, identifiers, clinical data, form values or free text.",
       totalVisitors: "Visitors since analytics was enabled",
       countriesReached: "Countries reached",
       last7DaysVisitors: "Visitors in the last 7 days",
@@ -427,7 +427,7 @@ export const translations = {
       sourceType: "Source type",
       accessType: "Access",
       validationNotes: "Validation notes",
-      notActiveTitle: "Tool not active yet",
+      notActiveTitle: "This tool is not active yet",
       automaticCalculationInactive:
         "Automatic calculation is not active for this tool yet. This page is shown for review, traceability and implementation preparation.",
       partialActiveTitle: "Active partial module",
@@ -441,8 +441,8 @@ export const translations = {
         "This tool requires primary source review before calculation is activated."
     },
     form: {
-      title: "Form",
-      noActiveForm: "This tool does not have an active form yet.",
+      title: "Calculation inputs",
+      noActiveCalculation inputs: "This tool does not have an active input form yet.",
       privacyNote:
         "Values entered here remain on this page. They are not stored or sent to any backend.",
       required: "Required field",
@@ -490,11 +490,11 @@ export const translations = {
     pages: {
       aboutTitle: "About PedsCore",
       aboutBody:
-        "PedsCore is an open-source library of pediatric and neonatal clinical tools for healthcare professionals. The project prioritizes transparency, traceability, visible references and no clinical data storage.",
+        "PedsCore is an open project for pediatric and neonatal clinical tools. It is built around a simple idea: finding a useful score or rule should be easy, and understanding where it comes from should be even easier.",
       coreTitle: "Core",
       coreBody: "TypeScript contracts, metadata, and future deterministic engines.",
       webTitle: "Web",
-      webBody: "Bilingual catalog interface deployed on Vercel.",
+      webBody: "The bilingual web experience used to explore, review and use the catalog.",
       disclaimerTitle: "Disclaimer",
       disclaimerBody:
         "PedsCore is an educational and informational resource. It does not provide medical advice or therapeutic recommendations and does not replace clinical judgment, local protocols or institutional requirements.",
@@ -504,7 +504,7 @@ export const translations = {
       contributeBody:
         "Contributions should include primary references, variables and ranges, and evidence level. Use GitHub Issues to propose tools, correct references or request clinical review.",
       notFoundTitle: "Page not found",
-      notFoundBody: "The requested route does not exist in PedsCore."
+      notFoundBody: "That page is not available. You can return to the catalog and continue exploring from there."
     },
     common: {
       language: "Language",
@@ -644,8 +644,8 @@ export const statusDescriptions: Record<
     en: "Calculated and tested functionality is available for part of the scope; the full module is still pending."
   },
   ready_for_implementation: {
-    es: "Formula o criterios identificados, pendiente de implementacion tecnica.",
-    en: "Formula or criteria identified, pending technical implementation."
+    es: "Calculation inputsula o criterios identificados, pendiente de implementacion tecnica.",
+    en: "Calculation inputsula or criteria identified, pending technical implementation."
   },
   pending_validation: {
     es: "Requiere validacion de version, puntos de corte o fuente.",
