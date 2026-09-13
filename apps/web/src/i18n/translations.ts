@@ -170,6 +170,11 @@ export const translations = {
       accessType: "Acceso",
       validationNotes: "Notas de validación",
       notActiveTitle: "Esta herramienta aún no está activa",
+      referenceTitle: "Referencia clínica disponible",
+      referenceBody: "Esta superficie está activa como referencia clínica. Puedes consultar su finalidad, población, limitaciones y fuentes aunque no exista un cálculo local.",
+      limitedTitle: "Acceso clínico limitado",
+      limitedBody: "La herramienta permanece identificada y documentada, pero su uso operativo local está limitado por evidencia, definición o condiciones de reutilización.",
+      preparationTitle: "En preparación",
       automaticCalculationInactive:
         "El cálculo automático todavía no está disponible. Conservamos esta ficha para que puedas consultar su propósito, su estado y las fuentes que guían su revisión.",
       partialActiveTitle: "Módulo parcialmente disponible",
@@ -433,6 +438,11 @@ export const translations = {
       accessType: "Access",
       validationNotes: "Validation notes",
       notActiveTitle: "This tool is not active yet",
+      referenceTitle: "Clinical reference available",
+      referenceBody: "This surface is active as a clinical reference. You can review its purpose, population, limitations and sources even when no local calculation is available.",
+      limitedTitle: "Limited clinical access",
+      limitedBody: "The tool remains identified and documented, but local operational use is limited by evidence, definition or reuse conditions.",
+      preparationTitle: "In preparation",
       automaticCalculationInactive:
         "Automatic calculation is not active for this tool yet. This page is shown for review, traceability and implementation preparation.",
       partialActiveTitle: "Active partial module",
