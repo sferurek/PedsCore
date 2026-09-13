@@ -70,7 +70,7 @@ const editorialProfiles: Record<string, EditorialProfile> = {
         }
       }
     ],
-    sourceReferenceIds: ["pecarn_tbi_2009_original"]
+    sourceReferenceIds: ["pecarn_tbi_2009_derivation_validation"]
   },
   pecarn_tbi_2_or_more: {
     strapline: {
@@ -100,7 +100,7 @@ const editorialProfiles: Record<string, EditorialProfile> = {
         }
       }
     ],
-    sourceReferenceIds: ["pecarn_tbi_2009_original"]
+    sourceReferenceIds: ["pecarn_tbi_2009_derivation_validation"]
   },
   apgar: {
     strapline: {
