@@ -2,7 +2,7 @@ export const atlas = {
   en: {
     eyebrow: "PEDIATRIC CARE, MADE CLEARER.", brandTagline: "Evidence, made useful", usageEyebrow: "PEDSCORE / GLOBAL", openEyebrow: "PEDSCORE / OPEN SCIENCE", title: "Clarity for today.", future: "Better care tomorrow.",
     lead: "Pediatric clinical tools with the evidence in sight — and new ways to learn, practise and prepare for what comes next.",
-    search: "Search tools, conditions or topics…", searchLabel: "Search the clinical catalogue", close: "Close", menu: "Menu", skip: "Skip to content", soon: "Coming soon", explore: "Explore tools", preview: "Design preview · not a clinical case", noResults: "No tools found. Try another term.",
+    search: "Search tools, conditions or topics…", searchLabel: "Search the clinical catalogue", close: "Close", menu: "Menu", skip: "Skip to content", soon: "Coming soon", explore: "Explore tools", preview: "Design preview · not a clinical case", noResults: "No tools found. Try another term.", productLabels: { tools: "Tools", learn: "Learn", sim: "Sim", live: "Live" },
     tools: ["The right tool, without the noise.", "Scores, equations and reference tools designed to be easy to find, easy to understand and transparent about the evidence behind them."],
     learn: ["Every case can teach something.", "A future space for case-based pediatric learning — built around observation, reasoning and thoughtful reflection."],
     sim: ["Practise before the moment arrives.", "A future space to explore pediatric scenarios, make decisions and understand what follows."],
@@ -14,7 +14,7 @@ export const atlas = {
   es: {
     eyebrow: "PEDIATRÍA, CON MÁS CLARIDAD.", brandTagline: "Evidencia que ayuda a decidir mejor.", usageEyebrow: "PEDSCORE / USO GLOBAL", openEyebrow: "PEDSCORE / CIENCIA ABIERTA", title: "Claridad para hoy.", future: "Mejor cuidado mañana.",
     lead: "Herramientas clínicas pediátricas con la evidencia a la vista, y nuevas formas de aprender, practicar y prepararse para lo que viene.",
-    search: "Busca herramientas, patologías o temas…", searchLabel: "Buscar en el catálogo clínico", close: "Cerrar", menu: "Menú", skip: "Saltar al contenido", soon: "Próximamente", explore: "Ver las herramientas", preview: "Vista de diseño · no es un caso clínico", noResults: "No se han encontrado herramientas. Prueba otro término.",
+    search: "Busca herramientas, patologías o temas…", searchLabel: "Buscar en el catálogo clínico", close: "Cerrar", menu: "Menú", skip: "Saltar al contenido", soon: "Próximamente", explore: "Ver las herramientas", preview: "Vista de diseño · no es un caso clínico", noResults: "No se han encontrado herramientas. Prueba otro término.", productLabels: { tools: "Herramientas", learn: "Aprender", sim: "Simulación", live: "En vivo" },
     tools: ["La herramienta adecuada, sin ruido.", "Escalas, ecuaciones y herramientas de referencia fáciles de encontrar, comprender y contrastar con la evidencia que las sustenta."],
     learn: ["Cada caso puede enseñar algo.", "Un futuro espacio para aprender pediatría a través de casos, desde la observación y el razonamiento hasta la reflexión clínica."],
     sim: ["Practica antes de que llegue el momento.", "Un futuro espacio para explorar escenarios pediátricos, tomar decisiones y comprender qué ocurre después."],
