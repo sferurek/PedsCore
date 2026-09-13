@@ -1,7 +1,6 @@
 import { Fragment, useMemo } from "react";
 import { atlas } from "../i18n/atlas";
 import { SearchCommand } from "../components/atlas/SearchCommand";
-import { UsageStrip } from "../components/atlas/UsageStrip";
 import { HomeStories } from "../components/atlas/HomeStories";
 import { Icon } from "../components/atlas/Icon";
 import { getAllTools } from "@peds-core/core";
@@ -131,7 +130,6 @@ export function HomePage({ language, navigate }: HomePageProps) {
         <div className="atlas-hero-inner"><div className="atlas-hero-copy"><p className="eyebrow">{a.eyebrow}</p><h1>{a.title}<br /><span>{a.future}</span></h1><p>{a.lead}</p><SearchCommand language={language} navigate={navigate} /><small>PRAM · Westley · PECARN · WHO Growth</small></div><p className="atlas-hero-note">{a.note.split(". ").map((part, index) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</p>
         <div className="atlas-gateways">{(["tools", "learn", "sim", "live"] as const).map((product, i) => <a className={`atlas-gateway atlas-${product}`} key={product} href={`#${product}`}><div><span className="atlas-product-icon"><Icon name={product} /></span><strong>{product[0].toUpperCase() + product.slice(1)}</strong><Icon name="arrow" /></div><p>{a.capabilities[i][0]}</p><small>{product === "tools" ? <><b>{surfaceStats.available}</b> {t.home.availableMetric} · <b>{surfaceStats.localCalculations}</b> {t.home.implementedMetric}</> : a.soon}</small></a>)}</div></div>
       </section>
-      <UsageStrip language={language} navigate={navigate} />
       <HomeStories language={language} navigate={navigate} />
       <section className="category-strip-section" id="categories">
         <div className="section-heading">
