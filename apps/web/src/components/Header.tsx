@@ -19,7 +19,7 @@ export function Header({ currentPath, language, navigate, onLanguageChange }: He
     <header className={`site-header atlas-header ${scrolled ? "is-scrolled" : ""}`}>
       <button className="brand-link" type="button" onClick={() => go(makePath(language))}><span className="atlas-brand-mark"><Icon name="heart" /></span><span>PedsCore<small>{a.brandTagline}</small></span></button>
       <nav className="main-nav" aria-label={language === "es" ? "Navegación principal" : "Primary navigation"}>{links}</nav>
-      <div className="atlas-header-actions"><SearchCommand compact language={language} navigate={navigate} /><LanguageSwitcher language={language} onLanguageChange={onLanguageChange} /><button type="button" className="atlas-icon-button atlas-menu-trigger" aria-label={a.menu} onClick={() => sheet.current?.showModal()}><Icon name="menu" /></button></div>
+      <div className="atlas-header-actions"><SearchCommand compact={!scrolled} nav={scrolled} language={language} navigate={navigate} /><LanguageSwitcher language={language} onLanguageChange={onLanguageChange} /><button type="button" className="atlas-icon-button atlas-menu-trigger" aria-label={a.menu} onClick={() => sheet.current?.showModal()}><Icon name="menu" /></button></div>
     </header>
     <dialog ref={sheet} className="atlas-mobile-sheet" aria-label={a.menu}>
       <div className="atlas-dialog-heading"><strong>PedsCore</strong><button type="button" className="atlas-icon-button" aria-label={a.close} onClick={() => sheet.current?.close()}><Icon name="close" /></button></div>
