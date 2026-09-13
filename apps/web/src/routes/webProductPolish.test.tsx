@@ -30,7 +30,7 @@ describe("public product web polish", () => {
     expect(html).not.toContain("Available now");
     expect(html).toContain("WHO Growth");
     expect(html).toContain("Open module");
-    expect(html).toContain("Transparent by design");
+    expect(html).toContain("Transparency, end to end");
     expect(html).toContain("Westley Croup");
     expect(html).toContain("PRAM");
     expect(html).toContain("Wood-Downes-Ferres");
