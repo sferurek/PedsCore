@@ -144,13 +144,13 @@ export const translations = {
         "Países agregados durante el periodo de datos del proveedor: {since} a {until}.",
       loading: "Cargando estadísticas agregadas…",
       notConfigured:
-        "La analítica pública todavía no está configurada para este despliegue.",
+        "Las estadísticas de uso aún no están disponibles en esta versión.",
       disabled:
-        "La página pública de estadísticas está desactivada por configuración.",
+        "Las estadísticas públicas están temporalmente desactivadas.",
       empty:
-        "Todavía no hay estadísticas públicas suficientes para mostrar.",
+        "Todavía no hay suficientes datos agregados para mostrar esta vista.",
       failed:
-        "No se han podido cargar las estadísticas públicas.",
+        "No hemos podido cargar las estadísticas en este momento.",
       updated: "Actualizado"
     },
     tool: {
@@ -176,7 +176,7 @@ export const translations = {
         "PedsCore es una herramienta de apoyo para profesionales sanitarios. La información debe interpretarse junto con la valoración individual del paciente, el juicio clínico y los protocolos aplicables.",
       feedbackQuestion:
         "¿Has visto algo que podamos mejorar?",
-      feedbackLink: "Abrir una incidencia en GitHub",
+      feedbackLink: "Proponer una corrección o mejora",
       noReferences:
         "Aún falta cerrar la revisión de la fuente primaria antes de activar el cálculo."
     },
@@ -231,15 +231,15 @@ export const translations = {
       aboutTitle: "Sobre PedsCore",
       aboutBody:
         "PedsCore es un proyecto abierto de herramientas clínicas para pediatría y neonatología. Nace con una idea sencilla: que encontrar una escala o una regla útil sea fácil, y que entender de dónde sale sea todavía más fácil.",
-      coreTitle: "Núcleo",
-      coreBody: "La capa que reúne la lógica determinista, los metadatos clínicos y las reglas que sostienen cada herramienta.",
-      webTitle: "Web",
-      webBody: "La experiencia web bilingüe desde la que se exploran, consultan y utilizan las herramientas.",
+      coreTitle: "Cómo funciona",
+      coreBody: "Cada herramienta combina lógica determinista, metadatos clínicos y fuentes trazables para que el funcionamiento sea comprensible y auditable.",
+      webTitle: "Una experiencia abierta",
+      webBody: "La web es bilingüe, abierta y pensada para consultar o utilizar herramientas sin crear una cuenta ni enviar datos clínicos a un servidor.",
       disclaimerTitle: "Aviso legal",
       disclaimerBody:
-        "PedsCore es un recurso educativo e informativo. No proporciona consejo médico ni recomendaciones terapéuticas y no sustituye el juicio clínico, los protocolos locales ni los requisitos institucionales.",
+        "PedsCore es un recurso profesional de consulta y apoyo. No sustituye la valoración individual del paciente, el juicio clínico, los protocolos locales ni los requisitos de cada institución.",
       analyticsPrivacy:
-        "PedsCore puede utilizar analítica agregada y respetuosa con la privacidad para conocer el uso general de la web. No se almacenan direcciones IP, no se usan cookies de seguimiento, no se crean perfiles de usuario y no se recogen datos clínicos ni valores introducidos en los formularios.",
+        "Para entender cómo se utiliza el proyecto, PedsCore puede mostrar analítica agregada y respetuosa con la privacidad. No se crean perfiles de usuario ni se recogen datos clínicos, texto libre o valores introducidos en los formularios.",
       contributeTitle: "Contribuir",
       contributeBody:
         "PedsCore mejora cuando alguien detecta una referencia que falta, una herramienta que merece estar o una explicación que puede ser más clara. GitHub Issues es el punto de entrada para proponer cambios y revisión clínica.",
@@ -248,7 +248,7 @@ export const translations = {
     },
     common: {
       language: "Idioma",
-      openTool: "Abrir ficha",
+      openTool: "Ver herramienta",
       category: "Categoría",
       subcategory: "Subcategoría",
       type: "Tipo",
@@ -405,13 +405,13 @@ export const translations = {
         "Countries aggregated within the provider reporting window: {since} to {until}.",
       loading: "Loading aggregate statistics...",
       notConfigured:
-        "Public analytics are not configured for this deployment yet.",
+        "Usage statistics are not available in this version yet.",
       disabled:
-        "The public stats page is disabled by configuration.",
+        "Public usage statistics are temporarily unavailable.",
       empty:
-        "There are not enough public statistics to show yet.",
+        "There are not enough aggregate data to show this view yet.",
       failed:
-        "Public statistics could not be loaded.",
+        "We could not load the usage statistics right now.",
       updated: "Updated"
     },
     tool: {
@@ -436,7 +436,7 @@ export const translations = {
       disclaimer:
         "Disclaimer: PedsCore is an educational and informational reference for healthcare professionals. It does not replace clinical judgment, local protocols or individual patient assessment. It must not be used as the sole basis for clinical decision-making.",
       feedbackQuestion: "Found an error or want to suggest an improvement?",
-      feedbackLink: "Open an issue on GitHub",
+      feedbackLink: "Suggest a correction or improvement",
       noReferences:
         "This tool requires primary source review before calculation is activated."
     },
@@ -491,10 +491,10 @@ export const translations = {
       aboutTitle: "About PedsCore",
       aboutBody:
         "PedsCore is an open project for pediatric and neonatal clinical tools. It is built around a simple idea: finding a useful score or rule should be easy, and understanding where it comes from should be even easier.",
-      coreTitle: "Core",
+      coreTitle: "How it works",
       coreBody: "TypeScript contracts, metadata, and future deterministic engines.",
-      webTitle: "Web",
-      webBody: "The bilingual web experience used to explore, review and use the catalog.",
+      webTitle: "Una experiencia abierta",
+      webBody: "The bilingual web experience is open by design: explore and use tools without creating an account or sending clinical data to a server.",
       disclaimerTitle: "Disclaimer",
       disclaimerBody:
         "PedsCore is an educational and informational resource. It does not provide medical advice or therapeutic recommendations and does not replace clinical judgment, local protocols or institutional requirements.",
