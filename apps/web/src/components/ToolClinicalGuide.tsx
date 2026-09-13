@@ -1,5 +1,5 @@
 import { getToolDiscovery } from "@peds-core/core";
-import type { ClinicalToolMetadata } from "@peds-core/core";
+import type { ClinicalToolMetadata, DiscoveryCalculationAvailability } from "@peds-core/core";
 import type { Language } from "../utils/language";
 import { discoveryLabel } from "../utils/discoveryLabels";
 
@@ -9,11 +9,7 @@ interface ToolClinicalGuideProps {
 }
 
 const availabilityLabel = (
-  value: ReturnType<typeof getToolDiscovery> extends infer T
-    ? T extends { calculationAvailability: infer V }
-      ? V
-      : never
-    : never,
+  value: DiscoveryCalculationAvailability,
   language: Language
 ) => {
   const labels: Record<string, { es: string; en: string }> = {
