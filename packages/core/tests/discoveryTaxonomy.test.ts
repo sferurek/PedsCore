@@ -91,7 +91,7 @@ describe("clinical discovery taxonomy", () => {
   it("separates active references from local calculations", () => {
     const discovery = Object.values(toolDiscoveryById);
     expect(discovery.filter((item) => item.surfaceStatus === "active").length).toBeGreaterThan(100);
-    expect(discovery.filter((item) => item.calculationAvailability === "local_active")).toHaveLength(23);
+    expect(discovery.filter((item) => item.calculationAvailability === "local_active")).toHaveLength(24);
     expect(getToolDiscovery("flacc")?.surfaceStatus).toBe("blocked");
     expect(getToolDiscovery("flacc")?.calculationAvailability).toBe("blocked_by_rights");
     expect(getToolDiscovery("wpcdai")?.surfaceStatus).toBe("active");
