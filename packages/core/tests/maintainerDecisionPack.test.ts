@@ -36,7 +36,6 @@ describe("maintainer decision pack", () => {
     const getTool = (id: string) => clinicalTools.find((tool) => tool.id === id);
     const lockedIds = [
       "pediatric_gcs",
-      "pews",
       "brighton_pews",
       "bedside_pews",
       "pediatric_cpr",
@@ -45,7 +44,6 @@ describe("maintainer decision pack", () => {
       "pediatric_tachycardia",
       "shockable_rhythm_algorithm",
       "non_shockable_rhythm_algorithm",
-      "resuscitation_weight_dose_energy",
       "who_growth_percentiles",
       "cdc_growth_percentiles",
       "bmi_percentile",
@@ -58,8 +56,6 @@ describe("maintainer decision pack", () => {
       "prism_iv",
       "pim2",
       "pim3",
-      "bayley",
-      "denver_ii",
       "stamp",
       "wong_baker_faces",
       "cheops",
@@ -99,10 +95,7 @@ describe("maintainer decision pack", () => {
       "pediatric_gcs",
       "pediatric_cpr",
       "neonatal_cpr",
-      "resuscitation_weight_dose_energy",
       "orbegozo_growth_percentiles",
-      "bayley",
-      "denver_ii",
       "wong_baker_faces"
     ];
 
