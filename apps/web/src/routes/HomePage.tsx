@@ -9,7 +9,7 @@ import type { ToolCategory } from "@peds-core/core";
 import { categoryLabels, translations } from "../i18n/translations";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
-import { getImplementedCount, getPartialCount } from "../utils/toolStats";
+import { getClinicalSurfaceStats } from "../utils/toolStats";
 
 interface HomePageProps {
   language: Language;
@@ -106,8 +106,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
   const t = translations[language];
   const a = atlas[language];
   const allTools = getAllTools();
-  const implementedCount = getImplementedCount(allTools);
-  const partialCount = getPartialCount(allTools);
+  const surfaceStats = getClinicalSurfaceStats(allTools);
   const categoryCounts = useMemo(() => {
     const counts = new Map<ToolCategory, number>();
 
@@ -130,7 +129,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
       <section className="atlas-hero">
         <picture className="atlas-hero-media"><source type="image/webp" srcSet={`${import.meta.env.BASE_URL}media/clinical-hero-768.webp 768w, ${import.meta.env.BASE_URL}media/clinical-hero.webp 1536w`} sizes="100vw" /><img src={`${import.meta.env.BASE_URL}media/clinical-hero.webp`} alt="" width="1536" height="1024" fetchPriority="high" /></picture>
         <div className="atlas-hero-inner"><div className="atlas-hero-copy"><p className="eyebrow">{a.eyebrow}</p><h1>{a.title}<br /><span>{a.future}</span></h1><p>{a.lead}</p><SearchCommand language={language} navigate={navigate} /><small>PRAM · Westley · PECARN · WHO Growth</small></div><p className="atlas-hero-note">{a.note}</p>
-        <div className="atlas-gateways">{(["tools", "learn", "sim", "live"] as const).map((product, i) => <a className={`atlas-gateway atlas-${product}`} key={product} href={`#${product}`}><div><span className="atlas-product-icon"><Icon name={product} /></span><strong>{product[0].toUpperCase() + product.slice(1)}</strong><Icon name="arrow" /></div><p>{a.capabilities[i][0]}</p><small>{product === "tools" ? <><b>{implementedCount}</b> {t.home.implementedMetric} · <b>{allTools.length}</b> {t.home.cataloguedMetric}</> : a.soon}</small></a>)}</div></div>
+        <div className="atlas-gateways">{(["tools", "learn", "sim", "live"] as const).map((product, i) => <a className={`atlas-gateway atlas-${product}`} key={product} href={`#${product}`}><div><span className="atlas-product-icon"><Icon name={product} /></span><strong>{product[0].toUpperCase() + product.slice(1)}</strong><Icon name="arrow" /></div><p>{a.capabilities[i][0]}</p><small>{product === "tools" ? <><b>{surfaceStats.available}</b> {t.home.availableMetric} · <b>{surfaceStats.localCalculations}</b> {t.home.implementedMetric}</> : a.soon}</small></a>)}</div></div>
       </section>
       <UsageStrip language={language} navigate={navigate} />
       <HomeStories language={language} navigate={navigate} />
@@ -189,7 +188,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
         </div>
       </section>
 
-      <section className="atlas-trust"><p className="eyebrow">{a.openEyebrow}</p><h2>{a.open}</h2><p>{a.openBody}</p><div className="atlas-catalog-facts"><span><b>{allTools.length}</b> {t.home.cataloguedMetric}</span><span><b>{implementedCount}</b> {t.home.implementedMetric}</span><span><b>{partialCount}</b> {t.home.partialMetric}</span><span><b>0</b> {t.home.clinicalDataMetric}</span></div><p>{t.home.subtitle}</p></section>
+      <section className="atlas-trust"><p className="eyebrow">{a.openEyebrow}</p><h2>{a.open}</h2><p>{a.openBody}</p><div className="atlas-catalog-facts"><span><b>{surfaceStats.catalogued}</b> {t.home.cataloguedMetric}</span><span><b>{surfaceStats.available}</b> {t.home.availableMetric}</span><span><b>{surfaceStats.localCalculations}</b> {t.home.implementedMetric}</span><span><b>{surfaceStats.blocked}</b> {t.home.blockedMetric}</span><span><b>0</b> {t.home.clinicalDataMetric}</span></div><p>{t.home.subtitle}</p></section>
       <section className="transparency-band">
         <h2>{t.home.transparencyTitle}</h2>
         <ul>
