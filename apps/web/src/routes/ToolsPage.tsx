@@ -132,12 +132,12 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
     <div className="page-stack tools-discovery-page">
       <section className="page-hero tools-hero">
         <div>
-          <p className="finder-eyebrow">PedsCore Clinical Tools</p>
+          <p className="finder-eyebrow">PedsCore · catálogo clínico</p>
           <h1>{t.tools.title}</h1>
           <p>
             {language === "es"
-              ? "Busca por contexto clínico, filtra con precisión o deja que Finder te lleve a la herramienta adecuada."
-              : "Search by clinical context, filter precisely, or let Finder guide you to the right tool."}
+              ? "Encuentra la herramienta que encaja con el paciente y el contexto. Puedes buscar como piensas en clínica o afinar por edad, especialidad y objetivo."
+              : "Find the tool that fits the patient and the context. Search the way you think clinically, or narrow things down by age, specialty and purpose."}
           </p>
         </div>
         <div className="tools-hero-count">
@@ -151,7 +151,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
       <section className="tool-discovery-controls">
         <div className="tool-filter-topbar">
           <SearchBar
-            label={language === "es" ? "Buscar directamente" : "Direct search"}
+            label={language === "es" ? "Buscar por nombre" : "Search by name"}
             placeholder={t.home.searchPlaceholder}
             value={filters.query}
             onChange={(query) => setFilters({ ...filters, query })}
@@ -238,7 +238,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
 
         <details className="advanced-filter-panel">
           <summary>
-            {language === "es" ? "Más filtros" : "More filters"}
+            {language === "es" ? "Afinar búsqueda" : "Refine search"}
             {activeFilterCount ? <span>{activeFilterCount}</span> : null}
           </summary>
           <div className="advanced-filter-grid">
@@ -372,7 +372,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
                   setFilters({ ...filters, localCalculationOnly: event.target.checked })
                 }
               />
-              <span>{language === "es" ? "Solo cálculo local activo" : "Local calculation only"}</span>
+              <span>{language === "es" ? "Solo herramientas con cálculo activo" : "Active local calculations only"}</span>
             </label>
             <label className="filter-toggle">
               <input
@@ -382,7 +382,7 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
                   setFilters({ ...filters, longitudinalOnly: event.target.checked })
                 }
               />
-              <span>{language === "es" ? "Útiles para seguimiento" : "Useful for follow-up"}</span>
+              <span>{language === "es" ? "Útiles para seguimiento longitudinal" : "Useful for longitudinal follow-up"}</span>
             </label>
           </div>
         </details>
