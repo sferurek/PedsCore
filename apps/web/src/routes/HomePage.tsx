@@ -336,7 +336,6 @@ export function HomePage({ language, navigate }: HomePageProps) {
           <span><b>{surfaceStats.blocked}</b>{t.home.blockedMetric}</span>
           <span><b>0</b>{t.home.clinicalDataMetric}</span>
         </div>
-        <p className="atlas-trust-note">{t.home.subtitle}</p>
       </section>
       <section className="transparency-band">
         <h2>{t.home.transparencyTitle}</h2>
