@@ -93,3 +93,265 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
 @media print { .atlas-header,.atlas-section-nav,.atlas-breadcrumbs { display:none!important; }.atlas-workspace { display:block; }.atlas-workspace > .result-panel { position:static; } }
 .atlas-legacy-workspace { display:contents; }
 .atlas-expanded-name { font-size:20px; margin:0; }
+
+
+/* EDITORIAL-VISUAL-POLISH-V1
+   A calmer, more editorial presentation layer for discovery surfaces.
+   Clinical calculators and instrument content are intentionally untouched. */
+:root {
+  --editorial-shadow: 0 24px 70px rgba(7, 24, 39, .08);
+  --editorial-shadow-soft: 0 10px 34px rgba(7, 24, 39, .06);
+  --editorial-glass: rgba(255,255,255,.78);
+}
+
+.page-hero.tools-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(32px, 5vw, 64px);
+  border: 1px solid color-mix(in srgb, var(--line) 75%, transparent);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(47,128,237,.14), transparent 30%),
+    radial-gradient(circle at 12% 110%, rgba(32,165,143,.11), transparent 34%),
+    linear-gradient(145deg, #ffffff 0%, #f5f9fc 100%);
+  box-shadow: var(--editorial-shadow-soft);
+}
+.page-hero.tools-hero::after {
+  content:"";
+  position:absolute;
+  inset:auto -70px -110px auto;
+  width:260px;
+  height:260px;
+  border:1px solid rgba(47,128,237,.12);
+  border-radius:50%;
+  box-shadow:0 0 0 34px rgba(47,128,237,.035),0 0 0 68px rgba(47,128,237,.02);
+  pointer-events:none;
+}
+.tools-hero > div:first-child { max-width: 760px; }
+.tools-hero .finder-eyebrow {
+  margin-bottom: 14px;
+  font-size: 11px;
+  letter-spacing: .16em;
+}
+.tools-hero h1 {
+  max-width: 12ch;
+  font-size: clamp(2.7rem, 6vw, 5.2rem);
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+.tools-hero > div:first-child > p:last-child {
+  max-width: 660px;
+  margin: 22px 0 0;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 1.5vw, 1.16rem);
+  line-height: 1.7;
+}
+.tools-hero-count {
+  position:relative;
+  z-index:1;
+  min-width: 148px;
+  padding: 18px 20px;
+  border-color: rgba(47,128,237,.16);
+  background: rgba(255,255,255,.72);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 14px 36px rgba(7,24,39,.055);
+}
+.tools-hero-count strong {
+  font-size: clamp(2.1rem,4vw,3.2rem);
+  letter-spacing: -.05em;
+}
+
+.finder-shell {
+  padding: clamp(22px,3vw,36px);
+  border-color: rgba(47,128,237,.16);
+  border-radius: var(--radius-xl);
+  background:
+    radial-gradient(circle at 96% 0%, rgba(47,128,237,.12), transparent 28rem),
+    linear-gradient(145deg, rgba(255,255,255,.98), rgba(244,249,252,.97));
+  box-shadow: var(--editorial-shadow);
+}
+.finder-header h2 {
+  margin-top: 4px;
+  font-family: var(--font-editorial);
+  font-size: clamp(1.8rem,3vw,2.7rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -.025em;
+}
+.finder-header p {
+  max-width: 720px;
+  font-size: .98rem;
+  line-height: 1.65;
+}
+.finder-chat {
+  gap: 12px;
+  padding: 8px 0;
+}
+.finder-message {
+  padding: 12px 15px;
+  line-height: 1.55;
+}
+.finder-message-assistant {
+  border-color: rgba(185,202,214,.7);
+  background: rgba(255,255,255,.82);
+}
+.finder-message-user {
+  background: linear-gradient(135deg,var(--action),#2459a8);
+  box-shadow: 0 8px 24px rgba(20,100,201,.14);
+}
+.finder-result-card {
+  padding: 16px;
+  border-color: rgba(185,202,214,.74);
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,.82);
+  box-shadow: 0 10px 26px rgba(7,24,39,.04);
+}
+.finder-composer {
+  padding-top: 6px;
+}
+.finder-composer textarea {
+  min-height: 72px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border-color: var(--line-strong);
+  background: rgba(255,255,255,.92);
+  line-height: 1.5;
+  box-shadow: inset 0 1px 0 rgba(7,24,39,.02);
+}
+
+.tool-discovery-controls {
+  gap: 16px;
+  padding: clamp(20px,2.5vw,30px);
+  border-color: var(--line);
+  border-radius: var(--radius-xl);
+  background: rgba(255,255,255,.82);
+  box-shadow: var(--editorial-shadow-soft);
+  backdrop-filter: blur(10px);
+}
+.tool-filter-topbar > label,
+.advanced-filter-grid > label {
+  gap: 7px;
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.tool-filter-topbar select,
+.advanced-filter-grid select {
+  min-height: 48px;
+  padding: 0 13px;
+  border-radius: var(--radius-md);
+  border-color: var(--line-strong);
+  background: rgba(255,255,255,.96);
+}
+.quick-filter-row {
+  gap: 8px;
+}
+.quick-filter-chip {
+  border-color: var(--line-strong);
+  background: rgba(255,255,255,.8);
+  transition: transform var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast);
+}
+.quick-filter-chip:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb,var(--tools) 45%,var(--line));
+  background: var(--tools-soft);
+}
+
+.tools-discovery-page .tool-grid {
+  gap: 18px;
+}
+.tools-discovery-page .tool-card {
+  position:relative;
+  overflow:hidden;
+  padding: 22px;
+  border-color: var(--line);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(180deg,rgba(255,255,255,1),rgba(249,251,252,.96));
+  box-shadow: 0 8px 28px rgba(7,24,39,.045);
+  transition: transform var(--motion-standard), box-shadow var(--motion-standard), border-color var(--motion-standard);
+}
+.tools-discovery-page .tool-card::before {
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:3px;
+  background:linear-gradient(180deg,var(--tools),rgba(47,128,237,.18));
+  opacity:.55;
+}
+.tools-discovery-page .tool-card:hover {
+  transform:translateY(-3px);
+  border-color:color-mix(in srgb,var(--tools) 28%,var(--line));
+  box-shadow:0 18px 46px rgba(7,24,39,.085);
+}
+.tools-discovery-page .tool-card h3 {
+  font-size: 1.15rem;
+  line-height: 1.28;
+  letter-spacing: -.015em;
+}
+.tools-discovery-page .tool-card > p {
+  color: var(--text-muted);
+  line-height: 1.58;
+}
+.tools-discovery-page .compact-metadata {
+  border-top:1px solid var(--line);
+  padding-top:14px;
+}
+.tools-discovery-page .card-action {
+  min-height: 42px;
+  border-radius: var(--radius-sm);
+}
+
+.home-page .category-strip-section {
+  padding-top: clamp(64px,8vw,104px);
+  padding-bottom: clamp(64px,8vw,104px);
+}
+.home-page .section-heading h2 {
+  font-family: var(--font-editorial);
+  font-weight:400;
+  letter-spacing:-.03em;
+}
+.home-page .category-card-grid {
+  border-top:1px solid var(--line);
+  border-left:1px solid var(--line);
+}
+.home-page .home-category-card {
+  position:relative;
+  min-height:210px;
+  padding:28px;
+  border-right:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  transition:background var(--motion-standard),transform var(--motion-standard);
+}
+.home-page .home-category-card:hover {
+  z-index:1;
+  transform:translateY(-2px);
+  background:linear-gradient(145deg,var(--tools-soft),#fff);
+}
+.home-page .category-card-title {
+  font-size:1.12rem;
+  letter-spacing:-.015em;
+}
+.home-page .category-card-description {
+  max-width:30ch;
+  line-height:1.55;
+}
+.atlas-trust h2 {
+  font-size:clamp(2rem,4vw,3.5rem);
+  line-height:1.08;
+}
+.home-page .transparency-band h2 {
+  font-family:var(--font-editorial);
+  font-weight:400;
+  letter-spacing:-.03em;
+}
+
+@media (max-width: 719px) {
+  .page-hero.tools-hero { padding: 28px 22px; }
+  .tools-hero h1 { max-width:none; font-size:clamp(2.4rem,13vw,3.5rem); }
+  .tools-hero-count { min-width:0; width:100%; }
+  .finder-shell,.tool-discovery-controls { border-radius: var(--radius-lg); }
+  .home-page .category-card-grid { border-left:0; }
+  .home-page .home-category-card { border-left:1px solid var(--line); min-height:0; }
+}
