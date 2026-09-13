@@ -17,6 +17,7 @@ import { ReferenceList } from "../components/ReferenceList";
 import { ResultPanel } from "../components/ResultPanel";
 import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
+import { ToolClinicalGuide } from "../components/ToolClinicalGuide";
 import { ToolStatusBadge } from "../components/ToolStatusBadge";
 import { evidenceLabels, riskLabels, translations } from "../i18n/translations";
 import {
@@ -73,6 +74,42 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const isWhoGrowth = whoGrowthPreset !== null && whoGrowthTool !== null;
   const hasActiveCalculation = discovery?.calculationAvailability === "local_active" || isWhoGrowth;
   const isActiveReference = discovery?.surfaceStatus === "active" && !hasActiveCalculation;
+  const relatedTools = useMemo(() => {
+    const all = getAllTools();
+    const byId = new Map(all.map((item) => [item.id, item]));
+    const selected: ClinicalToolMetadata[] = [];
+    const seen = new Set<string>([tool.id]);
+
+    const add = (candidate: ClinicalToolMetadata | undefined) => {
+      if (!candidate || seen.has(candidate.id)) return;
+      seen.add(candidate.id);
+      selected.push(candidate);
+    };
+
+    for (const id of discovery?.relatedToolIds ?? []) {
+      add(byId.get(id));
+    }
+
+    if (discovery?.comparisonGroupIds.length) {
+      for (const candidate of all) {
+        const candidateDiscovery = getToolDiscovery(candidate.id);
+        if (
+          candidateDiscovery?.comparisonGroupIds.some((groupId) =>
+            discovery.comparisonGroupIds.includes(groupId)
+          )
+        ) {
+          add(candidate);
+        }
+      }
+    }
+
+    for (const candidate of all) {
+      if (candidate.category === tool.category) add(candidate);
+      if (selected.length >= 6) break;
+    }
+
+    return selected.slice(0, 6);
+  }, [discovery, tool.category, tool.id]);
   const analyticsPath = makePath(language, "tools", tool.slug);
   const analyticsParams = useMemo(
     () => ({
@@ -140,15 +177,19 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
         </div>
       </section>
 
-      {isCanonical ? <nav className="atlas-section-nav" aria-label={language === "es" ? "Secciones de la herramienta" : "Tool sections"}>{[["calculator", a.calculator], ["about-tool", a.about], ["evidence", a.evidence], ["references", a.references], ["related", a.related]].map(([id, label]) => <a href={`#${id}`} key={id}>{label}</a>)}</nav> : null}
+      <nav className="atlas-section-nav" aria-label={language === "es" ? "Secciones de la herramienta" : "Tool sections"}>
+        <a href="#clinical-context">{language === "es" ? "Resumen clínico" : "Clinical summary"}</a>
+        <a href="#calculator">{hasActiveCalculation ? a.calculator : language === "es" ? "Uso" : "Use"}</a>
+        {hasActiveCalculation ? <a href="#interpretation">{language === "es" ? "Interpretación" : "Interpretation"}</a> : null}
+        <a href="#evidence">{a.evidence}</a>
+        <a href="#references">{a.references}</a>
+        {relatedTools.length > 0 ? <a href="#related">{a.related}</a> : null}
+      </nav>
       <div className="tool-layout">
         <div className="tool-main tool-page-main">
-          <DisclaimerBox language={language} />
+          <ToolClinicalGuide language={language} tool={tool} />
 
-          <section className="content-panel" id="about-tool">
-            <h2>{t.tool.description}</h2>
-            <p>{tool.description[language]}</p>
-          </section>
+          <DisclaimerBox language={language} />
 
           {isWhoGrowth ? (
             <section className="content-panel partial-active-panel">
@@ -209,7 +250,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
               )}
             </div>
           ) : (
-            <section className="content-panel inactive-tool-panel">
+            <section className="content-panel inactive-tool-panel" id="calculator">
               <h2>
                 {isActiveReference
                   ? t.tool.referenceTitle
@@ -248,11 +289,14 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
           )}
 
           {hasActiveCalculation ? (
-            <>
+            <div className="tool-interpretation-stack" id="interpretation">
+              <div className="tool-section-heading">
+                <p className="eyebrow">{language === "es" ? "LECTURA CLÍNICA" : "CLINICAL READING"}</p>
+                <h2>{language === "es" ? "Interpretación" : "Interpretation"}</h2>
+              </div>
               <InterpretationTable language={language} tool={tool} />
-
               <ScoringTable language={language} tool={tool} />
-            </>
+            </div>
           ) : null}
 
           <section className="content-panel" id="references">
@@ -288,7 +332,35 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
         </div>
         <ToolMetadataPanel language={language} tool={tool} />
       </div>
-      {isCanonical ? <section className="atlas-related" id="related"><h2>{a.related}</h2><div>{getAllTools().filter(item => item.category === tool.category && item.id !== tool.id && item.calculationStatus === "active").map(item => <a key={item.id} href={makePath(language, "tools", item.slug)} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools", item.slug)); }}>{item.name[language]} →</a>)}</div></section> : null}
+      {relatedTools.length > 0 ? (
+        <section className="atlas-related" id="related">
+          <div className="tool-section-heading">
+            <p className="eyebrow">{language === "es" ? "SIGUE EXPLORANDO" : "KEEP EXPLORING"}</p>
+            <h2>{a.related}</h2>
+            <p>
+              {language === "es"
+                ? "Herramientas próximas por problema clínico, finalidad o especialidad."
+                : "Nearby tools by clinical problem, purpose or specialty."}
+            </p>
+          </div>
+          <div className="atlas-related-grid">
+            {relatedTools.map((item) => (
+              <a
+                key={item.id}
+                href={makePath(language, "tools", item.slug)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  navigate(makePath(language, "tools", item.slug));
+                }}
+              >
+                <span>{item.shortName || item.name[language]}</span>
+                <small>{item.description[language]}</small>
+                <b aria-hidden="true">→</b>
+              </a>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }
