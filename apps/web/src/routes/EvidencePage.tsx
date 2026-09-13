@@ -20,22 +20,22 @@ const statuses = [
 const evidenceHierarchy = [
   {
     id: "original_derivation_study",
-    es: "Estudio original o de derivacion",
+    es: "Estudio original o de derivación",
     en: "Original or derivation study"
   },
   {
     id: "external_validation_study",
-    es: "Validacion externa",
+    es: "Validación externa",
     en: "External validation study"
   },
   {
     id: "clinical_practice_guideline",
-    es: "Guia clinica oficial",
+    es: "Guía clínica oficial",
     en: "Official clinical practice guideline"
   },
   {
     id: "systematic_review",
-    es: "Revision sistematica",
+    es: "Revisión sistemática",
     en: "Systematic review"
   },
   {
@@ -50,7 +50,7 @@ const evidenceHierarchy = [
   },
   {
     id: "peer_reviewed_review",
-    es: "Revision revisada por pares",
+    es: "Revisión por pares",
     en: "Peer-reviewed review"
   },
   {
@@ -60,7 +60,7 @@ const evidenceHierarchy = [
   },
   {
     id: "local_project_documentation",
-    es: "Documentacion local de PedsCore",
+    es: "Documentación local de PedsCore",
     en: "PedsCore local documentation"
   },
   {
