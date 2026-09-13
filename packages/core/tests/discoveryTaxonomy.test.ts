@@ -90,7 +90,7 @@ describe("clinical discovery taxonomy", () => {
 
   it("separates active references from local calculations", () => {
     const discovery = Object.values(toolDiscoveryById);
-    expect(discovery.filter((item) => item.surfaceStatus === "active")).toHaveLength(114);
+    expect(discovery.filter((item) => item.surfaceStatus === "active")).toHaveLength(115);
     expect(discovery.filter((item) => item.surfaceStatus === "draft")).toHaveLength(2);
     expect(discovery.filter((item) => item.surfaceStatus === "blocked")).toHaveLength(13);
     expect(discovery.filter((item) => item.surfaceStatus === "deprecated")).toHaveLength(3);
