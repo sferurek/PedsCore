@@ -1,5 +1,5 @@
-import { clinicalTools } from "@peds-core/core";
-import { statusLabels, translations } from "../i18n/translations";
+import { clinicalTools, getToolDiscovery } from "@peds-core/core";
+import { statusLabels, surfaceStatusLabels, translations } from "../i18n/translations";
 import { evidenceStatusDescriptions } from "../utils/evidenceStatus";
 import type { Language } from "../utils/language";
 
@@ -70,19 +70,15 @@ const evidenceHierarchy = [
   }
 ] as const;
 
-const summaryStatuses = [
-  "implemented",
-  "partially_implemented",
-  "pending_validation",
-  "needs_primary_reference",
-  "not_implemented_due_to_licensing"
-] as const;
+const summaryStatuses = ["active", "draft", "blocked", "deprecated"] as const;
 
 export function EvidencePage({ language }: EvidencePageProps) {
   const t = translations[language];
   const statusCounts = summaryStatuses.map((status) => ({
     status,
-    count: clinicalTools.filter((tool) => tool.implementationStatus === status).length
+    count: clinicalTools.filter(
+      (tool) => getToolDiscovery(tool.id)?.surfaceStatus === status
+    ).length
   }));
 
   return (
@@ -121,7 +117,7 @@ export function EvidencePage({ language }: EvidencePageProps) {
         <dl className="evidence-summary-grid">
           {statusCounts.map((item) => (
             <div key={item.status}>
-              <dt>{statusLabels[item.status][language]}</dt>
+              <dt>{surfaceStatusLabels[item.status][language]}</dt>
               <dd>{item.count}</dd>
             </div>
           ))}
