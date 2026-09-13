@@ -4672,17 +4672,6 @@ td {
   text-transform: uppercase;
 }
 
-.finder-local-badge {
-  flex: 0 0 auto;
-  padding: 0.42rem 0.68rem;
-  border: 1px solid rgba(26, 121, 145, 0.2);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.82);
-  color: #0b6280;
-  font-size: 0.76rem;
-  font-weight: 900;
-}
-
 .finder-chat {
   display: grid;
   gap: 0.65rem;
@@ -4813,10 +4802,6 @@ td {
 @media (max-width: 719px) {
   .finder-header {
     display: grid;
-  }
-
-  .finder-local-badge {
-    width: fit-content;
   }
 
   .finder-composer {

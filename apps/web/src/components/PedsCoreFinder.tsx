@@ -61,9 +61,6 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
               : "Describe it as you would to a colleague. The deterministic engine runs locally in your browser."}
           </p>
         </div>
-        <span className="finder-local-badge">
-          {es ? "0 € · local · sin API" : "€0 · local · no API"}
-        </span>
       </div>
 
       <div className="finder-chat">
