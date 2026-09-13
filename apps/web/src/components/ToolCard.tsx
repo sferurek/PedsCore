@@ -36,7 +36,7 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
           <p className="tool-shortname">{tool.shortName}</p>
           <h3>{tool.name[language]}</h3>
         </div>
-        <ToolStatusBadge language={language} status={tool.implementationStatus} />
+        <ToolStatusBadge language={language} status={tool.implementationStatus} toolId={tool.id} />
       </div>
 
       <p>{tool.description[language]}</p>
