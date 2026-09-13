@@ -6,6 +6,7 @@ import type { ClinicalToolMetadata } from "@peds-core/core";
 import { makePath } from "../utils/routes";
 import type { Language } from "../utils/language";
 import { runPedsCoreFinder } from "../utils/pedsCoreFinder";
+import { discoveryLabel } from "../utils/discoveryLabels";
 
 interface Props {
   tools: ClinicalToolMetadata[];
@@ -198,19 +199,29 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
                     </div>
                     <div>
                       <dt>{es ? "Función" : "Function"}</dt>
-                      <dd>{discovery?.clinicalFunctions.join(" · ")}</dd>
+                      <dd>{discovery?.clinicalFunctions.map((value) => discoveryLabel(value, language)).join(" · ")}</dd>
                     </div>
                     <div>
                       <dt>{es ? "Entorno" : "Setting"}</dt>
-                      <dd>{discovery?.careSettings.join(" · ")}</dd>
+                      <dd>{discovery?.careSettings.map((value) => discoveryLabel(value, language)).join(" · ")}</dd>
                     </div>
                     <div>
                       <dt>{es ? "Modalidad" : "Mode"}</dt>
-                      <dd>{discovery?.interactionModes.join(" · ")}</dd>
+                      <dd>{discovery?.interactionModes.map((value) => discoveryLabel(value, language)).join(" · ")}</dd>
                     </div>
                     <div>
                       <dt>{es ? "Cálculo" : "Calculation"}</dt>
-                      <dd>{discovery?.calculationAvailability}</dd>
+                      <dd>{discovery?.calculationAvailability === "local_active"
+                        ? (es ? "Cálculo activo en PedsCore" : "Active calculation in PedsCore")
+                        : discovery?.calculationAvailability === "external_official"
+                          ? (es ? "Uso mediante fuente oficial externa" : "Use via official external source")
+                          : discovery?.calculationAvailability === "blocked_by_rights"
+                            ? (es ? "Referencia disponible · reproducción limitada" : "Reference available · reproduction limited")
+                            : discovery?.calculationAvailability === "blocked_by_evidence"
+                              ? (es ? "Referencia disponible · implementación en revisión" : "Reference available · implementation under review")
+                              : discovery?.calculationAvailability === "local_planned"
+                                ? (es ? "Cálculo local previsto" : "Local calculation planned")
+                                : (es ? "No requiere cálculo" : "No calculation required")}</dd>
                     </div>
                   </dl>
                 </article>
