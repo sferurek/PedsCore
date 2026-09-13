@@ -229,6 +229,25 @@ export const runPedsCoreFinder = (
       const tokenHits = tokens.filter((token) => haystack.includes(token));
       if (tokenHits.length) { score += Math.min(24, tokenHits.length * 4); reasonKeys.add("text"); }
 
+      if (discovery.surfaceStatus === "active") {
+        score += 10;
+      } else if (discovery.surfaceStatus === "draft") {
+        score -= 12;
+        caveats.push(language === "es"
+          ? "La superficie está en preparación y todavía no forma parte del catálogo clínico disponible."
+          : "This surface is still in preparation and is not yet part of the available clinical catalog.");
+      } else if (discovery.surfaceStatus === "blocked") {
+        score -= 28;
+        caveats.push(language === "es"
+          ? "La superficie tiene acceso clínico limitado; revisa sus restricciones antes de utilizarla."
+          : "This surface has limited clinical access; review its restrictions before use.");
+      } else if (discovery.surfaceStatus === "deprecated") {
+        score -= 50;
+        caveats.push(language === "es"
+          ? "Esta superficie se conserva solo como referencia histórica."
+          : "This surface is retained for historical reference only.");
+      }
+
       if (discovery.calculationAvailability === "local_active") {
         score += 5;
         reasonKeys.add("local");
