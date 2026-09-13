@@ -131,10 +131,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
         {isCanonical ? <p className="atlas-expanded-name">{tool.name[language]}</p> : null}
         <p>{tool.description[language]}</p>
         <div className="tool-hero-meta">
-          <ToolStatusBadge
-            language={language}
-            status={tool.implementationStatus}
-          />
+          <ToolStatusBadge language={language} status={tool.implementationStatus} toolId={tool.id} />
           <span>{evidenceLabels[tool.evidenceLevel][language]}</span>
           <span>{riskLabels[tool.regulatoryRisk][language]}</span>
         </div>
