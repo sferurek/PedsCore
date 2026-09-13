@@ -2,7 +2,7 @@ import type { ImplementationStatus } from "@peds-core/core";
 import type { Language } from "./language";
 
 export const evidenceStatusTitles: Record<Language, string> = {
-  es: "Estado de validacion",
+  es: "Estado de validación",
   en: "Validation status"
 };
 
@@ -11,32 +11,32 @@ export const evidenceStatusDescriptions: Record<
   Record<Language, string>
 > = {
   implemented: {
-    es: "Calculo activo con tests y trazabilidad basica.",
-    en: "Active calculation with tests and basic traceability."
+    es: "Cálculo activo, con pruebas automatizadas y fuentes trazables.",
+    en: "Active calculation, with automated tests and traceable sources."
   },
   partially_implemented: {
-    es: "Calculo parcial disponible con tests y trazabilidad para un alcance definido. El alcance restante sigue pendiente de validacion o revision.",
-    en: "Partial calculation is available with tests and traceability for a defined scope. Remaining scope is still pending validation or review."
+    es: "Parte de la herramienta está disponible y comprobada; el resto del alcance sigue en revisión antes de activarse.",
+    en: "Part of the tool is available and tested; the remaining scope is still under review before activation."
   },
   ready_for_implementation: {
-    es: "La herramienta tiene estructura suficiente para implementacion, pero aun requiere activacion tecnica y revision final.",
-    en: "The tool has enough structure for implementation, but still requires technical activation and final review."
+    es: "La definición clínica está suficientemente cerrada para pasar a implementación, pero aún falta activación técnica y revisión final.",
+    en: "The clinical definition is sufficiently settled for implementation, but technical activation and final review are still pending."
   },
   pending_validation: {
-    es: "Pendiente de validacion. Puede faltar tabla completa, variante exacta, puntos de corte o fuente primaria.",
-    en: "Pending validation. Complete table, exact variant, cut-offs, or primary source may still be missing."
+    es: "Sigue en revisión: puede faltar confirmar la versión exacta, completar una tabla, cerrar puntos de corte o verificar la fuente primaria.",
+    en: "Still under review: the exact version, a complete table, cut-offs or the primary source may still need confirmation."
   },
   needs_primary_reference: {
-    es: "Necesita fuente primaria antes de activar calculo.",
-    en: "A primary source is required before calculation is activated."
+    es: "Falta confirmar la fuente primaria antes de activar el cálculo.",
+    en: "The primary source still needs to be confirmed before calculation is activated."
   },
   coming_soon: {
-    es: "Planificada para fases posteriores.",
-    en: "Planned for later phases."
+    es: "Está prevista, pero no forma parte de la fase actual.",
+    en: "Planned, but not part of the current phase."
   },
   not_implemented_due_to_licensing: {
-    es: "No implementada por posible restriccion de licencia o copyright.",
-    en: "Not implemented because of possible licensing or copyright restrictions."
+    es: "La implementación está limitada mientras se aclaran las condiciones de licencia o reutilización.",
+    en: "Implementation is limited while licensing or reuse conditions are clarified."
   }
 };
 
@@ -44,7 +44,7 @@ const pendingValidationActions: Record<Language, string[]> = {
   es: [
     "Aportar fuente primaria.",
     "Confirmar variante exacta.",
-    "Aportar tabla completa de puntuacion.",
+    "Aportar la tabla completa de puntuación.",
     "Aportar puntos de corte publicados.",
     "Revisar posibles restricciones de licencia."
   ],
@@ -61,7 +61,7 @@ const partialImplementationActions: Record<Language, string[]> = {
   es: [
     "Revisar el alcance ya disponible.",
     "Definir el alcance restante antes de cerrar el modulo.",
-    "Confirmar politica de interpolacion y revision experta."
+    "Confirmar la política de interpolación y completar la revisión experta."
   ],
   en: [
     "Review the currently available scope.",
@@ -98,9 +98,9 @@ const licensingActions: Record<Language, string[]> = {
 
 const futureActions: Record<Language, string[]> = {
   es: [
-    "Aportar bibliografia primaria.",
+    "Aportar bibliografía primaria.",
     "Proponer alcance seguro para una fase futura.",
-    "Identificar riesgos de licencia o complejidad clinica."
+    "Identificar riesgos de licencia o complejidad clínica."
   ],
   en: [
     "Provide primary bibliography.",
