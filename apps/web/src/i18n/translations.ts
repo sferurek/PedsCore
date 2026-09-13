@@ -182,7 +182,7 @@ export const translations = {
     },
     form: {
       title: "Datos para el cálculo",
-      noActiveCalculation inputs: "Esta herramienta todavía no tiene un formulario activo.",
+      noActiveForm: "Esta herramienta todavía no tiene un formulario activo.",
       privacyNote:
         "Los datos que introduzcas se procesan en esta página y no se almacenan ni se envían a un servidor.",
       required: "Campo requerido",
@@ -442,7 +442,7 @@ export const translations = {
     },
     form: {
       title: "Calculation inputs",
-      noActiveCalculation inputs: "This tool does not have an active input form yet.",
+      noActiveForm: "This tool does not have an active input form yet.",
       privacyNote:
         "Values entered here remain on this page. They are not stored or sent to any backend.",
       required: "Required field",
@@ -644,8 +644,8 @@ export const statusDescriptions: Record<
     en: "Calculated and tested functionality is available for part of the scope; the full module is still pending."
   },
   ready_for_implementation: {
-    es: "Calculation inputsula o criterios identificados, pendiente de implementacion tecnica.",
-    en: "Calculation inputsula or criteria identified, pending technical implementation."
+    es: "Formula o criterios identificados, pendiente de implementacion tecnica.",
+    en: "Formula or criteria identified, pending technical implementation."
   },
   pending_validation: {
     es: "Requiere validacion de version, puntos de corte o fuente.",
