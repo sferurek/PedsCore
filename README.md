@@ -17,7 +17,7 @@ https://peds-core.vercel.app/
 
 ## Current Alpha Status
 
-- 81 cataloged pediatric and neonatal tools.
+- 125 cataloged pediatric and neonatal tools.
 - 21 fully implemented tools with active calculation or informational rule output.
 - 4 partially implemented WHO Growth entries: central module, WHO percentiles, BMI preset and head circumference preset.
 - ES/EN web app deployed on Vercel.

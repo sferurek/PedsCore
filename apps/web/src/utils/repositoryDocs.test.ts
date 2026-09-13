@@ -21,7 +21,7 @@ describe("public launch repository documentation", () => {
   it("keeps Spanish README aligned with public alpha scope", () => {
     const readme = read("README.es.md");
 
-    expect(readme).toContain("81 herramientas pediátricas y neonatales catalogadas");
+    expect(readme).toContain("125 herramientas pediátricas y neonatales catalogadas");
     expect(readme).toContain("21 herramientas completamente implementadas");
     expect(readme).toContain("4 entradas WHO Growth parcialmente implementadas");
     expect(readme).toContain("Sin almacenamiento de datos clínicos");

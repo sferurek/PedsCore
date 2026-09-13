@@ -1,8 +1,10 @@
+import {
+  getToolDiscovery
+} from "@peds-core/core";
 import type { ClinicalToolMetadata } from "@peds-core/core";
 import {
   categoryLabels,
   evidenceLabels,
-  riskLabels,
   translations,
   typeLabels
 } from "../i18n/translations";
@@ -16,8 +18,18 @@ interface ToolCardProps {
   tool: ClinicalToolMetadata;
 }
 
+const label = (value: string): string =>
+  value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+
 export function ToolCard({ language, navigate, tool }: ToolCardProps) {
   const t = translations[language];
+  const discovery = getToolDiscovery(tool.id);
+  const chips = discovery
+    ? [
+        ...discovery.clinicalProblems.slice(0, 2),
+        ...discovery.clinicalFunctions.slice(0, 1)
+      ]
+    : [];
 
   return (
     <article className="tool-card">
@@ -28,7 +40,17 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
         </div>
         <ToolStatusBadge language={language} status={tool.implementationStatus} />
       </div>
+
       <p>{tool.description[language]}</p>
+
+      {chips.length > 0 ? (
+        <div className="tool-discovery-chip-row" aria-label={language === "es" ? "Etiquetas clínicas" : "Clinical tags"}>
+          {chips.map((chip) => (
+            <span key={chip}>{label(chip)}</span>
+          ))}
+        </div>
+      ) : null}
+
       <dl className="compact-metadata">
         <div>
           <dt>{t.common.category}</dt>
@@ -39,14 +61,21 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
           <dd>{typeLabels[tool.type][language]}</dd>
         </div>
         <div>
-          <dt>{t.common.risk}</dt>
-          <dd>{riskLabels[tool.regulatoryRisk][language]}</dd>
+          <dt>{language === "es" ? "Uso" : "Use"}</dt>
+          <dd>
+            {discovery?.longitudinalUse === "primary"
+              ? language === "es" ? "Longitudinal" : "Longitudinal"
+              : discovery?.calculationAvailability === "local_active"
+                ? language === "es" ? "Cálculo local" : "Local calculation"
+                : language === "es" ? "Referencia" : "Reference"}
+          </dd>
         </div>
         <div>
           <dt>{t.common.evidence}</dt>
           <dd>{evidenceLabels[tool.evidenceLevel][language]}</dd>
         </div>
       </dl>
+
       <button
         className="card-action"
         type="button"

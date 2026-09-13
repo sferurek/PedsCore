@@ -4630,3 +4630,440 @@ td {
     min-height: 12rem;
   }
 }
+
+
+/* PedsCore Finder — deterministic, local conversational discovery. */
+.finder-shell {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border: 1px solid rgba(170, 202, 214, 0.9);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 92% 6%, rgba(68, 157, 184, 0.13), transparent 22rem),
+    linear-gradient(145deg, rgba(250, 253, 255, 0.99), rgba(242, 249, 251, 0.97));
+  box-shadow: 0 16px 36px rgba(30, 78, 112, 0.08);
+}
+
+.finder-header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.finder-header h2 {
+  margin: 0.1rem 0 0.35rem;
+  color: #15384a;
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+}
+
+.finder-header p {
+  max-width: 56rem;
+  margin: 0;
+  color: #526b76;
+}
+
+.finder-eyebrow {
+  color: #0b6280 !important;
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.finder-chat {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.finder-message {
+  max-width: min(48rem, 92%);
+  padding: 0.72rem 0.86rem;
+  border-radius: 16px;
+}
+
+.finder-message p {
+  margin: 0;
+}
+
+.finder-message-assistant {
+  justify-self: start;
+  border: 1px solid rgba(180, 205, 215, 0.78);
+  border-bottom-left-radius: 5px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #294b5a;
+}
+
+.finder-message-user {
+  justify-self: end;
+  border-bottom-right-radius: 5px;
+  background: #0b6280;
+  color: #fff;
+}
+
+.finder-follow-up {
+  margin-top: 0.55rem !important;
+  color: #0b6280;
+  font-weight: 800;
+}
+
+.finder-results {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.15rem;
+}
+
+.finder-result-card {
+  display: grid;
+  gap: 0.6rem;
+  padding: 0.8rem;
+  border: 1px solid rgba(180, 205, 215, 0.8);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.finder-result-heading {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.finder-result-heading > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.finder-result-heading strong {
+  color: #15384a;
+}
+
+.finder-result-heading span {
+  color: #607783;
+  font-size: 0.82rem;
+}
+
+.finder-result-card details {
+  color: #425d68;
+  font-size: 0.84rem;
+}
+
+.finder-result-card summary {
+  cursor: pointer;
+  color: #0b6280;
+  font-weight: 800;
+}
+
+.finder-result-card ul,
+.finder-caveats ul {
+  margin: 0.45rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.finder-caveats {
+  padding: 0.58rem 0.68rem;
+  border-radius: 10px;
+  background: rgba(247, 242, 224, 0.75);
+  color: #66572c;
+  font-size: 0.82rem;
+}
+
+.finder-composer {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.finder-composer textarea {
+  width: 100%;
+  min-height: 4.2rem;
+  resize: vertical;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid rgba(159, 191, 203, 0.9);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #15384a;
+  font: inherit;
+}
+
+.finder-composer textarea:focus {
+  outline: 2px solid rgba(11, 98, 128, 0.18);
+  border-color: #0b6280;
+}
+
+.finder-example-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+@media (max-width: 719px) {
+  .finder-header {
+    display: grid;
+  }
+
+  .finder-composer {
+    grid-template-columns: 1fr;
+  }
+
+  .finder-composer .primary-action {
+    width: 100%;
+  }
+
+  .finder-result-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .finder-result-heading .secondary-action {
+    width: 100%;
+  }
+}
+
+
+/* Clinical discovery controls and Finder v2. */
+.tools-discovery-page {
+  gap: clamp(0.95rem, 1.8vw, 1.35rem);
+}
+
+.tools-hero {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.tools-hero-count {
+  display: grid;
+  min-width: 8rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(180, 205, 215, 0.82);
+  border-radius: 15px;
+  background: rgba(255,255,255,0.76);
+  text-align: right;
+}
+
+.tools-hero-count strong {
+  color: #0b6280;
+  font-size: clamp(1.7rem, 3vw, 2.35rem);
+  line-height: 1;
+}
+
+.tools-hero-count span {
+  margin-top: 0.2rem;
+  color: #607783;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.tool-discovery-controls {
+  display: grid;
+  gap: 0.75rem;
+  padding: clamp(0.85rem, 1.7vw, 1.1rem);
+  border: 1px solid rgba(180, 205, 215, 0.82);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.86);
+}
+
+.tool-filter-topbar {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: minmax(14rem, 1.5fr) repeat(3, minmax(10rem, 1fr));
+  align-items: end;
+}
+
+.tool-filter-topbar > label,
+.advanced-filter-grid > label {
+  display: grid;
+  gap: 0.32rem;
+  color: #526b76;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.tool-filter-topbar select,
+.advanced-filter-grid select {
+  width: 100%;
+  min-height: 2.7rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid rgba(159, 191, 203, 0.9);
+  border-radius: 11px;
+  background: #fff;
+  color: #15384a;
+  font: inherit;
+}
+
+.advanced-filter-panel {
+  border-top: 1px solid rgba(187, 209, 218, 0.72);
+  padding-top: 0.65rem;
+}
+
+.advanced-filter-panel > summary {
+  display: flex;
+  width: fit-content;
+  gap: 0.45rem;
+  align-items: center;
+  cursor: pointer;
+  color: #0b6280;
+  font-weight: 900;
+}
+
+.advanced-filter-panel > summary span {
+  display: inline-grid;
+  min-width: 1.45rem;
+  height: 1.45rem;
+  place-items: center;
+  border-radius: 999px;
+  background: #0b6280;
+  color: #fff;
+  font-size: 0.72rem;
+}
+
+.advanced-filter-grid {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 0.8rem;
+}
+
+.filter-toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+  margin-top: 0.75rem;
+}
+
+.filter-toggle {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  color: #425d68;
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.filter-reset-button {
+  width: fit-content;
+  border: 0;
+  background: transparent;
+  color: #0b6280;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.finder-clarification {
+  display: grid;
+  gap: 0.55rem;
+  max-width: min(54rem, 96%);
+  padding: 0.72rem 0.82rem;
+  border: 1px solid rgba(163, 197, 210, 0.8);
+  border-radius: 14px;
+  background: rgba(237, 248, 251, 0.88);
+  color: #294b5a;
+}
+
+.finder-option-row,
+.finder-compare-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.finder-excluded {
+  padding: 0.65rem 0.75rem;
+  border: 1px dashed rgba(172, 187, 195, 0.95);
+  border-radius: 12px;
+  color: #536a74;
+  font-size: 0.84rem;
+}
+
+.finder-excluded summary {
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.finder-compare-grid {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.finder-compare-grid article {
+  padding: 0.78rem;
+  border: 1px solid rgba(180, 205, 215, 0.8);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.92);
+}
+
+.finder-compare-grid h3 {
+  margin: 0 0 0.55rem;
+  color: #15384a;
+}
+
+.finder-compare-grid dl {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.finder-compare-grid dl div {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.finder-compare-grid dt {
+  color: #607783;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.finder-compare-grid dd {
+  margin: 0;
+  color: #294b5a;
+  font-size: 0.84rem;
+}
+
+@media (max-width: 1080px) {
+  .tool-filter-topbar {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 719px) {
+  .tools-hero {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .tools-hero-count {
+    width: fit-content;
+    text-align: left;
+  }
+
+  .tool-filter-topbar,
+  .advanced-filter-grid,
+  .finder-compare-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.tool-discovery-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.tool-discovery-chip-row span {
+  padding: 0.28rem 0.48rem;
+  border: 1px solid rgba(161, 191, 204, 0.72);
+  border-radius: 999px;
+  background: rgba(241, 248, 250, 0.88);
+  color: #315769;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
