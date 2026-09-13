@@ -49,7 +49,7 @@ const categoryDetails: Record<
       es: "Crecimiento, percentiles y valoración nutricional a lo largo de la infancia.",
       en: "Growth, percentiles and nutritional assessment throughout childhood."
     },
-    examples: ["WHO Growth", "STRONGkids", "PYMS", "STAMP"]
+    examples: ["WHO Growth", "Fenton 2013", "STRONGkids", "CDC Growth"]
   },
   intensive_care: {
     description: {
@@ -84,7 +84,7 @@ const categoryDetails: Record<
       es: "Valoración del dolor desde el recién nacido hasta el adolescente.",
       en: "Pain assessment from the newborn period through adolescence."
     },
-    examples: ["FLACC", "NIPS", "CRIES", "PIPP-R"]
+    examples: ["NIPS", "PIPP-R", "N-PASS", "EDIN"]
   },
   respiratory: {
     description: {
