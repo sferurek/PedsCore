@@ -24,7 +24,7 @@ export function SearchCommand({ language, navigate, compact = false }: { languag
     <dialog className="atlas-search-dialog" ref={dialog} aria-label={t.searchLabel} onClick={e => { if (e.target === e.currentTarget) dialog.current?.close(); }}>
       <div className="atlas-dialog-heading"><label htmlFor={compact ? "nav-search" : "hero-search"}>{t.searchLabel}</label><button className="atlas-icon-button" type="button" aria-label={t.close} onClick={() => dialog.current?.close()}><Icon name="close" /></button></div>
       <input id={compact ? "nav-search" : "hero-search"} type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder={t.search} />
-      <div className="atlas-search-results" aria-live="polite">{results.length ? results.map(tool => <button type="button" key={tool.id} onClick={() => { dialog.current?.close(); navigate(makePath(language, "tools", tool.slug)); }}><span><strong>{tool.name[language]}</strong><small>{tool.description[language]}</small></span><ToolStatusBadge language={language} status={tool.implementationStatus} /></button>) : <p>{t.noResults}</p>}</div>
+      <div className="atlas-search-results" aria-live="polite">{results.length ? results.map(tool => <button type="button" key={tool.id} onClick={() => { dialog.current?.close(); navigate(makePath(language, "tools", tool.slug)); }}><span><strong>{tool.name[language]}</strong><small>{tool.description[language]}</small></span><ToolStatusBadge language={language} status={tool.implementationStatus} toolId={tool.id} /></button>) : <p>{t.noResults}</p>}</div>
     </dialog>
   </>;
 }
