@@ -44,7 +44,9 @@ export const translations = {
       githubSupportCta: "Apoya el proyecto en GitHub",
       toolsMetric: "herramientas catalogadas",
       cataloguedMetric: "catalogadas",
-      implementedMetric: "implementadas",
+      implementedMetric: "cálculos locales",
+      availableMetric: "disponibles",
+      blockedMetric: "con acceso limitado",
       partialMetric: "implementación parcial",
       clinicalDataMetric: "datos clínicos almacenados",
       miniDisclaimer:
@@ -305,7 +307,9 @@ export const translations = {
       githubSupportCta: "Support the project on GitHub",
       toolsMetric: "cataloged tools",
       cataloguedMetric: "cataloged",
-      implementedMetric: "implemented",
+      implementedMetric: "local calculations",
+      availableMetric: "available",
+      blockedMetric: "limited access",
       partialMetric: "partial implementation",
       clinicalDataMetric: "clinical data stored",
       miniDisclaimer:
