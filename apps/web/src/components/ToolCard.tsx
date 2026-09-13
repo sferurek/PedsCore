@@ -19,9 +19,6 @@ interface ToolCardProps {
   tool: ClinicalToolMetadata;
 }
 
-const label = (value: string): string =>
-  value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
-
 export function ToolCard({ language, navigate, tool }: ToolCardProps) {
   const t = translations[language];
   const discovery = getToolDiscovery(tool.id);
