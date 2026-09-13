@@ -10,6 +10,7 @@ import {
 } from "../i18n/translations";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
+import { discoveryLabel } from "../utils/discoveryLabels";
 import { ToolStatusBadge } from "./ToolStatusBadge";
 
 interface ToolCardProps {
@@ -46,7 +47,7 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
       {chips.length > 0 ? (
         <div className="tool-discovery-chip-row" aria-label={language === "es" ? "Etiquetas clínicas" : "Clinical tags"}>
           {chips.map((chip) => (
-            <span key={chip}>{label(chip)}</span>
+            <span key={chip}>{discoveryLabel(chip, language)}</span>
           ))}
         </div>
       ) : null}
