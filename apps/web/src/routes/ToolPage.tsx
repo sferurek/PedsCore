@@ -18,6 +18,7 @@ import { ResultPanel } from "../components/ResultPanel";
 import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
 import { ToolClinicalGuide } from "../components/ToolClinicalGuide";
+import { ToolEditorialInsight } from "../components/ToolEditorialInsight";
 import { ToolStatusBadge } from "../components/ToolStatusBadge";
 import { evidenceLabels, riskLabels, translations } from "../i18n/translations";
 import {
@@ -188,6 +189,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
       <div className="tool-layout">
         <div className="tool-main tool-page-main">
           <ToolClinicalGuide language={language} tool={tool} />
+
+          <ToolEditorialInsight language={language} tool={tool} />
 
           <DisclaimerBox language={language} />
 
