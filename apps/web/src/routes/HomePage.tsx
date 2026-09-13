@@ -1,14 +1,15 @@
-import { Fragment, useMemo } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { atlas } from "../i18n/atlas";
 import { SearchCommand } from "../components/atlas/SearchCommand";
 import { HomeStories } from "../components/atlas/HomeStories";
 import { Icon } from "../components/atlas/Icon";
-import { getAllTools } from "@peds-core/core";
+import { getAllTools, getToolBySlug } from "@peds-core/core";
 import type { ToolCategory } from "@peds-core/core";
 import { categoryLabels, translations } from "../i18n/translations";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 import { getClinicalSurfaceStats } from "../utils/toolStats";
+import { fetchPopularTools } from "../utils/popularTools";
 
 interface HomePageProps {
   language: Language;
@@ -106,6 +107,39 @@ export function HomePage({ language, navigate }: HomePageProps) {
   const a = atlas[language];
   const allTools = getAllTools();
   const surfaceStats = getClinicalSurfaceStats(allTools);
+  const fallbackPopularSlugs = [
+    "pram",
+    "westley-croup",
+    "pecarn-tbi-under-2",
+    "who-growth",
+    "pediatric-appendicitis-score"
+  ];
+  const [popularSlugs, setPopularSlugs] = useState<string[]>(fallbackPopularSlugs);
+  const [popularIsLive, setPopularIsLive] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+
+    void fetchPopularTools().then((response) => {
+      if (!active || response.tools.length === 0) return;
+      const known = response.tools
+        .map((item) => item.slug)
+        .filter((slug) => Boolean(getToolBySlug(slug)));
+
+      if (known.length > 0) {
+        setPopularSlugs(known.slice(0, 5));
+        setPopularIsLive(response.status === "ok");
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const popularTools = popularSlugs
+    .map((slug) => getToolBySlug(slug))
+    .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
   const categoryCounts = useMemo(() => {
     const counts = new Map<ToolCategory, number>();
 
@@ -127,9 +161,112 @@ export function HomePage({ language, navigate }: HomePageProps) {
     <div className="page-stack home-page">
       <section className="atlas-hero">
         <picture className="atlas-hero-media"><source type="image/webp" srcSet={`${import.meta.env.BASE_URL}media/clinical-hero-768.webp 768w, ${import.meta.env.BASE_URL}media/clinical-hero.webp 1536w`} sizes="100vw" /><img src={`${import.meta.env.BASE_URL}media/clinical-hero.webp`} alt="" width="1536" height="1024" fetchPriority="high" /></picture>
-        <div className="atlas-hero-inner"><div className="atlas-hero-copy"><p className="eyebrow">{a.eyebrow}</p><h1>{a.title}<br /><span>{a.future}</span></h1><p>{a.lead}</p><SearchCommand language={language} navigate={navigate} /><small>PRAM · Westley · PECARN · WHO Growth</small></div><p className="atlas-hero-note">{a.note.split(". ").map((part, index) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</p>
+        <div className="atlas-hero-inner"><div className="atlas-hero-copy"><p className="eyebrow">{a.eyebrow}</p><h1>{a.title}<br /><span>{a.future}</span></h1><p>{a.lead}</p><SearchCommand language={language} navigate={navigate} />
+          <div className="atlas-popular-chips" aria-label={language === "es" ? "Accesos rápidos a herramientas" : "Quick tool access"}>
+            {popularTools.map((tool) => (
+              <button
+                type="button"
+                key={tool.id}
+                onClick={() => navigate(makePath(language, "tools", tool.slug))}
+              >
+                {tool.shortName || tool.name[language]}
+              </button>
+            ))}
+          </div></div><p className="atlas-hero-note">{a.note.split(". ").map((part, index) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</p>
         <div className="atlas-gateways">{(["tools", "learn", "sim", "live"] as const).map((product, i) => <a className={`atlas-gateway atlas-${product}`} key={product} href={`#${product}`}><div><span className="atlas-product-icon"><Icon name={product} /></span><strong>{a.productLabels[product]}</strong><Icon name="arrow" /></div><p>{a.capabilities[i][0]}</p><small>{product === "tools" ? <><b>{surfaceStats.available}</b> {t.home.availableMetric} · <b>{surfaceStats.localCalculations}</b> {t.home.implementedMetric}</> : a.soon}</small></a>)}</div></div>
       </section>
+      <section className="home-discovery-hub" aria-labelledby="home-discovery-title">
+        <div className="home-discovery-intro">
+          <p className="eyebrow">{language === "es" ? "EXPLORA PEDScore" : "EXPLORE PEDSCORE"}</p>
+          <h2 id="home-discovery-title">
+            {language === "es" ? "Encuentra la herramienta adecuada." : "Find the right clinical tool."}
+          </h2>
+          <p>
+            {language === "es"
+              ? "Entra por especialidad o accede directamente a las herramientas que más se están utilizando."
+              : "Browse by specialty or go straight to the tools clinicians are using most."}
+          </p>
+        </div>
+
+        <div className="home-discovery-grid">
+          <article className="home-discovery-card home-specialties-card">
+            <div>
+              <span className="home-discovery-kicker">
+                {language === "es" ? "Por especialidad" : "By specialty"}
+              </span>
+              <h3>{language === "es" ? "Explora por área clínica" : "Browse by clinical area"}</h3>
+              <p>
+                {language === "es"
+                  ? "Urgencias, neonatología, respiratorio, cuidados intensivos y el resto del catálogo pediátrico."
+                  : "Emergency medicine, neonatology, respiratory care, intensive care and the rest of the pediatric catalog."}
+              </p>
+            </div>
+            <div className="home-specialty-links">
+              {categories.slice(0, 6).map((category) => (
+                <button
+                  type="button"
+                  key={category}
+                  onClick={() => navigate(makePath(language, "categories", category))}
+                >
+                  <span>{categoryLabels[category][language]}</span>
+                  <small>{categoryCounts.get(category) ?? 0}</small>
+                </button>
+              ))}
+            </div>
+            <button
+              className="home-discovery-cta"
+              type="button"
+              onClick={() => document.getElementById("categories")?.scrollIntoView({ behavior: "smooth" })}
+            >
+              {language === "es" ? "Ver todas las especialidades" : "View all specialties"} →
+            </button>
+          </article>
+
+          <article className="home-discovery-card home-popular-card">
+            <div>
+              <span className="home-discovery-kicker">
+                {popularIsLive
+                  ? language === "es" ? "Más utilizadas · últimos 30 días" : "Most used · last 30 days"
+                  : language === "es" ? "Herramientas destacadas" : "Featured tools"}
+              </span>
+              <h3>{language === "es" ? "Acceso directo" : "Direct access"}</h3>
+              <p>
+                {popularIsLive
+                  ? language === "es"
+                    ? "Las herramientas con más visitas recientes en PedsCore."
+                    : "The tools receiving the most recent visits in PedsCore."
+                  : language === "es"
+                    ? "Una selección rápida mientras reunimos suficiente uso agregado para ordenar el listado automáticamente."
+                    : "A quick selection while enough aggregate usage data is collected to rank this list automatically."}
+              </p>
+            </div>
+            <div className="home-popular-list">
+              {popularTools.map((tool, index) => (
+                <button
+                  type="button"
+                  key={tool.id}
+                  onClick={() => navigate(makePath(language, "tools", tool.slug))}
+                >
+                  <span className="home-popular-rank">{String(index + 1).padStart(2, "0")}</span>
+                  <span>
+                    <strong>{tool.shortName || tool.name[language]}</strong>
+                    <small>{tool.description[language]}</small>
+                  </span>
+                  <span aria-hidden="true">→</span>
+                </button>
+              ))}
+            </div>
+            <button
+              className="home-discovery-cta"
+              type="button"
+              onClick={() => navigate(makePath(language, "tools"))}
+            >
+              {language === "es" ? "Ver todo el catálogo" : "View full catalog"} →
+            </button>
+          </article>
+        </div>
+      </section>
+
       <HomeStories language={language} navigate={navigate} />
       <section className="category-strip-section" id="categories">
         <div className="section-heading">
