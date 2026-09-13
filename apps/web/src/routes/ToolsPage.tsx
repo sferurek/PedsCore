@@ -23,6 +23,7 @@ import {
   typeLabels
 } from "../i18n/translations";
 import { defaultFilters, filterTools } from "../utils/filterTools";
+import { discoveryLabel } from "../utils/discoveryLabels";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 import { trackUsageEvent } from "../utils/analytics";
@@ -33,53 +34,8 @@ interface ToolsPageProps {
   navigate: (href: string) => void;
 }
 
-const humanize = (value: string, language: Language): string => {
-  const labels: Record<string, { es: string; en: string }> = {
-    neonatology: { es: "Neonatología", en: "Neonatology" },
-    emergency_medicine: { es: "Urgencias", en: "Emergency" },
-    intensive_care: { es: "Cuidados intensivos", en: "Intensive care" },
-    respiratory: { es: "Respiratorio", en: "Respiratory" },
-    cardiology: { es: "Cardiología", en: "Cardiology" },
-    nephrology: { es: "Nefrología", en: "Nephrology" },
-    gastroenterology: { es: "Gastroenterología", en: "Gastroenterology" },
-    neurology: { es: "Neurología", en: "Neurology" },
-    rheumatology: { es: "Reumatología", en: "Rheumatology" },
-    pain_medicine: { es: "Dolor", en: "Pain" },
-    nutrition: { es: "Nutrición", en: "Nutrition" },
-    trauma: { es: "Trauma", en: "Trauma" },
-    preterm: { es: "Prematuro", en: "Preterm" },
-    term_newborn: { es: "Recién nacido a término", en: "Term newborn" },
-    neonate_0_28d: { es: "Neonato 0–28 días", en: "Neonate 0–28 d" },
-    young_infant_0_60d: { es: "Lactante 0–60 días", en: "Young infant 0–60 d" },
-    young_infant_0_90d: { es: "Lactante 0–90 días", en: "Young infant 0–90 d" },
-    infant: { es: "Lactante", en: "Infant" },
-    toddler: { es: "1–3 años", en: "Toddler" },
-    preschool: { es: "Preescolar", en: "Preschool" },
-    school_age: { es: "Escolar", en: "School age" },
-    adolescent: { es: "Adolescente", en: "Adolescent" },
-    all_pediatric: { es: "Toda pediatría", en: "All pediatric ages" },
-    emergency_department: { es: "Urgencias", en: "Emergency department" },
-    picu: { es: "UCIP", en: "PICU" },
-    nicu: { es: "UCIN", en: "NICU" },
-    primary_care: { es: "Atención primaria", en: "Primary care" },
-    outpatient_clinic: { es: "Consulta", en: "Outpatient clinic" },
-    severity: { es: "Gravedad", en: "Severity" },
-    risk_stratification: { es: "Estratificación de riesgo", en: "Risk stratification" },
-    disease_activity: { es: "Actividad de enfermedad", en: "Disease activity" },
-    longitudinal_monitoring: { es: "Seguimiento longitudinal", en: "Longitudinal monitoring" },
-    screening: { es: "Cribado", en: "Screening" },
-    pain_assessment: { es: "Dolor", en: "Pain assessment" },
-    calculator: { es: "Calculadora", en: "Calculator" },
-    clinical_rule: { es: "Regla clínica", en: "Clinical rule" },
-    reference_scale: { es: "Escala de referencia", en: "Reference scale" },
-    longitudinal_staging: { es: "Estadificación longitudinal", en: "Longitudinal staging" },
-    visual_atlas: { es: "Atlas visual", en: "Visual atlas" },
-    clinical_framework: { es: "Marco clínico", en: "Clinical framework" },
-    licensed_external_tool: { es: "Herramienta externa", en: "External tool" }
-  };
-  return labels[value]?.[language] ??
-    value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
-};
+const humanize = (value: string, language: Language): string =>
+  discoveryLabel(value, language);
 
 export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const t = translations[language];
