@@ -19,8 +19,8 @@ describe("public product web polish", () => {
       <HomePage language="en" navigate={noopNavigate} />
     );
 
-    expect(html).toContain("Evidence today.");
-    expect(html).toContain("Healthier tomorrows.");
+    expect(html).toContain("Clarity for today.");
+    expect(html).toContain("Better care tomorrow.");
     expect(html).toContain(">125<");
     expect(html).toContain(">21<");
     expect(html).toContain(">4<");
@@ -53,7 +53,7 @@ describe("public product web polish", () => {
     const html = renderToString(<EvidencePage language="en" />);
 
     expect(html).toContain("Partially implemented");
-    expect(html).toContain("not implementing doubtful content");
+    expect(html).toContain("leaving something inactive until it is clear enough");
   });
 
   it("renders Footer with GitHub, disclaimer, license and privacy notes", () => {
