@@ -647,3 +647,66 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
     border-radius: var(--radius-lg);
   }
 }
+
+
+/* HOME SECTION EMPHASIS — tools first, usage in footer */
+.atlas-tools-section-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  width:100%;
+  padding:18px max(var(--s12),calc((100vw - 1248px)/2));
+  background:linear-gradient(90deg,#0c3d68 0%,#145f9e 58%,#1f75bb 100%);
+  color:#fff;
+  border-top:1px solid rgba(255,255,255,.12);
+  border-bottom:1px solid rgba(7,24,39,.16);
+  box-shadow:0 10px 28px rgba(7,24,39,.10);
+}
+.atlas-tools-section-header span {
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  opacity:.76;
+}
+.atlas-tools-section-header strong {
+  font-family:var(--font-editorial);
+  font-size:clamp(1.35rem,2.2vw,2rem);
+  font-weight:500;
+  letter-spacing:-.025em;
+}
+.footer-usage-summary {
+  display:grid;
+  gap:8px;
+  padding:18px 0 4px;
+  border-top:1px solid var(--ink-700);
+}
+.footer-usage-summary .eyebrow {
+  color:var(--hero-accent);
+  font-size:10px;
+}
+.footer-usage-summary p {
+  max-width:780px;
+  line-height:1.6;
+}
+.footer-usage-summary a {
+  color:var(--hero-accent);
+  font-weight:600;
+  text-decoration:none;
+}
+.footer-usage-summary a:hover {
+  text-decoration:underline;
+}
+
+@media (max-width: 719px) {
+  .atlas-tools-section-header {
+    align-items:flex-start;
+    flex-direction:column;
+    gap:6px;
+    padding:16px 20px;
+  }
+  .atlas-tools-section-header strong {
+    font-size:1.45rem;
+  }
+}
