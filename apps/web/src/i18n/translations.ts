@@ -5,7 +5,8 @@ import type {
   RegulatoryRisk,
   SourceType,
   ToolCategory,
-  ToolType
+  ToolType,
+  SurfaceStatus
 } from "@peds-core/core";
 import type { Language } from "../utils/language";
 
@@ -601,6 +602,13 @@ export const categoryDescriptions: Record<
     es: "Cribado, salud mental, desarrollo y conductas de riesgo en la adolescencia.",
     en: "Future tools for development, mental health and risk behaviors."
   }
+};
+
+export const surfaceStatusLabels: Record<SurfaceStatus, Record<Language, string>> = {
+  active: { es: "Disponible", en: "Available" },
+  draft: { es: "En preparación", en: "In preparation" },
+  blocked: { es: "Acceso limitado", en: "Limited access" },
+  deprecated: { es: "Histórica", en: "Historical" }
 };
 
 export const statusLabels: Record<
