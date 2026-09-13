@@ -25,78 +25,78 @@ const categoryDetails: Record<
 > = {
   adolescent_medicine: {
     description: {
-      es: "Riesgo, desarrollo y herramientas para adolescentes.",
-      en: "Risk, development and adolescent-focused tools."
+      es: "Cribado, salud mental y valoración clínica en la adolescencia.",
+      en: "Screening, mental health and clinical assessment in adolescence."
     },
-    examples: ["Adolescent Depression Risk", "Bayley", "Denver II"]
+    examples: ["PHQ-9", "GAD-7", "CRAFFT 2.1"]
   },
   cardiology: {
     description: {
-      es: "Correcciones QTc y calculadoras cardiovasculares.",
-      en: "QTc corrections and cardiovascular calculators."
+      es: "Intervalo QT corregido y herramientas de valoración cardiovascular.",
+      en: "Corrected QT interval and cardiovascular assessment tools."
     },
     examples: ["QTc Bazett", "QTc Fridericia", "QTc Hodges"]
   },
   emergency: {
     description: {
-      es: "Reglas de urgencias, trauma, hidratacion y alerta temprana.",
-      en: "Emergency rules, trauma, hydration and early warning."
+      es: "Decisión clínica en urgencias: trauma, hidratación, infección y estratificación de riesgo.",
+      en: "Clinical decision support for trauma, hydration, infection and risk stratification."
     },
     examples: ["PECARN", "CATCH", "CHALICE", "CDS", "SIPA"]
   },
   growth_nutrition: {
     description: {
-      es: "Percentiles, crecimiento OMS y cribado nutricional.",
-      en: "Percentiles, WHO growth and nutrition screening."
+      es: "Crecimiento, percentiles y valoración nutricional a lo largo de la infancia.",
+      en: "Growth, percentiles and nutritional assessment throughout childhood."
     },
     examples: ["WHO Growth", "STRONGkids", "PYMS", "STAMP"]
   },
   intensive_care: {
     description: {
-      es: "Scores complejos de UCI y disfuncion organica en revision.",
-      en: "Complex ICU and organ dysfunction scores under review."
+      es: "Disfunción orgánica, gravedad y seguimiento del paciente crítico pediátrico.",
+      en: "Organ dysfunction, severity and monitoring in pediatric critical care."
     },
     examples: ["pSOFA", "PELOD-2", "PRISM", "PIM3"]
   },
   neonatology: {
     description: {
-      es: "Transicion neonatal, dolor, distrés y edad gestacional.",
-      en: "Neonatal transition, pain, distress and gestational age."
+      es: "Transición neonatal, dolor, dificultad respiratoria y valoración del recién nacido.",
+      en: "Neonatal transition, pain, respiratory distress and newborn assessment."
     },
     examples: ["Apgar", "Silverman-Andersen", "NIPS", "Ballard"]
   },
   nephrology: {
     description: {
-      es: "Funcion renal, filtrado glomerular y lesion renal aguda.",
+      es: "Función renal, estimación del filtrado glomerular y lesión renal aguda.",
       en: "Renal function, estimated GFR and acute kidney injury."
     },
     examples: ["Bedside Schwartz", "pRIFLE", "KDIGO Pediatric"]
   },
   neurology: {
     description: {
-      es: "Conciencia, neurologia pediatrica y variantes en validacion.",
-      en: "Consciousness, pediatric neurology and variants in validation."
+      es: "Conciencia, encefalopatía y valoración neurológica pediátrica.",
+      en: "Consciousness, encephalopathy and pediatric neurologic assessment."
     },
-    examples: ["Pediatric GCS", "Benes", "Adapted Glasgow"]
+    examples: ["Pediatric GCS", "Sarnat", "PedNIHSS"]
   },
   pain: {
     description: {
-      es: "Escalas de dolor pediatrico y neonatal.",
-      en: "Pediatric and neonatal pain scales."
+      es: "Valoración del dolor desde el recién nacido hasta el adolescente.",
+      en: "Pain assessment from the newborn period through adolescence."
     },
     examples: ["FLACC", "NIPS", "CRIES", "PIPP-R"]
   },
   respiratory: {
     description: {
-      es: "Bronquiolitis, asma, crup y dificultad respiratoria.",
-      en: "Bronchiolitis, asthma, croup and respiratory distress."
+      es: "Asma, bronquiolitis, crup y dificultad respiratoria pediátrica.",
+      en: "Asthma, bronchiolitis, croup and pediatric respiratory distress."
     },
     examples: ["Westley Croup", "PRAM", "Wood-Downes-Ferres", "BROSJOD"]
   },
   resuscitation: {
     description: {
-      es: "Fichas de soporte vital catalogadas para revision futura.",
-      en: "Life-support entries cataloged for future review."
+      es: "Algoritmos y referencias de soporte vital pediátrico en revisión editorial.",
+      en: "Pediatric life-support algorithms and references under editorial review."
     },
     examples: ["Pediatric CPR", "Neonatal CPR", "Bradycardia"]
   }
