@@ -558,47 +558,47 @@ export const categoryDescriptions: Record<
   Record<Language, string>
 > = {
   neonatology: {
-    es: "Adaptacion neonatal, edad gestacional, dolor, ictericia y cuidados neonatales.",
+    es: "Adaptación neonatal, edad gestacional, dolor, ictericia y cuidados del recién nacido.",
     en: "Newborn transition, gestational age, pain, jaundice and neonatal care."
   },
   respiratory: {
-    es: "Bronquiolitis, asma, crup y dificultad respiratoria pediatrica.",
+    es: "Bronquiolitis, asma, crup y dificultad respiratoria pediátrica.",
     en: "Bronchiolitis, asthma, croup and pediatric respiratory distress."
   },
   emergency: {
-    es: "Reglas de urgencias, trauma, deshidratacion, shock y deterioro clinico.",
+    es: "Trauma, deshidratación, shock, infección y deterioro clínico en urgencias pediátricas.",
     en: "Emergency rules, trauma, dehydration, shock and clinical deterioration."
   },
   cardiology: {
-    es: "Calculadoras cardiologicas pediatricas y electrocardiografia.",
+    es: "Intervalo QT, electrocardiografía y herramientas de valoración cardiovascular pediátrica.",
     en: "Pediatric cardiology calculators and electrocardiography."
   },
   nephrology: {
-    es: "Filtrado glomerular y lesion renal aguda pediatrica.",
+    es: "Función renal, estimación del filtrado glomerular y lesión renal aguda.",
     en: "Pediatric glomerular filtration and acute kidney injury."
   },
   intensive_care: {
-    es: "Disfuncion organica, gravedad y riesgo en cuidados intensivos.",
+    es: "Disfunción orgánica, gravedad y estratificación de riesgo en cuidados intensivos.",
     en: "Organ dysfunction, severity and risk in intensive care."
   },
   growth_nutrition: {
-    es: "Percentiles, antropometria y riesgo nutricional.",
+    es: "Percentiles, antropometría, crecimiento y riesgo nutricional.",
     en: "Percentiles, anthropometry and nutritional risk."
   },
   pain: {
-    es: "Escalas de dolor neonatal y pediatrico.",
+    es: "Valoración del dolor neonatal y pediátrico.",
     en: "Neonatal and pediatric pain scales."
   },
   neurology: {
-    es: "Valoracion neurologica y nivel de conciencia.",
+    es: "Valoración neurológica, encefalopatía y nivel de conciencia.",
     en: "Neurologic assessment and level of consciousness."
   },
   resuscitation: {
-    es: "Algoritmos y calculos de reanimacion previstos para revision.",
+    es: "Algoritmos y referencias de reanimación pediátrica en revisión editorial.",
     en: "Resuscitation algorithms and calculations planned for review."
   },
   adolescent_medicine: {
-    es: "Herramientas futuras de desarrollo, salud mental y conductas de riesgo.",
+    es: "Cribado, salud mental, desarrollo y conductas de riesgo en la adolescencia.",
     en: "Future tools for development, mental health and risk behaviors."
   }
 };
@@ -636,32 +636,32 @@ export const statusDescriptions: Record<
   Record<Language, string>
 > = {
   implemented: {
-    es: "Calculo disponible.",
+    es: "Cálculo disponible.",
     en: "Calculation available."
   },
   partially_implemented: {
     es: "Parte de la funcionalidad está disponible y comprobada; el módulo completo sigue en revisión.",
-    en: "Calculated and tested functionality is available for part of the scope; the full module is still pending."
+    en: "Part of the functionality is available and tested; the full module remains under review."
   },
   ready_for_implementation: {
     es: "Fórmula o criterios definidos; falta la implementación técnica.",
-    en: "Formula or criteria identified, pending technical implementation."
+    en: "Formula or criteria are defined; technical implementation is still pending."
   },
   pending_validation: {
     es: "Requiere cerrar la versión exacta, los puntos de corte o la fuente.",
-    en: "Requires validation of version, cut-offs or source."
+    en: "The exact version, cut-offs or source still need to be confirmed."
   },
   needs_primary_reference: {
     es: "Falta confirmar la fuente primaria antes de activar el cálculo.",
-    en: "Needs a primary source before calculation is activated."
+    en: "The primary source still needs to be confirmed before calculation is activated."
   },
   coming_soon: {
     es: "Planificada para fases posteriores.",
-    en: "Planned for later phases."
+    en: "Planned for a later phase."
   },
   not_implemented_due_to_licensing: {
     es: "Requiere aclarar las condiciones de licencia o reutilización.",
-    en: "Requires licensing or copyright review."
+    en: "Licensing and reuse conditions still need to be clarified."
   }
 };
 
