@@ -34,7 +34,7 @@ export const translations = {
         "Escalas, reglas, calculadoras y referencias clínicas con fuentes visibles, funcionamiento transparente y sin almacenar datos clínicos.",
       lead:
         "Un catálogo abierto para profesionales sanitarios, pensado para encontrar rápido lo útil y saber siempre qué está activo, qué sigue en revisión y en qué evidencia se apoya.",
-      searchPlaceholder: "Buscar score, escala o calculadora...",
+      searchPlaceholder: "Buscar escala, regla o calculadora...",
       transparencyTitle: "Transparencia, de principio a fin",
       featuredTitle: "Herramientas para empezar",
       categoriesTitle: "Categorías",
@@ -54,24 +54,24 @@ export const translations = {
         "Herramientas listas para usar, con lógica comprobada, referencias visibles y una salida clínica claramente explicada.",
       partiallyImplementedTitle: "Implementación parcial",
       partiallyImplementedBody:
-        "WHO Growth: OMS 0-5 + BMI/talla 5-19, graficas imprimibles, pendiente revision/interpolacion final.",
+        "WHO Growth ya cubre el núcleo de crecimiento OMS disponible en PedsCore; parte del alcance 5–19 años sigue en revisión.",
       cataloguedValidationTitle: "Catalogadas y en validación",
       cataloguedValidationBody:
         "Una herramienta no se activa hasta que su fuente, versión, tabla y condiciones de uso estén suficientemente claras.",
-      whoGrowthTitle: "Modulo WHO Growth",
+      whoGrowthTitle: "Módulo WHO Growth",
       whoGrowthBody:
-        "Percentiles OMS 0-5 y soporte parcial 5-19 con graficas imprimibles.",
+        "Percentiles OMS de 0–5 años y soporte parcial de 5–19, con gráficas imprimibles.",
       whoGrowthFeatures: [
         "OMS 0-5",
         "OMS 5-19 parcial",
         "Datos oficiales OMS",
-        "Graficas SVG imprimibles",
+        "Gráficas SVG imprimibles",
         "Percentiles P3/P15/P50/P85/P97 escritos",
         "Punto paciente",
         "Sin almacenamiento de datos"
       ],
       openWhoGrowth: "Abrir WHO Growth",
-      openModule: "Abrir modulo",
+      openModule: "Abrir módulo",
       ossTitle: "Apoyo al código abierto",
       transparency: [
         "Sin login",
@@ -108,7 +108,7 @@ export const translations = {
       whyTitle: "Por qué existe esta matriz",
       whyBody:
         "Esta matriz deja a la vista por qué una herramienta está activa, en revisión o limitada por evidencia o licencia. Así puedes distinguir con rapidez qué está cerrado y qué todavía exige cautela.",
-      statusTitle: "Estados de implementacion",
+      statusTitle: "Estados de implementación",
       contributeTitle: "Cómo aportar evidencia",
       contributeBody:
         "Si conoces una fuente primaria, una validación relevante o una referencia que falta, puedes compartir DOI, PMID, enlaces estables y notas de licencia a través de GitHub Issues.",
@@ -134,7 +134,7 @@ export const translations = {
       totalVisitors: "Visitantes desde la activación de la analítica",
       countriesReached: "Países alcanzados",
       last7DaysVisitors: "Visitantes en los últimos 7 días",
-      pageviews: "Paginas vistas",
+      pageviews: "Páginas vistas",
       worldMap: "Mapa mundial",
       country: "País",
       visitors: "Visitantes",
@@ -169,11 +169,11 @@ export const translations = {
       notActiveTitle: "Esta herramienta aún no está activa",
       automaticCalculationInactive:
         "El cálculo automático todavía no está disponible. Conservamos esta ficha para que puedas consultar su propósito, su estado y las fuentes que guían su revisión.",
-      partialActiveTitle: "Modulo parcial activo",
+      partialActiveTitle: "Módulo parcialmente disponible",
       partialActiveBody:
-        "Este modulo ya calcula el alcance OMS disponible en PedsCore. Sigue marcado como implementacion parcial porque quedan pendientes el alcance 5-19 restante, la politica de interpolacion y la revision final.",
+        "Este módulo ya calcula el alcance OMS disponible en PedsCore. Parte del tramo de 5–19 años y algunos detalles de interpolación siguen en revisión antes de cerrar el módulo completo.",
       disclaimer:
-        "Aviso: PedsCore es una fuente de consulta educativa e informativa para profesionales sanitarios. No sustituye el juicio clinico, los protocolos locales ni la valoracion individual del paciente. No debe utilizarse como unica base para tomar decisiones clinicas.",
+        "PedsCore es una herramienta de apoyo para profesionales sanitarios. La información debe interpretarse junto con la valoración individual del paciente, el juicio clínico y los protocolos aplicables.",
       feedbackQuestion:
         "¿Has visto algo que podamos mejorar?",
       feedbackLink: "Abrir una incidencia en GitHub",
@@ -190,42 +190,42 @@ export const translations = {
       completed: "Completado",
       pending: "Pendiente",
       continue: "Continuar",
-      selectPlaceholder: "Selecciona una opcion"
+      selectPlaceholder: "Selecciona una opción"
     },
     result: {
       title: "Resultado",
-      calculationStatus: "Estado de calculo",
+      calculationStatus: "Estado del cálculo",
       inactiveCalculation:
-        "El calculo automatico aun no esta activo para esta herramienta.",
+        "El cálculo automático aún no está disponible para esta herramienta.",
       completeRequired:
         "Completa los datos necesarios para obtener el resultado.",
       value: "Valor",
-      interpretation: "Interpretacion",
+      interpretation: "Interpretación",
       warnings: "Advertencias",
       trace: "Trazabilidad",
       noInterpretation:
         "Este resultado no tiene una banda de interpretación automática validada.",
-      score: "Puntuacion",
-      maxScore: "Maximo",
-      classification: "Clasificacion",
+      score: "Puntuación",
+      maxScore: "Máximo",
+      classification: "Clasificación",
       criteriaMatched: "Criterios identificados",
       noCriteriaMatched: "No se identifican criterios positivos.",
       clinicalRuleNote:
         "Esta regla ofrece contexto y trazabilidad. Debe interpretarse junto con la valoración clínica y los protocolos aplicables."
     },
     tables: {
-      interpretation: "Tabla de interpretacion",
-      scoring: "Tabla de variables y puntuacion",
+      interpretation: "Tabla de interpretación",
+      scoring: "Tabla de variables y puntuación",
       range: "Rango",
-      category: "Categoria",
+      category: "Categoría",
       variable: "Variable",
-      scoreOrValue: "Puntuacion / valor",
-      description: "Descripcion",
-      pending: "Pendiente de validacion",
+      scoreOrValue: "Puntuación / valor",
+      description: "Descripción",
+      pending: "Pendiente de validación",
       interpretationPending:
-        "La tabla de interpretacion esta pendiente de validacion.",
+        "La tabla de interpretación está pendiente de validación.",
       scoringPending:
-        "La tabla de variables y puntuacion esta pendiente de validacion."
+        "La tabla de variables y puntuación está pendiente de validación."
     },
     pages: {
       aboutTitle: "Sobre PedsCore",
@@ -259,11 +259,11 @@ export const translations = {
       references: "Referencias",
       tools: "herramientas",
       github: "GitHub",
-      sourceReview: "Fuente pendiente de revision"
+      sourceReview: "Fuente pendiente de revisión"
     },
     footer: {
-      alpha: "version alpha",
-      mit: "Codigo MIT",
+      alpha: "versión alfa",
+      mit: "Código MIT",
       whoLicense: "Datos OMS con licencia separada",
       noClinicalStorage: "Sin almacenamiento de datos clínicos",
       usageSummary:
@@ -617,16 +617,16 @@ export const statusLabels: Record<
     en: "Ready for implementation"
   },
   pending_validation: {
-    es: "Pendiente de validacion",
+    es: "Pendiente de validación",
     en: "Pending validation"
   },
   needs_primary_reference: {
     es: "Necesita fuente primaria",
     en: "Needs primary reference"
   },
-  coming_soon: { es: "Proximamente", en: "Coming soon" },
+  coming_soon: { es: "Próximamente", en: "Coming soon" },
   not_implemented_due_to_licensing: {
-    es: "Revision de licencia",
+    es: "Revisión de licencia",
     en: "Licensing review"
   }
 };
@@ -640,19 +640,19 @@ export const statusDescriptions: Record<
     en: "Calculation available."
   },
   partially_implemented: {
-    es: "Funcionalidad calculada y testeada disponible para parte del alcance; el modulo completo sigue pendiente.",
+    es: "Parte de la funcionalidad está disponible y comprobada; el módulo completo sigue en revisión.",
     en: "Calculated and tested functionality is available for part of the scope; the full module is still pending."
   },
   ready_for_implementation: {
-    es: "Formula o criterios identificados, pendiente de implementacion tecnica.",
+    es: "Fórmula o criterios definidos; falta la implementación técnica.",
     en: "Formula or criteria identified, pending technical implementation."
   },
   pending_validation: {
-    es: "Requiere validacion de version, puntos de corte o fuente.",
+    es: "Requiere cerrar la versión exacta, los puntos de corte o la fuente.",
     en: "Requires validation of version, cut-offs or source."
   },
   needs_primary_reference: {
-    es: "Necesita fuente primaria antes de activar calculo.",
+    es: "Falta confirmar la fuente primaria antes de activar el cálculo.",
     en: "Needs a primary source before calculation is activated."
   },
   coming_soon: {
@@ -660,7 +660,7 @@ export const statusDescriptions: Record<
     en: "Planned for later phases."
   },
   not_implemented_due_to_licensing: {
-    es: "Requiere revision de licencia o copyright.",
+    es: "Requiere aclarar las condiciones de licencia o reutilización.",
     en: "Requires licensing or copyright review."
   }
 };
@@ -669,7 +669,7 @@ export const typeLabels: Record<ToolType, Record<Language, string>> = {
   score: { es: "Score", en: "Score" },
   scale: { es: "Escala", en: "Scale" },
   calculator: { es: "Calculadora", en: "Calculator" },
-  clinical_rule: { es: "Regla clinica", en: "Clinical rule" },
+  clinical_rule: { es: "Regla clínica", en: "Clinical rule" },
   algorithm: { es: "Algoritmo", en: "Algorithm" },
   percentile: { es: "Percentil", en: "Percentile" },
   nomogram: { es: "Nomograma", en: "Nomogram" }
@@ -690,23 +690,23 @@ export const evidenceLabels: Record<EvidenceLevel, Record<Language, string>> = {
     en: "Primary reference needed"
   },
   pending_verification: {
-    es: "Pendiente de verificacion",
+    es: "Pendiente de verificación",
     en: "Pending verification"
   },
   original_derivation_study: {
-    es: "Estudio original / derivacion",
+    es: "Estudio original / derivación",
     en: "Original / derivation study"
   },
   external_validation_study: {
-    es: "Validacion externa",
+    es: "Validación externa",
     en: "External validation"
   },
   clinical_practice_guideline: {
-    es: "Guia clinica",
+    es: "Guía clínica",
     en: "Clinical practice guideline"
   },
   systematic_review: {
-    es: "Revision sistematica",
+    es: "Revisión sistemática",
     en: "Systematic review"
   },
   consensus_statement: {
@@ -718,7 +718,7 @@ export const evidenceLabels: Record<EvidenceLevel, Record<Language, string>> = {
     en: "Official manual / protocol"
   },
   peer_reviewed_review: {
-    es: "Revision revisada por pares",
+    es: "Revisión por pares",
     en: "Peer-reviewed review"
   },
   secondary_source: {
@@ -726,7 +726,7 @@ export const evidenceLabels: Record<EvidenceLevel, Record<Language, string>> = {
     en: "Secondary source"
   },
   local_project_documentation: {
-    es: "Documentacion local",
+    es: "Documentación local",
     en: "Local project documentation"
   },
   pending_primary_source: {
@@ -736,15 +736,15 @@ export const evidenceLabels: Record<EvidenceLevel, Record<Language, string>> = {
 };
 
 export const sourceTypeLabels: Record<SourceType, Record<Language, string>> = {
-  journal_article: { es: "Articulo cientifico", en: "Journal article" },
-  guideline: { es: "Guia", en: "Guideline" },
-  society_statement: { es: "Declaracion de sociedad", en: "Society statement" },
+  journal_article: { es: "Artículo científico", en: "Journal article" },
+  guideline: { es: "Guía", en: "Guideline" },
+  society_statement: { es: "Declaración de sociedad", en: "Society statement" },
   textbook: { es: "Libro", en: "Textbook" },
   institutional_protocol: {
     es: "Protocolo institucional",
     en: "Institutional protocol"
   },
-  documentation: { es: "Documentacion", en: "Documentation" },
+  documentation: { es: "Documentación", en: "Documentation" },
   website: { es: "Sitio web", en: "Website" },
   other: { es: "Otra", en: "Other" }
 };
