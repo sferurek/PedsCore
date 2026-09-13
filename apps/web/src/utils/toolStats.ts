@@ -1,5 +1,5 @@
 import { getToolDiscovery } from "@peds-core/core";
-import type { ClinicalToolMetadata, ImplementationStatus } from "@peds-core/core";
+import type { ClinicalToolMetadata, ImplementationStatus, SurfaceStatus } from "@peds-core/core";
 
 export const getToolStatusCounts = (tools: ClinicalToolMetadata[]) => {
   const counts = new Map<ImplementationStatus, number>();
@@ -54,4 +54,17 @@ export const getClinicalSurfaceStats = (tools: ClinicalToolMetadata[]) => {
     localCalculations,
     externalOfficial
   };
+};
+
+
+export const getSurfaceStatusCounts = (tools: ClinicalToolMetadata[]) => {
+  const counts = new Map<SurfaceStatus, number>();
+
+  for (const tool of tools) {
+    const surfaceStatus = getToolDiscovery(tool.id)?.surfaceStatus;
+    if (!surfaceStatus) continue;
+    counts.set(surfaceStatus, (counts.get(surfaceStatus) ?? 0) + 1);
+  }
+
+  return counts;
 };
