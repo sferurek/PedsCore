@@ -111,7 +111,7 @@ export const translations = {
       whyTitle: "Por qué existe esta matriz",
       whyBody:
         "Esta matriz deja a la vista por qué una herramienta está activa, en revisión o limitada por evidencia o licencia. Así puedes distinguir con rapidez qué está cerrado y qué todavía exige cautela.",
-      statusTitle: "Estados de implementación",
+      statusTitle: "Estado técnico de implementación",
       contributeTitle: "Cómo aportar evidencia",
       contributeBody:
         "Si conoces una fuente primaria, una validación relevante o una referencia que falta, puedes compartir DOI, PMID, enlaces estables y notas de licencia a través de GitHub Issues.",
@@ -124,7 +124,7 @@ export const translations = {
       sortingTitle: "Cómo ordenamos las fuentes",
       sortingBody:
         "Dentro de cada herramienta, las fuentes se presentan por nivel de evidencia y prioridad editorial, favoreciendo las referencias más recientes cuando son comparables.",
-      summaryTitle: "Resumen por estado",
+      summaryTitle: "Disponibilidad clínica del catálogo",
       whyNotEverythingTitle: "¿Por qué no está todo implementado?",
       whyNotEverythingBody:
         "En una herramienta clínica, dejar algo sin activar hasta tenerlo claro también es una decisión de seguridad."
@@ -392,7 +392,7 @@ export const translations = {
       sortingTitle: "How sources are ordered",
       sortingBody:
         "Within each tool, sources are presented by evidence level and editorial priority, favouring more recent references when they are otherwise comparable.",
-      summaryTitle: "Status summary",
+      summaryTitle: "Clinical catalog availability",
       whyNotEverythingTitle: "Why not everything is implemented?",
       whyNotEverythingBody:
         "In a clinical tool, leaving something inactive until it is clear enough is also a safety decision."
