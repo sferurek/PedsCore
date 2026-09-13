@@ -326,7 +326,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
       <section className="atlas-trust">
         <div className="atlas-trust-copy">
           <p className="eyebrow">{a.openEyebrow}</p>
-          <h2>{a.open}</h2>
+          <h2>{a.open.split(". ").map((part, index) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</h2>
           <p>{a.openBody}</p>
         </div>
         <div className="atlas-catalog-facts">
