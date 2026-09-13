@@ -299,14 +299,17 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </div>
           ) : null}
 
+          <section className="content-panel tool-evidence-summary" id="evidence">
+            <div className="tool-section-heading">
+              <p className="eyebrow">{language === "es" ? "TRAZABILIDAD" : "TRACEABILITY"}</p>
+              <h2>{language === "es" ? "Evidencia y revisión" : "Evidence and review"}</h2>
+            </div>
+            <p>{tool.validationNotes[language]}</p>
+          </section>
+
           <section className="content-panel" id="references">
             <h2>{t.tool.sourcesAndEvidence}</h2>
             <ReferenceList language={language} references={tool.references} />
-          </section>
-
-          <section className="content-panel" id="evidence">
-            <h2>{t.tool.validationNotes}</h2>
-            <p>{tool.validationNotes[language]}</p>
           </section>
 
           {hasEvidenceBlock(tool.implementationStatus) && discovery?.surfaceStatus !== "active" ? (
