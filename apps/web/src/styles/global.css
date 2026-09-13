@@ -605,6 +605,26 @@ dd {
   color: var(--red);
 }
 
+.surface-status-active {
+  background: #e2f4ee;
+  color: #0b5a4f;
+}
+
+.surface-status-draft {
+  background: #e7eef5;
+  color: var(--blue);
+}
+
+.surface-status-blocked {
+  background: #fff4d9;
+  color: var(--amber);
+}
+
+.surface-status-deprecated {
+  background: #eef1f3;
+  color: var(--muted);
+}
+
 .filter-panel {
   display: grid;
   gap: 1rem;

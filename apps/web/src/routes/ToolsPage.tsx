@@ -8,7 +8,7 @@ import type {
   CareSettingTag,
   ClinicalFunctionTag,
   ClinicalSpecialty,
-  ImplementationStatus,
+  SurfaceStatus,
   InteractionMode,
   ToolCategory,
   ToolType
@@ -18,7 +18,7 @@ import { SearchBar } from "../components/SearchBar";
 import { ToolsList } from "../components/ToolsList";
 import {
   categoryLabels,
-  statusLabels,
+  surfaceStatusLabels,
   translations,
   typeLabels
 } from "../i18n/translations";
@@ -27,7 +27,7 @@ import { discoveryLabel } from "../utils/discoveryLabels";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 import { trackUsageEvent } from "../utils/analytics";
-import { getToolStatusCounts } from "../utils/toolStats";
+import { getSurfaceStatusCounts } from "../utils/toolStats";
 
 interface ToolsPageProps {
   language: Language;
@@ -44,16 +44,8 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const lastTrackedSearchRef = useRef("");
   const categories = [...new Set(allTools.map((tool) => tool.category))].sort();
   const types = [...new Set(allTools.map((tool) => tool.type))].sort();
-  const statuses = [
-    "implemented",
-    "partially_implemented",
-    "ready_for_implementation",
-    "pending_validation",
-    "needs_primary_reference",
-    "coming_soon",
-    "not_implemented_due_to_licensing"
-  ] satisfies ImplementationStatus[];
-  const statusCounts = getToolStatusCounts(allTools);
+  const statuses = ["active", "draft", "blocked", "deprecated"] satisfies SurfaceStatus[];
+  const statusCounts = getSurfaceStatusCounts(allTools);
 
   const filteredTools = useMemo(
     () => filterTools(allTools, filters, language),
@@ -172,6 +164,9 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
         </div>
 
         <div className="quick-filter-row" aria-label={t.tools.quickFilters}>
+          <button className="quick-filter-chip" type="button" onClick={() => setQuick({ status: "active" })}>
+            {language === "es" ? "Disponibles" : "Available"}
+          </button>
           <button className="quick-filter-chip" type="button" onClick={() => setQuick({ specialty: "emergency_medicine" })}>
             {language === "es" ? "Urgencias" : "Emergency"}
           </button>
@@ -305,14 +300,14 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
                 onChange={(event) =>
                   setFilters({
                     ...filters,
-                    status: event.target.value as ImplementationStatus | "all"
+                    status: event.target.value as SurfaceStatus | "all"
                   })
                 }
               >
                 <option value="all">{t.tools.all}</option>
                 {statuses.map((status) => (
                   <option key={status} value={status}>
-                    {statusLabels[status][language]} ({statusCounts.get(status) ?? 0})
+                    {surfaceStatusLabels[status][language]} ({statusCounts.get(status) ?? 0})
                   </option>
                 ))}
               </select>

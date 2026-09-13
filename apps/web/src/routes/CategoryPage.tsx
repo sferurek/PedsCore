@@ -1,11 +1,12 @@
 import { useMemo, useState } from "react";
 import { getToolsByCategory } from "@peds-core/core";
-import type { ImplementationStatus, ToolCategory } from "@peds-core/core";
+import { getToolDiscovery } from "@peds-core/core";
+import type { SurfaceStatus, ToolCategory } from "@peds-core/core";
 import { ToolsList } from "../components/ToolsList";
 import {
   categoryDescriptions,
   categoryLabels,
-  statusLabels,
+  surfaceStatusLabels,
   translations
 } from "../i18n/translations";
 import { defaultFilters, filterTools } from "../utils/filterTools";
@@ -24,7 +25,7 @@ export function CategoryPage({
 }: CategoryPageProps) {
   const t = translations[language];
   const categoryTools = getToolsByCategory(category);
-  const [status, setStatus] = useState<ImplementationStatus | "all">("all");
+  const [status, setStatus] = useState<SurfaceStatus | "all">("all");
   const filteredTools = useMemo(
     () =>
       filterTools(
@@ -39,7 +40,7 @@ export function CategoryPage({
     [category, categoryTools, language, status]
   );
   const statuses = [
-    ...new Set(categoryTools.map((tool) => tool.implementationStatus))
+    ...new Set(categoryTools.map((tool) => getToolDiscovery(tool.id)?.surfaceStatus).filter((value): value is SurfaceStatus => Boolean(value)))
   ].sort();
 
   return (
@@ -57,13 +58,13 @@ export function CategoryPage({
           <select
             value={status}
             onChange={(event) =>
-              setStatus(event.target.value as ImplementationStatus | "all")
+              setStatus(event.target.value as SurfaceStatus | "all")
             }
           >
             <option value="all">{t.tools.all}</option>
             {statuses.map((item) => (
               <option key={item} value={item}>
-                {statusLabels[item][language]}
+                {surfaceStatusLabels[item][language]}
               </option>
             ))}
           </select>

@@ -8,7 +8,7 @@ import type {
   ClinicalFunctionTag,
   ClinicalSpecialty,
   ClinicalToolMetadata,
-  ImplementationStatus,
+  SurfaceStatus,
   InteractionMode,
   Language,
   ToolCategory,
@@ -19,7 +19,7 @@ export interface ToolFilters {
   query: string;
   category: ToolCategory | "all";
   type: ToolType | "all";
-  status: ImplementationStatus | "all";
+  status: SurfaceStatus | "all";
   specialty: ClinicalSpecialty | "all";
   clinicalProblem: string | "all";
   ageGroup: AgeGroupTag | "all";
@@ -59,10 +59,9 @@ export const filterTools = (
     if (!searchedToolIds.has(tool.id)) return false;
     if (filters.category !== "all" && tool.category !== filters.category) return false;
     if (filters.type !== "all" && tool.type !== filters.type) return false;
-    if (filters.status !== "all" && tool.implementationStatus !== filters.status) return false;
-
     const discovery = getToolDiscovery(tool.id);
     if (!discovery) return false;
+    if (filters.status !== "all" && discovery.surfaceStatus !== filters.status) return false;
 
     if (filters.specialty !== "all" && !discovery.specialties.includes(filters.specialty)) return false;
     if (filters.clinicalProblem !== "all" && !discovery.clinicalProblems.includes(filters.clinicalProblem)) return false;

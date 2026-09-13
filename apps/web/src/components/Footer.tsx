@@ -1,5 +1,6 @@
 import { useEffect, useState, type MouseEvent } from "react";
 import { translations } from "../i18n/translations";
+import { atlas } from "../i18n/atlas";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 import {
@@ -52,12 +53,15 @@ export function FooterUsageSummaryContent({
   };
 
   return (
-    <p className="footer-usage-summary">
-      <span>{summary}</span>{" "}
-      <a href={href} onClick={handleClick}>
-        {t.usageSummaryLink}
-      </a>
-    </p>
+    <div className="footer-usage-summary">
+      <span className="eyebrow">{atlas[language].usageEyebrow}</span>
+      <p>
+        <span>{summary}</span>{" "}
+        <a href={href} onClick={handleClick}>
+          {t.usageSummaryLink}
+        </a>
+      </p>
+    </div>
   );
 }
 
@@ -103,12 +107,12 @@ export function Footer({ language, navigate }: FooterProps) {
         <p className="footer-brand">PedsCore · 2026 · {t.footer.alpha}</p>
         <p>{t.pages.disclaimerBody}</p>
       </div>
+      <FooterUsageSummary language={language} navigate={navigate} />
       <div className="footer-notes">
         <span>{t.footer.mit}</span>
         <span>{t.footer.whoLicense}</span>
         <span>{t.footer.noClinicalStorage}</span>
       </div>
-      <FooterUsageSummary language={language} navigate={navigate} />
       <div className="footer-links">
         {navigate ? (
           <>

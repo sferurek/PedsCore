@@ -5,7 +5,8 @@ import type {
   RegulatoryRisk,
   SourceType,
   ToolCategory,
-  ToolType
+  ToolType,
+  SurfaceStatus
 } from "@peds-core/core";
 import type { Language } from "../utils/language";
 
@@ -43,7 +44,9 @@ export const translations = {
       githubSupportCta: "Apoya el proyecto en GitHub",
       toolsMetric: "herramientas catalogadas",
       cataloguedMetric: "catalogadas",
-      implementedMetric: "implementadas",
+      implementedMetric: "cálculos locales",
+      availableMetric: "disponibles",
+      blockedMetric: "con acceso limitado",
       partialMetric: "implementación parcial",
       clinicalDataMetric: "datos clínicos almacenados",
       miniDisclaimer:
@@ -108,7 +111,7 @@ export const translations = {
       whyTitle: "Por qué existe esta matriz",
       whyBody:
         "Esta matriz deja a la vista por qué una herramienta está activa, en revisión o limitada por evidencia o licencia. Así puedes distinguir con rapidez qué está cerrado y qué todavía exige cautela.",
-      statusTitle: "Estados de implementación",
+      statusTitle: "Estado técnico de implementación",
       contributeTitle: "Cómo aportar evidencia",
       contributeBody:
         "Si conoces una fuente primaria, una validación relevante o una referencia que falta, puedes compartir DOI, PMID, enlaces estables y notas de licencia a través de GitHub Issues.",
@@ -121,7 +124,7 @@ export const translations = {
       sortingTitle: "Cómo ordenamos las fuentes",
       sortingBody:
         "Dentro de cada herramienta, las fuentes se presentan por nivel de evidencia y prioridad editorial, favoreciendo las referencias más recientes cuando son comparables.",
-      summaryTitle: "Resumen por estado",
+      summaryTitle: "Disponibilidad clínica del catálogo",
       whyNotEverythingTitle: "¿Por qué no está todo implementado?",
       whyNotEverythingBody:
         "En una herramienta clínica, dejar algo sin activar hasta tenerlo claro también es una decisión de seguridad."
@@ -167,6 +170,11 @@ export const translations = {
       accessType: "Acceso",
       validationNotes: "Notas de validación",
       notActiveTitle: "Esta herramienta aún no está activa",
+      referenceTitle: "Referencia clínica disponible",
+      referenceBody: "Esta superficie está activa como referencia clínica. Puedes consultar su finalidad, población, limitaciones y fuentes aunque no exista un cálculo local.",
+      limitedTitle: "Acceso clínico limitado",
+      limitedBody: "La herramienta permanece identificada y documentada, pero su uso operativo local está limitado por evidencia, definición o condiciones de reutilización.",
+      preparationTitle: "En preparación",
       automaticCalculationInactive:
         "El cálculo automático todavía no está disponible. Conservamos esta ficha para que puedas consultar su propósito, su estado y las fuentes que guían su revisión.",
       partialActiveTitle: "Módulo parcialmente disponible",
@@ -304,7 +312,9 @@ export const translations = {
       githubSupportCta: "Support the project on GitHub",
       toolsMetric: "cataloged tools",
       cataloguedMetric: "cataloged",
-      implementedMetric: "implemented",
+      implementedMetric: "local calculations",
+      availableMetric: "available",
+      blockedMetric: "limited access",
       partialMetric: "partial implementation",
       clinicalDataMetric: "clinical data stored",
       miniDisclaimer:
@@ -382,7 +392,7 @@ export const translations = {
       sortingTitle: "How sources are ordered",
       sortingBody:
         "Within each tool, sources are presented by evidence level and editorial priority, favouring more recent references when they are otherwise comparable.",
-      summaryTitle: "Status summary",
+      summaryTitle: "Clinical catalog availability",
       whyNotEverythingTitle: "Why not everything is implemented?",
       whyNotEverythingBody:
         "In a clinical tool, leaving something inactive until it is clear enough is also a safety decision."
@@ -428,6 +438,11 @@ export const translations = {
       accessType: "Access",
       validationNotes: "Validation notes",
       notActiveTitle: "This tool is not active yet",
+      referenceTitle: "Clinical reference available",
+      referenceBody: "This surface is active as a clinical reference. You can review its purpose, population, limitations and sources even when no local calculation is available.",
+      limitedTitle: "Limited clinical access",
+      limitedBody: "The tool remains identified and documented, but local operational use is limited by evidence, definition or reuse conditions.",
+      preparationTitle: "In preparation",
       automaticCalculationInactive:
         "Automatic calculation is not active for this tool yet. This page is shown for review, traceability and implementation preparation.",
       partialActiveTitle: "Active partial module",
@@ -601,6 +616,13 @@ export const categoryDescriptions: Record<
     es: "Cribado, salud mental, desarrollo y conductas de riesgo en la adolescencia.",
     en: "Future tools for development, mental health and risk behaviors."
   }
+};
+
+export const surfaceStatusLabels: Record<SurfaceStatus, Record<Language, string>> = {
+  active: { es: "Disponible", en: "Available" },
+  draft: { es: "En preparación", en: "In preparation" },
+  blocked: { es: "Acceso limitado", en: "Limited access" },
+  deprecated: { es: "Histórica", en: "Historical" }
 };
 
 export const statusLabels: Record<
