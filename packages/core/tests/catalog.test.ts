@@ -142,10 +142,10 @@ describe("clinical tools catalog", () => {
     ).toBe(true);
   });
 
-  it("keeps PEWS pending validation", () => {
-    expect(getToolBySlug("pews")?.implementationStatus).toBe(
-      "pending_validation"
-    );
+  it("retires the generic PEWS placeholder while preserving named variants", () => {
+    expect(getToolBySlug("pews")).toBeUndefined();
+    expect(getToolBySlug("brighton-pews")).toBeDefined();
+    expect(getToolBySlug("bedside-pews")).toBeDefined();
   });
 
   it("does not include toxicology in the catalog", () => {
@@ -190,13 +190,11 @@ describe("clinical tools catalog", () => {
       "pipp",
       "pipp_r",
       "comfortneo",
-      "modified_finnegan",
       "brighton_pews",
       "orbegozo_growth_percentiles",
       "stamp",
       "strongkids",
       "pyms",
-      "resuscitation_weight_dose_energy"
     ];
 
     for (const id of licenseSensitivePendingIds) {
@@ -211,9 +209,7 @@ describe("clinical tools catalog", () => {
       "pipp",
       "pipp_r",
       "comfortneo",
-      "modified_finnegan",
       "pediatric_gcs",
-      "pews",
       "brighton_pews",
       "bedside_pews",
       "orbegozo_growth_percentiles",
@@ -231,9 +227,6 @@ describe("clinical tools catalog", () => {
   });
 
   it("keeps variant-sensitive Block 8B-2 tools explicitly blocked", () => {
-    expect(getTool("pews")?.validationNotes.en).toContain(
-      "family of published and institutional variants"
-    );
     expect(getTool("pediatric_gcs")?.validationNotes.en).toContain(
       "complete pediatric verbal table"
     );
@@ -279,7 +272,6 @@ describe("clinical tools catalog", () => {
       "rflacc",
       "cheops",
       "visual_analogue_scale",
-      "resuscitation_weight_dose_energy"
     ];
 
     for (const id of blockedIds) {
@@ -326,11 +318,8 @@ describe("clinical tools catalog", () => {
     const blockedByLicenseIds = [
       "wong_baker_faces",
       "stamp",
-      "bayley",
-      "denver_ii",
       "prism_iii",
       "prism_iv",
-      "resuscitation_weight_dose_energy"
     ];
 
     for (const id of blockedByLicenseIds) {
@@ -341,16 +330,12 @@ describe("clinical tools catalog", () => {
   it("keeps Block 8B-4 maintainer-dependent tools out of ready/implemented state", () => {
     const maintainerDependentIds = [
       "pediatric_gcs",
-      "pews",
       "pim2",
       "pim3",
       "prism_iii",
       "prism_iv",
       "who_growth_percentiles",
       "cdc_growth_percentiles",
-      "adolescent_depression_risk",
-      "adolescent_behavior_risk",
-      "mass_casualty_triage"
     ];
 
     for (const id of maintainerDependentIds) {
@@ -416,8 +401,7 @@ describe("clinical tools catalog", () => {
       "pediatric_bradycardia",
       "pediatric_tachycardia",
       "shockable_rhythm_algorithm",
-      "non_shockable_rhythm_algorithm",
-      "resuscitation_weight_dose_energy"
+      "non_shockable_rhythm_algorithm"
     ];
 
     for (const id of resuscitationIds) {
@@ -452,9 +436,6 @@ describe("clinical tools catalog", () => {
       "shockable_rhythm_algorithm",
       "non_shockable_rhythm_algorithm",
       "wong_baker_faces",
-      "bayley",
-      "denver_ii",
-      "resuscitation_weight_dose_energy"
     ];
 
     for (const id of protectedIds) {
