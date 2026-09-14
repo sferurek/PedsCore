@@ -10,6 +10,7 @@ import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 import { getClinicalSurfaceStats } from "../utils/toolStats";
 import { fetchPopularTools } from "../utils/popularTools";
+import { PEDSCORE_SIM_URL } from "../utils/externalLinks";
 
 interface HomePageProps {
   language: Language;
@@ -173,7 +174,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
               </button>
             ))}
           </div></div><p className="atlas-hero-note">{a.note.split(". ").map((part, index) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</p>
-        <div className="atlas-gateways">{(["tools", "learn", "sim", "live"] as const).map((product, i) => <a className={`atlas-gateway atlas-${product}`} key={product} href={`#${product}`}><div><span className="atlas-product-icon"><Icon name={product} /></span><strong>{a.productLabels[product]}</strong><Icon name="arrow" /></div><p>{a.capabilities[i][0]}</p><small>{product === "tools" ? <><b>{surfaceStats.available}</b> {t.home.availableMetric} · <b>{surfaceStats.localCalculations}</b> {t.home.implementedMetric}</> : a.soon}</small></a>)}</div></div>
+        <div className="atlas-gateways">{(["tools", "learn", "sim", "live"] as const).map((product, i) => <a className={`atlas-gateway atlas-${product}`} key={product} href={product === "sim" ? PEDSCORE_SIM_URL : `#${product}`}><div><span className="atlas-product-icon"><Icon name={product} /></span><strong>{a.productLabels[product]}</strong><Icon name="arrow" /></div><p>{a.capabilities[i][0]}</p><small>{product === "tools" ? <><b>{surfaceStats.available}</b> {t.home.availableMetric} · <b>{surfaceStats.localCalculations}</b> {t.home.implementedMetric}</> : product === "sim" ? a.openSim : a.soon}</small></a>)}</div></div>
       </section>
       <section className="home-discovery-hub" aria-labelledby="home-discovery-title">
         <div className="home-discovery-intro">
