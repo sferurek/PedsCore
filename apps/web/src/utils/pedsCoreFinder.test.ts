@@ -27,12 +27,8 @@ const tool = (
 
 describe("PedsCore Finder", () => {
   it("prioritizes PRAM for acute asthma severity", () => {
-    const tools = [
-      tool("pram", "PRAM", "2 to <18 years", "Acute asthma severity"),
-      tool("westley_croup", "Westley", "Children", "Croup severity")
-    ];
     const result = runPedsCoreFinder(
-      tools,
+      getAllTools(),
       "niño de 8 años con crisis de asma, quiero valorar gravedad",
       "es"
     );

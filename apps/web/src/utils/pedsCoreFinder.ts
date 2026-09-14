@@ -202,9 +202,16 @@ export const runPedsCoreFinder = (
       const aliases = [...discovery.aliases.es, ...discovery.aliases.en].map(strip);
       const aliasMatch = aliases.some((alias) => alias && (normalized.includes(alias) || alias.includes(normalized)));
       const exactAliasMatch = aliases.some((alias) => alias === normalized);
+      const phraseAliasMatch = aliases.some(
+        (alias) => alias.includes(" ") && normalized.includes(alias)
+      );
       const aliasTokenMatch = aliases.some(
         (alias) => alias.length >= 3 && normalized.split(" ").includes(alias)
       );
+      const namedToolTokenMatch = [tool.shortName, tool.id]
+        .filter((value): value is string => Boolean(value))
+        .map(strip)
+        .some((value) => normalized.split(" ").includes(value));
 
       if (!gate.compatible) {
         if (problemMatch || aliasMatch) excluded.push({ tool, reason: gate.reason ?? "" });
@@ -224,9 +231,10 @@ export const runPedsCoreFinder = (
       ].join(" "));
 
       if (aliasMatch) {
-        score += exactAliasMatch ? 95 : aliasTokenMatch ? 90 : 70;
+        score += exactAliasMatch ? 95 : phraseAliasMatch ? 90 : aliasTokenMatch ? 90 : 70;
         reasonKeys.add("alias");
       }
+      if (namedToolTokenMatch) score += 8;
       if (problemMatch) { score += 45; reasonKeys.add("problem"); }
 
       const matchingFunctions = discovery.clinicalFunctions.filter((fn) => functions.includes(fn));
