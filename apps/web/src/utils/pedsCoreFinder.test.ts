@@ -31,7 +31,11 @@ describe("PedsCore Finder", () => {
       tool("pram", "PRAM", "2 to <18 years", "Acute asthma severity"),
       tool("westley_croup", "Westley", "Children", "Croup severity")
     ];
-    const result = runPedsCoreFinder(tools, "niño de 8 años con asma, valorar gravedad", "es");
+    const result = runPedsCoreFinder(
+      tools,
+      "niño de 8 años con crisis de asma, quiero valorar gravedad",
+      "es"
+    );
 
     expect(result.matches[0]?.tool.id).toBe("pram");
   });
