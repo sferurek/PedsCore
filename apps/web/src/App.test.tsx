@@ -24,7 +24,9 @@ describe("App", () => {
       scrollTo: vi.fn()
     });
 
-    expect(renderToString(<App />)).toContain("PedsCore");
+    const html = renderToString(<App />);
+    expect(html).toContain("PedsCore");
+    expect(html).toContain("https://pedscore-triage-sim.vercel.app");
   });
 
   it("renders the evidence page", () => {
