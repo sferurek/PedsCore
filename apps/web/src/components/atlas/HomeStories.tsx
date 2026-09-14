@@ -2,6 +2,7 @@ import { atlas } from "../../i18n/atlas";
 import type { Language } from "../../utils/language";
 import { LearnTemplate } from "./LearnTemplate";
 import { Icon } from "./Icon";
+import { PEDSCORE_SIM_URL } from "../../utils/externalLinks";
 
 export function HomeStories({
   language
@@ -40,7 +41,7 @@ export function HomeStories({
                   </li>
                 ))}
               </ul>
-              <span className="atlas-state">{t.soon}</span>
+              {product === "sim" ? <a className="atlas-state" href={PEDSCORE_SIM_URL}>{t.openSim}</a> : <span className="atlas-state">{t.soon}</span>}
             </div>
 
             <div className="atlas-story-visual">
