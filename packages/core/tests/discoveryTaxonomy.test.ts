@@ -7,6 +7,21 @@ import {
 } from "../src/index";
 
 describe("clinical discovery taxonomy", () => {
+  const removedFinalSurfaceIds = [
+    "combined_apgar",
+    "modified_finnegan",
+    "pews",
+    "benes",
+    "glasgow_adapted",
+    "regional_sepsis_scores",
+    "resuscitation_weight_dose_energy",
+    "mass_casualty_triage",
+    "adolescent_depression_risk",
+    "adolescent_behavior_risk",
+    "bayley",
+    "denver_ii"
+  ];
+
   it("tags every catalog tool", () => {
     expect(Object.keys(toolDiscoveryById)).toHaveLength(clinicalTools.length);
 
@@ -37,6 +52,28 @@ describe("clinical discovery taxonomy", () => {
     }
   });
 
+  it("matches the final v12 surface disposition counts", () => {
+    const statuses = Object.values(toolDiscoveryById).map(
+      (metadata) => metadata.surfaceStatus
+    );
+
+    expect(statuses.filter((status) => status === "active")).toHaveLength(114);
+    expect(statuses.filter((status) => status === "draft")).toHaveLength(1);
+    expect(statuses.filter((status) => status === "blocked")).toHaveLength(14);
+    expect(statuses.filter((status) => status === "deprecated")).toHaveLength(3);
+    expect(
+      Object.values(toolDiscoveryById).filter(
+        (metadata) => metadata.calculationAvailability === "local_active"
+      )
+    ).toHaveLength(24);
+  });
+
+  it("does not expose removed final surfaces through discovery", () => {
+    for (const id of removedFinalSurfaceIds) {
+      expect(toolDiscoveryById[id], id).toBeUndefined();
+    }
+  });
+
   it("keeps discovery relationships resolvable", () => {
     const catalogIds = new Set(clinicalTools.map((tool) => tool.id));
     for (const [id, discovery] of Object.entries(toolDiscoveryById)) {
@@ -59,9 +96,18 @@ describe("clinical discovery taxonomy", () => {
   });
 
   it("keeps external or rights-blocked tools out of local active calculation", () => {
-    for (const id of ["wong_baker_faces", "flacc", "rflacc", "bayley", "denver_ii"]) {
+    for (const id of ["wong_baker_faces", "flacc", "rflacc", "chaq", "pedmidas"]) {
       const status = getToolDiscovery(id)?.calculationAvailability;
       expect(status).not.toBe("local_active");
+    }
+  });
+
+  it("keeps every alias normalized for deterministic matching", () => {
+    for (const [id, discovery] of Object.entries(toolDiscoveryById)) {
+      for (const alias of [...discovery.aliases.es, ...discovery.aliases.en]) {
+        expect(alias, id).toBe(alias.trim().toLocaleLowerCase());
+        expect(alias, id).not.toMatch(/\s{2,}/);
+      }
     }
   });
 

@@ -546,6 +546,9 @@ export const categoryLabels: Record<ToolCategory, Record<Language, string>> = {
   },
   pain: { es: "Dolor", en: "Pain" },
   neurology: { es: "Neurología", en: "Neurology" },
+  rheumatology: { es: "Reumatología", en: "Rheumatology" },
+  gastroenterology: { es: "Gastroenterología", en: "Gastroenterology" },
+  behavioral_health: { es: "Salud mental", en: "Behavioral health" },
   resuscitation: { es: "RCP y algoritmos", en: "CPR and algorithms" },
   adolescent_medicine: {
     es: "Medicina del adolescente",
@@ -592,6 +595,18 @@ export const categoryDescriptions: Record<
   neurology: {
     es: "Valoracion neurologica y nivel de conciencia.",
     en: "Neurologic assessment and level of consciousness."
+  },
+  rheumatology: {
+    es: "Evaluación musculoesquelética y seguimiento de enfermedades reumatológicas pediátricas.",
+    en: "Musculoskeletal assessment and follow-up of pediatric rheumatic disease."
+  },
+  gastroenterology: {
+    es: "Actividad de enfermedad y seguimiento en gastroenterología pediátrica.",
+    en: "Disease activity and follow-up in pediatric gastroenterology."
+  },
+  behavioral_health: {
+    es: "Cribado y evaluación de salud mental y funcionamiento psicosocial.",
+    en: "Mental-health screening and psychosocial assessment."
   },
   resuscitation: {
     es: "Algoritmos y calculos de reanimacion previstos para revision.",

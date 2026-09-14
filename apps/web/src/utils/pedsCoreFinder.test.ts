@@ -91,4 +91,73 @@ describe("PedsCore Finder", () => {
 
     expect(result.excluded.map((match) => match.tool.id)).toContain("pecarn_febrile_infant");
   });
+
+  it("finds named neonatal pain references without promoting rights-blocked scales", () => {
+    const general = runPedsCoreFinder(getAllTools(), "valoración de dolor neonatal", "es");
+    const prolonged = runPedsCoreFinder(getAllTools(), "dolor neonatal prolongado", "es");
+    const facial = runPedsCoreFinder(getAllTools(), "NFCS para dolor neonatal", "es");
+    const sedation = runPedsCoreFinder(getAllTools(), "N-PASS dolor y sedación neonatal", "es");
+    const ids = general.matches.map((match) => match.tool.id);
+
+    expect(ids).toEqual(expect.arrayContaining(["nips", "pipp_r", "cries", "nfcs"]));
+    expect(prolonged.matches[0]?.tool.id).toBe("edin");
+    expect(facial.matches[0]?.tool.id).toBe("nfcs");
+    expect(sedation.matches[0]?.tool.id).toBe("n_pass");
+  });
+
+  it("finds the juvenile myositis comparison group", () => {
+    const result = runPedsCoreFinder(getAllTools(), "miositis juvenil", "es");
+    const ids = result.matches.map((match) => match.tool.id);
+
+    expect(ids).toEqual(
+      expect.arrayContaining(["cmas", "mmt8", "jdm_disease_activity_score", "myositis_damage_index"])
+    );
+  });
+
+  it("finds named asthma-control instruments", () => {
+    const result = runPedsCoreFinder(getAllTools(), "control del asma ACQ", "es");
+    const ids = result.matches.map((match) => match.tool.id);
+
+    expect(ids).toEqual(expect.arrayContaining(["c_act", "track", "acq"]));
+    expect(ids[0]).toBe("acq");
+  });
+
+  it("keeps the weighted Crohn surface beside PCDAI", () => {
+    const result = runPedsCoreFinder(getAllTools(), "actividad de brote de Crohn", "es");
+    const ids = result.matches.map((match) => match.tool.id);
+
+    expect(ids).toEqual(expect.arrayContaining(["pcdai", "wpcdai"]));
+  });
+
+  it("finds PedMIDAS for pediatric migraine disability", () => {
+    const result = runPedsCoreFinder(getAllTools(), "discapacidad por migraña pediátrica", "es");
+
+    expect(result.matches[0]?.tool.id).toBe("pedmidas");
+  });
+
+  it("uses FNASS instead of the removed generic Finnegan placeholder", () => {
+    const result = runPedsCoreFinder(getAllTools(), "abstinencia neonatal", "es");
+    const ids = result.matches.map((match) => match.tool.id);
+
+    expect(ids).toContain("fnass_21");
+    expect(ids).not.toContain("modified_finnegan");
+  });
+
+  it("returns named PEWS and mass-casualty surfaces instead of generic placeholders", () => {
+    const pews = runPedsCoreFinder(getAllTools(), "PEWS", "en");
+    const triage = runPedsCoreFinder(
+      getAllTools(),
+      "triaje pediátrico en incidente con múltiples víctimas",
+      "es"
+    );
+
+    expect(pews.matches.map((match) => match.tool.id)).toEqual(
+      expect.arrayContaining(["bedside_pews", "brighton_pews"])
+    );
+    expect(pews.matches.map((match) => match.tool.id)).not.toContain("pews");
+    expect(triage.matches.map((match) => match.tool.id)).toEqual(
+      expect.arrayContaining(["jumpstart", "salt_triage"])
+    );
+    expect(triage.matches.map((match) => match.tool.id)).not.toContain("mass_casualty_triage");
+  });
 });

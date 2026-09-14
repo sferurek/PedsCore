@@ -12,7 +12,6 @@ const expectedImplementedToolIds = [
   "apgar",
   "silverman_andersen",
   "wood_downes_ferres",
-  "flacc",
   "qtc_bazett",
   "qtc_fridericia",
   "qtc_framingham",
@@ -63,7 +62,6 @@ const blockedTherapeuticOrProtectedIds = [
   "pediatric_tachycardia",
   "shockable_rhythm_algorithm",
   "non_shockable_rhythm_algorithm",
-  "resuscitation_weight_dose_energy",
   "psofa",
   "pelod",
   "pelod_2",
@@ -72,8 +70,6 @@ const blockedTherapeuticOrProtectedIds = [
   "pim2",
   "pim3",
   "wong_baker_faces",
-  "bayley",
-  "denver_ii",
   "orbegozo_growth_percentiles",
   "stamp"
 ];
@@ -104,7 +100,8 @@ describe("SPRINT-50 implementation safety gates", () => {
     const implementedIds = getImplementedTools().map((tool) => tool.id).sort();
 
     expect(implementedIds).toEqual([...expectedImplementedToolIds].sort());
-    expect(implementedIds).toEqual([...implementedCalculatorToolIds].sort());
+    expect(implementedCalculatorToolIds).toContain("flacc");
+    expect(implementedIds).not.toContain("flacc");
 
     for (const id of implementedIds) {
       const testFile = implementedTestFiles[id];
@@ -157,7 +154,7 @@ describe("SPRINT-50 implementation safety gates", () => {
       "bmi_percentile",
       "head_circumference_percentile"
     ]);
-    expect(getImplementedTools()).toHaveLength(21);
+    expect(getImplementedTools()).toHaveLength(20);
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {

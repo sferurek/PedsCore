@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { getAllTools, getToolBySlug } from "@peds-core/core";
 import type { ToolCategory } from "@peds-core/core";
 import { AnalyticsProvider } from "./components/AnalyticsProvider";
@@ -12,7 +12,6 @@ import { GlobalStatsPage } from "./routes/GlobalStatsPage";
 import { HomePage } from "./routes/HomePage";
 import { NotFoundPage } from "./routes/NotFoundPage";
 import { ToolPage } from "./routes/ToolPage";
-import { ToolsPage } from "./routes/ToolsPage";
 import {
   isSupportedLanguage,
   languageStorageKey,
@@ -21,6 +20,10 @@ import {
 import { maybeTrackRouteChange, trackAppOpen } from "./utils/analytics";
 import { parseRoute, toAppPath, toBrowserPath } from "./utils/routes";
 import { getSeoForRoute, updateDocumentSeo } from "./utils/seo";
+
+const ToolsPage = lazy(() =>
+  import("./routes/ToolsPage").then((module) => ({ default: module.ToolsPage }))
+);
 
 export function App() {
   const [path, setPath] = useState(() => toAppPath(window.location.pathname));
@@ -96,7 +99,11 @@ export function App() {
     }
 
     if (route.kind === "tools") {
-      return <ToolsPage language={language} navigate={navigate} />;
+      return (
+        <Suspense fallback={null}>
+          <ToolsPage language={language} navigate={navigate} />
+        </Suspense>
+      );
     }
 
     if (route.kind === "tool" && route.slug) {

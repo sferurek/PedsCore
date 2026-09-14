@@ -23,10 +23,10 @@ describe("Block 5E validation gate", () => {
     expect(calculateTool("cries", {}).warnings[0]?.id).toBe("calculator_not_implemented");
   });
 
-  it("keeps CHEOPS pending validation because per-option scoring is incomplete", () => {
+  it("keeps CHEOPS rights-blocked and non-operational", () => {
     const tool = getToolBySlug("cheops");
 
-    expect(tool?.implementationStatus).toBe("pending_validation");
+    expect(tool?.implementationStatus).toBe("not_implemented_due_to_licensing");
     expect(tool?.validationNotes.en).toContain("exact score per option");
     expect(implementedCalculatorToolIds).not.toContain("cheops");
     expect(calculateTool("cheops", {}).warnings[0]?.id).toBe("calculator_not_implemented");

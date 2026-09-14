@@ -28,7 +28,7 @@ const categoryDetails: Record<
       es: "Riesgo, desarrollo y herramientas para adolescentes.",
       en: "Risk, development and adolescent-focused tools."
     },
-    examples: ["Adolescent Depression Risk", "Bayley", "Denver II"]
+    examples: ["M-CHAT-R/F", "PHQ-9", "HEADSSS"]
   },
   cardiology: {
     description: {
@@ -36,6 +36,13 @@ const categoryDetails: Record<
       en: "QTc corrections and cardiovascular calculators."
     },
     examples: ["QTc Bazett", "QTc Fridericia", "QTc Hodges"]
+  },
+  behavioral_health: {
+    description: {
+      es: "Cribado y evaluación psicosocial pediátrica.",
+      en: "Pediatric screening and psychosocial assessment."
+    },
+    examples: ["SCARED", "PSC", "PHQ-9"]
   },
   emergency: {
     description: {
@@ -50,6 +57,13 @@ const categoryDetails: Record<
       en: "Percentiles, WHO growth and nutrition screening."
     },
     examples: ["WHO Growth", "STRONGkids", "PYMS", "STAMP"]
+  },
+  gastroenterology: {
+    description: {
+      es: "Actividad y seguimiento de enfermedad gastrointestinal pediátrica.",
+      en: "Pediatric gastrointestinal disease activity and follow-up."
+    },
+    examples: ["PUCAI", "PCDAI", "wPCDAI"]
   },
   intensive_care: {
     description: {
@@ -77,7 +91,14 @@ const categoryDetails: Record<
       es: "Conciencia, neurologia pediatrica y variantes en validacion.",
       en: "Consciousness, pediatric neurology and variants in validation."
     },
-    examples: ["Pediatric GCS", "Benes", "Adapted Glasgow"]
+    examples: ["Pediatric GCS", "CAPD", "PedMIDAS"]
+  },
+  rheumatology: {
+    description: {
+      es: "Función, actividad y exploración musculoesquelética pediátrica.",
+      en: "Pediatric function, disease activity and musculoskeletal examination."
+    },
+    examples: ["CMAS", "MMT8", "pGALS", "CHAQ"]
   },
   pain: {
     description: {

@@ -7,18 +7,16 @@ import {
 
 const blockedTools = [
   { slug: "cries", id: "cries", status: "pending_validation", note: "exact 0/1/2 options" },
-  { slug: "cheops", id: "cheops", status: "pending_validation", note: "exact score per option" },
+  { slug: "cheops", id: "cheops", status: "not_implemented_due_to_licensing", note: "exact score per option" },
   { slug: "visual-analogue-scale", id: "visual_analogue_scale", status: "needs_primary_reference", note: "0-10 versus 0-100 mm" },
   { slug: "thompson-hie-score", id: "thompson_hie", status: "pending_validation", note: "specific ranges" },
   { slug: "pediatric-glasgow-coma-scale", id: "pediatric_gcs", status: "pending_validation", note: "pediatric verbal" },
-  { slug: "pews", id: "pews", status: "pending_validation", note: "family of published and institutional variants" },
-  { slug: "brighton-pews", id: "brighton_pews", status: "pending_validation", note: "complete table is not available from a traceable reusable source" },
+  { slug: "brighton-pews", id: "brighton_pews", status: "not_implemented_due_to_licensing", note: "complete table is not available from a traceable reusable source" },
   { slug: "bedside-pews", id: "bedside_pews", status: "pending_validation", note: "inventor/licensing review" },
   { slug: "brosjod", id: "brosjod", status: "pending_validation", note: "Original/full table" },
-  { slug: "pipp", id: "pipp", status: "pending_validation" },
+  { slug: "pipp", id: "pipp", status: "not_implemented_due_to_licensing" },
   { slug: "pipp-r", id: "pipp_r", status: "pending_validation" },
-  { slug: "comfortneo", id: "comfortneo", status: "pending_validation" },
-  { slug: "modified-finnegan", id: "modified_finnegan", status: "pending_validation" }
+  { slug: "comfortneo", id: "comfortneo", status: "pending_validation" }
 ] as const;
 
 describe("Block 6A evidence gate", () => {

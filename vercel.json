@@ -1,6 +1,18 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "apps/web/dist",
+  "redirects": [
+    {
+      "source": "/es/tools/modified-finnegan",
+      "destination": "/es/tools/fnass-21",
+      "permanent": true
+    },
+    {
+      "source": "/en/tools/modified-finnegan",
+      "destination": "/en/tools/fnass-21",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/analytics/countries",

@@ -21,8 +21,8 @@ describe("public product web polish", () => {
 
     expect(html).toContain("Evidence today.");
     expect(html).toContain("Healthier tomorrows.");
-    expect(html).toContain(">125<");
-    expect(html).toContain(">21<");
+    expect(html).toContain(">132<");
+    expect(html).toContain(">20<");
     expect(html).toContain(">4<");
     expect(html).toContain(">0<");
     expect(html).toContain("No clinical data storage");
@@ -193,10 +193,10 @@ describe("public product web polish", () => {
   it("keeps catalog implementation counts and partial WHO Growth preset IDs", () => {
     const tools = getAllTools();
 
-    expect(tools).toHaveLength(125);
+    expect(tools).toHaveLength(132);
     expect(
       tools.filter((tool) => tool.implementationStatus === "implemented")
-    ).toHaveLength(21);
+    ).toHaveLength(20);
     expect(
       tools.filter((tool) => tool.implementationStatus === "partially_implemented")
     ).toHaveLength(4);
