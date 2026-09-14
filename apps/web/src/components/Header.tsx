@@ -13,13 +13,13 @@ export function Header({ currentPath, language, navigate, onLanguageChange }: He
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => { const update = () => setScrolled(window.scrollY > 48); update(); window.addEventListener("scroll", update, { passive: true }); return () => window.removeEventListener("scroll", update); }, []);
   const go = (href: string) => { sheet.current?.close(); navigate(href); };
-  const links = <><button type="button" className="nav-link" aria-current={currentPath.includes("/tools") ? "page" : undefined} onClick={() => go(makePath(language, "tools"))}>Tools</button>{["Learn", "Sim", "Live"].map(name => <span className="atlas-future-nav" key={name}>{name}<small>{a.soon}</small></span>)}<button type="button" className="nav-link" onClick={() => go(makePath(language, "about"))}>{t.nav.about}</button></>;
+  const links = <><button type="button" className="nav-link" aria-current={currentPath.includes("/tools") ? "page" : undefined} onClick={() => go(makePath(language, "tools"))}>{a.productLabels.tools}</button>{(["learn", "sim", "live"] as const).map(product => <span className="atlas-future-nav" key={product}>{a.productLabels[product]}</span>)}<button type="button" className="nav-link" onClick={() => go(makePath(language, "about"))}>{t.nav.about}</button></>;
   return <>
     <a className="atlas-skip" href="#main-content">{a.skip}</a>
     <header className={`site-header atlas-header ${scrolled ? "is-scrolled" : ""}`}>
       <button className="brand-link" type="button" onClick={() => go(makePath(language))}><span className="atlas-brand-mark"><Icon name="heart" /></span><span>PedsCore<small>{a.brandTagline}</small></span></button>
       <nav className="main-nav" aria-label={language === "es" ? "Navegación principal" : "Primary navigation"}>{links}</nav>
-      <div className="atlas-header-actions"><SearchCommand compact language={language} navigate={navigate} /><LanguageSwitcher language={language} onLanguageChange={onLanguageChange} /><button type="button" className="atlas-icon-button atlas-menu-trigger" aria-label={a.menu} onClick={() => sheet.current?.showModal()}><Icon name="menu" /></button></div>
+      <div className="atlas-header-actions"><SearchCommand compact={!scrolled} nav={scrolled} language={language} navigate={navigate} /><LanguageSwitcher language={language} onLanguageChange={onLanguageChange} /><button type="button" className="atlas-icon-button atlas-menu-trigger" aria-label={a.menu} onClick={() => sheet.current?.showModal()}><Icon name="menu" /></button></div>
     </header>
     <dialog ref={sheet} className="atlas-mobile-sheet" aria-label={a.menu}>
       <div className="atlas-dialog-heading"><strong>PedsCore</strong><button type="button" className="atlas-icon-button" aria-label={a.close} onClick={() => sheet.current?.close()}><Icon name="close" /></button></div>

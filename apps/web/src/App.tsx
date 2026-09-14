@@ -11,7 +11,6 @@ import { EvidencePage } from "./routes/EvidencePage";
 import { GlobalStatsPage } from "./routes/GlobalStatsPage";
 import { HomePage } from "./routes/HomePage";
 import { NotFoundPage } from "./routes/NotFoundPage";
-import { ToolPage } from "./routes/ToolPage";
 import {
   isSupportedLanguage,
   languageStorageKey,
@@ -23,6 +22,10 @@ import { getSeoForRoute, updateDocumentSeo } from "./utils/seo";
 
 const ToolsPage = lazy(() =>
   import("./routes/ToolsPage").then((module) => ({ default: module.ToolsPage }))
+);
+
+const ToolPage = lazy(() =>
+  import("./routes/ToolPage").then((module) => ({ default: module.ToolPage }))
 );
 
 export function App() {
@@ -109,7 +112,9 @@ export function App() {
     if (route.kind === "tool" && route.slug) {
       const tool = getToolBySlug(route.slug);
       return tool ? (
-        <ToolPage language={language} navigate={navigate} tool={tool} />
+        <Suspense fallback={null}>
+          <ToolPage language={language} navigate={navigate} tool={tool} />
+        </Suspense>
       ) : (
         <NotFoundPage language={language} navigate={navigate} />
       );

@@ -143,22 +143,22 @@ const ageScore = (ageGroups: string[], ageDays?: number): number => {
 
 const formatReason = (language: Language, key: string): string => {
   const es: Record<string,string> = {
-    alias: "Coincide con el nombre, acrónimo o alias clínico.",
-    problem: "Coincide con el problema clínico descrito.",
-    age: "La edad es compatible con la población de la herramienta.",
-    function: "Coincide con lo que quieres valorar.",
-    setting: "Coincide con el entorno asistencial descrito.",
-    text: "Hay coincidencias clínicas adicionales en nombre, población o descripción.",
-    local: "La herramienta dispone de cálculo local en PedsCore."
+    alias: "El nombre o el acrónimo coincide con lo que has escrito.",
+    problem: "Está diseñada para el problema clínico que describes.",
+    age: "La edad indicada encaja con la población para la que se utiliza.",
+    function: "Su objetivo clínico coincide con lo que necesitas valorar.",
+    setting: "Encaja con el entorno asistencial que has indicado.",
+    text: "También hay coincidencias relevantes en su población o descripción clínica.",
+    local: "Puedes utilizar su cálculo directamente en PedsCore."
   };
   const en: Record<string,string> = {
-    alias: "Matches the name, acronym, or clinical alias.",
-    problem: "Matches the clinical problem described.",
-    age: "Age is compatible with the tool population.",
-    function: "Matches what you want to assess.",
-    setting: "Matches the care setting described.",
-    text: "There are additional clinical matches in the name, population, or description.",
-    local: "Local calculation is available in PedsCore."
+    alias: "The name or acronym matches what you entered.",
+    problem: "It is designed for the clinical problem you described.",
+    age: "The stated age fits the population this tool is used for.",
+    function: "Its clinical purpose matches what you want to assess.",
+    setting: "It fits the care setting you described.",
+    text: "There are also relevant matches in its population or clinical description.",
+    local: "You can use its calculation directly in PedsCore."
   };
   return (language === "es" ? es : en)[key] ?? key;
 };
@@ -172,8 +172,8 @@ export const runPedsCoreFinder = (
   if (!normalized) {
     return {
       intro: language === "es"
-        ? "Descríbeme el paciente, el problema clínico o lo que quieres valorar."
-        : "Describe the patient, clinical problem, or what you want to assess.",
+        ? "Cuéntame el caso, la edad o qué necesitas valorar."
+        : "Tell me about the case, the age, or what you need to assess.",
       matches: [],
       excluded: []
     };
@@ -249,21 +249,40 @@ export const runPedsCoreFinder = (
       const tokenHits = tokens.filter((token) => haystack.includes(token));
       if (tokenHits.length) { score += Math.min(24, tokenHits.length * 4); reasonKeys.add("text"); }
 
+      if (discovery.surfaceStatus === "active") {
+        score += 10;
+      } else if (discovery.surfaceStatus === "draft") {
+        score -= 12;
+        caveats.push(language === "es"
+          ? "La superficie está en preparación y todavía no forma parte del catálogo clínico disponible."
+          : "This surface is still in preparation and is not yet part of the available clinical catalog.");
+      } else if (discovery.surfaceStatus === "blocked") {
+        score -= 28;
+        caveats.push(language === "es"
+          ? "La superficie tiene acceso clínico limitado; revisa sus restricciones antes de utilizarla."
+          : "This surface has limited clinical access; review its restrictions before use.");
+      } else if (discovery.surfaceStatus === "deprecated") {
+        score -= 50;
+        caveats.push(language === "es"
+          ? "Esta superficie se conserva solo como referencia histórica."
+          : "This surface is retained for historical reference only.");
+      }
+
       if (discovery.calculationAvailability === "local_active") {
         score += 5;
         reasonKeys.add("local");
       } else if (discovery.calculationAvailability === "external_official") {
         caveats.push(language === "es"
-          ? "La referencia es activa, pero el uso operativo puede depender de una herramienta oficial externa."
-          : "The reference is active, but operational use may depend on an external official tool.");
+          ? "Puedes consultar la referencia aquí, pero el uso operativo se realiza mediante una herramienta oficial externa."
+          : "You can review the reference here, but operational use is through an official external tool.");
       } else if (discovery.calculationAvailability === "blocked_by_rights") {
         caveats.push(language === "es"
-          ? "PedsCore puede mostrar la referencia clínica, pero no debe reproducir localmente el instrumento completo sin permiso."
-          : "PedsCore can show the clinical reference, but should not reproduce the full instrument locally without permission.");
+          ? "La referencia clínica está disponible, pero el instrumento completo no se reproduce en PedsCore por sus condiciones de uso."
+          : "The clinical reference is available, but the full instrument is not reproduced in PedsCore because of its reuse conditions.");
       } else if (discovery.calculationAvailability === "blocked_by_evidence") {
         caveats.push(language === "es"
-          ? "La implementación operativa sigue bloqueada por evidencia o definición incompleta."
-          : "Operational implementation remains blocked by incomplete evidence or definition.");
+          ? "Puedes consultar la referencia, pero la implementación operativa sigue en revisión porque falta cerrar evidencia o definición."
+          : "You can review the reference, but operational implementation remains under review because evidence or definition is not yet complete.");
       }
 
       if (!score) return null;
@@ -281,8 +300,8 @@ export const runPedsCoreFinder = (
   if (!matches.length) {
     return {
       intro: language === "es"
-        ? "No tengo una coincidencia suficientemente específica todavía. Añade edad, problema clínico o qué quieres valorar."
-        : "I do not have a sufficiently specific match yet. Add age, the clinical problem, or what you want to assess.",
+        ? "Todavía no hay una coincidencia clara. Añade la edad, el problema clínico o qué necesitas valorar y afinamos la búsqueda."
+        : "There is not a clear match yet. Add the age, clinical problem or what you need to assess and we can narrow it down.",
       matches: [],
       excluded: excluded.slice(0,3)
     };
@@ -290,8 +309,8 @@ export const runPedsCoreFinder = (
 
   const topName = matches[0].tool.name[language];
   const intro = language === "es"
-    ? "Por el contexto que describes, empezaría revisando " + topName + "."
-    : "Based on the context you described, I would start by reviewing " + topName + ".";
+    ? "Por el contexto que describes, " + topName + " parece la opción más relevante para empezar."
+    : "Based on the context you described, " + topName + " looks like the most relevant place to start.";
 
   let clarification: FinderClarification | undefined;
   if (problems.includes("asthma") && !functions.includes("severity") && !functions.includes("longitudinal_monitoring")) {

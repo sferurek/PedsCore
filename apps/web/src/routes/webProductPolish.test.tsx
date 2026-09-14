@@ -5,6 +5,7 @@ import { Footer, FooterUsageSummaryContent } from "../components/Footer";
 import { OssSupportBanner } from "../components/OssSupportBanner";
 import { getSeoForRoute } from "../utils/seo";
 import { parseRoute } from "../utils/routes";
+import { getClinicalSurfaceStats } from "../utils/toolStats";
 import { EvidencePage } from "./EvidencePage";
 import { GlobalStatsPage } from "./GlobalStatsPage";
 import { HomePage } from "./HomePage";
@@ -19,18 +20,19 @@ describe("public product web polish", () => {
       <HomePage language="en" navigate={noopNavigate} />
     );
 
-    expect(html).toContain("Evidence today.");
-    expect(html).toContain("Healthier tomorrows.");
-    expect(html).toContain(">132<");
-    expect(html).toContain(">20<");
-    expect(html).toContain(">4<");
+    expect(html).toContain("Clarity for today.");
+    expect(html).toContain("Better care tomorrow.");
+    const stats = getClinicalSurfaceStats(getAllTools());
+    expect(html).toContain(`>${stats.catalogued}<`);
+    expect(html).toContain(`>${stats.available}<`);
+    expect(html).toContain(`>${stats.localCalculations}<`);
     expect(html).toContain(">0<");
     expect(html).toContain("No clinical data storage");
     expect(html).not.toContain("Support the project on GitHub");
     expect(html).not.toContain("Available now");
     expect(html).toContain("WHO Growth");
     expect(html).toContain("Open module");
-    expect(html).toContain("Transparent by design");
+    expect(html).toContain("Transparency, end to end");
     expect(html).toContain("Westley Croup");
     expect(html).toContain("PRAM");
     expect(html).toContain("Wood-Downes-Ferres");
@@ -40,12 +42,13 @@ describe("public product web polish", () => {
     expect(html).toContain("BMI-for-age");
   });
 
-  it("renders ToolsPage with the partially implemented status filter", () => {
+  it("renders ToolsPage with clinical availability filters", () => {
     const html = renderToString(
       <ToolsPage language="en" navigate={noopNavigate} />
     );
 
-    expect(html).toContain("Partially implemented");
+    expect(html).toContain("Available");
+    expect(html).toContain("Limited access");
     expect(html).toContain("WHO Growth");
   });
 
@@ -53,7 +56,7 @@ describe("public product web polish", () => {
     const html = renderToString(<EvidencePage language="en" />);
 
     expect(html).toContain("Partially implemented");
-    expect(html).toContain("not implementing doubtful content");
+    expect(html).toContain("leaving something inactive until it is clear enough");
   });
 
   it("renders Footer with GitHub, disclaimer, license and privacy notes", () => {

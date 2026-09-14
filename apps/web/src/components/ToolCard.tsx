@@ -10,6 +10,7 @@ import {
 } from "../i18n/translations";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
+import { discoveryLabel } from "../utils/discoveryLabels";
 import { ToolStatusBadge } from "./ToolStatusBadge";
 
 interface ToolCardProps {
@@ -17,9 +18,6 @@ interface ToolCardProps {
   navigate: (href: string) => void;
   tool: ClinicalToolMetadata;
 }
-
-const label = (value: string): string =>
-  value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 
 export function ToolCard({ language, navigate, tool }: ToolCardProps) {
   const t = translations[language];
@@ -38,7 +36,7 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
           <p className="tool-shortname">{tool.shortName}</p>
           <h3>{tool.name[language]}</h3>
         </div>
-        <ToolStatusBadge language={language} status={tool.implementationStatus} />
+        <ToolStatusBadge language={language} status={tool.implementationStatus} toolId={tool.id} />
       </div>
 
       <p>{tool.description[language]}</p>
@@ -46,7 +44,7 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
       {chips.length > 0 ? (
         <div className="tool-discovery-chip-row" aria-label={language === "es" ? "Etiquetas clínicas" : "Clinical tags"}>
           {chips.map((chip) => (
-            <span key={chip}>{label(chip)}</span>
+            <span key={chip}>{discoveryLabel(chip, language)}</span>
           ))}
         </div>
       ) : null}
