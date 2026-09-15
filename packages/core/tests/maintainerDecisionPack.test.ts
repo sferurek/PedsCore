@@ -80,8 +80,7 @@ describe("maintainer decision pack", () => {
       "pim2",
       "pim3",
       "pediatric_cpr",
-      "neonatal_cpr",
-      "resuscitation_weight_dose_energy"
+      "neonatal_cpr"
     ];
 
     for (const id of notReadyIds) {

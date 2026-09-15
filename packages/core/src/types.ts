@@ -21,6 +21,9 @@ export type ToolCategory =
   | "growth_nutrition"
   | "pain"
   | "neurology"
+  | "rheumatology"
+  | "gastroenterology"
+  | "behavioral_health"
   | "resuscitation"
   | "adolescent_medicine";
 

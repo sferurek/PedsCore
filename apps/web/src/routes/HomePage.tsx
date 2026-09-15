@@ -38,6 +38,13 @@ const categoryDetails: Record<
     },
     examples: ["QTc Bazett", "QTc Fridericia", "QTc Hodges"]
   },
+  behavioral_health: {
+    description: {
+      es: "Cribado y evaluación psicosocial pediátrica.",
+      en: "Pediatric screening and psychosocial assessment."
+    },
+    examples: ["SCARED", "PSC", "PHQ-9"]
+  },
   emergency: {
     description: {
       es: "Decisión clínica en urgencias: trauma, hidratación, infección y estratificación de riesgo.",
@@ -51,6 +58,13 @@ const categoryDetails: Record<
       en: "Growth, percentiles and nutritional assessment throughout childhood."
     },
     examples: ["WHO Growth", "Fenton 2013", "STRONGkids", "CDC Growth"]
+  },
+  gastroenterology: {
+    description: {
+      es: "Actividad y seguimiento de enfermedad gastrointestinal pediátrica.",
+      en: "Pediatric gastrointestinal disease activity and follow-up."
+    },
+    examples: ["PUCAI", "PCDAI", "wPCDAI"]
   },
   intensive_care: {
     description: {
@@ -79,6 +93,13 @@ const categoryDetails: Record<
       en: "Consciousness, encephalopathy and pediatric neurologic assessment."
     },
     examples: ["Pediatric GCS", "Sarnat", "PedNIHSS"]
+  },
+  rheumatology: {
+    description: {
+      es: "Función, actividad y exploración musculoesquelética pediátrica.",
+      en: "Pediatric function, disease activity and musculoskeletal examination."
+    },
+    examples: ["CMAS", "MMT8", "pGALS", "CHAQ"]
   },
   pain: {
     description: {

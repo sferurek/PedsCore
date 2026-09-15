@@ -16,7 +16,6 @@ const implementedToolIds = [
   "apgar",
   "silverman_andersen",
   "wood_downes_ferres",
-  "flacc",
   "qtc_bazett",
   "qtc_fridericia",
   "qtc_framingham",
@@ -57,6 +56,43 @@ const getTool = (id: string) => {
 };
 
 describe("clinical tools catalog", () => {
+  const removedFinalSurfaceIds = [
+    "combined_apgar",
+    "modified_finnegan",
+    "pews",
+    "benes",
+    "glasgow_adapted",
+    "regional_sepsis_scores",
+    "resuscitation_weight_dose_energy",
+    "mass_casualty_triage",
+    "adolescent_depression_risk",
+    "adolescent_behavior_risk",
+    "bayley",
+    "denver_ii"
+  ];
+
+  const reconciliationSurfaceIds = [
+    "comfort_b",
+    "n_pass",
+    "edin",
+    "nfcs",
+    "cmas",
+    "mmt8",
+    "chaq",
+    "j4s",
+    "jdm_disease_activity_score",
+    "myositis_damage_index",
+    "pgals",
+    "prems",
+    "modified_ross",
+    "pedmidas",
+    "scared",
+    "psc",
+    "acq",
+    "wpcdai",
+    "fnass_21"
+  ];
+
   it("loads the catalog without errors", () => {
     expect(getAllTools().length).toBeGreaterThan(50);
   });
@@ -86,10 +122,10 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(21);
+    expect(getImplementedTools()).toHaveLength(20);
   });
 
-  it("keeps the implemented tool set unchanged during evidence audit", () => {
+  it("keeps the final locally implemented tool set clinically bounded", () => {
     expect(getImplementedTools().map((tool) => tool.id).sort()).toEqual(
       [...implementedToolIds].sort()
     );
@@ -142,10 +178,20 @@ describe("clinical tools catalog", () => {
     ).toBe(true);
   });
 
-  it("retires the generic PEWS placeholder while preserving named variants", () => {
+  it("reconciles the physical catalog to the v12 final surface set", () => {
+    expect(clinicalTools).toHaveLength(132);
+    for (const id of removedFinalSurfaceIds) {
+      expect(clinicalTools.some((tool) => tool.id === id), id).toBe(false);
+    }
+    for (const id of reconciliationSurfaceIds) {
+      expect(clinicalTools.some((tool) => tool.id === id), id).toBe(true);
+    }
+  });
+
+  it("removes generic PEWS while retaining named PEWS surfaces", () => {
     expect(getToolBySlug("pews")).toBeUndefined();
-    expect(getToolBySlug("brighton-pews")).toBeDefined();
-    expect(getToolBySlug("bedside-pews")).toBeDefined();
+    expect(getTool("bedside_pews")).toBeDefined();
+    expect(getTool("brighton_pews")).toBeDefined();
   });
 
   it("does not include toxicology in the catalog", () => {
@@ -194,7 +240,7 @@ describe("clinical tools catalog", () => {
       "orbegozo_growth_percentiles",
       "stamp",
       "strongkids",
-      "pyms",
+      "pyms"
     ];
 
     for (const id of licenseSensitivePendingIds) {
@@ -204,24 +250,31 @@ describe("clinical tools catalog", () => {
     }
   });
 
-  it("keeps Block 8B-2 reviewed tools pending until source, table, variant, and licensing gates are complete", () => {
+  it("keeps Block 8B-2 reviewed tools non-operational until source, table, variant, and licensing gates are complete", () => {
     const reviewedPendingIds = [
-      "pipp",
       "pipp_r",
       "comfortneo",
       "pediatric_gcs",
-      "brighton_pews",
       "bedside_pews",
-      "orbegozo_growth_percentiles",
-      "stamp",
-      "strongkids",
-      "pyms"
+      "strongkids"
     ];
 
     for (const id of reviewedPendingIds) {
       const tool = getTool(id);
 
       expect(tool?.implementationStatus).toBe("pending_validation");
+      expect(tool?.calculationStatus).not.toBe("active");
+    }
+
+    for (const id of [
+      "pipp",
+      "brighton_pews",
+      "orbegozo_growth_percentiles",
+      "stamp",
+      "pyms"
+    ]) {
+      const tool = getTool(id);
+      expect(tool?.implementationStatus).toBe("not_implemented_due_to_licensing");
       expect(tool?.calculationStatus).not.toBe("active");
     }
   });
@@ -271,7 +324,7 @@ describe("clinical tools catalog", () => {
       "prifle",
       "rflacc",
       "cheops",
-      "visual_analogue_scale",
+      "visual_analogue_scale"
     ];
 
     for (const id of blockedIds) {
@@ -319,7 +372,7 @@ describe("clinical tools catalog", () => {
       "wong_baker_faces",
       "stamp",
       "prism_iii",
-      "prism_iv",
+      "prism_iv"
     ];
 
     for (const id of blockedByLicenseIds) {
@@ -335,7 +388,7 @@ describe("clinical tools catalog", () => {
       "prism_iii",
       "prism_iv",
       "who_growth_percentiles",
-      "cdc_growth_percentiles",
+      "cdc_growth_percentiles"
     ];
 
     for (const id of maintainerDependentIds) {
@@ -435,7 +488,7 @@ describe("clinical tools catalog", () => {
       "pediatric_tachycardia",
       "shockable_rhythm_algorithm",
       "non_shockable_rhythm_algorithm",
-      "wong_baker_faces",
+      "wong_baker_faces"
     ];
 
     for (const id of protectedIds) {
