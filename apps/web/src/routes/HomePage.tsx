@@ -3,6 +3,7 @@ import { atlas } from "../i18n/atlas";
 import { SearchCommand } from "../components/atlas/SearchCommand";
 import { HomeStories } from "../components/atlas/HomeStories";
 import { Icon } from "../components/atlas/Icon";
+import { PedsCoreFinder } from "../components/PedsCoreFinder";
 import { getAllTools, getToolBySlug } from "@peds-core/core";
 import type { ToolCategory } from "@peds-core/core";
 import { categoryLabels, translations } from "../i18n/translations";
@@ -209,6 +210,8 @@ export function HomePage({ language, navigate }: HomePageProps) {
               : "Browse by specialty or go straight to the tools clinicians are using most."}
           </p>
         </div>
+
+        <PedsCoreFinder tools={allTools} language={language} navigate={navigate} />
 
         <div className="home-discovery-grid">
           <article className="home-discovery-card home-specialties-card">
