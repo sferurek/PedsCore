@@ -211,7 +211,9 @@ export function HomePage({ language, navigate }: HomePageProps) {
           </p>
         </div>
 
-        <PedsCoreFinder tools={allTools} language={language} navigate={navigate} />
+        <div className="home-finder-stage">
+          <PedsCoreFinder tools={allTools} language={language} navigate={navigate} />
+        </div>
 
         <div className="home-discovery-grid">
           <article className="home-discovery-card home-specialties-card">

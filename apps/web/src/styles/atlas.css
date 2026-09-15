@@ -903,6 +903,16 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
   line-height:1.65;
   white-space:nowrap;
 }
+.home-finder-stage {
+  max-width:1120px;
+  margin:0 auto 28px;
+}
+
+.home-finder-stage .finder-shell {
+  width:100%;
+  box-sizing:border-box;
+}
+
 .home-discovery-grid {
   display:grid;
   grid-template-columns:minmax(0,1fr) minmax(0,1fr);
