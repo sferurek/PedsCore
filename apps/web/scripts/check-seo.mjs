@@ -53,7 +53,7 @@ for (const routeFile of routeFiles) {
 
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
 const canonicalUrls = new Set();
-const indexableCategories = ["cardiology", "emergency", "nephrology", "respiratory"];
+const indexableCategories = ["neonatology", "respiratory", "emergency", "cardiology", "nephrology", "intensive_care", "growth_nutrition", "pain", "neurology", "rheumatology", "gastroenterology", "behavioral_health", "resuscitation", "adolescent_medicine"];
 const categoryTitles = new Set();
 const categoryDescriptions = new Set();
 const toolTitlesByLanguage = { es: new Set(), en: new Set() };
@@ -98,7 +98,7 @@ for (const url of sitemapUrls) {
 if (canonicalUrls.size !== sitemapUrls.length) throw new Error("Duplicate canonical URLs detected");
 if ((sitemap.match(/xhtml:link rel="alternate"/g) ?? []).length < sitemapUrls.length) throw new Error("Sitemap alternates are incomplete");
 if (categoryTitles.size !== indexableCategories.length * 2 || categoryDescriptions.size !== indexableCategories.length * 2) throw new Error("Category metadata is not unique across language routes");
-if (toolRouteCount < 250) throw new Error(`Unexpectedly few localized tool routes checked: ${toolRouteCount}`);
+if (toolRouteCount !== 264) throw new Error(`Expected 264 localized tool routes, found: ${toolRouteCount}`);
 if (toolTitlesByLanguage.es.size !== toolRouteCount / 2 || toolTitlesByLanguage.en.size !== toolRouteCount / 2) throw new Error("Tool SEO titles are not unique within each language");
 
 const assetNames = await readdir(resolve(distDir, "assets"));
@@ -124,4 +124,4 @@ assertIncludes(pim2Es, "<title>Calculadora PIM2 — Mortalidad pediátrica | Ped
 assertIncludes(pippEs, "<title>Escala PIPP — Dolor en prematuros | PedsCore</title>", "PIPP intent title");
 assertIncludes(nipsEn, "<title>NIPS Pain Scale — Neonatal Pain Assessment | PedsCore</title>", "NIPS intent title");
 
-console.log(`SEO check passed. Sitemap URLs: ${urlCount}. ${toolRouteCount} localized tool routes have unique, intent-led titles <=60 chars plus crawlable H1/content/internal links.`);
+console.log(`SEO check passed. Sitemap URLs: ${urlCount}. ${toolRouteCount} localized tool routes and ${indexableCategories.length * 2} category routes have crawlable content, unique intent metadata and internal links.`);
