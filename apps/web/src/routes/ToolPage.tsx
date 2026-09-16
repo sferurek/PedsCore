@@ -319,7 +319,46 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </section>
           ) : null}
 
-          {hasActiveCalculation ? (
+          {tool.id === "fenton_2025_growth" ? (
+            <section className="content-panel" id="calculator">
+              <div className="tool-section-heading">
+                <p className="eyebrow">{language === "es" ? "FENTON 2025 · TERCERA GENERACIÓN" : "FENTON 2025 · THIRD GENERATION"}</p>
+                <h2>{language === "es" ? "Calcular percentiles y z-scores" : "Calculate percentiles and Z-scores"}</h2>
+              </div>
+              <p>
+                {language === "es"
+                  ? "PedsCore mantiene esta herramienta como integración externa para no redistribuir ni reconstruir localmente los datos de las curvas. Puedes usar PediTools para un cálculo puntual o el plotter oficial Fenton 2025 para seguimiento y representación longitudinal."
+                  : "PedsCore keeps this tool as an external integration so the chart data are not redistributed or reconstructed locally. Use PediTools for a point calculation or the official Fenton 2025 plotter for longitudinal tracking and charting."}
+              </p>
+              <div className="link-row">
+                <a
+                  className="primary-link"
+                  href="https://www.peditools.org/fenton2025/"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {language === "es"
+                    ? "Abrir calculadora Fenton 2025 en PediTools ↗"
+                    : "Open Fenton 2025 calculator in PediTools ↗"}
+                </a>
+                <a
+                  className="primary-link"
+                  href="https://fentongrowth.ca/"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  {language === "es"
+                    ? "Abrir plotter oficial Fenton 2025 ↗"
+                    : "Open official Fenton 2025 plotter ↗"}
+                </a>
+              </div>
+              <p className="surface-availability-note">
+                {language === "es"
+                  ? "Las curvas 2025 son específicas por sexo e incluyen peso, longitud y perímetro cefálico. La publicación describe su uso para seguimiento hasta 50 semanas de edad postmenstrual y señala que, para clasificar tamaño para edad gestacional, las curvas son consistentes hasta 37 semanas."
+                  : "The 2025 charts are sex-specific and include weight, length, and head circumference. The publication describes growth monitoring through 50 weeks postmenstrual age and notes that, for size-for-gestational-age assignment, the curves are consistent through 37 weeks."}
+              </p>
+            </section>
+          ) : hasActiveCalculation ? (
             <div className={isCanonical ? "atlas-workspace" : "atlas-legacy-workspace"} id="calculator">
               {isWhoGrowth ? (
                 <WhoGrowthForm
