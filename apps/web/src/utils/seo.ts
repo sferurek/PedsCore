@@ -68,7 +68,7 @@ const routeSeo: Partial<Record<RouteKind, Record<Language, { title: string; desc
   },
   about: {
     es: {
-      title: "Acerca de PedsCore",
+      title: "Acerca de PedsCore — proyecto clínico open source",
       description:
         "PedsCore es un proyecto de código abierto con herramientas clínicas pediátricas y neonatales y trazabilidad de evidencia."
     },
@@ -307,6 +307,7 @@ export const updateDocumentSeo = (seo: SeoMetadata) => {
         "@id": `${siteUrl}/#organization`,
         name: "PedsCore",
         url: `${siteUrl}/`,
+        logo: `${siteUrl}/favicon.svg`,
         sameAs: ["https://github.com/sferurek/PedsCore"]
       }
     ]
