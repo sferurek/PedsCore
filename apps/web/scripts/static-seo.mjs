@@ -1,4 +1,4 @@
-import { getCategorySeoProfile, getSemanticRelatedTools, getToolSeoProfile, indexableSeoCategories } from "../../../packages/core/dist/index.js";
+import { getCategorySeoProfile, getReferenceUrl, getSemanticRelatedTools, getToolSeoProfile, indexableSeoCategories } from "../../../packages/core/dist/index.js";
 
 const baseUrl = "https://peds-core.vercel.app";
 
@@ -65,7 +65,11 @@ export const renderStaticBody = (seo, tools) => {
       ? `<ul>${related.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))}</li>`).join("")}</ul>`
       : "";
     const referencesHtml = references.length
-      ? `<ul>${references.map((ref) => `<li>${escapeHtml(ref.citation || ref.title || ref.id)}</li>`).join("")}</ul>`
+      ? `<ul>${references.map((ref) => {
+          const label = escapeHtml(ref.citation || ref.title || ref.id);
+          const url = getReferenceUrl(ref);
+          return `<li>${url ? `<a href="${escapeHtml(url)}" rel="noreferrer">${label}</a>` : label}</li>`;
+        }).join("")}</ul>`
       : `<p>${isEs ? "Consulta la sección de evidencia de la herramienta para revisar sus fuentes y estado de validación." : "See the tool evidence section for its sources and validation status."}</p>`;
 
     return `<main class="seo-static-fallback">
@@ -80,6 +84,15 @@ export const renderStaticBody = (seo, tools) => {
         <h3>${isEs ? "Población y ámbito de uso" : "Population and scope"}</h3>
         <p>${escapeHtml(profile.topic)}. ${escapeHtml(population)}</p>
         ${profile.aliases.length > 1 ? `<h3>${isEs ? "También puede encontrarse como" : "Also searched as"}</h3><p>${profile.aliases.map(escapeHtml).join(" · ")}</p>` : ""}
+        ${tool.calculationStatus === "active"
+          ? `<section>
+              <h2>${isEs ? "Calculadora disponible" : "Calculator available"}</h2>
+              <p>${isEs
+                ? "Esta ficha dispone de cálculo local activo en PedsCore. Los valores introducidos se procesan en el navegador y la página muestra referencias, límites e interpretación junto al resultado."
+                : "This page has an active local calculator in PedsCore. Entered values are processed in the browser, with references, limits and interpretation shown alongside the result."}</p>
+              <p><a href="#calculator">${isEs ? "Ir a la calculadora" : "Open calculator"}</a></p>
+            </section>`
+          : ""}
         <h2>${isEs ? "Uso clínico" : "Clinical use"}</h2>
         <p>${isEs
           ? `Esta página de PedsCore reúne la información clínica, el estado de implementación y la evidencia disponible para ${escapeHtml(name)}. Está dirigida a ${escapeHtml(population || "población pediátrica y neonatal según la herramienta")}. La herramienta pertenece al área de ${escapeHtml(categoryLabel)} y debe interpretarse dentro del contexto clínico correspondiente.`
