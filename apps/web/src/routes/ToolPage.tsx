@@ -71,6 +71,10 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const [formValues, setFormValues] = useState<FormValues>(() =>
     getInitialFormState(formTool)
   );
+  const [aapBiliGa, setAapBiliGa] = useState("40");
+  const [aapBiliAge, setAapBiliAge] = useState("48");
+  const [aapBiliTsb, setAapBiliTsb] = useState("");
+  const [aapBiliRisk, setAapBiliRisk] = useState("none");
   const resultPanelRef = useRef<HTMLElement>(null);
   const completedToolIdRef = useRef<string | null>(null);
   const isWhoGrowth = whoGrowthPreset !== null && whoGrowthTool !== null;
@@ -78,6 +82,17 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const isActiveReference = discovery?.surfaceStatus === "active" && !hasActiveCalculation;
   const relatedTools = useMemo(() => getSemanticRelatedTools(tool, 8), [tool]);
   const seoProfile = useMemo(() => getToolSeoProfile(tool, language), [language, tool]);
+  const aapBiliUrl = useMemo(() => {
+    const params = new URLSearchParams({
+      ga: aapBiliGa,
+      age: aapBiliAge,
+      risk: aapBiliRisk
+    });
+    if (aapBiliTsb.trim()) {
+      params.set("bili", aapBiliTsb.trim());
+    }
+    return `https://peditools.org/bili2022/api/?${params.toString()}`;
+  }, [aapBiliAge, aapBiliGa, aapBiliRisk, aapBiliTsb]);
   const analyticsPath = makePath(language, "tools", tool.slug);
   const analyticsParams = useMemo(
     () => ({
@@ -319,7 +334,74 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </section>
           ) : null}
 
-          {hasActiveCalculation ? (
+          {tool.id === "aap_2022_hyperbilirubinemia" ? (
+            <section className="content-panel" id="calculator">
+              <div className="tool-section-heading">
+                <p className="eyebrow">{language === "es" ? "AAP 2022 · PEDIATRÍA NEONATAL" : "AAP 2022 · NEONATAL CARE"}</p>
+                <h2>{language === "es" ? "Calcular umbrales" : "Calculate thresholds"}</h2>
+              </div>
+              <p>
+                {language === "es"
+                  ? "PedsCore prepara los parámetros y abre el cálculo en PediTools, cuya API 2022 es gratuita y no requiere registro ni licencia. Así evitamos reproducir localmente las curvas y tablas protegidas de la AAP."
+                  : "PedsCore prepares the parameters and opens the calculation in PediTools, whose 2022 API is free and requires no registration or license. This avoids locally reproducing the AAP threshold curves and tables."}
+              </p>
+              <div className="dynamic-form">
+                <label>
+                  <span>{language === "es" ? "Edad gestacional al nacimiento (semanas completas)" : "Gestational age at birth (completed weeks)"}</span>
+                  <select value={aapBiliGa} onChange={(event) => setAapBiliGa(event.target.value)}>
+                    <option value="35">35</option>
+                    <option value="36">36</option>
+                    <option value="37">37</option>
+                    <option value="38">38</option>
+                    <option value="39">39</option>
+                    <option value="40">40+</option>
+                  </select>
+                </label>
+                <label>
+                  <span>{language === "es" ? "Edad postnatal (horas)" : "Postnatal age (hours)"}</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="336"
+                    step="1"
+                    value={aapBiliAge}
+                    onChange={(event) => setAapBiliAge(event.target.value)}
+                  />
+                </label>
+                <label>
+                  <span>{language === "es" ? "Bilirrubina total sérica, TSB (mg/dL)" : "Total serum bilirubin, TSB (mg/dL)"}</span>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    placeholder={language === "es" ? "Opcional: deja vacío para ver solo umbrales" : "Optional: leave blank for thresholds only"}
+                    value={aapBiliTsb}
+                    onChange={(event) => setAapBiliTsb(event.target.value)}
+                  />
+                </label>
+                <label>
+                  <span>{language === "es" ? "Factores adicionales de neurotoxicidad" : "Additional neurotoxicity risk factors"}</span>
+                  <select value={aapBiliRisk} onChange={(event) => setAapBiliRisk(event.target.value)}>
+                    <option value="none">{language === "es" ? "Ninguno" : "None"}</option>
+                    <option value="any">{language === "es" ? "Uno o más" : "One or more"}</option>
+                  </select>
+                </label>
+              </div>
+              <p className="surface-availability-note">
+                {language === "es"
+                  ? "Factores adicionales: albúmina <3 g/dL, enfermedad hemolítica isoimmune/G6PD u otra hemólisis, sepsis o inestabilidad clínica significativa en las últimas 24 h. La edad gestacional <38 semanas ya se incorpora al umbral por edad gestacional."
+                  : "Additional factors: albumin <3 g/dL, isoimmune hemolytic disease/G6PD deficiency or other hemolysis, sepsis, or significant clinical instability in the previous 24 h. Gestational age <38 weeks is already incorporated through the gestational-age-specific threshold."}
+              </p>
+              <a className="primary-link" href={aapBiliUrl} rel="noreferrer" target="_blank">
+                {language === "es" ? "Abrir cálculo AAP 2022 en PediTools ↗" : "Open AAP 2022 calculation in PediTools ↗"}
+              </a>
+              <p>
+                {language === "es"
+                  ? "Usa TSB para decisiones terapéuticas y no restes la fracción directa/conjugada. PediTools mostrará los umbrales de fototerapia y exanguinotransfusión y, cuando proceda, la distancia de la TSB al umbral."
+                  : "Use TSB for treatment decisions and do not subtract the direct/conjugated fraction. PediTools will display phototherapy and exchange-transfusion thresholds and, when applicable, the TSB distance from the treatment threshold."}
+              </p>
+            </section>
+          ) : hasActiveCalculation ? (
             <div className={isCanonical ? "atlas-workspace" : "atlas-legacy-workspace"} id="calculator">
               {isWhoGrowth ? (
                 <WhoGrowthForm
