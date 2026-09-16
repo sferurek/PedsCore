@@ -22,3 +22,5 @@ export * from "./registry.js";
 export * from "./modifiedSarnatNichd.js";
 
 export * from "./thompsonHie.js";
+
+export * from "./cries.js";

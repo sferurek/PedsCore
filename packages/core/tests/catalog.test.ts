@@ -20,6 +20,7 @@ const implementedToolIds = [
   "sarnat",
   "modified_sarnat_nichd",
   "thompson_hie",
+  "cries",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -127,7 +128,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(25);
+    expect(getImplementedTools()).toHaveLength(26);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -241,9 +242,22 @@ describe("clinical tools catalog", () => {
     expect(tool?.references.some((reference) => reference.pmid === "9240886")).toBe(true);
   });
 
+  it("publishes CRIES as an active five-domain neonatal pain score", () => {
+    const tool = getTool("cries");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs).toHaveLength(5);
+    expect(tool?.interpretationBands?.map((band) => band.id)).toEqual([
+      "below_moderate_threshold",
+      "moderate",
+      "severe"
+    ]);
+    expect(tool?.validationNotes.en).toContain("independently worded criteria");
+    expect(tool?.references.some((reference) => reference.pmid === "8521311")).toBe(true);
+  });
+
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
     const reviewedPendingIds = [
-      "cries",
       "bhutani_nomogram",
       "bedside_pews",
       "cdc_growth_percentiles"
@@ -262,7 +276,6 @@ describe("clinical tools catalog", () => {
 
   it("does not promote license-sensitive pending tools to ready for implementation", () => {
     const licenseSensitivePendingIds = [
-      "cries",
       "bhutani_nomogram",
       "bedside_pews",
       "pipp",
@@ -392,7 +405,7 @@ describe("clinical tools catalog", () => {
       "sex"
     ]);
 
-    for (const id of ["gorelick_dehydration", "cries"]) {
+    for (const id of ["gorelick_dehydration"]) {
       const tool = getTool(id);
       expect(tool?.implementationStatus).toBe("pending_validation");
       expect(tool?.calculationStatus).not.toBe("active");

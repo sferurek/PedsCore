@@ -19,6 +19,7 @@ const implementedToolIds = new Set([
   "dubowitz",
   "modified_sarnat_nichd",
   "thompson_hie",
+  "cries",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -686,7 +687,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Priority A evidence audit: original source located. Complete 0/1/2 item table and reuse permissions remain pending before implementation.",
+        "Primary CRIES development and validation source. PedsCore implements an independently worded five-domain 0-2 interface and 0-10 total; original table layout and verbatim descriptors are not reproduced.",
       appliesTo: ["cries"],
       priority: 1
     }
@@ -1482,8 +1483,8 @@ const pediatricGcsValidationNotes: LocalizedText = {
 };
 
 const criesValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: la documentacion local confirma cinco variables, rango 0-10 y umbral >=4, pero no incluye opciones exactas 0/1/2 por variable, fuente primaria completa ni tabla de interpretacion validada. No se activa calculo hasta validar la tabla completa.",
-  en: "Pending validation: local documentation confirms five variables, 0-10 range, and >=4 threshold, but does not include exact 0/1/2 options per variable, complete primary source, or validated interpretation table. Calculation is not activated until the complete table is validated."
+  es: "Implementacion independiente de CRIES para dolor neonatal, especialmente postoperatorio. Cinco dominios puntuan 0-2 y suman 0-10. PedsCore usa redaccion propia y no reproduce la tabla ni los descriptores textuales originales. Como interpretacion secundaria muestra <5 por debajo del umbral de dolor moderado, 5-7 dolor moderado y 8-10 dolor grave, de acuerdo con guias que describen dolor moderado >4 y grave >7. Los umbrales de intervencion deben seguir el protocolo local.",
+  en: "Independent CRIES implementation for neonatal pain, especially postoperative pain. Five domains score 0-2 for a 0-10 total. PedsCore uses independently worded criteria and does not reproduce the original table or verbatim descriptors. As a secondary interpretation it shows <5 below the moderate-pain threshold, 5-7 moderate pain, and 8-10 severe pain, consistent with guidance describing moderate pain >4 and severe pain >7. Intervention thresholds should follow local protocol."
 };
 
 const cheopsValidationNotes: LocalizedText = {
@@ -1675,6 +1676,100 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  cries: {
+    calculationNotes: {
+      es: "Selecciona 0, 1 o 2 en cada uno de los cinco dominios CRIES. La escala suma 0-10. PedsCore muestra como referencia secundaria: <5 por debajo del umbral de dolor moderado, 5-7 moderado y 8-10 grave. La escala fue desarrollada para dolor neonatal, especialmente postoperatorio; cualquier conducta analgesica debe seguir el protocolo local.",
+      en: "Select 0, 1, or 2 for each of the five CRIES domains. The scale totals 0-10. PedsCore shows a secondary reference: <5 below the moderate-pain threshold, 5-7 moderate, and 8-10 severe. The scale was developed for neonatal pain, especially postoperative pain; analgesic management should follow local protocol."
+    },
+    inputs: [
+      {
+        id: "crying",
+        label: { es: "Llanto", en: "Crying" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("crying_0", "Sin llanto", "No crying", 0),
+          option("crying_1", "Llanto agudo presente", "High-pitched crying present", 1),
+          option("crying_2", "Llanto persistente y dificil de consolar", "Persistent crying that is difficult to console", 2)
+        ]
+      },
+      {
+        id: "oxygen",
+        label: { es: "Necesidad de oxigeno", en: "Oxygen requirement" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("oxygen_0", "Sin oxigeno suplementario", "No supplemental oxygen", 0),
+          option("oxygen_1", "Requiere FiO2 inferior al 30%", "Requires FiO2 below 30%", 1),
+          option("oxygen_2", "Requiere FiO2 del 30% o superior", "Requires FiO2 of 30% or greater", 2)
+        ]
+      },
+      {
+        id: "vital_signs",
+        label: { es: "Aumento de constantes vitales", en: "Increase in vital signs" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("vital_0", "Frecuencia cardiaca y presion arterial en basal", "Heart rate and blood pressure at baseline", 0),
+          option("vital_1", "Aumento inferior al 20% respecto al basal", "Increase below 20% from baseline", 1),
+          option("vital_2", "Aumento del 20% o superior respecto al basal", "Increase of 20% or more from baseline", 2)
+        ]
+      },
+      {
+        id: "expression",
+        label: { es: "Expresion facial", en: "Facial expression" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("expression_0", "Expresion relajada", "Relaxed expression", 0),
+          option("expression_1", "Mueca de dolor", "Pain grimace", 1),
+          option("expression_2", "Mueca marcada asociada a gemido", "Marked grimace accompanied by grunting", 2)
+        ]
+      },
+      {
+        id: "sleeplessness",
+        label: { es: "Sueño / vigilia", en: "Sleep / wakefulness" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("sleep_0", "Duerme sin alteracion relevante", "Sleeps without relevant disturbance", 0),
+          option("sleep_1", "Despertares frecuentes", "Frequent waking", 1),
+          option("sleep_2", "Permanece despierto de forma continua", "Remains continuously awake", 2)
+        ]
+      }
+    ],
+    interpretationBands: [
+      {
+        id: "below_moderate_threshold",
+        label: { es: "Por debajo del umbral de dolor moderado", en: "Below moderate-pain threshold" },
+        min: 0,
+        max: 4
+      },
+      {
+        id: "moderate",
+        label: { es: "Dolor moderado", en: "Moderate pain" },
+        min: 5,
+        max: 7
+      },
+      {
+        id: "severe",
+        label: { es: "Dolor grave", en: "Severe pain" },
+        min: 8,
+        max: 10
+      }
+    ],
+    scoringTable: [
+      {
+        id: "cries_total",
+        variable: { es: "Puntuacion CRIES total", en: "Total CRIES score" },
+        value: "0-10",
+        description: {
+          es: "Suma de llanto, necesidad de oxigeno, aumento de constantes vitales, expresion facial y alteracion del sueño; cada dominio puntua 0-2.",
+          en: "Sum of crying, oxygen requirement, increased vital signs, facial expression, and sleep disturbance; each domain scores 0-2."
+        }
+      }
+    ]
+  },
   thompson_hie: {
     calculationNotes: {
       es: "Introduce la puntuacion numerica de cada uno de los nueve dominios Thompson. Consulta la tabla de referencia enlazada en la pagina para asignar cada valor. Resultado 0-22. Convencion AAP mostrada: 0 sin anormalidades puntuadas, 1-10 leve, 11-14 moderada, 15-22 grave. Nota: algunas publicaciones usan 0-7 sin encefalopatia y 8-10 leve. Para seguimiento, el Thompson original se aplicaba de forma seriada y consideraba la puntuacion maxima diaria.",
