@@ -21,6 +21,7 @@ const implementedToolIds = [
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "fenton_2025_growth",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -128,7 +129,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(26);
+    expect(getImplementedTools()).toHaveLength(27);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -185,7 +186,7 @@ describe("clinical tools catalog", () => {
   });
 
   it("reconciles the physical catalog to the v12 final surface set", () => {
-    expect(clinicalTools).toHaveLength(133);
+    expect(clinicalTools).toHaveLength(134);
     for (const id of removedFinalSurfaceIds) {
       expect(clinicalTools.some((tool) => tool.id === id), id).toBe(false);
     }
@@ -254,6 +255,18 @@ describe("clinical tools catalog", () => {
     ]);
     expect(tool?.validationNotes.en).toContain("independently worded criteria");
     expect(tool?.references.some((reference) => reference.pmid === "8521311")).toBe(true);
+  });
+
+  it("publishes Fenton 2025 as the active external preterm-growth surface", () => {
+    const current = getTool("fenton_2025_growth");
+    const legacy = getTool("neonatal_growth_fenton");
+
+    expect(current?.implementationStatus).toBe("implemented");
+    expect(current?.calculationStatus).not.toBe("active");
+    expect(current?.references.some((reference) => reference.doi === "10.1111/ppe.70035")).toBe(true);
+    expect(current?.validationNotes.en).toContain("PediTools");
+    expect(legacy?.implementationStatus).toBe("pending_validation");
+    expect(legacy?.validationNotes.en).toContain("Legacy Fenton 2013");
   });
 
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
