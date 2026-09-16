@@ -4,7 +4,7 @@ const baseUrl = "https://peds-core.vercel.app";
 
 const staticSeo = {
   home: {
-    es: ["PedsCore — herramientas clínicas pediátricas y neonatales de código abierto", "PedsCore reúne herramientas clínicas pediátricas y neonatales de código abierto con trazabilidad de evidencia y sin almacenamiento de datos clínicos."],
+    es: ["PedsCore — herramientas clínicas pediátricas", "PedsCore reúne herramientas clínicas pediátricas y neonatales de código abierto con trazabilidad de evidencia y sin almacenamiento de datos clínicos."],
     en: ["PedsCore — open-source pediatric and neonatal clinical tools", "PedsCore provides open-source pediatric and neonatal clinical tools with evidence traceability and no clinical data storage."]
   },
   tools: {
