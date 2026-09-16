@@ -92,7 +92,7 @@ const routeSeo: Partial<Record<RouteKind, Record<Language, { title: string; desc
   },
   contribute: {
     es: {
-      title: "Contribuir — PedsCore",
+      title: "Contribuir a PedsCore — evidencia y código abierto",
       description:
         "Cómo contribuir a PedsCore aportando evidencia, revisiones, correcciones y mejoras de código abierto."
     },
