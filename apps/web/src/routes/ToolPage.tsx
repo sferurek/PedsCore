@@ -193,33 +193,56 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </section>
           ) : null}
 
+          {tool.id === "dubowitz" ? (
+            <section className="content-panel surface-availability-note">
+              <strong>
+                {language === "es"
+                  ? "Referencia visual para puntuar los 21 signos"
+                  : "Visual reference for scoring the 21 signs"}
+              </strong>
+              <p>
+                {language === "es"
+                  ? "PedsCore no reproduce las ilustraciones originales. Consulta la lámina del examen Dubowitz alojada por la University of Texas Medical Branch, que indica que el formulario se reproduce con permiso, y vuelve aquí para introducir las puntuaciones numéricas."
+                  : "PedsCore does not reproduce the original illustrations. View the Dubowitz examination sheet hosted by the University of Texas Medical Branch, which states that the form is reproduced with permission, then return here to enter the numerical scores."}
+              </p>
+              <a
+                className="primary-link"
+                href="https://www.utmb.edu/pedi_ed/Newborn_Exam/Newborn_Exam17.html"
+                rel="noreferrer"
+                target="_blank"
+              >
+                {language === "es"
+                  ? "Ver lámina de referencia Dubowitz ↗"
+                  : "View Dubowitz reference sheet ↗"}
+              </a>
+            </section>
+          ) : tool.id === "ballard" ? (
+            <section className="content-panel surface-availability-note">
+              <strong>
+                {language === "es"
+                  ? "Referencia visual del New Ballard Score"
+                  : "New Ballard Score visual reference"}
+              </strong>
+              <p>
+                {language === "es"
+                  ? "PedsCore no reproduce la lámina protegida del New Ballard Score. Puedes consultar la figura autorizada publicada por MSD Manuals mientras completamos la validación de la implementación numérica propia."
+                  : "PedsCore does not reproduce the protected New Ballard Score sheet. You can consult the authorized figure published by MSD Manuals while we complete validation of the independent numeric implementation."}
+              </p>
+              <a
+                className="primary-link"
+                href="https://www.msdmanuals.com/es/professional/multimedia/image/evaluaci%C3%B3n-de-la-edad-gestacional-nueva-escala-de-ballard"
+                rel="noreferrer"
+                target="_blank"
+              >
+                {language === "es"
+                  ? "Ver lámina de referencia Ballard en MSD ↗"
+                  : "View Ballard reference sheet on MSD ↗"}
+              </a>
+            </section>
+          ) : null}
+
           {hasActiveCalculation ? (
             <div className={isCanonical ? "atlas-workspace" : "atlas-legacy-workspace"} id="calculator">
-              {tool.id === "dubowitz" ? (
-                <section className="content-panel surface-availability-note">
-                  <strong>
-                    {language === "es"
-                      ? "Referencia visual para puntuar los 21 signos"
-                      : "Visual reference for scoring the 21 signs"}
-                  </strong>
-                  <p>
-                    {language === "es"
-                      ? "PedsCore no reproduce las ilustraciones originales. Consulta la lámina del examen Dubowitz alojada por la University of Texas Medical Branch, que indica que el formulario se reproduce con permiso, y vuelve aquí para introducir las puntuaciones numéricas."
-                      : "PedsCore does not reproduce the original illustrations. View the Dubowitz examination sheet hosted by the University of Texas Medical Branch, which states that the form is reproduced with permission, then return here to enter the numerical scores."}
-                  </p>
-                  <a
-                    className="primary-link"
-                    href="https://www.utmb.edu/pedi_ed/Newborn_Exam/Newborn_Exam17.html"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {language === "es"
-                      ? "Ver lámina de referencia Dubowitz ↗"
-                      : "View Dubowitz reference sheet ↗"}
-                  </a>
-                </section>
-              ) : null}
-
               {isWhoGrowth ? (
                 <WhoGrowthForm
                   language={language}
