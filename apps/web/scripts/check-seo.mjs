@@ -64,6 +64,13 @@ for (const url of sitemapUrls) {
   if (!description) throw new Error(`Missing description: ${url}`);
   if (!routeHtml.includes(`<link rel="canonical" href="${url}"`)) throw new Error(`Canonical mismatch: ${url}`);
   if (!routeHtml.includes("hreflang=\"es\"") || !routeHtml.includes("hreflang=\"en\"")) throw new Error(`Missing reciprocal hreflang: ${url}`);
+  if (!/<h1>[^<]+<\/h1>/.test(routeHtml)) throw new Error(`Missing crawlable H1: ${url}`);
+  if (!routeHtml.includes('class="seo-static-fallback"')) throw new Error(`Missing static SEO body: ${url}`);
+  const bodyMatch = routeHtml.match(/<div id="root">([\s\S]*?)<\/div>\s*<script/);
+  const bodyText = (bodyMatch?.[1] ?? "").replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").replace(/\s+/g, " ").trim();
+  const bodyWordCount = bodyText ? bodyText.split(" ").length : 0;
+  if (bodyWordCount < 20) throw new Error(`Static SEO body too thin (${bodyWordCount} words): ${url}`);
+  if (!/<a\s+href="\/(?:es|en)\//.test(bodyMatch?.[1] ?? "")) throw new Error(`Missing crawlable internal links: ${url}`);
   const canonical = routeHtml.match(/<link rel="canonical" href="([^"]+)"/);
   if (canonical) canonicalUrls.add(canonical[1]);
   if (routeHtml.includes("vercel.app/preview") || routeHtml.includes("vercel.app-") ) throw new Error(`Preview URL in metadata: ${url}`);
@@ -95,4 +102,11 @@ if (urlCount < 100) {
   throw new Error(`sitemap.xml contains too few URLs: ${urlCount}`);
 }
 
-console.log(`SEO check passed. Sitemap URLs: ${urlCount}.`);
+const pim2Es = await read("es/tools/pim2/index.html");
+const pippEs = await read("es/tools/pipp/index.html");
+const nipsEn = await read("en/tools/nips/index.html");
+assertIncludes(pim2Es, "<title>Calculadora PIM2 — Mortalidad pediátrica | PedsCore</title>", "PIM2 intent title");
+assertIncludes(pippEs, "<title>Escala PIPP — Dolor en prematuros | PedsCore</title>", "PIPP intent title");
+assertIncludes(nipsEn, "<title>NIPS Pain Scale — Neonatal Pain Assessment | PedsCore</title>", "NIPS intent title");
+
+console.log(`SEO check passed. Sitemap URLs: ${urlCount}. Crawlable H1/content/internal-link checks passed for every sitemap route.`);
