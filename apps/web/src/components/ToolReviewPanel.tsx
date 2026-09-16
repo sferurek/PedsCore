@@ -1,3 +1,4 @@
+import { getToolDiscovery } from "@peds-core/core";
 import type { ClinicalToolMetadata } from "@peds-core/core";
 import type { Language } from "../utils/language";
 
@@ -16,6 +17,17 @@ const latestReferenceYear = (tool: ClinicalToolMetadata): number | null => {
 export function ToolReviewPanel({ language, tool }: ToolReviewPanelProps) {
   const latestYear = latestReferenceYear(tool);
   const implementationReviewed = tool.implementationStatus === "implemented";
+  const discovery = getToolDiscovery(tool.id);
+  const hasPrimarySource = tool.references.some((reference) =>
+    ["original_derivation_study", "clinical_practice_guideline"].includes(reference.evidenceLevel)
+  );
+  const hasExternalValidation = tool.references.some(
+    (reference) => reference.evidenceLevel === "external_validation_study"
+  );
+  const reuseClosed = discovery
+    ? ["open", "public_domain", "attribution_required", "external_only"].includes(discovery.reuseStatus)
+    : false;
+  const calculationActive = discovery?.calculationAvailability === "local_active";
 
   return (
     <section className="content-panel tool-review-panel" id="clinical-review">
@@ -62,6 +74,23 @@ export function ToolReviewPanel({ language, tool }: ToolReviewPanelProps) {
           </dd>
         </div>
       </dl>
+
+      <div className="quality-profile">
+        <h3>{language === "es" ? "Perfil de calidad de la ficha" : "Tool quality profile"}</h3>
+        <p>
+          {language === "es"
+            ? "Indicadores descriptivos; no se combinan en una nota ni implican superioridad frente a otras herramientas."
+            : "Descriptive indicators only; they are not combined into a score and do not imply superiority over other tools."}
+        </p>
+        <ul>
+          <li><span>{hasPrimarySource ? "✓" : "—"}</span>{language === "es" ? "Fuente primaria/guía identificada" : "Primary source/guideline identified"}</li>
+          <li><span>{hasExternalValidation ? "✓" : "—"}</span>{language === "es" ? "Validación externa citada" : "External validation cited"}</li>
+          <li><span>{reuseClosed ? "✓" : "—"}</span>{language === "es" ? "Ruta de reutilización definida" : "Reuse pathway defined"}</li>
+          <li><span>{implementationReviewed ? "✓" : "—"}</span>{language === "es" ? "Implementación marcada como completada" : "Implementation marked complete"}</li>
+          <li><span>{calculationActive ? "✓" : "—"}</span>{language === "es" ? "Cálculo local activo" : "Local calculation active"}</li>
+          <li><span>{tool.references.length > 0 ? "✓" : "—"}</span>{language === "es" ? "Referencias visibles" : "Visible references"}</li>
+        </ul>
+      </div>
 
       <p className="review-profile-note">
         {language === "es"
