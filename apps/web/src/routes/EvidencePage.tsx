@@ -113,6 +113,23 @@ export function EvidencePage({ language }: EvidencePageProps) {
       </section>
 
       <section className="content-panel subtle-panel">
+        <h2>{language === "es" ? "Política editorial" : "Editorial policy"}</h2>
+        <p>
+          {language === "es"
+            ? "La implementación clínica se separa de la mera presencia en el catálogo. Antes de activar cálculo local se revisan la versión, la población, las entradas, la fórmula o tabla, la interpretación, la licencia y las pruebas. Si alguno de esos elementos sigue abierto, la superficie permanece como referencia, borrador o contenido limitado."
+            : "Clinical implementation is separated from simple catalog presence. Before local calculation is activated, version, population, inputs, formula or table, interpretation, licensing and tests are reviewed. If any of these remain unresolved, the surface stays reference-only, draft or limited."}
+        </p>
+        <p>
+          {language === "es"
+            ? "Las correcciones y cambios de criterio quedan vinculados al historial público del repositorio. No se afirma revisión experta independiente cuando no existe documentación que la respalde."
+            : "Corrections and changes in editorial judgment remain linked to the public repository history. Independent expert review is not claimed unless it is documented."}
+        </p>
+        <a className="primary-link" href="https://github.com/sferurek/PedsCore/blob/main/docs/EDITORIAL_POLICY.md" rel="noreferrer" target="_blank">
+          {language === "es" ? "Ver política editorial" : "View editorial policy"}
+        </a>
+      </section>
+
+      <section className="content-panel subtle-panel">
         <h2>{t.evidence.summaryTitle}</h2>
         <dl className="evidence-summary-grid">
           {statusCounts.map((item) => (

@@ -4,7 +4,7 @@ const baseUrl = "https://peds-core.vercel.app";
 
 const staticSeo = {
   home: {
-    es: ["PedsCore — herramientas clínicas pediátricas y neonatales de código abierto", "PedsCore reúne herramientas clínicas pediátricas y neonatales de código abierto con trazabilidad de evidencia y sin almacenamiento de datos clínicos."],
+    es: ["PedsCore — herramientas clínicas pediátricas", "PedsCore reúne herramientas clínicas pediátricas y neonatales de código abierto con trazabilidad de evidencia y sin almacenamiento de datos clínicos."],
     en: ["PedsCore — open-source pediatric and neonatal clinical tools", "PedsCore provides open-source pediatric and neonatal clinical tools with evidence traceability and no clinical data storage."]
   },
   tools: {
@@ -89,6 +89,13 @@ export const renderStaticBody = (seo, tools) => {
         <p>${isEs
           ? "PedsCore no sustituye el juicio clínico. Las escalas, reglas y calculadoras se presentan con trazabilidad de evidencia y con su estado de implementación visible."
           : "PedsCore does not replace clinical judgement. Scores, rules and calculators are presented with evidence traceability and a visible implementation status."}</p>
+        <h2>${isEs ? "Transparencia editorial" : "Editorial transparency"}</h2>
+        <p>${isEs
+          ? `Esta ficha forma parte de un proyecto de código abierto. El nivel de evidencia, el estado de implementación, las notas de validación y las fuentes se muestran de forma explícita. Actualmente contiene ${references.length} referencia${references.length === 1 ? "" : "s"} enlazada${references.length === 1 ? "" : "s"} en el catálogo. Los cambios del contenido y de la lógica se revisan mediante el repositorio público, pruebas automatizadas y trazabilidad de versiones.`
+          : `This page is part of an open-source project. Evidence level, implementation status, validation notes and sources are shown explicitly. It currently contains ${references.length} catalog reference${references.length === 1 ? "" : "s"}. Content and calculation changes are reviewed through the public repository, automated tests and version traceability.`}</p>
+        <p>${isEs
+          ? "La ausencia de una calculadora activa no se interpreta como una recomendación clínica: algunas herramientas permanecen solo como referencia cuando la fuente, la licencia, la variante exacta o la validación todavía requieren revisión."
+          : "The absence of an active calculator is not a clinical recommendation: some tools remain reference-only while source, licensing, exact variant or validation still require review."}</p>
         <h2>${isEs ? "Referencias" : "References"}</h2>
         ${referencesHtml}
         <h2>${isEs ? "Herramientas relacionadas" : "Related tools"}</h2>
@@ -107,6 +114,14 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? `Esta colección reúne ${items.length} herramientas pediátricas relacionadas con ${escapeHtml(info.name.toLowerCase())}, con acceso a descripciones clínicas, estado de validación, referencias y herramientas de cálculo cuando están activas.`
         : `This collection brings together ${items.length} pediatric tools related to ${escapeHtml(info.name.toLowerCase())}, including clinical descriptions, validation status, references and calculators when active.`}</p>
+      <h2>${isEs ? "Cómo utilizar esta categoría" : "How to use this category"}</h2>
+      <p>${isEs
+        ? "Las herramientas se agrupan por área clínica para facilitar su descubrimiento, pero cada ficha conserva su propia población, finalidad, nivel de evidencia y limitaciones. Antes de aplicar una escala o calculadora, revisa la variante exacta, el contexto asistencial y el estado de implementación que aparece en su página."
+        : "Tools are grouped by clinical area to make them easier to discover, while each page retains its own population, purpose, evidence level and limitations. Before using a score or calculator, review the exact variant, care setting and implementation status shown on its page."}</p>
+      <h2>${isEs ? "Evidencia y disponibilidad" : "Evidence and availability"}</h2>
+      <p>${isEs
+        ? "PedsCore distingue entre herramientas activas, referencias clínicas, borradores y contenidos limitados por evidencia o licencia. Esa información es visible para evitar que la presencia de una herramienta en el catálogo se confunda con una recomendación de uso."
+        : "PedsCore distinguishes active tools, clinical references, drafts and content limited by evidence or licensing. This is shown explicitly so that inclusion in the catalog is not mistaken for a recommendation to use the tool."}</p>
       <h2>${isEs ? "Herramientas disponibles" : "Available tools"}</h2>
       <ul>${items.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))} — ${escapeHtml(localized(item.description, language))}</li>`).join("")}</ul>
       <p>${internalLink(toolsUrl, isEs ? "Ver todo el catálogo de PedsCore" : "View the full PedsCore catalog")}</p>
@@ -123,7 +138,15 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? "PedsCore es una biblioteca clínica de código abierto orientada a pediatría y neonatología. Reúne escalas, calculadoras, reglas de decisión y recursos clínicos con referencias, trazabilidad de evidencia y estado de validación visible."
         : "PedsCore is an open-source clinical library for pediatrics and neonatology. It brings together scores, calculators, decision rules and clinical resources with references, evidence traceability and visible validation status."}</p>
-      <p>${internalLink(toolsUrl, isEs ? "Explorar todas las herramientas clínicas" : "Explore all clinical tools")} · ${internalLink(`/${language}/evidence`, isEs ? "Metodología de evidencia" : "Evidence methodology")}</p>
+      <h2>${isEs ? "Cómo se construye PedsCore" : "How PedsCore is built"}</h2>
+      <p>${isEs
+        ? "Cada ficha separa el contenido clínico de su estado técnico. Una herramienta puede estar implementada, parcialmente disponible, en validación, pendiente de fuente primaria o limitada por condiciones de reutilización. Esa distinción evita presentar como operativa una fórmula, tabla o regla que todavía no ha superado los controles documentales y técnicos del proyecto."
+        : "Each page separates clinical content from technical implementation status. A tool may be implemented, partially available, under validation, awaiting a primary source, or limited by reuse conditions. This prevents a formula, table or rule from appearing operational before it has passed the project’s documentary and technical checks."}</p>
+      <h2>${isEs ? "Evidencia, seguridad y privacidad" : "Evidence, safety and privacy"}</h2>
+      <p>${isEs
+        ? "Las referencias, notas de validación y limitaciones se muestran junto a cada herramienta. Los cálculos locales se prueban de forma determinista y el código puede auditarse públicamente. PedsCore no almacena los valores clínicos introducidos en los formularios y no pretende sustituir el juicio clínico, los protocolos locales ni la valoración individual del paciente."
+        : "References, validation notes and limitations are displayed alongside each tool. Local calculations are tested deterministically and the code can be audited publicly. PedsCore does not store clinical values entered in forms and is not intended to replace clinical judgment, local protocols or individual patient assessment."}</p>
+      <p>${internalLink(toolsUrl, isEs ? "Explorar todas las herramientas clínicas" : "Explore all clinical tools")} · ${internalLink(`/${language}/evidence`, isEs ? "Metodología de evidencia" : "Evidence methodology")} · ${internalLink(`/${language}/about`, isEs ? "Sobre el proyecto" : "About the project")}</p>
       <h2>${isEs ? "Herramientas pediátricas" : "Pediatric tools"}</h2>
       <ul>${featured.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))}</li>`).join("")}</ul>
     </main>`;
@@ -139,6 +162,65 @@ export const renderStaticBody = (seo, tools) => {
         ? "Consulta escalas, calculadoras, reglas de decisión, cuestionarios y recursos de referencia de pediatría y neonatología. Cada ficha muestra su contexto clínico, estado de implementación y fuentes disponibles."
         : "Browse pediatric and neonatal scores, calculators, decision rules, questionnaires and reference resources. Each page shows clinical context, implementation status and available sources."}</p>
       <ul>${featured.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))} — ${escapeHtml(localized(item.description, language))}</li>`).join("")}</ul>
+    </main>`;
+  }
+
+  if (section === "about") {
+    return `<main class="seo-static-fallback">
+      <nav aria-label="${isEs ? "Ruta de navegación" : "Breadcrumbs"}">${internalLink(homeUrl, "PedsCore")} › <span>${isEs ? "Sobre PedsCore" : "About PedsCore"}</span></nav>
+      <h1>${isEs ? "Sobre PedsCore" : "About PedsCore"}</h1>
+      <p>${escapeHtml(seo.description)}</p>
+      <h2>${isEs ? "Proyecto clínico abierto" : "Open clinical project"}</h2>
+      <p>${isEs
+        ? "PedsCore es un proyecto de código abierto para profesionales sanitarios, docentes y colaboradores. Reúne herramientas pediátricas y neonatales con una separación explícita entre catálogo, evidencia, implementación y disponibilidad clínica."
+        : "PedsCore is an open-source project for healthcare professionals, educators and contributors. It brings together pediatric and neonatal tools while explicitly separating catalog status, evidence, implementation and clinical availability."}</p>
+      <h2>${isEs ? "Cómo se mantiene" : "How it is maintained"}</h2>
+      <p>${isEs
+        ? "El código, las referencias, las decisiones de implementación y el historial de cambios son públicos en GitHub. Las contribuciones clínicas deben identificar la fuente, la variante exacta, la fórmula o tabla aplicable, las condiciones de reutilización y un lenguaje de salida seguro. Los cálculos activos se acompañan de pruebas automatizadas."
+        : "Code, references, implementation decisions and change history are public on GitHub. Clinical contributions must identify the source, exact variant, applicable formula or table, reuse conditions and safe output wording. Active calculations are accompanied by automated tests."}</p>
+      <h2>${isEs ? "Alcance y responsabilidad" : "Scope and responsibility"}</h2>
+      <p>${isEs
+        ? "PedsCore es un recurso de consulta y apoyo. No diagnostica, no prescribe tratamiento y no sustituye el juicio clínico, los protocolos locales ni la valoración individual. Cuando una herramienta no dispone de evidencia o permisos suficientes, permanece identificada pero no se activa como calculadora."
+        : "PedsCore is a reference and support resource. It does not diagnose, prescribe treatment or replace clinical judgment, local protocols or individual assessment. When a tool lacks sufficient evidence or reuse permission, it remains documented but is not activated as a calculator."}</p>
+      <p>${internalLink(`/${language}/evidence`, isEs ? "Leer la metodología de evidencia" : "Read the evidence methodology")} · <a href="https://github.com/sferurek/PedsCore">GitHub</a></p>
+    </main>`;
+  }
+
+  if (section === "evidence") {
+    return `<main class="seo-static-fallback">
+      <nav aria-label="${isEs ? "Ruta de navegación" : "Breadcrumbs"}">${internalLink(homeUrl, "PedsCore")} › <span>${isEs ? "Evidencia y trazabilidad" : "Evidence and traceability"}</span></nav>
+      <h1>${isEs ? "Evidencia y trazabilidad" : "Evidence and traceability"}</h1>
+      <p>${escapeHtml(seo.description)}</p>
+      <h2>${isEs ? "Política de fuentes" : "Source policy"}</h2>
+      <p>${isEs
+        ? "PedsCore prioriza estudios originales o de derivación, validaciones externas, guías clínicas oficiales y documentos de consenso. Las fuentes secundarias pueden utilizarse para localizar o contextualizar información, pero no sustituyen una fuente primaria cuando la implementación depende de una fórmula, tabla, punto de corte o definición exacta."
+        : "PedsCore prioritizes original or derivation studies, external validations, official clinical guidelines and consensus statements. Secondary sources may help locate or contextualize information, but they do not replace a primary source when implementation depends on an exact formula, table, threshold or definition."}</p>
+      <h2>${isEs ? "Criterio de activación" : "Activation criteria"}</h2>
+      <p>${isEs
+        ? "Una herramienta no se activa solo porque sea conocida o frecuente. Antes de ofrecer cálculo local se revisan la versión, la población, las entradas, la fórmula o tabla, la interpretación, la licencia y las pruebas. Si alguno de esos elementos no está suficientemente cerrado, la ficha puede permanecer como referencia, borrador o contenido limitado."
+        : "A tool is not activated simply because it is well known or commonly used. Before local calculation is offered, version, population, inputs, formula or table, interpretation, licensing and tests are reviewed. If any of these remain unresolved, the page can stay reference-only, draft or limited."}</p>
+      <h2>${isEs ? "Correcciones y revisión abierta" : "Corrections and open review"}</h2>
+      <p>${isEs
+        ? "Las referencias y decisiones pueden revisarse públicamente. Los errores, fuentes alternativas y propuestas de actualización pueden comunicarse mediante GitHub Issues, y los cambios quedan vinculados al historial del repositorio."
+        : "References and decisions can be reviewed publicly. Errors, alternative sources and update proposals can be reported through GitHub Issues, with changes remaining linked to repository history."}</p>
+      <p><a href="https://github.com/sferurek/PedsCore/tree/main/docs/evidence">${isEs ? "Documentación de evidencia" : "Evidence documentation"}</a> · <a href="https://github.com/sferurek/PedsCore/issues/new/choose">${isEs ? "Proponer una corrección" : "Propose a correction"}</a></p>
+    </main>`;
+  }
+
+  if (section === "contribute") {
+    return `<main class="seo-static-fallback">
+      <nav aria-label="${isEs ? "Ruta de navegación" : "Breadcrumbs"}">${internalLink(homeUrl, "PedsCore")} › <span>${isEs ? "Contribuir" : "Contribute"}</span></nav>
+      <h1>${isEs ? "Contribuir a PedsCore" : "Contribute to PedsCore"}</h1>
+      <p>${escapeHtml(seo.description)}</p>
+      <h2>${isEs ? "Qué aportaciones son útiles" : "Useful contributions"}</h2>
+      <p>${isEs
+        ? "Son especialmente útiles las fuentes primarias, validaciones externas, correcciones de fórmulas o tablas, aclaraciones de licencias, mejoras de traducción, accesibilidad, experiencia de uso y pruebas reproducibles."
+        : "Primary sources, external validations, formula or table corrections, licensing clarifications, translation and accessibility improvements, usability feedback and reproducible tests are especially useful."}</p>
+      <h2>${isEs ? "Cómo documentar una propuesta clínica" : "How to document a clinical proposal"}</h2>
+      <p>${isEs
+        ? "Incluye DOI, PMID o enlace oficial cuando exista; identifica la versión exacta de la herramienta; describe la población y el contexto; y evita incluir datos reales de pacientes. Las propuestas que cambian lógica clínica deben poder verificarse contra la fuente y acompañarse de pruebas."
+        : "Include a DOI, PMID or official link where available; identify the exact tool version; describe population and setting; and never include real patient data. Proposals that change clinical logic must be verifiable against the source and accompanied by tests."}</p>
+      <p><a href="https://github.com/sferurek/PedsCore/issues/new/choose">GitHub Issues</a> · <a href="https://github.com/sferurek/PedsCore/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
     </main>`;
   }
 
@@ -179,12 +261,30 @@ export const renderSeoHead = (template, seo) => {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": seo.category ? "CollectionPage" : "WebPage",
+        "@type": seo.tool ? "MedicalWebPage" : seo.category ? "CollectionPage" : "WebPage",
+        "@id": `${seo.url}#webpage`,
         name: seo.title,
         description: seo.description,
         url: seo.url,
         inLanguage: seo.language,
-        isPartOf: { "@type": "WebSite", name: "PedsCore", url: `${baseUrl}/` }
+        isPartOf: { "@id": `${baseUrl}/#website` },
+        publisher: { "@id": `${baseUrl}/#organization` },
+        ...(seo.tool ? { mainEntity: { "@type": "MedicalEntity", name: seo.tool.name[seo.language] || seo.tool.name.en } } : {})
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${baseUrl}/#website`,
+        name: "PedsCore",
+        url: `${baseUrl}/`,
+        publisher: { "@id": `${baseUrl}/#organization` },
+        inLanguage: ["es", "en"]
+      },
+      {
+        "@type": "Organization",
+        "@id": `${baseUrl}/#organization`,
+        name: "PedsCore",
+        url: `${baseUrl}/`,
+        sameAs: ["https://github.com/sferurek/PedsCore"]
       },
       {
         "@type": "BreadcrumbList",

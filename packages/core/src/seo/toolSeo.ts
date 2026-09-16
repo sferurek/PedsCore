@@ -108,16 +108,16 @@ const titleOverrides: Record<string, LocalizedText> = {
 
 const categoryProfiles: Record<ToolCategory, Record<Language, CategorySeoProfile>> = {
   neonatology: {
-    es: { name: "Neonatología", description: "Escalas y herramientas para transición neonatal, edad gestacional, encefalopatía, dolor, ictericia, crecimiento y gravedad neonatal." },
-    en: { name: "Neonatology", description: "Scores and tools for newborn transition, gestational age, encephalopathy, pain, jaundice, growth and neonatal severity." }
+    es: { name: "Neonatología", description: "Escalas neonatales para transición, edad gestacional, encefalopatía, dolor, ictericia, crecimiento y gravedad." },
+    en: { name: "Neonatology", description: "Neonatal scores for transition, gestational age, encephalopathy, pain, jaundice, growth and severity." }
   },
   respiratory: {
-    es: { name: "Respiratorio", description: "Herramientas pediátricas para asma, bronquiolitis, crup, neumonía y valoración de dificultad respiratoria." },
-    en: { name: "Respiratory", description: "Pediatric tools for asthma, bronchiolitis, croup, pneumonia and respiratory distress assessment." }
+    es: { name: "Respiratorio", description: "Herramientas pediátricas para asma, bronquiolitis, crup, neumonía y dificultad respiratoria." },
+    en: { name: "Respiratory", description: "Pediatric tools for asthma, bronchiolitis, croup, pneumonia and respiratory distress." }
   },
   emergency: {
-    es: { name: "Urgencias pediátricas", description: "Reglas y escalas para trauma, deshidratación, apendicitis, shock, lactante febril, meningitis, quemaduras y triaje." },
-    en: { name: "Pediatric emergency", description: "Rules and scores for trauma, dehydration, appendicitis, shock, febrile infants, meningitis, burns and triage." }
+    es: { name: "Urgencias pediátricas", description: "Reglas pediátricas para trauma, deshidratación, apendicitis, shock, lactante febril, meningitis y triaje." },
+    en: { name: "Pediatric emergency", description: "Pediatric rules for trauma, dehydration, appendicitis, shock, febrile infants, meningitis and triage." }
   },
   cardiology: {
     es: { name: "Cardiología", description: "Calculadoras y escalas pediátricas para electrocardiografía, QT corregido e insuficiencia cardiaca." },
@@ -128,12 +128,12 @@ const categoryProfiles: Record<ToolCategory, Record<Language, CategorySeoProfile
     en: { name: "Nephrology", description: "Pediatric tools for glomerular filtration, kidney function and acute kidney injury." }
   },
   intensive_care: {
-    es: { name: "Cuidados intensivos", description: "Scores de gravedad, disfunción orgánica, mortalidad, sepsis, delirium, sedación, abstinencia y seguridad en UCI pediátrica." },
-    en: { name: "Intensive care", description: "Severity, organ dysfunction, mortality, sepsis, delirium, sedation, withdrawal and safety scores for pediatric intensive care." }
+    es: { name: "Cuidados intensivos", description: "Scores pediátricos de gravedad, disfunción orgánica, mortalidad, sepsis, delirium y sedación en UCI." },
+    en: { name: "Intensive care", description: "Pediatric ICU scores for severity, organ dysfunction, mortality, sepsis, delirium and sedation." }
   },
   growth_nutrition: {
-    es: { name: "Crecimiento y nutrición", description: "Percentiles, crecimiento, edad ósea, desarrollo puberal, cribado nutricional y herramientas de enfermedad digestiva pediátrica." },
-    en: { name: "Growth and nutrition", description: "Percentiles, growth, bone age, pubertal development, nutrition screening and pediatric gastrointestinal tools." }
+    es: { name: "Crecimiento y nutrición", description: "Percentiles, crecimiento, edad ósea, desarrollo puberal y cribado nutricional pediátrico." },
+    en: { name: "Growth and nutrition", description: "Percentiles, growth, bone age, pubertal development and pediatric nutrition screening." }
   },
   pain: {
     es: { name: "Dolor", description: "Escalas de dolor neonatal y pediátrico para observación clínica y autoevaluación según edad y contexto." },
@@ -144,8 +144,8 @@ const categoryProfiles: Record<ToolCategory, Record<Language, CategorySeoProfile
     en: { name: "Neurology", description: "Pediatric scales for consciousness, stroke, migraine and other neurologic conditions." }
   },
   rheumatology: {
-    es: { name: "Reumatología", description: "Escalas y marcos de exploración para artritis, vasculitis, miositis y otras enfermedades reumatológicas pediátricas." },
-    en: { name: "Rheumatology", description: "Scores and examination frameworks for arthritis, vasculitis, myositis and other pediatric rheumatologic disease." }
+    es: { name: "Reumatología", description: "Escalas pediátricas para artritis, vasculitis, miositis y exploración musculoesquelética." },
+    en: { name: "Rheumatology", description: "Pediatric scores for arthritis, vasculitis, myositis and musculoskeletal examination." }
   },
   gastroenterology: {
     es: { name: "Gastroenterología", description: "Índices pediátricos para actividad de enfermedad inflamatoria intestinal y otras herramientas digestivas." },
@@ -160,8 +160,8 @@ const categoryProfiles: Record<ToolCategory, Record<Language, CategorySeoProfile
     en: { name: "Resuscitation", description: "Pediatric and neonatal life-support algorithms for arrest, bradycardia, tachycardia and cardiac rhythms." }
   },
   adolescent_medicine: {
-    es: { name: "Medicina del adolescente", description: "Herramientas de entrevista y cribado para salud mental, consumo de sustancias, desarrollo y riesgo psicosocial adolescente." },
-    en: { name: "Adolescent medicine", description: "Interview and screening tools for mental health, substance use, development and adolescent psychosocial risk." }
+    es: { name: "Medicina del adolescente", description: "Entrevista y cribado de salud mental, sustancias, desarrollo y riesgo psicosocial adolescente." },
+    en: { name: "Adolescent medicine", description: "Adolescent screening for mental health, substance use, development and psychosocial risk." }
   }
 };
 

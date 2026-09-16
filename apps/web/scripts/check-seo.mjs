@@ -28,6 +28,7 @@ assertIncludes(indexHtml, "PedsCore — Open-source pediatric and neonatal clini
 assertIncludes(indexHtml, "Open-source pediatric and neonatal clinical scores", "index.html");
 assertIncludes(indexHtml, "https://peds-core.vercel.app/", "index.html canonical/metadata");
 assertIncludes(indexHtml, "application/ld+json", "index.html structured data");
+assertIncludes(indexHtml, '<link rel="icon" href="/favicon.svg"', "index.html favicon");
 assertIncludes(sitemap, "https://peds-core.vercel.app/es/tools/apgar", "sitemap.xml");
 assertIncludes(sitemap, "https://peds-core.vercel.app/en/tools/apgar", "sitemap.xml");
 assertIncludes(sitemap, "https://peds-core.vercel.app/es/tools/who-growth", "sitemap.xml");
@@ -64,6 +65,7 @@ for (const url of sitemapUrls) {
   if (!/<title>[^<]+<\/title>/.test(routeHtml)) throw new Error(`Missing title: ${url}`);
   const description = routeHtml.match(/<meta\s+name="description"\s+content="([^"]+)"/);
   if (!description) throw new Error(`Missing description: ${url}`);
+  if (description[1].length > 160) throw new Error(`Meta description too long (${description[1].length}): ${url}`);
   if (!routeHtml.includes(`<link rel="canonical" href="${url}"`)) throw new Error(`Canonical mismatch: ${url}`);
   if (!routeHtml.includes("hreflang=\"es\"") || !routeHtml.includes("hreflang=\"en\"")) throw new Error(`Missing reciprocal hreflang: ${url}`);
   if (!/<h1>[^<]+<\/h1>/.test(routeHtml)) throw new Error(`Missing crawlable H1: ${url}`);
@@ -79,6 +81,9 @@ for (const url of sitemapUrls) {
   const toolMatch = new URL(url).pathname.match(/^\/(es|en)\/tools\/([^/]+)$/);
   if (toolMatch) {
     toolRouteCount++;
+    if (bodyWordCount < 220) throw new Error(`Tool editorial content too thin (${bodyWordCount} words): ${url}`);
+    if (!routeHtml.includes('"@type":"MedicalWebPage"')) throw new Error(`Missing MedicalWebPage schema: ${url}`);
+    if (!routeHtml.includes('"@id":"https://peds-core.vercel.app/#organization"')) throw new Error(`Missing publisher organization schema: ${url}`);
     const title = routeHtml.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
     const language = toolMatch[1];
     if (!title.includes("PedsCore")) throw new Error(`Tool title missing brand: ${url}`);
@@ -90,6 +95,7 @@ for (const url of sitemapUrls) {
   const categoryMatch = new URL(url).pathname.match(/^\/(?:es|en)\/categories\/([^/]+)$/);
   if (categoryMatch) {
     if (!indexableCategories.includes(categoryMatch[1])) throw new Error(`Unapproved category indexed: ${url}`);
+    if (bodyWordCount < 220) throw new Error(`Category hub content too thin (${bodyWordCount} words): ${url}`);
     categoryTitles.add(routeHtml.match(/<title>([^<]+)<\/title>/)[1]);
     categoryDescriptions.add(description[1]);
     if (!routeHtml.includes('"@type":"CollectionPage"') || !routeHtml.includes('"@type":"ItemList"')) throw new Error(`Missing category schema: ${url}`);
@@ -113,15 +119,24 @@ if (mainSize.size > 600_000) throw new Error(`Initial JS remains too large: ${ma
 if (statsSize.size < 1_000_000) throw new Error(`Global stats chunk unexpectedly small: ${statsSize.size} bytes`);
 
 const urlCount = (sitemap.match(/<url>/g) ?? []).length;
-if (urlCount < 100) {
-  throw new Error(`sitemap.xml contains too few URLs: ${urlCount}`);
+if (urlCount !== 307) {
+  throw new Error(`sitemap.xml expected 307 URLs, found: ${urlCount}`);
 }
 
 const pim2Es = await read("es/tools/pim2/index.html");
 const pippEs = await read("es/tools/pipp/index.html");
 const nipsEn = await read("en/tools/nips/index.html");
+const homeEs = await read("es/index.html");
+const aboutEs = await read("es/about/index.html");
+const evidenceEn = await read("en/evidence/index.html");
 assertIncludes(pim2Es, "<title>Calculadora PIM2 — Mortalidad pediátrica | PedsCore</title>", "PIM2 intent title");
 assertIncludes(pippEs, "<title>Escala PIPP — Dolor en prematuros | PedsCore</title>", "PIPP intent title");
 assertIncludes(nipsEn, "<title>NIPS Pain Scale — Neonatal Pain Assessment | PedsCore</title>", "NIPS intent title");
+assertIncludes(homeEs, "<title>PedsCore — herramientas clínicas pediátricas</title>", "Spanish home title");
+assertIncludes(homeEs, "Cómo se construye PedsCore", "home trust content");
+assertIncludes(aboutEs, "Gobernanza y trazabilidad", "about trust content");
+assertIncludes(evidenceEn, "Source policy", "evidence trust content");
+assertIncludes(pim2Es, '"@type":"MedicalWebPage"', "tool medical schema");
+assertIncludes(pim2Es, '"@type":"Organization"', "organization schema");
 
-console.log(`SEO check passed. Sitemap URLs: ${urlCount}. ${toolRouteCount} localized tool routes and ${indexableCategories.length * 2} category routes have crawlable content, unique intent metadata and internal links.`);
+console.log(`SEO P2 check passed. ${urlCount} sitemap URLs; ${toolRouteCount} localized tool routes; ${indexableCategories.length * 2} category hubs; trust content, citation entities, compact metadata, favicon and medical schema validated.`);
