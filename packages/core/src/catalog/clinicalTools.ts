@@ -17,6 +17,7 @@ const implementedToolIds = new Set([
   "silverman_andersen",
   "ballard",
   "dubowitz",
+  "modified_sarnat_nichd",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -603,9 +604,45 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Priority A evidence audit: original staging source located. Exact table wording, modified variants, and domain-expert review remain pending before implementation.",
+        "Primary source for the classic three-stage Sarnat and Sarnat framework. PedsCore publishes it as a descriptive staging reference, not as a numeric calculator or a treatment decision rule.",
       appliesTo: ["sarnat"],
       priority: 1
+    }
+  ],
+  modified_sarnat_nichd: [
+    {
+      id: "modified_sarnat_prime_2019",
+      title:
+        "Prospective Research in Infants with Mild Encephalopathy (PRIME) Identified in the First Six Hours of Life: Neurodevelopmental Outcomes at 18-22 Months",
+      year: 2019,
+      journalOrPublisher: "Pediatric Research",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6445543/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Open-access source documents the six-category modified Sarnat examination, 0-3 severity coding per category, and Total Sarnat Score range 0-18.",
+      appliesTo: ["modified_sarnat_nichd"],
+      priority: 1
+    },
+    {
+      id: "sarnat_1976_context",
+      title:
+        "Neonatal encephalopathy following fetal distress. A clinical and electroencephalographic study",
+      authors: "Sarnat HB, Sarnat MS",
+      year: 1976,
+      journalOrPublisher: "Archives of Neurology",
+      citation:
+        "Sarnat HB, Sarnat MS. Neonatal encephalopathy following fetal distress. A clinical and electroencephalographic study. Arch Neurol. 1976;33(10):696-705.",
+      doi: "10.1001/archneur.1976.00500100030012",
+      pmid: "987769",
+      url: "https://pubmed.ncbi.nlm.nih.gov/987769/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Historical source for the Sarnat staging concept.",
+      appliesTo: ["modified_sarnat_nichd"],
+      priority: 2
     }
   ],
   thompson_hie: [
@@ -1388,8 +1425,13 @@ const ballardValidationNotes: LocalizedText = {
 };
 
 const sarnatValidationNotes: LocalizedText = {
-  es: "Bloque 8B-1: fuente original Sarnat localizada con DOI/PMID. Pendiente definir version exacta clasica/modificada, tabla completa, reglas de clasificacion no ambiguas, licencia y revision por experto antes de implementar.",
-  en: "Block 8B-1: original Sarnat source located with DOI/PMID. Exact classic/modified version, complete table, unambiguous classification rules, licensing, and expert review remain pending before implementation."
+  es: "Sarnat clasico 1976 publicado como marco descriptivo de estadificacion I-II-III. No se convierte artificialmente en un score numerico y no genera indicaciones de hipotermia ni tratamiento. La herramienta Modified Sarnat / NICHD se publica por separado para evitar mezclar variantes.",
+  en: "Classic 1976 Sarnat is published as a descriptive Stage I-II-III staging framework. It is not artificially converted into a numeric score and does not generate hypothermia or treatment recommendations. Modified Sarnat / NICHD is published separately to avoid mixing variants."
+};
+
+const modifiedSarnatValidationNotes: LocalizedText = {
+  es: "Implementacion independiente de la exploracion Modified Sarnat / NICHD de seis categorias. Cada categoria se codifica 0 normal, 1 leve, 2 moderada o 3 grave; PedsCore calcula Total Sarnat Score 0-18 y describe el patron predominante. No determina elegibilidad para hipotermia ni sustituye un protocolo neonatal local.",
+  en: "Independent implementation of the six-category Modified Sarnat / NICHD examination. Each category is coded 0 normal, 1 mild, 2 moderate, or 3 severe; PedsCore calculates the 0-18 Total Sarnat Score and describes the predominant pattern. It does not determine therapeutic-hypothermia eligibility or replace a local neonatal protocol."
 };
 
 const thompsonHieEvidenceValidationNotes: LocalizedText = {
@@ -1631,6 +1673,61 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  modified_sarnat_nichd: {
+    calculationNotes: {
+      es: "Selecciona para cada una de las seis categorias la gravedad clinica codificada como 0 normal, 1 leve, 2 moderada o 3 grave. El resultado es descriptivo y no constituye por si solo una indicacion terapeutica.",
+      en: "For each of the six categories, select clinical severity coded as 0 normal, 1 mild, 2 moderate, or 3 severe. The result is descriptive and does not by itself constitute a treatment indication."
+    },
+    inputs: [
+      { id: "level_of_consciousness", label: { es: "Nivel de conciencia", en: "Level of consciousness" }, type: "select", required: true, options: [
+        { id: "normal", label: { es: "Normal", en: "Normal" }, value: 0, score: 0 },
+        { id: "mild", label: { es: "Leve", en: "Mild" }, value: 1, score: 1 },
+        { id: "moderate", label: { es: "Moderada", en: "Moderate" }, value: 2, score: 2 },
+        { id: "severe", label: { es: "Grave", en: "Severe" }, value: 3, score: 3 }
+      ] },
+      { id: "spontaneous_activity", label: { es: "Actividad espontanea", en: "Spontaneous activity" }, type: "select", required: true, options: [
+        { id: "normal", label: { es: "Normal", en: "Normal" }, value: 0, score: 0 },
+        { id: "mild", label: { es: "Leve", en: "Mild" }, value: 1, score: 1 },
+        { id: "moderate", label: { es: "Moderada", en: "Moderate" }, value: 2, score: 2 },
+        { id: "severe", label: { es: "Grave", en: "Severe" }, value: 3, score: 3 }
+      ] },
+      { id: "posture", label: { es: "Postura", en: "Posture" }, type: "select", required: true, options: [
+        { id: "normal", label: { es: "Normal", en: "Normal" }, value: 0, score: 0 },
+        { id: "mild", label: { es: "Leve", en: "Mild" }, value: 1, score: 1 },
+        { id: "moderate", label: { es: "Moderada", en: "Moderate" }, value: 2, score: 2 },
+        { id: "severe", label: { es: "Grave", en: "Severe" }, value: 3, score: 3 }
+      ] },
+      { id: "tone", label: { es: "Tono", en: "Tone" }, type: "select", required: true, options: [
+        { id: "normal", label: { es: "Normal", en: "Normal" }, value: 0, score: 0 },
+        { id: "mild", label: { es: "Leve", en: "Mild" }, value: 1, score: 1 },
+        { id: "moderate", label: { es: "Moderada", en: "Moderate" }, value: 2, score: 2 },
+        { id: "severe", label: { es: "Grave", en: "Severe" }, value: 3, score: 3 }
+      ] },
+      { id: "primitive_reflexes", label: { es: "Reflejos primitivos", en: "Primitive reflexes" }, type: "select", required: true, options: [
+        { id: "normal", label: { es: "Normal", en: "Normal" }, value: 0, score: 0 },
+        { id: "mild", label: { es: "Leve", en: "Mild" }, value: 1, score: 1 },
+        { id: "moderate", label: { es: "Moderada", en: "Moderate" }, value: 2, score: 2 },
+        { id: "severe", label: { es: "Grave", en: "Severe" }, value: 3, score: 3 }
+      ] },
+      { id: "autonomic_system", label: { es: "Sistema autonomico", en: "Autonomic system" }, type: "select", required: true, options: [
+        { id: "normal", label: { es: "Normal", en: "Normal" }, value: 0, score: 0 },
+        { id: "mild", label: { es: "Leve", en: "Mild" }, value: 1, score: 1 },
+        { id: "moderate", label: { es: "Moderada", en: "Moderate" }, value: 2, score: 2 },
+        { id: "severe", label: { es: "Grave", en: "Severe" }, value: 3, score: 3 }
+      ] }
+    ],
+    scoringTable: [
+      {
+        id: "modified_sarnat_total",
+        variable: { es: "Total Sarnat Score", en: "Total Sarnat Score" },
+        value: "0-18",
+        description: {
+          es: "Suma de las seis categorias codificadas 0-3.",
+          en: "Sum of the six categories coded 0-3."
+        }
+      }
+    ]
+  },
   ballard: {
     calculationNotes: {
       es: "Consulta la lamina visual externa enlazada en esta pagina y escribe solo la puntuacion numerica de cada uno de los 12 signos. PedsCore suma madurez neuromuscular y fisica y convierte el total a semanas completas segun la tabla oficial New Ballard.",
@@ -3770,7 +3867,8 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("wood_downes_ferres", "wood-downes-ferres", "WDF", "Score de Wood-Downes-Ferres", "Wood-Downes-Ferres Score", "respiratory", "bronchiolitis_wheezing", "score", "Lactantes y ninos con bronquiolitis u obstruccion respiratoria segun variante", "Infants and children with bronchiolitis or obstructive respiratory distress depending on variant", "Evalua gravedad de dificultad respiratoria obstructiva.", "Assesses severity of obstructive respiratory distress.", "ready_for_implementation", "secondary_source", "medium", woodDownesValidationNotes),
   makeTool("ballard", "ballard", "Ballard", "Ballard / New Ballard", "Ballard / New Ballard", "neonatology", "gestational_age", "score", "Recien nacidos con edad gestacional incierta", "Newborns with uncertain gestational age", "Estima edad gestacional con madurez fisica y neuromuscular.", "Estimates gestational age using physical and neuromuscular maturity.", "pending_validation", "original_derivation_study", "medium", ballardValidationNotes),
   makeTool("dubowitz", "dubowitz", "Dubowitz", "Dubowitz", "Dubowitz Score", "neonatology", "gestational_age", "score", "Recien nacidos", "Newborns", "Herramienta de estimacion de edad gestacional basada en madurez neonatal.", "Gestational age assessment based on neonatal maturity.", "pending_validation", "original_derivation_study", "medium", dubowitzValidationNotes),
-  makeTool("sarnat", "sarnat", "Sarnat", "Sarnat y Sarnat", "Sarnat Staging", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos con sospecha de encefalopatia hipoxico-isquemica", "Newborns with suspected hypoxic-ischemic encephalopathy", "Clasifica encefalopatia neonatal en estadios clinicos.", "Classifies neonatal encephalopathy into clinical stages.", "pending_validation", "original_derivation_study", "medium", sarnatValidationNotes),
+  makeTool("sarnat", "sarnat", "Sarnat", "Sarnat clasico (1976)", "Classic Sarnat Staging (1976)", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos de termino o casi termino con encefalopatia neonatal", "Term or near-term newborns with neonatal encephalopathy", "Marco clasico descriptivo de estadificacion I, II y III de encefalopatia neonatal, con integracion clinica, autonomica y electroencefalografica.", "Classic descriptive Stage I, II and III neonatal encephalopathy framework integrating clinical, autonomic and electroencephalographic findings.", "implemented", "original_derivation_study", "high", sarnatValidationNotes),
+  makeTool("modified_sarnat_nichd", "modified-sarnat-nichd", "Modified Sarnat", "Modified Sarnat / NICHD", "Modified Sarnat / NICHD", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos evaluados por encefalopatia neonatal", "Newborns assessed for neonatal encephalopathy", "Exploracion estructurada de seis categorias con gravedad 0-3 y Total Sarnat Score 0-18.", "Six-category structured examination with 0-3 severity coding and a 0-18 Total Sarnat Score.", "pending_validation", "external_validation_study", "high", modifiedSarnatValidationNotes),
   makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico para gravedad de EHI neonatal.", "Clinical score for neonatal HIE severity.", "pending_validation", "original_derivation_study", "medium", thompsonHieEvidenceValidationNotes),
   makeTool("eat_sleep_console", "eat-sleep-console", "ESC", "Eat Sleep Console", "Eat Sleep Console", "neonatology", "neonatal_abstinence", "algorithm", "Recien nacidos expuestos a opioides", "Opioid-exposed newborns", "Modelo funcional para seguimiento de abstinencia neonatal.", "Functional model for neonatal withdrawal assessment.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("nips", "nips", "NIPS", "Neonatal Infant Pain Scale", "Neonatal Infant Pain Scale", "pain", "neonatal_pain", "scale", "Neonatos", "Neonates", "Escala observacional de dolor neonatal.", "Observational neonatal pain scale.", "ready_for_implementation", "moderate", "low", nipsQaValidationNotes, [docRef("nips_kb", "PedsCore_Knowledge_Base_v1: NIPS", "pending_verification")]),

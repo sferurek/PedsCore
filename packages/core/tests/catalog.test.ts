@@ -17,6 +17,8 @@ const implementedToolIds = [
   "silverman_andersen",
   "ballard",
   "dubowitz",
+  "sarnat",
+  "modified_sarnat_nichd",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -124,7 +126,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(22);
+    expect(getImplementedTools()).toHaveLength(24);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -181,7 +183,7 @@ describe("clinical tools catalog", () => {
   });
 
   it("reconciles the physical catalog to the v12 final surface set", () => {
-    expect(clinicalTools).toHaveLength(132);
+    expect(clinicalTools).toHaveLength(133);
     for (const id of removedFinalSurfaceIds) {
       expect(clinicalTools.some((tool) => tool.id === id), id).toBe(false);
     }
@@ -215,9 +217,21 @@ describe("clinical tools catalog", () => {
     expect(tool?.references.some((reference) => reference.pmid === "1880657")).toBe(true);
   });
 
+  it("publishes classic and Modified Sarnat as distinct completed tools", () => {
+    const classic = getTool("sarnat");
+    const modified = getTool("modified_sarnat_nichd");
+
+    expect(classic?.implementationStatus).toBe("implemented");
+    expect(classic?.calculationStatus).not.toBe("active");
+    expect(modified?.implementationStatus).toBe("implemented");
+    expect(modified?.calculationStatus).toBe("active");
+    expect(modified?.inputs).toHaveLength(6);
+    expect(classic?.validationNotes.en).toContain("published separately");
+    expect(modified?.validationNotes.en).toContain("0-18 Total Sarnat Score");
+  });
+
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
     const reviewedPendingIds = [
-      "sarnat",
       "thompson_hie",
       "cries",
       "bhutani_nomogram",
@@ -238,7 +252,6 @@ describe("clinical tools catalog", () => {
 
   it("does not promote license-sensitive pending tools to ready for implementation", () => {
     const licenseSensitivePendingIds = [
-      "sarnat",
       "thompson_hie",
       "cries",
       "bhutani_nomogram",
