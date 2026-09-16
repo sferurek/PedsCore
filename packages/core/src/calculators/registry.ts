@@ -15,6 +15,7 @@ import {
   revisedSchwartzCalculator
 } from "./schwartz.js";
 import { silvermanAndersenCalculator } from "./silvermanAndersen.js";
+import { ballardCalculator } from "./ballard.js";
 import { dubowitzCalculator } from "./dubowitz.js";
 import { clinicalDehydrationScaleCalculator } from "./clinicalDehydrationScale.js";
 import {
@@ -33,6 +34,7 @@ import { westleyCroupCalculator } from "./westleyCroup.js";
 const calculators = [
   apgarCalculator,
   silvermanAndersenCalculator,
+  ballardCalculator,
   dubowitzCalculator,
   woodDownesFerresCalculator,
   flaccCalculator,

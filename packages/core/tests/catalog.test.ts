@@ -15,6 +15,7 @@ const uniqueCount = (values: string[]) => new Set(values).size;
 const implementedToolIds = [
   "apgar",
   "silverman_andersen",
+  "ballard",
   "dubowitz",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -123,7 +124,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(21);
+    expect(getImplementedTools()).toHaveLength(22);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -204,9 +205,18 @@ describe("clinical tools catalog", () => {
     expect(serializedCatalog).not.toContain("toxicol");
   });
 
+  it("activates New Ballard as numeric-only implementation with external visual reference", () => {
+    const tool = getTool("ballard");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs).toHaveLength(12);
+    expect(tool?.validationNotes.en).toContain("does not reproduce");
+    expect(tool?.references.some((reference) => reference.pmid === "1880657")).toBe(true);
+  });
+
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
     const reviewedPendingIds = [
-      "ballard",
       "sarnat",
       "thompson_hie",
       "cries",
@@ -228,7 +238,6 @@ describe("clinical tools catalog", () => {
 
   it("does not promote license-sensitive pending tools to ready for implementation", () => {
     const licenseSensitivePendingIds = [
-      "ballard",
       "sarnat",
       "thompson_hie",
       "cries",

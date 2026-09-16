@@ -11,6 +11,7 @@ import {
 const expectedImplementedToolIds = [
   "apgar",
   "silverman_andersen",
+  "ballard",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -33,6 +34,7 @@ const expectedImplementedToolIds = [
 
 const implementedTestFiles: Record<string, string> = {
   apgar: "apgar.test.ts",
+  ballard: "ballard.test.ts",
   bedside_schwartz: "schwartz.test.ts",
   catch_tbi: "catch.test.ts",
   chalice_tbi: "chalice.test.ts",
@@ -154,7 +156,7 @@ describe("SPRINT-50 implementation safety gates", () => {
       "bmi_percentile",
       "head_circumference_percentile"
     ]);
-    expect(getImplementedTools()).toHaveLength(21);
+    expect(getImplementedTools()).toHaveLength(22);
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {

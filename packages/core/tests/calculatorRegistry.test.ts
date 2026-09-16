@@ -10,6 +10,7 @@ describe("calculator registry", () => {
     expect(implementedCalculatorToolIds).toEqual([
       "apgar",
       "silverman_andersen",
+      "ballard",
       "dubowitz",
       "wood_downes_ferres",
       "flacc",
@@ -33,7 +34,7 @@ describe("calculator registry", () => {
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(21);
+    expect(getImplementedTools()).toHaveLength(22);
   });
 
   it("calculates through the dispatcher", () => {
