@@ -1488,8 +1488,8 @@ const criesValidationNotes: LocalizedText = {
 };
 
 const cheopsValidationNotes: LocalizedText = {
-  es: "Pendiente de validacion: la documentacion local identifica variables, rango 4-13 y umbral general, pero no define puntuacion exacta por opcion, tabla completa ni fuente primaria completa. No se activa calculo CHEOPS.",
-  en: "Pending validation: local documentation identifies variables, 4-13 range, and a general threshold, but does not define exact score per option, complete scoring table, or complete primary source. CHEOPS calculation is not activated."
+  es: "CHEOPS: la escala y una representacion estructurada completa estan localizadas, incluida una implementacion openEHR publicada bajo CC BY-SA 4.0; sin embargo, esa licencia cubre el arquetipo openEHR y no demuestra por si sola que el texto original CHEOPS pueda redistribuirse sin condiciones. Antes de activar calculo local hay que cerrar fuente primaria, derechos sobre los descriptores y fidelidad de la tabla 4-13.",
+  en: "CHEOPS: the scale and a complete structured representation have been located, including an openEHR implementation published under CC BY-SA 4.0; however, that licence covers the openEHR archetype and does not by itself establish unrestricted reuse of the original CHEOPS wording. Before local calculation is activated, PedsCore must close the primary-source, descriptor-rights, and 4-13 table-fidelity questions."
 };
 
 const visualAnalogueScaleValidationNotes: LocalizedText = {
@@ -1568,18 +1568,18 @@ const prifleValidationNotes: LocalizedText = {
 };
 
 const rflaccValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: validacion rFLACC localizada con DOI/PMID. Pendiente descriptores revisados completos, personalizacion por familia y revision de reutilizacion/licencia.",
-  en: "Block 8B-3: rFLACC validation located with DOI/PMID. Complete revised descriptors, family customization handling, and reuse/licensing review remain pending."
+  es: "rFLACC: la validacion y la tabla completa estan localizadas. PhenX publica el protocolo Revised FLACC como disponible libremente e indica que no se requiere permiso para su uso; sin embargo, PedsCore aun no ha verificado una licencia explicita de redistribucion del texto completo en software web open-source. El bloqueo deja de considerarse una licencia comercial demostrada y pasa a depender de cerrar reutilizacion textual, personalizacion familiar y tests.",
+  en: "rFLACC: validation and the complete table are identified. PhenX publishes the Revised FLACC protocol as freely available and states that permission is not required for use; however, PedsCore has not yet verified an explicit licence for redistributing the complete wording in open-source web software. The blocker is therefore no longer treated as a demonstrated commercial licence requirement, but as unresolved textual reuse, family-customization handling, and testing."
 };
 
 const pippValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuentes PIPP y PIPP-R localizadas. Siguen pendientes tabla completa, ajuste por edad gestacional, interpretacion, permisos de reutilizacion y separacion clara de variantes antes de activar calculo.",
-  en: "Block 8B-2: PIPP and PIPP-R sources located. Complete table, gestational-age adjustment, interpretation, reuse permissions, and clear variant separation remain pending before calculation."
+  es: "PIPP/PIPP-R: fuentes y estructura clinica localizadas, pero no se activa una reproduccion local. Varias adaptaciones formales de PIPP-R (incluidas la nordica, indonesia y espanola) documentan que solicitaron permiso a los autores originales antes de traducir/adaptar la escala. Para PedsCore se mantiene como permission_required hasta obtener autorizacion expresa o una licencia de reutilizacion que cubra reproduccion web/software; no se infiere libertad de uso por el mero acceso abierto a articulos secundarios.",
+  en: "PIPP/PIPP-R: sources and clinical structure are identified, but local reproduction is not activated. Multiple formal PIPP-R adaptations (including Nordic, Indonesian, and Spanish work) document obtaining permission from the original authors before translation/adaptation. PedsCore therefore keeps permission_required until explicit authorization or a reuse licence covering web/software reproduction is obtained; open access to secondary articles is not treated as permission to reproduce the instrument."
 };
 
 const comfortneoValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuentes COMFORTneo 2009 y validacion 2023 localizadas. Requiere tabla oficial completa, manejo ventilado/no ventilado, interpretacion, licencia y revision experta antes de activar calculo.",
-  en: "Block 8B-2: COMFORTneo 2009 and 2023 validation sources located. Complete official table, ventilated/non-ventilated handling, interpretation, licensing, and expert review remain pending before calculation."
+  es: "COMFORTneo: derivacion/validacion localizadas, pero se mantiene bloqueada para reproduccion local. Estudios de traduccion/adaptacion han documentado contacto y permiso del equipo desarrollador antes de traducir la escala. Hasta disponer de permiso/licencia aplicable a una implementacion web abierta, PedsCore la mantiene como permission_required y separa su uso de COMFORT-B.",
+  en: "COMFORTneo: derivation/validation sources are identified, but local reproduction remains blocked. Translation/adaptation studies document contacting and obtaining permission from the developer team before translating the scale. Until permission/licensing applicable to an open web implementation is available, PedsCore keeps it permission_required and treats it separately from COMFORT-B."
 };
 
 const brightonPewsValidationNotes: LocalizedText = {
@@ -1593,8 +1593,8 @@ const orbegozoGrowthValidationNotes: LocalizedText = {
 };
 
 const stampValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuente primaria STAMP localizada con DOI/PMID. STAMP parece sensible a marca/copyright; pendiente tabla completa, permiso/reutilizacion e interpretacion antes de implementar.",
-  en: "Block 8B-2: STAMP primary source located with DOI/PMID. STAMP appears trademark/copyright sensitive; complete table, permission/reuse terms, and interpretation remain pending before implementation."
+  es: "STAMP: fuente primaria y sitio oficial localizados. El sitio oficial indica que los documentos STAMP pueden imprimirse y copiarse para uso clinico siempre que se conserve integro el copyright, pero no concede de forma expresa una licencia general para redistribucion en software/web open-source. PedsCore mantiene por tanto una estrategia external_only para el uso operativo hasta obtener permiso especifico de reproduccion digital.",
+  en: "STAMP: primary source and official site are identified. The official site states that STAMP documents may be printed and copied for clinical use provided the copyright is retained in full, but it does not expressly grant a general licence for redistribution in open-source web/software. PedsCore therefore keeps an external_only operational strategy until specific permission for digital reproduction is obtained."
 };
 
 const strongkidsValidationNotes: LocalizedText = {
@@ -1603,8 +1603,8 @@ const strongkidsValidationNotes: LocalizedText = {
 };
 
 const pymsValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuente PYMS localizada con DOI/PMID. Pendiente formulario/tabla completa, condiciones de reutilizacion, interpretacion y tests antes de implementar.",
-  en: "Block 8B-2: PYMS source located with DOI/PMID. Complete form/table, reuse terms, interpretation, and tests remain pending before implementation."
+  es: "PYMS: fuente original localizada (Clinical Nutrition 2011) y estructura de cuatro dominios confirmada, pero el articulo original figura bajo copyright de Elsevier/ESPEN. Existen reproducciones posteriores en articulos open access, aunque PedsCore no asume que eso transfiera automaticamente derechos sobre el instrumento original. Mantener permission_required hasta confirmar un formulario/licencia reutilizable o permiso del titular.",
+  en: "PYMS: the original source (Clinical Nutrition 2011) and four-domain structure are confirmed, but the original article is copyrighted by Elsevier/ESPEN. Later open-access articles reproduce the questions, but PedsCore does not assume that this automatically transfers rights in the original instrument. Keep permission_required until a reusable licensed form or holder permission is confirmed."
 };
 
 const pediatricBurnTbsaValidationNotes: LocalizedText = {
