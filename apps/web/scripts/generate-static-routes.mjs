@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { getStaticSeo, renderSeoHead } from "./static-seo.mjs";
+import { getStaticSeo, renderSeoHead, renderStaticBody } from "./static-seo.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(__dirname, "../../..");
@@ -18,6 +18,11 @@ const baseUrl = "https://peds-core.vercel.app";
 const urlEntries = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
   .map((match) => match[1])
   .filter((loc) => loc.startsWith(baseUrl));
+
+const tools = getAllTools();
+
+const withStaticBody = (html, seo) =>
+  html.replace('<div id="root"></div>', `<div id="root">${renderStaticBody(seo, tools)}</div>`);
 
 const routes = new Set(
   urlEntries
@@ -42,9 +47,14 @@ for (const route of routes) {
 
   const outputDir = resolve(distRoot, route);
   await mkdir(outputDir, { recursive: true });
-  const seo = getStaticSeo(`/${route === "index" ? "" : route}`, getAllTools());
-  await writeFile(resolve(outputDir, "index.html"), renderSeoHead(distTemplate, seo), "utf8");
+  const seo = getStaticSeo(`/${route === "index" ? "" : route}`, tools);
+  const html = withStaticBody(renderSeoHead(distTemplate, seo), seo);
+  await writeFile(resolve(outputDir, "index.html"), html, "utf8");
   count++;
 }
 
-console.log(`Generated ${count} static route index.html files in dist/.`);
+const rootSeo = getStaticSeo("/en", tools);
+const rootHtml = withStaticBody(distTemplate, rootSeo);
+await writeFile(distIndexPath, rootHtml, "utf8");
+
+console.log(`Generated ${count} static route index.html files plus crawlable root fallback in dist/.`);
