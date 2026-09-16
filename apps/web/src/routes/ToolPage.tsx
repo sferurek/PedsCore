@@ -195,6 +195,31 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
 
           {hasActiveCalculation ? (
             <div className={isCanonical ? "atlas-workspace" : "atlas-legacy-workspace"} id="calculator">
+              {tool.id === "dubowitz" ? (
+                <section className="content-panel surface-availability-note">
+                  <strong>
+                    {language === "es"
+                      ? "Referencia visual para puntuar los 21 signos"
+                      : "Visual reference for scoring the 21 signs"}
+                  </strong>
+                  <p>
+                    {language === "es"
+                      ? "PedsCore no reproduce las ilustraciones originales. Consulta la lámina del examen Dubowitz alojada por la University of Texas Medical Branch, que indica que el formulario se reproduce con permiso, y vuelve aquí para introducir las puntuaciones numéricas."
+                      : "PedsCore does not reproduce the original illustrations. View the Dubowitz examination sheet hosted by the University of Texas Medical Branch, which states that the form is reproduced with permission, then return here to enter the numerical scores."}
+                  </p>
+                  <a
+                    className="primary-link"
+                    href="https://www.utmb.edu/pedi_ed/Newborn_Exam/Newborn_Exam17.html"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    {language === "es"
+                      ? "Ver lámina de referencia Dubowitz ↗"
+                      : "View Dubowitz reference sheet ↗"}
+                  </a>
+                </section>
+              ) : null}
+
               {isWhoGrowth ? (
                 <WhoGrowthForm
                   language={language}
