@@ -1164,6 +1164,57 @@ const implementedToolReferences: Record<string, Reference[]> = {
       priority: 1
     }
   ],
+  fenton_2025_growth: [
+    {
+      id: "fenton_2025_third_generation",
+      title:
+        "Fenton Third-Generation Growth Charts of Preterm Infants Without Abnormal Fetal Growth: A Systematic Review and Meta-Analysis",
+      authors: "Fenton TR, Elmrayed S, Alshaikh BN",
+      year: 2025,
+      journalOrPublisher: "Paediatric and Perinatal Epidemiology",
+      citation:
+        "Fenton TR, Elmrayed S, Alshaikh BN. Fenton Third-Generation Growth Charts of Preterm Infants Without Abnormal Fetal Growth: A Systematic Review and Meta-Analysis. Paediatr Perinat Epidemiol. 2025;39(6):543-555.",
+      doi: "10.1111/ppe.70035",
+      pmid: "40534585",
+      url: "https://pubmed.ncbi.nlm.nih.gov/40534585/",
+      evidenceLevel: "systematic_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Primary Fenton third-generation source. The 2025 charts are sex-specific and cover weight, length, and head circumference across preterm/postmenstrual ages, harmonized to WHO at 50 weeks.",
+      appliesTo: ["fenton_2025_growth"],
+      priority: 1
+    },
+    {
+      id: "fenton_2025_official_plotter",
+      title: "Fenton 2025 Growth Plotter",
+      authors: "Fenton TR, Fenton PC",
+      year: 2026,
+      journalOrPublisher: "Fenton Growth / University of Calgary",
+      url: "https://fentongrowth.ca/",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Author-hosted Fenton 2025 plotter for serial growth data, z-scores, and charts.",
+      appliesTo: ["fenton_2025_growth"],
+      priority: 2
+    },
+    {
+      id: "peditools_fenton_2025",
+      title: "Fenton 2025 Growth Calculator for Preterm Infants",
+      authors: "PediTools",
+      journalOrPublisher: "PediTools",
+      url: "https://www.peditools.org/fenton2025/",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "External calculator implementing Fenton 2025 and reporting percentiles, Z-scores, and expected weekly growth.",
+      appliesTo: ["fenton_2025_growth"],
+      priority: 3
+    }
+  ],
   neonatal_growth_fenton: [
     {
       id: "fenton_kim_2013_open_access",
@@ -1179,7 +1230,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "open_access",
       notes:
-        "Block 8B-3: Fenton 2013 open-access source located. Implementation still requires official/reusable LMS data files, attribution, and tests.",
+        "Legacy Fenton 2013 reference retained for historical traceability. PedsCore does not activate local percentile calculation from the 2013 LMS dataset; current operational growth assessment is surfaced separately through Fenton 2025 external tools.",
       appliesTo: ["neonatal_growth_fenton"],
       priority: 1
     }
@@ -1503,8 +1554,13 @@ const dubowitzValidationNotes: LocalizedText = {
 };
 
 const fentonValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: Fenton 2013 open access localizado. Pendiente obtener ficheros LMS/datos reutilizables oficiales, atribucion y casos de test antes de activar percentiles.",
-  en: "Block 8B-3: Fenton 2013 open-access source located. Official/reusable LMS data files, attribution, and test fixtures remain pending before percentile activation."
+  es: "Referencia legacy de Fenton 2013. PedsCore no activa un calculo local con los parametros LMS de 2013. La herramienta operativa actual se publica por separado como Fenton 2025 y deriva el calculo a herramientas externas autorales/PediTools.",
+  en: "Legacy Fenton 2013 reference. PedsCore does not activate local calculation from the 2013 LMS parameters. The current operational tool is published separately as Fenton 2025 and delegates calculation to author-hosted/PediTools external tools."
+};
+
+const fenton2025ValidationNotes: LocalizedText = {
+  es: "Herramienta activa de referencia externa basada en las curvas Fenton de tercera generacion publicadas en 2025. PedsCore no redistribuye ni recalcula localmente los datos de las curvas: enlaza al calculador Fenton 2025 de PediTools y al plotter oficial de Fenton Growth. Permite valorar peso, longitud y perimetro cefalico en prematuros mediante percentiles y z-scores segun sexo y edad gestacional/postmenstrual. Para asignar tamano para edad gestacional, la publicacion indica consistencia de las curvas hasta 37 semanas; el seguimiento de crecimiento se extiende hasta 50 semanas, donde se armoniza con WHO.",
+  en: "Active external-reference tool based on the third-generation Fenton charts published in 2025. PedsCore does not redistribute or locally recalculate the chart data: it links to the PediTools Fenton 2025 calculator and the official Fenton Growth plotter. Weight, length, and head circumference can be assessed by percentile and Z-score according to sex and gestational/postmenstrual age. For size-for-gestational-age assignment, the publication reports curve consistency through 37 weeks; growth monitoring extends to 50 weeks, where the charts are harmonized with WHO."
 };
 
 const rdaiValidationNotes: LocalizedText = {
@@ -4009,6 +4065,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("comfortneo", "comfortneo", "COMFORTneo", "COMFORTneo", "COMFORTneo", "neonatology", "sedation_pain", "scale", "Neonatos en cuidados intensivos", "Neonates in intensive care", "Escala multidimensional de sedacion y dolor neonatal.", "Multidimensional neonatal sedation and pain scale.", "pending_validation", "pending_verification", "medium", comfortneoValidationNotes),
   makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "original_derivation_study", "medium", bhutaniValidationNotes),
   makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "pending_validation", "systematic_review", "medium", fentonValidationNotes),
+  makeTool("fenton_2025_growth", "fenton-2025-preterm-growth", "Fenton 2025", "Crecimiento prematuro Fenton 2025", "Fenton 2025 Preterm Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros y seguimiento hasta 50 semanas de edad postmenstrual", "Preterm newborns and follow-up through 50 weeks postmenstrual age", "Curvas Fenton de tercera generacion para peso, longitud y perimetro cefalico con acceso externo a percentiles y z-scores.", "Third-generation Fenton charts for weight, length, and head circumference with external access to percentiles and Z-scores.", "implemented", "systematic_review", "medium", fenton2025ValidationNotes),
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
