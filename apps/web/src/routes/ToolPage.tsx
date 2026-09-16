@@ -21,7 +21,7 @@ import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
 import { ToolClinicalGuide } from "../components/ToolClinicalGuide";
 import { ToolEditorialInsight } from "../components/ToolEditorialInsight";
 import { ToolStatusBadge } from "../components/ToolStatusBadge";
-import { evidenceLabels, riskLabels, translations } from "../i18n/translations";
+import { evidenceLabels, riskLabels, statusLabels, translations } from "../i18n/translations";
 import {
   getUnlockActions,
   hasEvidenceBlock
@@ -300,6 +300,45 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
               <h2>{language === "es" ? "Evidencia y revisión" : "Evidence and review"}</h2>
             </div>
             <p>{tool.validationNotes[language]}</p>
+          </section>
+
+          <section className="content-panel tool-editorial-transparency" id="editorial-transparency">
+            <div className="tool-section-heading">
+              <p className="eyebrow">{language === "es" ? "TRANSPARENCIA EDITORIAL" : "EDITORIAL TRANSPARENCY"}</p>
+              <h2>{language === "es" ? "Cómo se mantiene esta ficha" : "How this page is maintained"}</h2>
+            </div>
+            <p>
+              {language === "es"
+                ? "PedsCore publica de forma explícita el estado de implementación, el nivel de evidencia, las notas de validación y las fuentes de cada herramienta. El contenido y la lógica clínica se mantienen en un repositorio abierto con historial de cambios y pruebas automatizadas."
+                : "PedsCore explicitly publishes implementation status, evidence level, validation notes and sources for each tool. Clinical content and logic are maintained in an open repository with change history and automated tests."}
+            </p>
+            <dl className="evidence-summary-grid">
+              <div>
+                <dt>{language === "es" ? "Estado" : "Status"}</dt>
+                <dd>{statusLabels[tool.implementationStatus][language]}</dd>
+              </div>
+              <div>
+                <dt>{language === "es" ? "Evidencia" : "Evidence"}</dt>
+                <dd>{evidenceLabels[tool.evidenceLevel][language]}</dd>
+              </div>
+              <div>
+                <dt>{language === "es" ? "Referencias" : "References"}</dt>
+                <dd>{tool.references.length}</dd>
+              </div>
+            </dl>
+            <p>
+              {language === "es"
+                ? "La presencia de una herramienta en el catálogo no equivale a una recomendación clínica. Cuando la fuente, la variante exacta, la licencia o la validación no están suficientemente cerradas, la herramienta permanece como referencia o contenido limitado."
+                : "A tool’s presence in the catalog is not a clinical recommendation. When source, exact variant, licensing or validation are not sufficiently resolved, the tool remains reference-only or limited."}
+            </p>
+            <div className="link-row">
+              <a className="primary-link" href={makePath(language, "evidence")} onClick={(event) => { event.preventDefault(); navigate(makePath(language, "evidence")); }}>
+                {language === "es" ? "Metodología de evidencia" : "Evidence methodology"}
+              </a>
+              <a className="primary-link" href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">
+                GitHub
+              </a>
+            </div>
           </section>
 
           <section className="content-panel" id="references">
