@@ -28,6 +28,7 @@ import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 import { trackUsageEvent } from "../utils/analytics";
 import { getSurfaceStatusCounts } from "../utils/toolStats";
+import { seoTopicHubs } from "../utils/topicHubs";
 
 interface ToolsPageProps {
   language: Language;
@@ -95,6 +96,33 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
       </section>
 
       <PedsCoreFinder tools={allTools} language={language} navigate={navigate} />
+
+      <section className="content-panel subtle-panel">
+        <div className="tool-section-heading">
+          <p className="eyebrow">{language === "es" ? "COMPARAR" : "COMPARE"}</p>
+          <h2>{language === "es" ? "Guías por problema clínico" : "Clinical topic guides"}</h2>
+        </div>
+        <p>
+          {language === "es"
+            ? "Explora grupos de herramientas que suelen plantearse juntas, con diferencias de población, finalidad, evidencia y disponibilidad."
+            : "Explore groups of tools that are often considered together, with differences in population, purpose, evidence and availability."}
+        </p>
+        <div className="link-row">
+          {seoTopicHubs.map((hub) => (
+            <a
+              className="primary-link"
+              href={`/${language}/topics/${hub.slug}`}
+              key={hub.slug}
+              onClick={(event) => {
+                event.preventDefault();
+                navigate(`/${language}/topics/${hub.slug}`);
+              }}
+            >
+              {hub.title[language]}
+            </a>
+          ))}
+        </div>
+      </section>
 
       <section className="tool-discovery-controls">
         <div className="tool-filter-topbar">
