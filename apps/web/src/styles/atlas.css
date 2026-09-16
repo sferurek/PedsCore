@@ -1322,3 +1322,132 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
     min-height:0;
   }
 }
+
+
+/* PRODUCT-CLINICAL-EXPERIENCE-V2 */
+.tool-card-actions,
+.tool-utility-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--s3);
+  align-items:center;
+}
+
+.favorite-action {
+  min-height:44px;
+  padding:10px 14px;
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  background:var(--surface);
+  color:var(--text);
+  font-weight:700;
+}
+
+.favorite-action:hover,
+.favorite-action.is-favorite {
+  border-color:#b88a1e;
+  background:#fff8df;
+  color:#72520f;
+}
+
+.personal-tools-section {
+  display:grid;
+  gap:var(--s5);
+  padding:var(--s6);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  background:linear-gradient(135deg,var(--surface),var(--paper-warm));
+}
+
+.personal-tools-section > div:not(.tool-section-heading) {
+  display:grid;
+  gap:var(--s3);
+}
+
+.personal-tool-links {
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--s2);
+}
+
+.personal-tool-links a {
+  display:inline-flex;
+  align-items:center;
+  min-height:40px;
+  padding:8px 12px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:var(--surface);
+  color:var(--action);
+  text-decoration:none;
+  font-weight:700;
+}
+
+.personal-tool-links a:hover {
+  border-color:var(--action);
+}
+
+.clinical-guide-grid-v2 {
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+}
+
+.clinical-guide-grid-v2 article {
+  min-height:100%;
+}
+
+.clinical-guide-note {
+  font-size:12px;
+  color:var(--text-muted);
+}
+
+.tool-review-panel {
+  border-left:4px solid var(--tools);
+}
+
+.review-profile-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:var(--s3);
+  margin:var(--s5) 0;
+}
+
+.review-profile-grid > div {
+  padding:var(--s4);
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  background:var(--surface-tint);
+}
+
+.review-profile-grid dd {
+  margin-top:6px;
+  font-weight:700;
+  line-height:1.4;
+}
+
+.review-profile-note {
+  font-size:13px;
+  color:var(--text-muted);
+}
+
+.calculation-trace {
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  background:var(--surface-tint);
+  overflow:hidden;
+}
+
+.calculation-trace summary {
+  cursor:pointer;
+  padding:var(--s4);
+  font-weight:800;
+}
+
+.calculation-trace > p,
+.calculation-trace > dl {
+  margin-left:var(--s4);
+  margin-right:var(--s4);
+}
+
+.calculation-trace > dl {
+  margin-bottom:var(--s4);
+}
