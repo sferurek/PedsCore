@@ -39,21 +39,9 @@ const inputIds = [...neuromuscularIds, ...physicalIds];
 const completedGestationalWeeks = (score: number): number | null => {
   if (score < -10 || score > 50) return null;
 
-  const anchors = [
-    [-10, 20], [-5, 22], [0, 24], [5, 26], [10, 28], [15, 30], [20, 32],
-    [25, 34], [30, 36], [35, 38], [40, 40], [45, 42], [50, 44]
-  ] as const;
-
-  for (let index = 0; index < anchors.length - 1; index += 1) {
-    const [lowerScore, lowerWeeks] = anchors[index];
-    const [upperScore] = anchors[index + 1];
-    if (score >= lowerScore && score < upperScore) {
-      const pointsAboveAnchor = score - lowerScore;
-      return lowerWeeks + Math.floor((pointsAboveAnchor * 2) / 5);
-    }
-  }
-
-  return score === 50 ? 44 : null;
+  // Linear interpolation between the official 5-point / 2-week grid anchors,
+  // recorded as completed weeks (rounding down), per Ballard's published FAQ.
+  return Math.floor(20 + ((score + 10) * 2) / 5);
 };
 
 export const ballardCalculator: CalculatorDefinition = {
@@ -90,8 +78,8 @@ export const ballardCalculator: CalculatorDefinition = {
       trace.push({ inputId, value, score: value });
     }
 
-    const neuromuscularScore = neuromuscularIds.reduce((sum, id) => sum + values[id], 0);
-    const physicalScore = physicalIds.reduce((sum, id) => sum + values[id], 0);
+    const neuromuscularScore = neuromuscularIds.reduce((sum, id) => sum + (values[id] ?? 0), 0);
+    const physicalScore = physicalIds.reduce((sum, id) => sum + (values[id] ?? 0), 0);
     const score = neuromuscularScore + physicalScore;
     const weeks = completedGestationalWeeks(score);
 
