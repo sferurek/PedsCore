@@ -21,6 +21,7 @@ const implementedToolIds = [
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "aap_2022_hyperbilirubinemia",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
