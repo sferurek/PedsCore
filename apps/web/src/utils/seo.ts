@@ -3,7 +3,7 @@ import type { ClinicalToolMetadata } from "@peds-core/core";
 import type { Language } from "./language";
 import type { ParsedRoute, RouteKind } from "./routes";
 import { toBrowserPath } from "./routes";
-import { categoryDescriptions, categoryLabels } from "../i18n/translations";
+import { categoryLabels } from "../i18n/translations";
 
 const siteUrl = "https://peds-core.vercel.app";
 
@@ -123,11 +123,6 @@ const routeSeo: Partial<Record<RouteKind, Record<Language, { title: string; desc
     }
   }
 };
-
-const getLocalizedText = (
-  value: ClinicalToolMetadata["name"] | ClinicalToolMetadata["description"],
-  language: Language
-) => value[language] || value.en || value.es;
 
 const toolDescription = (tool: ClinicalToolMetadata, language: Language) =>
   getToolSeoProfile(tool, language).description;
