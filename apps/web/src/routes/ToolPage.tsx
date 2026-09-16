@@ -21,6 +21,7 @@ import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
 import { ToolClinicalGuide } from "../components/ToolClinicalGuide";
 import { ToolEditorialInsight } from "../components/ToolEditorialInsight";
 import { ToolStatusBadge } from "../components/ToolStatusBadge";
+import { ToolReviewPanel } from "../components/ToolReviewPanel";
 import { evidenceLabels, riskLabels, statusLabels, translations } from "../i18n/translations";
 import {
   getUnlockActions,
@@ -201,6 +202,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
         <a href="#calculator">{hasActiveCalculation ? a.calculator : language === "es" ? "Uso" : "Use"}</a>
         {hasActiveCalculation ? <a href="#interpretation">{language === "es" ? "Interpretación" : "Interpretation"}</a> : null}
         <a href="#evidence">{a.evidence}</a>
+        <a href="#clinical-review">{language === "es" ? "Revisión" : "Review"}</a>
         <a href="#references">{a.references}</a>
         {relatedTools.length > 0 ? <a href="#related">{a.related}</a> : null}
       </nav>
@@ -506,6 +508,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
               </div>
             </section>
           ) : null}
+
+          <ToolReviewPanel language={language} tool={tool} />
 
           <section className="content-panel tool-editorial-transparency" id="editorial-transparency">
             <div className="tool-section-heading">
