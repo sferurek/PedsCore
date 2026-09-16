@@ -15,6 +15,7 @@ const uniqueCount = (values: string[]) => new Set(values).size;
 const implementedToolIds = [
   "apgar",
   "silverman_andersen",
+  "dubowitz",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -122,7 +123,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(20);
+    expect(getImplementedTools()).toHaveLength(21);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
