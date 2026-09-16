@@ -15,6 +15,7 @@ const githubIssuesUrl = "https://github.com/sferurek/PedsCore/issues";
 const implementedToolIds = new Set([
   "apgar",
   "silverman_andersen",
+  "dubowitz",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -1117,7 +1118,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Block 8B-3: original Dubowitz clinical assessment source located. Complete scoring table/form and licensing review remain pending.",
+        "Primary derivation source for the 21-item Dubowitz method. PedsCore implements only numeric item entry, total-score summation, and the published regression equation; no original figures, table layout, or descriptive wording are reproduced.",
       appliesTo: ["dubowitz"],
       priority: 1
     }
@@ -1451,8 +1452,8 @@ const visualAnalogueScaleValidationNotes: LocalizedText = {
 };
 
 const dubowitzValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: fuente original Dubowitz localizada con DOI/PMID. Pendiente tabla/formulario completo, conversion a edad gestacional, permisos y tests; no activar calculo.",
-  en: "Block 8B-3: original Dubowitz source located with DOI/PMID. Complete form/table, gestational-age conversion, permissions, and tests remain pending; calculation is not activated."
+  es: "Implementacion independiente del metodo Dubowitz original: PedsCore solicita solo las puntuaciones numericas de los 21 signos, suma el total y aplica la ecuacion de regresion publicada para estimar edad gestacional. No reproduce figuras, dibujos, tabla, maquetacion ni descriptores textuales del articulo original. Resultado descriptivo, no sustituye datacion obstetrica ni juicio clinico.",
+  en: "Independent implementation of the original Dubowitz method: PedsCore accepts only the numerical scores for the 21 signs, sums the total, and applies the published regression equation to estimate gestational age. It does not reproduce figures, drawings, the original table/layout, or copyrighted descriptive text. Descriptive result only; it does not replace obstetric dating or clinical judgment."
 };
 
 const fentonValidationNotes: LocalizedText = {
@@ -1629,6 +1630,55 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  dubowitz: {
+    calculationNotes: {
+      es: "Introduce la puntuacion numerica ya asignada a cada uno de los 21 signos del metodo Dubowitz. PedsCore no reproduce las ilustraciones ni los descriptores originales. Total 0-70; edad gestacional estimada = 0,2642 x puntuacion total + 24,595 semanas.",
+      en: "Enter the numerical score already assigned to each of the 21 Dubowitz signs. PedsCore does not reproduce the original illustrations or descriptors. Total 0-70; estimated gestational age = 0.2642 x total score + 24.595 weeks."
+    },
+    inputs: [
+      { id: "posture", label: { es: "Postura", en: "Posture" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "square_window", label: { es: "Ventana cuadrada", en: "Square window" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "ankle_dorsiflexion", label: { es: "Dorsiflexion del tobillo", en: "Ankle dorsiflexion" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "arm_recoil", label: { es: "Retroceso del brazo", en: "Arm recoil" }, type: "number", required: true, min: 0, max: 2, step: 1 },
+      { id: "leg_recoil", label: { es: "Retroceso de la pierna", en: "Leg recoil" }, type: "number", required: true, min: 0, max: 2, step: 1 },
+      { id: "popliteal_angle", label: { es: "Angulo popliteo", en: "Popliteal angle" }, type: "number", required: true, min: 0, max: 5, step: 1 },
+      { id: "heel_to_ear", label: { es: "Talon a oreja", en: "Heel to ear" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "scarf_sign", label: { es: "Signo de la bufanda", en: "Scarf sign" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "head_lag", label: { es: "Caida de la cabeza", en: "Head lag" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "ventral_suspension", label: { es: "Suspension ventral", en: "Ventral suspension" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "edema", label: { es: "Edema", en: "Edema" }, type: "number", required: true, min: 0, max: 2, step: 1 },
+      { id: "skin_texture", label: { es: "Textura cutanea", en: "Skin texture" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "skin_color", label: { es: "Color cutaneo", en: "Skin color" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "skin_opacity", label: { es: "Opacidad cutanea", en: "Skin opacity" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "lanugo", label: { es: "Lanugo", en: "Lanugo" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "plantar_creases", label: { es: "Pliegues plantares", en: "Plantar creases" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "nipple_formation", label: { es: "Formacion del pezon", en: "Nipple formation" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "breast_size", label: { es: "Tamano mamario", en: "Breast size" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "ear_form", label: { es: "Forma de la oreja", en: "Ear form" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "ear_firmness", label: { es: "Firmeza de la oreja", en: "Ear firmness" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "genitals", label: { es: "Genitales", en: "Genitals" }, type: "number", required: true, min: 0, max: 2, step: 1 }
+    ],
+    scoringTable: [
+      {
+        id: "dubowitz_total",
+        variable: { es: "Puntuacion total Dubowitz", en: "Total Dubowitz score" },
+        value: "sum(21 item scores), range 0-70",
+        description: {
+          es: "Suma directa de los 10 signos neurologicos y 11 signos externos.",
+          en: "Direct sum of the 10 neurological and 11 external sign scores."
+        }
+      },
+      {
+        id: "dubowitz_ga_regression",
+        variable: { es: "Edad gestacional estimada", en: "Estimated gestational age" },
+        value: "0.2642 x total score + 24.595 weeks",
+        description: {
+          es: "Ecuacion de regresion publicada para convertir la puntuacion total en semanas de gestacion.",
+          en: "Published regression equation converting total score to gestational weeks."
+        }
+      }
+    ]
+  },
   pediatric_burn_tbsa: {
     calculationNotes: {
       es: "Estimacion descriptiva TBSA pediatrica por regiones numericas. Incluye solo quemaduras de espesor parcial y total; no incluye eritema superficial. No genera decisiones asistenciales.",

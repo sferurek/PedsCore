@@ -65,7 +65,7 @@ describe("clinical discovery taxonomy", () => {
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
-    ).toHaveLength(24);
+    ).toHaveLength(25);
   });
 
   it("does not expose removed final surfaces through discovery", () => {

@@ -15,6 +15,7 @@ const uniqueCount = (values: string[]) => new Set(values).size;
 const implementedToolIds = [
   "apgar",
   "silverman_andersen",
+  "dubowitz",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -122,7 +123,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(20);
+    expect(getImplementedTools()).toHaveLength(21);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -313,9 +314,19 @@ describe("clinical tools catalog", () => {
     expect(tool?.scoringTable?.length).toBeGreaterThan(0);
   });
 
+
+  it("activates Dubowitz as an independent numeric implementation without reproducing protected source material", () => {
+    const tool = getTool("dubowitz");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs).toHaveLength(21);
+    expect(tool?.validationNotes.en).toContain("does not reproduce");
+    expect(tool?.references.some((reference) => reference.doi === "10.1016/S0022-3476(70)80038-5")).toBe(true);
+  });
+
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
     const blockedIds = [
-      "dubowitz",
       "neonatal_growth_fenton",
       "rdai",
       "brosjod",
