@@ -1451,3 +1451,40 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
 .calculation-trace > dl {
   margin-bottom:var(--s4);
 }
+
+.home-personal-tools {
+  display:grid;
+  gap:var(--s4);
+  padding:var(--s5);
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  background:linear-gradient(135deg,#ffffff,#f7fbf9);
+  box-shadow:var(--elevation-1);
+}
+
+.home-personal-tools > div:first-child p:last-child {
+  margin-bottom:0;
+  color:var(--text-muted);
+  font-size:13px;
+}
+
+.home-personal-tool-groups {
+  display:grid;
+  gap:var(--s4);
+}
+
+.home-personal-tool-groups > div {
+  display:grid;
+  gap:var(--s2);
+}
+
+@media (min-width: 760px) {
+  .home-personal-tools {
+    grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);
+    align-items:start;
+  }
+
+  .home-personal-tool-groups {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
