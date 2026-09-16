@@ -128,7 +128,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(26);
+    expect(getImplementedTools()).toHaveLength(27);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -185,7 +185,7 @@ describe("clinical tools catalog", () => {
   });
 
   it("reconciles the physical catalog to the v12 final surface set", () => {
-    expect(clinicalTools).toHaveLength(133);
+    expect(clinicalTools).toHaveLength(134);
     for (const id of removedFinalSurfaceIds) {
       expect(clinicalTools.some((tool) => tool.id === id), id).toBe(false);
     }
@@ -254,6 +254,14 @@ describe("clinical tools catalog", () => {
     ]);
     expect(tool?.validationNotes.en).toContain("independently worded criteria");
     expect(tool?.references.some((reference) => reference.pmid === "8521311")).toBe(true);
+  });
+
+  it("publishes AAP 2022 hyperbilirubinemia as active external decision support", () => {
+    const tool = getTool("aap_2022_hyperbilirubinemia");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).not.toBe("active");
+    expect(tool?.references.some((reference) => reference.doi === "10.1542/peds.2022-058859")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("PediTools API");
   });
 
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
