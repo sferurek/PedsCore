@@ -193,6 +193,54 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </section>
           ) : null}
 
+          {tool.id === "sarnat" ? (
+            <section className="content-panel surface-availability-note">
+              <strong>
+                {language === "es"
+                  ? "Sarnat clásico 1976: referencia descriptiva"
+                  : "Classic Sarnat 1976: descriptive reference"}
+              </strong>
+              <p>
+                {language === "es"
+                  ? "Esta ficha mantiene el sistema original como estadificación clínica I-II-III y no lo transforma en una puntuación numérica. La variante Modified Sarnat / NICHD se publica como herramienta independiente."
+                  : "This page preserves the original system as a clinical Stage I-II-III framework and does not turn it into a numeric score. Modified Sarnat / NICHD is published as a separate tool."}
+              </p>
+              <a
+                className="primary-link"
+                href="https://jamanetwork.com/journals/jamaneurology/article-abstract/574959"
+                rel="noreferrer"
+                target="_blank"
+              >
+                {language === "es"
+                  ? "Consultar publicación original de Sarnat 1976 ↗"
+                  : "View the original 1976 Sarnat publication ↗"}
+              </a>
+            </section>
+          ) : tool.id === "modified_sarnat_nichd" ? (
+            <section className="content-panel surface-availability-note">
+              <strong>
+                {language === "es"
+                  ? "Modified Sarnat / NICHD: seis categorías, 0–3"
+                  : "Modified Sarnat / NICHD: six categories, 0–3"}
+              </strong>
+              <p>
+                {language === "es"
+                  ? "Codifica cada categoría como normal (0), leve (1), moderada (2) o grave (3). PedsCore calcula el Total Sarnat Score 0–18 y describe el patrón predominante; no decide indicación de hipotermia terapéutica."
+                  : "Code each category as normal (0), mild (1), moderate (2), or severe (3). PedsCore calculates the 0–18 Total Sarnat Score and describes the predominant pattern; it does not determine therapeutic-hypothermia eligibility."}
+              </p>
+              <a
+                className="primary-link"
+                href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6445543/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                {language === "es"
+                  ? "Consultar tabla publicada de Modified Sarnat ↗"
+                  : "View the published Modified Sarnat table ↗"}
+              </a>
+            </section>
+          ) : null}
+
           {tool.id === "dubowitz" ? (
             <section className="content-panel surface-availability-note">
               <strong>
