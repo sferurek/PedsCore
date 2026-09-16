@@ -193,6 +193,36 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </section>
           ) : null}
 
+          {tool.id === "thompson_hie" ? (
+            <section className="content-panel surface-availability-note">
+              <strong>
+                {language === "es"
+                  ? "Referencia para asignar las puntuaciones Thompson"
+                  : "Reference for assigning Thompson item scores"}
+              </strong>
+              <p>
+                {language === "es"
+                  ? "PedsCore usa una interfaz numérica propia y no reproduce la tabla original. Consulta una reproducción abierta de la tabla Thompson para asignar 0–3 según cada dominio y vuelve aquí para calcular el total 0–22."
+                  : "PedsCore uses its own numeric interface and does not reproduce the original table. Consult an open reproduction of the Thompson table to assign 0–3 by domain, then return here to calculate the 0–22 total."}
+              </p>
+              <a
+                className="primary-link"
+                href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6568287/"
+                rel="noreferrer"
+                target="_blank"
+              >
+                {language === "es"
+                  ? "Ver tabla Thompson de referencia ↗"
+                  : "View Thompson reference table ↗"}
+              </a>
+              <p>
+                {language === "es"
+                  ? "Interpretación mostrada: 0 sin anormalidades puntuadas; 1–10 leve; 11–14 moderada; 15–22 grave. Algunas publicaciones separan 0–7 como sin encefalopatía y 8–10 como leve."
+                  : "Displayed interpretation: 0 no scored abnormalities; 1–10 mild; 11–14 moderate; 15–22 severe. Some publications instead separate 0–7 as no encephalopathy and 8–10 as mild."}
+              </p>
+            </section>
+          ) : null}
+
           {tool.id === "sarnat" ? (
             <section className="content-panel surface-availability-note">
               <strong>
