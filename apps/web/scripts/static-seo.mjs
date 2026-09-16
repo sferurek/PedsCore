@@ -54,6 +54,7 @@ export const renderStaticBody = (seo, tools) => {
   if (tool) {
     const name = localized(tool.name, language);
     const description = localized(tool.description, language);
+    const profile = getToolSeoProfile(tool, language);
     const population = localized(tool.population, language);
     const validation = localized(tool.validationNotes, language);
     const categoryLabel = getCategorySeoProfile(tool.category, language).name;
@@ -74,6 +75,11 @@ export const renderStaticBody = (seo, tools) => {
       <article>
         <h1>${escapeHtml(name)}</h1>
         <p>${escapeHtml(description)}</p>
+        <h2>${isEs ? `Qué es ${escapeHtml(profile.primaryTerm)}` : `What is ${escapeHtml(profile.primaryTerm)}?`}</h2>
+        <p>${escapeHtml(profile.description)}</p>
+        <h3>${isEs ? "Población y ámbito de uso" : "Population and scope"}</h3>
+        <p>${escapeHtml(profile.topic)}. ${escapeHtml(population)}</p>
+        ${profile.aliases.length > 1 ? `<h3>${isEs ? "También puede encontrarse como" : "Also searched as"}</h3><p>${profile.aliases.map(escapeHtml).join(" · ")}</p>` : ""}
         <h2>${isEs ? "Uso clínico" : "Clinical use"}</h2>
         <p>${isEs
           ? `Esta página de PedsCore reúne la información clínica, el estado de implementación y la evidencia disponible para ${escapeHtml(name)}. Está dirigida a ${escapeHtml(population || "población pediátrica y neonatal según la herramienta")}. La herramienta pertenece al área de ${escapeHtml(categoryLabel)} y debe interpretarse dentro del contexto clínico correspondiente.`
