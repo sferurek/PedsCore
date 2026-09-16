@@ -122,6 +122,16 @@ Start with [CONTRIBUTING.md](CONTRIBUTING.md). Clinical content contributions mu
 - Launch checklist: [docs/PUBLIC_LAUNCH_CHECKLIST.md](docs/PUBLIC_LAUNCH_CHECKLIST.md)
 - SEO checklist: [docs/SEO_CHECKLIST.md](docs/SEO_CHECKLIST.md)
 
+## Citing PedsCore
+
+If PedsCore is used in clinical education, research, software, or documentation, please cite the project and link to the canonical website:
+
+https://peds-core.vercel.app/
+
+Machine-readable citation metadata are available in [CITATION.cff](CITATION.cff), with additional guidance in [docs/CITATION.md](docs/CITATION.md).
+
+Editorial and evidence-handling principles are documented in [docs/EDITORIAL_POLICY.md](docs/EDITORIAL_POLICY.md).
+
 ## License
 
 PedsCore source code is released under the [MIT License](LICENSE).
