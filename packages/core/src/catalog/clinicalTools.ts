@@ -692,6 +692,41 @@ const implementedToolReferences: Record<string, Reference[]> = {
       priority: 1
     }
   ],
+  aap_2022_hyperbilirubinemia: [
+    {
+      id: "aap_hyperbilirubinemia_2022",
+      title:
+        "Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation",
+      authors: "American Academy of Pediatrics Subcommittee on Hyperbilirubinemia",
+      year: 2022,
+      journalOrPublisher: "Pediatrics",
+      citation:
+        "American Academy of Pediatrics Subcommittee on Hyperbilirubinemia. Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics. 2022;150(3):e2022058859.",
+      doi: "10.1542/peds.2022-058859",
+      url: "https://publications.aap.org/pediatrics/article/150/3/e2022058859/188726/Clinical-Practice-Guideline-Revision-Management-of",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "clinical_guideline",
+      accessType: "open_access",
+      notes:
+        "Current AAP framework for newborns >=35 weeks. Treatment thresholds depend on gestational age, postnatal age in hours, total serum bilirubin, and neurotoxicity risk factors.",
+      appliesTo: ["aap_2022_hyperbilirubinemia"],
+      priority: 1
+    },
+    {
+      id: "peditools_bili2022_api",
+      title: "PediTools 2022 AAP Hyperbilirubinemia Guidelines API",
+      authors: "Joseph H. Chou",
+      journalOrPublisher: "PediTools",
+      url: "https://peditools.org/bili2022/bili2022_api.html",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "PediTools documents free API access without registration or licensing. PedsCore delegates threshold calculation externally instead of reproducing AAP threshold tables or curves.",
+      appliesTo: ["aap_2022_hyperbilirubinemia"],
+      priority: 2
+    }
+  ],
   bhutani_nomogram: [
     {
       id: "bhutani_1999_original",
@@ -1440,6 +1475,11 @@ const modifiedSarnatValidationNotes: LocalizedText = {
 const thompsonHieEvidenceValidationNotes: LocalizedText = {
   es: "Implementacion independiente del Thompson HIE Score de nueve dominios, con total 0-22. PedsCore usa como interpretacion secundaria la convencion resumida por la AAP: 0 sin anormalidades puntuadas, 1-10 leve, 11-14 moderada y 15-22 grave. Algunas publicaciones separan 0-7 como sin encefalopatia y 8-10 como leve; esta variabilidad se muestra explicitamente. El score es descriptivo y longitudinal y no determina por si solo indicacion de hipotermia, tratamiento ni pronostico individual.",
   en: "Independent implementation of the nine-domain Thompson HIE Score, total 0-22. PedsCore uses the AAP-summarized convention as a secondary interpretation: 0 no scored abnormalities, 1-10 mild, 11-14 moderate, and 15-22 severe. Some publications instead separate 0-7 as no encephalopathy and 8-10 as mild; this variability is explicitly disclosed. The score is descriptive and longitudinal and does not by itself determine hypothermia eligibility, treatment, or individual prognosis."
+};
+
+const aap2022HyperbilirubinemiaValidationNotes: LocalizedText = {
+  es: "Herramienta activa basada en la guia AAP 2022 para recien nacidos de 35 o mas semanas. PedsCore no reproduce localmente las curvas ni las tablas de umbrales de la AAP: recoge los parametros clinicos y deriva el calculo operativo a la API gratuita de PediTools, que implementa la guia. La edad gestacional se introduce en semanas completas (35-40+), la edad postnatal en horas (1-336) y la bilirrubina como TSB en mg/dL. Los factores de neurotoxicidad adicionales a la edad gestacional incluyen albumina <3 g/dL, enfermedad hemolitica isoimmune/G6PD u otra hemolisis, sepsis o inestabilidad clinica significativa en las ultimas 24 h. No restar bilirrubina directa/conjugada de la TSB.",
+  en: "Active tool based on the 2022 AAP guideline for newborn infants 35 or more weeks of gestation. PedsCore does not locally reproduce the AAP threshold curves or tables: it collects the clinical parameters and delegates operational threshold calculation to the free PediTools API implementing the guideline. Gestational age is entered in completed weeks (35-40+), postnatal age in hours (1-336), and bilirubin as TSB in mg/dL. Neurotoxicity risk factors in addition to gestational age include albumin <3 g/dL, isoimmune hemolytic disease/G6PD deficiency or other hemolysis, sepsis, or significant clinical instability in the previous 24 h. Do not subtract direct/conjugated bilirubin from TSB."
 };
 
 const bhutaniValidationNotes: LocalizedText = {
@@ -4008,6 +4048,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("cries", "cries", "CRIES", "CRIES", "CRIES", "pain", "neonatal_pain", "scale", "Neonatos con dolor postoperatorio", "Neonates with postoperative pain", "Escala neonatal de dolor basada en cinco dominios.", "Neonatal pain scale based on five domains.", "pending_validation", "pending_verification", "low", criesValidationNotes, [docRef("cries_kb", "PedsCore_Knowledge_Base_v1: CRIES", "pending_verification")]),
   makeTool("comfortneo", "comfortneo", "COMFORTneo", "COMFORTneo", "COMFORTneo", "neonatology", "sedation_pain", "scale", "Neonatos en cuidados intensivos", "Neonates in intensive care", "Escala multidimensional de sedacion y dolor neonatal.", "Multidimensional neonatal sedation and pain scale.", "pending_validation", "pending_verification", "medium", comfortneoValidationNotes),
   makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "original_derivation_study", "medium", bhutaniValidationNotes),
+  makeTool("aap_2022_hyperbilirubinemia", "aap-2022-neonatal-hyperbilirubinemia", "AAP Bili 2022", "Hiperbilirrubinemia neonatal AAP 2022", "AAP 2022 Neonatal Hyperbilirubinemia", "neonatology", "jaundice_bilirubin", "algorithm", "Recien nacidos de 35 o mas semanas de gestacion", "Newborn infants 35 or more weeks of gestation", "Acceso operativo a los umbrales de fototerapia y exanguinotransfusion de la guia AAP 2022 mediante PediTools.", "Operational access to the 2022 AAP phototherapy and exchange-transfusion thresholds through PediTools.", "implemented", "clinical_practice_guideline", "high", aap2022HyperbilirubinemiaValidationNotes),
   makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "pending_validation", "systematic_review", "medium", fentonValidationNotes),
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", bedsidePewsValidationNotes),
