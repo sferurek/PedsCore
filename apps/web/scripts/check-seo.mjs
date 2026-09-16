@@ -69,6 +69,7 @@ for (const url of sitemapUrls) {
   if (!routeHtml.includes(`<link rel="canonical" href="${url}"`)) throw new Error(`Canonical mismatch: ${url}`);
   if (!routeHtml.includes("hreflang=\"es\"") || !routeHtml.includes("hreflang=\"en\"")) throw new Error(`Missing reciprocal hreflang: ${url}`);
   if (!/<h1>[^<]+<\/h1>/.test(routeHtml)) throw new Error(`Missing crawlable H1: ${url}`);
+  if (!routeHtml.includes('"logo":"https://peds-core.vercel.app/favicon.svg"')) throw new Error(`Missing Organization logo schema: ${url}`);
   if (!routeHtml.includes('class="seo-static-fallback"')) throw new Error(`Missing static SEO body: ${url}`);
   const bodyMatch = routeHtml.match(/<div id="root">([\s\S]*?)<\/div>\s*<script/);
   const bodyText = (bodyMatch?.[1] ?? "").replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").replace(/\s+/g, " ").trim();
