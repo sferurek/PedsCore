@@ -16,7 +16,7 @@ interface SeoMetadata {
 
 const homeSeo = {
   es: {
-    title: "PedsCore — herramientas clínicas pediátricas y neonatales de código abierto",
+    title: "PedsCore — herramientas clínicas pediátricas",
     description:
       "PedsCore es una biblioteca de código abierto con herramientas clínicas pediátricas y neonatales, trazabilidad de evidencia, gráficas WHO Growth y sin almacenamiento de datos clínicos."
   },
