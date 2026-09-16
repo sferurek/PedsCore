@@ -208,12 +208,16 @@ export const getToolSeoProfile = (
   ].map((value) => value.trim()).filter(Boolean))].slice(0, 8);
   const baseDescription = tool.description[language] || tool.description.en;
   const population = tool.population[language] || tool.population.en;
-  const description = compact(
-    language === "es"
-      ? `${fullName}: ${baseDescription} Población: ${population}. Evidencia y estado de validación en PedsCore.`
-      : `${fullName}: ${baseDescription} Population: ${population}. Evidence and validation status in PedsCore.`,
-    158
-  );
+  const description = tool.id === "who_growth_module"
+    ? (language === "es"
+      ? "Módulo WHO Growth con datos oficiales OMS, gráficas SVG imprimibles, percentiles escritos y punto del paciente."
+      : "WHO Growth module with official WHO growth data, printable SVG charts, written percentiles and patient point.")
+    : compact(
+        language === "es"
+          ? `${fullName}: ${baseDescription} Población: ${population}. Evidencia y estado de validación en PedsCore.`
+          : `${fullName}: ${baseDescription} Population: ${population}. Evidence and validation status in PedsCore.`,
+        158
+      );
   return { title, description, primaryTerm: fullName, topic, aliases };
 };
 
