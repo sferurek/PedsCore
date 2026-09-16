@@ -20,10 +20,10 @@ const severityLabel = (severity: number) => {
 export const modifiedSarnatNichdCalculator: CalculatorDefinition = {
   toolId: "modified_sarnat_nichd",
   calculate: (input) => {
-    const tool = getTool("modified_sarnat_nichd");
+    const tool = getTool("modified-sarnat-nichd");
 
     if (categoryIds.some((id) => input[id] === undefined || input[id] === null || input[id] === "")) {
-      return missingResult(tool.id, categoryIds);
+      return missingResult(tool.id, [...categoryIds]);
     }
 
     const values: Record<string, number> = {};
