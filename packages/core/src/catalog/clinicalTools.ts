@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -725,14 +726,34 @@ const implementedToolReferences: Record<string, Reference[]> = {
         "Parshuram CS, Hutchison J, Middaugh K. Development and initial validation of the Bedside Paediatric Early Warning System score. Crit Care. 2009;13(4):R135.",
       doi: "10.1186/cc7998",
       pmid: "19678924",
-      url: "https://pubmed.ncbi.nlm.nih.gov/19678924/",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2750193/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
       accessType: "open_access",
       notes:
-        "Priority A evidence audit: source located. Full score table, local escalation separation, and inventor/licensing review remain pending before implementation.",
+        "Primary development source and scoring table. Published open access under Creative Commons Attribution 2.0 (CC BY 2.0), permitting reuse and reproduction with attribution. PedsCore attributes Parshuram et al. and keeps escalation actions separate from the score.",
       appliesTo: ["bedside_pews"],
       priority: 1
+    },
+    {
+      id: "bedside_pews_2011_multicentre",
+      title:
+        "Multicentre validation of the bedside paediatric early warning system score: a severity of illness score to detect evolving critical illness in hospitalised children",
+      authors:
+        "Parshuram CS, Duncan HP, Joffe AR, Farrell CA, Lacroix JR, Middaugh KL, Hutchison JS, Wensley D, Blanchard N, Beyene J, Parkin PC",
+      year: 2011,
+      journalOrPublisher: "Critical Care",
+      citation:
+        "Parshuram CS, Duncan HP, Joffe AR, et al. Multicentre validation of the bedside paediatric early warning system score: a severity of illness score to detect evolving critical illness in hospitalised children. Crit Care. 2011;15(4):R184.",
+      doi: "10.1186/cc10337",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3387627/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Multicentre validation source reproducing the seven-item Bedside PEWS table and confirming a total range of 0-26. Open-access Critical Care article; score remains descriptive and does not define a universal escalation protocol.",
+      appliesTo: ["bedside_pews"],
+      priority: 2
     }
   ],
   who_growth_percentiles: [
@@ -1448,8 +1469,8 @@ const bhutaniValidationNotes: LocalizedText = {
 };
 
 const bedsidePewsValidationNotes: LocalizedText = {
-  es: "Bloque 8B-1: fuente Bedside PEWS original localizada con DOI/PMID/PMCID. Pendiente tabla completa, separacion de protocolos locales de escalado, licencia/inventores y casos de test antes de implementar.",
-  en: "Block 8B-1: original Bedside PEWS source located with DOI/PMID/PMCID. Complete table, separation from local escalation protocols, inventor/licensing review, and test cases remain pending before implementation."
+  es: "Implementacion local del Bedside PEWS original de siete items (0-26), trazada a Parshuram et al. 2009 y a la validacion multicentrica de 2011. El articulo original y su tabla se publicaron bajo licencia Creative Commons Attribution 2.0 (CC BY 2.0); PedsCore reutiliza la logica con atribucion explicita. El resultado cuantifica gravedad/deterioro en ninos hospitalizados y no incorpora un protocolo universal de escalado, ingreso en UCI ni tratamiento. En el estudio original, un punto de corte 8 tuvo sensibilidad 82% y especificidad 93%; ese dato se muestra como rendimiento del estudio, no como orden de actuacion.",
+  en: "Local implementation of the original seven-item Bedside PEWS (0-26), traced to Parshuram et al. 2009 and the 2011 multicentre validation. The original article and scoring table were published under Creative Commons Attribution 2.0 (CC BY 2.0); PedsCore reuses the scoring logic with explicit attribution. The result quantifies severity/deterioration in hospitalized children and does not embed a universal escalation, ICU-admission, or treatment protocol. In the original study, a score of 8 had 82% sensitivity and 93% specificity; this is displayed as study performance, not as an action threshold."
 };
 
 const whoGrowthValidationNotes: LocalizedText = {
@@ -1676,6 +1697,85 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  bedside_pews: {
+    calculationNotes: {
+      es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
+      en: "Enter age in months and the seven Bedside PEWS variables. Heart rate, respiratory rate, and systolic blood pressure use age-specific thresholds; capillary refill, respiratory effort, SpO2, and oxygen therapy use the original categories. Total 0-26. PedsCore does not attach an automated escalation pathway to the result."
+    },
+    inputs: [
+      { id: "age_months", label: { es: "Edad", en: "Age" }, description: { es: "Edad cronologica en meses.", en: "Chronological age in months." }, type: "number", required: true, unit: "meses", min: 0, max: 216, step: 0.1 },
+      { id: "heart_rate", label: { es: "Frecuencia cardiaca", en: "Heart rate" }, type: "number", required: true, unit: "lpm", min: 0, max: 300, step: 1 },
+      { id: "systolic_bp", label: { es: "Presion arterial sistolica", en: "Systolic blood pressure" }, type: "number", required: true, unit: "mmHg", min: 0, max: 250, step: 1 },
+      {
+        id: "capillary_refill",
+        label: { es: "Relleno capilar", en: "Capillary refill" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("crt_lt3", "<3 segundos", "<3 seconds", 0),
+          option("crt_ge3", "≥3 segundos", "≥3 seconds", 4)
+        ]
+      },
+      { id: "respiratory_rate", label: { es: "Frecuencia respiratoria", en: "Respiratory rate" }, type: "number", required: true, unit: "rpm", min: 0, max: 150, step: 1 },
+      {
+        id: "respiratory_effort",
+        label: { es: "Esfuerzo respiratorio", en: "Respiratory effort" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("effort_normal", "Normal", "Normal", 0),
+          option("effort_mild", "Aumento leve", "Mild increase", 1),
+          option("effort_moderate", "Aumento moderado", "Moderate increase", 2),
+          option("effort_severe", "Aumento grave o cualquier apnea", "Severe increase or any apnea", 4)
+        ]
+      },
+      { id: "oxygen_saturation", label: { es: "Saturacion de oxigeno", en: "Oxygen saturation" }, type: "number", required: true, unit: "%", min: 0, max: 100, step: 1 },
+      {
+        id: "oxygen_therapy",
+        label: { es: "Oxigenoterapia", en: "Oxygen therapy" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("oxygen_room_air", "Aire ambiente", "Room air", 0),
+          option("oxygen_low", "Oxigeno: <4 L/min o FiO2 <50%", "Oxygen: <4 L/min or FiO2 <50%", 2),
+          option("oxygen_high", "Oxigeno: ≥4 L/min o FiO2 ≥50%", "Oxygen: ≥4 L/min or FiO2 ≥50%", 4)
+        ]
+      }
+    ],
+    interpretationBands: [
+      {
+        id: "descriptive_0_7",
+        label: { es: "Puntuacion por debajo del punto de corte 8 del estudio original", en: "Score below the original study threshold of 8" },
+        min: 0,
+        max: 7,
+        description: {
+          es: "No implica ausencia de deterioro. Interpretar tendencia y contexto clinico.",
+          en: "Does not imply absence of deterioration. Interpret trend and clinical context."
+        }
+      },
+      {
+        id: "study_threshold_8_plus",
+        label: { es: "Puntuacion ≥8: punto de corte evaluado en el estudio original", en: "Score ≥8: threshold evaluated in the original study" },
+        min: 8,
+        max: 26,
+        description: {
+          es: "En el estudio inicial, 8 tuvo sensibilidad 82% y especificidad 93%. No es una pauta universal de escalado.",
+          en: "In the initial study, 8 had 82% sensitivity and 93% specificity. It is not a universal escalation rule."
+        }
+      }
+    ],
+    scoringTable: [
+      {
+        id: "bedside_pews_total",
+        variable: { es: "Bedside PEWS total", en: "Total Bedside PEWS" },
+        value: "0-26",
+        description: {
+          es: "Suma de FC, PAS, relleno capilar, FR, esfuerzo respiratorio, SpO2 y oxigenoterapia. Subpuntuaciones 0, 1, 2 o 4 segun la tabla original.",
+          en: "Sum of heart rate, systolic BP, capillary refill, respiratory rate, respiratory effort, SpO2, and oxygen therapy. Subscores are 0, 1, 2, or 4 according to the original table."
+        }
+      }
+    ]
+  },
   cries: {
     calculationNotes: {
       es: "Selecciona 0, 1 o 2 en cada uno de los cinco dominios CRIES. La escala suma 0-10. PedsCore muestra como referencia secundaria: <5 por debajo del umbral de dolor moderado, 5-7 moderado y 8-10 grave. La escala fue desarrollada para dolor neonatal, especialmente postoperatorio; cualquier conducta analgesica debe seguir el protocolo local.",
@@ -4010,7 +4110,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "original_derivation_study", "medium", bhutaniValidationNotes),
   makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "pending_validation", "systematic_review", "medium", fentonValidationNotes),
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
-  makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante Bedside PEWS identificada para revision.", "Bedside PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", bedsidePewsValidationNotes),
+  makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados en plantas de hospitalizacion", "Children hospitalized on inpatient wards", "Score de siete items para cuantificar gravedad y detectar deterioro clinico evolutivo en pacientes pediatricos hospitalizados.", "Seven-item score to quantify severity and detect evolving clinical deterioration in hospitalized pediatric patients.", "implemented", "external_validation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
