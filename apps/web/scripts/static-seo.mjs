@@ -157,6 +157,10 @@ export const renderStaticBody = (seo, tools) => {
         <p>${isEs
           ? "PedsCore no sustituye el juicio clínico. Las escalas, reglas y calculadoras se presentan con trazabilidad de evidencia y con su estado de implementación visible."
           : "PedsCore does not replace clinical judgement. Scores, rules and calculators are presented with evidence traceability and a visible implementation status."}</p>
+        <h2>${isEs ? "Revisión clínica y mantenimiento" : "Clinical review and maintenance"}</h2>
+        <p>${isEs
+          ? "La revisión de implementación y la revisión clínica independiente se muestran por separado. PedsCore no atribuye revisores nominales ni avales externos cuando no existe un registro público que los respalde. El repositorio conserva el historial de fuentes, cambios y pruebas."
+          : "Implementation review and independent clinical review are shown separately. PedsCore does not attribute named reviewers or external endorsement without a public record supporting the claim. The repository preserves source, change and test history."}</p>
         <h2>${isEs ? "Transparencia editorial" : "Editorial transparency"}</h2>
         <p>${isEs
           ? `Esta ficha forma parte de un proyecto de código abierto. El nivel de evidencia, el estado de implementación, las notas de validación y las fuentes se muestran de forma explícita. Actualmente contiene ${references.length} referencia${references.length === 1 ? "" : "s"} enlazada${references.length === 1 ? "" : "s"} en el catálogo. Los cambios del contenido y de la lógica se revisan mediante el repositorio público, pruebas automatizadas y trazabilidad de versiones.`
