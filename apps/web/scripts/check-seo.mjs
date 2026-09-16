@@ -56,6 +56,8 @@ const canonicalUrls = new Set();
 const indexableCategories = ["cardiology", "emergency", "nephrology", "respiratory"];
 const categoryTitles = new Set();
 const categoryDescriptions = new Set();
+const toolTitlesByLanguage = { es: new Set(), en: new Set() };
+let toolRouteCount = 0;
 for (const url of sitemapUrls) {
   const route = new URL(url).pathname.replace(/^\/+|\/+$/g, "") || "index";
   const routeHtml = await read(route === "index" ? "index.html" : `${route}/index.html`);
@@ -74,6 +76,17 @@ for (const url of sitemapUrls) {
   const canonical = routeHtml.match(/<link rel="canonical" href="([^"]+)"/);
   if (canonical) canonicalUrls.add(canonical[1]);
   if (routeHtml.includes("vercel.app/preview") || routeHtml.includes("vercel.app-") ) throw new Error(`Preview URL in metadata: ${url}`);
+  const toolMatch = new URL(url).pathname.match(/^\/(es|en)\/tools\/([^/]+)$/);
+  if (toolMatch) {
+    toolRouteCount++;
+    const title = routeHtml.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
+    const language = toolMatch[1];
+    if (!title.includes("PedsCore")) throw new Error(`Tool title missing brand: ${url}`);
+    if (title.length > 60) throw new Error(`Tool title too long (${title.length}): ${url} -> ${title}`);
+    if (/Herramienta clínica pediátrica|Pediatric clinical tool/i.test(title)) throw new Error(`Generic tool title remains: ${url} -> ${title}`);
+    if (toolTitlesByLanguage[language].has(title)) throw new Error(`Duplicate ${language} tool title: ${title}`);
+    toolTitlesByLanguage[language].add(title);
+  }
   const categoryMatch = new URL(url).pathname.match(/^\/(?:es|en)\/categories\/([^/]+)$/);
   if (categoryMatch) {
     if (!indexableCategories.includes(categoryMatch[1])) throw new Error(`Unapproved category indexed: ${url}`);
@@ -85,6 +98,8 @@ for (const url of sitemapUrls) {
 if (canonicalUrls.size !== sitemapUrls.length) throw new Error("Duplicate canonical URLs detected");
 if ((sitemap.match(/xhtml:link rel="alternate"/g) ?? []).length < sitemapUrls.length) throw new Error("Sitemap alternates are incomplete");
 if (categoryTitles.size !== indexableCategories.length * 2 || categoryDescriptions.size !== indexableCategories.length * 2) throw new Error("Category metadata is not unique across language routes");
+if (toolRouteCount < 250) throw new Error(`Unexpectedly few localized tool routes checked: ${toolRouteCount}`);
+if (toolTitlesByLanguage.es.size !== toolRouteCount / 2 || toolTitlesByLanguage.en.size !== toolRouteCount / 2) throw new Error("Tool SEO titles are not unique within each language");
 
 const assetNames = await readdir(resolve(distDir, "assets"));
 const mainAsset = assetNames.find((name) => /^index-[^/]+\.js$/.test(name));
@@ -109,4 +124,4 @@ assertIncludes(pim2Es, "<title>Calculadora PIM2 — Mortalidad pediátrica | Ped
 assertIncludes(pippEs, "<title>Escala PIPP — Dolor en prematuros | PedsCore</title>", "PIPP intent title");
 assertIncludes(nipsEn, "<title>NIPS Pain Scale — Neonatal Pain Assessment | PedsCore</title>", "NIPS intent title");
 
-console.log(`SEO check passed. Sitemap URLs: ${urlCount}. Crawlable H1/content/internal-link checks passed for every sitemap route.`);
+console.log(`SEO check passed. Sitemap URLs: ${urlCount}. ${toolRouteCount} localized tool routes have unique, intent-led titles <=60 chars plus crawlable H1/content/internal links.`);
