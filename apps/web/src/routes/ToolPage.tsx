@@ -225,8 +225,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
               </strong>
               <p>
                 {language === "es"
-                  ? "PedsCore no reproduce la lámina protegida del New Ballard Score. Puedes consultar la figura autorizada publicada por MSD Manuals mientras completamos la validación de la implementación numérica propia."
-                  : "PedsCore does not reproduce the protected New Ballard Score sheet. You can consult the authorized figure published by MSD Manuals while we complete validation of the independent numeric implementation."}
+                  ? "PedsCore no reproduce la lámina protegida del New Ballard Score. Consulta la figura autorizada publicada por MSD Manuals y vuelve aquí para introducir las 12 puntuaciones numéricas; PedsCore calculará el total y las semanas completas."
+                  : "PedsCore does not reproduce the protected New Ballard Score sheet. View the authorized figure published by MSD Manuals, then return here to enter the 12 numerical scores; PedsCore will calculate the total and completed gestational weeks."}
               </p>
               <a
                 className="primary-link"
