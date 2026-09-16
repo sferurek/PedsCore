@@ -14,6 +14,7 @@ const expectedImplementedToolIds = [
   "ballard",
   "sarnat",
   "modified_sarnat_nichd",
+  "thompson_hie",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -39,6 +40,7 @@ const implementedTestFiles: Record<string, string> = {
   ballard: "ballard.test.ts",
   sarnat: "sarnat.test.ts",
   modified_sarnat_nichd: "sarnat.test.ts",
+  thompson_hie: "thompsonHie.test.ts",
   bedside_schwartz: "schwartz.test.ts",
   catch_tbi: "catch.test.ts",
   chalice_tbi: "chalice.test.ts",
@@ -160,7 +162,7 @@ describe("SPRINT-50 implementation safety gates", () => {
       "bmi_percentile",
       "head_circumference_percentile"
     ]);
-    expect(getImplementedTools()).toHaveLength(24);
+    expect(getImplementedTools()).toHaveLength(25);
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {

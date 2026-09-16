@@ -20,3 +20,5 @@ export * from "./burnTbsa.js";
 export * from "./registry.js";
 
 export * from "./modifiedSarnatNichd.js";
+
+export * from "./thompsonHie.js";

@@ -18,6 +18,7 @@ import { silvermanAndersenCalculator } from "./silvermanAndersen.js";
 import { ballardCalculator } from "./ballard.js";
 import { dubowitzCalculator } from "./dubowitz.js";
 import { modifiedSarnatNichdCalculator } from "./modifiedSarnatNichd.js";
+import { thompsonHieCalculator } from "./thompsonHie.js";
 import { clinicalDehydrationScaleCalculator } from "./clinicalDehydrationScale.js";
 import {
   pecarn2OrMoreCalculator,
@@ -38,6 +39,7 @@ const calculators = [
   ballardCalculator,
   dubowitzCalculator,
   modifiedSarnatNichdCalculator,
+  thompsonHieCalculator,
   woodDownesFerresCalculator,
   flaccCalculator,
   qtcBazettCalculator,

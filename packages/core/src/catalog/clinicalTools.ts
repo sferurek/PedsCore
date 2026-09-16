@@ -18,6 +18,7 @@ const implementedToolIds = new Set([
   "ballard",
   "dubowitz",
   "modified_sarnat_nichd",
+  "thompson_hie",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -657,12 +658,13 @@ const implementedToolReferences: Record<string, Reference[]> = {
       citation:
         "Thompson CM, Puterman AS, Linley LL, Hann FM, van der Elst CW, Molteno CD, Malan AF. The value of a scoring system for hypoxic ischaemic encephalopathy in predicting neurodevelopmental outcome. Acta Paediatr. 1997;86(7):757-761.",
       doi: "10.1111/j.1651-2227.1997.tb08581.x",
-      url: "https://doi.org/10.1111/j.1651-2227.1997.tb08581.x",
+      pmid: "9240886",
+      url: "https://pubmed.ncbi.nlm.nih.gov/9240886/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
       accessType: "paywalled",
       notes:
-        "Priority A evidence audit: DOI source located, but a stable PubMed record was not confirmed. Complete table and expert review remain pending before implementation.",
+        "Primary Thompson HIE source. PedsCore implements the nine-domain numeric score (0-22) with independent UI and descriptive severity ranges; it does not generate therapeutic-hypothermia eligibility or treatment recommendations.",
       appliesTo: ["thompson_hie"],
       priority: 1
     }
@@ -1435,8 +1437,8 @@ const modifiedSarnatValidationNotes: LocalizedText = {
 };
 
 const thompsonHieEvidenceValidationNotes: LocalizedText = {
-  es: "Bloque 8B-1: fuente Thompson 1997 localizada por DOI. PubMed estable no confirmado; tabla completa, rangos por item, puntos de corte y revision por experto siguen pendientes antes de implementar.",
-  en: "Block 8B-1: Thompson 1997 source located by DOI. Stable PubMed record not confirmed; complete table, item-specific ranges, cut-offs, and expert review remain pending before implementation."
+  es: "Implementacion independiente del Thompson HIE Score de nueve dominios, con total 0-22. PedsCore usa como interpretacion secundaria la convencion resumida por la AAP: 0 sin anormalidades puntuadas, 1-10 leve, 11-14 moderada y 15-22 grave. Algunas publicaciones separan 0-7 como sin encefalopatia y 8-10 como leve; esta variabilidad se muestra explicitamente. El score es descriptivo y longitudinal y no determina por si solo indicacion de hipotermia, tratamiento ni pronostico individual.",
+  en: "Independent implementation of the nine-domain Thompson HIE Score, total 0-22. PedsCore uses the AAP-summarized convention as a secondary interpretation: 0 no scored abnormalities, 1-10 mild, 11-14 moderate, and 15-22 severe. Some publications instead separate 0-7 as no encephalopathy and 8-10 as mild; this variability is explicitly disclosed. The score is descriptive and longitudinal and does not by itself determine hypothermia eligibility, treatment, or individual prognosis."
 };
 
 const bhutaniValidationNotes: LocalizedText = {
@@ -1673,6 +1675,40 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  thompson_hie: {
+    calculationNotes: {
+      es: "Introduce la puntuacion numerica de cada uno de los nueve dominios Thompson. Consulta la tabla de referencia enlazada en la pagina para asignar cada valor. Resultado 0-22. Convencion AAP mostrada: 0 sin anormalidades puntuadas, 1-10 leve, 11-14 moderada, 15-22 grave. Nota: algunas publicaciones usan 0-7 sin encefalopatia y 8-10 leve. Para seguimiento, el Thompson original se aplicaba de forma seriada y consideraba la puntuacion maxima diaria.",
+      en: "Enter the numerical score for each of the nine Thompson domains. Use the linked reference table on the page to assign each value. Result 0-22. Displayed AAP convention: 0 no scored abnormalities, 1-10 mild, 11-14 moderate, 15-22 severe. Note: some publications use 0-7 no encephalopathy and 8-10 mild. For longitudinal assessment, the original Thompson approach used serial examinations and the highest daily score."
+    },
+    inputs: [
+      { id: "tone", label: { es: "Tono", en: "Tone" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "consciousness", label: { es: "Nivel de conciencia", en: "Level of consciousness" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "seizures", label: { es: "Convulsiones", en: "Seizures" }, type: "number", required: true, min: 0, max: 2, step: 1 },
+      { id: "posture", label: { es: "Postura", en: "Posture" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "moro", label: { es: "Reflejo de Moro", en: "Moro reflex" }, type: "number", required: true, min: 0, max: 2, step: 1 },
+      { id: "grasp", label: { es: "Prension", en: "Grasp" }, type: "number", required: true, min: 0, max: 2, step: 1 },
+      { id: "suck", label: { es: "Succion", en: "Suck" }, type: "number", required: true, min: 0, max: 2, step: 1 },
+      { id: "respiration", label: { es: "Respiracion", en: "Respiration" }, type: "number", required: true, min: 0, max: 3, step: 1 },
+      { id: "fontanelle", label: { es: "Fontanela", en: "Fontanelle" }, type: "number", required: true, min: 0, max: 2, step: 1 }
+    ],
+    interpretationBands: [
+      { id: "normal", label: { es: "Sin anormalidades puntuadas", en: "No scored abnormalities" }, min: 0, max: 0 },
+      { id: "mild", label: { es: "Rango leve", en: "Mild range" }, min: 1, max: 10, description: { es: "Convencion AAP. Algunas publicaciones separan 0-7 como sin encefalopatia y 8-10 como leve.", en: "AAP convention. Some publications instead separate 0-7 as no encephalopathy and 8-10 as mild." } },
+      { id: "moderate", label: { es: "Rango moderado", en: "Moderate range" }, min: 11, max: 14 },
+      { id: "severe", label: { es: "Rango grave", en: "Severe range" }, min: 15, max: 22 }
+    ],
+    scoringTable: [
+      {
+        id: "thompson_total",
+        variable: { es: "Thompson HIE Score total", en: "Total Thompson HIE Score" },
+        value: "0-22",
+        description: {
+          es: "Suma de nueve dominios clinicos. El resultado principal es la puntuacion bruta; la categoria de gravedad es una interpretacion secundaria.",
+          en: "Sum of nine clinical domains. The raw score is the primary result; the severity category is a secondary interpretation."
+        }
+      }
+    ]
+  },
   modified_sarnat_nichd: {
     calculationNotes: {
       es: "Selecciona para cada una de las seis categorias la gravedad clinica codificada como 0 normal, 1 leve, 2 moderada o 3 grave. El resultado es descriptivo y no constituye por si solo una indicacion terapeutica.",
@@ -3869,7 +3905,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("dubowitz", "dubowitz", "Dubowitz", "Dubowitz", "Dubowitz Score", "neonatology", "gestational_age", "score", "Recien nacidos", "Newborns", "Herramienta de estimacion de edad gestacional basada en madurez neonatal.", "Gestational age assessment based on neonatal maturity.", "pending_validation", "original_derivation_study", "medium", dubowitzValidationNotes),
   makeTool("sarnat", "sarnat", "Sarnat", "Sarnat clasico (1976)", "Classic Sarnat Staging (1976)", "neonatology", "hypoxic_ischemic_encephalopathy", "scale", "Recien nacidos de termino o casi termino con encefalopatia neonatal", "Term or near-term newborns with neonatal encephalopathy", "Marco clasico descriptivo de estadificacion I, II y III de encefalopatia neonatal, con integracion clinica, autonomica y electroencefalografica.", "Classic descriptive Stage I, II and III neonatal encephalopathy framework integrating clinical, autonomic and electroencephalographic findings.", "implemented", "original_derivation_study", "high", sarnatValidationNotes),
   makeTool("modified_sarnat_nichd", "modified-sarnat-nichd", "Modified Sarnat", "Modified Sarnat / NICHD", "Modified Sarnat / NICHD", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos evaluados por encefalopatia neonatal", "Newborns assessed for neonatal encephalopathy", "Exploracion estructurada de seis categorias con gravedad 0-3 y Total Sarnat Score 0-18.", "Six-category structured examination with 0-3 severity coding and a 0-18 Total Sarnat Score.", "pending_validation", "external_validation_study", "high", modifiedSarnatValidationNotes),
-  makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico para gravedad de EHI neonatal.", "Clinical score for neonatal HIE severity.", "pending_validation", "original_derivation_study", "medium", thompsonHieEvidenceValidationNotes),
+  makeTool("thompson_hie", "thompson-hie-score", "Thompson HIE", "Puntaje de Thompson para EHI", "Thompson HIE Score", "neonatology", "hypoxic_ischemic_encephalopathy", "score", "Recien nacidos con encefalopatia hipoxico-isquemica", "Newborns with hypoxic-ischemic encephalopathy", "Score clinico longitudinal de nueve dominios para describir gravedad de encefalopatia neonatal.", "Nine-domain longitudinal clinical score describing neonatal encephalopathy severity.", "pending_validation", "original_derivation_study", "high", thompsonHieEvidenceValidationNotes),
   makeTool("eat_sleep_console", "eat-sleep-console", "ESC", "Eat Sleep Console", "Eat Sleep Console", "neonatology", "neonatal_abstinence", "algorithm", "Recien nacidos expuestos a opioides", "Opioid-exposed newborns", "Modelo funcional para seguimiento de abstinencia neonatal.", "Functional model for neonatal withdrawal assessment.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("nips", "nips", "NIPS", "Neonatal Infant Pain Scale", "Neonatal Infant Pain Scale", "pain", "neonatal_pain", "scale", "Neonatos", "Neonates", "Escala observacional de dolor neonatal.", "Observational neonatal pain scale.", "ready_for_implementation", "moderate", "low", nipsQaValidationNotes, [docRef("nips_kb", "PedsCore_Knowledge_Base_v1: NIPS", "pending_verification")]),
   makeTool("pipp", "pipp", "PIPP", "Premature Infant Pain Profile", "Premature Infant Pain Profile", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Escala de dolor neonatal, especialmente en prematuros.", "Neonatal pain scale, especially for preterm infants.", "pending_validation", "pending_verification", "medium", pippValidationNotes),
