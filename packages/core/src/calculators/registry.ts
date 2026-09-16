@@ -21,6 +21,7 @@ import { modifiedSarnatNichdCalculator } from "./modifiedSarnatNichd.js";
 import { thompsonHieCalculator } from "./thompsonHie.js";
 import { criesCalculator } from "./cries.js";
 import { clinicalDehydrationScaleCalculator } from "./clinicalDehydrationScale.js";
+import { bedsidePewsCalculator } from "./bedsidePews.js";
 import {
   pecarn2OrMoreCalculator,
   pecarnUnder2Calculator
@@ -53,6 +54,7 @@ const calculators = [
   westleyCroupCalculator,
   pramCalculator,
   clinicalDehydrationScaleCalculator,
+  bedsidePewsCalculator,
   pediatricAppendicitisScoreCalculator,
   pecarnUnder2Calculator,
   pecarn2OrMoreCalculator,
