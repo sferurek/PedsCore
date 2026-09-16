@@ -103,7 +103,6 @@ const titleOverrides: Record<string, LocalizedText> = {
   "thompson-hie-score": { es: "Thompson HIE Score — Encefalopatía neonatal | PedsCore", en: "Thompson HIE Score — Neonatal Encephalopathy | PedsCore" },
   cries: { es: "CRIES — Escala de dolor neonatal | PedsCore", en: "CRIES Pain Scale — Neonatal Pain | PedsCore" },
   nips: { es: "Escala NIPS — Dolor neonatal | PedsCore", en: "NIPS Pain Scale — Neonatal Pain Assessment | PedsCore" },
-  "wood-downes-ferres": { es: "Wood-Downes-Ferres — Score respiratorio | PedsCore", en: "Wood-Downes-Ferres Score — Respiratory Severity | PedsCore" },
   "westley-croup-score": { es: "Westley Croup Score — Crup pediátrico | PedsCore", en: "Westley Croup Score — Pediatric Croup | PedsCore" },
   pram: { es: "PRAM Score — Gravedad del asma pediátrica | PedsCore", en: "PRAM Score — Pediatric Asthma Severity | PedsCore" },
   "clinical-dehydration-scale": { es: "Clinical Dehydration Scale — Deshidratación | PedsCore", en: "Clinical Dehydration Scale — Dehydration | PedsCore" },
@@ -232,14 +231,15 @@ export const getToolSeoProfile = (
   ].map((value) => value.trim()).filter(Boolean))].slice(0, 8);
   const baseDescription = tool.description[language] || tool.description.en;
   const population = tool.population[language] || tool.population.en;
+  const preserveEarlySerpSnippet = tool.slug === "wood-downes-ferres" || tool.slug === "pim2";
   const description = tool.id === "who_growth_module"
     ? (language === "es"
       ? "Módulo WHO Growth con datos oficiales OMS, gráficas SVG imprimibles, percentiles escritos y punto del paciente."
       : "WHO Growth module with official WHO growth data, printable SVG charts, written percentiles and patient point.")
     : compact(
         language === "es"
-          ? `${fullName}: ${baseDescription} ${tool.calculationStatus === "active" ? "Cálculo activo. " : ""}Población: ${population}. Evidencia trazable en PedsCore.`
-          : `${fullName}: ${baseDescription} ${tool.calculationStatus === "active" ? "Active calculation. " : ""}Population: ${population}. Traceable evidence in PedsCore.`,
+          ? `${fullName}: ${baseDescription} ${tool.calculationStatus === "active" && !preserveEarlySerpSnippet ? "Cálculo activo. " : ""}Población: ${population}. ${preserveEarlySerpSnippet ? "Evidencia y estado de validación" : "Evidencia trazable"} en PedsCore.`
+          : `${fullName}: ${baseDescription} ${tool.calculationStatus === "active" && !preserveEarlySerpSnippet ? "Active calculation. " : ""}Population: ${population}. ${preserveEarlySerpSnippet ? "Evidence and validation status" : "Traceable evidence"} in PedsCore.`,
         158
       );
   return { title, description, primaryTerm: fullName, topic, aliases };
