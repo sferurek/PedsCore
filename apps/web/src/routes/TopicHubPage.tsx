@@ -61,6 +61,54 @@ export function TopicHubPage({ hub, language, navigate }: TopicHubPageProps) {
         </div>
       </section>
 
+      <section className="content-panel">
+        <h2>{language === "es" ? "Comparación rápida" : "Quick comparison"}</h2>
+        <div className="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>{language === "es" ? "Herramienta" : "Tool"}</th>
+                <th>{language === "es" ? "Población" : "Population"}</th>
+                <th>{language === "es" ? "Disponibilidad" : "Availability"}</th>
+                <th>{language === "es" ? "Evidencia" : "Evidence"}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tools.map((tool) => {
+                if (!tool) return null;
+                const discovery = getToolDiscovery(tool.id);
+                const availability =
+                  discovery?.calculationAvailability === "local_active"
+                    ? (language === "es" ? "Cálculo local" : "Local calculation")
+                    : discovery?.calculationAvailability === "external_official"
+                      ? (language === "es" ? "Herramienta externa" : "External tool")
+                      : discovery?.surfaceStatus === "active"
+                        ? (language === "es" ? "Referencia activa" : "Active reference")
+                        : (language === "es" ? "En revisión" : "Under review");
+                return (
+                  <tr key={tool.id}>
+                    <td>
+                      <a
+                        href={`/${language}/tools/${tool.slug}`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          navigate(`/${language}/tools/${tool.slug}`);
+                        }}
+                      >
+                        {tool.name[language] || tool.name.en}
+                      </a>
+                    </td>
+                    <td>{tool.population[language] || tool.population.en}</td>
+                    <td>{availability}</td>
+                    <td>{tool.evidenceLevel.replaceAll("_", " ")}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section className="content-panel subtle-panel">
         <h2>{language === "es" ? "Cómo interpreta PedsCore estas comparaciones" : "How PedsCore handles comparisons"}</h2>
         <p>
