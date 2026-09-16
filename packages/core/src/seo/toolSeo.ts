@@ -106,7 +106,7 @@ const titleOverrides: Record<string, LocalizedText> = {
   "wood-downes-ferres": { es: "Wood-Downes-Ferres — Score respiratorio | PedsCore", en: "Wood-Downes-Ferres Score — Respiratory Severity | PedsCore" },
   "westley-croup-score": { es: "Westley Croup Score — Crup pediátrico | PedsCore", en: "Westley Croup Score — Pediatric Croup | PedsCore" },
   pram: { es: "PRAM Score — Gravedad del asma pediátrica | PedsCore", en: "PRAM Score — Pediatric Asthma Severity | PedsCore" },
-  "clinical-dehydration-scale": { es: "Clinical Dehydration Scale — Deshidratación | PedsCore", en: "Clinical Dehydration Scale — Pediatric Dehydration | PedsCore" },
+  "clinical-dehydration-scale": { es: "Clinical Dehydration Scale — Deshidratación | PedsCore", en: "Clinical Dehydration Scale — Dehydration | PedsCore" },
   "pediatric-appendicitis-score": { es: "Pediatric Appendicitis Score (PAS) | PedsCore", en: "Pediatric Appendicitis Score (PAS) | PedsCore" },
   "pecarn-tbi-under-2": { es: "PECARN TCE <2 años — Regla pediátrica | PedsCore", en: "PECARN TBI Under 2 — Pediatric Head Injury Rule | PedsCore" },
   "pecarn-tbi-2-or-more": { es: "PECARN TCE ≥2 años — Regla pediátrica | PedsCore", en: "PECARN TBI Age 2+ — Pediatric Head Injury Rule | PedsCore" },
