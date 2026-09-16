@@ -114,6 +114,14 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? `Esta colección reúne ${items.length} herramientas pediátricas relacionadas con ${escapeHtml(info.name.toLowerCase())}, con acceso a descripciones clínicas, estado de validación, referencias y herramientas de cálculo cuando están activas.`
         : `This collection brings together ${items.length} pediatric tools related to ${escapeHtml(info.name.toLowerCase())}, including clinical descriptions, validation status, references and calculators when active.`}</p>
+      <h2>${isEs ? "Cómo utilizar esta categoría" : "How to use this category"}</h2>
+      <p>${isEs
+        ? "Las herramientas se agrupan por área clínica para facilitar su descubrimiento, pero cada ficha conserva su propia población, finalidad, nivel de evidencia y limitaciones. Antes de aplicar una escala o calculadora, revisa la variante exacta, el contexto asistencial y el estado de implementación que aparece en su página."
+        : "Tools are grouped by clinical area to make them easier to discover, while each page retains its own population, purpose, evidence level and limitations. Before using a score or calculator, review the exact variant, care setting and implementation status shown on its page."}</p>
+      <h2>${isEs ? "Evidencia y disponibilidad" : "Evidence and availability"}</h2>
+      <p>${isEs
+        ? "PedsCore distingue entre herramientas activas, referencias clínicas, borradores y contenidos limitados por evidencia o licencia. Esa información es visible para evitar que la presencia de una herramienta en el catálogo se confunda con una recomendación de uso."
+        : "PedsCore distinguishes active tools, clinical references, drafts and content limited by evidence or licensing. This is shown explicitly so that inclusion in the catalog is not mistaken for a recommendation to use the tool."}</p>
       <h2>${isEs ? "Herramientas disponibles" : "Available tools"}</h2>
       <ul>${items.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))} — ${escapeHtml(localized(item.description, language))}</li>`).join("")}</ul>
       <p>${internalLink(toolsUrl, isEs ? "Ver todo el catálogo de PedsCore" : "View the full PedsCore catalog")}</p>
