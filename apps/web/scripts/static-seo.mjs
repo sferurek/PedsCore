@@ -196,13 +196,16 @@ const makeToolTitle = (tool, language) => {
   const override = seoTitleOverrides[tool.slug]?.[language];
   if (override) return override;
 
-  const shortName = (tool.shortName || tool.name[language] || tool.name.en).trim();
+  const fullName = (tool.name[language] || tool.name.en || tool.shortName).trim();
+  const shortName = (tool.shortName || fullName).trim();
   const topic = seoTopicLabels[tool.subcategory]?.[language];
   const kind = toolKindLabel(tool, language);
 
   const candidates = [
+    topic ? `${fullName} — ${topic} | PedsCore` : null,
     topic ? `${shortName} — ${topic} | PedsCore` : null,
-    topic ? `${kind} ${shortName} — ${topic} | PedsCore` : null,
+    `${kind} ${fullName} | PedsCore`,
+    `${fullName} | PedsCore`,
     `${kind} ${shortName} | PedsCore`,
     `${shortName} | PedsCore`
   ].filter(Boolean);
