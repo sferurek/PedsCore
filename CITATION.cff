@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use PedsCore in clinical education, research, software, or documentation, please cite the project and link to its canonical website."
+title: "PedsCore"
+type: software
+authors:
+  - name: "PedsCore contributors"
+repository-code: "https://github.com/sferurek/PedsCore"
+url: "https://peds-core.vercel.app/"
+license: MIT
+abstract: "Open-source pediatric and neonatal clinical tools with evidence traceability, explicit implementation status, and no storage of clinical form values."
+keywords:
+  - pediatrics
+  - neonatology
+  - clinical calculators
+  - clinical decision support
+  - open source
