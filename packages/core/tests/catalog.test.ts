@@ -19,6 +19,7 @@ const implementedToolIds = [
   "dubowitz",
   "sarnat",
   "modified_sarnat_nichd",
+  "thompson_hie",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -126,7 +127,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(24);
+    expect(getImplementedTools()).toHaveLength(25);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -230,9 +231,18 @@ describe("clinical tools catalog", () => {
     expect(modified?.validationNotes.en).toContain("0-18 Total Sarnat Score");
   });
 
+  it("publishes Thompson HIE as an active nine-domain score with transparent banding variability", () => {
+    const tool = getTool("thompson_hie");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs).toHaveLength(9);
+    expect(tool?.interpretationBands?.map((band) => band.id)).toEqual(["normal","mild","moderate","severe"]);
+    expect(tool?.validationNotes.en).toContain("Some publications instead separate 0-7");
+    expect(tool?.references.some((reference) => reference.pmid === "9240886")).toBe(true);
+  });
+
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
     const reviewedPendingIds = [
-      "thompson_hie",
       "cries",
       "bhutani_nomogram",
       "bedside_pews",
@@ -252,7 +262,6 @@ describe("clinical tools catalog", () => {
 
   it("does not promote license-sensitive pending tools to ready for implementation", () => {
     const licenseSensitivePendingIds = [
-      "thompson_hie",
       "cries",
       "bhutani_nomogram",
       "bedside_pews",
