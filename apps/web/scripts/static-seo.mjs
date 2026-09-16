@@ -28,7 +28,7 @@ const staticSeo = {
     en: ["Disclaimer — PedsCore", "Information about PedsCore scope, limitations, privacy and informational use."]
   },
   contribute: {
-    es: ["Contribuir — PedsCore", "Cómo contribuir a PedsCore aportando evidencia, revisiones, correcciones y mejoras de código abierto."],
+    es: ["Contribuir a PedsCore — evidencia y código abierto", "Cómo contribuir a PedsCore aportando evidencia, revisiones, correcciones y mejoras de código abierto."],
     en: ["Contribute — PedsCore", "How to contribute evidence, reviews, corrections and open-source improvements to PedsCore."]
   },
   categories: {
@@ -152,7 +152,7 @@ export const renderStaticBody = (seo, tools) => {
       <h2>${isEs ? "Un catálogo pensado para encontrar y comparar" : "A catalog designed for discovery and comparison"}</h2>
       <p>${isEs
         ? "Las herramientas se organizan por especialidad, problema clínico y relaciones semánticas para que sea posible pasar de una escala a alternativas o herramientas relacionadas. El objetivo no es acumular calculadoras aisladas, sino ofrecer un mapa clínico navegable donde cada recurso conserve su evidencia, alcance y estado técnico."
-        : "Tools are organized by specialty, clinical problem and semantic relationships so users can move from one score to alternatives or related tools. The goal is not to accumulate isolated calculators, but to provide a navigable clinical map where each resource keeps its own evidence, scope and technical status."}</p>
+        : "Tools are organized by specialty, clinical problem and semantic relationships so users can move from one score to alternatives or related tools. The goal is not to accumulate isolated calculators, but to provide a navigable clinical map where each resource keeps its own evidence, scope and technical status. This also makes differences between similarly named tools easier to inspect before use."}</p>
       <p>${internalLink(toolsUrl, isEs ? "Explorar todas las herramientas clínicas" : "Explore all clinical tools")} · ${internalLink(`/${language}/evidence`, isEs ? "Metodología de evidencia" : "Evidence methodology")} · ${internalLink(`/${language}/about`, isEs ? "Sobre el proyecto" : "About the project")}</p>
       <h2>${isEs ? "Herramientas pediátricas" : "Pediatric tools"}</h2>
       <ul>${featured.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))}</li>`).join("")}</ul>
@@ -193,6 +193,10 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? "El repositorio permite revisar el catálogo clínico, los metadatos de descubrimiento, las referencias, las notas de validación, la lógica determinista de los cálculos y las pruebas asociadas. Esto no convierte al proyecto en una guía clínica oficial, pero sí permite comprobar de dónde procede una implementación y qué incertidumbres siguen abiertas."
         : "The repository exposes the clinical catalog, discovery metadata, references, validation notes, deterministic calculation logic and associated tests. This does not make the project an official clinical guideline, but it does make it possible to verify where an implementation comes from and which uncertainties remain open."}</p>
+      <h2>${isEs ? "Responsabilidad editorial" : "Editorial responsibility"}</h2>
+      <p>${isEs
+        ? "PedsCore evita presentar como hecho aquello que el repositorio no puede documentar. No se atribuyen revisiones externas, avales institucionales ni validaciones que no estén expresamente respaldadas por una fuente o por la documentación pública del proyecto."
+        : "PedsCore avoids presenting undocumented claims as fact. External review, institutional endorsement or validation is not attributed unless it is explicitly supported by a source or by the project’s public documentation."}</p>
       <h2>${isEs ? "Citación y reutilización" : "Citation and reuse"}</h2>
       <p>${isEs
         ? "El código fuente se publica con licencia MIT, mientras que los datos, tablas o materiales de terceros conservan sus propias condiciones de uso. PedsCore incluye metadatos de citación para facilitar referencias académicas, docentes y técnicas al proyecto sin atribuir al proyecto la propiedad de fuentes externas."
@@ -222,6 +226,10 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? "La incertidumbre se conserva visible en lugar de ocultarse. Una variante dudosa, una tabla incompleta, una licencia no aclarada o una validación insuficiente pueden bloquear el cálculo local aunque la herramienta permanezca en el catálogo. El objetivo es que el estado técnico refleje la confianza documental disponible."
         : "Uncertainty remains visible rather than being hidden. An unclear variant, incomplete table, unresolved license or insufficient validation can block local calculation even while the tool remains in the catalog. The goal is for technical status to reflect the documentary confidence available."}</p>
+      <h2>${isEs ? "Separar evidencia de implementación" : "Separating evidence from implementation"}</h2>
+      <p>${isEs
+        ? "Que una escala exista en la literatura no significa que su implementación local esté completa. PedsCore trata por separado la calidad de la fuente, la disponibilidad de una definición reproducible y la preparación técnica del cálculo. Esa separación permite mantener una referencia útil sin ocultar que la automatización todavía no debe utilizarse."
+        : "A score being described in the literature does not mean its local implementation is complete. PedsCore treats source quality, reproducible definition and technical calculator readiness as separate questions. This makes it possible to keep a useful reference visible without hiding that automation is not yet ready for use."}</p>
       <h2>${isEs ? "Correcciones y revisión abierta" : "Corrections and open review"}</h2>
       <p>${isEs
         ? "Las referencias y decisiones pueden revisarse públicamente. Los errores, fuentes alternativas y propuestas de actualización pueden comunicarse mediante GitHub Issues, y los cambios quedan vinculados al historial del repositorio."
@@ -243,6 +251,18 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? "Incluye DOI, PMID o enlace oficial cuando exista; identifica la versión exacta de la herramienta; describe la población y el contexto; y evita incluir datos reales de pacientes. Las propuestas que cambian lógica clínica deben poder verificarse contra la fuente y acompañarse de pruebas."
         : "Include a DOI, PMID or official link where available; identify the exact tool version; describe population and setting; and never include real patient data. Proposals that change clinical logic must be verifiable against the source and accompanied by tests."}</p>
+      <h2>${isEs ? "Qué ocurre después de una propuesta" : "What happens after a proposal"}</h2>
+      <p>${isEs
+        ? "Las propuestas se revisan contra el catálogo y la evidencia existente. Si afectan a un cálculo, se comprueba la fórmula o tabla, los límites, las unidades y los casos de prueba. Si afectan a contenido, se revisa que el lenguaje distinga hechos documentados, limitaciones y decisiones editoriales. Una contribución puede aceptarse parcialmente si la evidencia permite mejorar la ficha pero todavía no activar la lógica."
+        : "Proposals are checked against the catalog and existing evidence. If they affect a calculation, formula or table, boundaries, units and test cases are reviewed. If they affect content, wording is checked so documented facts, limitations and editorial decisions remain distinct. A contribution can be accepted partially when evidence supports improving the page but not yet activating the logic."}</p>
+      <h2>${isEs ? "Privacidad y ejemplos" : "Privacy and examples"}</h2>
+      <p>${isEs
+        ? "No envíes nombres, fechas de nacimiento, historias clínicas, imágenes identificables ni ningún otro dato real de pacientes. Los ejemplos deben ser ficticios o estar completamente anonimizados y ser innecesarios para identificar a una persona."
+        : "Do not submit names, dates of birth, medical records, identifiable images or any other real patient data. Examples should be fictional or fully anonymized and unnecessary for identifying any person."}</p>
+      <h2>${isEs ? "También puedes ayudar sin escribir código" : "You can also help without writing code"}</h2>
+      <p>${isEs
+        ? "Son útiles los avisos sobre enlaces rotos, traducciones ambiguas, problemas de accesibilidad, diferencias entre versiones de una escala, fuentes que faltan o situaciones en las que una ficha podría inducir a interpretar demasiado el resultado."
+        : "Reports about broken links, ambiguous translations, accessibility problems, version differences, missing sources or wording that could encourage over-interpretation are all useful."}</p>
       <p><a href="https://github.com/sferurek/PedsCore/issues/new/choose">GitHub Issues</a> · <a href="https://github.com/sferurek/PedsCore/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a></p>
     </main>`;
   }
