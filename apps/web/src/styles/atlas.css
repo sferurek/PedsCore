@@ -1488,3 +1488,37 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
+
+.quality-profile {
+  margin-top:var(--s5);
+  padding:var(--s4);
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  background:var(--paper-100);
+}
+
+.quality-profile > p {
+  margin:.4rem 0 var(--s3);
+  color:var(--text-muted);
+  font-size:12px;
+}
+
+.quality-profile ul {
+  display:grid;
+  gap:8px;
+  padding:0;
+  margin:0;
+  list-style:none;
+}
+
+.quality-profile li {
+  display:grid;
+  grid-template-columns:24px 1fr;
+  gap:8px;
+  align-items:start;
+}
+
+.quality-profile li span {
+  font-weight:900;
+  color:var(--success);
+}
