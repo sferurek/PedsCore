@@ -104,16 +104,30 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://peds-core.vercel.app/es/categories/cardiology</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/cardiology" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/cardiology" />
+    <loc>https://peds-core.vercel.app/es/categories/neonatology</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/neonatology" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/neonatology" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://peds-core.vercel.app/en/categories/cardiology</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/cardiology" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/cardiology" />
+    <loc>https://peds-core.vercel.app/en/categories/neonatology</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/neonatology" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/neonatology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/respiratory</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/respiratory" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/respiratory" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/respiratory</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/respiratory" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/respiratory" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -132,6 +146,20 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://peds-core.vercel.app/es/categories/cardiology</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/cardiology" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/cardiology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/cardiology</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/cardiology" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/cardiology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://peds-core.vercel.app/es/categories/nephrology</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/nephrology" />
     <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/nephrology" />
@@ -146,16 +174,128 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://peds-core.vercel.app/es/categories/respiratory</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/respiratory" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/respiratory" />
+    <loc>https://peds-core.vercel.app/es/categories/intensive_care</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/intensive_care" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/intensive_care" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://peds-core.vercel.app/en/categories/respiratory</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/respiratory" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/respiratory" />
+    <loc>https://peds-core.vercel.app/en/categories/intensive_care</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/intensive_care" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/intensive_care" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/growth_nutrition</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/growth_nutrition" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/growth_nutrition" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/growth_nutrition</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/growth_nutrition" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/growth_nutrition" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/pain</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/pain" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/pain" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/pain</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/pain" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/pain" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/neurology</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/neurology" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/neurology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/neurology</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/neurology" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/neurology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/rheumatology</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/rheumatology" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/rheumatology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/rheumatology</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/rheumatology" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/rheumatology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/gastroenterology</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/gastroenterology" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/gastroenterology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/gastroenterology</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/gastroenterology" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/gastroenterology" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/behavioral_health</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/behavioral_health" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/behavioral_health" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/behavioral_health</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/behavioral_health" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/behavioral_health" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/resuscitation</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/resuscitation" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/resuscitation" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/resuscitation</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/resuscitation" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/resuscitation" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/es/categories/adolescent_medicine</loc>
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/adolescent_medicine" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/adolescent_medicine" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://peds-core.vercel.app/en/categories/adolescent_medicine</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/categories/adolescent_medicine" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/categories/adolescent_medicine" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
