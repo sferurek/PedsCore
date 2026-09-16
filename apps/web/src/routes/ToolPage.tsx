@@ -32,6 +32,11 @@ import { trackUsageEvent } from "../utils/analytics";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 import { seoTopicHubs } from "../utils/topicHubs";
+import {
+  isFavoriteTool,
+  recordRecentTool,
+  toggleFavoriteTool
+} from "../utils/userTools";
 
 const WhoGrowthResultPanel = lazy(() =>
   import("../components/growth/WhoGrowthResultPanel").then((module) => ({
@@ -72,6 +77,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const [formValues, setFormValues] = useState<FormValues>(() =>
     getInitialFormState(formTool)
   );
+  const [favorite, setFavorite] = useState(() => isFavoriteTool(tool.id));
   const resultPanelRef = useRef<HTMLElement>(null);
   const completedToolIdRef = useRef<string | null>(null);
   const isWhoGrowth = whoGrowthPreset !== null && whoGrowthTool !== null;
@@ -97,6 +103,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   useEffect(() => {
     setFormValues(getInitialFormState(formTool));
     completedToolIdRef.current = null;
+    setFavorite(isFavoriteTool(tool.id));
+    recordRecentTool(tool.id);
   }, [formTool, tool]);
 
   useEffect(() => {
@@ -136,6 +144,28 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
     }
   };
 
+  const handleFavorite = () => {
+    const next = toggleFavoriteTool(tool.id);
+    setFavorite(next);
+    if (next) {
+      trackUsageEvent("favorite_added", analyticsPath, language, analyticsParams);
+    }
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: tool.name[language], url });
+      } else {
+        await navigator.clipboard.writeText(url);
+      }
+      trackUsageEvent("share_used", analyticsPath, language, analyticsParams);
+    } catch {
+      // Cancelling native share or unavailable clipboard must not affect the tool.
+    }
+  };
+
   return (
     <div className={isCanonical ? "tool-page atlas-canonical" : "tool-page"}>
       <nav className="atlas-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}><a href={makePath(language, "tools")} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools")); }}>{language === "es" ? "Herramientas" : "Tools"}</a><span>/</span><a href={makePath(language, "categories", tool.category)} onClick={e => { e.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>{categoryLabels[tool.category][language]}</a><span>/</span><span>{isCanonical ? "PRAM" : tool.name[language]}</span></nav>
@@ -147,6 +177,21 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
           <ToolStatusBadge language={language} status={tool.implementationStatus} toolId={tool.id} />
           <span>{evidenceLabels[tool.evidenceLevel][language]}</span>
           <span>{riskLabels[tool.regulatoryRisk][language]}</span>
+        </div>
+        <div className="tool-utility-actions">
+          <button
+            aria-pressed={favorite}
+            className={favorite ? "favorite-action is-favorite" : "favorite-action"}
+            onClick={handleFavorite}
+            type="button"
+          >
+            {favorite ? "★" : "☆"} {favorite
+              ? (language === "es" ? "En favoritos" : "Favorited")
+              : (language === "es" ? "Añadir a favoritos" : "Add to favorites")}
+          </button>
+          <button className="secondary-action" onClick={handleShare} type="button">
+            {language === "es" ? "Compartir" : "Share"}
+          </button>
         </div>
       </section>
 
