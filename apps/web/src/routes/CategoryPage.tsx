@@ -52,6 +52,22 @@ export function CategoryPage({
           {categoryTools.length} {t.common.tools}
         </strong>
       </section>
+      <section className="content-panel subtle-panel">
+        <h2>{language === "es" ? "Cómo utilizar esta categoría" : "How to use this category"}</h2>
+        <p>
+          {language === "es"
+            ? "Las herramientas se agrupan por área clínica para facilitar su descubrimiento. Cada ficha conserva su propia población, finalidad, estado de implementación, nivel de evidencia y limitaciones; revisa esos elementos antes de utilizar una escala, regla o calculadora."
+            : "Tools are grouped by clinical area to make them easier to discover. Each page retains its own population, purpose, implementation status, evidence level and limitations; review those elements before using a score, rule or calculator."}
+        </p>
+      </section>
+      <section className="content-panel subtle-panel">
+        <h2>{language === "es" ? "Evidencia y disponibilidad" : "Evidence and availability"}</h2>
+        <p>
+          {language === "es"
+            ? "PedsCore distingue entre herramientas activas, referencias clínicas, borradores y contenidos limitados por evidencia o licencia. La inclusión en el catálogo no equivale por sí sola a una recomendación clínica."
+            : "PedsCore distinguishes active tools, clinical references, drafts and content limited by evidence or licensing. Inclusion in the catalog is not, by itself, a clinical recommendation."}
+        </p>
+      </section>
       <section className="filter-panel compact">
         <label>
           <span>{t.tools.status}</span>
