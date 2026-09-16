@@ -154,7 +154,7 @@ describe("SPRINT-50 implementation safety gates", () => {
       "bmi_percentile",
       "head_circumference_percentile"
     ]);
-    expect(getImplementedTools()).toHaveLength(20);
+    expect(getImplementedTools()).toHaveLength(21);
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {
