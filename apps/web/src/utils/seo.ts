@@ -4,6 +4,7 @@ import type { Language } from "./language";
 import type { ParsedRoute, RouteKind } from "./routes";
 import { toBrowserPath } from "./routes";
 import { categoryLabels } from "../i18n/translations";
+import { getSeoTopicHub } from "./topicHubs";
 
 const siteUrl = "https://peds-core.vercel.app";
 
@@ -166,6 +167,19 @@ export const getSeoForRoute = (
       language,
       schemaType: "CollectionPage"
     };
+  }
+
+  if (route.kind === "topic" && route.topic) {
+    const hub = getSeoTopicHub(route.topic);
+    if (hub) {
+      return {
+        title: `${hub.title[language]} | PedsCore`,
+        description: hub.description[language],
+        url,
+        language,
+        schemaType: "CollectionPage"
+      };
+    }
   }
 
   const fallback =
