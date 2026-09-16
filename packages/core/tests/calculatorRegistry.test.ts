@@ -26,6 +26,7 @@ describe("calculator registry", () => {
       "westley_croup",
       "pram",
       "clinical_dehydration_scale",
+      "bedside_pews",
       "pediatric_appendicitis_score",
       "pecarn_tbi_under_2",
       "pecarn_tbi_2_or_more",
@@ -37,7 +38,7 @@ describe("calculator registry", () => {
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(26);
+    expect(getImplementedTools()).toHaveLength(27);
   });
 
   it("calculates through the dispatcher", () => {
