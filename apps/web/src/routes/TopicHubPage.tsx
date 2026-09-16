@@ -45,13 +45,16 @@ export function TopicHubPage({ hub, language, navigate }: TopicHubPageProps) {
                   <strong>{language === "es" ? "Población:" : "Population:"}</strong>{" "}
                   {tool.population[language] || tool.population.en}
                 </p>
-                <button
-                  className="text-link-button"
-                  onClick={() => navigate(`/${language}/tools/${tool.slug}`)}
-                  type="button"
+                <a
+                  className="primary-link"
+                  href={`/${language}/tools/${tool.slug}`}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigate(`/${language}/tools/${tool.slug}`);
+                  }}
                 >
                   {language === "es" ? "Abrir ficha clínica →" : "Open clinical page →"}
-                </button>
+                </a>
               </article>
             );
           })}
