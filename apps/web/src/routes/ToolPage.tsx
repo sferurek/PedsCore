@@ -1,7 +1,8 @@
 import {
   getToolBySlug,
-  getAllTools,
+  getSemanticRelatedTools,
   getToolDiscovery,
+  getToolSeoProfile,
   type ClinicalToolMetadata,
   type WhoGrowthPreset
 } from "@peds-core/core";
@@ -75,42 +76,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const isWhoGrowth = whoGrowthPreset !== null && whoGrowthTool !== null;
   const hasActiveCalculation = discovery?.calculationAvailability === "local_active" || isWhoGrowth;
   const isActiveReference = discovery?.surfaceStatus === "active" && !hasActiveCalculation;
-  const relatedTools = useMemo(() => {
-    const all = getAllTools();
-    const byId = new Map(all.map((item) => [item.id, item]));
-    const selected: ClinicalToolMetadata[] = [];
-    const seen = new Set<string>([tool.id]);
-
-    const add = (candidate: ClinicalToolMetadata | undefined) => {
-      if (!candidate || seen.has(candidate.id)) return;
-      seen.add(candidate.id);
-      selected.push(candidate);
-    };
-
-    for (const id of discovery?.relatedToolIds ?? []) {
-      add(byId.get(id));
-    }
-
-    if (discovery?.comparisonGroupIds.length) {
-      for (const candidate of all) {
-        const candidateDiscovery = getToolDiscovery(candidate.id);
-        if (
-          candidateDiscovery?.comparisonGroupIds.some((groupId) =>
-            discovery.comparisonGroupIds.includes(groupId)
-          )
-        ) {
-          add(candidate);
-        }
-      }
-    }
-
-    for (const candidate of all) {
-      if (candidate.category === tool.category) add(candidate);
-      if (selected.length >= 6) break;
-    }
-
-    return selected.slice(0, 6);
-  }, [discovery, tool.category, tool.id]);
+  const relatedTools = useMemo(() => getSemanticRelatedTools(tool, 8), [tool]);
+  const seoProfile = useMemo(() => getToolSeoProfile(tool, language), [language, tool]);
   const analyticsPath = makePath(language, "tools", tool.slug);
   const analyticsParams = useMemo(
     () => ({
@@ -180,6 +147,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
 
       <nav className="atlas-section-nav" aria-label={language === "es" ? "Secciones de la herramienta" : "Tool sections"}>
         <a href="#clinical-context">{language === "es" ? "Resumen clínico" : "Clinical summary"}</a>
+        <a href="#about-tool">{language === "es" ? "Sobre la herramienta" : "About this tool"}</a>
         <a href="#calculator">{hasActiveCalculation ? a.calculator : language === "es" ? "Uso" : "Use"}</a>
         {hasActiveCalculation ? <a href="#interpretation">{language === "es" ? "Interpretación" : "Interpretation"}</a> : null}
         <a href="#evidence">{a.evidence}</a>
@@ -189,6 +157,30 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
       <div className="tool-layout">
         <div className="tool-main tool-page-main">
           <ToolClinicalGuide language={language} tool={tool} />
+
+          <section className="content-panel tool-search-context" id="about-tool">
+            <div className="tool-section-heading">
+              <p className="eyebrow">{language === "es" ? "CONTEXTO CLÍNICO" : "CLINICAL CONTEXT"}</p>
+              <h2>
+                {language === "es"
+                  ? `Qué es ${seoProfile.primaryTerm}`
+                  : `What is ${seoProfile.primaryTerm}?`}
+              </h2>
+            </div>
+            <p>{tool.description[language]}</p>
+            <h3>{language === "es" ? "Población y ámbito de uso" : "Population and scope"}</h3>
+            <p>
+              {language === "es"
+                ? `${seoProfile.topic}. Población descrita: ${tool.population[language]}.`
+                : `${seoProfile.topic}. Described population: ${tool.population[language]}.`}
+            </p>
+            {seoProfile.aliases.length > 1 ? (
+              <>
+                <h3>{language === "es" ? "También puede encontrarse como" : "Also searched as"}</h3>
+                <p>{seoProfile.aliases.join(" · ")}</p>
+              </>
+            ) : null}
+          </section>
 
           <ToolEditorialInsight language={language} tool={tool} />
 
