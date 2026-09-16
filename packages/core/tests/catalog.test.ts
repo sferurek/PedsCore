@@ -313,9 +313,19 @@ describe("clinical tools catalog", () => {
     expect(tool?.scoringTable?.length).toBeGreaterThan(0);
   });
 
+
+  it("activates Dubowitz as an independent numeric implementation without reproducing protected source material", () => {
+    const tool = getTool("dubowitz");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs).toHaveLength(21);
+    expect(tool?.validationNotes.en).toContain("does not reproduce");
+    expect(tool?.references.some((reference) => reference.doi === "10.1016/S0022-3476(70)80038-5")).toBe(true);
+  });
+
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
     const blockedIds = [
-      "dubowitz",
       "neonatal_growth_fenton",
       "rdai",
       "brosjod",
