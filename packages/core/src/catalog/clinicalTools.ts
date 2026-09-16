@@ -705,7 +705,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       doi: "10.1542/peds.2022-058859",
       url: "https://publications.aap.org/pediatrics/article/150/3/e2022058859/188726/Clinical-Practice-Guideline-Revision-Management-of",
       evidenceLevel: "clinical_practice_guideline",
-      sourceType: "clinical_guideline",
+      sourceType: "guideline",
       accessType: "open_access",
       notes:
         "Current AAP framework for newborns >=35 weeks. Treatment thresholds depend on gestational age, postnatal age in hours, total serum bilirubin, and neurotoxicity risk factors.",
