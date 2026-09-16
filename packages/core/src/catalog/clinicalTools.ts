@@ -15,6 +15,7 @@ const githubIssuesUrl = "https://github.com/sferurek/PedsCore/issues";
 const implementedToolIds = new Set([
   "apgar",
   "silverman_andersen",
+  "ballard",
   "dubowitz",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -580,7 +581,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Priority A evidence audit: New Ballard variant selected as source anchor. Complete scoring form/table and reuse permissions remain pending before implementation.",
+        "Primary New Ballard derivation source. PedsCore implements numeric score entry and completed-week conversion only; protected illustrations and descriptive score-sheet wording are not reproduced locally.",
       appliesTo: ["ballard"],
       priority: 1
     }
@@ -1382,8 +1383,8 @@ const woodDownesValidationNotes: LocalizedText = {
 };
 
 const ballardValidationNotes: LocalizedText = {
-  es: "Bloque 8B-1: fuente primaria New Ballard localizada con DOI/PMID. Pendiente tabla/formulario completo utilizable, conversion exacta a semanas, permisos de reutilizacion y casos de test antes de implementar calculo.",
-  en: "Block 8B-1: New Ballard primary source located with DOI/PMID. Complete usable table/form, exact conversion to gestational weeks, reuse permissions, and test cases remain pending before calculation."
+  es: "Implementacion numerica independiente del New Ballard Score. PedsCore no reproduce ilustraciones, dibujos ni descriptores protegidos del formulario original: el usuario consulta una referencia visual externa autorizada e introduce las puntuaciones numericas. La conversion a edad gestacional usa la tabla oficial y la regla de semanas completas descrita por Ballard. Si MSD autorizara en el futuro la reproduccion de su lamina, podria integrarse sin cambiar la logica del calculo.",
+  en: "Independent numeric implementation of the New Ballard Score. PedsCore does not reproduce protected illustrations, drawings, or descriptive wording from the original form: users consult an authorized external visual reference and enter the numerical scores. Gestational-age conversion follows the official score grid and Ballard's completed-week rule. If MSD later authorizes reproduction of its sheet, it could be integrated without changing the calculation logic."
 };
 
 const sarnatValidationNotes: LocalizedText = {
@@ -1630,6 +1631,46 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  ballard: {
+    calculationNotes: {
+      es: "Consulta la lamina visual externa enlazada en esta pagina y escribe solo la puntuacion numerica de cada uno de los 12 signos. PedsCore suma madurez neuromuscular y fisica y convierte el total a semanas completas segun la tabla oficial New Ballard.",
+      en: "Use the external visual reference linked on this page and enter only the numerical score for each of the 12 signs. PedsCore sums neuromuscular and physical maturity and converts the total to completed gestational weeks using the official New Ballard grid."
+    },
+    inputs: [
+      { id: "posture", label: { es: "Postura", en: "Posture" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "square_window", label: { es: "Ventana cuadrada", en: "Square window" }, type: "number", required: true, min: -1, max: 4, step: 1 },
+      { id: "arm_recoil", label: { es: "Retroceso del brazo", en: "Arm recoil" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "popliteal_angle", label: { es: "Angulo popliteo", en: "Popliteal angle" }, type: "number", required: true, min: -1, max: 5, step: 1 },
+      { id: "scarf_sign", label: { es: "Signo de la bufanda", en: "Scarf sign" }, type: "number", required: true, min: -1, max: 4, step: 1 },
+      { id: "heel_to_ear", label: { es: "Talon a oreja", en: "Heel to ear" }, type: "number", required: true, min: -1, max: 4, step: 1 },
+      { id: "skin", label: { es: "Piel", en: "Skin" }, type: "number", required: true, min: -1, max: 5, step: 1 },
+      { id: "lanugo", label: { es: "Lanugo", en: "Lanugo" }, type: "number", required: true, min: 0, max: 4, step: 1 },
+      { id: "plantar_surface", label: { es: "Superficie plantar", en: "Plantar surface" }, type: "number", required: true, min: -2, max: 4, step: 1 },
+      { id: "breast", label: { es: "Mama", en: "Breast" }, type: "number", required: true, min: -1, max: 4, step: 1 },
+      { id: "eye_ear", label: { es: "Ojo / oreja", en: "Eye / ear" }, type: "number", required: true, min: -2, max: 4, step: 1 },
+      { id: "genitals", label: { es: "Genitales", en: "Genitals" }, type: "number", required: true, min: -1, max: 4, step: 1 }
+    ],
+    scoringTable: [
+      {
+        id: "ballard_total",
+        variable: { es: "Puntuacion total New Ballard", en: "New Ballard total score" },
+        value: "neuromuscular + physical",
+        description: {
+          es: "Suma de seis signos neuromusculares y seis signos de madurez fisica. PedsCore solicita solamente las puntuaciones numericas.",
+          en: "Sum of six neuromuscular and six physical-maturity signs. PedsCore requests numerical scores only."
+        }
+      },
+      {
+        id: "ballard_completed_weeks",
+        variable: { es: "Edad gestacional estimada", en: "Estimated gestational age" },
+        value: "-10=20 weeks ... 50=44 weeks; interpolate to completed weeks",
+        description: {
+          es: "La tabla oficial avanza 2 semanas por cada 5 puntos. Para puntuaciones intermedias se registran semanas completas, redondeando hacia abajo, segun la FAQ oficial de Ballard.",
+          en: "The official grid advances 2 weeks per 5 score points. Intermediate scores are recorded as completed weeks, rounding down, according to the official Ballard FAQ."
+        }
+      }
+    ]
+  },
   dubowitz: {
     calculationNotes: {
       es: "Introduce la puntuacion numerica ya asignada a cada uno de los 21 signos del metodo Dubowitz. PedsCore no reproduce las ilustraciones ni los descriptores originales. Total 0-70; edad gestacional estimada = 0,2642 x puntuacion total + 24,595 semanas.",
