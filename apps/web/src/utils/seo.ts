@@ -12,6 +12,8 @@ interface SeoMetadata {
   description: string;
   url: string;
   language: Language;
+  schemaType?: "WebPage" | "MedicalWebPage" | "CollectionPage";
+  entityName?: string;
 }
 
 const homeSeo = {
@@ -142,7 +144,9 @@ export const getSeoForRoute = (
         title: getToolSeoProfile(tool, language).title,
         description: toolDescription(tool, language),
         url,
-        language
+        language,
+        schemaType: "MedicalWebPage",
+        entityName: tool.name[language] || tool.name.en
       };
     }
   }
@@ -159,7 +163,8 @@ export const getSeoForRoute = (
       title: `${categorySeo.name} | ${language === "es" ? "Pediatría" : "Pediatrics"} | PedsCore`,
       description: `${categorySeo.description} ${categoryTools.length} ${language === "es" ? "herramientas disponibles." : "tools available."}`,
       url,
-      language
+      language,
+      schemaType: "CollectionPage"
     };
   }
 
@@ -275,11 +280,35 @@ export const updateDocumentSeo = (seo: SeoMetadata) => {
   }) as HTMLScriptElement;
   structuredData.textContent = JSON.stringify({
     "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: seo.title,
-    description: seo.description,
-    url: seo.url,
-    inLanguage: seo.language,
-    isPartOf: { "@type": "WebSite", name: "PedsCore", url: `${siteUrl}/` }
+    "@graph": [
+      {
+        "@type": seo.schemaType ?? "WebPage",
+        "@id": `${seo.url}#webpage`,
+        name: seo.title,
+        description: seo.description,
+        url: seo.url,
+        inLanguage: seo.language,
+        isPartOf: { "@id": `${siteUrl}/#website` },
+        publisher: { "@id": `${siteUrl}/#organization` },
+        ...(seo.schemaType === "MedicalWebPage" && seo.entityName
+          ? { mainEntity: { "@type": "MedicalEntity", name: seo.entityName } }
+          : {})
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        name: "PedsCore",
+        url: `${siteUrl}/`,
+        publisher: { "@id": `${siteUrl}/#organization` },
+        inLanguage: ["es", "en"]
+      },
+      {
+        "@type": "Organization",
+        "@id": `${siteUrl}/#organization`,
+        name: "PedsCore",
+        url: `${siteUrl}/`,
+        sameAs: ["https://github.com/sferurek/PedsCore"]
+      }
+    ]
   });
 };
