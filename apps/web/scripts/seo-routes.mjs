@@ -1,10 +1,20 @@
 export const productionBaseUrl = "https://peds-core.vercel.app";
 
 export const indexableCategories = [
-  "cardiology",
+  "neonatology",
+  "respiratory",
   "emergency",
+  "cardiology",
   "nephrology",
-  "respiratory"
+  "intensive_care",
+  "growth_nutrition",
+  "pain",
+  "neurology",
+  "rheumatology",
+  "gastroenterology",
+  "behavioral_health",
+  "resuscitation",
+  "adolescent_medicine"
 ];
 
 const staticPaths = [
