@@ -234,7 +234,7 @@ const makeToolSeoTitle = (tool: ClinicalToolMetadata, language: Language) => {
   const override = seoTitleOverrides[tool.slug]?.[language];
   if (override) return override;
 
-  const fullName = (tool.name[language] || tool.name.en || tool.shortName).trim();
+  const fullName = (tool.name[language] || tool.name.en || tool.shortName || tool.slug).trim();
   const shortName = (tool.shortName || fullName).trim();
   const topic = seoTopicLabels[tool.subcategory]?.[language];
   const kind = toolKindLabel(tool, language);
