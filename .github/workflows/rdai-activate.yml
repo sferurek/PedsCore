@@ -1,4 +1,4 @@
-name: Activate RDAI
+name: Finalize RDAI
 
 on:
   push:
@@ -8,7 +8,7 @@ permissions:
   contents: write
 
 jobs:
-  activate:
+  finalize:
     if: "!contains(github.event.head_commit.message, '[rdai-ready]')"
     runs-on: ubuntu-latest
     steps:
@@ -19,103 +19,29 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Apply RDAI implementation
+      - name: Fix RDAI option identifiers and clean staging files
         shell: python
         run: |
           from pathlib import Path
-
-          root = Path('.')
-          catalog = root/'packages/core/src/catalog/clinicalTools.ts'
-          s = catalog.read_text()
-
-          # Implemented set
-          s = s.replace('  "cries",\n  "bedside_pews",', '  "cries",\n  "rdai",\n  "bedside_pews",')
-
-          # Replace RDAI reference block with verified primary + validation sources
-          start = s.index('  rdai: [')
-          end = s.index('  pass: [', start)
-          rdai_refs = '''  rdai: [\n    {\n      id: "lowell_1987_rdai_original",\n      title: "Wheezing in infants: the response to epinephrine",\n      authors: "Lowell DI, Lister G, Von Koss H, McCarthy P",\n      year: 1987,\n      journalOrPublisher: "Pediatrics",\n      citation: "Lowell DI, Lister G, Von Koss H, McCarthy P. Wheezing in infants: the response to epinephrine. Pediatrics. 1987;79(6):939-945.",\n      doi: "10.1542/peds.79.6.939",\n      pmid: "3295741",\n      url: "https://pubmed.ncbi.nlm.nih.gov/3295741/",\n      evidenceLevel: "original_derivation_study",\n      sourceType: "journal_article",\n      accessType: "abstract_only",\n      notes: "Primary source for the original six-domain RDAI (wheeze and retractions), scored 0-17.",\n      appliesTo: ["rdai"],\n      priority: 1\n    },\n    {\n      id: "fernandes_2012_rdai_validation",\n      title: "Validity of bronchiolitis outcome measures",\n      authors: "Fernandes RM et al.",\n      year: 2012,\n      journalOrPublisher: "Pediatrics",\n      citation: "Fernandes RM et al. Validity of bronchiolitis outcome measures. Pediatrics. 2012;130(6):e1544-e1551.",\n      doi: "10.1542/peds.2012-0448",\n      pmid: "23147979",\n      url: "https://pubmed.ncbi.nlm.nih.gov/23147979/",\n      evidenceLevel: "external_validation_study",\n      sourceType: "journal_article",\n      accessType: "abstract_only",\n      notes: "Supports cautious use as a descriptive respiratory-distress measure rather than a disposition or treatment rule.",\n      appliesTo: ["rdai"],\n      priority: 2\n    }\n  ],\n'''
-          s = s[:start] + rdai_refs + s[end:]
-
-          # Validation notes
-          old = '''const rdaiValidationNotes: LocalizedText = {\n  es: "Bloque 8B-3: localizado rastro bibliografico de Lowell/RDAI, pero DOI/PMID y tabla primaria reutilizable no estan verificados. Mantener bloqueada por fuente/tabla.",\n  en: "Block 8B-3: Lowell/RDAI bibliographic source trail located, but DOI/PMID and a reusable primary table are not verified. Keep blocked for source/table review."\n};'''
-          new = '''const rdaiValidationNotes: LocalizedText = {\n  es: "Implementacion local del RDAI original de Lowell (1987), seis dominios y puntuacion total 0-17. Cuantifica sibilancias (fase espiratoria, fase inspiratoria y extension) y retracciones (supraclaviculares, intercostales y subcostales). PedsCore lo presenta como medida descriptiva y seriada del distrés respiratorio: no incorpora frecuencia respiratoria, SpO2, alimentacion, apnea u otros determinantes de gravedad, y no debe utilizarse por si solo para decidir tratamiento, ingreso o alta. No se implementan variantes modificadas del RDAI.",\n  en: "Local implementation of the original Lowell RDAI (1987), with six domains and a 0-17 total score. It quantifies wheeze (expiratory phase, inspiratory phase, and extent) and retractions (supraclavicular, intercostal, and subcostal). PedsCore presents it as a descriptive, serial respiratory-distress measure: it does not include respiratory rate, SpO2, feeding, apnea, or other severity determinants and must not be used alone to determine treatment, admission, or discharge. Modified RDAI variants are not implemented."\n};'''
-          if old not in s: raise SystemExit('RDAI validation block not found')
-          s = s.replace(old, new)
-
-          # Tool seed -> implemented and precise population/description
-          oldtool = 'makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes)'
-          newtool = 'makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Lactantes y ninos pequenos con sibilancias o bronquiolitis", "Infants and young children with wheezing or bronchiolitis", "RDAI original de Lowell: puntuacion descriptiva 0-17 de sibilancias y retracciones en seis dominios.", "Original Lowell RDAI: descriptive 0-17 score of wheeze and retractions across six domains.", "implemented", "external_validation_study", "medium", rdaiValidationNotes)'
-          if oldtool not in s: raise SystemExit('RDAI tool seed not found')
-          s = s.replace(oldtool, newtool)
-
-          # Add scoring inputs after tool creation via post-processing block if not already present.
-          marker = 'export const clinicalTools'
-          # Find existing mutation/enrichment section by final export; append a targeted enrichment before export if safe.
-          # Instead modify tool seed through helper capabilities by replacing the makeTool call with Object.assign wrapper is not appropriate.
-          catalog.write_text(s)
-
-          # Calculator
-          calc = root/'packages/core/src/calculators/rdai.ts'
-          calc.write_text('''import { getNumericScore, getTool, missingResult, warning } from "./common.js";\nimport type { CalculatorDefinition } from "./common.js";\n\nconst inputIds = [\n  "expiratory_wheeze",\n  "inspiratory_wheeze",\n  "wheeze_extent",\n  "supraclavicular_retractions",\n  "intercostal_retractions",\n  "subcostal_retractions"\n] as const;\n\nconst maxima: Record<(typeof inputIds)[number], number> = {\n  expiratory_wheeze: 4,\n  inspiratory_wheeze: 2,\n  wheeze_extent: 2,\n  supraclavicular_retractions: 3,\n  intercostal_retractions: 3,\n  subcostal_retractions: 3\n};\n\nexport const rdaiCalculator: CalculatorDefinition = {\n  toolId: "rdai",\n  calculate: (input) => {\n    const tool = getTool("rdai");\n    if (inputIds.some((id) => input[id] === undefined || input[id] === null || input[id] === "")) {\n      return missingResult(tool.id, [...inputIds]);\n    }\n    let score = 0;\n    const trace = [];\n    for (const inputId of inputIds) {\n      const value = getNumericScore(tool, input, inputId);\n      const max = maxima[inputId];\n      if (value === null || !Number.isInteger(value) || value < 0 || value > max) {\n        return {\n          toolId: tool.id,\n          warnings: [warning(\n            "invalid_rdai_item_score",\n            `La puntuacion de ${inputId} debe ser un entero entre 0 y ${max}.`,\n            `The ${inputId} score must be an integer from 0 to ${max}.`\n          )],\n          trace: [{ inputId, value: input[inputId] }]\n        };\n      }\n      score += value;\n      trace.push({ inputId, value: input[inputId], score: value });\n    }\n    return {\n      toolId: tool.id,\n      score,\n      maxScore: 17,\n      classification: {\n        es: `RDAI ${score}/17 · medida descriptiva del distrés respiratorio`,\n        en: `RDAI ${score}/17 · descriptive respiratory-distress measure`\n      },\n      warnings: [warning(\n        "rdai_no_decision_thresholds",\n        "El RDAI no debe usarse aisladamente para decidir tratamiento, ingreso o alta.",\n        "RDAI must not be used alone to determine treatment, admission, or discharge."\n      )],\n      trace\n    };\n  }\n};\n''')
-
-          # Registry export
-          idx = root/'packages/core/src/calculators/index.ts'
-          t = idx.read_text()
-          if 'rdaiCalculator' not in t:
-            t += '\nexport { rdaiCalculator } from "./rdai.js";\n'
-          idx.write_text(t)
-
-          # Add calculator inputs in catalog by inserting a targeted enrichment near end before export default/lookup helpers.
-          s = catalog.read_text()
-          anchor = 'const tools: ToolSeed[] = ['
-          # Inputs are easiest to attach to the RDAI seed call using spread object around makeTool.
-          oldcall = newtool
-          wrapped = '''{\n    ...''' + newtool + ''',\n    inputs: [\n      { id: "expiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase espiratoria", en: "Wheeze · expiratory phase" }, options: [0,1,2,3,4].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },\n      { id: "inspiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase inspiratoria", en: "Wheeze · inspiratory phase" }, options: [0,1,2].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },\n      { id: "wheeze_extent", type: "single_choice", required: true, label: { es: "Sibilancias · extension", en: "Wheeze · extent" }, options: [0,1,2].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },\n      { id: "supraclavicular_retractions", type: "single_choice", required: true, label: { es: "Retracciones supraclaviculares", en: "Supraclavicular retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },\n      { id: "intercostal_retractions", type: "single_choice", required: true, label: { es: "Retracciones intercostales", en: "Intercostal retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },\n      { id: "subcostal_retractions", type: "single_choice", required: true, label: { es: "Retracciones subcostales", en: "Subcostal retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) }\n    ]\n  }'''
-          if oldcall not in s: raise SystemExit('new RDAI call not found for input wrapping')
-          s = s.replace(oldcall, wrapped, 1)
-          catalog.write_text(s)
-
-          # Tests: add focused calculator test and update inherited implemented/block gates.
-          tests = root/'packages/core/tests/rdai.test.ts'
-          tests.write_text('''import { describe, expect, it } from "vitest";\nimport { rdaiCalculator } from "../src/calculators/rdai.js";\n\ndescribe("RDAI", () => {\n  it("calculates the original Lowell 0-17 score", () => {\n    const result = rdaiCalculator.calculate({\n      expiratory_wheeze: 4, inspiratory_wheeze: 2, wheeze_extent: 2,\n      supraclavicular_retractions: 3, intercostal_retractions: 3, subcostal_retractions: 3\n    });\n    expect(result.score).toBe(17);\n    expect(result.maxScore).toBe(17);\n    expect(result.trace).toHaveLength(6);\n  });\n\n  it("does not invent severity bands or treatment recommendations", () => {\n    const result = rdaiCalculator.calculate({\n      expiratory_wheeze: 1, inspiratory_wheeze: 0, wheeze_extent: 1,\n      supraclavicular_retractions: 1, intercostal_retractions: 1, subcostal_retractions: 0\n    });\n    expect(result.score).toBe(4);\n    expect(result.warnings?.some((w) => w.code === "rdai_no_decision_thresholds")).toBe(true);\n  });\n\n  it("rejects item scores outside the original domain ranges", () => {\n    const result = rdaiCalculator.calculate({\n      expiratory_wheeze: 5, inspiratory_wheeze: 0, wheeze_extent: 0,\n      supraclavicular_retractions: 0, intercostal_retractions: 0, subcostal_retractions: 0\n    });\n    expect(result.score).toBeUndefined();\n    expect(result.warnings?.[0]?.code).toBe("invalid_rdai_item_score");\n  });\n});\n''')
-
-          cat_test = root/'packages/core/tests/catalog.test.ts'
-          ct = cat_test.read_text()
-          ct = ct.replace('  "cries",\n  "aap_2022_hyperbilirubinemia",', '  "cries",\n  "rdai",\n  "aap_2022_hyperbilirubinemia",')
-          ct = ct.replace('expect(getImplementedTools()).toHaveLength(29);', 'expect(getImplementedTools()).toHaveLength(30);')
-          ct = ct.replace('      "rdai",\n', '')
-          # Add explicit RDAI clinical contract before Block 8B-3 gate.
-          gate = '  it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {'
-          testblock = '''  it("activates original Lowell RDAI as a six-domain descriptive 0-17 score", () => {\n    const tool = getTool("rdai");\n    expect(tool?.implementationStatus).toBe("implemented");\n    expect(tool?.calculationStatus).toBe("active");\n    expect(tool?.inputs).toHaveLength(6);\n    expect(tool?.references.some((reference) => reference.pmid === "3295741")).toBe(true);\n    expect(tool?.validationNotes.en).toContain("0-17");\n    expect(tool?.validationNotes.en).toContain("must not be used alone");\n  });\n\n'''
-          if gate not in ct: raise SystemExit('Block 8B-3 gate not found')
-          ct = ct.replace(gate, testblock + gate)
-          cat_test.write_text(ct)
-
-          # Register calculator in calculator map if present in common/index consumer.
-          for p in [root/'packages/core/src/calculators/common.ts']:
-            pass
-
-          # Search likely registry and patch if calculators are explicitly listed.
-          for p in root.rglob('*.ts'):
-            if 'node_modules' in p.parts or p == idx or p == catalog: continue
-            text = p.read_text(errors='ignore')
-            if 'criesCalculator' in text and 'calculator' in p.name.lower() and 'rdaiCalculator' not in text:
-              text = text.replace('criesCalculator', 'criesCalculator')
-              p.write_text(text)
-
+          p = Path('packages/core/src/catalog/clinicalTools.ts')
+          s = p.read_text()
+          s = s.replace('({ value, label: { es: String(value), en: String(value) } })', '({ id: String(value), value, label: { es: String(value), en: String(value) } })')
+          p.write_text(s)
+          for name in ['README.tmp-rdai','README.tmp-rdai-2','README.tmp-rdai-3']:
+            q = Path(name)
+            if q.exists(): q.unlink()
       - name: Install dependencies
         run: npm ci
-      - name: Prebuild
-        run: npm run prebuild --workspace=@pedscore/web || true
-      - name: Test and inspect failures
+      - name: Validate
         run: |
-          npm test -- --run || true
-          npm run lint || true
-      - name: Commit staged RDAI activation
+          npm run lint
+          npm test -- --run
+          npm run build
+      - name: Commit final implementation
         run: |
+          rm -f .github/workflows/rdai-activate.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add packages/core/src/catalog/clinicalTools.ts packages/core/src/calculators/index.ts packages/core/src/calculators/rdai.ts packages/core/tests/catalog.test.ts packages/core/tests/rdai.test.ts
-          git commit -m "feat: activate original RDAI [rdai-ready]"
+          git add -A
+          git commit -m "fix: finalize RDAI activation [rdai-ready]"
           git push origin HEAD:activate-rdai
