@@ -10,7 +10,7 @@ import {
 describe("SEO profiles", () => {
   it("covers every tool in both languages with specific compact metadata", () => {
     const tools = getAllTools();
-    expect(tools).toHaveLength(132);
+    expect(tools).toHaveLength(133);
 
     for (const language of ["es", "en"] as const) {
       const titles = new Set<string>();
