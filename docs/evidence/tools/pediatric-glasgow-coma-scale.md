@@ -1,4 +1,4 @@
-# Pediatric Glasgow Coma Scale
+# Pediatric Glasgow Coma Scale (pGCS)
 
 ## Current PedsCore status
 
@@ -6,109 +6,114 @@
 - slug: `pediatric-glasgow-coma-scale`
 - category: `neurology`
 - type: `scale`
-- current implementationStatus: `pending_validation`
-- current evidenceLevel: `official_manual_or_institutional_protocol`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
+- total range: 3–15
 
-## Evidence validation status
+## Variant selected
 
-- final evidence status: `pending_primary_source`
-- reason: guideline/source trail exists, but primary pediatric adaptation and complete verbal table by age/development remain unresolved.
+PedsCore uses an explicit age-based split that matches PECARN validation:
 
-## Clinical purpose
+- **<2 years:** preverbal pediatric GCS adaptation
+- **>=2 years:** standard GCS response set
 
-ES: valoración descriptiva del nivel de conciencia pediátrico. EN: descriptive pediatric level-of-consciousness assessment.
+This avoids presenting a single “universal” pediatric modification when several pediatric adaptations exist.
 
-## Target population
+## Components
 
-Children, especially preverbal/young children requiring adapted verbal assessment.
+The score is always documented as:
 
-## Version / variant
+- Eye opening (E): 1–4
+- Verbal response (V): 1–5
+- Motor response (M): 1–6
+- Total: E + V + M = 3–15
 
-- exact version: not selected.
-- known variants: adult GCS, pediatric GCS, infant/young child modifications.
-- selected version for PedsCore: none yet.
-- variant risk: high.
+The individual E/V/M components should be retained alongside the total.
 
-## Primary source
+## Preverbal adaptation (<2 years)
 
-- found: no.
-- citation: guideline/source trail only; primary pediatric adaptation not confirmed.
-- DOI: not confirmed.
-- PMID: not confirmed.
-- URL: https://www.ncbi.nlm.nih.gov/books/
-- access: `open_access`
-- notes: NCBI Bookshelf/NICE-style table source is useful but not enough for primary traceability.
+### Eye opening
+Same 1–4 structure as standard GCS.
 
-## External validation
+### Verbal response
+- 5: age-appropriate cooing/babbling or interaction
+- 4: irritable crying
+- 3: crying to painful stimulus
+- 2: moaning to painful stimulus
+- 1: no verbal response
 
-Validation/performance studies exist, but do not establish a single definitive item table for PedsCore.
+### Motor response
+- 6: spontaneous purposeful movement
+- 5: withdrawal to touch
+- 4: withdrawal from pain
+- 3: abnormal flexion
+- 2: abnormal extension
+- 1: no motor response
 
-## Guidelines / official sources
+## Standard response set (>=2 years in PECARN)
 
-NCBI Bookshelf guideline material contains a pediatric version reference trail.
+### Verbal response
+- 5: oriented / appropriate
+- 4: confused
+- 3: inappropriate words
+- 2: incomprehensible sounds
+- 1: no verbal response
 
-## Complete scoring table availability
+### Motor response
+- 6: obeys commands
+- 5: localizes pain
+- 4: withdraws from pain
+- 3: abnormal flexion
+- 2: abnormal extension
+- 1: no motor response
 
-- complete table found: no.
-- source: guideline tables exist, but exact source/reuse and age-specific verbal criteria need confirmation.
-- copyright/licensing risk: unknown/medium.
-- notes: verbal response is the blocker.
+## Evidence
 
-## Variables and scoring
+### James pediatric adaptation
+James HE. Neurologic evaluation and support in the child with an acute brain insult. Pediatr Ann. 1986;15(1):16-22.
 
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| Eye response | Pending | Pending | Guideline/source needed | Adult/pediatric differences must be verified. |
-| Verbal response | Pending by age/development | Pending | Primary adaptation needed | Main blocker. |
-| Motor response | Pending | Pending | Guideline/source needed | Exact wording pending. |
+- DOI: `10.3928/0090-4481-19860101-05`
+- PMID: `3951884`
 
-## Interpretation bands / cutoffs
+### PECARN multicenter validation
+Borgialli DA, Mahajan P, Hoyle JD Jr, et al. Performance of the Pediatric Glasgow Coma Scale Score in the Evaluation of Children With Blunt Head Trauma. Acad Emerg Med. 2016;23(8):878-884.
 
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| 3-15 | Total score range | General GCS range only; severity bands pending pediatric source. | Source needed. |
+- DOI: `10.1111/acem.13014`
+- PMID: `27197686`
+- cohort: 42,041 children with blunt head trauma
+- pGCS used for children <2 years
+- standard GCS used for children >=2 years
+- pGCS and standard GCS had similar discrimination for clinically important TBI
 
-## Formula / algorithm
+### Glasgow Coma Scale educational source
+The Glasgow Coma Scale Foundation documents the historical Adelaide pediatric adaptation and notes that multiple pediatric modifications have been proposed.
 
-Sum of eye, verbal, motor components; pediatric verbal component not finalized.
+## Copyright / reuse decision
 
-## Unit handling
+PedsCore does not reproduce protected source tables, layout, typography, or editorial wording.
 
-Age/developmental status must determine verbal criteria.
+The score's functional rules are independently encoded in software and the ES/EN descriptors are independently authored. This implementation does not claim that any source table itself is openly licensed.
 
-## Safety and regulatory notes
+## Interpretation policy
 
-- risk level: medium.
-- why: neurologic scoring may influence trauma/ICU workflows.
-- should provide recommendations: no.
-- forbidden outputs: CT, intubation, ICU, discharge, or treatment recommendations.
+PedsCore reports the component scores and total only.
 
-## Licensing / copyright
+It does **not** attach automatic management decisions to total-score thresholds, including:
 
-- appears implementable: unknown.
-- license-sensitive: unknown.
-- requires permission: unknown.
-- unknown: exact table source/reuse.
-- notes: keep pending.
+- intubation or airway intervention
+- CT or other neuroimaging
+- ICU admission
+- hospital admission or discharge
+- treatment decisions
 
-## Implementation recommendation
+Total GCS/pGCS must be interpreted with the clinical context, trajectory, confounders, and the individual E/V/M components.
 
-`keep_pending_until_source_found`
+## Important limitations
 
-## Proposed test cases
+Sedation, neuromuscular blockade, intubation, severe developmental impairment, language barriers, and other factors may make one or more components non-testable or difficult to interpret. PedsCore does not invent a numerical replacement for an untestable component.
 
-- minimum: 3.
-- maximum: 15.
-- intermediate: preverbal child example.
-- missing input: missing age/development.
-- invalid input: adult verbal option in infant.
-- edge cases: intubated/nonverbal baseline.
-- forbidden wording tests: no imaging/treatment advice.
+## Implementation files
 
-## Direct links
-
-- https://www.ncbi.nlm.nih.gov/books/
-
-## Notes
-
-Pediatric verbal scoring needs exact source resolution.
+- `packages/core/src/calculators/pediatricGcs.ts`
+- `packages/core/tests/pediatricGcs.test.ts`
+- `packages/core/src/catalog/clinicalTools.ts`
