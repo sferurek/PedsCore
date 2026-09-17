@@ -300,62 +300,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://peds-core.vercel.app/es/topics/pediatric-head-injury-rules</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/topics/pediatric-head-injury-rules" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/topics/pediatric-head-injury-rules" />
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/en/topics/pediatric-head-injury-rules</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/topics/pediatric-head-injury-rules" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/topics/pediatric-head-injury-rules" />
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/es/topics/neonatal-pain-scales</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/topics/neonatal-pain-scales" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/topics/neonatal-pain-scales" />
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/en/topics/neonatal-pain-scales</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/topics/neonatal-pain-scales" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/topics/neonatal-pain-scales" />
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/es/topics/neonatal-encephalopathy-scores</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/topics/neonatal-encephalopathy-scores" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/topics/neonatal-encephalopathy-scores" />
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/en/topics/neonatal-encephalopathy-scores</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/topics/neonatal-encephalopathy-scores" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/topics/neonatal-encephalopathy-scores" />
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/es/topics/pediatric-asthma-wheeze-scores</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/topics/pediatric-asthma-wheeze-scores" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/topics/pediatric-asthma-wheeze-scores" />
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/en/topics/pediatric-asthma-wheeze-scores</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/topics/pediatric-asthma-wheeze-scores" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/topics/pediatric-asthma-wheeze-scores" />
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://peds-core.vercel.app/es/tools/apgar</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/apgar" />
     <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/apgar" />
@@ -436,20 +380,6 @@
     <loc>https://peds-core.vercel.app/en/tools/sarnat</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/sarnat" />
     <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/sarnat" />
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/es/tools/modified-sarnat-nichd</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/modified-sarnat-nichd" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/modified-sarnat-nichd" />
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/en/tools/modified-sarnat-nichd</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/modified-sarnat-nichd" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/modified-sarnat-nichd" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -566,20 +496,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://peds-core.vercel.app/es/tools/aap-2022-neonatal-hyperbilirubinemia</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/aap-2022-neonatal-hyperbilirubinemia" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/aap-2022-neonatal-hyperbilirubinemia" />
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/en/tools/aap-2022-neonatal-hyperbilirubinemia</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/aap-2022-neonatal-hyperbilirubinemia" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/aap-2022-neonatal-hyperbilirubinemia" />
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://peds-core.vercel.app/es/tools/neonatal-growth-fenton</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/neonatal-growth-fenton" />
     <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/neonatal-growth-fenton" />
@@ -590,20 +506,6 @@
     <loc>https://peds-core.vercel.app/en/tools/neonatal-growth-fenton</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/neonatal-growth-fenton" />
     <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/neonatal-growth-fenton" />
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/es/tools/fenton-2025-preterm-growth</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/fenton-2025-preterm-growth" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/fenton-2025-preterm-growth" />
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://peds-core.vercel.app/en/tools/fenton-2025-preterm-growth</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://peds-core.vercel.app/en/tools/fenton-2025-preterm-growth" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://peds-core.vercel.app/es/tools/fenton-2025-preterm-growth" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
