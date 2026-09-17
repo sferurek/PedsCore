@@ -19,12 +19,15 @@ export function Layout({
   onLanguageChange
 }: LayoutProps) {
   const isHomePage = currentPath === `/${language}`;
+  const isToolDetailPage = currentPath.startsWith(`/${language}/tools/`);
   const isPramPilot = currentPath === `/${language}/tools/pram`;
   const frameClassName = isHomePage
     ? "app-frame atlas-home-frame"
     : isPramPilot
-      ? "app-frame atlas-pram-frame"
-      : "app-frame";
+      ? "app-frame atlas-pram-frame atlas-tool-v3-frame"
+      : isToolDetailPage
+        ? "app-frame atlas-tool-v3-frame"
+        : "app-frame";
 
   return (
     <div className={frameClassName}>
@@ -34,9 +37,9 @@ export function Layout({
         navigate={navigate}
         onLanguageChange={onLanguageChange}
       />
-      {isHomePage || isPramPilot ? null : <OssSupportBanner language={language} />}
+      {isHomePage || isToolDetailPage ? null : <OssSupportBanner language={language} />}
       <main id="main-content" tabIndex={-1}>{children}</main>
-      <Footer language={language} navigate={navigate} minimal={isPramPilot} />
+      <Footer language={language} navigate={navigate} minimal={isToolDetailPage} />
     </div>
   );
 }
