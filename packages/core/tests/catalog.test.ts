@@ -355,10 +355,18 @@ describe("clinical tools catalog", () => {
     }
   });
 
-  it("keeps variant-sensitive Block 8B-2 tools explicitly blocked", () => {
-    expect(getTool("pediatric_gcs")?.validationNotes.en).toContain(
-      "complete pediatric verbal table"
-    );
+  it("activates the selected pediatric GCS variant while retaining other Block 8B-2 blockers", () => {
+    const pgcs = getTool("pediatric_gcs");
+    expect(pgcs?.implementationStatus).toBe("implemented");
+    expect(pgcs?.calculationStatus).toBe("active");
+    expect(pgcs?.inputs?.map((input) => input.id)).toEqual([
+      "age_group",
+      "eye_response",
+      "verbal_response",
+      "motor_response"
+    ]);
+    expect(pgcs?.references.some((reference) => reference.pmid === "27197686")).toBe(true);
+    expect(pgcs?.validationNotes.en).toContain("younger than 2 years");
     expect(getTool("orbegozo_growth_percentiles")?.validationNotes.en).toContain(
       "reusable data/LMS"
     );
@@ -468,7 +476,6 @@ describe("clinical tools catalog", () => {
 
   it("keeps Block 8B-4 maintainer-dependent tools out of ready/implemented state", () => {
     const maintainerDependentIds = [
-      "pediatric_gcs",
       "pim2",
       "pim3",
       "prism_iii",
