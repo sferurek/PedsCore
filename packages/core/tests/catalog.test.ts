@@ -23,6 +23,7 @@ const implementedToolIds = [
   "cries",
   "aap_2022_hyperbilirubinemia",
   "bedside_pews",
+  "brosjod",
   "fenton_2025_growth",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -404,7 +405,6 @@ describe("clinical tools catalog", () => {
     const blockedIds = [
       "neonatal_growth_fenton",
       "rdai",
-      "brosjod",
       "pass",
       "gorelick_dehydration",
       "prifle",
