@@ -7,6 +7,7 @@ import {
 } from "@peds-core/core";
 import type { Dispatch, RefObject, SetStateAction } from "react";
 import { categoryLabels, evidenceLabels } from "../i18n/translations";
+import { discoveryLabel } from "../utils/discoveryLabels";
 import type { FormValues, FormValue } from "../utils/formState";
 import { validateForm } from "../utils/formState";
 import type { Language } from "../utils/language";
@@ -54,6 +55,13 @@ const isSelected = (
   option: NonNullable<ToolInput["options"]>[number]
 ): boolean => current === optionValue(option) || current === option.id;
 
+const referenceHref = (reference: ClinicalToolMetadata["references"][number]): string | null => {
+  if (reference.url) return reference.url;
+  if (reference.doi) return `https://doi.org/${reference.doi}`;
+  if (reference.pmid) return `https://pubmed.ncbi.nlm.nih.gov/${reference.pmid}/`;
+  return null;
+};
+
 export function PramShowcasePage({
   language,
   tool,
@@ -78,7 +86,7 @@ export function PramShowcasePage({
   const oxygenInput = getSupportingInput(tool, "oxygen_saturation");
   const population = tool.population[language];
   const careSetting = discovery?.careSettings?.[0]
-    ? discovery.careSettings[0].replaceAll("_", " ")
+    ? discoveryLabel(discovery.careSettings[0], language)
     : language === "es" ? "Urgencias pediátricas" : "Pediatric emergency care";
 
   const update = (inputId: string, value: FormValue) => {
@@ -123,6 +131,9 @@ export function PramShowcasePage({
                 <span className="pram-clinical-badge">✓ {language === "es" ? "Herramienta clínica" : "Clinical tool"}</span>
               </div>
               <p>{tool.description[language]}</p>
+              <a className="pram-evidence-jump" href="#evidence">
+                {language === "es" ? "Evidencia y referencias" : "Evidence and references"} ↓
+              </a>
             </div>
             <div className="pram-hero-actions">
               <button className={favorite ? "pram-pill-button is-active" : "pram-pill-button"} onClick={onFavorite} type="button" aria-pressed={favorite}>
@@ -285,9 +296,9 @@ export function PramShowcasePage({
 
       <section className="pram-disclosures">
         <details><summary>▤ <span><strong>{language === "es" ? "Contexto clínico" : "Clinical context"}</strong><small>{language === "es" ? "Cuándo usar, utilidad y consideraciones" : "When to use, utility and considerations"}</small></span><b>⌄</b></summary><div><p>{tool.population[language]}</p><p>{tool.validationNotes[language]}</p></div></details>
-        <details><summary>▥ <span><strong>{language === "es" ? "Evidencia" : "Evidence"}</strong><small>{language === "es" ? "Validez y desempeño" : "Validity and performance"}</small></span><b>⌄</b></summary><div><p>{language === "es" ? `Nivel registrado: ${evidenceLabels[tool.evidenceLevel][language]}.` : `Recorded level: ${evidenceLabels[tool.evidenceLevel][language]}.`}</p></div></details>
-        <details><summary>▣ <span><strong>{language === "es" ? "Referencias" : "References"}</strong><small>{language === "es" ? "Artículos clave y guías" : "Key articles and guidance"}</small></span><b>⌄</b></summary><div>{tool.references.map((reference) => <p key={reference.id}><strong>{reference.year ?? ""}</strong> {reference.title}</p>)}</div></details>
-        <details><summary>↻ <span><strong>{language === "es" ? "Revisión y mantenimiento" : "Review and maintenance"}</strong><small>{language === "es" ? "Trazabilidad del proyecto" : "Project traceability"}</small></span><b>⌄</b></summary><div><p>{language === "es" ? "La implementación y sus fuentes se mantienen de forma auditable en el repositorio PedsCore." : "Implementation and sources are maintained audibly in the PedsCore repository."}</p></div></details>
+        <details id="evidence"><summary>▥ <span><strong>{language === "es" ? "Evidencia" : "Evidence"}</strong><small>{language === "es" ? "Validez, desempeño y fuentes" : "Validity, performance and sources"}</small></span><b>⌄</b></summary><div><p>{language === "es" ? `Nivel registrado: ${evidenceLabels[tool.evidenceLevel][language]}.` : `Recorded level: ${evidenceLabels[tool.evidenceLevel][language]}.`}</p>{tool.references.map((reference) => { const href = referenceHref(reference); return href ? <p key={reference.id}><a href={href} target="_blank" rel="noreferrer"><strong>{reference.year ?? ""}</strong> {reference.title} ↗</a></p> : null; })}</div></details>
+        <details><summary>▣ <span><strong>{language === "es" ? "Referencias" : "References"}</strong><small>{language === "es" ? "Artículos clave y guías" : "Key articles and guidance"}</small></span><b>⌄</b></summary><div>{tool.references.map((reference) => { const href = referenceHref(reference); return <p key={reference.id}>{href ? <a href={href} target="_blank" rel="noreferrer"><strong>{reference.year ?? ""}</strong> {reference.title} ↗</a> : <><strong>{reference.year ?? ""}</strong> {reference.title}</>}</p>; })}</div></details>
+        <details><summary>↻ <span><strong>{language === "es" ? "Revisión y mantenimiento" : "Review and maintenance"}</strong><small>{language === "es" ? "Trazabilidad del proyecto" : "Project traceability"}</small></span><b>⌄</b></summary><div><p>{language === "es" ? "La implementación y sus fuentes se mantienen de forma auditable en el repositorio PedsCore." : "Implementation and sources are maintained in an auditable way in the PedsCore repository."}</p></div></details>
       </section>
 
       {relatedTools.length > 0 ? (
