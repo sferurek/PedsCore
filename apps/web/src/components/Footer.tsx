@@ -11,6 +11,7 @@ import {
 interface FooterProps {
   language: Language;
   navigate?: (href: string) => void;
+  minimal?: boolean;
 }
 
 const formatUsageCount = (value: number, language: Language): string =>
@@ -30,24 +31,16 @@ export function FooterUsageSummaryContent({
   navigate,
   stats
 }: FooterUsageSummaryContentProps) {
-  if (!shouldShowUsageSummary(stats)) {
-    return null;
-  }
+  if (!shouldShowUsageSummary(stats)) return null;
 
   const t = translations[language].footer;
   const href = makePath(language, "stats", "global");
   const summary = t.usageSummary
-    .replace(
-      "{last7DaysVisitors}",
-      formatUsageCount(stats.totals.last7DaysVisitors, language)
-    )
+    .replace("{last7DaysVisitors}", formatUsageCount(stats.totals.last7DaysVisitors, language))
     .replace("{totalVisitors}", formatUsageCount(stats.totals.visitors, language));
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    if (!navigate) {
-      return;
-    }
-
+    if (!navigate) return;
     event.preventDefault();
     navigate(href);
   };
@@ -55,51 +48,45 @@ export function FooterUsageSummaryContent({
   return (
     <div className="footer-usage-summary">
       <span className="eyebrow">{atlas[language].usageEyebrow}</span>
-      <p>
-        <span>{summary}</span>{" "}
-        <a href={href} onClick={handleClick}>
-          {t.usageSummaryLink}
-        </a>
-      </p>
+      <p><span>{summary}</span>{" "}<a href={href} onClick={handleClick}>{t.usageSummaryLink}</a></p>
     </div>
   );
 }
 
-function FooterUsageSummary({
-  language,
-  navigate
-}: Pick<FooterProps, "language" | "navigate">) {
+function FooterUsageSummary({ language, navigate }: Pick<FooterProps, "language" | "navigate">) {
   const [stats, setStats] = useState<GlobalUsageStats | null>(null);
 
   useEffect(() => {
     let isMounted = true;
-
     fetchGlobalUsageStats().then((nextStats) => {
-      if (isMounted && shouldShowUsageSummary(nextStats)) {
-        setStats(nextStats);
-      }
+      if (isMounted && shouldShowUsageSummary(nextStats)) setStats(nextStats);
     });
-
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, []);
 
-  if (!stats) {
-    return null;
-  }
-
-  return (
-    <FooterUsageSummaryContent
-      language={language}
-      navigate={navigate}
-      stats={stats}
-    />
-  );
+  if (!stats) return null;
+  return <FooterUsageSummaryContent language={language} navigate={navigate} stats={stats} />;
 }
 
-export function Footer({ language, navigate }: FooterProps) {
+export function Footer({ language, navigate, minimal = false }: FooterProps) {
   const t = translations[language];
+
+  if (minimal) {
+    return (
+      <footer className="site-footer pram-minimal-footer">
+        <span>© 2026 PedsCore</span>
+        <nav aria-label={language === "es" ? "Enlaces legales y de transparencia" : "Legal and transparency links"}>
+          {navigate ? (
+            <>
+              <button className="text-link" type="button" onClick={() => navigate(makePath(language, "disclaimer"))}>{t.nav.disclaimer}</button>
+              <button className="text-link" type="button" onClick={() => navigate(makePath(language, "evidence"))}>{t.nav.evidence}</button>
+            </>
+          ) : null}
+          <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">GitHub</a>
+        </nav>
+      </footer>
+    );
+  }
 
   return (
     <footer className="site-footer">
@@ -116,35 +103,13 @@ export function Footer({ language, navigate }: FooterProps) {
       <div className="footer-links">
         {navigate ? (
           <>
-            <button
-              className="text-link"
-              type="button"
-              onClick={() => navigate(makePath(language, "evidence"))}
-            >
-              {t.nav.evidence}
-            </button>
-            <button
-              className="text-link"
-              type="button"
-              onClick={() => navigate(makePath(language, "stats", "global"))}
-            >
-              {t.nav.stats}
-            </button>
-            <button
-              className="text-link"
-              type="button"
-              onClick={() => navigate(makePath(language, "disclaimer"))}
-            >
-              {t.nav.disclaimer}
-            </button>
+            <button className="text-link" type="button" onClick={() => navigate(makePath(language, "evidence"))}>{t.nav.evidence}</button>
+            <button className="text-link" type="button" onClick={() => navigate(makePath(language, "stats", "global"))}>{t.nav.stats}</button>
+            <button className="text-link" type="button" onClick={() => navigate(makePath(language, "disclaimer"))}>{t.nav.disclaimer}</button>
           </>
         ) : null}
-        <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">
-          {t.common.github}
-        </a>
-        <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">
-          {t.ossSupport.viewSourceButton}
-        </a>
+        <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">{t.common.github}</a>
+        <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">{t.ossSupport.viewSourceButton}</a>
       </div>
     </footer>
   );

@@ -10,7 +10,7 @@ import {
 describe("SEO profiles", () => {
   it("covers every tool in both languages with specific compact metadata", () => {
     const tools = getAllTools();
-    expect(tools).toHaveLength(132);
+    expect(tools).toHaveLength(133);
 
     for (const language of ["es", "en"] as const) {
       const titles = new Set<string>();
@@ -28,6 +28,15 @@ describe("SEO profiles", () => {
         titles.add(profile.title);
       }
     }
+  });
+
+  it("uses search-intent titles for key active tools", () => {
+    const bySlug = new Map(getAllTools().map((tool) => [tool.slug, tool]));
+    expect(getToolSeoProfile(bySlug.get("pediatric-appendicitis-score")!, "en").title).toContain("Pediatric Appendicitis Score");
+    expect(getToolSeoProfile(bySlug.get("pecarn-tbi-under-2")!, "en").title).toContain("Head Injury Rule");
+    expect(getToolSeoProfile(bySlug.get("qtc-bazett")!, "en").title).toContain("Calculator");
+    expect(getToolSeoProfile(bySlug.get("bedside-schwartz")!, "es").title).toContain("eGFR");
+    expect(getToolSeoProfile(bySlug.get("cries")!, "es").description).toContain("Cálculo activo");
   });
 
   it("provides semantic related tools without self-links or duplicates", () => {
