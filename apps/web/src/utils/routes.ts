@@ -27,6 +27,7 @@ export type RouteKind =
   | "tools"
   | "tool"
   | "category"
+  | "topic"
   | "evidence"
   | "stats"
   | "about"
@@ -39,6 +40,7 @@ export interface ParsedRoute {
   language: Language | null;
   slug?: string;
   category?: string;
+  topic?: string;
   withLanguage: (language: Language) => string;
 }
 
@@ -89,6 +91,10 @@ export const parseRoute = (path: string): ParsedRoute => {
 
   if (section === "categories" && value) {
     return { ...base, kind: "category", category: value };
+  }
+
+  if (section === "topics" && value) {
+    return { ...base, kind: "topic", topic: value };
   }
 
   if (section === "evidence") {

@@ -11,6 +11,7 @@ import { EvidencePage } from "./routes/EvidencePage";
 import { GlobalStatsPage } from "./routes/GlobalStatsPage";
 import { HomePage } from "./routes/HomePage";
 import { NotFoundPage } from "./routes/NotFoundPage";
+import { TopicHubPage } from "./routes/TopicHubPage";
 import {
   isSupportedLanguage,
   languageStorageKey,
@@ -19,6 +20,7 @@ import {
 import { maybeTrackRouteChange, trackAppOpen } from "./utils/analytics";
 import { parseRoute, toAppPath, toBrowserPath } from "./utils/routes";
 import { getSeoForRoute, updateDocumentSeo } from "./utils/seo";
+import { getSeoTopicHub } from "./utils/topicHubs";
 
 const ToolsPage = lazy(() =>
   import("./routes/ToolsPage").then((module) => ({ default: module.ToolsPage }))
@@ -26,6 +28,10 @@ const ToolsPage = lazy(() =>
 
 const ToolPage = lazy(() =>
   import("./routes/ToolPage").then((module) => ({ default: module.ToolPage }))
+);
+
+const PramPilotPage = lazy(() =>
+  import("./routes/PramPilotPage").then((module) => ({ default: module.PramPilotPage }))
 );
 
 export function App() {
@@ -113,7 +119,11 @@ export function App() {
       const tool = getToolBySlug(route.slug);
       return tool ? (
         <Suspense fallback={null}>
-          <ToolPage language={language} navigate={navigate} tool={tool} />
+          {tool.slug === "pram" ? (
+            <PramPilotPage language={language} navigate={navigate} tool={tool} />
+          ) : (
+            <ToolPage language={language} navigate={navigate} tool={tool} />
+          )}
         </Suspense>
       ) : (
         <NotFoundPage language={language} navigate={navigate} />
@@ -131,6 +141,15 @@ export function App() {
           language={language}
           navigate={navigate}
         />
+      ) : (
+        <NotFoundPage language={language} navigate={navigate} />
+      );
+    }
+
+    if (route.kind === "topic" && route.topic) {
+      const hub = getSeoTopicHub(route.topic);
+      return hub ? (
+        <TopicHubPage hub={hub} language={language} navigate={navigate} />
       ) : (
         <NotFoundPage language={language} navigate={navigate} />
       );

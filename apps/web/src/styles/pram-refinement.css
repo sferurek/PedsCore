@@ -1,0 +1,353 @@
+.atlas-pram-frame {
+  background:#eef6f9;
+}
+
+/* PRAM: navigation floats over the hero instead of occupying a solid bar. */
+.pram-minimal-header {
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  z-index:40;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  min-height:54px;
+  padding:8px 3.2vw;
+  background:transparent;
+  border:0;
+  pointer-events:none;
+}
+
+.pram-header-right {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  margin-left:auto;
+  pointer-events:auto;
+}
+
+.pram-header-menu {
+  position:relative;
+}
+
+.pram-header-menu > summary {
+  display:grid;
+  gap:4px;
+  place-content:center;
+  width:42px;
+  height:38px;
+  padding:0;
+  list-style:none;
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:999px;
+  background:rgba(7,31,49,.36);
+  backdrop-filter:blur(10px);
+  box-shadow:0 4px 18px rgba(5,35,52,.12);
+}
+
+.pram-header-menu > summary::-webkit-details-marker { display:none; }
+.pram-header-menu > summary span {
+  display:block;
+  width:17px;
+  height:1.5px;
+  border-radius:999px;
+  background:#fff;
+}
+
+.pram-header-menu nav {
+  position:absolute;
+  top:46px;
+  right:0;
+  left:auto;
+  display:grid;
+  min-width:210px;
+  padding:8px;
+  border:1px solid rgba(19,73,101,.18);
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 18px 44px rgba(5,35,52,.18);
+}
+
+.pram-header-menu nav button,
+.pram-header-menu nav a,
+.pram-header-menu nav .pram-menu-disabled {
+  display:flex;
+  align-items:center;
+  min-height:40px;
+  padding:9px 12px;
+  border:0;
+  border-radius:9px;
+  background:transparent;
+  color:#123b55;
+  font:inherit;
+  font-size:13px;
+  text-align:left;
+  text-decoration:none;
+}
+
+.pram-header-menu nav button:hover,
+.pram-header-menu nav a:hover {
+  background:#edf7fa;
+  color:#0a6c84;
+}
+
+.pram-header-menu nav .pram-menu-disabled {
+  opacity:.45;
+}
+
+.pram-header-right .atlas-icon-button {
+  color:#fff;
+  border-color:rgba(255,255,255,.48);
+  background:rgba(7,31,49,.24);
+  backdrop-filter:blur(8px);
+}
+
+.pram-header-right .language-switcher > span {
+  display:none;
+}
+
+.pram-header-right .language-switcher {
+  min-height:auto;
+  padding:0;
+  border:0;
+  background:transparent;
+}
+
+.pram-header-right .language-switcher select {
+  min-width:58px;
+  height:36px;
+  padding:0 24px 0 12px;
+  border:1px solid rgba(255,255,255,.55);
+  border-radius:11px;
+  background:rgba(255,255,255,.94);
+  color:#123b55;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 4px 18px rgba(5,35,52,.08);
+}
+
+/* Hero: extends underneath the floating controls, with a soft upper fade. */
+.atlas-pram-frame .pram-hero-shell {
+  position:relative;
+  overflow:visible;
+  min-height:260px;
+  margin-bottom:18px;
+  padding-top:72px;
+}
+
+.atlas-pram-frame .pram-hero-shell::after {
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  z-index:2;
+  height:74px;
+  pointer-events:none;
+  background:linear-gradient(
+    180deg,
+    rgba(7,31,49,.58) 0%,
+    rgba(7,31,49,.25) 48%,
+    rgba(7,31,49,0) 100%
+  );
+}
+
+.atlas-pram-frame .pram-hero-shell::before {
+  content:"♡  PedsCore";
+  position:absolute;
+  left:var(--pram-gutter);
+  bottom:10px;
+  z-index:7;
+  display:inline-flex;
+  align-items:center;
+  color:#0b385b;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.01em;
+  text-shadow:0 1px 10px rgba(255,255,255,.65);
+}
+
+/* Hero: clinical/evidence chips intentionally hidden in the approved pilot */
+.atlas-pram-frame .pram-clinical-badge,
+.atlas-pram-frame .pram-trust-chips {
+  display:none;
+}
+
+.atlas-pram-frame .pram-title-row {
+  position:relative;
+}
+
+.atlas-pram-frame .pram-hero-actions {
+  position:absolute;
+  right:0;
+  bottom:-54px;
+  z-index:8;
+  display:flex;
+  gap:6px;
+  padding:0;
+}
+
+.atlas-pram-frame .pram-pill-button {
+  min-height:31px;
+  padding:6px 10px;
+  font-size:10.5px;
+  box-shadow:0 5px 14px rgba(18,64,87,.04);
+}
+
+.atlas-pram-frame .pram-summary-stack {
+  margin-top:0;
+  gap:0;
+}
+
+/* Restore comfortable clinical typography now that the page uses the viewport */
+.atlas-pram-frame .pram-quick-strip strong {
+  font-size:15px;
+}
+
+.atlas-pram-frame .pram-quick-strip small {
+  font-size:12.5px;
+  line-height:1.38;
+}
+
+.atlas-pram-frame .pram-supporting-inputs label > span {
+  font-size:12px;
+}
+
+.atlas-pram-frame .pram-supporting-inputs input,
+.atlas-pram-frame .pram-supporting-inputs select {
+  font-size:14px;
+}
+
+.atlas-pram-frame .pram-calculator-card h2,
+.atlas-pram-frame .pram-result-card h2,
+.atlas-pram-frame .pram-interpretation h2,
+.atlas-pram-frame .pram-related h2 {
+  font-size:20px;
+}
+
+.atlas-pram-frame .pram-score-label strong {
+  font-size:14px;
+}
+
+.atlas-pram-frame .pram-score-label small {
+  font-size:11.5px;
+  line-height:1.32;
+}
+
+.atlas-pram-frame .pram-options-grid b {
+  font-size:13px;
+}
+
+.atlas-pram-frame .pram-options-grid span {
+  font-size:11.5px;
+  line-height:1.26;
+}
+
+.atlas-pram-frame .pram-result-copy {
+  font-size:13px;
+}
+
+.atlas-pram-frame .pram-trace summary {
+  font-size:12px;
+}
+
+.atlas-pram-frame .pram-trace dl div {
+  font-size:11.5px;
+}
+
+.atlas-pram-frame .pram-band-grid strong {
+  font-size:13.5px;
+}
+
+.atlas-pram-frame .pram-band-grid p {
+  font-size:11.5px;
+  line-height:1.4;
+}
+
+.atlas-pram-frame .pram-disclosures summary strong {
+  font-size:13.5px;
+}
+
+.atlas-pram-frame .pram-disclosures summary small {
+  font-size:10.5px;
+}
+
+.atlas-pram-frame .pram-disclosures details > div {
+  font-size:12px;
+}
+
+.atlas-pram-frame .pram-related-heading p {
+  font-size:12px;
+}
+
+.atlas-pram-frame .pram-related-grid strong {
+  font-size:13px;
+}
+
+.atlas-pram-frame .pram-related-grid small {
+  font-size:10.5px;
+  line-height:1.3;
+}
+
+/* Minimal footer: only legal/safety transparency essentials */
+.site-footer.pram-minimal-footer {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  min-height:54px;
+  margin-top:10px;
+  padding:11px 3.2vw;
+  border-top:1px solid rgba(20,76,102,.12);
+  background:#071f31;
+  color:#c6d8e1;
+  font-size:11px;
+}
+
+.pram-minimal-footer nav {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:16px;
+}
+
+.pram-minimal-footer .text-link,
+.pram-minimal-footer a {
+  padding:0;
+  border:0;
+  background:transparent;
+  color:#e3f0f5;
+  font-size:11px;
+  text-decoration:none;
+}
+
+.pram-minimal-footer .text-link:hover,
+.pram-minimal-footer a:hover {
+  text-decoration:underline;
+}
+
+@media (max-width: 680px) {
+  .pram-minimal-header {
+    padding:8px 14px;
+  }
+  .pram-header-right { gap:6px; }
+  .atlas-pram-frame .pram-hero-shell {
+    min-height:300px;
+    padding-top:68px;
+  }
+  .atlas-pram-frame .pram-hero-shell::before {
+    left:18px;
+    bottom:8px;
+    font-size:13px;
+  }
+  .atlas-pram-frame .pram-hero-actions {
+    right:0;
+    bottom:-48px;
+  }
+  .site-footer.pram-minimal-footer {
+    align-items:flex-start;
+    flex-direction:column;
+    padding:14px 18px;
+  }
+}

@@ -21,6 +21,7 @@ import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
 import { ToolClinicalGuide } from "../components/ToolClinicalGuide";
 import { ToolEditorialInsight } from "../components/ToolEditorialInsight";
 import { ToolStatusBadge } from "../components/ToolStatusBadge";
+import { ToolReviewPanel } from "../components/ToolReviewPanel";
 import { evidenceLabels, riskLabels, statusLabels, translations } from "../i18n/translations";
 import {
   getUnlockActions,
@@ -31,6 +32,12 @@ import { getInitialFormState } from "../utils/formState";
 import { trackUsageEvent } from "../utils/analytics";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
+import { seoTopicHubs } from "../utils/topicHubs";
+import {
+  isFavoriteTool,
+  recordRecentTool,
+  toggleFavoriteTool
+} from "../utils/userTools";
 
 const WhoGrowthResultPanel = lazy(() =>
   import("../components/growth/WhoGrowthResultPanel").then((module) => ({
@@ -71,12 +78,17 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const [formValues, setFormValues] = useState<FormValues>(() =>
     getInitialFormState(formTool)
   );
+  const [favorite, setFavorite] = useState(() => isFavoriteTool(tool.id));
   const resultPanelRef = useRef<HTMLElement>(null);
   const completedToolIdRef = useRef<string | null>(null);
   const isWhoGrowth = whoGrowthPreset !== null && whoGrowthTool !== null;
   const hasActiveCalculation = discovery?.calculationAvailability === "local_active" || isWhoGrowth;
   const isActiveReference = discovery?.surfaceStatus === "active" && !hasActiveCalculation;
   const relatedTools = useMemo(() => getSemanticRelatedTools(tool, 8), [tool]);
+  const topicHubs = useMemo(
+    () => seoTopicHubs.filter((hub) => hub.toolIds.includes(tool.id)),
+    [tool.id]
+  );
   const seoProfile = useMemo(() => getToolSeoProfile(tool, language), [language, tool]);
   const analyticsPath = makePath(language, "tools", tool.slug);
   const analyticsParams = useMemo(
@@ -92,6 +104,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   useEffect(() => {
     setFormValues(getInitialFormState(formTool));
     completedToolIdRef.current = null;
+    setFavorite(isFavoriteTool(tool.id));
+    recordRecentTool(tool.id);
   }, [formTool, tool]);
 
   useEffect(() => {
@@ -131,6 +145,28 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
     }
   };
 
+  const handleFavorite = () => {
+    const next = toggleFavoriteTool(tool.id);
+    setFavorite(next);
+    if (next) {
+      trackUsageEvent("favorite_added", analyticsPath, language, analyticsParams);
+    }
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: tool.name[language], url });
+      } else {
+        await navigator.clipboard.writeText(url);
+      }
+      trackUsageEvent("share_used", analyticsPath, language, analyticsParams);
+    } catch {
+      // Cancelling native share or unavailable clipboard must not affect the tool.
+    }
+  };
+
   return (
     <div className={isCanonical ? "tool-page atlas-canonical" : "tool-page"}>
       <nav className="atlas-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}><a href={makePath(language, "tools")} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools")); }}>{language === "es" ? "Herramientas" : "Tools"}</a><span>/</span><a href={makePath(language, "categories", tool.category)} onClick={e => { e.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>{categoryLabels[tool.category][language]}</a><span>/</span><span>{isCanonical ? "PRAM" : tool.name[language]}</span></nav>
@@ -143,6 +179,21 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
           <span>{evidenceLabels[tool.evidenceLevel][language]}</span>
           <span>{riskLabels[tool.regulatoryRisk][language]}</span>
         </div>
+        <div className="tool-utility-actions">
+          <button
+            aria-pressed={favorite}
+            className={favorite ? "favorite-action is-favorite" : "favorite-action"}
+            onClick={handleFavorite}
+            type="button"
+          >
+            {favorite ? "★" : "☆"} {favorite
+              ? (language === "es" ? "En favoritos" : "Favorited")
+              : (language === "es" ? "Añadir a favoritos" : "Add to favorites")}
+          </button>
+          <button className="secondary-action" onClick={handleShare} type="button">
+            {language === "es" ? "Compartir" : "Share"}
+          </button>
+        </div>
       </section>
 
       <nav className="atlas-section-nav" aria-label={language === "es" ? "Secciones de la herramienta" : "Tool sections"}>
@@ -151,6 +202,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
         <a href="#calculator">{hasActiveCalculation ? a.calculator : language === "es" ? "Uso" : "Use"}</a>
         {hasActiveCalculation ? <a href="#interpretation">{language === "es" ? "Interpretación" : "Interpretation"}</a> : null}
         <a href="#evidence">{a.evidence}</a>
+        <a href="#clinical-review">{language === "es" ? "Revisión" : "Review"}</a>
         <a href="#references">{a.references}</a>
         {relatedTools.length > 0 ? <a href="#related">{a.related}</a> : null}
       </nav>
@@ -319,7 +371,28 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </section>
           ) : null}
 
-          {hasActiveCalculation ? (
+          {tool.id === "fenton_2025_growth" ? (
+            <section className="content-panel surface-availability-note" id="calculator">
+              <strong>
+                {language === "es"
+                  ? "Fenton 2025 · tercera generación"
+                  : "Fenton 2025 · third generation"}
+              </strong>
+              <p>
+                {language === "es"
+                  ? "PedsCore mantiene Fenton 2025 como herramienta externa: no redistribuye ni recalcula localmente los datos de las curvas. Usa PediTools para percentiles y z-scores puntuales o el plotter oficial de Fenton Growth para seguimiento longitudinal."
+                  : "PedsCore keeps Fenton 2025 as an external tool: it does not redistribute or locally recalculate the chart data. Use PediTools for point percentiles and Z-scores or the official Fenton Growth plotter for longitudinal follow-up."}
+              </p>
+              <div className="tool-actions">
+                <a className="primary-link" href="https://peditools.org/fenton2025/" rel="noreferrer" target="_blank">
+                  {language === "es" ? "Abrir calculadora Fenton 2025 en PediTools ↗" : "Open Fenton 2025 calculator on PediTools ↗"}
+                </a>
+                <a className="secondary-link" href="https://fentongrowth.ca/" rel="noreferrer" target="_blank">
+                  {language === "es" ? "Abrir plotter oficial Fenton Growth ↗" : "Open official Fenton Growth plotter ↗"}
+                </a>
+              </div>
+            </section>
+          ) : hasActiveCalculation ? (
             <div className={isCanonical ? "atlas-workspace" : "atlas-legacy-workspace"} id="calculator">
               {isWhoGrowth ? (
                 <WhoGrowthForm
@@ -427,6 +500,37 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </div>
             <p>{tool.validationNotes[language]}</p>
           </section>
+
+          {topicHubs.length > 0 ? (
+            <section className="content-panel subtle-panel">
+              <div className="tool-section-heading">
+                <p className="eyebrow">{language === "es" ? "COMPARAR" : "COMPARE"}</p>
+                <h2>{language === "es" ? "Herramientas relacionadas por contexto" : "Related tools by clinical context"}</h2>
+              </div>
+              <p>
+                {language === "es"
+                  ? "Estas guías agrupan herramientas que suelen plantearse en el mismo problema clínico y explican por qué no son necesariamente intercambiables."
+                  : "These guides group tools commonly considered for the same clinical problem and explain why they are not necessarily interchangeable."}
+              </p>
+              <div className="link-row">
+                {topicHubs.map((hub) => (
+                  <a
+                    className="primary-link"
+                    href={`/${language}/topics/${hub.slug}`}
+                    key={hub.slug}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigate(`/${language}/topics/${hub.slug}`);
+                    }}
+                  >
+                    {hub.title[language]}
+                  </a>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          <ToolReviewPanel language={language} tool={tool} />
 
           <section className="content-panel tool-editorial-transparency" id="editorial-transparency">
             <div className="tool-section-heading">

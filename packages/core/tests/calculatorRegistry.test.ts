@@ -38,7 +38,7 @@ describe("calculator registry", () => {
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(27);
+    expect(getImplementedTools()).toHaveLength(28);
   });
 
   it("calculates through the dispatcher", () => {

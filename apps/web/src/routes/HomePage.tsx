@@ -12,6 +12,11 @@ import { makePath } from "../utils/routes";
 import { getClinicalSurfaceStats } from "../utils/toolStats";
 import { fetchPopularTools } from "../utils/popularTools";
 import { PEDSCORE_SIM_URL } from "../utils/externalLinks";
+import {
+  getFavoriteToolIds,
+  getRecentToolIds,
+  userToolsStorageDescription
+} from "../utils/userTools";
 
 interface HomePageProps {
   language: Language;
@@ -139,6 +144,13 @@ export function HomePage({ language, navigate }: HomePageProps) {
   ];
   const [popularSlugs, setPopularSlugs] = useState<string[]>(fallbackPopularSlugs);
   const [popularIsLive, setPopularIsLive] = useState(false);
+  const [personalizedVersion, setPersonalizedVersion] = useState(0);
+
+  useEffect(() => {
+    const sync = () => setPersonalizedVersion((value) => value + 1);
+    window.addEventListener("pedscore:user-tools-changed", sync);
+    return () => window.removeEventListener("pedscore:user-tools-changed", sync);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -163,6 +175,15 @@ export function HomePage({ language, navigate }: HomePageProps) {
   const popularTools = popularSlugs
     .map((slug) => getToolBySlug(slug))
     .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
+  const byId = useMemo(() => new Map(allTools.map((tool) => [tool.id, tool])), [allTools]);
+  const favoriteTools = useMemo(
+    () => getFavoriteToolIds().map((id) => byId.get(id)).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool)),
+    [byId, personalizedVersion]
+  );
+  const recentTools = useMemo(
+    () => getRecentToolIds().map((id) => byId.get(id)).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool)),
+    [byId, personalizedVersion]
+  );
   const categoryCounts = useMemo(() => {
     const counts = new Map<ToolCategory, number>();
 
@@ -214,6 +235,56 @@ export function HomePage({ language, navigate }: HomePageProps) {
         <div className="home-finder-stage">
           <PedsCoreFinder tools={allTools} language={language} navigate={navigate} />
         </div>
+
+        {(favoriteTools.length > 0 || recentTools.length > 0) ? (
+          <section className="home-personal-tools" aria-labelledby="home-personal-tools-title">
+            <div>
+              <p className="eyebrow">{language === "es" ? "TU PEDSCORE" : "YOUR PEDSCORE"}</p>
+              <h3 id="home-personal-tools-title">{language === "es" ? "Tus herramientas" : "Your tools"}</h3>
+              <p>{userToolsStorageDescription[language]}</p>
+            </div>
+            <div className="home-personal-tool-groups">
+              {favoriteTools.length > 0 ? (
+                <div>
+                  <strong>{language === "es" ? "Favoritos" : "Favorites"}</strong>
+                  <div className="personal-tool-links">
+                    {favoriteTools.slice(0, 6).map((tool) => (
+                      <a
+                        href={makePath(language, "tools", tool.slug)}
+                        key={tool.id}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          navigate(makePath(language, "tools", tool.slug));
+                        }}
+                      >
+                        ★ {tool.shortName || tool.name[language]}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {recentTools.length > 0 ? (
+                <div>
+                  <strong>{language === "es" ? "Recientes" : "Recent"}</strong>
+                  <div className="personal-tool-links">
+                    {recentTools.slice(0, 6).map((tool) => (
+                      <a
+                        href={makePath(language, "tools", tool.slug)}
+                        key={tool.id}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          navigate(makePath(language, "tools", tool.slug));
+                        }}
+                      >
+                        {tool.shortName || tool.name[language]}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
 
         <div className="home-discovery-grid">
           <article className="home-discovery-card home-specialties-card">

@@ -35,7 +35,7 @@ export const ResultPanel = forwardRef<HTMLElement, ResultPanelProps>(
         <p className="inactive-calculation">{t.result.completeRequired}</p>
       ) : null}
       {calculationResult ? (
-        <CalculatedResult language={language} result={calculationResult} />
+        <CalculatedResult language={language} result={calculationResult} tool={tool} />
       ) : null}
       {tool.calculationNotes ? <p>{tool.calculationNotes[language]}</p> : null}
     </section>
@@ -45,9 +45,10 @@ export const ResultPanel = forwardRef<HTMLElement, ResultPanelProps>(
 interface CalculatedResultProps {
   language: Language;
   result: CalculationResult;
+  tool: ClinicalToolMetadata;
 }
 
-function CalculatedResult({ language, result }: CalculatedResultProps) {
+function CalculatedResult({ language, result, tool }: CalculatedResultProps) {
   const t = translations[language];
   const primaryValue = result.score ?? result.value;
   const valueLabel = result.score !== undefined ? t.result.score : t.result.value;
@@ -110,20 +111,32 @@ function CalculatedResult({ language, result }: CalculatedResultProps) {
           )}
         </div>
       ) : null}
-      <div>
-        <h3>{t.result.trace}</h3>
-        <dl className="trace-list">
-          {result.trace.map((item) => (
-            <div key={item.inputId}>
-              <dt>{item.inputId}</dt>
-              <dd>
-                {String(item.value)}
-                {item.score !== undefined ? ` · ${item.score}` : ""}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      </div>
+      {result.trace.length > 0 ? (
+        <details className="calculation-trace">
+          <summary>{language === "es" ? "Cómo se ha calculado" : "How this was calculated"}</summary>
+          <p>
+            {language === "es"
+              ? "Desglose de las entradas utilizadas y la contribución de cada una cuando la herramienta asigna puntos."
+              : "Breakdown of the inputs used and each contribution when the tool assigns points."}
+          </p>
+          <dl className="trace-list">
+            {result.trace.map((item) => {
+              const input = tool.inputs?.find((candidate) => candidate.id === item.inputId);
+              return (
+                <div key={item.inputId}>
+                  <dt>{input?.label[language] ?? item.inputId}</dt>
+                  <dd>
+                    {String(item.value)}
+                    {item.score !== undefined
+                      ? (language === "es" ? ` · +${item.score} puntos` : ` · +${item.score} points`)
+                      : ""}
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
+        </details>
+      ) : null}
     </div>
   );
 }

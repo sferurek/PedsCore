@@ -57,7 +57,7 @@ describe("clinical discovery taxonomy", () => {
       (metadata) => metadata.surfaceStatus
     );
 
-    expect(statuses.filter((status) => status === "active")).toHaveLength(115);
+    expect(statuses.filter((status) => status === "active")).toHaveLength(116);
     expect(statuses.filter((status) => status === "draft")).toHaveLength(1);
     expect(statuses.filter((status) => status === "blocked")).toHaveLength(14);
     expect(statuses.filter((status) => status === "deprecated")).toHaveLength(3);
@@ -65,7 +65,7 @@ describe("clinical discovery taxonomy", () => {
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
-    ).toHaveLength(30);
+    ).toHaveLength(29);
   });
 
   it("does not expose removed final surfaces through discovery", () => {

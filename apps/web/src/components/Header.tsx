@@ -7,14 +7,76 @@ import { PEDSCORE_SIM_URL } from "../utils/externalLinks";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Icon } from "./atlas/Icon";
 import { SearchCommand } from "./atlas/SearchCommand";
-interface HeaderProps { currentPath: string; language: Language; navigate: (href: string) => void; onLanguageChange: (language: Language) => void; }
+
+interface HeaderProps {
+  currentPath: string;
+  language: Language;
+  navigate: (href: string) => void;
+  onLanguageChange: (language: Language) => void;
+}
+
 export function Header({ currentPath, language, navigate, onLanguageChange }: HeaderProps) {
-  const t = translations[language]; const a = atlas[language];
+  const t = translations[language];
+  const a = atlas[language];
   const sheet = useRef<HTMLDialogElement>(null);
+  const toolMenu = useRef<HTMLDetailsElement>(null);
   const [scrolled, setScrolled] = useState(false);
-  useEffect(() => { const update = () => setScrolled(window.scrollY > 48); update(); window.addEventListener("scroll", update, { passive: true }); return () => window.removeEventListener("scroll", update); }, []);
-  const go = (href: string) => { sheet.current?.close(); navigate(href); };
-  const links = <><button type="button" className="nav-link" aria-current={currentPath.includes("/tools") ? "page" : undefined} onClick={() => go(makePath(language, "tools"))}>{a.productLabels.tools}</button><span className="atlas-future-nav">{a.productLabels.learn}</span><a className="nav-link" href={PEDSCORE_SIM_URL}>{a.productLabels.sim}</a><span className="atlas-future-nav">{a.productLabels.live}</span><button type="button" className="nav-link" onClick={() => go(makePath(language, "about"))}>{t.nav.about}</button></>;
+  const isToolDetailPage = currentPath.startsWith(`/${language}/tools/`);
+
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 48);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  const go = (href: string) => {
+    sheet.current?.close();
+    toolMenu.current?.removeAttribute("open");
+    navigate(href);
+  };
+
+  if (isToolDetailPage) {
+    return (
+      <>
+        <a className="atlas-skip" href="#main-content">{a.skip}</a>
+        <header className="pram-minimal-header tool-minimal-header">
+          <div className="pram-header-right">
+            <SearchCommand compact language={language} navigate={navigate} />
+            <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
+            <details className="pram-header-menu" ref={toolMenu}>
+              <summary aria-label={a.menu}>
+                <span />
+                <span />
+                <span />
+              </summary>
+              <nav aria-label={language === "es" ? "Navegación principal" : "Primary navigation"}>
+                <button type="button" onClick={() => go(makePath(language, "tools"))}>
+                  {a.productLabels.tools}
+                </button>
+                <span className="pram-menu-disabled" aria-disabled="true">
+                  {a.productLabels.learn}
+                </span>
+                <a href={PEDSCORE_SIM_URL}>{a.productLabels.sim}</a>
+                <button type="button" onClick={() => go(makePath(language, "about"))}>
+                  {t.nav.about}
+                </button>
+              </nav>
+            </details>
+          </div>
+        </header>
+      </>
+    );
+  }
+
+  const links = <>
+    <button type="button" className="nav-link" aria-current={currentPath.includes("/tools") ? "page" : undefined} onClick={() => go(makePath(language, "tools"))}>{a.productLabels.tools}</button>
+    <span className="atlas-future-nav">{a.productLabels.learn}</span>
+    <a className="nav-link" href={PEDSCORE_SIM_URL}>{a.productLabels.sim}</a>
+    <span className="atlas-future-nav">{a.productLabels.live}</span>
+    <button type="button" className="nav-link" onClick={() => go(makePath(language, "about"))}>{t.nav.about}</button>
+  </>;
+
   return <>
     <a className="atlas-skip" href="#main-content">{a.skip}</a>
     <header className={`site-header atlas-header ${scrolled ? "is-scrolled" : ""}`}>
