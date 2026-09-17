@@ -6,109 +6,98 @@
 - slug: `gorelick-dehydration`
 - category: `emergency`
 - type: `score`
-- current implementationStatus: `pending_validation`
-- current evidenceLevel: `original_derivation_study`
-
-## Evidence validation status
-
-- final evidence status: `pending_variant_selection`
-- reason: Sprint 1 confirmed the primary source, but did not find a sufficiently reusable complete 4-item versus 10-item table from a direct source. No calculator was implemented.
-
-## Clinical purpose
-
-ES: valoración descriptiva de signos clínicos de deshidratación pediátrica.  
-EN: descriptive assessment of pediatric clinical dehydration signs.
-
-## Target population
-
-Children with suspected dehydration in acute care, as reflected by the Gorelick source population.
-
-## Version / variant
-
-- exact version: not selected.
-- known variants: clinical sign set from Gorelick 1997; derivative 4-sign and 10-sign interpretations in later reviews.
-- selected version for PedsCore: none yet.
-- variant risk: high if 4-item and 10-item sets are mixed.
+- implementationStatus: `implemented`
+- calculationStatus: `active`
+- population: children aged 1 month to 5 years with diarrhea, vomiting, or poor oral intake and suspected dehydration
+- primary score: Gorelick-10, 0–10
+- automatic subscore: Gorelick-4, 0–4
 
 ## Primary source
 
-- found: yes.
-- citation: Gorelick MH, Shaw KN, Murphy KO. Validity and reliability of clinical signs in the diagnosis of dehydration in children. Pediatrics. 1997;99(5):E6.
+Gorelick MH, Shaw KN, Murphy KO. Validity and reliability of clinical signs in the diagnosis of dehydration in children. Pediatrics. 1997;99(5):e6.
+
 - DOI: `10.1542/peds.99.5.e6`
 - PMID: `9113963`
-- URL: https://pubmed.ncbi.nlm.nih.gov/9113963/
-- access: `abstract_only`
-- notes: direct source located, but complete reusable scoring table and variant choice remain unresolved.
 
-## External validation
+The prospective cohort included 186 children aged 1 month to 5 years. The reference standard was fluid deficit estimated from serial weight gain after treatment.
 
-Later dehydration reviews compare clinical signs and dehydration scales, but Sprint 1 did not use those as a primary table source.
+## Gorelick-10
 
-## Guidelines / official sources
+PedsCore records the presence or absence of these 10 clinical findings:
 
-No guideline implementation was created.
+1. ill general appearance
+2. capillary refill >2 seconds
+3. absent tears
+4. dry mucous membranes
+5. sunken eyes
+6. deep or deep-and-rapid breathing
+7. weak/thready/impalpable pulse
+8. reduced skin elasticity / delayed recoil
+9. tachycardia
+10. reduced urine output
 
-## Complete scoring table availability
+Each present sign contributes 1 point. Total range: 0–10.
 
-- complete table found: no.
-- source: primary source likely defines assessed signs, but accessible/reusable implementation table was not confirmed.
-- copyright/licensing risk: unknown.
-- notes: do not reconstruct 4-item or 10-item scale from memory or secondary calculators.
+### Original-study thresholds
 
-## Variables and scoring
+- 0–2 signs: below the study threshold associated with >=5% weight deficit
+- >=3 signs: associated with >=5% weight deficit
+- >=7 signs: associated with >=10% weight deficit
 
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| Pending | Pending | Pending | Gorelick 1997 | Exact sign set and scoring variant must be selected. |
+The original study reported sensitivity 87% and specificity 82% for the presence of any 3 or more signs to detect >=5% deficit.
 
-## Interpretation bands / cutoffs
+## Gorelick-4 subset
 
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| Pending | Pending | Cutoffs differ by derivative variant. | Gorelick 1997 and later validation review needed. |
+The original study identified a four-sign subset with similar performance:
 
-## Formula / algorithm
+1. capillary refill >2 seconds
+2. absent tears
+3. dry mucous membranes
+4. ill general appearance
 
-Not implemented. Candidate future algorithm would count source-verified clinical signs only after selecting one variant.
+PedsCore calculates this automatically from the 10-item assessment.
 
-## Unit handling
+### Subscore thresholds
 
-No units; all signs are clinical observations. Missing/unknown signs require explicit handling.
+- 0–1 signs: below the >=5% threshold
+- >=2 signs: associated with >=5% weight deficit
+- >=3 signs: associated with >=10% weight deficit
 
-## Safety and regulatory notes
+## Interpretation policy
 
-- risk level: medium.
-- why: dehydration categorization can be linked to fluid management.
-- should provide recommendations: no.
-- forbidden outputs: oral/IV fluid instructions, admission/discharge, treatment, medication, or escalation advice.
+PedsCore reports both:
 
-## Licensing / copyright
+- `Gorelick-10: X/10`
+- `Gorelick-4: Y/4`
 
-- appears implementable: unknown.
-- license-sensitive: unknown.
-- requires permission: unknown.
-- unknown: complete table/form reuse.
-- notes: keep blocked until variant and table are traceable.
+The output describes ranges associated with weight deficit in the derivation study. It does **not** claim that a child has an exact measured dehydration percentage.
 
-## Implementation recommendation
+External validation of dehydration scales is heterogeneous, so the score should be interpreted with the complete clinical assessment and, when available, measured change in body weight.
 
-`select_variant_first`
+## Copyright / reuse decision
 
-## Proposed test cases
+The original Pediatrics article is not treated as an openly licensed table.
 
-- minimum: no source-verified signs.
-- maximum: all source-verified signs.
-- intermediate: representative sign count.
-- missing input: unknown sign.
-- invalid input: non-boolean sign.
-- edge cases: 4-item versus 10-item mismatch.
-- forbidden wording tests: no fluid therapy, admission, discharge, medication, or escalation advice.
+PedsCore independently encodes the functional scoring rules and uses independently drafted ES/EN descriptors. It does not reproduce the source table, typography, layout, or editorial wording.
 
-## Direct links
+An open-access review in Frontiers in Pediatrics reproduces the ten signs and the 10-sign / 4-sign thresholds and is used as a secondary verification source:
 
-- https://pubmed.ncbi.nlm.nih.gov/9113963/
-- https://doi.org/10.1542/peds.99.5.e6
+- Management of Diarrhoeal Dehydration in Childhood: A Review for Clinicians in Developing Countries.
+- PMCID: PMC5829087.
 
-## Notes
+## Safety
 
-Blocked in Sprint 1 because the evidence gate for complete table and variant selection was not met.
+PedsCore does not attach the score to:
+
+- oral or intravenous fluid volumes
+- bolus instructions
+- medication
+- admission or discharge
+- ICU disposition
+- any automatic treatment pathway
+
+## Implementation files
+
+- `packages/core/src/calculators/gorelickDehydration.ts`
+- `packages/core/tests/gorelickDehydration.test.ts`
+- `packages/core/src/catalog/clinicalTools.ts`
