@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "brosjod",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1348,9 +1349,27 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Block 8B-3: BROSJOD validation source located. Original/full table and reuse permissions remain pending before implementation.",
+        "Primary validation trace. PedsCore implements independently worded scoring logic rather than reproducing the article's table or editorial expression.",
       appliesTo: ["brosjod"],
       priority: 1
+    },
+    {
+      id: "brosjod_2022_sjd_clinical_use",
+      title: "Safety and effectiveness of bubble continuous positive airway pressure as respiratory support for bronchiolitis in a pediatric ward",
+      authors: "Hospital Sant Joan de Deu clinical team",
+      year: 2022,
+      journalOrPublisher: "European Journal of Pediatrics",
+      citation:
+        "Clinical use of the revised BROSJOD severity bands in a Sant Joan de Deu cohort.",
+      doi: "10.1007/s00431-022-04616-3",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9649485/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Open-access secondary clinical-use source documenting revised bands 0-6 mild, 7-9 moderate, and >=10 severe.",
+      appliesTo: ["brosjod"],
+      priority: 2
     }
   ],
   gorelick_dehydration: [
@@ -1650,8 +1669,8 @@ const nipsQaValidationNotes: LocalizedText = {
 };
 
 const brosjodValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: fuente de validacion BROSJOD localizada con DOI/PMID. Pendiente fuente/tabla original completa y permisos antes de implementar.",
-  en: "Block 8B-3: BROSJOD validation source located with DOI/PMID. Original/full table source and permissions remain pending before implementation."
+  es: "Implementacion local de la logica BROSJOD validada por Balaguer et al. (2017), para menores de 24 meses. PedsCore codifica de forma independiente los hechos funcionales de puntuacion y no copia la redaccion, tabla, diseno ni material grafico de Wiley u otras reproducciones. Se usan los cortes revisados de validacion 0-6, 7-9 y 10-16. Salida descriptiva, sin recomendaciones automaticas de tratamiento, ingreso ni soporte respiratorio.",
+  en: "Local implementation of the BROSJOD scoring logic validated by Balaguer et al. (2017) for children under 24 months. PedsCore independently encodes the functional scoring facts and does not copy wording, table layout, design, or graphical material from Wiley or secondary reproductions. Revised validation bands 0-6, 7-9, and 10-16 are used. Output is descriptive, with no automated treatment, admission, or respiratory-support recommendations."
 };
 
 const gorelickValidationNotes: LocalizedText = {
@@ -1793,6 +1812,80 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  brosjod: {
+    calculationNotes: {
+      es: "BROSJOD para menores de 24 meses con bronquiolitis. PedsCore suma seis componentes: sibilancias/estertores, tiraje, entrada de aire, oxigenacion, frecuencia respiratoria y frecuencia cardiaca. Se muestran los puntos de corte revisados en la validacion de 2017: 0-6 leve, 7-9 moderada y 10-16 grave. La puntuacion es descriptiva y no sustituye la valoracion clinica ni determina por si sola tratamiento, ingreso o soporte respiratorio.",
+      en: "BROSJOD for children under 24 months with bronchiolitis. PedsCore sums six components: wheeze/rales, retractions, air entry, oxygenation, respiratory rate, and heart rate. It displays the revised cut-offs from the 2017 validation: 0-6 mild, 7-9 moderate, and 10-16 severe. The score is descriptive and does not replace clinical assessment or by itself determine treatment, admission, or respiratory support."
+    },
+    inputs: [
+      {
+        id: "wheeze_rales",
+        label: { es: "Sibilancias / estertores", en: "Wheeze / rales" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("none", "Sin sibilancias ni estertores", "No wheeze or rales", 0),
+          option("expiratory_or_inspiratory", "Sibilancia espiratoria o estertores inspiratorios", "Expiratory wheeze or inspiratory rales", 1),
+          option("inspiratory_expiratory", "Hallazgos presentes en inspiracion y espiracion", "Findings present during inspiration and expiration", 2)
+        ]
+      },
+      {
+        id: "indrawing",
+        label: { es: "Tiraje / uso de musculatura accesoria", en: "Retractions / accessory muscle use" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("none", "Sin tiraje", "No retractions", 0),
+          option("lower", "Subcostal e intercostal inferior", "Subcostal and lower intercostal", 1),
+          option("upper_features", "Anterior + supraclavicular y aleteo nasal", "Previous findings + supraclavicular retraction and nasal flaring", 2),
+          option("extensive", "Anterior + intercostal superior y retraccion supraesternal/traqueal", "Previous findings + upper intercostal and suprasternal/tracheal retraction", 3)
+        ]
+      },
+      {
+        id: "air_entry",
+        label: { es: "Entrada de aire", en: "Air entry" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("normal", "Sin alteracion", "No abnormality", 0),
+          option("regular_symmetric", "Disminucion leve, regular y simetrica", "Mild reduction, regular and symmetric", 1),
+          option("asymmetric", "Asimetrica", "Asymmetric", 2),
+          option("very_reduced", "Muy disminuida", "Very reduced", 3)
+        ]
+      },
+      { id: "age_months", label: { es: "Edad", en: "Age" }, description: { es: "Edad cronologica; BROSJOD se valida en menores de 24 meses.", en: "Chronological age; BROSJOD is validated in children under 24 months." }, type: "number", required: true, unit: "meses", min: 0, max: 23.99, step: 0.1 },
+      {
+        id: "oxygen_mode",
+        label: { es: "Situacion de oxigeno", en: "Oxygen status" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("room_air", "Aire ambiente", "Room air", 0),
+          option("supplemental_oxygen", "Oxigeno suplementario", "Supplemental oxygen", 0)
+        ]
+      },
+      { id: "oxygen_saturation", label: { es: "SpO2", en: "SpO2" }, type: "number", required: true, unit: "%", min: 0, max: 100, step: 1 },
+      { id: "fio2", label: { es: "FiO2 si recibe oxigeno", en: "FiO2 if receiving oxygen" }, description: { es: "Introducir porcentaje (p. ej., 35 para FiO2 0,35). No es necesario en aire ambiente.", en: "Enter percent (e.g., 35 for FiO2 0.35). Not required on room air." }, type: "number", required: false, unit: "%", min: 21, max: 100, step: 1 },
+      { id: "respiratory_rate", label: { es: "Frecuencia respiratoria", en: "Respiratory rate" }, type: "number", required: true, unit: "rpm", min: 0, max: 150, step: 1 },
+      { id: "heart_rate", label: { es: "Frecuencia cardiaca", en: "Heart rate" }, type: "number", required: true, unit: "lpm", min: 0, max: 300, step: 1 }
+    ],
+    interpretationBands: [
+      { id: "mild", label: { es: "Gravedad leve", en: "Mild severity" }, min: 0, max: 6, description: { es: "Corte revisado en el estudio de validacion BROSJOD.", en: "Revised cut-off from the BROSJOD validation study." } },
+      { id: "moderate", label: { es: "Gravedad moderada", en: "Moderate severity" }, min: 7, max: 9, description: { es: "Corte revisado en el estudio de validacion BROSJOD.", en: "Revised cut-off from the BROSJOD validation study." } },
+      { id: "severe", label: { es: "Gravedad grave", en: "Severe severity" }, min: 10, max: 16, description: { es: "Corte revisado en el estudio de validacion BROSJOD.", en: "Revised cut-off from the BROSJOD validation study." } }
+    ],
+    scoringTable: [
+      {
+        id: "brosjod_total",
+        variable: { es: "Puntuacion BROSJOD total", en: "Total BROSJOD score" },
+        value: "0-16",
+        description: {
+          es: "Suma de seis componentes. Los descriptores de PedsCore estan redactados de forma independiente y no reproducen la maquetacion ni el texto editorial de ninguna tabla publicada.",
+          en: "Sum of six components. PedsCore descriptors are independently worded and do not reproduce the layout or editorial wording of any published table."
+        }
+      }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4212,7 +4305,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
-  makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
+  makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes menores de 24 meses con bronquiolitis", "Infants under 24 months with bronchiolitis", "Score descriptivo de gravedad de bronquiolitis basado en seis componentes clinicos y fisiologicos.", "Descriptive bronchiolitis severity score based on six clinical and physiological components.", "implemented", "external_validation_study", "medium", brosjodValidationNotes),
   makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "pending_validation", "original_derivation_study", "medium", passValidationNotes),
   makeTool("risc", "risc", "RISC", "RISC", "RISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Score de gravedad de neumonia identificado en recomendaciones.", "Pneumonia severity score identified in recommendations.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("mrisc", "mrisc", "mRISC", "mRISC", "mRISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Variante modificada RISC para neumonia.", "Modified RISC variant for pneumonia.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
