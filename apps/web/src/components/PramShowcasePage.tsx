@@ -49,13 +49,10 @@ const getSupportingInput = (tool: ClinicalToolMetadata, id: string): ToolInput |
 const optionValue = (option: NonNullable<ToolInput["options"]>[number]): FormValue =>
   option.value ?? option.id;
 
-const isSelected = (current: FormValue | undefined, option: NonNullable<ToolInput["options"]>[number]): boolean =>
-  current === optionValue(option) || current === option.id;
-
-const formatValue = (value: unknown): string => {
-  if (value === null || value === undefined || value === "") return "—";
-  return String(value);
-};
+const isSelected = (
+  current: FormValue | undefined,
+  option: NonNullable<ToolInput["options"]>[number]
+): boolean => current === optionValue(option) || current === option.id;
 
 export function PramShowcasePage({
   language,
@@ -136,19 +133,22 @@ export function PramShowcasePage({
               </button>
             </div>
           </div>
-          <div className="pram-trust-chips">
-            <span>◆ {language === "es" ? "Basada en evidencia" : "Evidence based"}</span>
-            <span>ⓘ {evidenceLabels[tool.evidenceLevel][language]}</span>
-          </div>
         </div>
       </section>
 
-      <section className="pram-quick-strip" aria-label={language === "es" ? "Resumen clínico" : "Clinical summary"}>
-        <div><b>♟</b><span><strong>{language === "es" ? "Población" : "Population"}</strong><small>{population}</small></span></div>
-        <div><b>♧</b><span><strong>{language === "es" ? "Uso en" : "Use in"}</strong><small>{careSetting}</small></span></div>
-        <div><b>▥</b><span><strong>{language === "es" ? "Resultado principal" : "Primary result"}</strong><small>{language === "es" ? "Puntuación PRAM de 0–12" : "PRAM score from 0–12"}</small></span></div>
-        <div className="is-caution"><b>▲</b><span><strong>{language === "es" ? "Precaución importante" : "Important caution"}</strong><small>{language === "es" ? "No reemplaza el juicio clínico." : "Does not replace clinical judgment."}</small></span></div>
-      </section>
+      <div className="pram-summary-stack">
+        <div className="pram-trust-chips" aria-label={language === "es" ? "Nivel de evidencia" : "Evidence level"}>
+          <span>◆ {language === "es" ? "Basada en evidencia" : "Evidence based"}</span>
+          <span>ⓘ {evidenceLabels[tool.evidenceLevel][language]}</span>
+        </div>
+
+        <section className="pram-quick-strip" aria-label={language === "es" ? "Resumen clínico" : "Clinical summary"}>
+          <div><b>♟</b><span><strong>{language === "es" ? "Población" : "Population"}</strong><small>{population}</small></span></div>
+          <div><b>♧</b><span><strong>{language === "es" ? "Uso en" : "Use in"}</strong><small>{careSetting}</small></span></div>
+          <div><b>▥</b><span><strong>{language === "es" ? "Resultado principal" : "Primary result"}</strong><small>{language === "es" ? "Puntuación PRAM de 0–12" : "PRAM score from 0–12"}</small></span></div>
+          <div className="is-caution"><b>▲</b><span><strong>{language === "es" ? "Precaución importante" : "Important caution"}</strong><small>{language === "es" ? "No reemplaza el juicio clínico." : "Does not replace clinical judgment."}</small></span></div>
+        </section>
+      </div>
 
       <section className="pram-supporting-inputs">
         {ageInput ? (
@@ -292,7 +292,10 @@ export function PramShowcasePage({
 
       {relatedTools.length > 0 ? (
         <section className="pram-related" id="related">
-          <div className="pram-related-heading"><div><h2>⌁ {language === "es" ? "Herramientas relacionadas" : "Related tools"}</h2><p>{language === "es" ? "Otras herramientas pediátricas que pueden ser de interés." : "Other pediatric tools that may be relevant."}</p></div></div>
+          <div className="pram-related-heading">
+            <h2>⌁ {language === "es" ? "Herramientas relacionadas" : "Related tools"}</h2>
+            <p>{language === "es" ? "Otras herramientas pediátricas que pueden ser de interés." : "Other pediatric tools that may be relevant."}</p>
+          </div>
           <div className="pram-related-grid">
             {relatedTools.slice(0, 4).map((related) => (
               <a key={related.id} href={makePath(language, "tools", related.slug)} onClick={(event) => { event.preventDefault(); navigate(makePath(language, "tools", related.slug)); }}>
