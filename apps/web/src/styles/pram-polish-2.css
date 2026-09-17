@@ -1,0 +1,90 @@
+.atlas-pram-frame .pram-hero-shell::before {
+  content:none !important;
+}
+
+.atlas-pram-frame .pram-hero-media {
+  background-position:center 18%;
+}
+
+.atlas-pram-frame .pram-hero-copy {
+  position:absolute;
+  right:var(--pram-gutter);
+  bottom:18px;
+  left:var(--pram-gutter);
+  z-index:6;
+}
+
+.atlas-pram-frame .pram-title-row {
+  align-items:flex-end;
+}
+
+.atlas-pram-frame .pram-title-line {
+  gap:8px;
+}
+
+.atlas-pram-frame .pram-title-row p {
+  margin:4px 0 0;
+  max-width:760px;
+}
+
+.atlas-pram-frame .pram-evidence-jump {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  margin-top:6px;
+  color:#176b90;
+  font-size:11.5px;
+  font-weight:800;
+  text-decoration:none;
+}
+
+.atlas-pram-frame .pram-evidence-jump:hover {
+  text-decoration:underline;
+}
+
+.atlas-pram-frame .pram-hero-actions {
+  right:0;
+  bottom:0;
+}
+
+.atlas-pram-frame .pram-disclosures details > div a {
+  color:#0d6f8b;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.atlas-pram-frame .pram-disclosures details > div a:hover {
+  text-decoration:underline;
+}
+
+@media (max-width: 980px) {
+  .atlas-pram-frame .pram-hero-media {
+    background-position:64% 16%;
+  }
+}
+
+@media (max-width: 680px) {
+  .atlas-pram-frame .pram-hero-copy {
+    right:18px;
+    bottom:18px;
+    left:18px;
+  }
+
+  .atlas-pram-frame .pram-title-row {
+    display:block;
+  }
+
+  .atlas-pram-frame .pram-title-row p {
+    max-width:none;
+  }
+
+  .atlas-pram-frame .pram-hero-actions {
+    position:static;
+    justify-content:flex-start;
+    margin-top:9px;
+  }
+
+  .atlas-pram-frame .pram-hero-media {
+    background-position:67% 14%;
+  }
+}
