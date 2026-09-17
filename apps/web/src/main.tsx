@@ -7,6 +7,7 @@ import "./styles/atlas.css";
 import "./styles/pram-showcase.css";
 import "./styles/pram-refinement.css";
 import "./styles/pram-polish-2.css";
+import "./styles/pram-tuning.css";
 
 const rootElement = document.getElementById("root");
 
