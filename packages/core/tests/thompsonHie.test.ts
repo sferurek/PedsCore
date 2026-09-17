@@ -60,6 +60,7 @@ describe("Thompson HIE calculator", () => {
 
   it("requires all domains and rejects invalid values", () => {
     const { fontanelle: _omitted, ...incomplete } = zeroInput;
+    void _omitted;
     expect(thompsonHieCalculator.calculate(incomplete).warnings[0]?.id).toBe("missing_required_inputs");
 
     expect(thompsonHieCalculator.calculate({ ...zeroInput, seizures: 3 }).warnings[0]?.id).toBe("invalid_thompson_item_score");
