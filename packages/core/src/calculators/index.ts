@@ -9,6 +9,7 @@ export * from "./qtc.js";
 export * from "./schwartz.js";
 export * from "./westleyCroup.js";
 export * from "./pram.js";
+export * from "./pass.js";
 export * from "./clinicalDehydrationScale.js";
 export * from "./bedsidePews.js";
 export * from "./pediatricAppendicitisScore.js";
