@@ -1,0 +1,114 @@
+name: Reconcile Bedside PEWS with current main
+
+on:
+  push:
+    branches:
+      - activate-bedside-pews
+    paths:
+      - .github/workflows/reconcile-bedside-pews.yml
+
+permissions:
+  contents: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: activate-bedside-pews
+
+      - name: Rebuild Bedside PEWS activation on current main without force
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+
+          git diff 0990a70106968aadbb9e65d54f357367dd5bff90..4ca1259cbfbf5ab5319efd3d85af77178f0755af -- \
+            packages/core/src/calculators/bedsidePews.ts \
+            packages/core/src/calculators/index.ts \
+            packages/core/src/calculators/registry.ts \
+            packages/core/src/catalog/clinicalTools.ts \
+            packages/core/src/discovery/toolDiscovery.ts \
+            packages/core/tests/bedsidePews.test.ts \
+            > /tmp/bedside-core.patch
+
+          git merge -s ours origin/main -m "merge: anchor Bedside PEWS activation to current main"
+          git read-tree --reset -u origin/main
+          git apply --3way --index /tmp/bedside-core.patch
+
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(path, old, new):
+              p = Path(path)
+              text = p.read_text()
+              if old not in text:
+                  raise SystemExit(f'Anchor not found in {path}: {old!r}')
+              p.write_text(text.replace(old, new, 1))
+
+          # Calculator registry inventory: current main already includes Fenton 2025.
+          p = Path('packages/core/tests/calculatorRegistry.test.ts')
+          text = p.read_text()
+          if '      "bedside_pews",\n' not in text:
+              text = text.replace('      "clinical_dehydration_scale",\n', '      "clinical_dehydration_scale",\n      "bedside_pews",\n', 1)
+          text = text.replace('expect(getImplementedTools()).toHaveLength(27);', 'expect(getImplementedTools()).toHaveLength(28);', 1)
+          p.write_text(text)
+
+          # Catalog inventory and Bedside-specific assertions.
+          p = Path('packages/core/tests/catalog.test.ts')
+          text = p.read_text()
+          if '  "bedside_pews",\n' not in text.split('const implementedToolIds = [',1)[1].split('];',1)[0]:
+              text = text.replace('  "cries",\n', '  "cries",\n  "bedside_pews",\n', 1)
+          text = text.replace('expect(getImplementedTools()).toHaveLength(27);', 'expect(getImplementedTools()).toHaveLength(28);', 1)
+          text = text.replace('      "bedside_pews",\n', '', 3)
+          marker = '  it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {'
+          if 'activates Bedside PEWS under CC BY 2.0 with local calculation' not in text:
+              block = '''  it("activates Bedside PEWS under CC BY 2.0 with local calculation", () => {\n    const tool = getTool("bedside_pews");\n    expect(tool?.implementationStatus).toBe("implemented");\n    expect(tool?.calculationStatus).toBe("active");\n    expect(tool?.inputs).toHaveLength(8);\n    expect(tool?.validationNotes.en).toContain("CC BY 2.0");\n    expect(tool?.references.some((reference) => reference.doi === "10.1186/cc7998")).toBe(true);\n    expect(tool?.references.some((reference) => reference.doi === "10.1186/cc10337")).toBe(true);\n  });\n\n'''
+              text = text.replace(marker, block + marker, 1)
+          p.write_text(text)
+
+          # Discovery local-active count and explicit Bedside coverage.
+          p = Path('packages/core/tests/discoveryTaxonomy.test.ts')
+          text = p.read_text()
+          text = text.replace(').toHaveLength(30);', ').toHaveLength(31);', 1)
+          if '"bedside_pews"' not in text.split('marks current calculators as locally active where applicable',1)[1]:
+              text = text.replace('"bedside_schwartz"]', '"bedside_schwartz","bedside_pews"]', 1)
+          p.write_text(text)
+
+          # SPRINT safety inventory.
+          p = Path('packages/core/tests/sprint50Safety.test.ts')
+          text = p.read_text()
+          if '  "bedside_pews",\n' not in text.split('const expectedImplementedToolIds = [',1)[1].split('];',1)[0]:
+              text = text.replace('  "cries",\n', '  "cries",\n  "bedside_pews",\n', 1)
+          if '  bedside_pews: "bedsidePews.test.ts",\n' not in text:
+              text = text.replace('  cries: "cries.test.ts",\n', '  cries: "cries.test.ts",\n  bedside_pews: "bedsidePews.test.ts",\n', 1)
+          text = text.replace('expect(getImplementedTools()).toHaveLength(27);', 'expect(getImplementedTools()).toHaveLength(28);', 1)
+          p.write_text(text)
+
+          # Global catalog/SEO derived counts after Bedside PEWS becomes tool 135 / implemented 28.
+          for path in [
+              'packages/core/tests/toolSeo.test.ts',
+              'apps/web/src/utils/filterTools.test.ts',
+              'apps/web/src/routes/webProductPolish.test.tsx'
+          ]:
+              p = Path(path)
+              text = p.read_text().replace('133', '135') if False else p.read_text()
+              text = text.replace('toHaveLength(134)', 'toHaveLength(135)')
+              text = text.replace('toBe(134)', 'toBe(135)')
+              if path.endswith('webProductPolish.test.tsx'):
+                  text = text.replace('toHaveLength(27)', 'toHaveLength(28)', 1)
+              p.write_text(text)
+
+          p = Path('apps/web/src/utils/indexNow.test.ts')
+          text = p.read_text().replace('toHaveLength(319)', 'toHaveLength(321)', 1)
+          p.write_text(text)
+          PY
+
+          git add -A
+          git rm -f .github/workflows/reconcile-bedside-pews.yml
+          git commit -m "reconcile: Bedside PEWS activation on current main"
+          git push origin HEAD:activate-bedside-pews
