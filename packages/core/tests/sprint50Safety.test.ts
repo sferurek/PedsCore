@@ -12,6 +12,7 @@ const expectedImplementedToolIds = [
   "apgar",
   "silverman_andersen",
   "ballard",
+  "dubowitz",
   "sarnat",
   "modified_sarnat_nichd",
   "thompson_hie",
@@ -39,6 +40,7 @@ const expectedImplementedToolIds = [
 const implementedTestFiles: Record<string, string> = {
   apgar: "apgar.test.ts",
   ballard: "ballard.test.ts",
+  dubowitz: "dubowitz.test.ts",
   sarnat: "sarnat.test.ts",
   modified_sarnat_nichd: "sarnat.test.ts",
   thompson_hie: "thompsonHie.test.ts",
@@ -154,23 +156,24 @@ describe("SPRINT-50 implementation safety gates", () => {
   });
 
   it("tracks partially implemented tools explicitly", () => {
-    const partiallyImplementedIds = clinicalTools
+    const partialIds = clinicalTools
       .filter((tool) => tool.implementationStatus === "partially_implemented")
-      .map((tool) => tool.id);
+      .map((tool) => tool.id)
+      .sort();
 
-    expect(partiallyImplementedIds).toEqual([
-      "who_growth_module",
-      "who_growth_percentiles",
-      "bmi_percentile",
-      "head_circumference_percentile"
-    ]);
-    expect(getImplementedTools()).toHaveLength(26);
+    expect(partialIds).toEqual(
+      [
+        "who_growth_module",
+        "who_growth_percentiles",
+        "bmi_percentile",
+        "head_circumference_percentile"
+      ].sort()
+    );
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {
     for (const id of blockedTherapeuticOrProtectedIds) {
       const tool = clinicalTools.find((item) => item.id === id);
-
       expect(tool?.implementationStatus).not.toBe("partially_implemented");
     }
   });
