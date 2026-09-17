@@ -19,15 +19,48 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Fix RDAI option identifiers and clean staging files
+      - name: Reconcile RDAI registry and inherited gates
         shell: python
         run: |
           from pathlib import Path
+
+          # Catalog option contracts: UI submits option ids, so each option needs id + score.
           p = Path('packages/core/src/catalog/clinicalTools.ts')
           s = p.read_text()
-          s = s.replace('({ value, label: { es: String(value), en: String(value) } })', '({ id: String(value), value, label: { es: String(value), en: String(value) } })')
+          s = s.replace('({ value, label: { es: String(value), en: String(value) } })', '({ id: String(value), value, score: value, label: { es: String(value), en: String(value) } })')
+          s = s.replace('({ id: String(value), value, label: { es: String(value), en: String(value) } })', '({ id: String(value), value, score: value, label: { es: String(value), en: String(value) } })')
           p.write_text(s)
-          for name in ['README.tmp-rdai','README.tmp-rdai-2','README.tmp-rdai-3']:
+
+          # Calculator registry.
+          p = Path('packages/core/src/calculators/registry.ts')
+          s = p.read_text()
+          if 'import { rdaiCalculator } from "./rdai.js";' not in s:
+            s = s.replace('import { criesCalculator } from "./cries.js";','import { criesCalculator } from "./cries.js";\nimport { rdaiCalculator } from "./rdai.js";')
+          if '  rdaiCalculator,' not in s:
+            s = s.replace('  criesCalculator,\n', '  criesCalculator,\n  rdaiCalculator,\n')
+          p.write_text(s)
+
+          # RDAI tests use CalculationWarning.id.
+          p = Path('packages/core/tests/rdai.test.ts')
+          s = p.read_text().replace('w.code === "rdai_no_decision_thresholds"','w.id === "rdai_no_decision_thresholds"').replace('warnings?.[0]?.code','warnings?.[0]?.id')
+          p.write_text(s)
+
+          # Inherited implemented-count gates.
+          for fn in ['packages/core/tests/calculatorRegistry.test.ts','apps/web/src/routes/webProductPolish.test.tsx']:
+            p = Path(fn); s = p.read_text(); s = s.replace('toHaveLength(29)', 'toHaveLength(30)'); p.write_text(s)
+
+          # Sprint-50 expected implemented set and test-map gate.
+          p = Path('packages/core/tests/sprint50Safety.test.ts')
+          s = p.read_text()
+          if '"rdai"' not in s:
+            s = s.replace('  "qtc_hodges",\n', '  "qtc_hodges",\n  "rdai",\n')
+          if 'rdai.test.ts' not in s:
+            # Add alongside other explicit calculator-test mappings where possible.
+            if 'cries.test.ts' in s:
+              s = s.replace('"cries.test.ts"', '"cries.test.ts", "rdai.test.ts"', 1)
+          p.write_text(s)
+
+          for name in ['README.tmp-rdai','README.tmp-rdai-2','README.tmp-rdai-3','README.tmp-rdai-final']:
             q = Path(name)
             if q.exists(): q.unlink()
       - name: Install dependencies
@@ -43,5 +76,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "fix: finalize RDAI activation [rdai-ready]"
+          git commit -m "fix: reconcile RDAI registry and gates [rdai-ready]"
           git push origin HEAD:activate-rdai
