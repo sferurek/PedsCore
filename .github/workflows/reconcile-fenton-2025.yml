@@ -27,7 +27,6 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch origin main
 
-          # Preserve only the reviewed Fenton 2025 delta from the pre-batch baseline.
           git diff 0990a70106968aadbb9e65d54f357367dd5bff90..5e92ea8a35b5f3a17c2791ce7f36c5985b09bd01 -- \
             packages/core/src/catalog/clinicalTools.ts \
             packages/core/src/discovery/toolDiscovery.ts \
@@ -35,20 +34,23 @@ jobs:
             packages/core/tests/catalog.test.ts \
             packages/core/tests/discoveryTaxonomy.test.ts \
             packages/core/tests/fenton2025.test.ts \
-            packages/core/tests/sprint50Safety.test.ts \
             > /tmp/fenton-core.patch
 
-          # Make current main an explicit parent without changing history by force.
           git merge -s ours origin/main -m "merge: anchor Fenton activation to current main"
-
-          # Rebuild the tree from current main, then reapply only the Fenton delta.
           git read-tree --reset -u origin/main
           git apply --3way --index /tmp/fenton-core.patch
 
-          # Add the external Fenton entry points to the CURRENT V3 ToolPage rather than
-          # restoring the older pre-V3 ToolPage from the activation branch.
           python - <<'PY'
           from pathlib import Path
+
+          safety = Path('packages/core/tests/sprint50Safety.test.ts')
+          text = safety.read_text()
+          if '  "fenton_2025_growth",\n' not in text:
+              text = text.replace('  "cries",\n', '  "cries",\n  "fenton_2025_growth",\n', 1)
+          if '  fenton_2025_growth: "fenton2025.test.ts",\n' not in text:
+              text = text.replace('  cries: "cries.test.ts",\n', '  cries: "cries.test.ts",\n  fenton_2025_growth: "fenton2025.test.ts",\n', 1)
+          safety.write_text(text)
+
           path = Path('apps/web/src/routes/ToolPage.tsx')
           text = path.read_text()
           anchor = '          {hasActiveCalculation ? (\n'
@@ -58,7 +60,6 @@ jobs:
           path.write_text(text.replace(anchor, block, 1))
           PY
 
-          git add apps/web/src/routes/ToolPage.tsx
           git add -A
           git commit -m "reconcile: Fenton 2025 activation on current main"
           git push origin HEAD:activate-fenton-2025
