@@ -44,10 +44,6 @@ export function Header({ currentPath, language, navigate, onLanguageChange }: He
           <div className="pram-header-right">
             <SearchCommand compact language={language} navigate={navigate} />
             <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
-            <button className="pram-brand-link" type="button" onClick={() => go(makePath(language))}>
-              <span className="atlas-brand-mark"><Icon name="heart" /></span>
-              <span>PedsCore</span>
-            </button>
             <details className="pram-header-menu" ref={pramMenu}>
               <summary aria-label={a.menu}>
                 <span />
