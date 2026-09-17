@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "npm run dev -w @peds-core/web",
     "lint": "eslint .",
-    "test": "npm run build -w @peds-core/core && vitest run",
+    "test": "npm run build -w @peds-core/core && npm run prebuild -w @peds-core/web && vitest run",
     "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web",
     "seo:check": "npm run seo:check -w @peds-core/web",
     "seo:indexnow": "npm run seo:indexnow -w @peds-core/web"
