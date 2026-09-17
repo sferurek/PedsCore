@@ -2,6 +2,10 @@
   content:none !important;
 }
 
+.atlas-pram-frame .pram-hero-shell {
+  margin-bottom:0;
+}
+
 .atlas-pram-frame .pram-hero-media {
   background-position:center 18%;
 }
