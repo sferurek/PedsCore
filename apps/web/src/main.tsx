@@ -4,6 +4,7 @@ import { App } from "./App";
 import "./styles/global.css";
 import "./styles/tokens.css";
 import "./styles/atlas.css";
+import "./styles/pram-showcase.css";
 
 const rootElement = document.getElementById("root");
 
