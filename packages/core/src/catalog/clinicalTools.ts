@@ -1361,7 +1361,6 @@ const implementedToolReferences: Record<string, Reference[]> = {
         "Johnson MD, Nkoy FL, Sheng X, Greene T, Stone BL, Garvin J. Direct concurrent comparison of multiple pediatric acute asthma scoring instruments. J Asthma. 2017;54(7):741-753.",
       doi: "10.1080/02770903.2016.1258081",
       pmid: "27831833",
-      pmcid: "PMC5425314",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5425314/",
       evidenceLevel: "external_validation_study",
       sourceType: "journal_article",
