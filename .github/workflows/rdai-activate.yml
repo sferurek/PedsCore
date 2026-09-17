@@ -19,50 +19,75 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Reconcile RDAI registry and inherited gates
+      - name: Reconcile RDAI implementation
         shell: python
         run: |
           from pathlib import Path
 
-          # Catalog option contracts: UI submits option ids, so each option needs id + score.
           p = Path('packages/core/src/catalog/clinicalTools.ts')
           s = p.read_text()
+
+          # Replace numeric-only RDAI choices with independently worded clinical criteria.
+          replacements = {
+            '{ id: "expiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase espiratoria", en: "Wheeze · expiratory phase" }, options: [0,1,2,3,4].map((value) => ({ value, label: { es: String(value), en: String(value) } })) }': '{ id: "expiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase espiratoria", en: "Wheeze · expiratory phase" }, options: [\n        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },\n        { id: "1", value: 1, score: 1, label: { es: "1 · Solo al final de la espiracion", en: "1 · End-expiratory only" } },\n        { id: "2", value: 2, score: 2, label: { es: "2 · Durante aproximadamente la mitad de la espiracion", en: "2 · Through about half of expiration" } },\n        { id: "3", value: 3, score: 3, label: { es: "3 · Durante aproximadamente tres cuartos de la espiracion", en: "3 · Through about three quarters of expiration" } },\n        { id: "4", value: 4, score: 4, label: { es: "4 · Durante toda la espiracion", en: "4 · Throughout expiration" } }\n      ] }',
+            '{ id: "inspiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase inspiratoria", en: "Wheeze · inspiratory phase" }, options: [0,1,2].map((value) => ({ value, label: { es: String(value), en: String(value) } })) }': '{ id: "inspiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase inspiratoria", en: "Wheeze · inspiratory phase" }, options: [\n        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },\n        { id: "1", value: 1, score: 1, label: { es: "1 · Presentes durante parte de la inspiracion", en: "1 · Present during part of inspiration" } },\n        { id: "2", value: 2, score: 2, label: { es: "2 · Presentes durante toda la inspiracion", en: "2 · Throughout inspiration" } }\n      ] }',
+            '{ id: "wheeze_extent", type: "single_choice", required: true, label: { es: "Sibilancias · extension", en: "Wheeze · extent" }, options: [0,1,2].map((value) => ({ value, label: { es: String(value), en: String(value) } })) }': '{ id: "wheeze_extent", type: "single_choice", required: true, label: { es: "Sibilancias · extension", en: "Wheeze · extent" }, options: [\n        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },\n        { id: "1", value: 1, score: 1, label: { es: "1 · Segmentarias, en 2 o menos de 4 campos pulmonares", en: "1 · Segmental, in 2 or fewer of 4 lung fields" } },\n        { id: "2", value: 2, score: 2, label: { es: "2 · Difusas, en 3 o mas de 4 campos pulmonares", en: "2 · Diffuse, in 3 or more of 4 lung fields" } }\n      ] }',
+          }
+          for old, new in replacements.items():
+            if old in s:
+              s = s.replace(old, new, 1)
+
+          # Retraction domains share the same four grades; retain independently worded labels.
+          for input_id, es_name, en_name in [
+            ('supraclavicular_retractions','Retracciones supraclaviculares','Supraclavicular retractions'),
+            ('intercostal_retractions','Retracciones intercostales','Intercostal retractions'),
+            ('subcostal_retractions','Retracciones subcostales','Subcostal retractions')
+          ]:
+            old = f'{{ id: "{input_id}", type: "single_choice", required: true, label: {{ es: "{es_name}", en: "{en_name}" }}, options: [0,1,2,3].map((value) => ({{ value, label: {{ es: String(value), en: String(value) }} }})) }}'
+            new = f'''{{ id: "{input_id}", type: "single_choice", required: true, label: {{ es: "{es_name}", en: "{en_name}" }}, options: [
+        {{ id: "0", value: 0, score: 0, label: {{ es: "0 · Ausentes", en: "0 · None" }} }},
+        {{ id: "1", value: 1, score: 1, label: {{ es: "1 · Leves", en: "1 · Mild" }} }},
+        {{ id: "2", value: 2, score: 2, label: {{ es: "2 · Moderadas", en: "2 · Moderate" }} }},
+        {{ id: "3", value: 3, score: 3, label: {{ es: "3 · Marcadas", en: "3 · Marked" }} }}
+      ] }}'''
+            if old in s:
+              s = s.replace(old, new, 1)
+
+          # Fallback for any still-numeric options: add id + score contract.
           s = s.replace('({ value, label: { es: String(value), en: String(value) } })', '({ id: String(value), value, score: value, label: { es: String(value), en: String(value) } })')
           s = s.replace('({ id: String(value), value, label: { es: String(value), en: String(value) } })', '({ id: String(value), value, score: value, label: { es: String(value), en: String(value) } })')
           p.write_text(s)
 
-          # Calculator registry.
+          # Register calculator.
           p = Path('packages/core/src/calculators/registry.ts')
           s = p.read_text()
           if 'import { rdaiCalculator } from "./rdai.js";' not in s:
-            s = s.replace('import { criesCalculator } from "./cries.js";','import { criesCalculator } from "./cries.js";\nimport { rdaiCalculator } from "./rdai.js";')
+            s = s.replace('import { criesCalculator } from "./cries.js";', 'import { criesCalculator } from "./cries.js";\nimport { rdaiCalculator } from "./rdai.js";')
           if '  rdaiCalculator,' not in s:
             s = s.replace('  criesCalculator,\n', '  criesCalculator,\n  rdaiCalculator,\n')
           p.write_text(s)
 
-          # RDAI tests use CalculationWarning.id.
+          # Correct warning property in focused tests.
           p = Path('packages/core/tests/rdai.test.ts')
           s = p.read_text().replace('w.code === "rdai_no_decision_thresholds"','w.id === "rdai_no_decision_thresholds"').replace('warnings?.[0]?.code','warnings?.[0]?.id')
           p.write_text(s)
 
-          # Inherited implemented-count gates.
+          # Reconcile inherited counts.
           for fn in ['packages/core/tests/calculatorRegistry.test.ts','apps/web/src/routes/webProductPolish.test.tsx']:
-            p = Path(fn); s = p.read_text(); s = s.replace('toHaveLength(29)', 'toHaveLength(30)'); p.write_text(s)
+            p = Path(fn); s = p.read_text().replace('toHaveLength(29)', 'toHaveLength(30)'); p.write_text(s)
 
-          # Sprint-50 expected implemented set and test-map gate.
+          # Exact Sprint-50 changes: one implemented id + one test mapping.
           p = Path('packages/core/tests/sprint50Safety.test.ts')
           s = p.read_text()
-          if '"rdai"' not in s:
-            s = s.replace('  "qtc_hodges",\n', '  "qtc_hodges",\n  "rdai",\n')
-          if 'rdai.test.ts' not in s:
-            # Add alongside other explicit calculator-test mappings where possible.
-            if 'cries.test.ts' in s:
-              s = s.replace('"cries.test.ts"', '"cries.test.ts", "rdai.test.ts"', 1)
+          if '  "rdai",\n' not in s.split('const implementedTestFiles')[0]:
+            s = s.replace('  "qtc_hodges",\n', '  "qtc_hodges",\n  "rdai",\n', 1)
+          if '  rdai: "rdai.test.ts",' not in s:
+            s = s.replace('  cries: "cries.test.ts",\n', '  cries: "cries.test.ts",\n  rdai: "rdai.test.ts",\n', 1)
           p.write_text(s)
 
-          for name in ['README.tmp-rdai','README.tmp-rdai-2','README.tmp-rdai-3','README.tmp-rdai-final']:
-            q = Path(name)
-            if q.exists(): q.unlink()
+          # Remove every staging trigger file.
+          for q in Path('.').glob('README.tmp-rdai*'):
+            q.unlink()
       - name: Install dependencies
         run: npm ci
       - name: Validate
@@ -76,5 +101,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "fix: reconcile RDAI registry and gates [rdai-ready]"
+          git commit -m "feat: finalize original RDAI activation [rdai-ready]"
           git push origin HEAD:activate-rdai
