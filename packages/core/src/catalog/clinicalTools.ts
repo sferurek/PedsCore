@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "pediatric_gcs",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1057,21 +1058,56 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   pediatric_gcs: [
     {
-      id: "pediatric_gcs_nice_bookshelf",
-      title: "Paediatric version of the Glasgow Coma Scale",
-      authors: "National Collaborating Centre for Acute Care",
-      year: 2007,
-      journalOrPublisher: "NCBI Bookshelf",
+      id: "james_1986_pediatric_gcs",
+      title: "Neurologic evaluation and support in the child with an acute brain insult",
+      authors: "James HE",
+      year: 1986,
+      journalOrPublisher: "Pediatric Annals",
       citation:
-        "National Collaborating Centre for Acute Care. Head Injury: Triage, Assessment, Investigation and Early Management of Head Injury in Infants, Children and Adults. Paediatric version of the Glasgow Coma Scale.",
-      url: "https://www.ncbi.nlm.nih.gov/books/",
-      evidenceLevel: "official_manual_or_institutional_protocol",
-      sourceType: "guideline",
-      accessType: "open_access",
+        "James HE. Neurologic evaluation and support in the child with an acute brain insult. Pediatr Ann. 1986;15(1):16-22.",
+      doi: "10.3928/0090-4481-19860101-05",
+      pmid: "3951884",
+      url: "https://pubmed.ncbi.nlm.nih.gov/3951884/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
       notes:
-        "Block 8B-2: accepted guideline/source trail identified, but exact pediatric verbal table by age/development and primary adaptation source remain pending.",
+        "Primary source trail for the young-child pediatric adaptation. PedsCore does not reproduce the source table or editorial wording.",
       appliesTo: ["pediatric_gcs"],
       priority: 1
+    },
+    {
+      id: "borgialli_2016_pediatric_gcs",
+      title: "Performance of the Pediatric Glasgow Coma Scale Score in the Evaluation of Children With Blunt Head Trauma",
+      authors: "Borgialli DA, Mahajan P, Hoyle JD Jr, et al.",
+      year: 2016,
+      journalOrPublisher: "Academic Emergency Medicine",
+      citation:
+        "Borgialli DA, Mahajan P, Hoyle JD Jr, et al. Performance of the Pediatric Glasgow Coma Scale Score in the Evaluation of Children With Blunt Head Trauma. Acad Emerg Med. 2016;23(8):878-884.",
+      doi: "10.1111/acem.13014",
+      pmid: "27197686",
+      url: "https://pubmed.ncbi.nlm.nih.gov/27197686/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "PECARN multicenter validation used pediatric GCS for children <2 years and standard GCS for children >=2 years.",
+      appliesTo: ["pediatric_gcs"],
+      priority: 2
+    },
+    {
+      id: "gcs_foundation_pediatric_faq",
+      title: "How is the Glasgow Coma Scale modified for Children?",
+      authors: "Glasgow Coma Scale",
+      journalOrPublisher: "Glasgow Coma Scale official educational site",
+      url: "https://www.glasgowcomascale.org/faq/",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Documents the Adelaide pediatric adaptation and the lack of a single universally accepted pediatric modification.",
+      appliesTo: ["pediatric_gcs"],
+      priority: 3
     }
   ],
   pews: [
@@ -1590,8 +1626,8 @@ const cdcGrowthValidationNotes: LocalizedText = {
 };
 
 const pediatricGcsValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: existe fuente guia para GCS pediatrico, pero falta fuente primaria/adaptacion exacta y tabla verbal pediatrica completa por edad/desarrollo. No activar calculo hasta seleccionar variante.",
-  en: "Block 8B-2: a guideline source for pediatric GCS is available, but the primary/adaptation source and complete pediatric verbal table by age/development remain pending. Calculation is not activated until variant selection is complete."
+  es: "Implementacion pediatrica con variante explicita: pGCS preverbal para menores de 2 anos y GCS estandar para ninos de 2 anos o mas, siguiendo la separacion empleada en la validacion multicentrica PECARN. Suma apertura ocular (1-4), respuesta verbal (1-5) y respuesta motora (1-6), total 3-15. PedsCore usa descriptores propios y no vincula puntos de corte del total a intubacion, neuroimagen, ingreso, alta o tratamiento automaticos.",
+  en: "Pediatric implementation with an explicit variant: preverbal pGCS for children younger than 2 years and standard GCS for children aged 2 years or older, following the split used in the multicenter PECARN validation. It sums eye opening (1-4), verbal response (1-5), and motor response (1-6), total 3-15. PedsCore uses independently worded descriptors and does not link total-score cut-offs to automatic intubation, neuroimaging, admission, discharge, or treatment decisions."
 };
 
 const criesValidationNotes: LocalizedText = {
@@ -1793,6 +1829,76 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  pediatric_gcs: {
+    calculationNotes: {
+      es: "Selecciona primero el grupo aplicable. En menores de 2 anos se usa la adaptacion preverbal pediatrica; desde los 2 anos se usa el conjunto estandar empleado en PECARN. Registra siempre los componentes E, V y M ademas del total. El total 3-15 es descriptivo y no constituye por si solo una indicacion de intubacion, TC, ingreso, alta o tratamiento.",
+      en: "Select the applicable group first. Children younger than 2 years use the preverbal pediatric adaptation; from age 2 years the standard response set used in PECARN is applied. Always document E, V, and M components as well as the total. The 3-15 total is descriptive and is not by itself an indication for intubation, CT, admission, discharge, or treatment."
+    },
+    inputs: [
+      {
+        id: "age_group",
+        label: { es: "Grupo pediatrico", en: "Pediatric group" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("preverbal_under_2", "Menor de 2 anos · pGCS preverbal", "Under 2 years · preverbal pGCS"),
+          option("verbal_2_or_more", "2 anos o mas · GCS estandar", "2 years or older · standard GCS")
+        ]
+      },
+      {
+        id: "eye_response",
+        label: { es: "Apertura ocular (E)", en: "Eye opening (E)" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("spontaneous", "4 · Espontanea", "4 · Spontaneous", 4),
+          option("to_sound", "3 · Ante voz o sonido", "3 · To voice or sound", 3),
+          option("to_pain", "2 · Ante estimulo doloroso", "2 · To painful stimulus", 2),
+          option("none", "1 · Sin apertura ocular", "1 · No eye opening", 1)
+        ]
+      },
+      {
+        id: "verbal_response",
+        label: { es: "Mejor respuesta verbal (V)", en: "Best verbal response (V)" },
+        description: { es: "Interpreta la descripcion segun el grupo seleccionado: preverbal <2 anos o verbal >=2 anos.", en: "Interpret the descriptor according to the selected group: preverbal <2 years or verbal >=2 years." },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("best_age_appropriate", "5 · Balbucea/interactua apropiadamente (<2) · orientado/apropiado (>=2)", "5 · Coos/babbles appropriately (<2) · oriented/appropriate (>=2)", 5),
+          option("confused_or_irritable", "4 · Llanto irritable (<2) · confuso (>=2)", "4 · Irritable crying (<2) · confused (>=2)", 4),
+          option("cries_to_pain", "3 · Llora ante dolor (<2) · palabras inapropiadas (>=2)", "3 · Cries to pain (<2) · inappropriate words (>=2)", 3),
+          option("moans_or_incomprehensible", "2 · Gemidos ante dolor (<2) · sonidos incomprensibles (>=2)", "2 · Moans to pain (<2) · incomprehensible sounds (>=2)", 2),
+          option("none", "1 · Sin respuesta verbal", "1 · No verbal response", 1)
+        ]
+      },
+      {
+        id: "motor_response",
+        label: { es: "Mejor respuesta motora (M)", en: "Best motor response (M)" },
+        description: { es: "La opcion 6/5 se interpreta segun edad: movimiento espontaneo/intencional y retirada al tacto en preverbal; obedecer ordenes/localizar dolor en mayores.", en: "Scores 6/5 are interpreted by age: spontaneous purposeful movement/withdrawal to touch in preverbal children; obeying commands/localizing pain in older children." },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("best_age_appropriate", "6 · Movimiento espontaneo intencional (<2) · obedece ordenes (>=2)", "6 · Spontaneous purposeful movement (<2) · obeys commands (>=2)", 6),
+          option("localizes_or_withdraws_to_touch", "5 · Retira al tacto (<2) · localiza dolor (>=2)", "5 · Withdraws to touch (<2) · localizes pain (>=2)", 5),
+          option("withdraws_to_pain", "4 · Retira ante dolor", "4 · Withdraws from pain", 4),
+          option("abnormal_flexion", "3 · Flexion anormal ante dolor", "3 · Abnormal flexion to pain", 3),
+          option("abnormal_extension", "2 · Extension anormal ante dolor", "2 · Abnormal extension to pain", 2),
+          option("none", "1 · Sin respuesta motora", "1 · No motor response", 1)
+        ]
+      }
+    ],
+    scoringTable: [
+      {
+        id: "pediatric_gcs_total",
+        variable: { es: "pGCS / GCS total", en: "pGCS / GCS total" },
+        value: "3-15",
+        description: {
+          es: "Suma E (1-4) + V (1-5) + M (1-6). Deben conservarse los tres componentes junto al total.",
+          en: "Sum E (1-4) + V (1-5) + M (1-6). The three component scores should be retained alongside the total."
+        }
+      }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4216,7 +4322,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "pending_validation", "original_derivation_study", "medium", passValidationNotes),
   makeTool("risc", "risc", "RISC", "RISC", "RISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Score de gravedad de neumonia identificado en recomendaciones.", "Pneumonia severity score identified in recommendations.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("mrisc", "mrisc", "mRISC", "mRISC", "mRISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Variante modificada RISC para neumonia.", "Modified RISC variant for pneumonia.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
-  makeTool("pediatric_gcs", "pediatric-glasgow-coma-scale", "pGCS", "Escala de Coma de Glasgow pediatrica", "Pediatric Glasgow Coma Scale", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Adaptacion pediatrica de apertura ocular, respuesta verbal y motora.", "Pediatric adaptation of eye, verbal, and motor response.", "pending_validation", "pending_verification", "medium", pediatricGcsValidationNotes),
+  makeTool("pediatric_gcs", "pediatric-glasgow-coma-scale", "pGCS", "Escala de Coma de Glasgow pediatrica", "Pediatric Glasgow Coma Scale", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion del nivel de conciencia; adaptacion preverbal <2 anos y GCS estandar desde 2 anos", "Children requiring assessment of consciousness; preverbal adaptation under 2 years and standard GCS from age 2 years", "Valoracion descriptiva E+V+M de 3 a 15 con criterios adaptados para menores de 2 anos.", "Descriptive E+V+M assessment from 3 to 15 with adapted criteria for children under 2 years.", "implemented", "external_validation_study", "medium", pediatricGcsValidationNotes),
   makeTool("clinical_dehydration_scale", "clinical-dehydration-scale", "CDS", "Clinical Dehydration Scale", "Clinical Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Score clinico de gravedad de deshidratacion.", "Clinical score for dehydration severity.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("pediatric_appendicitis_score", "pediatric-appendicitis-score", "PAS", "Pediatric Appendicitis Score", "Pediatric Appendicitis Score", "emergency", "abdominal_pain", "score", "Ninos con dolor abdominal y sospecha clinica de apendicitis", "Children with abdominal pain and clinical concern for appendicitis", "Calculadora educativa de riesgo de apendicitis pediatrica basada en ocho items clinicos y analiticos.", "Educational pediatric appendicitis risk calculator based on eight clinical and laboratory items.", "ready_for_implementation", "original_derivation_study", "medium", pediatricAppendicitisScoreValidationNotes),
   makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Escala alternativa de deshidratacion identificada.", "Alternative dehydration scale identified.", "pending_validation", "original_derivation_study", "medium", gorelickValidationNotes),
