@@ -2,17 +2,30 @@
   background:#eef6f9;
 }
 
-/* PRAM-specific minimal navigation */
+/* PRAM: navigation floats over the hero instead of occupying a solid bar. */
 .pram-minimal-header {
-  position:relative;
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
   z-index:40;
   display:flex;
   align-items:center;
   justify-content:flex-end;
   min-height:54px;
-  padding:6px 3.2vw;
-  background:#071f31;
-  border-bottom:1px solid rgba(255,255,255,.08);
+  padding:8px 3.2vw;
+  background:transparent;
+  border:0;
+  pointer-events:none;
+}
+
+.pram-header-right {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  margin-left:auto;
+  pointer-events:auto;
 }
 
 .pram-header-menu {
@@ -28,9 +41,11 @@
   padding:0;
   list-style:none;
   cursor:pointer;
-  border:1px solid rgba(255,255,255,.22);
+  border:1px solid rgba(255,255,255,.55);
   border-radius:999px;
-  background:rgba(255,255,255,.06);
+  background:rgba(7,31,49,.36);
+  backdrop-filter:blur(10px);
+  box-shadow:0 4px 18px rgba(5,35,52,.12);
 }
 
 .pram-header-menu > summary::-webkit-details-marker { display:none; }
@@ -39,7 +54,7 @@
   width:17px;
   height:1.5px;
   border-radius:999px;
-  background:#eaf6fb;
+  background:#fff;
 }
 
 .pram-header-menu nav {
@@ -83,16 +98,11 @@
   opacity:.45;
 }
 
-.pram-header-right {
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:8px;
-  margin-left:auto;
-}
-
 .pram-header-right .atlas-icon-button {
-  color:#e9f5fa;
+  color:#fff;
+  border-color:rgba(255,255,255,.48);
+  background:rgba(7,31,49,.24);
+  backdrop-filter:blur(8px);
 }
 
 .pram-header-right .language-switcher > span {
@@ -110,42 +120,58 @@
   min-width:58px;
   height:36px;
   padding:0 24px 0 12px;
-  border:1px solid rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.55);
   border-radius:11px;
-  background:#fff;
+  background:rgba(255,255,255,.94);
   color:#123b55;
   font-weight:800;
   cursor:pointer;
+  box-shadow:0 4px 18px rgba(5,35,52,.08);
 }
 
-.pram-brand-link {
-  display:flex;
+/* Hero: extends underneath the floating controls, with a soft upper fade. */
+.atlas-pram-frame .pram-hero-shell {
+  position:relative;
+  overflow:visible;
+  min-height:260px;
+  margin-bottom:18px;
+  padding-top:72px;
+}
+
+.atlas-pram-frame .pram-hero-shell::after {
+  content:"";
+  position:absolute;
+  inset:0 0 auto 0;
+  z-index:2;
+  height:74px;
+  pointer-events:none;
+  background:linear-gradient(
+    180deg,
+    rgba(7,31,49,.58) 0%,
+    rgba(7,31,49,.25) 48%,
+    rgba(7,31,49,0) 100%
+  );
+}
+
+.atlas-pram-frame .pram-hero-shell::before {
+  content:"♡  PedsCore";
+  position:absolute;
+  left:var(--pram-gutter);
+  bottom:10px;
+  z-index:7;
+  display:inline-flex;
   align-items:center;
-  gap:6px;
-  min-height:34px;
-  padding:0 1px 0 4px;
-  border:0;
-  background:transparent;
-  color:#f6fbfd;
-  font-weight:800;
+  color:#0b385b;
   font-size:14px;
-  cursor:pointer;
-}
-
-.pram-brand-link .atlas-brand-mark {
-  width:25px;
-  height:25px;
+  font-weight:800;
+  letter-spacing:.01em;
+  text-shadow:0 1px 10px rgba(255,255,255,.65);
 }
 
 /* Hero: clinical/evidence chips intentionally hidden in the approved pilot */
 .atlas-pram-frame .pram-clinical-badge,
 .atlas-pram-frame .pram-trust-chips {
   display:none;
-}
-
-.atlas-pram-frame .pram-hero-shell {
-  overflow:visible;
-  margin-bottom:18px;
 }
 
 .atlas-pram-frame .pram-title-row {
@@ -156,7 +182,7 @@
   position:absolute;
   right:0;
   bottom:-54px;
-  z-index:6;
+  z-index:8;
   display:flex;
   gap:6px;
   padding:0;
@@ -302,10 +328,19 @@
 }
 
 @media (max-width: 680px) {
-  .pram-minimal-header { padding-inline:14px; }
-  .pram-brand-link { font-size:13px; }
-  .pram-brand-link .atlas-brand-mark { width:23px; height:23px; }
+  .pram-minimal-header {
+    padding:8px 14px;
+  }
   .pram-header-right { gap:6px; }
+  .atlas-pram-frame .pram-hero-shell {
+    min-height:300px;
+    padding-top:68px;
+  }
+  .atlas-pram-frame .pram-hero-shell::before {
+    left:18px;
+    bottom:8px;
+    font-size:13px;
+  }
   .atlas-pram-frame .pram-hero-actions {
     right:0;
     bottom:-48px;
