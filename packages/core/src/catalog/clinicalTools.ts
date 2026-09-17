@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "gorelick_dehydration",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1369,9 +1370,23 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Block 8B-3: original Gorelick dehydration signs source located. Complete scale/table and validation strategy remain pending.",
+        "Primary derivation/validation source for the 10-sign scale and four-sign subset. PedsCore independently encodes the scoring logic without reproducing the article table.",
       appliesTo: ["gorelick_dehydration"],
       priority: 1
+    },
+    {
+      id: "gorelick_2018_review_table",
+      title: "Management of Diarrhoeal Dehydration in Childhood: A Review for Clinicians in Developing Countries",
+      year: 2018,
+      journalOrPublisher: "Frontiers in Pediatrics",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5829087/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Open-access secondary source reproducing the ten clinical signs and the 10-sign and 4-sign thresholds used for verification.",
+      appliesTo: ["gorelick_dehydration"],
+      priority: 2
     }
   ],
   catch_tbi: [
@@ -1655,8 +1670,8 @@ const brosjodValidationNotes: LocalizedText = {
 };
 
 const gorelickValidationNotes: LocalizedText = {
-  es: "Sprint 1: fuente Gorelick dehydration localizada con DOI/PMID, pero la tabla completa y la eleccion 4 frente a 10 items no quedan suficientemente trazadas desde una fuente reutilizable. No se implementa; queda bloqueada por seleccion de variante y tabla.",
-  en: "Sprint 1: Gorelick dehydration source located with DOI/PMID, but the complete table and 4-item versus 10-item choice are not sufficiently traced from a reusable source. It is not implemented; it remains blocked by variant selection and table review."
+  es: "Implementacion local de la escala de Gorelick original de 10 signos, desarrollada en ninos de 1 mes a 5 anos con diarrea, vomitos o baja ingesta. PedsCore calcula ademas automaticamente el subscore original de 4 signos (relleno capilar >2 s, ausencia de lagrimas, mucosas secas y mal estado general). La salida expresa rangos asociados a deficit de peso en el estudio original y no equivale a una medicion exacta del porcentaje de deshidratacion ni genera instrucciones de fluidoterapia, ingreso o alta.",
+  en: "Local implementation of the original 10-sign Gorelick dehydration scale, developed in children aged 1 month to 5 years with diarrhea, vomiting, or poor oral intake. PedsCore also automatically calculates the original four-sign subset (capillary refill >2 s, absent tears, dry mucous membranes, and ill general appearance). Output reports ranges associated with weight deficit in the original study and is not an exact measurement of dehydration percentage or a trigger for fluid, admission, or discharge instructions."
 };
 
 const revisedSchwartzReadyNotes: LocalizedText = {
@@ -1793,6 +1808,44 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  gorelick_dehydration: {
+    calculationNotes: {
+      es: "Marca la presencia o ausencia de los 10 signos clinicos de Gorelick. El resultado principal es Gorelick-10 (0-10) y PedsCore calcula simultaneamente Gorelick-4 (0-4) con los cuatro signos originales de mayor rendimiento. En el estudio original, >=3/10 se asocio a deficit de peso >=5% y >=7/10 a >=10%; en el subscore de 4 signos, >=2 se asocio a >=5% y >=3 a >=10%. Son asociaciones diagnosticas, no porcentajes medidos ni instrucciones terapeuticas.",
+      en: "Mark presence or absence of the 10 Gorelick clinical signs. The primary result is Gorelick-10 (0-10), and PedsCore simultaneously calculates Gorelick-4 (0-4) from the original four-sign subset. In the original study, >=3/10 was associated with >=5% weight deficit and >=7/10 with >=10%; in the four-sign subset, >=2 was associated with >=5% and >=3 with >=10%. These are diagnostic associations, not measured percentages or treatment instructions."
+    },
+    inputs: [
+      { id: "ill_general_appearance", label: { es: "Mal estado general", en: "Ill general appearance" }, type: "single_choice", required: true, options: [option("absent", "Ausente", "Absent", 0), option("present", "Presente", "Present", 1)] },
+      { id: "capillary_refill_over_2s", label: { es: "Relleno capilar >2 segundos", en: "Capillary refill >2 seconds" }, type: "single_choice", required: true, options: [option("absent", "No", "No", 0), option("present", "Si", "Yes", 1)] },
+      { id: "absent_tears", label: { es: "Ausencia de lagrimas", en: "Absent tears" }, type: "single_choice", required: true, options: [option("absent", "Lagrimas presentes", "Tears present", 0), option("present", "Lagrimas ausentes", "Tears absent", 1)] },
+      { id: "dry_mucous_membranes", label: { es: "Mucosas secas", en: "Dry mucous membranes" }, type: "single_choice", required: true, options: [option("absent", "Humedas", "Moist", 0), option("present", "Secas", "Dry", 1)] },
+      { id: "sunken_eyes", label: { es: "Ojos hundidos", en: "Sunken eyes" }, type: "single_choice", required: true, options: [option("absent", "Normales", "Normal", 0), option("present", "Hundidos", "Sunken", 1)] },
+      { id: "abnormal_breathing", label: { es: "Respiracion profunda o profunda y rapida", en: "Deep or deep-and-rapid breathing" }, type: "single_choice", required: true, options: [option("absent", "Respiracion sin este hallazgo", "Finding absent", 0), option("present", "Hallazgo presente", "Finding present", 1)] },
+      { id: "weak_pulse", label: { es: "Pulso debil, filiforme o impalpable", en: "Weak, thready, or impalpable pulse" }, type: "single_choice", required: true, options: [option("absent", "Pulso normal", "Normal pulse", 0), option("present", "Pulso alterado", "Abnormal pulse", 1)] },
+      { id: "reduced_skin_elasticity", label: { es: "Elasticidad cutanea reducida", en: "Reduced skin elasticity" }, type: "single_choice", required: true, options: [option("absent", "Retorno inmediato", "Immediate recoil", 0), option("present", "Retorno lento o >2 segundos", "Slow recoil or >2 seconds", 1)] },
+      { id: "tachycardia", label: { es: "Taquicardia", en: "Tachycardia" }, type: "single_choice", required: true, options: [option("absent", "No", "No", 0), option("present", "Si", "Yes", 1)] },
+      { id: "reduced_urine_output", label: { es: "Diuresis reducida", en: "Reduced urine output" }, type: "single_choice", required: true, options: [option("absent", "Diuresis habitual", "Usual urine output", 0), option("present", "Reducida o sin orinar durante horas", "Reduced or no urine passed for hours", 1)] }
+    ],
+    scoringTable: [
+      {
+        id: "gorelick_10_total",
+        variable: { es: "Gorelick-10", en: "Gorelick-10" },
+        value: "0-10",
+        description: {
+          es: "Recuento de los 10 signos presentes. >=3 se asocio a deficit >=5%; >=7 a deficit >=10% en el estudio original.",
+          en: "Count of the 10 signs present. >=3 was associated with >=5% deficit; >=7 with >=10% deficit in the original study."
+        }
+      },
+      {
+        id: "gorelick_4_total",
+        variable: { es: "Gorelick-4", en: "Gorelick-4" },
+        value: "0-4",
+        description: {
+          es: "Subscore automatico de mal estado general, relleno capilar >2 s, ausencia de lagrimas y mucosas secas. >=2 se asocio a deficit >=5%; >=3 a >=10%.",
+          en: "Automatic subset of ill appearance, capillary refill >2 s, absent tears, and dry mucous membranes. >=2 was associated with >=5% deficit; >=3 with >=10%."
+        }
+      }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4219,7 +4272,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pediatric_gcs", "pediatric-glasgow-coma-scale", "pGCS", "Escala de Coma de Glasgow pediatrica", "Pediatric Glasgow Coma Scale", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Adaptacion pediatrica de apertura ocular, respuesta verbal y motora.", "Pediatric adaptation of eye, verbal, and motor response.", "pending_validation", "pending_verification", "medium", pediatricGcsValidationNotes),
   makeTool("clinical_dehydration_scale", "clinical-dehydration-scale", "CDS", "Clinical Dehydration Scale", "Clinical Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Score clinico de gravedad de deshidratacion.", "Clinical score for dehydration severity.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("pediatric_appendicitis_score", "pediatric-appendicitis-score", "PAS", "Pediatric Appendicitis Score", "Pediatric Appendicitis Score", "emergency", "abdominal_pain", "score", "Ninos con dolor abdominal y sospecha clinica de apendicitis", "Children with abdominal pain and clinical concern for appendicitis", "Calculadora educativa de riesgo de apendicitis pediatrica basada en ocho items clinicos y analiticos.", "Educational pediatric appendicitis risk calculator based on eight clinical and laboratory items.", "ready_for_implementation", "original_derivation_study", "medium", pediatricAppendicitisScoreValidationNotes),
-  makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Escala alternativa de deshidratacion identificada.", "Alternative dehydration scale identified.", "pending_validation", "original_derivation_study", "medium", gorelickValidationNotes),
+  makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos de 1 mes a 5 anos con diarrea, vomitos o baja ingesta y sospecha de deshidratacion", "Children aged 1 month to 5 years with diarrhea, vomiting, or poor oral intake and suspected dehydration", "Escala descriptiva de 10 signos clinicos con subscore automatico de 4 signos para estimar rangos asociados a deficit de peso.", "Descriptive 10-sign clinical scale with automatic four-sign subset for estimating ranges associated with weight deficit.", "implemented", "original_derivation_study", "medium", gorelickValidationNotes),
   makeTool("pediatric_burn_tbsa", "pediatric-burn-tbsa", "TBSA Burns", "Estimacion TBSA de quemaduras pediatrica", "Pediatric Burn TBSA Estimate", "emergency", "burns", "calculator", "Pacientes pediatricos con quemaduras de espesor parcial o total", "Pediatric patients with partial-thickness or full-thickness burns", "Estimacion descriptiva de superficie corporal quemada usando porcentajes regionales pediatricos ajustados por edad.", "Descriptive burned total body surface area estimate using pediatric age-adjusted regional percentages.", "ready_for_implementation", "official_manual_or_institutional_protocol", "medium", pediatricBurnTbsaValidationNotes),
   makeTool("pecarn_tbi_under_2", "pecarn-tbi-under-2", "PECARN <2", "PECARN TCE menor de 2 anos", "PECARN TBI Under 2 Years", "emergency", "head_trauma", "clinical_rule", "Menores de 2 anos con traumatismo craneal", "Children under 2 years with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
   makeTool("pecarn_tbi_2_or_more", "pecarn-tbi-2-or-more", "PECARN >=2", "PECARN TCE 2 anos o mas", "PECARN TBI 2 Years or Older", "emergency", "head_trauma", "clinical_rule", "Ninos de 2 anos o mas con traumatismo craneal", "Children 2 years or older with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
