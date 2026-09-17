@@ -1,96 +1,106 @@
-# Pediatric Asthma Severity Score
+# Pediatric Asthma Severity Score (PASS)
 
 ## Current PedsCore status
-- id: pass
-- slug: pass
-- category: respiratory
-- type: score
-- current implementationStatus: pending_validation
-- current evidenceLevel: original_derivation_study
 
-## Evidence validation status
-- final evidence status: pending_complete_scoring_table
-- reason: Sprint 2A confirms PASS remains blocked. Primary source is located, but the complete reusable table, interpretation bands, and reuse/licensing position are not sufficiently verified for implementation.
+- id: `pass`
+- slug: `pass`
+- category: `respiratory`
+- type: `score`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
+- score range: 0–6
+- population: children aged 1–18 years with acute asthma in the original study
 
-## Clinical purpose
-ES: Acute pediatric asthma severity scoring.
-EN: Acute pediatric asthma severity scoring.
+## Version implemented
 
-## Target population
-Children aged 1 to 18 years in acute care settings in the original study.
+PedsCore implements the original three-domain PASS described by Gorelick et al. (2004).
 
-## Version / variant
-- exact version: Original PASS by Gorelick et al. 2004.
-- known variants: variant-specific review required before implementation.
-- selected version for PedsCore: Original PASS by Gorelick et al. 2004.
-- variant risk: medium
+Domains:
+
+1. work of breathing
+2. wheezing
+3. prolongation of expiration
+
+Each domain scores 0, 1, or 2 points. Total range: 0–6.
+
+This is intentionally distinguished from other pediatric asthma scores that are also called PAS or PASS and use different variables and ranges.
 
 ## Primary source
-- found: yes
-- citation: Gorelick MH, Stevens MW, Schultz TR, Scribano PV. Performance of a novel clinical score, the Pediatric Asthma Severity Score (PASS), in the evaluation of acute asthma. Acad Emerg Med. 2004;11(1):10-18.
-- DOI: 10.1197/j.aem.2003.07.015
-- PMID: 14709423
-- URL: https://pubmed.ncbi.nlm.nih.gov/14709423/
-- access: open_access
-- notes: Source recorded for traceability only; implementation still follows the evidence gate.
 
-## External validation
-Add validation studies only after source-specific review.
+Gorelick MH, Stevens MW, Schultz TR, Scribano PV. Performance of a novel clinical score, the Pediatric Asthma Severity Score (PASS), in the evaluation of acute asthma. Acad Emerg Med. 2004;11(1):10-18.
 
-## Guidelines / official sources
-No official guideline implementation is created in this block.
+- DOI: `10.1197/j.aem.2003.07.015`
+- PMID: `14709423`
+- population: children 1–18 years treated for acute asthma in two pediatric emergency departments
+- selected score: three clinical findings
+- interobserver reliability reported as kappa 0.72–0.83
+- hospitalization discrimination reported with ROC AUC 0.82
 
-## Complete scoring table availability
-- complete table found: no
-- source: No. Full table must be verified from the article before implementation.
-- copyright/licensing risk: unknown; likely implementable after table and reuse review.
-- notes: Do not reconstruct tables from memory, secondary calculators, pathway PDFs, or commercial tools.
+## Scoring logic
 
-## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/14709423/ | Complete table must be verified before calculator activation. |
+### Work of breathing
 
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/14709423/ |
+- 0: no clear increase or only mild increase
+- 1: moderate increase
+- 2: marked increase
 
-## Formula / algorithm
-Not applicable or pending complete scoring table.
+### Wheezing
 
-## Unit handling
-Units, age bands, and edge cases remain pending unless explicitly documented above.
+- 0: absent or faint
+- 1: intermediate intensity
+- 2: marked wheeze, or absent wheeze when air exchange is severely reduced
 
-## Safety and regulatory notes
-- risk level: medium
-- why: Clinical outputs could influence care if worded as recommendations.
-- should provide recommendations: no; descriptive outputs only.
-- forbidden outputs: treatment, discharge, admission, CT instruction, medication, resuscitation instruction.
+### Prolongation of expiration
 
-## Licensing / copyright
-- appears implementable: not yet determined
-- license-sensitive: yes
-- requires permission: unknown
-- unknown: yes
-- notes: unknown; likely implementable after table and reuse review.
+- 0: normal or only slightly prolonged
+- 1: clearly prolonged
+- 2: markedly prolonged
 
-## Implementation recommendation
-keep_blocked_until_table_and_reuse_review
+The wording above is independently authored for PedsCore. It is not copied from the Wiley table.
 
-## Proposed test cases
-- minimum
-- maximum
-- intermediate
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests: no treatment, CT, admission, discharge, medication, or resuscitation instructions.
+## Interpretation policy
 
-## Direct links
-- https://pubmed.ncbi.nlm.nih.gov/14709423/
-- https://doi.org/10.1197/j.aem.2003.07.015
-- https://pubmed.ncbi.nlm.nih.gov/14709423/
+The primary result is the raw PASS value, `0–6`.
 
-## Notes
-This fiche was updated in Block 8B-3. Validation does not mean implementation.
+PedsCore does **not** activate generic mild / moderate / severe bands because those bands are not sufficiently traced to the original 2004 study.
+
+A later study by Gorelick et al. (2008) evaluated PASS as part of a disposition prediction model and studied a threshold of PASS ≥5. That threshold is not implemented as a stand-alone admission or discharge rule because the model incorporated additional variables and was designed for prediction rather than direct treatment guidance.
+
+## Additional validation / comparison source
+
+Johnson MD, Nkoy FL, Sheng X, Greene T, Stone BL, Garvin J. Direct concurrent comparison of multiple pediatric acute asthma scoring instruments. J Asthma. 2017;54(7):741-753.
+
+- DOI: `10.1080/02770903.2016.1258081`
+- PMID: `27831833`
+- PMCID: `PMC5425314`
+- open-access full text
+- reproduces the three-domain PASS structure and 0–2 scoring categories
+
+## Copyright / reuse decision
+
+The original 2004 Academic Emergency Medicine / Wiley publication is not treated as open-licensed source material.
+
+PedsCore therefore does not reproduce the original table, typography, layout, graphical design, or editorial wording. The software independently encodes the functional scoring rules and uses independently drafted Spanish and English descriptors.
+
+This implementation does not claim that the source table itself is openly licensed.
+
+## Safety
+
+PASS is displayed as a descriptive acute-asthma severity measure.
+
+PedsCore does not attach:
+
+- medication instructions
+- bronchodilator dosing
+- corticosteroid recommendations
+- oxygen targets
+- admission or discharge instructions
+- PICU disposition rules
+
+The score must be interpreted with the full clinical assessment and local acute-asthma pathway.
+
+## Implementation files
+
+- `packages/core/src/calculators/pass.ts`
+- `packages/core/tests/pass.test.ts`
+- `packages/core/src/catalog/clinicalTools.ts`
