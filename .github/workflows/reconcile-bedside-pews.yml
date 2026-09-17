@@ -43,14 +43,6 @@ jobs:
           python - <<'PY'
           from pathlib import Path
 
-          def replace_once(path, old, new):
-              p = Path(path)
-              text = p.read_text()
-              if old not in text:
-                  raise SystemExit(f'Anchor not found in {path}: {old!r}')
-              p.write_text(text.replace(old, new, 1))
-
-          # Calculator registry inventory: current main already includes Fenton 2025.
           p = Path('packages/core/tests/calculatorRegistry.test.ts')
           text = p.read_text()
           if '      "bedside_pews",\n' not in text:
@@ -58,7 +50,6 @@ jobs:
           text = text.replace('expect(getImplementedTools()).toHaveLength(27);', 'expect(getImplementedTools()).toHaveLength(28);', 1)
           p.write_text(text)
 
-          # Catalog inventory and Bedside-specific assertions.
           p = Path('packages/core/tests/catalog.test.ts')
           text = p.read_text()
           if '  "bedside_pews",\n' not in text.split('const implementedToolIds = [',1)[1].split('];',1)[0]:
@@ -71,7 +62,6 @@ jobs:
               text = text.replace(marker, block + marker, 1)
           p.write_text(text)
 
-          # Discovery local-active count and explicit Bedside coverage.
           p = Path('packages/core/tests/discoveryTaxonomy.test.ts')
           text = p.read_text()
           text = text.replace(').toHaveLength(30);', ').toHaveLength(31);', 1)
@@ -79,7 +69,6 @@ jobs:
               text = text.replace('"bedside_schwartz"]', '"bedside_schwartz","bedside_pews"]', 1)
           p.write_text(text)
 
-          # SPRINT safety inventory.
           p = Path('packages/core/tests/sprint50Safety.test.ts')
           text = p.read_text()
           if '  "bedside_pews",\n' not in text.split('const expectedImplementedToolIds = [',1)[1].split('];',1)[0]:
@@ -89,14 +78,13 @@ jobs:
           text = text.replace('expect(getImplementedTools()).toHaveLength(27);', 'expect(getImplementedTools()).toHaveLength(28);', 1)
           p.write_text(text)
 
-          # Global catalog/SEO derived counts after Bedside PEWS becomes tool 135 / implemented 28.
           for path in [
               'packages/core/tests/toolSeo.test.ts',
               'apps/web/src/utils/filterTools.test.ts',
               'apps/web/src/routes/webProductPolish.test.tsx'
           ]:
               p = Path(path)
-              text = p.read_text().replace('133', '135') if False else p.read_text()
+              text = p.read_text()
               text = text.replace('toHaveLength(134)', 'toHaveLength(135)')
               text = text.replace('toBe(134)', 'toBe(135)')
               if path.endswith('webProductPolish.test.tsx'):
@@ -109,6 +97,6 @@ jobs:
           PY
 
           git add -A
-          git rm -f .github/workflows/reconcile-bedside-pews.yml
+          git rm -f --ignore-unmatch .github/workflows/reconcile-bedside-pews.yml
           git commit -m "reconcile: Bedside PEWS activation on current main"
           git push origin HEAD:activate-bedside-pews
