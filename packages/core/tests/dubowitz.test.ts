@@ -104,6 +104,7 @@ describe("Dubowitz calculator", () => {
 
   it("requires all 21 item scores", () => {
     const { genitals: _omitted, ...incomplete } = zeroInput;
+    void _omitted;
     expect(dubowitzCalculator.calculate(incomplete).warnings[0]?.id).toBe(
       "missing_required_inputs"
     );
