@@ -1,96 +1,101 @@
 # pRIFLE
 
 ## Current PedsCore status
-- id: prifle
-- slug: prifle
-- category: nephrology
-- type: clinical_rule
-- current implementationStatus: pending_validation
-- current evidenceLevel: original_derivation_study
 
-## Evidence validation status
-- final evidence status: requires_domain_expert_review
-- reason: Primary source found, but AKI criteria require baseline eCCl, urine-output handling and expert review.
-
-## Clinical purpose
-ES: Pediatric modification of RIFLE criteria for acute kidney injury classification.
-EN: Pediatric modification of RIFLE criteria for acute kidney injury classification.
-
-## Target population
-Critically ill children in PICU settings in original validation.
-
-## Version / variant
-- exact version: Akcan-Arikan pediatric modified RIFLE.
-- known variants: variant-specific review required before implementation.
-- selected version for PedsCore: Akcan-Arikan pediatric modified RIFLE.
-- variant risk: medium
+- id: `prifle`
+- slug: `prifle`
+- category: `nephrology`
+- type: `clinical_rule`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
+- selected version: original pediatric RIFLE modification by Akcan-Arikan et al. (2007)
 
 ## Primary source
-- found: yes
-- citation: Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL. Modified RIFLE criteria in critically ill children with acute kidney injury. Kidney Int. 2007;71(10):1028-1035.
-- DOI: 10.1038/sj.ki.5002231
-- PMID: 17396113
-- URL: https://pubmed.ncbi.nlm.nih.gov/17396113/
-- access: open_access
-- notes: Source recorded for traceability only; implementation still follows the evidence gate.
 
-## External validation
-Add validation studies only after source-specific review.
+Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL. Modified RIFLE criteria in critically ill children with acute kidney injury. Kidney Int. 2007;71(10):1028-1035.
 
-## Guidelines / official sources
-No official guideline implementation is created in this block.
+- DOI: `10.1038/sj.ki.5002231`
+- PMID: `17396113`
 
-## Complete scoring table availability
-- complete table found: no
-- source: Criteria table exists in source, but implementation needs unit handling and expert review.
-- copyright/licensing risk: appears implementable with citation after expert review.
-- notes: Do not reconstruct tables from memory or secondary calculators.
+The original cohort included critically ill children in a PICU setting.
 
-## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/17396113/ | Complete table must be verified before calculator activation. |
+## Acute pRIFLE classification
 
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/17396113/ |
+Classification uses the worse fulfilled criterion between estimated creatinine clearance (eCCl) change and urine output.
 
-## Formula / algorithm
-Exact formula/rule criteria must be encoded only after final source review and tests.
+### Risk
+- eCCl decrease >=25%, or
+- urine output <0.5 mL/kg/h for >=8 h
 
-## Unit handling
-Units, age bands, and edge cases remain pending unless explicitly documented above.
+### Injury
+- eCCl decrease >=50%, or
+- urine output <0.5 mL/kg/h for >=16 h
 
-## Safety and regulatory notes
-- risk level: medium/high
-- why: Clinical outputs could influence care if worded as recommendations.
-- should provide recommendations: no; descriptive outputs only.
-- forbidden outputs: treatment, discharge, admission, CT instruction, medication, resuscitation instruction.
+### Failure
+- eCCl decrease >=75%, or
+- current eCCl <35 mL/min/1.73 m², or
+- urine output <0.3 mL/kg/h for >=24 h, or
+- anuria for >=12 h
 
-## Licensing / copyright
-- appears implementable: not yet determined
-- license-sensitive: no
-- requires permission: unknown
-- unknown: no
-- notes: appears implementable with citation after expert review.
+## Persistent categories
 
-## Implementation recommendation
-implement_after_expert_review
+### Loss
+Persistent renal Failure for >4 weeks.
 
-## Proposed test cases
-- minimum
-- maximum
-- intermediate
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests: no treatment, CT, admission, discharge, medication, or resuscitation instructions.
+### ESKD
+Persistent renal Failure for >3 months.
 
-## Direct links
-- https://pubmed.ncbi.nlm.nih.gov/17396113/
-- https://doi.org/10.1038/sj.ki.5002231
-- https://pubmed.ncbi.nlm.nih.gov/17396113/
+PedsCore does not infer Loss or ESKD from a single acute assessment. These states are shown only when persistent Failure is explicitly declared.
 
-## Notes
-This fiche was updated in Block 8B-3. Validation does not mean implementation.
+## Baseline eCCl
+
+pRIFLE classification depends on baseline eCCl.
+
+PedsCore supports two explicit modes:
+
+1. **Known baseline**: user enters the measured/estimated baseline eCCl.
+2. **Unknown baseline, impute 120**: user deliberately selects the published methodological assumption of 120 mL/min/1.73 m².
+
+The 120 value is never inserted silently. When used, PedsCore displays a warning that the baseline is imputed rather than measured and may affect classification.
+
+PedsCore accepts eCCl directly rather than silently choosing a historical or modern Schwartz equation. This avoids mixing renal-function equations without the user knowing which method generated the value.
+
+## Output
+
+The result reports:
+
+- eCCl criterion
+- urine-output criterion
+- overall acute category = worse criterion
+- persistent category when explicitly declared
+
+Example:
+
+`eCCl: Risk · urine output: Injury · acute overall: Injury`
+
+## Copyright / reuse decision
+
+PedsCore independently encodes the functional clinical criteria and uses independently drafted ES/EN wording. It does not reproduce the original Kidney International table, layout, typography, or editorial wording.
+
+Open-access review material is used as a secondary verification source for the threshold structure:
+
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC4238883/
+
+## Safety
+
+pRIFLE is a classification system, not a treatment algorithm.
+
+PedsCore does not generate:
+
+- fluid or bolus instructions
+- diuretic instructions
+- dialysis / renal-replacement recommendations
+- ICU disposition
+- admission or discharge decisions
+- medication or treatment recommendations
+
+## Implementation files
+
+- `packages/core/src/calculators/prifle.ts`
+- `packages/core/tests/prifle.test.ts`
+- `packages/core/src/catalog/clinicalTools.ts`
