@@ -25,3 +25,5 @@ export * from "./modifiedSarnatNichd.js";
 export * from "./thompsonHie.js";
 
 export * from "./cries.js";
+
+export { rdaiCalculator } from "./rdai.js";

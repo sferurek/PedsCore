@@ -21,6 +21,7 @@ const implementedToolIds = [
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "rdai",
   "aap_2022_hyperbilirubinemia",
   "bedside_pews",
   "fenton_2025_growth",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -400,10 +401,19 @@ describe("clinical tools catalog", () => {
     expect(tool?.references.some((reference) => reference.doi === "10.1016/S0022-3476(70)80038-5")).toBe(true);
   });
 
+  it("activates original Lowell RDAI as a six-domain descriptive 0-17 score", () => {
+    const tool = getTool("rdai");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs).toHaveLength(6);
+    expect(tool?.references.some((reference) => reference.pmid === "3295741")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("0-17");
+    expect(tool?.validationNotes.en).toContain("must not be used alone");
+  });
+
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
     const blockedIds = [
       "neonatal_growth_fenton",
-      "rdai",
       "brosjod",
       "pass",
       "gorelick_dehydration",

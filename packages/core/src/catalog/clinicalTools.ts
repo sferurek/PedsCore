@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "rdai",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1293,21 +1294,38 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   rdai: [
     {
-      id: "lowell_1987_rdai_source_trail",
+      id: "lowell_1987_rdai_original",
       title: "Wheezing in infants: the response to epinephrine",
       authors: "Lowell DI, Lister G, Von Koss H, McCarthy P",
       year: 1987,
-      journalOrPublisher: "The Journal of Pediatrics",
-      citation:
-        "Lowell DI, Lister G, Von Koss H, McCarthy P. Wheezing in infants: the response to epinephrine. Pediatrics. 1987;79(6):939-945.",
-      url: "https://hero.epa.gov/hero/index.cfm/reference/details/reference_id/2748279",
+      journalOrPublisher: "Pediatrics",
+      citation: "Lowell DI, Lister G, Von Koss H, McCarthy P. Wheezing in infants: the response to epinephrine. Pediatrics. 1987;79(6):939-945.",
+      doi: "10.1542/peds.79.6.939",
+      pmid: "3295741",
+      url: "https://pubmed.ncbi.nlm.nih.gov/3295741/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
       accessType: "abstract_only",
-      notes:
-        "Block 8B-3: source trail for Lowell RDAI located. Complete table reuse remains license-sensitive because the accessible table is reproduced in secondary articles.",
+      notes: "Primary source for the original six-domain RDAI (wheeze and retractions), scored 0-17.",
       appliesTo: ["rdai"],
       priority: 1
+    },
+    {
+      id: "fernandes_2012_rdai_validation",
+      title: "Validity of bronchiolitis outcome measures",
+      authors: "Fernandes RM et al.",
+      year: 2012,
+      journalOrPublisher: "Pediatrics",
+      citation: "Fernandes RM et al. Validity of bronchiolitis outcome measures. Pediatrics. 2012;130(6):e1544-e1551.",
+      doi: "10.1542/peds.2012-0448",
+      pmid: "23147979",
+      url: "https://pubmed.ncbi.nlm.nih.gov/23147979/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Supports cautious use as a descriptive respiratory-distress measure rather than a disposition or treatment rule.",
+      appliesTo: ["rdai"],
+      priority: 2
     }
   ],
   pass: [
@@ -1625,8 +1643,8 @@ const fenton2025ValidationNotes: LocalizedText = {
 };
 
 const rdaiValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: localizado rastro bibliografico de Lowell/RDAI, pero DOI/PMID y tabla primaria reutilizable no estan verificados. Mantener bloqueada por fuente/tabla.",
-  en: "Block 8B-3: Lowell/RDAI bibliographic source trail located, but DOI/PMID and a reusable primary table are not verified. Keep blocked for source/table review."
+  es: "Implementacion local del RDAI original de Lowell (1987), seis dominios y puntuacion total 0-17. Cuantifica sibilancias (fase espiratoria, fase inspiratoria y extension) y retracciones (supraclaviculares, intercostales y subcostales). PedsCore lo presenta como medida descriptiva y seriada del distrés respiratorio: no incorpora frecuencia respiratoria, SpO2, alimentacion, apnea u otros determinantes de gravedad, y no debe utilizarse por si solo para decidir tratamiento, ingreso o alta. No se implementan variantes modificadas del RDAI.",
+  en: "Local implementation of the original Lowell RDAI (1987), with six domains and a 0-17 total score. It quantifies wheeze (expiratory phase, inspiratory phase, and extent) and retractions (supraclavicular, intercostal, and subcostal). PedsCore presents it as a descriptive, serial respiratory-distress measure: it does not include respiratory rate, SpO2, feeding, apnea, or other severity determinants and must not be used alone to determine treatment, admission, or discharge. Modified RDAI variants are not implemented."
 };
 
 const passValidationNotes: LocalizedText = {
@@ -4211,7 +4229,17 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados en plantas de hospitalizacion", "Children hospitalized on inpatient wards", "Score de siete items para cuantificar gravedad y detectar deterioro clinico evolutivo en pacientes pediatricos hospitalizados.", "Seven-item score to quantify severity and detect evolving clinical deterioration in hospitalized pediatric patients.", "implemented", "external_validation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
-  makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
+  {
+    ...makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Lactantes y ninos pequenos con sibilancias o bronquiolitis", "Infants and young children with wheezing or bronchiolitis", "RDAI original de Lowell: puntuacion descriptiva 0-17 de sibilancias y retracciones en seis dominios.", "Original Lowell RDAI: descriptive 0-17 score of wheeze and retractions across six domains.", "implemented", "external_validation_study", "medium", rdaiValidationNotes),
+    inputs: [
+      { id: "expiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase espiratoria", en: "Wheeze · expiratory phase" }, options: [0,1,2,3,4].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
+      { id: "inspiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase inspiratoria", en: "Wheeze · inspiratory phase" }, options: [0,1,2].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
+      { id: "wheeze_extent", type: "single_choice", required: true, label: { es: "Sibilancias · extension", en: "Wheeze · extent" }, options: [0,1,2].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
+      { id: "supraclavicular_retractions", type: "single_choice", required: true, label: { es: "Retracciones supraclaviculares", en: "Supraclavicular retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
+      { id: "intercostal_retractions", type: "single_choice", required: true, label: { es: "Retracciones intercostales", en: "Intercostal retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
+      { id: "subcostal_retractions", type: "single_choice", required: true, label: { es: "Retracciones subcostales", en: "Subcostal retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) }
+    ]
+  },
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
   makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "pending_validation", "original_derivation_study", "medium", passValidationNotes),
   makeTool("risc", "risc", "RISC", "RISC", "RISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Score de gravedad de neumonia identificado en recomendaciones.", "Pneumonia severity score identified in recommendations.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
