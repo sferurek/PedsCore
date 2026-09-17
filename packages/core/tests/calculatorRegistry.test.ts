@@ -15,6 +15,7 @@ describe("calculator registry", () => {
       "modified_sarnat_nichd",
       "thompson_hie",
       "cries",
+      "rdai",
       "wood_downes_ferres",
       "flacc",
       "qtc_bazett",
@@ -38,7 +39,7 @@ describe("calculator registry", () => {
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("calculates through the dispatcher", () => {
