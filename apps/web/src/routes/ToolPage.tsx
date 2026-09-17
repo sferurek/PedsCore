@@ -31,6 +31,7 @@ import { getInitialFormState } from "../utils/formState";
 import { trackUsageEvent } from "../utils/analytics";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
+import { seoTopicHubs } from "../utils/topicHubs";
 
 const WhoGrowthResultPanel = lazy(() =>
   import("../components/growth/WhoGrowthResultPanel").then((module) => ({
@@ -77,6 +78,10 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const hasActiveCalculation = discovery?.calculationAvailability === "local_active" || isWhoGrowth;
   const isActiveReference = discovery?.surfaceStatus === "active" && !hasActiveCalculation;
   const relatedTools = useMemo(() => getSemanticRelatedTools(tool, 8), [tool]);
+  const topicHubs = useMemo(
+    () => seoTopicHubs.filter((hub) => hub.toolIds.includes(tool.id)),
+    [tool.id]
+  );
   const seoProfile = useMemo(() => getToolSeoProfile(tool, language), [language, tool]);
   const analyticsPath = makePath(language, "tools", tool.slug);
   const analyticsParams = useMemo(
@@ -427,6 +432,35 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </div>
             <p>{tool.validationNotes[language]}</p>
           </section>
+
+          {topicHubs.length > 0 ? (
+            <section className="content-panel subtle-panel">
+              <div className="tool-section-heading">
+                <p className="eyebrow">{language === "es" ? "COMPARAR" : "COMPARE"}</p>
+                <h2>{language === "es" ? "Herramientas relacionadas por contexto" : "Related tools by clinical context"}</h2>
+              </div>
+              <p>
+                {language === "es"
+                  ? "Estas guías agrupan herramientas que suelen plantearse en el mismo problema clínico y explican por qué no son necesariamente intercambiables."
+                  : "These guides group tools commonly considered for the same clinical problem and explain why they are not necessarily interchangeable."}
+              </p>
+              <div className="link-row">
+                {topicHubs.map((hub) => (
+                  <a
+                    className="primary-link"
+                    href={`/${language}/topics/${hub.slug}`}
+                    key={hub.slug}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigate(`/${language}/topics/${hub.slug}`);
+                    }}
+                  >
+                    {hub.title[language]}
+                  </a>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <section className="content-panel tool-editorial-transparency" id="editorial-transparency">
             <div className="tool-section-heading">

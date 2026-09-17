@@ -17,8 +17,8 @@ https://peds-core.vercel.app/
 
 ## Current Alpha Status
 
-- 132 cataloged pediatric and neonatal tools.
-- 20 fully implemented tools with active calculation or informational rule output.
+- 133 cataloged pediatric and neonatal tools.
+- 26 fully implemented tools with active calculation or completed reference/rule output.
 - 4 partially implemented WHO Growth entries: central module, WHO percentiles, BMI preset and head circumference preset.
 - ES/EN web app deployed on Vercel.
 - Serverless aggregate analytics API at `/api/analytics/countries`.
@@ -71,16 +71,23 @@ See [DISCLAIMER.md](DISCLAIMER.md) for the full disclaimer.
 
 ## Implemented Tools
 
-The 20 fully implemented tools are:
+The 26 fully implemented tools are:
 
 - Apgar.
 - Silverman-Andersen.
+- New Ballard Score.
+- Dubowitz gestational-age assessment.
+- Classic Sarnat staging (reference surface).
+- Modified Sarnat / NICHD.
+- Thompson HIE Score.
+- CRIES.
 - Wood-Downes-Ferres.
 - QTc Bazett.
 - QTc Fridericia.
 - QTc Framingham.
 - QTc Hodges.
 - Bedside Schwartz.
+- Revised Schwartz.
 - Westley Croup Score.
 - PRAM.
 - Clinical Dehydration Scale.

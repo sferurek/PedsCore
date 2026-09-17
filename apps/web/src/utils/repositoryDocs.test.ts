@@ -10,7 +10,7 @@ describe("public launch repository documentation", () => {
     const readme = read("README.md");
 
     expect(readme).toContain("https://peds-core.vercel.app/");
-    expect(readme).toContain("20 fully implemented");
+    expect(readme).toContain("26 fully implemented");
     expect(readme).toContain("4 partially implemented WHO Growth entries");
     expect(readme).toContain("No clinical data storage");
     expect(readme).toContain("WHO growth data are kept under separate WHO licensing");

@@ -1,4 +1,4 @@
-import { getCategorySeoProfile, getSemanticRelatedTools, getToolSeoProfile, indexableSeoCategories } from "../../../packages/core/dist/index.js";
+import { getCategorySeoProfile, getReferenceUrl, getSemanticRelatedTools, getToolSeoProfile, indexableSeoCategories } from "../../../packages/core/dist/index.js";
 
 const baseUrl = "https://peds-core.vercel.app";
 
@@ -38,6 +38,61 @@ const staticSeo = {
 };
 
 const indexableCategories = new Set(indexableSeoCategories);
+const topicHubs = {
+  "pediatric-head-injury-rules": {
+    es: {
+      title: "Reglas de TCE pediátrico: PECARN, CATCH y CHALICE | PedsCore",
+      description: "Compara PECARN, CATCH y CHALICE para traumatismo craneal pediátrico, con población, evidencia, limitaciones y acceso a cada ficha.",
+      intro: "Estas reglas no son intercambiables: fueron derivadas en poblaciones y con desenlaces distintos. Revisa la edad, criterios de inclusión, finalidad y limitaciones de cada una antes de utilizarla."
+    },
+    en: {
+      title: "Pediatric Head Injury Rules: PECARN, CATCH and CHALICE | PedsCore",
+      description: "Compare PECARN, CATCH and CHALICE pediatric head injury rules, including population, evidence, limitations and links to each tool.",
+      intro: "These rules are not interchangeable: they were derived in different populations and against different outcomes. Review age, inclusion criteria, purpose and limitations before use."
+    },
+    toolIds: ["pecarn_tbi_under_2", "pecarn_tbi_2_or_more", "catch_tbi", "chalice_tbi"]
+  },
+  "neonatal-pain-scales": {
+    es: {
+      title: "Escalas de dolor neonatal: NIPS, CRIES, PIPP y COMFORTneo | PedsCore",
+      description: "Guía de escalas de dolor neonatal: NIPS, CRIES, PIPP/PIPP-R y COMFORTneo, con contexto clínico, estado y evidencia.",
+      intro: "La elección depende de la edad gestacional, el tipo de dolor, el contexto asistencial y la versión validada. PedsCore muestra qué escalas tienen cálculo local y cuáles permanecen como referencia."
+    },
+    en: {
+      title: "Neonatal Pain Scales: NIPS, CRIES, PIPP and COMFORTneo | PedsCore",
+      description: "Guide to neonatal pain scales: NIPS, CRIES, PIPP/PIPP-R and COMFORTneo, with clinical context, status and evidence.",
+      intro: "Choice depends on gestational age, pain type, care setting and validated version. PedsCore shows which scales have local calculation and which remain reference-only."
+    },
+    toolIds: ["nips", "cries", "pipp", "pipp_r", "comfortneo"]
+  },
+  "neonatal-encephalopathy-scores": {
+    es: {
+      title: "Escalas de encefalopatía neonatal: Sarnat y Thompson | PedsCore",
+      description: "Compara Sarnat clásico, Modified Sarnat/NICHD, Thompson HIE y García-Alix para valoración de encefalopatía neonatal.",
+      intro: "Estas escalas describen constructos y momentos de evaluación relacionados pero no idénticos. La puntuación no debe convertirse por sí sola en una decisión terapéutica."
+    },
+    en: {
+      title: "Neonatal Encephalopathy Scores: Sarnat and Thompson | PedsCore",
+      description: "Compare Classic Sarnat, Modified Sarnat/NICHD, Thompson HIE and García-Alix approaches to neonatal encephalopathy assessment.",
+      intro: "These tools describe related but non-identical constructs and assessment windows. A score alone should not be converted into a treatment decision."
+    },
+    toolIds: ["sarnat", "modified_sarnat_nichd", "thompson_hie", "garcia_alix_ne_rs"]
+  },
+  "pediatric-asthma-wheeze-scores": {
+    es: {
+      title: "Scores de asma y sibilancias pediátricas | PedsCore",
+      description: "Compara PRAM, PASS y Wood-Downes-Ferres para gravedad respiratoria pediátrica, con población, contexto, evidencia y disponibilidad.",
+      intro: "Estas herramientas no son equivalentes. PRAM está orientado a exacerbación asmática; otras variantes se desarrollaron para contextos respiratorios diferentes."
+    },
+    en: {
+      title: "Pediatric Asthma and Wheeze Scores | PedsCore",
+      description: "Compare PRAM, PASS and Wood-Downes-Ferres for pediatric respiratory severity, including population, setting, evidence and availability.",
+      intro: "These tools are not equivalent. PRAM targets acute asthma exacerbation, while other variants were developed for different respiratory contexts."
+    },
+    toolIds: ["pram", "pass", "wood_downes_ferres"]
+  }
+};
+
 
 const escapeHtml = (value) => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 
@@ -46,7 +101,7 @@ const localized = (value, language) => value?.[language] || value?.en || value?.
 const internalLink = (href, label) => `<a href="${href}">${escapeHtml(label)}</a>`;
 
 export const renderStaticBody = (seo, tools) => {
-  const { language, tool, category } = seo;
+  const { language, tool, category, topic } = seo;
   const isEs = language === "es";
   const homeUrl = `/${language}`;
   const toolsUrl = `/${language}/tools`;
@@ -65,7 +120,11 @@ export const renderStaticBody = (seo, tools) => {
       ? `<ul>${related.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))}</li>`).join("")}</ul>`
       : "";
     const referencesHtml = references.length
-      ? `<ul>${references.map((ref) => `<li>${escapeHtml(ref.citation || ref.title || ref.id)}</li>`).join("")}</ul>`
+      ? `<ul>${references.map((ref) => {
+          const label = escapeHtml(ref.citation || ref.title || ref.id);
+          const url = getReferenceUrl(ref);
+          return `<li>${url ? `<a href="${escapeHtml(url)}" rel="noreferrer">${label}</a>` : label}</li>`;
+        }).join("")}</ul>`
       : `<p>${isEs ? "Consulta la sección de evidencia de la herramienta para revisar sus fuentes y estado de validación." : "See the tool evidence section for its sources and validation status."}</p>`;
 
     return `<main class="seo-static-fallback">
@@ -80,6 +139,15 @@ export const renderStaticBody = (seo, tools) => {
         <h3>${isEs ? "Población y ámbito de uso" : "Population and scope"}</h3>
         <p>${escapeHtml(profile.topic)}. ${escapeHtml(population)}</p>
         ${profile.aliases.length > 1 ? `<h3>${isEs ? "También puede encontrarse como" : "Also searched as"}</h3><p>${profile.aliases.map(escapeHtml).join(" · ")}</p>` : ""}
+        ${tool.calculationStatus === "active"
+          ? `<section>
+              <h2>${isEs ? "Calculadora disponible" : "Calculator available"}</h2>
+              <p>${isEs
+                ? "Esta ficha dispone de cálculo local activo en PedsCore. Los valores introducidos se procesan en el navegador y la página muestra referencias, límites e interpretación junto al resultado."
+                : "This page has an active local calculator in PedsCore. Entered values are processed in the browser, with references, limits and interpretation shown alongside the result."}</p>
+              <p><a href="#calculator">${isEs ? "Ir a la calculadora" : "Open calculator"}</a></p>
+            </section>`
+          : ""}
         <h2>${isEs ? "Uso clínico" : "Clinical use"}</h2>
         <p>${isEs
           ? `Esta página de PedsCore reúne la información clínica, el estado de implementación y la evidencia disponible para ${escapeHtml(name)}. Está dirigida a ${escapeHtml(population || "población pediátrica y neonatal según la herramienta")}. La herramienta pertenece al área de ${escapeHtml(categoryLabel)} y debe interpretarse dentro del contexto clínico correspondiente.`
@@ -104,6 +172,25 @@ export const renderStaticBody = (seo, tools) => {
         <h2>${isEs ? "Herramientas relacionadas" : "Related tools"}</h2>
         ${relatedHtml || `<p>${internalLink(toolsUrl, isEs ? "Explorar todas las herramientas pediátricas" : "Browse all pediatric tools")}</p>`}
       </article>
+    </main>`;
+  }
+
+  if (topic) {
+    const hub = topicHubs[topic];
+    const items = hub.toolIds.map((id) => tools.find((item) => item.id === id)).filter(Boolean);
+    return `<main class="seo-static-fallback">
+      <nav aria-label="${isEs ? "Ruta de navegación" : "Breadcrumbs"}">${internalLink(homeUrl, "PedsCore")} › <span>${escapeHtml(hub[language].title.replace(/\s*\|\s*PedsCore$/, ""))}</span></nav>
+      <h1>${escapeHtml(hub[language].title.replace(/\s*\|\s*PedsCore$/, ""))}</h1>
+      <p>${escapeHtml(hub[language].description)}</p>
+      <h2>${isEs ? "Antes de comparar" : "Before comparing"}</h2>
+      <p>${escapeHtml(hub[language].intro)}</p>
+      <h2>${isEs ? "Herramientas incluidas" : "Included tools"}</h2>
+      <ul>${items.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))} — ${escapeHtml(localized(item.description, language))}</li>`).join("")}</ul>
+      <h2>${isEs ? "Evidencia y contexto" : "Evidence and context"}</h2>
+      <p>${isEs
+        ? "La comparación sirve para entender diferencias de población, finalidad, variante y disponibilidad. No implica equivalencia entre escalas ni una recomendación de una herramienta sobre otra."
+        : "The comparison is intended to clarify differences in population, purpose, variant and availability. It does not imply equivalence between scores or recommend one tool over another."}</p>
+      <p>${internalLink(toolsUrl, isEs ? "Explorar todas las herramientas" : "Browse all tools")} · ${internalLink(`/${language}/evidence`, isEs ? "Metodología de evidencia" : "Evidence methodology")}</p>
     </main>`;
   }
 
@@ -282,20 +369,29 @@ export const getStaticSeo = (pathname, tools) => {
   const slug = segments[2];
   const tool = section === "tools" && slug ? tools.find((item) => item.slug === slug) : null;
   const category = section === "categories" && slug && indexableCategories.has(slug) ? slug : null;
+  const topic = section === "topics" && slug && topicHubs[slug] ? slug : null;
   const categoryTools = category ? tools.filter((item) => item.category === category) : [];
+  const topicTools = topic ? topicHubs[topic].toolIds.map((id) => tools.find((item) => item.id === id)).filter(Boolean) : [];
   const key = !section ? "home" : section === "stats" ? "stats" : section === "categories" ? "categories" : section;
   const [defaultTitle, description] = staticSeo[key]?.[language] ?? staticSeo.home[language];
   const title = tool
     ? getToolSeoProfile(tool, language).title
     : category
       ? `${getCategorySeoProfile(category, language).name} | ${language === "es" ? "Pediatría" : "Pediatrics"} | PedsCore`
-      : defaultTitle;
+      : topic
+        ? topicHubs[topic][language].title
+        : defaultTitle;
   const url = `${baseUrl}${pathname || `/${language}`}`;
   const alternatePath = pathname.replace(/^\/(es|en)/, language === "es" ? "/en" : "/es") || `/${language === "es" ? "en" : "es"}`;
   const categoryDescription = category
     ? `${getCategorySeoProfile(category, language).description} ${categoryTools.length} ${language === "es" ? "herramientas disponibles en PedsCore." : "tools available in PedsCore."}`
     : description;
-  return { language, title, description: tool ? getToolSeoProfile(tool, language).description : categoryDescription, url, alternateUrl: `${baseUrl}${alternatePath}`, tool, category, categoryTools };
+  const finalDescription = tool
+    ? getToolSeoProfile(tool, language).description
+    : topic
+      ? topicHubs[topic][language].description
+      : categoryDescription;
+  return { language, title, description: finalDescription, url, alternateUrl: `${baseUrl}${alternatePath}`, tool, category, categoryTools, topic, topicTools };
 };
 
 export const renderSeoHead = (template, seo) => {
@@ -304,7 +400,7 @@ export const renderSeoHead = (template, seo) => {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": seo.tool ? "MedicalWebPage" : seo.category ? "CollectionPage" : "WebPage",
+        "@type": seo.tool ? "MedicalWebPage" : (seo.category || seo.topic) ? "CollectionPage" : "WebPage",
         "@id": `${seo.url}#webpage`,
         name: seo.title,
         description: seo.description,
@@ -341,7 +437,9 @@ export const renderSeoHead = (template, seo) => {
               ]
             : seo.category
               ? [{ "@type": "ListItem", position: 2, name: seo.language === "es" ? "Categorías" : "Categories", item: `${baseUrl}/${seo.language}/#categories` }, { "@type": "ListItem", position: 3, name: getCategorySeoProfile(seo.category, seo.language).name, item: seo.url }]
-              : [])
+              : seo.topic
+                ? [{ "@type": "ListItem", position: 2, name: seo.language === "es" ? "Comparar herramientas" : "Compare tools", item: `${baseUrl}/${seo.language}/tools` }, { "@type": "ListItem", position: 3, name: topicHubs[seo.topic][seo.language].title.replace(/\s*\|\s*PedsCore$/, ""), item: seo.url }]
+                : [])
         ]
       },
       ...(seo.category
@@ -356,7 +454,19 @@ export const renderSeoHead = (template, seo) => {
               name: item.name[seo.language] || item.name.en
             }))
           }]
-        : [])
+        : seo.topic
+          ? [{
+              "@type": "ItemList",
+              name: topicHubs[seo.topic][seo.language].title.replace(/\s*\|\s*PedsCore$/, ""),
+              numberOfItems: seo.topicTools.length,
+              itemListElement: seo.topicTools.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `${baseUrl}/${seo.language}/tools/${item.slug}`,
+                name: item.name[seo.language] || item.name.en
+              }))
+            }]
+          : [])
     ]
   };
   return template

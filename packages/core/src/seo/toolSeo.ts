@@ -94,12 +94,35 @@ const topicLabels: Record<string, LocalizedText> = {
 };
 
 const titleOverrides: Record<string, LocalizedText> = {
+  apgar: { es: "Test de Apgar — Calculadora neonatal | PedsCore", en: "Apgar Score Calculator — Newborn Assessment | PedsCore" },
+  "silverman-andersen": { es: "Silverman-Andersen — Dificultad respiratoria | PedsCore", en: "Silverman-Andersen Score — Respiratory Distress | PedsCore" },
+  ballard: { es: "New Ballard Score — Edad gestacional | PedsCore", en: "New Ballard Score — Gestational Age | PedsCore" },
+  dubowitz: { es: "Escala de Dubowitz — Edad gestacional | PedsCore", en: "Dubowitz Score — Gestational Age Assessment | PedsCore" },
+  sarnat: { es: "Sarnat clásico — Encefalopatía neonatal | PedsCore", en: "Classic Sarnat Staging — Neonatal Encephalopathy | PedsCore" },
+  "modified-sarnat-nichd": { es: "Modified Sarnat Score — Encefalopatía neonatal | PedsCore", en: "Modified Sarnat Score — Neonatal Encephalopathy | PedsCore" },
+  "thompson-hie-score": { es: "Thompson HIE Score — Encefalopatía neonatal | PedsCore", en: "Thompson HIE Score — Neonatal Encephalopathy | PedsCore" },
+  cries: { es: "CRIES — Escala de dolor neonatal | PedsCore", en: "CRIES Pain Scale — Neonatal Pain | PedsCore" },
+  nips: { es: "Escala NIPS — Dolor neonatal | PedsCore", en: "NIPS Pain Scale — Neonatal Pain Assessment | PedsCore" },
+  "westley-croup-score": { es: "Westley Croup Score — Crup pediátrico | PedsCore", en: "Westley Croup Score — Pediatric Croup | PedsCore" },
+  pram: { es: "PRAM Score — Gravedad del asma pediátrica | PedsCore", en: "PRAM Score — Pediatric Asthma Severity | PedsCore" },
+  "clinical-dehydration-scale": { es: "Clinical Dehydration Scale — Deshidratación | PedsCore", en: "Clinical Dehydration Scale — Dehydration | PedsCore" },
+  "pediatric-appendicitis-score": { es: "Pediatric Appendicitis Score (PAS) | PedsCore", en: "Pediatric Appendicitis Score (PAS) | PedsCore" },
+  "pecarn-tbi-under-2": { es: "PECARN TCE <2 años — Regla pediátrica | PedsCore", en: "PECARN TBI Under 2 — Pediatric Head Injury Rule | PedsCore" },
+  "pecarn-tbi-2-or-more": { es: "PECARN TCE ≥2 años — Regla pediátrica | PedsCore", en: "PECARN TBI Age 2+ — Pediatric Head Injury Rule | PedsCore" },
+  "catch-tbi": { es: "CATCH — Regla de TCE pediátrico | PedsCore", en: "CATCH Rule — Pediatric Head Injury | PedsCore" },
+  "chalice-tbi": { es: "CHALICE — Regla de TCE pediátrico | PedsCore", en: "CHALICE Rule — Pediatric Head Injury | PedsCore" },
+  sipa: { es: "SIPA — Índice de shock pediátrico por edad | PedsCore", en: "SIPA — Age-Adjusted Pediatric Shock Index | PedsCore" },
+  "qtc-bazett": { es: "QTc Bazett — Calculadora pediátrica | PedsCore", en: "QTc Bazett Calculator — Pediatric QT | PedsCore" },
+  "qtc-fridericia": { es: "QTc Fridericia — Calculadora pediátrica | PedsCore", en: "QTc Fridericia Calculator — Pediatric QT | PedsCore" },
+  "qtc-framingham": { es: "QTc Framingham — Calculadora pediátrica | PedsCore", en: "QTc Framingham Calculator — Pediatric QT | PedsCore" },
+  "qtc-hodges": { es: "QTc Hodges — Calculadora pediátrica | PedsCore", en: "QTc Hodges Calculator — Pediatric QT | PedsCore" },
+  "bedside-schwartz": { es: "Bedside Schwartz — eGFR pediátrico | PedsCore", en: "Bedside Schwartz eGFR Calculator | PedsCore" },
+  "revised-schwartz": { es: "Schwartz revisado — eGFR pediátrico | PedsCore", en: "Revised Schwartz eGFR Calculator | PedsCore" },
+  "pediatric-burn-tbsa": { es: "TBSA quemaduras pediátricas — Calculadora | PedsCore", en: "Pediatric Burn TBSA Calculator | PedsCore" },
   pim2: { es: "Calculadora PIM2 — Mortalidad pediátrica | PedsCore", en: "PIM2 Calculator — Pediatric Mortality Risk | PedsCore" },
   pim3: { es: "Calculadora PIM3 — Mortalidad pediátrica | PedsCore", en: "PIM3 Calculator — Pediatric Mortality Risk | PedsCore" },
-  nips: { es: "Escala NIPS — Dolor neonatal | PedsCore", en: "NIPS Pain Scale — Neonatal Pain Assessment | PedsCore" },
   pipp: { es: "Escala PIPP — Dolor en prematuros | PedsCore", en: "PIPP Scale — Premature Infant Pain Profile | PedsCore" },
   "pipp-r": { es: "Escala PIPP-R — Dolor en prematuros | PedsCore", en: "PIPP-R Scale — Premature Infant Pain Profile | PedsCore" },
-  dubowitz: { es: "Escala de Dubowitz — Edad gestacional | PedsCore", en: "Dubowitz Score — Gestational Age Assessment | PedsCore" },
   "asthma-control-questionnaire": { es: "ACQ — Cuestionario de control del asma | PedsCore", en: "Asthma Control Questionnaire (ACQ) | PedsCore" },
   headsss: { es: "HEADSSS — Entrevista del adolescente | PedsCore", en: "HEADSSS Adolescent Interview | PedsCore" },
   pedmidas: { es: "PedMIDAS — Discapacidad por migraña pediátrica | PedsCore", en: "PedMIDAS Score — Pediatric Migraine Disability | PedsCore" },
@@ -208,14 +231,15 @@ export const getToolSeoProfile = (
   ].map((value) => value.trim()).filter(Boolean))].slice(0, 8);
   const baseDescription = tool.description[language] || tool.description.en;
   const population = tool.population[language] || tool.population.en;
+  const preserveEarlySerpSnippet = tool.slug === "wood-downes-ferres" || tool.slug === "pim2";
   const description = tool.id === "who_growth_module"
     ? (language === "es"
       ? "Módulo WHO Growth con datos oficiales OMS, gráficas SVG imprimibles, percentiles escritos y punto del paciente."
       : "WHO Growth module with official WHO growth data, printable SVG charts, written percentiles and patient point.")
     : compact(
         language === "es"
-          ? `${fullName}: ${baseDescription} Población: ${population}. Evidencia y estado de validación en PedsCore.`
-          : `${fullName}: ${baseDescription} Population: ${population}. Evidence and validation status in PedsCore.`,
+          ? `${fullName}: ${baseDescription} ${tool.calculationStatus === "active" && !preserveEarlySerpSnippet ? "Cálculo activo. " : ""}Población: ${population}. ${preserveEarlySerpSnippet ? "Evidencia y estado de validación" : "Evidencia trazable"} en PedsCore.`
+          : `${fullName}: ${baseDescription} ${tool.calculationStatus === "active" && !preserveEarlySerpSnippet ? "Active calculation. " : ""}Population: ${population}. ${preserveEarlySerpSnippet ? "Evidence and validation status" : "Traceable evidence"} in PedsCore.`,
         158
       );
   return { title, description, primaryTerm: fullName, topic, aliases };
