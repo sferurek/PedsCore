@@ -36,7 +36,7 @@ export function Layout({
       />
       {isHomePage || isPramPilot ? null : <OssSupportBanner language={language} />}
       <main id="main-content" tabIndex={-1}>{children}</main>
-      <Footer language={language} navigate={navigate} />
+      <Footer language={language} navigate={navigate} minimal={isPramPilot} />
     </div>
   );
 }
