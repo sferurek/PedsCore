@@ -30,6 +30,10 @@ const ToolPage = lazy(() =>
   import("./routes/ToolPage").then((module) => ({ default: module.ToolPage }))
 );
 
+const PramPilotPage = lazy(() =>
+  import("./routes/PramPilotPage").then((module) => ({ default: module.PramPilotPage }))
+);
+
 export function App() {
   const [path, setPath] = useState(() => toAppPath(window.location.pathname));
   const route = useMemo(() => parseRoute(path), [path]);
@@ -115,7 +119,11 @@ export function App() {
       const tool = getToolBySlug(route.slug);
       return tool ? (
         <Suspense fallback={null}>
-          <ToolPage language={language} navigate={navigate} tool={tool} />
+          {tool.slug === "pram" ? (
+            <PramPilotPage language={language} navigate={navigate} tool={tool} />
+          ) : (
+            <ToolPage language={language} navigate={navigate} tool={tool} />
+          )}
         </Suspense>
       ) : (
         <NotFoundPage language={language} navigate={navigate} />
