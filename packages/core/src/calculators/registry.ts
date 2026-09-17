@@ -20,6 +20,7 @@ import { dubowitzCalculator } from "./dubowitz.js";
 import { modifiedSarnatNichdCalculator } from "./modifiedSarnatNichd.js";
 import { thompsonHieCalculator } from "./thompsonHie.js";
 import { criesCalculator } from "./cries.js";
+import { rdaiCalculator } from "./rdai.js";
 import { clinicalDehydrationScaleCalculator } from "./clinicalDehydrationScale.js";
 import { bedsidePewsCalculator } from "./bedsidePews.js";
 import {
@@ -43,6 +44,7 @@ const calculators = [
   modifiedSarnatNichdCalculator,
   thompsonHieCalculator,
   criesCalculator,
+  rdaiCalculator,
   woodDownesFerresCalculator,
   flaccCalculator,
   qtcBazettCalculator,

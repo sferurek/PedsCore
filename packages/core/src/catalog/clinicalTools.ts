@@ -4232,12 +4232,41 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   {
     ...makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Lactantes y ninos pequenos con sibilancias o bronquiolitis", "Infants and young children with wheezing or bronchiolitis", "RDAI original de Lowell: puntuacion descriptiva 0-17 de sibilancias y retracciones en seis dominios.", "Original Lowell RDAI: descriptive 0-17 score of wheeze and retractions across six domains.", "implemented", "external_validation_study", "medium", rdaiValidationNotes),
     inputs: [
-      { id: "expiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase espiratoria", en: "Wheeze · expiratory phase" }, options: [0,1,2,3,4].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
-      { id: "inspiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase inspiratoria", en: "Wheeze · inspiratory phase" }, options: [0,1,2].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
-      { id: "wheeze_extent", type: "single_choice", required: true, label: { es: "Sibilancias · extension", en: "Wheeze · extent" }, options: [0,1,2].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
-      { id: "supraclavicular_retractions", type: "single_choice", required: true, label: { es: "Retracciones supraclaviculares", en: "Supraclavicular retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
-      { id: "intercostal_retractions", type: "single_choice", required: true, label: { es: "Retracciones intercostales", en: "Intercostal retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) },
-      { id: "subcostal_retractions", type: "single_choice", required: true, label: { es: "Retracciones subcostales", en: "Subcostal retractions" }, options: [0,1,2,3].map((value) => ({ value, label: { es: String(value), en: String(value) } })) }
+      { id: "expiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase espiratoria", en: "Wheeze · expiratory phase" }, options: [
+        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },
+        { id: "1", value: 1, score: 1, label: { es: "1 · Solo al final de la espiracion", en: "1 · End-expiratory only" } },
+        { id: "2", value: 2, score: 2, label: { es: "2 · Durante aproximadamente la mitad de la espiracion", en: "2 · Through about half of expiration" } },
+        { id: "3", value: 3, score: 3, label: { es: "3 · Durante aproximadamente tres cuartos de la espiracion", en: "3 · Through about three quarters of expiration" } },
+        { id: "4", value: 4, score: 4, label: { es: "4 · Durante toda la espiracion", en: "4 · Throughout expiration" } }
+      ] },
+      { id: "inspiratory_wheeze", type: "single_choice", required: true, label: { es: "Sibilancias · fase inspiratoria", en: "Wheeze · inspiratory phase" }, options: [
+        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },
+        { id: "1", value: 1, score: 1, label: { es: "1 · Durante parte de la inspiracion", en: "1 · During part of inspiration" } },
+        { id: "2", value: 2, score: 2, label: { es: "2 · Durante toda la inspiracion", en: "2 · Throughout inspiration" } }
+      ] },
+      { id: "wheeze_extent", type: "single_choice", required: true, label: { es: "Sibilancias · extension", en: "Wheeze · extent" }, options: [
+        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },
+        { id: "1", value: 1, score: 1, label: { es: "1 · Segmentarias: 2 o menos de 4 campos pulmonares", en: "1 · Segmental: 2 or fewer of 4 lung fields" } },
+        { id: "2", value: 2, score: 2, label: { es: "2 · Difusas: 3 o mas de 4 campos pulmonares", en: "2 · Diffuse: 3 or more of 4 lung fields" } }
+      ] },
+      { id: "supraclavicular_retractions", type: "single_choice", required: true, label: { es: "Retracciones supraclaviculares", en: "Supraclavicular retractions" }, options: [
+        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },
+        { id: "1", value: 1, score: 1, label: { es: "1 · Leves", en: "1 · Mild" } },
+        { id: "2", value: 2, score: 2, label: { es: "2 · Moderadas", en: "2 · Moderate" } },
+        { id: "3", value: 3, score: 3, label: { es: "3 · Marcadas", en: "3 · Marked" } }
+      ] },
+      { id: "intercostal_retractions", type: "single_choice", required: true, label: { es: "Retracciones intercostales", en: "Intercostal retractions" }, options: [
+        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },
+        { id: "1", value: 1, score: 1, label: { es: "1 · Leves", en: "1 · Mild" } },
+        { id: "2", value: 2, score: 2, label: { es: "2 · Moderadas", en: "2 · Moderate" } },
+        { id: "3", value: 3, score: 3, label: { es: "3 · Marcadas", en: "3 · Marked" } }
+      ] },
+      { id: "subcostal_retractions", type: "single_choice", required: true, label: { es: "Retracciones subcostales", en: "Subcostal retractions" }, options: [
+        { id: "0", value: 0, score: 0, label: { es: "0 · Ausentes", en: "0 · None" } },
+        { id: "1", value: 1, score: 1, label: { es: "1 · Leves", en: "1 · Mild" } },
+        { id: "2", value: 2, score: 2, label: { es: "2 · Moderadas", en: "2 · Moderate" } },
+        { id: "3", value: 3, score: 3, label: { es: "3 · Marcadas", en: "3 · Marked" } }
+      ] }
     ]
   },
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),

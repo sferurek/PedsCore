@@ -18,7 +18,7 @@ describe("RDAI", () => {
       supraclavicular_retractions: 1, intercostal_retractions: 1, subcostal_retractions: 0
     });
     expect(result.score).toBe(4);
-    expect(result.warnings?.some((w) => w.code === "rdai_no_decision_thresholds")).toBe(true);
+    expect(result.warnings?.some((w) => w.id === "rdai_no_decision_thresholds")).toBe(true);
   });
 
   it("rejects item scores outside the original domain ranges", () => {
@@ -27,6 +27,6 @@ describe("RDAI", () => {
       supraclavicular_retractions: 0, intercostal_retractions: 0, subcostal_retractions: 0
     });
     expect(result.score).toBeUndefined();
-    expect(result.warnings?.[0]?.code).toBe("invalid_rdai_item_score");
+    expect(result.warnings?.[0]?.id).toBe("invalid_rdai_item_score");
   });
 });
