@@ -1,0 +1,44 @@
+name: Diagnose AAP catalog cardinality
+
+on:
+  push:
+    branches:
+      - activate-aap2022-hyperbilirubinemia
+    paths:
+      - .github/workflows/diagnose-aap-catalog.yml
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: activate-aap2022-hyperbilirubinemia
+      - name: Compare declared clinicalTools IDs with main
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          python - <<'PY'
+          import re, subprocess
+          from pathlib import Path
+
+          def ids_from_text(text):
+              start = text.index('export const clinicalTools: ClinicalToolMetadata[] = [')
+              tail = text[start:]
+              ids = re.findall(r'makeTool\(\s*"([^"]+)"', tail)
+              ids += re.findall(r'referenceSurface\(\{\s*id:\s*"([^"]+)"', tail)
+              return ids
+
+          branch = Path('packages/core/src/catalog/clinicalTools.ts').read_text()
+          main = subprocess.check_output(['git','show','origin/main:packages/core/src/catalog/clinicalTools.ts'], text=True)
+          b = ids_from_text(branch)
+          m = ids_from_text(main)
+          print('MAIN_COUNT_DECLARED', len(m))
+          print('BRANCH_COUNT_DECLARED', len(b))
+          print('ADDED_IDS', sorted(set(b)-set(m)))
+          print('MISSING_IDS', sorted(set(m)-set(b)))
+          print('DUPLICATES_BRANCH', sorted({x for x in b if b.count(x)>1}))
+          print('DUPLICATES_MAIN', sorted({x for x in m if m.count(x)>1}))
+          PY
