@@ -196,10 +196,10 @@ describe("public product web polish", () => {
   it("keeps catalog implementation counts and partial WHO Growth preset IDs", () => {
     const tools = getAllTools();
 
-    expect(tools).toHaveLength(132);
+    expect(tools).toHaveLength(133);
     expect(
       tools.filter((tool) => tool.implementationStatus === "implemented")
-    ).toHaveLength(20);
+    ).toHaveLength(26);
     expect(
       tools.filter((tool) => tool.implementationStatus === "partially_implemented")
     ).toHaveLength(4);
