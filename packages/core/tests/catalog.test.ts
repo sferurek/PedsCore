@@ -21,6 +21,7 @@ const implementedToolIds = [
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "bedside_pews",
   "fenton_2025_growth",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -129,7 +130,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(27);
+    expect(getImplementedTools()).toHaveLength(28);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -269,10 +270,19 @@ describe("clinical tools catalog", () => {
     expect(legacy?.validationNotes.en).toContain("Legacy Fenton 2013");
   });
 
+  it("activates Bedside PEWS under CC BY 2.0 with local calculation", () => {
+    const tool = getTool("bedside_pews");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs).toHaveLength(8);
+    expect(tool?.validationNotes.en).toContain("CC BY 2.0");
+    expect(tool?.references.some((reference) => reference.doi === "10.1186/cc7998")).toBe(true);
+    expect(tool?.references.some((reference) => reference.doi === "10.1186/cc10337")).toBe(true);
+  });
+
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
     const reviewedPendingIds = [
       "bhutani_nomogram",
-      "bedside_pews",
       "cdc_growth_percentiles"
     ];
 
@@ -290,7 +300,6 @@ describe("clinical tools catalog", () => {
   it("does not promote license-sensitive pending tools to ready for implementation", () => {
     const licenseSensitivePendingIds = [
       "bhutani_nomogram",
-      "bedside_pews",
       "pipp",
       "pipp_r",
       "comfortneo",
@@ -313,7 +322,6 @@ describe("clinical tools catalog", () => {
       "pipp_r",
       "comfortneo",
       "pediatric_gcs",
-      "bedside_pews",
       "strongkids"
     ];
 

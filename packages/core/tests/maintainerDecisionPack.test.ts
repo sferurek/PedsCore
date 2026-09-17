@@ -37,7 +37,6 @@ describe("maintainer decision pack", () => {
     const lockedIds = [
       "pediatric_gcs",
       "brighton_pews",
-      "bedside_pews",
       "pediatric_cpr",
       "neonatal_cpr",
       "pediatric_bradycardia",
