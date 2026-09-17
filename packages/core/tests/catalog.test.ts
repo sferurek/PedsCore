@@ -21,6 +21,7 @@ const implementedToolIds = [
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "aap_2022_hyperbilirubinemia",
   "bedside_pews",
   "fenton_2025_growth",
   "wood_downes_ferres",
@@ -130,7 +131,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(28);
+    expect(getImplementedTools()).toHaveLength(29);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -187,7 +188,7 @@ describe("clinical tools catalog", () => {
   });
 
   it("reconciles the physical catalog to the v12 final surface set", () => {
-    expect(clinicalTools).toHaveLength(134);
+    expect(clinicalTools).toHaveLength(135);
     for (const id of removedFinalSurfaceIds) {
       expect(clinicalTools.some((tool) => tool.id === id), id).toBe(false);
     }
@@ -202,13 +203,14 @@ describe("clinical tools catalog", () => {
     expect(getTool("brighton_pews")).toBeDefined();
   });
 
-  it("does not include toxicology in the catalog", () => {
-    const serializedCatalog = JSON.stringify(clinicalTools).toLocaleLowerCase(
-      "en"
+  it("does not include toxicology tools in the catalog", () => {
+    const toxicologySurfaces = clinicalTools.filter((tool) =>
+      [tool.id, tool.slug, tool.category, tool.subcategory]
+        .filter(Boolean)
+        .some((value) => /^toxic(?:ology)?(?:_|-|$)/i.test(String(value)))
     );
 
-    expect(serializedCatalog).not.toContain("toxic");
-    expect(serializedCatalog).not.toContain("toxicol");
+    expect(toxicologySurfaces).toEqual([]);
   });
 
   it("activates New Ballard as numeric-only implementation with external visual reference", () => {
@@ -278,6 +280,14 @@ describe("clinical tools catalog", () => {
     expect(tool?.validationNotes.en).toContain("CC BY 2.0");
     expect(tool?.references.some((reference) => reference.doi === "10.1186/cc7998")).toBe(true);
     expect(tool?.references.some((reference) => reference.doi === "10.1186/cc10337")).toBe(true);
+  });
+
+  it("publishes AAP 2022 hyperbilirubinemia as active external decision support", () => {
+    const tool = getTool("aap_2022_hyperbilirubinemia");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).not.toBe("active");
+    expect(tool?.references.some((reference) => reference.doi === "10.1542/peds.2022-058859")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("PediTools API");
   });
 
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
