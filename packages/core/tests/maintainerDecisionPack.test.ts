@@ -59,7 +59,6 @@ describe("maintainer decision pack", () => {
       "stamp",
       "wong_baker_faces",
       "cheops",
-      "cries",
       "rflacc"
     ];
 
