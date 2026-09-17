@@ -1,0 +1,21 @@
+/* Final PRAM pilot tuning: keep evidence accessible in lower disclosure only. */
+.atlas-pram-frame .pram-evidence-jump {
+  display: none !important;
+}
+
+/* Bring floating hero controls closer to the right viewport edge. */
+.atlas-pram-frame .pram-minimal-header {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+
+.atlas-pram-frame .pram-header-right {
+  margin-right: 0;
+}
+
+@media (max-width: 680px) {
+  .atlas-pram-frame .pram-minimal-header {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+}
