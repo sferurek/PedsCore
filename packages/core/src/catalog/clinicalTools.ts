@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "pass",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1325,11 +1326,50 @@ const implementedToolReferences: Record<string, Reference[]> = {
       url: "https://pubmed.ncbi.nlm.nih.gov/14709423/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
-      accessType: "open_access",
+      accessType: "abstract_only",
       notes:
-        "Block 8B-3: original PASS source located. Full table and interpretation require source review before implementation.",
+        "Primary PASS derivation/validation source. The three-domain 0-6 scoring logic is implemented with independently worded descriptors.",
       appliesTo: ["pass"],
       priority: 1
+    },
+    {
+      id: "pass_2008_disposition_model",
+      title: "Predicting need for hospitalization in acute pediatric asthma",
+      authors: "Gorelick MH, Scribano PV, Stevens MW, Schultz TR, Shults J",
+      year: 2008,
+      journalOrPublisher: "Pediatric Emergency Care",
+      citation:
+        "Gorelick MH, Scribano PV, Stevens MW, Schultz TR, Shults J. Predicting need for hospitalization in acute pediatric asthma. Pediatr Emerg Care. 2008;24(11):735-744.",
+      doi: "10.1097/PEC.0b013e31818c268f",
+      pmid: "18955910",
+      url: "https://pubmed.ncbi.nlm.nih.gov/18955910/",
+      evidenceLevel: "secondary_source",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes:
+        "Studied PASS within a multivariable disposition model, including a PASS >=5 cut-off. PedsCore does not use this as a stand-alone admission rule.",
+      appliesTo: ["pass"],
+      priority: 2
+    },
+    {
+      id: "pass_2017_direct_comparison",
+      title: "Direct concurrent comparison of multiple pediatric acute asthma scoring instruments",
+      authors: "Johnson MD, Nkoy FL, Sheng X, Greene T, Stone BL, Garvin J",
+      year: 2017,
+      journalOrPublisher: "Journal of Asthma",
+      citation:
+        "Johnson MD, Nkoy FL, Sheng X, Greene T, Stone BL, Garvin J. Direct concurrent comparison of multiple pediatric acute asthma scoring instruments. J Asthma. 2017;54(7):741-753.",
+      doi: "10.1080/02770903.2016.1258081",
+      pmid: "27831833",
+      pmcid: "PMC5425314",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5425314/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Open-access concurrent comparison reproducing the three PASS domains and their 0-2 scoring structure.",
+      appliesTo: ["pass"],
+      priority: 3
     }
   ],
   brosjod: [
@@ -1630,8 +1670,8 @@ const rdaiValidationNotes: LocalizedText = {
 };
 
 const passValidationNotes: LocalizedText = {
-  es: "Sprint 2A: fuente PASS original localizada con DOI/PMID, pero la tabla completa, interpretacion y reutilizacion no estan suficientemente verificadas. No se implementa ni se activa calculo.",
-  en: "Sprint 2A: original PASS source located with DOI/PMID, but the complete table, interpretation, and reuse status are not sufficiently verified. It is not implemented and calculation is not activated."
+  es: "Implementacion local del Pediatric Asthma Severity Score (PASS) original de Gorelick et al. (2004), desarrollado en ninos de 1 a 18 anos con asma aguda. Suma tres dominios (trabajo respiratorio, sibilancias y prolongacion de la espiracion), cada uno 0-2, para un total 0-6. PedsCore no activa bandas leve/moderada/grave no trazadas al estudio original ni convierte puntos de corte posteriores en instrucciones de manejo. Los descriptores ES/EN se redactan de forma independiente y no reproducen tablas editoriales.",
+  en: "Local implementation of the original Pediatric Asthma Severity Score (PASS) by Gorelick et al. (2004), developed in children aged 1-18 years with acute asthma. It sums three domains (work of breathing, wheezing, and prolonged expiration), each scored 0-2, for a 0-6 total. PedsCore does not activate mild/moderate/severe bands not traced to the original study and does not convert later cut-offs into management instructions. ES/EN descriptors are independently worded and do not reproduce editorial tables."
 };
 
 const pramQaValidationNotes: LocalizedText = {
@@ -1793,6 +1833,58 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  pass: {
+    calculationNotes: {
+      es: "Selecciona una categoria 0-2 para trabajo respiratorio, sibilancias y prolongacion de la espiracion. PASS suma los tres dominios para un total 0-6. La puntuacion cuantifica la intensidad de los hallazgos evaluados; PedsCore no asigna bandas leve/moderada/grave no validadas en la fuente original ni vincula el resultado a decisiones automaticas de tratamiento o disposicion.",
+      en: "Select a 0-2 category for work of breathing, wheezing, and prolonged expiration. PASS sums the three domains for a total of 0-6. The score quantifies the intensity of the assessed findings; PedsCore does not assign mild/moderate/severe bands not validated in the original source or link the result to automatic treatment or disposition decisions."
+    },
+    inputs: [
+      {
+        id: "work_of_breathing",
+        label: { es: "Trabajo respiratorio", en: "Work of breathing" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("none_or_mild", "Sin aumento claro o aumento leve del esfuerzo", "No clear increase or only mild increase in effort", 0),
+          option("moderate", "Aumento moderado del esfuerzo respiratorio", "Moderately increased respiratory effort", 1),
+          option("severe", "Aumento marcado del esfuerzo respiratorio", "Markedly increased respiratory effort", 2)
+        ]
+      },
+      {
+        id: "wheezing",
+        label: { es: "Sibilancias", en: "Wheezing" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("none_or_mild", "Ausentes o discretas", "Absent or faint", 0),
+          option("moderate", "Sibilancias de intensidad intermedia", "Wheezing of intermediate intensity", 1),
+          option("severe_or_poor_air_exchange", "Sibilancias intensas o ausencia de sibilancias con intercambio de aire muy reducido", "Marked wheeze or no wheeze when air exchange is severely reduced", 2)
+        ]
+      },
+      {
+        id: "prolonged_expiration",
+        label: { es: "Prolongacion de la espiracion", en: "Prolongation of expiration" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("normal_or_mild", "Espiracion normal o solo ligeramente prolongada", "Expiration normal or only slightly prolonged", 0),
+          option("moderately_prolonged", "Espiracion claramente prolongada", "Clearly prolonged expiration", 1),
+          option("severely_prolonged", "Espiracion marcadamente prolongada", "Markedly prolonged expiration", 2)
+        ]
+      }
+    ],
+    scoringTable: [
+      {
+        id: "pass_total",
+        variable: { es: "Puntuacion PASS total", en: "Total PASS score" },
+        value: "0-6",
+        description: {
+          es: "Suma de trabajo respiratorio, sibilancias y prolongacion de la espiracion; cada dominio aporta 0, 1 o 2 puntos.",
+          en: "Sum of work of breathing, wheezing, and prolonged expiration; each domain contributes 0, 1, or 2 points."
+        }
+      }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4213,7 +4305,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
-  makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "pending_validation", "original_derivation_study", "medium", passValidationNotes),
+  makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos de 1 a 18 anos con exacerbacion aguda de asma", "Children aged 1 to 18 years with an acute asthma exacerbation", "Score descriptivo 0-6 de gravedad de asma aguda basado en trabajo respiratorio, sibilancias y prolongacion de la espiracion.", "Descriptive 0-6 acute asthma severity score based on work of breathing, wheezing, and prolonged expiration.", "implemented", "original_derivation_study", "medium", passValidationNotes),
   makeTool("risc", "risc", "RISC", "RISC", "RISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Score de gravedad de neumonia identificado en recomendaciones.", "Pneumonia severity score identified in recommendations.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("mrisc", "mrisc", "mRISC", "mRISC", "mRISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Variante modificada RISC para neumonia.", "Modified RISC variant for pneumonia.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("pediatric_gcs", "pediatric-glasgow-coma-scale", "pGCS", "Escala de Coma de Glasgow pediatrica", "Pediatric Glasgow Coma Scale", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Adaptacion pediatrica de apertura ocular, respuesta verbal y motora.", "Pediatric adaptation of eye, verbal, and motor response.", "pending_validation", "pending_verification", "medium", pediatricGcsValidationNotes),
