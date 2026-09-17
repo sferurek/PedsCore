@@ -6,6 +6,7 @@ import "./styles/tokens.css";
 import "./styles/atlas.css";
 import "./styles/pram-showcase.css";
 import "./styles/pram-refinement.css";
+import "./styles/pram-polish-2.css";
 
 const rootElement = document.getElementById("root");
 
