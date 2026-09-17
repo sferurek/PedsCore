@@ -105,7 +105,7 @@ for (const url of sitemapUrls) {
 if (canonicalUrls.size !== sitemapUrls.length) throw new Error("Duplicate canonical URLs detected");
 if ((sitemap.match(/xhtml:link rel="alternate"/g) ?? []).length < sitemapUrls.length) throw new Error("Sitemap alternates are incomplete");
 if (categoryTitles.size !== indexableCategories.length * 2 || categoryDescriptions.size !== indexableCategories.length * 2) throw new Error("Category metadata is not unique across language routes");
-if (toolRouteCount !== 264) throw new Error(`Expected 264 localized tool routes, found: ${toolRouteCount}`);
+if (toolRouteCount !== 266) throw new Error(`Expected 266 localized tool routes, found: ${toolRouteCount}`);
 if (toolTitlesByLanguage.es.size !== toolRouteCount / 2 || toolTitlesByLanguage.en.size !== toolRouteCount / 2) throw new Error("Tool SEO titles are not unique within each language");
 
 const assetNames = await readdir(resolve(distDir, "assets"));
@@ -120,9 +120,16 @@ if (mainSize.size > 600_000) throw new Error(`Initial JS remains too large: ${ma
 if (statsSize.size < 1_000_000) throw new Error(`Global stats chunk unexpectedly small: ${statsSize.size} bytes`);
 
 const urlCount = (sitemap.match(/<url>/g) ?? []).length;
-if (urlCount !== 307) {
-  throw new Error(`sitemap.xml expected 307 URLs, found: ${urlCount}`);
+if (urlCount !== 317) {
+  throw new Error(`sitemap.xml expected 317 URLs, found: ${urlCount}`);
 }
+
+const headInjuryHubEs = await read("es/topics/pediatric-head-injury-rules/index.html");
+const neonatalPainHubEn = await read("en/topics/neonatal-pain-scales/index.html");
+assertIncludes(headInjuryHubEs, '"@type":"CollectionPage"', "head injury topic schema");
+assertIncludes(headInjuryHubEs, "PECARN", "head injury topic content");
+assertIncludes(neonatalPainHubEn, '"@type":"ItemList"', "neonatal pain topic item list");
+assertIncludes(neonatalPainHubEn, "NIPS", "neonatal pain topic content");
 
 const pim2Es = await read("es/tools/pim2/index.html");
 const pippEs = await read("es/tools/pipp/index.html");

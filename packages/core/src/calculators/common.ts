@@ -5,7 +5,7 @@ import type {
   InterpretationBand,
   LocalizedText
 } from "../types.js";
-import { getToolBySlug } from "../catalog/clinicalTools.js";
+import { clinicalTools, getToolBySlug } from "../catalog/clinicalTools.js";
 
 export type CalculatorInput = Record<string, unknown>;
 
@@ -25,11 +25,12 @@ export const warning = (
 
 export const label = (es: string, en: string): LocalizedText => ({ es, en });
 
-export const getTool = (slug: string): ClinicalToolMetadata => {
-  const tool = getToolBySlug(slug);
+export const getTool = (slugOrId: string): ClinicalToolMetadata => {
+  const tool =
+    getToolBySlug(slugOrId) ?? clinicalTools.find((item) => item.id === slugOrId);
 
   if (!tool) {
-    throw new Error(`Tool not found: ${slug}`);
+    throw new Error(`Tool not found: ${slugOrId}`);
   }
 
   return tool;

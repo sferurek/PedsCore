@@ -57,7 +57,7 @@ describe("clinical discovery taxonomy", () => {
       (metadata) => metadata.surfaceStatus
     );
 
-    expect(statuses.filter((status) => status === "active")).toHaveLength(116);
+    expect(statuses.filter((status) => status === "active")).toHaveLength(117);
     expect(statuses.filter((status) => status === "draft")).toHaveLength(1);
     expect(statuses.filter((status) => status === "blocked")).toHaveLength(14);
     expect(statuses.filter((status) => status === "deprecated")).toHaveLength(3);
@@ -65,7 +65,7 @@ describe("clinical discovery taxonomy", () => {
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
-    ).toHaveLength(29);
+    ).toHaveLength(30);
   });
 
   it("does not expose removed final surfaces through discovery", () => {
@@ -112,7 +112,7 @@ describe("clinical discovery taxonomy", () => {
   });
 
   it("marks current calculators as locally active where applicable", () => {
-    for (const id of ["apgar","pram","sipa","qtc_bazett","bedside_schwartz"]) {
+    for (const id of ["apgar","pram","sipa","qtc_bazett","bedside_schwartz","bedside_pews"]) {
       expect(getToolDiscovery(id)?.calculationAvailability).toBe("local_active");
     }
   });

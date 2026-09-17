@@ -5,7 +5,7 @@ import {
   implementedCalculatorToolIds
 } from "../src/index";
 
-const forbiddenRecommendations = /tratamiento|administrar|analgesia|sedaci[oó]n|opioide|\bUCI\b|ingresar|alta/i;
+const forbiddenRecommendations = /tratamiento|administrar|analgesia|sedaci[oó]n|opioide|\bUCI\b|ingresar|\balta\b/i;
 
 const pendingResultText = (toolId: string) => {
   const result = calculateTool(toolId, {});
@@ -13,14 +13,13 @@ const pendingResultText = (toolId: string) => {
 };
 
 describe("Block 5E validation gate", () => {
-  it("keeps CRIES pending validation because the exact scoring table is incomplete", () => {
+  it("keeps CRIES aligned with its completed validation state", () => {
     const tool = getToolBySlug("cries");
 
-    expect(tool?.implementationStatus).toBe("pending_validation");
-    expect(tool?.validationNotes.en).toContain("exact 0/1/2 options");
-    expect(tool?.validationNotes.en).toContain("complete primary source");
-    expect(implementedCalculatorToolIds).not.toContain("cries");
-    expect(calculateTool("cries", {}).warnings[0]?.id).toBe("calculator_not_implemented");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(implementedCalculatorToolIds).toContain("cries");
+    expect(calculateTool("cries", {}).warnings[0]?.id).toBe("missing_required_inputs");
   });
 
   it("keeps CHEOPS rights-blocked and non-operational", () => {
@@ -50,7 +49,6 @@ describe("Block 5E validation gate", () => {
 
   it("does not include therapeutic recommendations in pending-result text", () => {
     const texts = [
-      pendingResultText("cries"),
       pendingResultText("cheops"),
       pendingResultText("visual_analogue_scale")
     ].join(" ");

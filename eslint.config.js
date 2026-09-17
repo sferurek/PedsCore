@@ -18,16 +18,6 @@ export default tseslint.config(
         ...globals.browser,
         ...globals.node
       }
-    },
-    rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-          caughtErrorsIgnorePattern: "^_",
-          varsIgnorePattern: "^_"
-        }
-      ]
     }
   },
   {

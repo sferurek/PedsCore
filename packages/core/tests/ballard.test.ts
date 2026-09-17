@@ -58,7 +58,7 @@ describe("New Ballard calculator", () => {
   });
 
   it("rejects missing, non-integer, and out-of-range item scores", () => {
-    const { genitals: _omitted, ...incomplete } = scoreFor27;
+    const incomplete = { ...scoreFor27, genitals: undefined };
     expect(ballardCalculator.calculate(incomplete).warnings[0]?.id).toBe("missing_required_inputs");
     expect(ballardCalculator.calculate({ ...scoreFor27, posture: 4.5 }).warnings[0]?.id).toBe("invalid_ballard_item_score");
     expect(ballardCalculator.calculate({ ...scoreFor27, plantar_surface: -3 }).warnings[0]?.id).toBe("invalid_ballard_item_score");

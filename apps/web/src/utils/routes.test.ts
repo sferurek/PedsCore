@@ -9,6 +9,13 @@ describe("routes", () => {
     expect(makePath("en", "evidence")).toBe("/en/evidence");
   });
 
+  it("parses clinical topic hub routes and preserves language switching", () => {
+    const route = parseRoute("/es/topics/pediatric-head-injury-rules");
+    expect(route.kind).toBe("topic");
+    expect(route.topic).toBe("pediatric-head-injury-rules");
+    expect(route.withLanguage("en")).toBe("/en/topics/pediatric-head-injury-rules");
+  });
+
   it("parses global stats routes", () => {
     expect(parseRoute("/es/stats/global").kind).toBe("stats");
     expect(parseRoute("/PedsCore/en/stats/global").kind).toBe("stats");
