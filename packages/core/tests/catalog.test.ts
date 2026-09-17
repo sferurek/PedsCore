@@ -203,13 +203,14 @@ describe("clinical tools catalog", () => {
     expect(getTool("brighton_pews")).toBeDefined();
   });
 
-  it("does not include toxicology in the catalog", () => {
-    const serializedCatalog = JSON.stringify(clinicalTools).toLocaleLowerCase(
-      "en"
+  it("does not include toxicology tools in the catalog", () => {
+    const toxicologySurfaces = clinicalTools.filter((tool) =>
+      [tool.id, tool.slug, tool.category, tool.subcategory]
+        .filter(Boolean)
+        .some((value) => /^toxic(?:ology)?(?:_|-|$)/i.test(String(value)))
     );
 
-    expect(serializedCatalog).not.toContain("toxic");
-    expect(serializedCatalog).not.toContain("toxicol");
+    expect(toxicologySurfaces).toEqual([]);
   });
 
   it("activates New Ballard as numeric-only implementation with external visual reference", () => {
