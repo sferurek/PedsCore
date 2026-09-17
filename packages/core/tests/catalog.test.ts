@@ -401,6 +401,21 @@ describe("clinical tools catalog", () => {
     expect(tool?.references.some((reference) => reference.doi === "10.1016/S0022-3476(70)80038-5")).toBe(true);
   });
 
+  it("activates Gorelick-10 with automatic Gorelick-4 subset and original thresholds", () => {
+    const tool = getTool("gorelick_dehydration");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.population.en).toContain("1 month to 5 years");
+    expect(tool?.inputs).toHaveLength(10);
+    expect(tool?.scoringTable?.map((row) => row.id)).toEqual([
+      "gorelick_10_total",
+      "gorelick_4_total"
+    ]);
+    expect(tool?.references.some((reference) => reference.pmid === "9113963")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("four-sign subset");
+  });
+
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
     const blockedIds = [
       "neonatal_growth_fenton",
