@@ -41,26 +41,6 @@ export function Header({ currentPath, language, navigate, onLanguageChange }: He
       <>
         <a className="atlas-skip" href="#main-content">{a.skip}</a>
         <header className="pram-minimal-header">
-          <details className="pram-header-menu" ref={pramMenu}>
-            <summary aria-label={a.menu}>
-              <span />
-              <span />
-              <span />
-            </summary>
-            <nav aria-label={language === "es" ? "Navegación principal" : "Primary navigation"}>
-              <button type="button" onClick={() => go(makePath(language, "tools"))}>
-                {a.productLabels.tools}
-              </button>
-              <span className="pram-menu-disabled" aria-disabled="true">
-                {a.productLabels.learn}
-              </span>
-              <a href={PEDSCORE_SIM_URL}>{a.productLabels.sim}</a>
-              <button type="button" onClick={() => go(makePath(language, "about"))}>
-                {t.nav.about}
-              </button>
-            </nav>
-          </details>
-
           <div className="pram-header-right">
             <SearchCommand compact language={language} navigate={navigate} />
             <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
@@ -68,6 +48,25 @@ export function Header({ currentPath, language, navigate, onLanguageChange }: He
               <span className="atlas-brand-mark"><Icon name="heart" /></span>
               <span>PedsCore</span>
             </button>
+            <details className="pram-header-menu" ref={pramMenu}>
+              <summary aria-label={a.menu}>
+                <span />
+                <span />
+                <span />
+              </summary>
+              <nav aria-label={language === "es" ? "Navegación principal" : "Primary navigation"}>
+                <button type="button" onClick={() => go(makePath(language, "tools"))}>
+                  {a.productLabels.tools}
+                </button>
+                <span className="pram-menu-disabled" aria-disabled="true">
+                  {a.productLabels.learn}
+                </span>
+                <a href={PEDSCORE_SIM_URL}>{a.productLabels.sim}</a>
+                <button type="button" onClick={() => go(makePath(language, "about"))}>
+                  {t.nav.about}
+                </button>
+              </nav>
+            </details>
           </div>
         </header>
       </>
