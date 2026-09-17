@@ -401,6 +401,23 @@ describe("clinical tools catalog", () => {
     expect(tool?.references.some((reference) => reference.doi === "10.1016/S0022-3476(70)80038-5")).toBe(true);
   });
 
+  it("activates original Gorelick PASS as a three-domain 0-6 score without invented severity bands", () => {
+    const tool = getTool("pass");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.population.en).toContain("1 to 18 years");
+    expect(tool?.inputs?.map((input) => input.id)).toEqual([
+      "work_of_breathing",
+      "wheezing",
+      "prolonged_expiration"
+    ]);
+    expect(tool?.interpretationBands).toBeUndefined();
+    expect(tool?.references.some((reference) => reference.pmid === "14709423")).toBe(true);
+    expect(tool?.references.some((reference) => reference.pmid === "27831833")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("0-6");
+  });
+
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
     const blockedIds = [
       "neonatal_growth_fenton",
