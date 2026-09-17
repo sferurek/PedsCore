@@ -19,9 +19,9 @@ export function Header({ currentPath, language, navigate, onLanguageChange }: He
   const t = translations[language];
   const a = atlas[language];
   const sheet = useRef<HTMLDialogElement>(null);
-  const pramMenu = useRef<HTMLDetailsElement>(null);
+  const toolMenu = useRef<HTMLDetailsElement>(null);
   const [scrolled, setScrolled] = useState(false);
-  const isPramPilot = currentPath === `/${language}/tools/pram`;
+  const isToolDetailPage = currentPath.startsWith(`/${language}/tools/`);
 
   useEffect(() => {
     const update = () => setScrolled(window.scrollY > 48);
@@ -32,19 +32,19 @@ export function Header({ currentPath, language, navigate, onLanguageChange }: He
 
   const go = (href: string) => {
     sheet.current?.close();
-    pramMenu.current?.removeAttribute("open");
+    toolMenu.current?.removeAttribute("open");
     navigate(href);
   };
 
-  if (isPramPilot) {
+  if (isToolDetailPage) {
     return (
       <>
         <a className="atlas-skip" href="#main-content">{a.skip}</a>
-        <header className="pram-minimal-header">
+        <header className="pram-minimal-header tool-minimal-header">
           <div className="pram-header-right">
             <SearchCommand compact language={language} navigate={navigate} />
             <LanguageSwitcher language={language} onLanguageChange={onLanguageChange} />
-            <details className="pram-header-menu" ref={pramMenu}>
+            <details className="pram-header-menu" ref={toolMenu}>
               <summary aria-label={a.menu}>
                 <span />
                 <span />
