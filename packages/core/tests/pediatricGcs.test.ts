@@ -27,7 +27,7 @@ describe("Pediatric Glasgow Coma Scale", () => {
       age_group: "preverbal_under_2",
       eye_response: "to_sound",
       verbal_response: "cries_to_pain",
-      motor_response: "withdraws_to_touch"
+      motor_response: "localizes_or_withdraws_to_touch"
     });
 
     expect(result.score).toBe(11);
