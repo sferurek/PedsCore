@@ -32,6 +32,7 @@ const implementedToolIds = [
   "bedside_schwartz",
   "revised_schwartz",
   "westley_croup",
+  "gorelick_dehydration",
   "pram",
   "clinical_dehydration_scale",
   "pediatric_appendicitis_score",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -406,7 +407,6 @@ describe("clinical tools catalog", () => {
       "rdai",
       "brosjod",
       "pass",
-      "gorelick_dehydration",
       "prifle",
       "rflacc",
       "cheops",
@@ -436,11 +436,6 @@ describe("clinical tools catalog", () => {
       "sex"
     ]);
 
-    for (const id of ["gorelick_dehydration"]) {
-      const tool = getTool(id);
-      expect(tool?.implementationStatus).toBe("pending_validation");
-      expect(tool?.calculationStatus).not.toBe("active");
-    }
   });
 
   it("requires every ready-for-implementation tool to have a direct source identifier", () => {
