@@ -401,6 +401,31 @@ describe("clinical tools catalog", () => {
     expect(tool?.references.some((reference) => reference.doi === "10.1016/S0022-3476(70)80038-5")).toBe(true);
   });
 
+  it("activates original pRIFLE with explicit baseline handling and worst-criterion classification", () => {
+    const tool = getTool("prifle");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs?.map((input) => input.id)).toEqual([
+      "baseline_mode",
+      "baseline_eccl",
+      "current_eccl",
+      "urine_output_ml_kg_h",
+      "urine_duration_hours",
+      "anuria_hours",
+      "persistence_status"
+    ]);
+    expect(tool?.scoringTable?.map((row) => row.id)).toEqual([
+      "prifle_risk",
+      "prifle_injury",
+      "prifle_failure",
+      "prifle_loss",
+      "prifle_eskd"
+    ]);
+    expect(tool?.references.some((reference) => reference.pmid === "17396113")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("worse acute criterion");
+  });
+
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
     const blockedIds = [
       "neonatal_growth_fenton",
