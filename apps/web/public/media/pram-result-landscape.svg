@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 560" role="img" aria-label="Decorative twilight landscape">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#0d5f7b"/>
+      <stop offset="0.55" stop-color="#0b4f6b"/>
+      <stop offset="1" stop-color="#083950"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="82%" cy="17%" r="28%">
+      <stop offset="0" stop-color="#ffe1a6" stop-opacity=".42"/>
+      <stop offset=".35" stop-color="#ffd58e" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#ffd58e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hill1" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#174f68"/>
+      <stop offset="1" stop-color="#1f6680"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="560" fill="url(#sky)"/>
+  <rect width="640" height="560" fill="url(#glow)"/>
+  <circle cx="530" cy="88" r="20" fill="#ffd997"/>
+  <g fill="#2c7187" opacity=".55">
+    <path d="M0 185c26-34 58-34 82 0 12-18 27-27 45-27 25 0 44 18 49 40H0Z"/>
+    <path d="M455 170c19-25 45-25 64 1 10-15 23-22 39-22 22 0 39 14 45 34h-148Z"/>
+  </g>
+  <path d="M0 370c93-88 165-79 252-12 83 64 145 61 388-20v222H0Z" fill="url(#hill1)" opacity=".95"/>
+  <path d="M0 430c97-52 179-45 263 10 93 61 189 49 377-33v153H0Z" fill="#0b3d55"/>
+  <g fill="#062e43">
+    <path d="M66 390l28-62 28 62h-18v52H84v-52Z"/>
+    <path d="M118 414l22-49 22 49h-14v38h-16v-38Z"/>
+    <path d="M36 421l18-41 18 41H60v30H48v-30Z"/>
+  </g>
+  <g fill="#082f44">
+    <ellipse cx="574" cy="415" rx="14" ry="31"/>
+    <rect x="570" y="376" width="8" height="50" rx="4"/>
+    <circle cx="574" cy="368" r="8"/>
+    <rect x="568" y="354" width="5" height="19" rx="2" transform="rotate(-18 570 364)"/>
+    <rect x="577" y="353" width="5" height="19" rx="2" transform="rotate(20 579 363)"/>
+    <rect x="558" y="438" width="6" height="48" rx="3"/>
+    <rect x="584" y="438" width="6" height="48" rx="3"/>
+    <rect x="549" y="413" width="8" height="37" rx="4" transform="rotate(15 553 432)"/>
+    <rect x="592" y="412" width="8" height="38" rx="4" transform="rotate(-13 596 431)"/>
+    <path d="M557 391c-15 4-27 12-36 24l5 5c11-9 22-14 34-15Z"/>
+  </g>
+</svg>
