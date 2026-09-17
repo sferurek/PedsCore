@@ -35,7 +35,6 @@ describe("maintainer decision pack", () => {
   it("documents families that remain non-implementable without maintainer decision", () => {
     const getTool = (id: string) => clinicalTools.find((tool) => tool.id === id);
     const lockedIds = [
-      "pediatric_gcs",
       "brighton_pews",
       "pediatric_cpr",
       "neonatal_cpr",
@@ -89,7 +88,6 @@ describe("maintainer decision pack", () => {
 
   it("keeps non-ready utilities out of implemented status in decision-required set", () => {
     const neverImplemented = [
-      "pediatric_gcs",
       "pediatric_cpr",
       "neonatal_cpr",
       "orbegozo_growth_percentiles",
