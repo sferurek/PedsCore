@@ -4,6 +4,11 @@ import { App } from "./App";
 import "./styles/global.css";
 import "./styles/tokens.css";
 import "./styles/atlas.css";
+import "./styles/pram-showcase.css";
+import "./styles/pram-refinement.css";
+import "./styles/pram-polish-2.css";
+import "./styles/pram-tuning.css";
+import "./styles/tool-v3.css";
 
 const rootElement = document.getElementById("root");
 
@@ -16,4 +21,3 @@ createRoot(rootElement).render(
     <App />
   </StrictMode>
 );
-
