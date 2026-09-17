@@ -5,6 +5,7 @@ import "./styles/global.css";
 import "./styles/tokens.css";
 import "./styles/atlas.css";
 import "./styles/pram-showcase.css";
+import "./styles/pram-refinement.css";
 
 const rootElement = document.getElementById("root");
 
@@ -17,4 +18,3 @@ createRoot(rootElement).render(
     <App />
   </StrictMode>
 );
-
