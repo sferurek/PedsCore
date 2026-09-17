@@ -50,7 +50,23 @@ export const pediatricGcsCalculator: CalculatorDefinition = {
 
     for (const inputId of ["eye_response", "verbal_response", "motor_response"]) {
       const score = getNumericScore(tool, input, inputId);
-      const [min, max] = ranges[inputId];
+      const range = ranges[inputId];
+
+      if (!range) {
+        return {
+          toolId: tool.id,
+          warnings: [
+            warning(
+              "invalid_score_input",
+              "Dominio pGCS no reconocido.",
+              "Unrecognized pGCS domain."
+            )
+          ],
+          trace: [{ inputId, value: input[inputId] }]
+        };
+      }
+
+      const [min, max] = range;
 
       if (score === null || !Number.isInteger(score) || score < min || score > max) {
         return {
