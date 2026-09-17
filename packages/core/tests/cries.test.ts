@@ -58,8 +58,7 @@ describe("CRIES calculator", () => {
   });
 
   it("requires all five domains and rejects invalid scores", () => {
-    const { sleeplessness: _omitted, ...incomplete } = zeroInput;
-    void _omitted;
+    const incomplete = { ...zeroInput, sleeplessness: undefined };
     expect(criesCalculator.calculate(incomplete).warnings[0]?.id).toBe("missing_required_inputs");
 
     expect(criesCalculator.calculate({ ...zeroInput, crying: 3 }).warnings[0]?.id).toBe("invalid_cries_item_score");
