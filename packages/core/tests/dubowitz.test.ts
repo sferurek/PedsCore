@@ -42,7 +42,7 @@ describe("Dubowitz calculator", () => {
   it("calculates the published regression from the total score", () => {
     const result = dubowitzCalculator.calculate({
       ...zeroInput,
-      posture: 4,
+      posture: 2,
       square_window: 4,
       ankle_dorsiflexion: 4,
       arm_recoil: 2,
@@ -103,7 +103,7 @@ describe("Dubowitz calculator", () => {
   });
 
   it("requires all 21 item scores", () => {
-    const { genitals: _omitted, ...incomplete } = zeroInput;
+    const incomplete = { ...zeroInput, genitals: undefined };
     expect(dubowitzCalculator.calculate(incomplete).warnings[0]?.id).toBe(
       "missing_required_inputs"
     );
