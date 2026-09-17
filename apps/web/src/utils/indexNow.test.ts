@@ -33,7 +33,7 @@ describe("IndexNow submission", () => {
     const sitemap = await readFile(resolve(testDir, "../../public/sitemap.xml"), "utf8");
     const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
     expect(getCanonicalIndexNowUrls(getAllTools())).toEqual(sitemapUrls);
-    expect(sitemapUrls).toHaveLength(317);
+    expect(sitemapUrls).toHaveLength(319);
   });
 
   it("rejects preview, API and non-canonical URLs", () => {

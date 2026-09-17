@@ -371,7 +371,28 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
             </section>
           ) : null}
 
-          {hasActiveCalculation ? (
+          {tool.id === "fenton_2025_growth" ? (
+            <section className="content-panel surface-availability-note" id="calculator">
+              <strong>
+                {language === "es"
+                  ? "Fenton 2025 · tercera generación"
+                  : "Fenton 2025 · third generation"}
+              </strong>
+              <p>
+                {language === "es"
+                  ? "PedsCore mantiene Fenton 2025 como herramienta externa: no redistribuye ni recalcula localmente los datos de las curvas. Usa PediTools para percentiles y z-scores puntuales o el plotter oficial de Fenton Growth para seguimiento longitudinal."
+                  : "PedsCore keeps Fenton 2025 as an external tool: it does not redistribute or locally recalculate the chart data. Use PediTools for point percentiles and Z-scores or the official Fenton Growth plotter for longitudinal follow-up."}
+              </p>
+              <div className="tool-actions">
+                <a className="primary-link" href="https://peditools.org/fenton2025/" rel="noreferrer" target="_blank">
+                  {language === "es" ? "Abrir calculadora Fenton 2025 en PediTools ↗" : "Open Fenton 2025 calculator on PediTools ↗"}
+                </a>
+                <a className="secondary-link" href="https://fentongrowth.ca/" rel="noreferrer" target="_blank">
+                  {language === "es" ? "Abrir plotter oficial Fenton Growth ↗" : "Open official Fenton Growth plotter ↗"}
+                </a>
+              </div>
+            </section>
+          ) : hasActiveCalculation ? (
             <div className={isCanonical ? "atlas-workspace" : "atlas-legacy-workspace"} id="calculator">
               {isWhoGrowth ? (
                 <WhoGrowthForm
