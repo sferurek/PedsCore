@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "prifle",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1454,11 +1455,25 @@ const implementedToolReferences: Record<string, Reference[]> = {
       url: "https://pubmed.ncbi.nlm.nih.gov/17396113/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
-      accessType: "open_access",
+      accessType: "abstract_only",
       notes:
-        "Block 8B-3: original pRIFLE source located. Complete criteria, baseline eCCl assumptions, urine-output handling, and expert review remain pending.",
+        "Primary pRIFLE derivation/validation source. PedsCore independently encodes the functional criteria and makes baseline imputation explicit.",
       appliesTo: ["prifle"],
       priority: 1
+    },
+    {
+      id: "prifle_2014_review",
+      title: "Acute kidney injury in children",
+      year: 2014,
+      journalOrPublisher: "Pediatric Nephrology review",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4238883/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Open-access secondary verification of pRIFLE eCCl and urine-output thresholds, including Failure <0.3 mL/kg/h for 24 h or anuria for 12 h.",
+      appliesTo: ["prifle"],
+      priority: 2
     }
   ],
   rflacc: [
@@ -1680,8 +1695,8 @@ const chaliceValidationNotes: LocalizedText = {
 };
 
 const prifleValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: fuente pRIFLE original localizada con DOI/PMID. Pendiente tabla/criterios completos, eCCl basal, diuresis, unidades y revision experta.",
-  en: "Block 8B-3: original pRIFLE source located with DOI/PMID. Complete criteria, baseline eCCl, urine output, units, and expert review remain pending."
+  es: "Implementacion del pRIFLE original de Akcan-Arikan et al. para clasificar lesion renal aguda pediatrica por descenso de eCCl y diuresis, usando siempre el criterio agudo mas grave. El eCCl basal puede ser conocido o imputarse explicitamente como 120 mL/min/1,73 m²; la imputacion nunca es silenciosa. Loss y ESKD solo aparecen cuando el usuario declara persistencia de Failure >4 semanas o >3 meses. La salida es clasificatoria y no genera instrucciones de fluidos, diureticos, dialisis, ingreso ni tratamiento.",
+  en: "Implementation of the original Akcan-Arikan pRIFLE classification for pediatric acute kidney injury using eCCl decline and urine output, always taking the worse acute criterion. Baseline eCCl may be known or explicitly imputed as 120 mL/min/1.73 m²; imputation is never silent. Loss and ESKD appear only when persistent Failure >4 weeks or >3 months is explicitly declared. Output is classificatory and does not generate fluid, diuretic, dialysis, admission, or treatment instructions."
 };
 
 const rflaccValidationNotes: LocalizedText = {
@@ -1793,6 +1808,81 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  prifle: {
+    calculationNotes: {
+      es: "Selecciona si el eCCl basal es conocido o si deseas usar explicitamente la imputacion metodologica de 120 mL/min/1,73 m². Introduce eCCl actual, diuresis en mL/kg/h, duracion de esa diuresis y horas de anuria. pRIFLE clasifica Risk, Injury o Failure por el peor criterio entre eCCl y diuresis. Loss y ESKD solo se muestran cuando declaras Failure persistente >4 semanas o >3 meses.",
+      en: "Select whether baseline eCCl is known or whether to explicitly use the published methodological imputation of 120 mL/min/1.73 m². Enter current eCCl, urine output in mL/kg/h, duration of that urine-output rate, and hours of anuria. pRIFLE classifies Risk, Injury, or Failure by the worse of the eCCl and urine-output criteria. Loss and ESKD are shown only when persistent Failure >4 weeks or >3 months is declared."
+    },
+    inputs: [
+      {
+        id: "baseline_mode",
+        label: { es: "eCCl basal", en: "Baseline eCCl" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("known", "Basal conocido", "Known baseline"),
+          option("imputed_120", "Basal desconocido · imputar 120", "Unknown baseline · impute 120")
+        ]
+      },
+      { id: "baseline_eccl", label: { es: "eCCl basal conocido", en: "Known baseline eCCl" }, description: { es: "Solo si seleccionas basal conocido.", en: "Only when known baseline is selected." }, type: "number", required: false, unit: "mL/min/1,73 m²", min: 1, max: 300, step: 0.1 },
+      { id: "current_eccl", label: { es: "eCCl actual", en: "Current eCCl" }, type: "number", required: true, unit: "mL/min/1,73 m²", min: 0.1, max: 300, step: 0.1 },
+      { id: "urine_output_ml_kg_h", label: { es: "Diuresis", en: "Urine output" }, type: "number", required: true, unit: "mL/kg/h", min: 0, max: 20, step: 0.01 },
+      { id: "urine_duration_hours", label: { es: "Duracion de esa diuresis", en: "Duration of that urine-output rate" }, type: "number", required: true, unit: "h", min: 0, max: 720, step: 0.5 },
+      { id: "anuria_hours", label: { es: "Horas de anuria", en: "Hours of anuria" }, type: "number", required: true, unit: "h", min: 0, max: 720, step: 0.5 },
+      {
+        id: "persistence_status",
+        label: { es: "Persistencia de Failure", en: "Persistence of Failure" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("none", "Sin persistencia declarada", "No persistent Failure declared"),
+          option("failure_over_4_weeks", "Failure persistente >4 semanas", "Persistent Failure >4 weeks"),
+          option("failure_over_3_months", "Failure persistente >3 meses", "Persistent Failure >3 months")
+        ]
+      }
+    ],
+    scoringTable: [
+      {
+        id: "prifle_risk",
+        variable: { es: "Risk", en: "Risk" },
+        value: "R",
+        description: {
+          es: "Descenso de eCCl >=25% o diuresis <0,5 mL/kg/h durante >=8 h.",
+          en: "eCCl decrease >=25% or urine output <0.5 mL/kg/h for >=8 h."
+        }
+      },
+      {
+        id: "prifle_injury",
+        variable: { es: "Injury", en: "Injury" },
+        value: "I",
+        description: {
+          es: "Descenso de eCCl >=50% o diuresis <0,5 mL/kg/h durante >=16 h.",
+          en: "eCCl decrease >=50% or urine output <0.5 mL/kg/h for >=16 h."
+        }
+      },
+      {
+        id: "prifle_failure",
+        variable: { es: "Failure", en: "Failure" },
+        value: "F",
+        description: {
+          es: "Descenso de eCCl >=75% o eCCl <35 mL/min/1,73 m²; o diuresis <0,3 mL/kg/h durante >=24 h; o anuria >=12 h.",
+          en: "eCCl decrease >=75% or eCCl <35 mL/min/1.73 m²; or urine output <0.3 mL/kg/h for >=24 h; or anuria >=12 h."
+        }
+      },
+      {
+        id: "prifle_loss",
+        variable: { es: "Loss", en: "Loss" },
+        value: "L",
+        description: { es: "Failure persistente >4 semanas.", en: "Persistent Failure >4 weeks." }
+      },
+      {
+        id: "prifle_eskd",
+        variable: { es: "ESKD", en: "ESKD" },
+        value: "E",
+        description: { es: "Failure persistente >3 meses.", en: "Persistent Failure >3 months." }
+      }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4232,7 +4322,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("qtc_hodges", "qtc-hodges", "QTc Hodges", "QTc Hodges", "QTc Hodges", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Hodges.", "QT correction using Hodges formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("bedside_schwartz", "bedside-schwartz", "Bedside Schwartz", "Bedside Schwartz", "Bedside Schwartz", "nephrology", "egfr", "calculator", "Ninos con creatinina y talla disponibles", "Children with available creatinine and height", "Estimacion de filtrado glomerular pediatrico.", "Pediatric estimated glomerular filtration rate.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con talla, creatinina, cistatina C, BUN y sexo disponibles", "Children with available height, creatinine, cystatin C, BUN, and sex", "Formula CKiD 2009 multivariable para eGFR pediatrico estimado.", "2009 multivariable CKiD equation for estimated pediatric eGFR.", "ready_for_implementation", "original_derivation_study", "medium", revisedSchwartzReadyNotes),
-  makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificacion pediatrica de lesion renal aguda.", "Pediatric acute kidney injury classification.", "pending_validation", "original_derivation_study", "medium", prifleValidationNotes),
+  makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos criticamente enfermos con riesgo de lesion renal aguda", "Critically ill children at risk of acute kidney injury", "Clasificacion pediatrica RIFLE por descenso de eCCl y diuresis con manejo explicito del basal.", "Pediatric RIFLE classification using eCCl decline and urine output with explicit baseline handling.", "implemented", "original_derivation_study", "medium", prifleValidationNotes),
   makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO pediatrico", "KDIGO pediatrico", "Pediatric KDIGO", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Aplicacion pediatrica de criterios KDIGO para lesion renal aguda.", "Pediatric application of KDIGO criteria for acute kidney injury.", "pending_validation", "pending_verification", "medium"),
   makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Evalua disfuncion organica multiple pediatrica.", "Assesses pediatric multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pelod", "pelod", "PELOD", "PELOD", "PELOD", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Score de disfuncion organica pediatrica.", "Pediatric organ dysfunction score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
