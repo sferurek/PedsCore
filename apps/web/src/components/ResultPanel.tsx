@@ -23,7 +23,7 @@ export const ResultPanel = forwardRef<HTMLElement, ResultPanelProps>(
       : null;
 
   return (
-    <section className="content-panel result-panel" ref={ref} aria-live="polite" aria-atomic="true">
+    <section className="content-panel result-panel clinical-result-card" ref={ref} aria-live="polite" aria-atomic="true">
       <h2>{t.result.title}</h2>
       {tool.implementationStatus !== "implemented" ? (
         <p>{t.result.inactiveCalculation}</p>
