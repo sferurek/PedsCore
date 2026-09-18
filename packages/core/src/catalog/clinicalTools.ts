@@ -38,7 +38,10 @@ const implementedToolIds = new Set([
   "chalice_tbi",
   "sipa",
   "nips",
-  "pediatric_burn_tbsa"
+  "pediatric_burn_tbsa",
+  "ckid_u25",
+  "prifle",
+  "kdigo_pediatric"
 ]);
 
 type ToolSeed = Omit<
@@ -55,6 +58,84 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  ckid_u25: [
+    {
+      id: "ckid_u25_niddk_equations",
+      title: "eGFR Equations for Children, Adolescents, & Young Adults",
+      authors: "National Institute of Diabetes and Digestive and Kidney Diseases",
+      journalOrPublisher: "NIDDK",
+      url: "https://www.niddk.nih.gov/research-funding/research-programs/kidney-clinical-research-epidemiology/laboratory/glomerular-filtration-rate-equations/children-adolescents-young-adults",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes: "Official NIDDK equations and age/sex-dependent coefficients for CKiD U25 creatinine, cystatin C, and combined estimates.",
+      appliesTo: ["ckid_u25"],
+      priority: 1
+    },
+    {
+      id: "ckid_u25_2021_original",
+      title: "Age- and sex-dependent clinical equations to estimate glomerular filtration rates in children and young adults with chronic kidney disease",
+      authors: "Pierce CB, Muñoz A, Ng DK, et al.",
+      year: 2021,
+      journalOrPublisher: "Kidney International",
+      citation: "Pierce CB, Muñoz A, Ng DK, et al. Kidney Int. 2021;99(4):948-956.",
+      doi: "10.1016/j.kint.2020.10.047",
+      pmid: "33301749",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9083470/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      appliesTo: ["ckid_u25"],
+      priority: 2
+    }
+  ],
+  prifle: [
+    {
+      id: "prifle_2007_original",
+      title: "Modified RIFLE criteria in critically ill children with acute kidney injury",
+      authors: "Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL",
+      year: 2007,
+      journalOrPublisher: "Kidney International",
+      citation: "Akcan-Arikan A, Zappitelli M, et al. Kidney Int. 2007;71(10):1028-1035.",
+      doi: "10.1038/sj.ki.5002231",
+      pmid: "17396113",
+      url: "https://pubmed.ncbi.nlm.nih.gov/17396113/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["prifle"],
+      priority: 1
+    },
+    {
+      id: "prifle_open_review_table",
+      title: "Approaches to the Management of Acute Kidney Injury in Children",
+      year: 2012,
+      journalOrPublisher: "Pediatric Nephrology review / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3607497/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access reproduction of the pRIFLE criteria table used to verify thresholds.",
+      appliesTo: ["prifle"],
+      priority: 2
+    }
+  ],
+  kdigo_pediatric: [
+    {
+      id: "kdigo_2012_aki_guideline",
+      title: "KDIGO Clinical Practice Guideline for Acute Kidney Injury",
+      authors: "Kidney Disease: Improving Global Outcomes (KDIGO) Acute Kidney Injury Work Group",
+      year: 2012,
+      journalOrPublisher: "Kidney International Supplements",
+      url: "https://kdigo.org/wp-content/uploads/2019/01/KDIGO-2012-AKI-Guideline-English.pdf",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "guideline",
+      accessType: "open_access",
+      notes: "Published KDIGO AKI definition and staging; pediatric stage 3 includes eGFR <35 mL/min/1.73 m2 for patients under 18 years.",
+      appliesTo: ["kdigo_pediatric"],
+      priority: 1
+    }
+  ],
   apgar: [
     {
       id: "apgar_1953_original",
@@ -1440,28 +1521,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       priority: 1
     }
   ],
-  prifle: [
-    {
-      id: "prifle_2007_original",
-      title: "Modified RIFLE criteria in critically ill children with acute kidney injury",
-      authors: "Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL",
-      year: 2007,
-      journalOrPublisher: "Kidney International",
-      citation:
-        "Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL. Modified RIFLE criteria in critically ill children with acute kidney injury. Kidney Int. 2007;71(10):1028-1035.",
-      doi: "10.1038/sj.ki.5002231",
-      pmid: "17396113",
-      url: "https://pubmed.ncbi.nlm.nih.gov/17396113/",
-      evidenceLevel: "original_derivation_study",
-      sourceType: "journal_article",
-      accessType: "open_access",
-      notes:
-        "Block 8B-3: original pRIFLE source located. Complete criteria, baseline eCCl assumptions, urine-output handling, and expert review remain pending.",
-      appliesTo: ["prifle"],
-      priority: 1
-    }
-  ],
-  rflacc: [
+rflacc: [
     {
       id: "rflacc_2006_validation",
       title: "The revised FLACC observational pain tool: improved reliability and validity for pain assessment in children with cognitive impairment",
@@ -1793,6 +1853,118 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  ckid_u25: {
+    validationNotes: {
+      es: "Implementacion local trazada a las ecuaciones CKiD U25 publicadas y a los coeficientes oficiales NIDDK para 1-25 anos. Permite creatinina, cistatina C o el promedio de ambas estimaciones.",
+      en: "Local implementation traced to the published CKiD U25 equations and official NIDDK coefficients for ages 1-25. Supports creatinine, cystatin C, or the average of both estimates."
+    },
+    calculationNotes: {
+      es: "CKiD U25 estima eGFR en personas de 1 a 25 anos. Si se introducen creatinina y cistatina C, PedsCore muestra el promedio de ambas estimaciones, preferido por NIDDK cuando ambos marcadores estan disponibles.",
+      en: "CKiD U25 estimates eGFR in people aged 1 to 25 years. When creatinine and cystatin C are both entered, PedsCore reports the average of both estimates, preferred by NIDDK when both markers are available."
+    },
+    inputs: [
+      { id: "age_years", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "anos", min: 1, max: 25, step: 0.1 },
+      {
+        id: "sex",
+        label: { es: "Sexo para coeficiente de la ecuacion", en: "Sex for equation coefficient" },
+        type: "select",
+        required: true,
+        options: [
+          option("female", "Femenino", "Female"),
+          option("male", "Masculino", "Male")
+        ]
+      },
+      { id: "height_cm", label: { es: "Talla (para ecuacion con creatinina)", en: "Height (for creatinine equation)" }, type: "number", required: false, unit: "cm", min: 30, max: 230, step: 0.1 },
+      { id: "serum_creatinine", label: { es: "Creatinina serica", en: "Serum creatinine" }, type: "number", required: false, min: 0.01, max: 20, step: 0.01 },
+      {
+        id: "creatinine_unit",
+        label: { es: "Unidad de creatinina", en: "Creatinine unit" },
+        type: "select",
+        required: false,
+        options: [
+          option("mg_dl", "mg/dL", "mg/dL"),
+          option("umol_l", "umol/L", "umol/L")
+        ]
+      },
+      { id: "cystatin_c_mg_l", label: { es: "Cistatina C", en: "Cystatin C" }, type: "number", required: false, unit: "mg/L", min: 0.1, max: 10, step: 0.01 }
+    ],
+    scoringTable: [
+      {
+        id: "ckid_u25_creatinine",
+        variable: { es: "CKiD U25 creatinina", en: "CKiD U25 creatinine" },
+        value: "eGFR = k × (height[m] / SCr[mg/dL])",
+        description: { es: "k depende de edad y sexo segun la tabla oficial NIDDK.", en: "k depends on age and sex according to the official NIDDK table." }
+      },
+      {
+        id: "ckid_u25_cystatin",
+        variable: { es: "CKiD U25 cistatina C", en: "CKiD U25 cystatin C" },
+        value: "eGFR = k × (1 / cystatin C)",
+        description: { es: "k depende de edad y sexo; si ambos marcadores estan disponibles se promedian ambas eGFR.", en: "k depends on age and sex; when both markers are available the two eGFR estimates are averaged." }
+      }
+    ]
+  },
+  prifle: {
+    validationNotes: {
+      es: "Criterios R/I/F implementados desde la publicacion original y tabla abierta de verificacion. L y E se muestran solo cuando se declara duracion de fallo renal persistente de al menos 4 o 12 semanas.",
+      en: "R/I/F criteria implemented from the original publication and an open verification table. L and E are shown only when persistent renal failure duration of at least 4 or 12 weeks is explicitly entered."
+    },
+    calculationNotes: {
+      es: "Clasifica por el peor criterio entre descenso de eCCl y diuresis. Requiere un eCCl basal fiable; la categoria puede cambiar si el basal o el metodo de estimacion cambian.",
+      en: "Classifies by the worst criterion between eCCl decline and urine output. A reliable baseline eCCl is required; classification can change if the baseline or estimation method changes."
+    },
+    inputs: [
+      { id: "baseline_eccl", label: { es: "eCCl basal", en: "Baseline eCCl" }, type: "number", required: true, unit: "mL/min/1.73 m2", min: 1, max: 250, step: 0.1 },
+      { id: "current_eccl", label: { es: "eCCl actual", en: "Current eCCl" }, type: "number", required: true, unit: "mL/min/1.73 m2", min: 0, max: 250, step: 0.1 },
+      { id: "urine_output_ml_kg_h", label: { es: "Diuresis", en: "Urine output" }, type: "number", required: true, unit: "mL/kg/h", min: 0, max: 20, step: 0.01 },
+      { id: "urine_duration_hours", label: { es: "Duracion de ese nivel de diuresis", en: "Duration at that urine-output level" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
+      { id: "anuria_hours", label: { es: "Horas de anuria", en: "Hours of anuria" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
+      { id: "persistent_failure_weeks", label: { es: "Semanas de fallo renal persistente", en: "Weeks of persistent renal failure" }, type: "number", required: true, unit: "semanas", min: 0, max: 104, step: 0.5 }
+    ],
+    interpretationBands: [
+      { id: "none", label: { es: "Sin criterio pRIFLE", en: "No pRIFLE criterion" }, min: 0, max: 0 },
+      { id: "risk", label: { es: "R · Risk", en: "R · Risk" }, min: 1, max: 1 },
+      { id: "injury", label: { es: "I · Injury", en: "I · Injury" }, min: 2, max: 2 },
+      { id: "failure", label: { es: "F · Failure", en: "F · Failure" }, min: 3, max: 3 },
+      { id: "loss", label: { es: "L · Loss", en: "L · Loss" }, min: 4, max: 4 },
+      { id: "end_stage", label: { es: "E · End-stage", en: "E · End-stage" }, min: 5, max: 5 }
+    ]
+  },
+  kdigo_pediatric: {
+    validationNotes: {
+      es: "Implementacion local de la clasificacion KDIGO 2012 publicada para LRA, incluida la regla pediatrica de eGFR <35 mL/min/1.73 m2 en menores de 18 anos para estadio 3. La actualizacion KDIGO 2026 permanece en borrador publico.",
+      en: "Local implementation of the published KDIGO 2012 AKI staging, including the pediatric eGFR <35 mL/min/1.73 m2 stage-3 rule for patients under 18. The KDIGO 2026 update remains a public draft."
+    },
+    calculationNotes: {
+      es: "El estadio final es el peor criterio entre creatinina/eGFR y diuresis. PedsCore solo aplica +0,3 mg/dL si se confirma un incremento en 48 h y los criterios por razon si el basal corresponde a los 7 dias previos.",
+      en: "Final stage is the worst criterion across creatinine/eGFR and urine output. PedsCore only applies the +0.3 mg/dL rule when a rise within 48 hours is confirmed and ratio criteria when the baseline is from the prior 7 days."
+    },
+    inputs: [
+      { id: "baseline_creatinine_mg_dl", label: { es: "Creatinina basal", en: "Baseline creatinine" }, type: "number", required: true, unit: "mg/dL", min: 0.05, max: 20, step: 0.01 },
+      { id: "current_creatinine_mg_dl", label: { es: "Creatinina actual", en: "Current creatinine" }, type: "number", required: true, unit: "mg/dL", min: 0.05, max: 20, step: 0.01 },
+      { id: "age_years", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "anos", min: 0, max: 21, step: 0.01 },
+      { id: "current_egfr", label: { es: "eGFR actual (opcional)", en: "Current eGFR (optional)" }, type: "number", required: false, unit: "mL/min/1.73 m2", min: 0, max: 250, step: 0.1 },
+      booleanInput("baseline_within_7_days", { es: "La creatinina basal corresponde a los 7 dias previos", en: "Baseline creatinine is from the prior 7 days" }),
+      booleanInput("rise_within_48_hours", { es: "El incremento de creatinina se ha producido en 48 horas", en: "Creatinine rise occurred within 48 hours" }),
+      { id: "urine_output_ml_kg_h", label: { es: "Diuresis", en: "Urine output" }, type: "number", required: true, unit: "mL/kg/h", min: 0, max: 20, step: 0.01 },
+      { id: "urine_duration_hours", label: { es: "Duracion de ese nivel de diuresis", en: "Duration at that urine-output level" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
+      { id: "anuria_hours", label: { es: "Horas de anuria", en: "Hours of anuria" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
+      booleanInput("renal_replacement_therapy", { es: "Terapia renal sustitutiva iniciada", en: "Kidney replacement therapy initiated" })
+    ],
+    interpretationBands: [
+      { id: "none", label: { es: "Sin criterio KDIGO de LRA con los datos introducidos", en: "No KDIGO AKI criterion with entered data" }, min: 0, max: 0 },
+      { id: "stage_1", label: { es: "KDIGO estadio 1", en: "KDIGO stage 1" }, min: 1, max: 1 },
+      { id: "stage_2", label: { es: "KDIGO estadio 2", en: "KDIGO stage 2" }, min: 2, max: 2 },
+      { id: "stage_3", label: { es: "KDIGO estadio 3", en: "KDIGO stage 3" }, min: 3, max: 3 }
+    ],
+    scoringTable: [
+      {
+        id: "kdigo_worst_criterion",
+        variable: { es: "Estadio KDIGO", en: "KDIGO stage" },
+        value: "0-3",
+        description: { es: "Se asigna el peor estadio alcanzado por creatinina/eGFR, terapia renal sustitutiva o diuresis.", en: "The worst stage reached by creatinine/eGFR, kidney replacement therapy, or urine output is assigned." }
+      }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
