@@ -87,3 +87,21 @@ Two external integration constraints are intentionally documented rather than hi
 - The private SIM IMV repository is not currently authorized in the Railway GitHub App, blocking its independent public deployment.
 
 Neither changes the deterministic architecture or local/CI verification status. Claims that depend on those integrations remain marked pending in the evidence matrix.
+
+
+## 7. Reproduce the repository validation
+
+From the repository root:
+
+```bash
+npm install
+npm run hackathon:verify
+```
+
+To run the public MCP smoke against a base URL:
+
+```bash
+MCP_REMOTE_BASE_URL=https://pedscore-ai-mcp-production.up.railway.app npm run hackathon:smoke:remote
+```
+
+The smoke validates protocol negotiation, the six tool contracts, deterministic Apgar output, the judge surface, compliance/media endpoints, and the SIM MCP contract's graceful behavior while the optional simulator backend is unavailable.
