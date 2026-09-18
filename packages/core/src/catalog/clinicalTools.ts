@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "strongkids",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1173,9 +1174,37 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Block 8B-2: original STRONGkids source located. Complete tool wording/table and reuse terms remain pending.",
+        "Primary multicentre validation source for the four STRONGkids domains. PedsCore independently encodes the functional scoring structure and does not reproduce the original questionnaire wording.",
       appliesTo: ["strongkids"],
       priority: 1
+    },
+    {
+      id: "strongkids_2013_open_validation",
+      title: "Application of a score system to evaluate the risk of malnutrition in a multiple hospital setting",
+      year: 2013,
+      journalOrPublisher: "Italian Journal of Pediatrics",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3901031/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Open-access external validation confirming the four functional domains, 1/2/1/1 weights, 0-5 total and low/moderate/high bands.",
+      appliesTo: ["strongkids"],
+      priority: 2
+    },
+    {
+      id: "strongkids_2022_accuracy",
+      title: "STRONGkids validation: tool accuracy",
+      year: 2022,
+      journalOrPublisher: "Revista Paulista de Pediatria",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9432264/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Additional open validation supporting the 0-5 scoring system and original risk categories.",
+      appliesTo: ["strongkids"],
+      priority: 3
     }
   ],
   pyms: [
@@ -1715,8 +1744,8 @@ const stampValidationNotes: LocalizedText = {
 };
 
 const strongkidsValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuente STRONGkids localizada con DOI/PMID. Pendiente tabla completa, texto de items, licencia/reutilizacion e interpretacion antes de implementar.",
-  en: "Block 8B-2: STRONGkids source located with DOI/PMID. Complete table, item wording, license/reuse terms, and interpretation remain pending before implementation."
+  es: "Implementacion local de STRONGkids como cribado de riesgo nutricional hospitalario. PedsCore conserva la estructura funcional original de cuatro dominios con pesos 1/2/1/1 y total 0-5, pero usa redaccion propia ES/EN y no reproduce el formulario, la maquetacion ni la lista editorial completa de enfermedades del instrumento original. Interpretacion: 0 bajo, 1-3 moderado, 4-5 alto. Es cribado de riesgo, no diagnostico de malnutricion ni algoritmo terapeutico.",
+  en: "Local implementation of STRONGkids as an inpatient pediatric nutritional-risk screen. PedsCore preserves the original four-domain functional structure with 1/2/1/1 weights and a 0-5 total, while using independently drafted ES/EN wording and not reproducing the original form, layout, or complete editorial high-risk disease list. Interpretation: 0 low, 1-3 moderate, 4-5 high. This is a risk screen, not a diagnosis of malnutrition or a treatment algorithm."
 };
 
 const pymsValidationNotes: LocalizedText = {
@@ -1793,6 +1822,57 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  strongkids: {
+    calculationNotes: {
+      es: "Responde a cuatro dominios de cribado nutricional hospitalario. Valoracion clinica subjetiva, ingesta/perdidas y perdida ponderal o ganancia insuficiente puntuan 1 punto cada uno; enfermedad de alto riesgo puntua 2. Total 0-5: 0 bajo, 1-3 moderado, 4-5 alto. PedsCore no reproduce la lista editorial completa de enfermedades del formulario original y no genera recomendaciones terapeuticas.",
+      en: "Answer four inpatient nutritional-risk screening domains. Subjective clinical assessment, intake/losses, and weight loss or poor gain score 1 point each; high-risk disease scores 2. Total 0-5: 0 low, 1-3 moderate, 4-5 high. PedsCore does not reproduce the original form's complete editorial disease list and does not generate treatment recommendations."
+    },
+    inputs: [
+      {
+        id: "subjective_clinical_assessment",
+        label: { es: "Valoracion clinica sugestiva de deterioro nutricional", en: "Clinical assessment suggesting nutritional deterioration" },
+        description: { es: "Considera hallazgos clinicos globales compatibles con reservas grasas o masa muscular reducidas.", en: "Consider overall clinical findings compatible with reduced fat stores or muscle mass." },
+        type: "single_choice",
+        required: true,
+        options: [option("no", "No", "No", 0), option("yes", "Si", "Yes", 1)]
+      },
+      {
+        id: "high_risk_disease",
+        label: { es: "Enfermedad o situacion con alto riesgo nutricional", en: "High nutritional-risk disease or clinical situation" },
+        description: { es: "Incluye enfermedad subyacente con riesgo nutricional importante o cirugia mayor prevista; valorar segun contexto clinico.", en: "Includes underlying disease with substantial nutritional risk or planned major surgery; judge in clinical context." },
+        type: "single_choice",
+        required: true,
+        options: [option("no", "No", "No", 0), option("yes", "Si", "Yes", 2)]
+      },
+      {
+        id: "reduced_intake_or_losses",
+        label: { es: "Ingesta reducida o perdidas relevantes recientes", en: "Recent reduced intake or clinically relevant losses" },
+        description: { es: "Considera reduccion reciente de ingesta, vomitos/diarrea relevantes, intervencion nutricional previa o imposibilidad de ingesta adecuada.", en: "Consider recent reduced intake, relevant vomiting/diarrhea, pre-existing nutritional intervention, or inability to take adequate intake." },
+        type: "single_choice",
+        required: true,
+        options: [option("no", "No", "No", 0), option("yes", "Si", "Yes", 1)]
+      },
+      {
+        id: "weight_loss_or_poor_gain",
+        label: { es: "Perdida de peso o ganancia ponderal insuficiente", en: "Weight loss or poor expected weight gain" },
+        description: { es: "Perdida ponderal reciente o ausencia de ganancia esperada, especialmente en lactantes.", en: "Recent weight loss or failure to achieve expected weight gain, particularly in infants." },
+        type: "single_choice",
+        required: true,
+        options: [option("no", "No", "No", 0), option("yes", "Si", "Yes", 1)]
+      }
+    ],
+    interpretationBands: [
+      { id: "strongkids_low", label: { es: "Riesgo bajo", en: "Low risk" }, min: 0, max: 0, description: { es: "Puntuacion STRONGkids 0.", en: "STRONGkids score 0." } },
+      { id: "strongkids_moderate", label: { es: "Riesgo moderado", en: "Moderate risk" }, min: 1, max: 3, description: { es: "Puntuacion STRONGkids 1-3.", en: "STRONGkids score 1-3." } },
+      { id: "strongkids_high", label: { es: "Riesgo alto", en: "High risk" }, min: 4, max: 5, description: { es: "Puntuacion STRONGkids 4-5.", en: "STRONGkids score 4-5." } }
+    ],
+    scoringTable: [
+      { id: "strongkids_clinical", variable: { es: "Valoracion clinica subjetiva", en: "Subjective clinical assessment" }, value: "0/1", description: { es: "Criterio presente: 1 punto.", en: "Criterion present: 1 point." } },
+      { id: "strongkids_disease", variable: { es: "Enfermedad de alto riesgo", en: "High-risk disease" }, value: "0/2", description: { es: "Criterio presente: 2 puntos.", en: "Criterion present: 2 points." } },
+      { id: "strongkids_intake", variable: { es: "Ingesta y perdidas", en: "Intake and losses" }, value: "0/1", description: { es: "Criterio presente: 1 punto.", en: "Criterion present: 1 point." } },
+      { id: "strongkids_weight", variable: { es: "Peso/ganancia ponderal", en: "Weight/growth" }, value: "0/1", description: { es: "Criterio presente: 1 punto.", en: "Criterion present: 1 point." } }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4301,7 +4381,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("bmi_percentile", "bmi-percentile", "IMC percentilado", "IMC percentilado", "BMI Percentile", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes en rangos OMS 0-5 o 5-19", "Children and adolescents in WHO 0-5 or 5-19 ranges", "Preset WHO Growth para BMI-for-age con salida descriptiva.", "WHO Growth preset for BMI-for-age with descriptive output.", "partially_implemented", "official_manual_or_institutional_protocol", "medium", bmiPercentileValidationNotes),
   makeTool("head_circumference_percentile", "head-circumference-percentile", "PC percentil", "Percentil de perimetro cefalico", "Head Circumference Percentile", "growth_nutrition", "growth", "percentile", "Lactantes y ninos pequenos en rango OMS 0-5", "Infants and young children in the WHO 0-5 range", "Preset WHO Growth para perimetro cefalico/edad OMS 0-5 con salida descriptiva.", "WHO Growth preset for WHO 0-5 head circumference-for-age with descriptive output.", "partially_implemented", "official_manual_or_institutional_protocol", "medium", headCircumferencePercentileValidationNotes),
   makeTool("stamp", "stamp", "STAMP", "STAMP", "STAMP", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo nutricional.", "Nutritional risk screening tool.", "pending_validation", "original_derivation_study", "medium", stampValidationNotes),
-  makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo de malnutricion.", "Malnutrition risk screening tool.", "pending_validation", "original_derivation_study", "medium", strongkidsValidationNotes),
+  makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Cribado hospitalario de riesgo nutricional pediatrico de cuatro dominios, total 0-5.", "Four-domain inpatient pediatric nutritional-risk screening tool, total 0-5.", "implemented", "original_derivation_study", "medium", strongkidsValidationNotes),
   makeTool("pyms", "pyms", "PYMS", "PYMS", "PYMS", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado nutricional pediatrico.", "Pediatric nutritional screening tool.", "pending_validation", "original_derivation_study", "medium", pymsValidationNotes),
   makeTool("flacc", "flacc", "FLACC", "FLACC", "FLACC", "pain", "pediatric_pain", "scale", "Ninos pequenos o no verbales", "Young or non-verbal children", "Escala observacional de dolor basada en rostro, piernas, actividad, llanto y consolabilidad.", "Observational pain scale based on face, legs, activity, cry, and consolability.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("rflacc", "rflacc", "rFLACC", "rFLACC", "rFLACC", "pain", "pediatric_pain", "scale", "Ninos con necesidades especiales o comunicacion limitada", "Children with special needs or limited communication", "Version revisada de FLACC identificada para revision.", "Revised FLACC version identified for review.", "pending_validation", "external_validation_study", "medium", rflaccValidationNotes),
