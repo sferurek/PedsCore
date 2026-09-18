@@ -61,7 +61,10 @@ const implementedToolIds = new Set([
   "nsofa",
   "yos",
   "bacterial_meningitis_score",
-  "pecarn_febrile_infant"
+  "pecarn_febrile_infant",
+  "garcia_alix_ners",
+  "parc",
+  "pcdai"
 ]);
 
 type ToolSeed = Omit<
@@ -78,6 +81,81 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  garcia_alix_ners: [
+    {
+      id: "garcia_alix_ners_2021",
+      title: "Development, Reliability, and Testing of a New Rating Scale for Neonatal Encephalopathy",
+      authors: "Garcia-Alix A, Arnaez J, Arca G, et al.",
+      year: 2021,
+      journalOrPublisher: "The Journal of Pediatrics",
+      doi: "10.1016/j.jpeds.2021.04.003",
+      pmid: "33857465",
+      url: "https://pubmed.ncbi.nlm.nih.gov/33857465/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Original NE-RS: seven clinical items plus two aEEG items, total 0-70; cutoffs 8 and 30 separate mild/moderate and moderate/severe neonatal encephalopathy.",
+      appliesTo: ["garcia_alix_ners"],
+      priority: 1
+    },
+    {
+      id: "garcia_alix_ners_foundation",
+      title: "Escala García-Alix en la identificación y graduación de la gravedad de la encefalopatía hipóxico-isquémica perinatal",
+      journalOrPublisher: "Neurología Neonatal / Fundación NeNe",
+      url: "https://www.neurologianeonatal.org/?catid=0&id=86",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      appliesTo: ["garcia_alix_ners"],
+      priority: 2
+    }
+  ],
+  parc: [
+    {
+      id: "parc_2018_original",
+      title: "Development and Validation of a Novel Pediatric Appendicitis Risk Calculator (pARC)",
+      authors: "Kharbanda AB, Vazquez-Benitez G, Ballard DW, et al.",
+      year: 2018,
+      journalOrPublisher: "Pediatrics",
+      doi: "10.1542/peds.2017-2699",
+      pmid: "29535251",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5869337/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      appliesTo: ["parc"],
+      priority: 1
+    }
+  ],
+  pcdai: [
+    {
+      id: "pcdai_1991_original",
+      title: "Development and Validation of a Pediatric Crohn's Disease Activity Index",
+      authors: "Hyams JS, Ferry GD, Mandel FS, et al.",
+      year: 1991,
+      journalOrPublisher: "Journal of Pediatric Gastroenterology and Nutrition",
+      pmid: "1678008",
+      url: "https://pubmed.ncbi.nlm.nih.gov/1678008/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["pcdai"],
+      priority: 1
+    },
+    {
+      id: "pcdai_open_table",
+      title: "Brazilian consensus on the management of inflammatory bowel diseases in pediatric patients",
+      year: 2023,
+      journalOrPublisher: "Arquivos de Gastroenterologia",
+      url: "https://www.scielo.br/j/ag/a/KL5Vpy5S8QWgVtfH73vdG7h/abstract/?lang=en",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "guideline",
+      accessType: "open_access",
+      notes: "Open table reproduces the complete PCDAI item scoring.",
+      appliesTo: ["pcdai"],
+      priority: 2
+    }
+  ],
   wpcdai: [
     {
       id: "wpcdai_2011_validation",
@@ -2248,6 +2326,50 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  garcia_alix_ners: {
+    validationNotes:{es:"NE-RS García-Alix completa: 7 ítems clínicos + 2 aEEG, puntuación asimétrica 0-70, validada en las primeras 6 horas de vida.",en:"Complete García-Alix NE-RS: 7 clinical items + 2 aEEG items, asymmetric 0-70 score, validated within the first 6 hours after birth."},
+    inputs:[
+      {id:"alertness",label:{es:"Alerta",en:"Alertness"},type:"single_choice",required:true,options:[option("a0","Despierta fácilmente y mantiene alerta >30 s","Wakes easily and stays alert >30 s",0),option("a1","Despierta con cierta dificultad; alerta algo acortada","Some difficulty waking; slightly shortened alertness",1),option("a2","Difícil despertar; alerta ≤6 s","Difficult to wake; alert ≤6 s",2),option("a6","Despierta con gran dificultad y vuelve a dormir rápido","Great difficulty waking and quickly falls asleep",6),option("a8","No despierta a estímulo nociceptivo","Does not wake to noxious stimuli",8)]},
+      {id:"posture",label:{es:"Postura / tono",en:"Posture / tone"},type:"single_choice",required:true,options:[option("p0","Flexión y aducción adecuadas","Adequate flexion and adduction",0),option("p1","Flexión/aducción pobre en miembros superiores","Poor upper-limb flexion/adduction",1),option("p2","Flexión/aducción pobre en cuatro miembros","Poor flexion/adduction in all limbs",2),option("p6","Hipotonía grave o postura tónica no sostenida","Severe hypotonia or nonsustained tonic posture",6),option("p8","Flácido o postura tónica sostenida","Flaccid or sustained tonic posture",8)]},
+      {id:"spontaneous_activity",label:{es:"Actividad motora espontánea",en:"Spontaneous motor activity"},type:"single_choice",required:true,options:[option("s0","Fluida, variable y compleja","Fluent, variable, complex",0),option("s1","Fluida/variable con temblor o sobresaltos excesivos","Fluent/variable with excessive tremor or startles",1),option("s2","Disminuida, monótona y poco variable","Decreased, monotonous, poorly variable",2),option("s6","Actividad muy disminuida","Greatly diminished activity",6),option("s8","Ausente o temblor continuo en reposo","Absent or continuous tremor at rest",8)]},
+      {id:"motor_response",label:{es:"Respuesta motora a estímulos",en:"Motor response to stimuli"},type:"single_choice",required:true,options:[option("m0","Vigorosa y alternante","Vigorous alternating limb movements",0),option("m1","Normal pero escasa","Normal response but few movements",1),option("m2","Retirada de más miembros que el estimulado","Withdrawal involving more than stimulated limb",2),option("m6","Retirada solo del miembro estimulado","Withdrawal only of stimulated limb",6),option("m8","Ausente o estereotipada","Absent or stereotyped",8)]},
+      {id:"myotatic_reflexes",label:{es:"Reflejos miotáticos",en:"Myotatic reflexes"},type:"single_choice",required:true,options:[option("r0","Normales","Normal",0),option("r1","Hiperactivos","Hyperactive",1),option("r2","Hipoactivos","Hypoactive",2),option("r6","Ausentes","Absent",6)]},
+      {id:"breathing",label:{es:"Patrón respiratorio",en:"Breathing pattern"},type:"single_choice",required:true,options:[option("b0","Espontáneo o Kussmaul","Spontaneous or Kussmaul",0),option("b2","Respiración periódica","Periodic breathing",2),option("b8","Hiperapnea central, apnéustica, Biot, atáxica o apnea","Central hyperpnea, apneustic, Biot, ataxic, or apnea",8)]},
+      {id:"clinical_seizures",label:{es:"Convulsiones clínicas",en:"Clinical seizures"},type:"single_choice",required:true,options:[option("c0","Ausentes","Absent",0),option("c6","Única (≤1/h)","Single (≤1/h)",6),option("c8","Repetidas (>1/h) o estatus","Repeated (>1/h) or status",8)]},
+      {id:"aeeg_seizures",label:{es:"Convulsiones eléctricas en aEEG",en:"aEEG electrical seizures"},type:"single_choice",required:true,options:[option("e0","Ausentes","Absent",0),option("e6","Única (≤1/h)","Single (≤1/h)",6),option("e8","Repetidas (>1/h) o estatus","Repeated (>1/h) or status",8)]},
+      {id:"aeeg_background",label:{es:"Patrón de fondo aEEG",en:"aEEG background pattern"},type:"single_choice",required:true,options:[option("g0","CNV con ciclo sueño-vigilia","CNV with sleep-wake cycling",0),option("g1","CNV sin ciclo sueño-vigilia","CNV without sleep-wake cycling",1),option("g2","Voltaje discontinuo","Discontinuous voltage",2),option("g6","Burst-suppression","Burst-suppression",6),option("g8","Bajo voltaje continuo o trazado plano","Continuous low voltage or flat trace",8)]}
+    ],
+    interpretationBands:[{id:"mild",label:{es:"Leve",en:"Mild"},min:0,max:7},{id:"moderate",label:{es:"Moderada",en:"Moderate"},min:8,max:29},{id:"severe",label:{es:"Grave",en:"Severe"},min:30,max:70}]
+  },
+  parc: {
+    validationNotes:{es:"Ecuación logística pARC original de 2018, validada en pacientes de 5-18 años con <96 h de dolor abdominal evaluados por posible apendicitis.",en:"Original 2018 pARC logistic equation, validated in patients aged 5-18 years with <96 h abdominal pain undergoing evaluation for possible appendicitis."},
+    inputs:[
+      {id:"age_years",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"años",min:5,max:18,step:0.1},
+      {id:"sex",label:{es:"Sexo",en:"Sex"},type:"select",required:true,options:[option("female","Femenino","Female"),option("male","Masculino","Male")]},
+      {id:"pain_duration",label:{es:"Duración del dolor",en:"Pain duration"},type:"select",required:true,options:[option("lt24","<24 h","<24 h"),option("24_48","24 a <48 h","24 to <48 h"),option("48_96","48-96 h","48-96 h")]},
+      booleanInput("pain_with_walking",{es:"Dolor al caminar, saltar o toser",en:"Pain with walking, hopping, or coughing"}),
+      booleanInput("migration_to_rlq",{es:"Migración del dolor a FID",en:"Migration of pain to RLQ"}),
+      booleanInput("maximal_rlq_tenderness",{es:"Máxima sensibilidad en FID",en:"Maximal tenderness in RLQ"}),
+      booleanInput("abdominal_guarding",{es:"Defensa abdominal",en:"Abdominal guarding"}),
+      {id:"anc_10e3_ul",label:{es:"ANC",en:"ANC"},type:"number",required:true,unit:"×10³/µL",min:0,max:50,step:0.01}
+    ]
+  },
+  pcdai: {
+    validationNotes:{es:"PCDAI original de 11 componentes, rango 0-100. Los ítems de hematocrito y crecimiento se introducen por categoría publicada para respetar referencias dependientes de edad/sexo.",en:"Original 11-component PCDAI, range 0-100. Hematocrit and growth items are entered using the published categories to respect age/sex-dependent references."},
+    inputs:[
+      {id:"abdominal_pain",label:{es:"Dolor abdominal",en:"Abdominal pain"},type:"single_choice",required:true,options:[option("0","Ninguno","None",0),option("5","Leve/breve","Mild/brief",5),option("10","Moderado-grave/diario/nocturno","Moderate-severe/daily/nocturnal",10)]},
+      {id:"stools",label:{es:"Deposiciones",en:"Stools"},type:"single_choice",required:true,options:[option("0","0-1 líquidas sin sangre","0-1 liquid without blood",0),option("5","Hasta 2 semiformadas con poca sangre o 2-5 líquidas","Up to 2 semi-formed with little blood or 2-5 liquid",5),option("10","Sangrado macroscópico, ≥6 líquidas o diarrea nocturna","Gross bleeding, ≥6 liquid or nocturnal diarrhea",10)]},
+      {id:"wellbeing",label:{es:"Bienestar / funcionamiento",en:"Well-being / functioning"},type:"single_choice",required:true,options:[option("0","Sin limitación","No limitation",0),option("5","Dificultad ocasional","Occasional difficulty",5),option("10","Limitación frecuente / muy mal","Frequent limitation / very poor",10)]},
+      {id:"hematocrit_category",label:{es:"Hematocrito respecto a referencia edad/sexo",en:"Hematocrit vs age/sex reference"},type:"single_choice",required:true,options:[option("0","Normal","Normal",0),option("2_5","Disminución leve","Mild decrease",2.5),option("5","Disminución moderada/grave","Moderate/severe decrease",5)]},
+      {id:"esr_mm_h",label:{es:"VSG",en:"ESR"},type:"number",required:true,unit:"mm/h",min:0,max:200,step:1},
+      {id:"albumin_g_dl",label:{es:"Albúmina",en:"Albumin"},type:"number",required:true,unit:"g/dL",min:0,max:6,step:0.1},
+      {id:"weight",label:{es:"Peso",en:"Weight"},type:"single_choice",required:true,options:[option("0","Ganancia/estable o pérdida voluntaria","Gain/stable or voluntary loss",0),option("5","Pérdida involuntaria 1-9%","Involuntary loss 1-9%",5),option("10","Pérdida ≥10%","Loss ≥10%",10)]},
+      {id:"height",label:{es:"Crecimiento lineal",en:"Linear growth"},type:"single_choice",required:true,options:[option("0","Sin afectación","No impairment",0),option("5","Afectación intermedia","Intermediate impairment",5),option("10","Afectación marcada","Marked impairment",10)]},
+      {id:"abdomen",label:{es:"Exploración abdominal",en:"Abdominal exam"},type:"single_choice",required:true,options:[option("0","Sin dolor ni masa","No tenderness or mass",0),option("5","Dolor o masa sin dolor","Tenderness or mass without tenderness",5),option("10","Dolor con defensa involuntaria o masa definida","Tenderness with involuntary guarding or definite mass",10)]},
+      {id:"perirectal",label:{es:"Enfermedad perirrectal",en:"Perirectal disease"},type:"single_choice",required:true,options:[option("0","Ninguna/tags asintomáticos","None/asymptomatic tags",0),option("5","1-2 fístulas indolentes","1-2 indolent fistulas",5),option("10","Fístula activa/drenaje/dolor/absceso","Active fistula/drainage/tenderness/abscess",10)]},
+      {id:"extraintestinal",label:{es:"Manifestaciones extraintestinales",en:"Extraintestinal manifestations"},type:"single_choice",required:true,options:[option("0","0","0",0),option("5","1","1",5),option("10","≥2","≥2",10)]}
+    ]
+  },
   wpcdai: {
     validationNotes: {
       es: "Implementación local del weighted PCDAI con los ocho dominios y pesos publicados; rango 0-125.",
