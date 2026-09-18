@@ -109,7 +109,7 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     expect(payload.result?.serverInfo?.name).toBe("pedscore-ai");
   });
 
-  it("lists the three initial clinical tools", async () => {
+  it("lists the clinical and SIM IMV agent tools", async () => {
     const { response, payload } = await rpc({
       jsonrpc: "2.0",
       id: 2,
@@ -123,7 +123,10 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
       expect.arrayContaining([
         "search_clinical_tools",
         "get_clinical_tool",
-        "calculate_clinical_score"
+        "calculate_clinical_score",
+        "start_simulation_case",
+        "get_patient_findings",
+        "submit_triage_decision"
       ])
     );
   });
