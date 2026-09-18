@@ -107,3 +107,13 @@ Use this file to record user-visible and technically significant work created du
 - Expanded MCP protocol tests and remote smoke expectations to cover all six clinical/simulation tool contracts.
 - PedsCore CI at commit `37fa42f43612a884bc57648cb8ec14766e0546a3` passed.
 - Attempted an independent Railway deployment for the SIM bridge; deployment is externally blocked because the Railway GitHub App currently lacks access to the private simulator repository.
+
+
+## 2026-09-18 — Production SIM bridge smoke passed
+- SIM CI run `35333822459` completed successfully.
+- The workflow built the production Next.js application, started it with `next start`, and exercised `POST /api/hackathon/sim` over real HTTP.
+- School-bus / JumpSTART started with 12 synthetic patients in 84.4 ms on the CI runner.
+- Patient 01 findings returned two valid initial assessment actions in 9.1 ms.
+- Deterministic triage returned GREEN, rule `JS-MOB-01`, canonical ambulation path, and `correct: true`.
+- A repeated identical decision produced the same expected category, rule ID, and canonical path.
+- The smoke report finished with `assertionsPassed: true` and no failed assertions.
