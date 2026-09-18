@@ -11,7 +11,7 @@ export function ScoringTable({ language, tool }: ScoringTableProps) {
   const t = translations[language];
 
   return (
-    <section className="content-panel">
+    <section className="content-panel clinical-scoring-card">
       <h2>{t.tables.scoring}</h2>
       {tool.scoringTable?.length ? (
         <div className="table-scroll">
