@@ -2,66 +2,36 @@
 
 ## Contribution URL
 
-Primary hackathon contribution:
-
+Primary contribution:
 - https://github.com/sferurek/PedsCore/pull/43
 
 Repository:
-
 - https://github.com/sferurek/PedsCore
 
 GitHub username:
-
 - `sferurek`
 
 ## What was contributed
 
-During the hackathon workstream, PedsCore gained a new agent-access layer and remote MCP service that did not exist in the recorded baseline.
+During the hackathon, PedsCore gained a new agent-access layer and MCP service that did not exist in the recorded baseline.
 
-The contribution includes:
+The contribution includes an agent-safe clinical adapter, deterministic calculator boundary, Streamable HTTP MCP server, protocol `2025-11-25`, remote reproducibility tests, Alexa+ packaging, optional bearer/OAuth protection path, and integration documentation.
 
-1. **Agent-safe clinical adapter**
-   - searches the existing clinical catalog
-   - returns structured tool metadata and input schemas
-   - exposes evidence and safety metadata without leaking UI implementation details
+The public MCP surface now contains two classes of tools:
 
-2. **Deterministic calculation boundary**
-   - agent orchestration is separated from clinical computation
-   - calculations delegate to the existing PedsCore calculator registry
-   - the language model does not invent score arithmetic
+### Deterministic clinical tools
+- `search_clinical_tools`
+- `get_clinical_tool`
+- `calculate_clinical_score`
 
-3. **MCP server**
-   - Streamable HTTP transport
-   - protocol `2025-11-25`
-   - `search_clinical_tools`
-   - `get_clinical_tool`
-   - `calculate_clinical_score`
+### Deterministic simulation contracts
+- `start_simulation_case`
+- `get_patient_findings`
+- `submit_triage_decision`
 
-4. **Testing and reproducibility**
-   - local protocol integration tests
-   - live remote smoke tests
-   - calculator parity test using Apgar
-   - manifest validation
-   - public store/compliance asset validation
+The SIM contracts deliberately do not let a language model decide the correct triage classification. They call the simulator bridge, whose JumpSTART / SALT / PTT / MITT engine owns the canonical answer and teaching feedback.
 
-5. **Reusable security path**
-   - optional Bearer-token middleware
-   - RFC 9728 Protected Resource Metadata
-   - Cognito-compatible JWT validation
-   - CloudFormation template for an OAuth authorization-code / resource-server setup
-
-6. **Developer documentation**
-   - architecture notes
-   - Alexa+ readiness matrix
-   - friction log
-   - simulator test plan
-   - reproducible demo script
-
-## How it works
-
-The agent layer receives natural-language intent and invokes MCP tools. Those tools call the reusable PedsCore core package rather than duplicating clinical logic. Clinical calculations stay deterministic and testable.
-
-This produces a reusable architectural pattern:
+## Reusable architectural pattern
 
 ```text
 Agent / conversational UI
@@ -72,27 +42,28 @@ Agent / conversational UI
           v
 Agent-safe adapter
           |
-          v
-Deterministic domain logic
+          +----> deterministic clinical calculators
+          |
+          +----> deterministic simulation engine
 ```
 
-The pattern is useful beyond PedsCore because it demonstrates how an AI-facing tool surface can remain flexible while keeping safety-critical calculations outside the generative model.
+The reusable idea is the boundary: natural-language orchestration can be flexible, but validated formulas and algorithmic decisions remain deterministic, inspectable, testable, and referenceable.
+
+## Reproducibility
+
+The contribution includes:
+- local protocol integration tests;
+- deterministic calculator parity tests;
+- remote public MCP smoke tests;
+- manifest validation;
+- live media/compliance endpoint validation;
+- simulator bridge unit/HTTP tests;
+- a remote deterministic SIM smoke script ready to run once the private simulator repository is deployable.
 
 ## Why it matters
 
-Clinical and educational software often contains deterministic formulas, validated rules, references, and safety constraints that should not be reimplemented probabilistically by a language model.
-
-This contribution provides a concrete open-source pattern for combining:
-
-- natural-language orchestration
-- inspectable tool contracts
-- deterministic computation
-- evidence metadata
-- protocol-level testing
-- remote reproducibility
-
-The goal is not to turn a clinical calculator into a chatbot. The goal is to make deterministic clinical software accessible to agentic interfaces without surrendering its execution boundary.
+Clinical and educational software frequently contains formulas, validated rules, references, and safety constraints that should not be silently reimplemented probabilistically by a model. This contribution demonstrates a concrete open-source way to make those systems agent-accessible while preserving their execution boundary.
 
 ## License
 
-The contribution is part of the public PedsCore repository under the repository's MIT License.
+The contribution is part of the public PedsCore repository under the MIT License.
