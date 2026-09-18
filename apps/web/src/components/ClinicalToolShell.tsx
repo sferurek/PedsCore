@@ -5,7 +5,7 @@ import { discoveryLabel } from "../utils/discoveryLabels";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
 
-interface ClinicalToolShellProps extends PropsWithChildren {
+type ClinicalToolShellProps = PropsWithChildren<{
   language: Language;
   tool: ClinicalToolMetadata;
   navigate: (href: string) => void;
@@ -15,7 +15,7 @@ interface ClinicalToolShellProps extends PropsWithChildren {
   relatedTools: ClinicalToolMetadata[];
   title?: string;
   primaryResult?: string;
-}
+}>;
 
 export function ClinicalToolShell({
   language,
@@ -110,3 +110,4 @@ export function ClinicalToolShell({
     </div>
   );
 }
+
