@@ -40,3 +40,25 @@ No friction entries recorded yet.
 - **Actionable suggestion:** Surface the exact retry/reset time directly in failed Git checks and provide an explicit queued-preview option rather than a generic upgrade redirect.
 - **Affected tool / API / SDK:** Vercel Git preview deployments.
 - **Evidence:** GitHub combined status on PR #43 head reported `context: Vercel`, `state: failure`, target `upgradeToPro=build-rate-limit`.
+
+### 2026-09-18 — Railway Git source silently deployed the default branch
+- **Task attempted:** Deploy the `hackathon/alexa-mcp` branch of the PedsCore monorepo to a new Railway service.
+- **Steps taken:** Created the service from GitHub and passed `branch: hackathon/alexa-mcp` during deployment creation.
+- **Expected result:** The first deployment should build the requested hackathon branch.
+- **Actual result:** Railway deployment metadata showed `branch: main` and baseline commit `069eb6ad...`, so the MCP workspace did not exist and the build reported only two workspaces.
+- **Severity:** Important
+- **Workaround:** Explicitly staged the service source branch through Railway service configuration, committed the staged environment changes, then deployed a specific commit SHA from `hackathon/alexa-mcp`.
+- **Actionable suggestion:** Surface the effective Git branch prominently when creating a service and reject or warn when the requested branch is not applied.
+- **Affected tool / API / SDK:** Railway GitHub deployment workflow.
+- **Evidence:** Initial deployment metadata reported `branch: main`; successful hackathon deployment later used commit `65641045486ff555fab014140ad394f0180092b3`.
+
+### 2026-09-18 — MCP SDK localhost Host validation blocked Railway healthchecks
+- **Task attempted:** Run the official MCP Express app behind Railway's public reverse proxy with a `/health` deployment healthcheck.
+- **Steps taken:** Deployed the app using `createMcpExpressApp()` and listened on Railway's injected port.
+- **Expected result:** Railway should receive HTTP 200 from `GET /health`.
+- **Actual result:** The container started correctly, but Railway healthchecks repeatedly received HTTP 403 because the MCP SDK's default localhost Host-header protection rejected Railway's healthcheck Host.
+- **Severity:** Important
+- **Workaround:** Configure `createMcpExpressApp({ host: "0.0.0.0" })` for the public reverse-proxy deployment. Railway's next deployment passed health validation.
+- **Actionable suggestion:** Deployment documentation should call out the SDK's localhost Host protection and show the production/reverse-proxy configuration directly.
+- **Affected tool / API / SDK:** MCP TypeScript SDK + Railway healthchecks.
+- **Evidence:** Railway build logs showed repeated `Attempt #N failed with HTTP 403` until the public-bind change; deployment `19f324c8-53ca-4270-bba3-d77391db27a7` then reached SUCCESS.
