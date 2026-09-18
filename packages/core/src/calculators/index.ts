@@ -19,6 +19,7 @@ export * from "./sipa.js";
 export * from "./nips.js";
 export * from "./burnTbsa.js";
 export * from "./renalOpen.js";
+export * from "./infectionOpen.js";
 export * from "./registry.js";
 
 export * from "./modifiedSarnatNichd.js";
