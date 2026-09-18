@@ -1935,14 +1935,16 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       en: "Local implementation of the published KDIGO 2012 AKI staging, including the pediatric eGFR <35 mL/min/1.73 m2 stage-3 rule for patients under 18. The KDIGO 2026 update remains a public draft."
     },
     calculationNotes: {
-      es: "El estadio final es el peor criterio entre creatinina/eGFR y diuresis. La regla de +0.3 mg/dL requiere interpretar la cronologia clinica (48 h) y la razon respecto al basal el intervalo de 7 dias.",
-      en: "Final stage is the worst criterion across creatinine/eGFR and urine output. The +0.3 mg/dL rule requires clinical interpretation of the 48-hour timing and the baseline ratio within the prior 7 days."
+      es: "El estadio final es el peor criterio entre creatinina/eGFR y diuresis. PedsCore solo aplica +0,3 mg/dL si se confirma un incremento en 48 h y los criterios por razon si el basal corresponde a los 7 dias previos.",
+      en: "Final stage is the worst criterion across creatinine/eGFR and urine output. PedsCore only applies the +0.3 mg/dL rule when a rise within 48 hours is confirmed and ratio criteria when the baseline is from the prior 7 days."
     },
     inputs: [
       { id: "baseline_creatinine_mg_dl", label: { es: "Creatinina basal", en: "Baseline creatinine" }, type: "number", required: true, unit: "mg/dL", min: 0.05, max: 20, step: 0.01 },
       { id: "current_creatinine_mg_dl", label: { es: "Creatinina actual", en: "Current creatinine" }, type: "number", required: true, unit: "mg/dL", min: 0.05, max: 20, step: 0.01 },
       { id: "age_years", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "anos", min: 0, max: 21, step: 0.01 },
       { id: "current_egfr", label: { es: "eGFR actual (opcional)", en: "Current eGFR (optional)" }, type: "number", required: false, unit: "mL/min/1.73 m2", min: 0, max: 250, step: 0.1 },
+      booleanInput("baseline_within_7_days", { es: "La creatinina basal corresponde a los 7 dias previos", en: "Baseline creatinine is from the prior 7 days" }),
+      booleanInput("rise_within_48_hours", { es: "El incremento de creatinina se ha producido en 48 horas", en: "Creatinine rise occurred within 48 hours" }),
       { id: "urine_output_ml_kg_h", label: { es: "Diuresis", en: "Urine output" }, type: "number", required: true, unit: "mL/kg/h", min: 0, max: 20, step: 0.01 },
       { id: "urine_duration_hours", label: { es: "Duracion de ese nivel de diuresis", en: "Duration at that urine-output level" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
       { id: "anuria_hours", label: { es: "Horas de anuria", en: "Hours of anuria" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
