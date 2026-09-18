@@ -26,6 +26,13 @@ afterAll(async () => {
 });
 
 describe("hackathon judge console", () => {
+  it("redirects the service root to the judge console", async () => {
+    const response = await fetch(`${baseUrl}/`, { redirect: "manual" });
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get("location")).toBe("/judge-demo");
+  });
+
   it("serves a self-contained live MCP verification page", async () => {
     const response = await fetch(`${baseUrl}/judge-demo`);
     const html = await response.text();
