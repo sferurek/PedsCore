@@ -55,7 +55,13 @@ const implementedToolIds = new Set([
   "gorelick_dehydration",
   "visual_analogue_scale",
   "cdc_growth_percentiles",
-  "phoenix_sepsis"
+  "phoenix_sepsis",
+  "wpcdai",
+  "pucai",
+  "nsofa",
+  "yos",
+  "bacterial_meningitis_score",
+  "pecarn_febrile_infant"
 ]);
 
 type ToolSeed = Omit<
@@ -72,6 +78,118 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  wpcdai: [
+    {
+      id: "wpcdai_2011_validation",
+      title: "Mathematical weighting of the pediatric Crohn's disease activity index (PCDAI) and comparison with its other short versions",
+      authors: "Turner D, Griffiths AM, Walters TD, et al.",
+      year: 2011,
+      journalOrPublisher: "Inflammatory Bowel Diseases",
+      url: "https://pubmed.ncbi.nlm.nih.gov/21351206/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["wpcdai"],
+      priority: 1
+    },
+    {
+      id: "wpcdai_open_table",
+      title: "Multi-item Measures for Paediatric Inflammatory Bowel Diseases: The ABCs of All Those Acronyms",
+      year: 2023,
+      journalOrPublisher: "Journal of Crohn's and Colitis",
+      url: "https://academic.oup.com/ecco-jcc/article/17/7/1154/7025408",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open table reproduces all wPCDAI components and weights.",
+      appliesTo: ["wpcdai"],
+      priority: 2
+    }
+  ],
+  pucai: [
+    {
+      id: "pucai_open_table",
+      title: "Inflammatory Bowel Disease in Childhood and Adolescence: Diagnosis and Treatment",
+      year: 2017,
+      journalOrPublisher: "Deutsches Ärzteblatt International",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5470346/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access table reproduces the complete PUCAI 0-85 scoring system.",
+      appliesTo: ["pucai"],
+      priority: 1
+    },
+    {
+      id: "pucai_espghan_ecco_2025",
+      title: "Management of paediatric ulcerative colitis, part 1: Ambulatory care",
+      year: 2025,
+      journalOrPublisher: "ESPGHAN/ECCO",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12408984/",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "guideline",
+      accessType: "open_access",
+      notes: "Current guideline recommends PUCAI monitoring at each visit.",
+      appliesTo: ["pucai"],
+      priority: 2
+    }
+  ],
+  nsofa: [
+    {
+      id: "nsofa_2020_original",
+      title: "A Neonatal Sequential Organ Failure Assessment Score Predicts Mortality to Late-Onset Sepsis in Preterm Very Low Birth Weight Infants",
+      year: 2020,
+      journalOrPublisher: "Pediatric Research",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7007331/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      appliesTo: ["nsofa"],
+      priority: 1
+    }
+  ],
+  yos: [
+    {
+      id: "yos_open_table",
+      title: "The Yale Observation Scale Score and the Risk of Serious Bacterial Infections in Febrile Infants",
+      year: 2017,
+      journalOrPublisher: "Pediatrics",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5495524/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      appliesTo: ["yos"],
+      priority: 1
+    }
+  ],
+  bacterial_meningitis_score: [
+    {
+      id: "bms_open_validation",
+      title: "Applying the bacterial meningitis score in children with cerebrospinal fluid pleocytosis",
+      year: 2015,
+      journalOrPublisher: "Korean Journal of Pediatrics",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4543184/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      appliesTo: ["bacterial_meningitis_score"],
+      priority: 1
+    }
+  ],
+  pecarn_febrile_infant: [
+    {
+      id: "pecarn_fi_2019",
+      title: "A Clinical Prediction Rule to Identify Febrile Infants 60 Days and Younger at Low Risk for Serious Bacterial Infections",
+      year: 2019,
+      journalOrPublisher: "JAMA Pediatrics",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6450281/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      appliesTo: ["pecarn_febrile_infant"],
+      priority: 1
+    }
+  ],
   cdc_growth_percentiles: [
     {
       id: "cdc_2000_growth_lms",
@@ -2130,6 +2248,92 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  wpcdai: {
+    validationNotes: {
+      es: "Implementación local del weighted PCDAI con los ocho dominios y pesos publicados; rango 0-125.",
+      en: "Local weighted PCDAI implementation using the eight published domains and weights; range 0-125."
+    },
+    inputs: [
+      { id:"abdominal_pain", label:{es:"Dolor abdominal",en:"Abdominal pain"}, type:"single_choice", required:true, options:[option("none","Ninguno","None",0),option("mild","Leve, breve, no interfiere","Mild, brief, does not interfere",10),option("modsev","Moderado/grave, diario o nocturno","Moderate/severe, daily or nocturnal",20)] },
+      { id:"wellbeing", label:{es:"Funcionamiento / bienestar",en:"Functioning / well-being"}, type:"single_choice", required:true, options:[option("well","Sin limitación","No limitation",0),option("occasional","Dificultad ocasional","Occasional difficulty",10),option("frequent","Limitación frecuente / muy mal","Frequent limitation / very poor",20)] },
+      { id:"stools", label:{es:"Deposiciones",en:"Stools"}, type:"single_choice", required:true, options:[option("low","0-1 líquidas, sin sangre","0-1 liquid, no blood",0),option("mid","Hasta 2 semiformadas con poca sangre o 2-5 líquidas","Up to 2 semi-formed with little blood or 2-5 liquid",7.5),option("high","Sangrado macroscópico, ≥6 líquidas o diarrea nocturna","Gross bleeding, ≥6 liquid, or nocturnal diarrhea",15)] },
+      { id:"esr_mm_h", label:{es:"VSG",en:"ESR"}, type:"number", required:true, unit:"mm/h", min:0, max:200, step:1 },
+      { id:"albumin_g_dl", label:{es:"Albúmina",en:"Albumin"}, type:"number", required:true, unit:"g/dL", min:0, max:6, step:0.1 },
+      { id:"weight_change", label:{es:"Peso",en:"Weight"}, type:"single_choice", required:true, options:[option("gain","Ganancia o pérdida voluntaria/estable","Gain or voluntary stable/loss",0),option("loss1","Pérdida involuntaria 1-9%","Involuntary loss 1-9%",5),option("loss10","Pérdida ≥10%","Loss ≥10%",10)] },
+      { id:"perirectal_disease", label:{es:"Enfermedad perirrectal",en:"Perirectal disease"}, type:"single_choice", required:true, options:[option("none","Ninguna / tags asintomáticos","None / asymptomatic tags",0),option("mild","1-2 fístulas indolentes, poco drenaje","1-2 indolent fistulas, scant drainage",7.5),option("active","Fístula activa, drenaje, dolor o absceso","Active fistula, drainage, tenderness, or abscess",15)] },
+      { id:"extraintestinal_manifestations", label:{es:"Manifestaciones extraintestinales",en:"Extraintestinal manifestations"}, type:"single_choice", required:true, options:[option("none","Ninguna","None",0),option("present","Una o más","One or more",10)] }
+    ],
+    interpretationBands:[
+      {id:"remission",label:{es:"Remisión",en:"Remission"},max:12.49},
+      {id:"mild",label:{es:"Leve",en:"Mild"},min:12.5,max:40},
+      {id:"moderate",label:{es:"Moderada",en:"Moderate"},min:40.01,max:57.5},
+      {id:"severe",label:{es:"Grave",en:"Severe"},min:57.51,max:125}
+    ]
+  },
+  pucai: {
+    validationNotes:{es:"PUCAI completo 0-85 para actividad de colitis ulcerosa pediátrica.",en:"Complete 0-85 PUCAI for pediatric ulcerative-colitis activity."},
+    inputs:[
+      {id:"abdominal_pain",label:{es:"Dolor abdominal",en:"Abdominal pain"},type:"single_choice",required:true,options:[option("0","Ninguno","None",0),option("5","Puede ignorarse","Can be ignored",5),option("10","No puede ignorarse","Cannot be ignored",10)]},
+      {id:"rectal_bleeding",label:{es:"Sangrado rectal",en:"Rectal bleeding"},type:"single_choice",required:true,options:[option("0","Ninguno","None",0),option("10","Pequeña cantidad en <50%","Small amount in <50%",10),option("20","Pequeña cantidad en la mayoría","Small amount with most stools",20),option("30","Gran cantidad","Large amount",30)]},
+      {id:"stool_consistency",label:{es:"Consistencia",en:"Stool consistency"},type:"single_choice",required:true,options:[option("0","Formada","Formed",0),option("5","Parcialmente formada","Partly formed",5),option("10","No formada","Completely unformed",10)]},
+      {id:"stool_frequency",label:{es:"Deposiciones/24 h",en:"Stools/24 h"},type:"single_choice",required:true,options:[option("0","0-2","0-2",0),option("5","3-5","3-5",5),option("10","6-8","6-8",10),option("15",">8",">8",15)]},
+      {id:"nocturnal_stool",label:{es:"Deposición nocturna que despierta",en:"Nocturnal stool causing waking"},type:"single_choice",required:true,options:[option("0","No","No",0),option("10","Sí","Yes",10)]},
+      {id:"activity_level",label:{es:"Nivel de actividad",en:"Activity level"},type:"single_choice",required:true,options:[option("0","Sin limitación","No limitation",0),option("5","Limitación ocasional","Occasional limitation",5),option("10","Limitación grave","Severely restricted",10)]}
+    ],
+    interpretationBands:[{id:"remission",label:{es:"Remisión",en:"Remission"},min:0,max:9},{id:"mild",label:{es:"Leve",en:"Mild"},min:10,max:34},{id:"moderate",label:{es:"Moderada",en:"Moderate"},min:35,max:64},{id:"severe",label:{es:"Grave",en:"Severe"},min:65,max:85}]
+  },
+  nsofa: {
+    validationNotes:{es:"nSOFA completo 0-15 con dominios respiratorio, cardiovascular y hematológico.",en:"Complete 0-15 nSOFA with respiratory, cardiovascular, and hematologic domains."},
+    inputs:[
+      booleanInput("intubated",{es:"Intubado",en:"Intubated"}),
+      {id:"spo2_percent",label:{es:"SpO₂",en:"SpO₂"},type:"number",required:true,unit:"%",min:1,max:100,step:1},
+      {id:"fio2_fraction",label:{es:"FiO₂",en:"FiO₂"},type:"number",required:true,unit:"0-1",min:0.21,max:1,step:0.01},
+      {id:"inotrope_count",label:{es:"Número de inotrópicos/vasoactivos",en:"Number of inotropes/vasoactives"},type:"number",required:true,min:0,max:10,step:1},
+      booleanInput("systemic_steroids",{es:"Corticoide sistémico por soporte hemodinámico",en:"Systemic steroid for hemodynamic support"}),
+      {id:"platelets_10e3_ul",label:{es:"Plaquetas",en:"Platelets"},type:"number",required:true,unit:"×10³/µL",min:0,max:1500,step:1}
+    ]
+  },
+  yos: {
+    validationNotes:{es:"Yale Observation Scale completa: seis dominios puntuados 1, 3 o 5; total 6-30.",en:"Complete Yale Observation Scale: six domains scored 1, 3, or 5; total 6-30."},
+    inputs:[
+      {id:"cry",label:{es:"Calidad del llanto",en:"Quality of cry"},type:"single_choice",required:true,options:[option("1","Fuerte/normal o contento","Strong/normal or content",1),option("3","Quejumbroso/sollozo","Whimpering/sobbing",3),option("5","Débil, gemido o agudo","Weak, moaning, or high-pitched",5)]},
+      {id:"parent_reaction",label:{es:"Reacción a los padres",en:"Reaction to parents"},type:"single_choice",required:true,options:[option("1","Llora brevemente y cesa / contento","Cries briefly then stops / content",1),option("3","Llora intermitente","Cries on and off",3),option("5","Llanto continuo o casi no responde","Continual cry or hardly responds",5)]},
+      {id:"state_variation",label:{es:"Variación del estado",en:"State variation"},type:"single_choice",required:true,options:[option("1","Permanece despierto / despierta rápido","Stays awake / wakes quickly",1),option("3","Ojos se cierran / requiere estímulo prolongado","Eyes close / prolonged stimulation",3),option("5","Se duerme o no despierta","Falls asleep or will not rouse",5)]},
+      {id:"color",label:{es:"Color",en:"Color"},type:"single_choice",required:true,options:[option("1","Rosado","Pink",1),option("3","Extremidades pálidas/acrocyanosis","Pale extremities/acrocyanosis",3),option("5","Pálido, cianótico, moteado o ceniciento","Pale, cyanotic, mottled, or ashen",5)]},
+      {id:"hydration",label:{es:"Hidratación",en:"Hydration"},type:"single_choice",required:true,options:[option("1","Piel/ojos normales, mucosas húmedas","Normal skin/eyes, moist mucosa",1),option("3","Piel/ojos normales, boca algo seca","Normal skin/eyes, slightly dry mouth",3),option("5","Piel pastosa/pliegue, mucosas secas y/o ojos hundidos","Doughy/tented skin, dry mucosa and/or sunken eyes",5)]},
+      {id:"social_response",label:{es:"Respuesta social",en:"Social response"},type:"single_choice",required:true,options:[option("1","Sonríe o alerta","Smiles or alert",1),option("3","Sonrisa/alerta breves","Brief smile/alert",3),option("5","No sonríe, ansioso, apagado o no alerta","No smile, anxious, dull, or no alerting",5)]}
+    ]
+  },
+  bacterial_meningitis_score: {
+    validationNotes:{es:"BMS completo para niños con pleocitosis de LCR y criterios de elegibilidad publicados.",en:"Complete BMS for children with CSF pleocytosis and published eligibility criteria."},
+    inputs:[
+      {id:"age_days",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"días",min:0,max:6575,step:1},
+      {id:"csf_wbc",label:{es:"Leucocitos LCR",en:"CSF WBC"},type:"number",required:true,unit:"/mm³",min:0,max:100000,step:1},
+      {id:"csf_rbc",label:{es:"Hematíes LCR",en:"CSF RBC"},type:"number",required:true,unit:"/mm³",min:0,max:1000000,step:1},
+      booleanInput("antibiotics_before_lp",{es:"Antibióticos antes de LP",en:"Antibiotics before LP"}),
+      booleanInput("critical_illness",{es:"Enfermedad crítica",en:"Critical illness"}),
+      booleanInput("immunosuppression",{es:"Inmunosupresión",en:"Immunosuppression"}),
+      booleanInput("cns_device_or_recent_neurosurgery",{es:"Dispositivo SNC o neurocirugía reciente",en:"CNS device or recent neurosurgery"}),
+      booleanInput("other_bacterial_infection",{es:"Otra infección bacteriana que requiere antibiótico",en:"Other bacterial infection requiring antibiotics"}),
+      booleanInput("csf_gram_positive",{es:"Gram de LCR positivo",en:"Positive CSF Gram stain"}),
+      {id:"csf_anc",label:{es:"ANC en LCR",en:"CSF ANC"},type:"number",required:true,unit:"/mm³",min:0,max:100000,step:1},
+      {id:"csf_protein_mg_dl",label:{es:"Proteínas LCR",en:"CSF protein"},type:"number",required:true,unit:"mg/dL",min:0,max:1000,step:1},
+      {id:"peripheral_anc",label:{es:"ANC periférico",en:"Peripheral ANC"},type:"number",required:true,unit:"/mm³",min:0,max:100000,step:1},
+      booleanInput("seizure",{es:"Convulsión antes o al presentarse",en:"Seizure before or at presentation"})
+    ]
+  },
+  pecarn_febrile_infant: {
+    validationNotes:{es:"Regla PECARN simplificada para lactantes febriles ≤60 días: urianálisis negativo, ANC ≤4000/mm³ y PCT ≤0,5 ng/mL.",en:"Simplified PECARN rule for febrile infants ≤60 days: negative urinalysis, ANC ≤4000/mm³, and PCT ≤0.5 ng/mL."},
+    inputs:[
+      {id:"age_days",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"días",min:0,max:60,step:1},
+      booleanInput("well_appearing",{es:"Buen estado general",en:"Well appearing"}),
+      booleanInput("previously_healthy",{es:"Previamente sano",en:"Previously healthy"}),
+      booleanInput("term_infant",{es:"Recién nacido a término",en:"Term infant"}),
+      booleanInput("urinalysis_negative",{es:"Urianálisis negativo",en:"Negative urinalysis"}),
+      {id:"anc",label:{es:"ANC",en:"ANC"},type:"number",required:true,unit:"/mm³",min:0,max:100000,step:1},
+      {id:"procalcitonin_ng_ml",label:{es:"Procalcitonina",en:"Procalcitonin"},type:"number",required:true,unit:"ng/mL",min:0,max:100,step:0.01}
+    ]
+  },
   cdc_growth_percentiles: {
     validationNotes: {
       es: "Implementación local de las curvas CDC 2000 para 2-20 años. PedsCore incorpora los parámetros LMS oficiales de peso/edad, talla/edad e IMC/edad y calcula z-score y percentil mediante la ecuación CDC publicada.",

@@ -63,6 +63,13 @@ import {
 } from "./additionalOpenTools.js";
 import { cdcGrowthPercentilesCalculator } from "./cdcGrowth.js";
 import { phoenixSepsisCalculator } from "./phoenixSepsis.js";
+import { pucaiCalculator, wpcdaiCalculator } from "./ibdActivity.js";
+import { nSofaCalculator } from "./nSofa.js";
+import { yaleObservationScaleCalculator } from "./yaleObservation.js";
+import {
+  bacterialMeningitisScoreCalculator,
+  pecarnFebrileInfantCalculator
+} from "./infectionOpen.js";
 
 const calculators = [
   apgarCalculator,
@@ -108,7 +115,13 @@ const calculators = [
   gorelickDehydrationCalculator,
   visualAnalogueScaleCalculator,
   cdcGrowthPercentilesCalculator,
-  phoenixSepsisCalculator
+  phoenixSepsisCalculator,
+  wpcdaiCalculator,
+  pucaiCalculator,
+  nSofaCalculator,
+  yaleObservationScaleCalculator,
+  bacterialMeningitisScoreCalculator,
+  pecarnFebrileInfantCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

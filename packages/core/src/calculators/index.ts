@@ -26,6 +26,10 @@ export * from "./criticalCareScores.js";
 export * from "./additionalOpenTools.js";
 export * from "./cdcGrowth.js";
 export * from "./phoenixSepsis.js";
+export * from "./ibdActivity.js";
+export * from "./nSofa.js";
+export * from "./yaleObservation.js";
+export * from "./infectionOpen.js";
 export * from "./registry.js";
 
 export * from "./modifiedSarnatNichd.js";
