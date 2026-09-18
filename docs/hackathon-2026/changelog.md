@@ -35,3 +35,12 @@ Use this file to record user-visible and technically significant work created du
 - Clinical score execution delegates to the existing deterministic calculator registry; the MCP/LLM layer does not calculate scores itself.
 - Added root workspace/build scripts so the MCP server is validated in normal CI.
 - CI validation after implementation: lint passed, 472 tests passed, and production build passed.
+
+## 2026-09-18 — Protocol E2E and Alexa+ onboarding scaffold
+- Refactored the MCP service into an app factory plus minimal runtime entrypoint to enable protocol-level integration testing.
+- Added end-to-end Streamable HTTP tests for health, initialize, tools/list, tools/call discovery, deterministic Apgar calculation, and unsupported methods.
+- CI validates MCP negotiation using protocol version `2025-11-25`.
+- Added an Alexa+ readiness matrix from current Amazon developer requirements.
+- Added a non-deployable Alexa+ `addon.template.json` with PedsCore-specific store copy, example phrases, and MCP integration structure.
+- Recorded the current Vercel preview build-rate limit as a hackathon friction item.
+- Latest validation: lint passed, all tests passed, and all builds passed.
