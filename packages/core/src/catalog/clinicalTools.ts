@@ -64,7 +64,8 @@ const implementedToolIds = new Set([
   "pecarn_febrile_infant",
   "garcia_alix_ners",
   "parc",
-  "pcdai"
+  "pcdai",
+  "modified_bell_nec"
 ]);
 
 type ToolSeed = Omit<
@@ -81,6 +82,22 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  modified_bell_nec: [
+    {
+      id: "modified_bell_ccby_table",
+      title: "Necrotizing Enterocolitis (NEC) and the Risk of Intestinal Stricture: The Value of C-Reactive Protein",
+      authors: "Gaudin A, Farnoux C, Bonnard A, et al.",
+      year: 2013,
+      journalOrPublisher: "PLOS ONE",
+      url: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0076858",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Table 1 reproduces modified Bell staging under CC BY, permitting reuse with attribution.",
+      appliesTo: ["modified_bell_nec"],
+      priority: 1
+    }
+  ],
   garcia_alix_ners: [
     {
       id: "garcia_alix_ners_2021",
@@ -2326,6 +2343,25 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  modified_bell_nec: {
+    validationNotes:{
+      es:"Clasificación de Bell modificada para NEC, implementada a partir de una tabla reproducida bajo CC BY. Integra hallazgos sistémicos, abdominales y radiológicos.",
+      en:"Modified Bell NEC staging implemented from a table reproduced under CC BY. It integrates systemic, abdominal, and radiologic findings."
+    },
+    inputs:[
+      booleanInput("systemic_instability",{es:"Inestabilidad sistémica: temperatura, apnea, bradicardia o letargia",en:"Systemic instability: temperature instability, apnea, bradycardia, or lethargy"}),
+      booleanInput("mild_gi_signs",{es:"Signos GI leves: retención gástrica, distensión o vómitos",en:"Mild GI signs: gastric retention, distension, or emesis"}),
+      booleanInput("gross_bloody_stool",{es:"Sangre macroscópica en heces",en:"Grossly bloody stool"}),
+      booleanInput("absent_bowel_sounds_or_tenderness",{es:"Ruidos intestinales ausentes y/o dolor abdominal",en:"Absent bowel sounds and/or abdominal tenderness"}),
+      booleanInput("mild_acidosis_or_thrombocytopenia",{es:"Acidosis metabólica leve y/o trombocitopenia",en:"Mild metabolic acidosis and/or thrombocytopenia"}),
+      booleanInput("abdominal_cellulitis_or_mass",{es:"Celulitis abdominal o masa en FID",en:"Abdominal cellulitis or right-lower-quadrant mass"}),
+      booleanInput("hypotension_dic_or_neutropenia",{es:"Hipotensión, CID o neutropenia",en:"Hypotension, DIC, or neutropenia"}),
+      booleanInput("pneumatosis_intestinalis",{es:"Neumatosis intestinal",en:"Pneumatosis intestinalis"}),
+      booleanInput("portal_venous_gas",{es:"Gas portal",en:"Portal venous gas"}),
+      booleanInput("ascites",{es:"Ascitis",en:"Ascites"}),
+      booleanInput("pneumoperitoneum",{es:"Neumoperitoneo",en:"Pneumoperitoneum"})
+    ]
+  },
   garcia_alix_ners: {
     validationNotes:{es:"NE-RS García-Alix completa: 7 ítems clínicos + 2 aEEG, puntuación asimétrica 0-70, validada en las primeras 6 horas de vida.",en:"Complete García-Alix NE-RS: 7 clinical items + 2 aEEG items, asymmetric 0-70 score, validated within the first 6 hours after birth."},
     inputs:[
