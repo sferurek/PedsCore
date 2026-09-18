@@ -53,3 +53,12 @@ Use this file to record user-visible and technically significant work created du
 - Added AWS CloudFormation for a Cognito user pool, resource server, authorization-code app client, managed-login domain, refresh-token lifetime, and support for all Alexa redirect URIs.
 - Added an authorization-server metadata pre-flight probe that checks Alexa-required PKCE S256 discovery before deployment.
 - CI remains green after the authentication work: lint, tests, and all builds pass.
+
+## 2026-09-18 — Remote MCP deployment on Railway
+- Connected Railway and created a dedicated `pedscore-ai-mcp` project/service.
+- Corrected the service source from `main` to `hackathon/alexa-mcp`.
+- Added a root start command so Railpack can detect the MCP runtime in the monorepo.
+- Fixed the MCP SDK localhost-only host validation for a public `0.0.0.0` bind.
+- Railway deployment from commit `65641045486ff555fab014140ad394f0180092b3` completed successfully.
+- Generated public domain `pedscore-ai-mcp-production.up.railway.app`.
+- Updated the Alexa+ manifest template with the real remote MCP endpoint.
