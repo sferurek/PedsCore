@@ -222,47 +222,40 @@ Dosing behavior in acute care has unacceptable implicit treatment pressure in MV
 
 ## Percentiles WHO/CDC
 
-### Current blocker
-- Variant blocker: source selection by age/location requires product policy.
-- Evidence blocker: LMS data selection and interpolation policy not finalized.
-- Regulatory blocker: potential interpretation mismatch across frameworks.
-- Maintainer decision needed: default source strategy, age boundaries, chart percentiles, print scope, and whether the unified `who_growth_module` becomes the primary experience while source-specific tools remain catalog/reference entries.
+### Current status
+- CDC is resolved as a separate source-specific tool for ages 2 to <20 years.
+- CDC 2000 weight-for-age, stature-for-age and BMI-for-age LMS data are locally vendored with canonical CDC provenance.
+- Fractional ages use explicit linear interpolation of LMS parameters.
+- High BMI uses the CDC 2022 extended upper-tail method rather than silent extrapolation of classic LMS.
+- WHO remains a separate partially implemented module with its own licensing, age-range and data-completeness gates.
+- No locale-based silent switching between WHO and CDC is performed.
 
-### Available options
-- Option A: Offer both as separate reference pages only.
-- Option B: Activate one as default based on locale (WHO-first or CDC-first).
-- Option C: Add explicit selector and maintain reproducibility metadata.
-- Option D: Do not implement until policy is finalized.
+### CDC decision
+- Source: official CDC/NCHS Growth Charts data.
+- Scope: 24 to <240 months.
+- Indicators: weight-for-age, stature-for-age, BMI-for-age.
+- Under age 2: this CDC surface is out of range; the existing WHO module remains the appropriate project surface.
+- Output: descriptive z-scores/percentiles only; no deterministic nutritional diagnosis or treatment classification.
 
-### Recommended option
-Option A for immediate clarity, then Option B/ C once policy is set.
-
-### Rationale
-Policy controls interpretation more than formula mechanics in this phase.
+### Remaining WHO blocker
+- Complete remaining WHO 5-19 indicator scope.
+- Finalize source-file update and interpolation policy across all WHO indicators.
+- Preserve WHO attribution/licensing separately from MIT code.
+- Finalize print-chart and unified-module activation criteria.
 
 ### Clinical safety constraints
-- No deterministic nutritional or treatment classification.
+- No deterministic nutritional or treatment classification from a percentile alone.
 - No age-mismatch silent coercion.
-
-### Evidence required before implementation
-- Official LMS/data files per source.
-- Unit conventions and interpolation rules.
-- Locale policy document.
-- For the unified WHO module: verified WHO 0-5 LMS files plus verified WHO 5-19 BMI-for-age and height-for-age LMS files, data versioning, print chart label policy, and fixture tests.
-- Blocks WHO-GROWTH-2B through WHO-GROWTH-4A import core WHO 0-5 LMS data plus WHO 5-19 BMI-for-age and height-for-age from official WHO website XLSX files. WHO data/materials remain under the applicable WHO/source license, separate from MIT code. The remaining maintainer decisions are remaining WHO 5-19 scope, interpolation policy, source-file update policy, attribution/adaptation disclaimer, and final activation criteria.
-
-### Proposed implementation scope
-- Catalog/reference-only.
-- If implemented later: unified WHO module for WHO-only results with full provenance; CDC and Orbegozo remain separate, not mixed into the WHO module.
+- No silent substitution between WHO and CDC references.
 
 ### Recommended PedsCore status
-- keep_pending_validation
+- CDC: implemented as a source-specific local calculator.
+- WHO: partially implemented until its remaining source/data gates are complete.
 
 ### Tests required
-- Data-source and version tests.
-- Locale/age boundary consistency tests.
-- Tests that printable graphs show written percentile labels and the patient point.
-- License-gate tests that keep WHO data licensing separate from MIT and prevent full module implementation until 5-19/interpolation decisions are explicit.
+- CDC source/version and age-boundary tests.
+- CDC interpolation fixtures and extended-BMI fixtures.
+- WHO license/data-source gates remain active independently.
 
 ## Orbegozo
 
