@@ -17,8 +17,6 @@ Amazon's submission form explicitly rewards useful friction logs. Record concret
 
 ---
 
-No friction entries recorded yet.
-
 ### 2026-09-18 — TypeScript exact optional property compatibility in MCP transport
 - **Task attempted:** Compile the official MCP TypeScript SDK Streamable HTTP transport inside a strict TypeScript workspace.
 - **Steps taken:** Added `@modelcontextprotocol/sdk` v1.30.x, created a stateless `StreamableHTTPServerTransport`, and compiled with `exactOptionalPropertyTypes: true`.
@@ -84,3 +82,14 @@ No friction entries recorded yet.
 - **Actionable suggestion:** Provide a self-service entitlement check page that shows whether an AWS account is allowlisted for `AddOn3PDeveloperToolsRead`, with the exact remediation path if it is not.
 - **Affected tool / API / SDK:** AWS STS / Alexa AI private developer-tools onboarding.
 - **Evidence:** Local source profile identity succeeds; assumed-role profile returns `AccessDenied` against the documented Amazon role.
+
+### 2026-09-18 — Railway private repository access blocked SIM bridge deployment
+- **Task attempted:** Publish the hackathon SIM IMV bridge independently so the public PedsCore MCP service could execute an end-to-end MCP → simulator flow.
+- **Steps taken:** Created a dedicated Railway service, explicitly set source repository `sferurek/pedscore-triage-sim` and branch `hackathon/alexa-sim`, and verified that no deployment was allowed to fall back to `main`.
+- **Expected result:** Railway should clone the selected private repository branch and deploy the Next.js bridge.
+- **Actual result:** The service remained offline with no deployment because the Railway GitHub App was not authorized for the private simulator repository.
+- **Severity:** Important
+- **Workaround:** Keep the full simulator bridge validated in CI, including a production-build HTTP smoke, while waiting for repository authorization or the Vercel quota window to reopen.
+- **Actionable suggestion:** When service creation targets a private repository that the GitHub App cannot clone, fail immediately with an explicit repository-authorization action instead of creating an offline service with no deployment.
+- **Affected tool / API / SDK:** Railway GitHub source integration.
+- **Evidence:** Railway service configuration shows the correct repository and `hackathon/alexa-sim` branch but no deployment; Railway agent inspection identified missing GitHub App repository access.
