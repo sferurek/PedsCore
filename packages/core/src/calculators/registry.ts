@@ -47,6 +47,15 @@ import {
   stepByStepFebrileInfantCalculator,
   strongKidsCalculator
 } from "./openScreening.js";
+import {
+  passAsthmaCalculator,
+  riscCalculator
+} from "./respiratoryRisk.js";
+import {
+  pelod2Calculator,
+  pim3Calculator,
+  prism4Calculator
+} from "./criticalCareScores.js";
 
 const calculators = [
   apgarCalculator,
@@ -82,7 +91,12 @@ const calculators = [
   modifiedTalCalculator,
   taussigCroupCalculator,
   strongKidsCalculator,
-  stepByStepFebrileInfantCalculator
+  stepByStepFebrileInfantCalculator,
+  passAsthmaCalculator,
+  riscCalculator,
+  pelod2Calculator,
+  pim3Calculator,
+  prism4Calculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

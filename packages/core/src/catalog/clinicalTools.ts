@@ -45,7 +45,12 @@ const implementedToolIds = new Set([
   "modified_tal",
   "taussig_croup",
   "strongkids",
-  "step_by_step"
+  "step_by_step",
+  "pass",
+  "risc",
+  "pelod_2",
+  "pim3",
+  "prism_iv"
 ]);
 
 type ToolSeed = Omit<
@@ -62,6 +67,91 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  risc: [
+    {
+      id: "risc_2012_original",
+      title: "Development of the Respiratory Index of Severity in Children (RISC) Score among Young Children with Respiratory Infections in South Africa",
+      year: 2012,
+      journalOrPublisher: "PLoS ONE",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3251620/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Original open-access derivation study with the HIV-negative RISC scoring table.",
+      appliesTo: ["risc"],
+      priority: 1
+    }
+  ],
+  pelod_2: [
+    {
+      id: "pelod2_open_table",
+      title: "Pediatric Logistic Organ Dysfunction-2 Score",
+      journalOrPublisher: "Open-access PELOD-2 reproductions and critical-care review",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9651518/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open table used to verify all ten PELOD-2 variables, age-specific MAP and creatinine thresholds, and point weights.",
+      appliesTo: ["pelod_2"],
+      priority: 1
+    },
+    {
+      id: "pelod2_practical_guide",
+      title: "Severity of illness scores in the pediatric intensive care unit: a practical guide",
+      year: 2024,
+      journalOrPublisher: "Critical Care Science",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11554295/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Verifies PELOD-2 mortality logit: -6.61 + 0.47 x score.",
+      appliesTo: ["pelod_2"],
+      priority: 2
+    }
+  ],
+  pim3: [
+    {
+      id: "pim3_open_formula",
+      title: "Validation of the Pediatric Index of Mortality 3 in a Single Pediatric Intensive Care Unit in Korea",
+      year: 2017,
+      journalOrPublisher: "Journal of Korean Medical Science",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5220006/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access reproduction of the full PIM3 formula and diagnostic risk groups.",
+      appliesTo: ["pim3"],
+      priority: 1
+    }
+  ],
+  prism_iv: [
+    {
+      id: "prism4_2016_original",
+      title: "The Pediatric Risk of Mortality Score: Update 2015",
+      authors: "Pollack MM, Holubkov R, Funai T, et al.",
+      year: 2016,
+      journalOrPublisher: "Pediatric Critical Care Medicine",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5048467/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Original PRISM IV publication; the prediction algorithm was placed in the public domain.",
+      appliesTo: ["prism_iv"],
+      priority: 1
+    },
+    {
+      id: "prism3_open_ranges_for_prism4",
+      title: "PRISM III physiologic point ranges used by PRISM IV",
+      journalOrPublisher: "Open-access critical-care literature",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9004120/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Used to verify the neurologic and non-neurologic PRISM physiologic component ranges required by PRISM IV.",
+      appliesTo: ["prism_iv"],
+      priority: 2
+    }
+  ],
   step_by_step: [
     {
       id: "step_by_step_2016_validation",
@@ -1947,6 +2037,131 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  pass: {
+    validationNotes: {
+      es: "PASS de Gorelick: tres dominios clínicos de 0-2 puntos (trabajo respiratorio, sibilancias y espiración prolongada), total 0-6, validado en asma aguda pediátrica de 1-18 años.",
+      en: "Gorelick PASS: three clinical domains scored 0-2 (work of breathing, wheezing, prolonged expiration), total 0-6, validated in acute pediatric asthma ages 1-18 years."
+    },
+    inputs: [
+      { id: "age_years", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "años", min: 1, max: 18, step: 0.1 },
+      {
+        id: "work_of_breathing", label: { es: "Trabajo respiratorio", en: "Work of breathing" }, type: "single_choice", required: true,
+        options: [option("work_0", "Ausente o leve", "None or mild", 0), option("work_1", "Moderado", "Moderate", 1), option("work_2", "Grave", "Severe", 2)]
+      },
+      {
+        id: "wheezing", label: { es: "Sibilancias", en: "Wheezing" }, type: "single_choice", required: true,
+        options: [option("wheeze_0", "Ausentes o leves", "None or mild", 0), option("wheeze_1", "Moderadas", "Moderate", 1), option("wheeze_2", "Graves o ausentes por intercambio aéreo muy pobre", "Severe or absent because of poor air exchange", 2)]
+      },
+      {
+        id: "prolonged_expiration", label: { es: "Prolongación de la espiración", en: "Prolongation of expiration" }, type: "single_choice", required: true,
+        options: [option("expiration_0", "Normal o levemente prolongada", "Normal or mildly prolonged", 0), option("expiration_1", "Moderadamente prolongada", "Moderately prolonged", 1), option("expiration_2", "Muy prolongada", "Severely prolonged", 2)]
+      }
+    ]
+  },
+  risc: {
+    validationNotes: {
+      es: "Implementación de la variante original RISC para niños VIH negativos menores de 24 meses hospitalizados con infección respiratoria baja.",
+      en: "Implementation of the original RISC variant for HIV-negative children under 24 months hospitalized with lower respiratory tract infection."
+    },
+    inputs: [
+      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 0, max: 23.99, step: 0.1 },
+      booleanInput("hiv_negative", { es: "VIH negativo", en: "HIV negative" }),
+      { id: "spo2_room_air", label: { es: "SatO₂ en aire ambiente", en: "Room-air SpO₂" }, type: "number", required: true, unit: "%", min: 0, max: 100, step: 1 },
+      booleanInput("chest_indrawing", { es: "Tiraje torácico", en: "Chest indrawing" }),
+      booleanInput("wheezing", { es: "Sibilancias", en: "Wheezing" }),
+      booleanInput("refusing_feeds", { es: "Rechazo de tomas", en: "Refusing feeds" }),
+      { id: "weight_for_age_z", label: { es: "Z-score peso/edad OMS", en: "WHO weight-for-age Z-score" }, type: "number", required: true, min: -10, max: 5, step: 0.01 }
+    ]
+  },
+  pelod_2: {
+    validationNotes: {
+      es: "PELOD-2 completo con diez variables y umbrales dependientes de edad para PAM y creatinina. La salida incluye puntaje 0-33 y la probabilidad derivada del modelo logístico publicado.",
+      en: "Complete PELOD-2 with ten variables and age-dependent MAP and creatinine thresholds. Output includes the 0-33 score and probability from the published logistic model."
+    },
+    inputs: [
+      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 0, max: 240, step: 0.01 },
+      { id: "gcs", label: { es: "Glasgow", en: "Glasgow Coma Scale" }, type: "number", required: true, min: 3, max: 15, step: 1 },
+      booleanInput("both_pupils_fixed", { es: "Ambas pupilas fijas", en: "Both pupils fixed" }),
+      { id: "lactate_mmol_l", label: { es: "Lactato", en: "Lactate" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 50, step: 0.1 },
+      { id: "map_mmhg", label: { es: "Presión arterial media", en: "Mean arterial pressure" }, type: "number", required: true, unit: "mmHg", min: 0, max: 200, step: 1 },
+      { id: "creatinine_umol_l", label: { es: "Creatinina", en: "Creatinine" }, type: "number", required: true, unit: "µmol/L", min: 0, max: 2000, step: 1 },
+      { id: "pao2_mmhg", label: { es: "PaO₂", en: "PaO₂" }, type: "number", required: true, unit: "mmHg", min: 1, max: 800, step: 1 },
+      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: true, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
+      { id: "paco2_mmhg", label: { es: "PaCO₂", en: "PaCO₂" }, type: "number", required: true, unit: "mmHg", min: 0, max: 250, step: 1 },
+      booleanInput("invasive_ventilation", { es: "Ventilación mecánica invasiva", en: "Invasive mechanical ventilation" }),
+      { id: "wbc_10e9_l", label: { es: "Leucocitos", en: "White blood cells" }, type: "number", required: true, unit: "×10⁹/L", min: 0, max: 100, step: 0.1 },
+      { id: "platelets_10e9_l", label: { es: "Plaquetas", en: "Platelets" }, type: "number", required: true, unit: "×10⁹/L", min: 0, max: 1500, step: 1 }
+    ]
+  },
+  pim3: {
+    validationNotes: {
+      es: "Implementación de la ecuación PIM3 completa con coeficientes publicados y salida de probabilidad de mortalidad poblacional.",
+      en: "Implementation of the complete published PIM3 equation with population-level mortality probability output."
+    },
+    inputs: [
+      booleanInput("both_pupils_fixed", { es: "Ambas pupilas fijas y >3 mm", en: "Both pupils fixed and >3 mm" }),
+      booleanInput("elective_admission", { es: "Ingreso electivo", en: "Elective admission" }),
+      booleanInput("mechanical_ventilation_first_hour", { es: "Asistencia respiratoria mecánica en la primera hora", en: "Mechanical respiratory assistance in first hour" }),
+      booleanInput("base_excess_unknown", { es: "Exceso de bases desconocido (PIM3 usa 0)", en: "Base excess unknown (PIM3 uses 0)" }),
+      { id: "base_excess_mmol_l", label: { es: "Exceso de bases", en: "Base excess" }, type: "number", required: false, unit: "mmol/L", min: -50, max: 50, step: 0.1 },
+      booleanInput("sbp_unknown", { es: "PAS desconocida (PIM3 usa 120 mmHg)", en: "SBP unknown (PIM3 uses 120 mmHg)" }),
+      { id: "systolic_bp_mmhg", label: { es: "PAS (0 si parada; 30 si shock y no medible)", en: "SBP (0 in cardiac arrest; 30 if shock and unmeasurable)" }, type: "number", required: false, unit: "mmHg", min: 0, max: 250, step: 1 },
+      booleanInput("oxygenation_unknown", { es: "FiO₂/PaO₂ desconocidas (PIM3 usa 0,23)", en: "FiO₂/PaO₂ unknown (PIM3 uses 0.23)" }),
+      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: false, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
+      { id: "pao2_mmhg", label: { es: "PaO₂", en: "PaO₂" }, type: "number", required: false, unit: "mmHg", min: 1, max: 800, step: 1 },
+      {
+        id: "procedure_category", label: { es: "Recuperación de procedimiento", en: "Procedure recovery" }, type: "select", required: true,
+        options: [option("none", "No", "None"), option("cardiac_bypass", "Cirugía cardiaca con bypass", "Cardiac surgery with bypass"), option("cardiac_no_bypass", "Procedimiento cardiaco sin bypass", "Cardiac procedure without bypass"), option("noncardiac", "Procedimiento no cardiaco", "Noncardiac procedure")]
+      },
+      {
+        id: "diagnosis_risk_group", label: { es: "Grupo diagnóstico PIM3", en: "PIM3 diagnostic risk group" }, type: "select", required: true,
+        options: [
+          option("none", "Ninguno / duda", "None / uncertain"),
+          option("low", "Bajo: asma, bronquiolitis, crup, SAOS, CAD, convulsiones", "Low: asthma, bronchiolitis, croup, OSA, DKA, seizure disorder"),
+          option("high", "Alto: HIC espontánea, miocarditis/cardiomiopatía, HLHS, neurodegenerativa, NEC", "High: spontaneous cerebral hemorrhage, cardiomyopathy/myocarditis, HLHS, neurodegenerative disorder, NEC"),
+          option("very_high", "Muy alto: parada pre-UCI, SCID, leucemia/linfoma posinducción, TMO, fallo hepático", "Very high: pre-ICU cardiac arrest, SCID, leukemia/lymphoma post-induction, BMT, liver failure")
+        ]
+      }
+    ]
+  },
+  prism_iv: {
+    validationNotes: {
+      es: "PRISM IV completo: PedsCore calcula internamente los subpuntajes fisiológicos neurológico y no neurológico PRISM y aplica la ecuación PRISM IV de dominio público.",
+      en: "Complete PRISM IV: PedsCore internally calculates neurologic and non-neurologic PRISM physiologic subscores and applies the public-domain PRISM IV equation."
+    },
+    inputs: [
+      { id: "age_days", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "días", min: 0, max: 6575, step: 1 },
+      {
+        id: "admission_source", label: { es: "Procedencia del ingreso", en: "Admission source" }, type: "select", required: true,
+        options: [option("other", "Otra / referencia", "Other / reference"), option("other_hospital", "Otro hospital", "Another hospital"), option("inpatient_unit", "Unidad de hospitalización", "Inpatient unit"), option("emergency_department", "Urgencias", "Emergency department")]
+      },
+      booleanInput("cpr_within_24h", { es: "RCP en las 24 h previas al ingreso", en: "CPR within 24 h before admission" }),
+      booleanInput("cancer", { es: "Cáncer agudo o crónico", en: "Acute or chronic cancer" }),
+      booleanInput("low_risk_primary_system", { es: "Sistema primario de bajo riesgo: endocrino, hematológico, musculoesquelético o renal", en: "Low-risk primary system: endocrine, hematologic, musculoskeletal, or renal" }),
+      { id: "systolic_bp_mmhg", label: { es: "PAS mínima", en: "Lowest systolic BP" }, type: "number", required: true, unit: "mmHg", min: 0, max: 250, step: 1 },
+      { id: "heart_rate", label: { es: "FC máxima", en: "Highest heart rate" }, type: "number", required: true, unit: "lpm", min: 0, max: 350, step: 1 },
+      { id: "temperature_c", label: { es: "Temperatura más extrema", en: "Most extreme temperature" }, type: "number", required: true, unit: "°C", min: 20, max: 45, step: 0.1 },
+      { id: "gcs", label: { es: "GCS mínimo", en: "Lowest GCS" }, type: "number", required: true, min: 3, max: 15, step: 1 },
+      {
+        id: "pupil_status", label: { es: "Respuesta pupilar más patológica", en: "Worst pupillary response" }, type: "select", required: true,
+        options: [option("reactive", "Ambas reactivas", "Both reactive"), option("one_fixed", "Una fija >3 mm", "One fixed >3 mm"), option("both_fixed", "Ambas fijas >3 mm", "Both fixed >3 mm")]
+      },
+      { id: "ph_lowest", label: { es: "pH mínimo", en: "Lowest pH" }, type: "number", required: true, min: 6.5, max: 8, step: 0.01 },
+      { id: "ph_highest", label: { es: "pH máximo", en: "Highest pH" }, type: "number", required: true, min: 6.5, max: 8, step: 0.01 },
+      { id: "total_co2_lowest_mmol_l", label: { es: "CO₂ total mínimo", en: "Lowest total CO₂" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 60, step: 0.1 },
+      { id: "total_co2_highest_mmol_l", label: { es: "CO₂ total máximo", en: "Highest total CO₂" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 60, step: 0.1 },
+      { id: "paco2_mmhg", label: { es: "PaCO₂ máxima", en: "Highest PaCO₂" }, type: "number", required: true, unit: "mmHg", min: 0, max: 250, step: 1 },
+      { id: "pao2_mmhg", label: { es: "PaO₂ mínima", en: "Lowest PaO₂" }, type: "number", required: true, unit: "mmHg", min: 0, max: 800, step: 1 },
+      { id: "glucose_mg_dl", label: { es: "Glucosa máxima", en: "Highest glucose" }, type: "number", required: true, unit: "mg/dL", min: 0, max: 1500, step: 1 },
+      { id: "potassium_mmol_l", label: { es: "Potasio máximo", en: "Highest potassium" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 15, step: 0.1 },
+      { id: "creatinine_mg_dl", label: { es: "Creatinina máxima", en: "Highest creatinine" }, type: "number", required: true, unit: "mg/dL", min: 0, max: 20, step: 0.01 },
+      { id: "bun_mg_dl", label: { es: "BUN máximo", en: "Highest BUN" }, type: "number", required: true, unit: "mg/dL", min: 0, max: 250, step: 0.1 },
+      { id: "wbc_per_mm3", label: { es: "Leucocitos mínimos", en: "Lowest WBC" }, type: "number", required: true, unit: "/mm³", min: 0, max: 200000, step: 1 },
+      { id: "platelets_per_mm3", label: { es: "Plaquetas mínimas", en: "Lowest platelets" }, type: "number", required: true, unit: "/mm³", min: 0, max: 1500000, step: 1 },
+      { id: "pt_seconds", label: { es: "TP máximo", en: "Highest PT" }, type: "number", required: true, unit: "s", min: 0, max: 200, step: 0.1 },
+      { id: "ptt_seconds", label: { es: "TTPa máximo", en: "Highest PTT" }, type: "number", required: true, unit: "s", min: 0, max: 300, step: 0.1 }
+    ]
+  },
   strongkids: {
     validationNotes: {
       es: "Implementación local de STRONGkids con los cuatro ítems publicados: valoración clínica subjetiva (1), enfermedad de alto riesgo (2), ingesta/pérdidas (1) y pérdida de peso o ganancia insuficiente (1).",
