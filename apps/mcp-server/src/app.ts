@@ -16,6 +16,7 @@ import {
 } from "./auth.js";
 import type { AuthConfig } from "./auth.js";
 import { callSimulationBridge } from "./sim-client.js";
+import { judgeDemoHtml } from "./judge-demo.js";
 import {
   createStoreCarousel,
   createStoreIcon,
@@ -227,6 +228,14 @@ export const createPedsCoreMcpApp = (options?: { authConfig?: AuthConfig }) => {
       transport: "streamable-http",
       authentication: authConfig.mode
     });
+  });
+
+  app.get("/judge-demo", (_req: Request, res: Response) => {
+    res
+      .status(200)
+      .type("html")
+      .set("cache-control", "no-store")
+      .send(judgeDemoHtml);
   });
 
   app.get("/privacy", (_req: Request, res: Response) => {
