@@ -221,6 +221,10 @@ export const createPedsCoreMcpApp = (options?: { authConfig?: AuthConfig }) => {
   validateAuthConfig(authConfig);
   const authMiddleware = createBearerAuthMiddleware(authConfig);
 
+  app.get("/", (_req: Request, res: Response) => {
+    res.redirect(302, "/judge-demo");
+  });
+
   app.get("/health", (_req: Request, res: Response) => {
     res.status(200).json({
       status: "ok",
