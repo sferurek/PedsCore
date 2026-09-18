@@ -30,7 +30,7 @@ https://www.developer.amazon.com/docs/alexaplus/add-ons/mcp-toolkit-quickstart.h
 | Tool detail retrieval | Implemented | `get_clinical_tool` |
 | Deterministic calculation | Implemented | `calculate_clinical_score` |
 | Remote HTTPS URL | Implemented | `https://pedscore-ai-mcp-production.up.railway.app/mcp` on Railway |
-| <500 ms remote latency | Pending | Must measure against deployed endpoint |
+| <500 ms remote MCP operations | Verified in first external CI smoke | initialize 232.5 ms; tools/list 143.1 ms; search 112.7 ms; deterministic calculation 134.7 ms. Initial health request was 850.7 ms and is tracked separately from MCP tool latency. |
 | OAuth 2.1 / PKCE | Implemented server-side protection scaffold | Cognito IaC + JWT validation added; live provider provisioning and Alexa linking still pending |
 | Protected Resource Metadata | Implemented | `/.well-known/oauth-protected-resource` with configurable resource/server/scopes |
 | Authorization server metadata | Provider-dependent | Added a pre-flight probe that verifies discovery endpoints and `S256` before Alexa deployment |
@@ -102,3 +102,21 @@ The hackathon MCP service is deployed on Railway from branch `hackathon/alexa-mc
 - Railway deployment healthcheck: passed after fixing public-bind host validation
 
 The current remote deployment intentionally runs with `MCP_AUTH_MODE=off` until the Alexa/Cognito account-linking configuration can be completed. The authentication code path and infrastructure-as-code are already present and tested in CI.
+
+## External protocol validation
+
+GitHub Actions run `35318399887` validated the public Railway deployment from an independent Central US runner.
+
+Measured round trips:
+
+| Operation | Result | Round trip |
+| --- | --- | ---: |
+| GET /health | HTTP 200 | 850.7 ms |
+| MCP initialize | protocol `2025-11-25` | 232.5 ms |
+| MCP tools/list | 3 tools returned | 143.1 ms |
+| search_clinical_tools | first result `apgar` | 112.7 ms |
+| calculate_clinical_score | Apgar 9/10 | 134.7 ms |
+
+All four measured MCP protocol/tool operations were below 500 ms in this external run. The first health request was slower (850.7 ms); it is not a tool query, but it should still be monitored for cold-start/network effects.
+
+The live smoke test is now committed as `scripts/remote-mcp-smoke.mjs` and automated by `.github/workflows/hackathon-mcp-remote-smoke.yml`.
