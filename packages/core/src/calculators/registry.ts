@@ -34,6 +34,7 @@ import { pediatricBurnTbsaCalculator } from "./burnTbsa.js";
 import { pramCalculator } from "./pram.js";
 import { sipaCalculator } from "./sipa.js";
 import { westleyCroupCalculator } from "./westleyCroup.js";
+import { pippRCalculator } from "./pippR.js";
 
 const calculators = [
   apgarCalculator,
@@ -52,6 +53,7 @@ const calculators = [
   bedsideSchwartzCalculator,
   revisedSchwartzCalculator,
   westleyCroupCalculator,
+  pippRCalculator,
   pramCalculator,
   clinicalDehydrationScaleCalculator,
   bedsidePewsCalculator,
