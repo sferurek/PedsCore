@@ -64,6 +64,8 @@ describe("open renal calculators", () => {
       baseline_creatinine_mg_dl: 0.5,
       current_creatinine_mg_dl: 1.1,
       age_years: 8,
+      baseline_within_7_days: true,
+      rise_within_48_hours: true,
       urine_output_ml_kg_h: 1,
       urine_duration_hours: 1,
       anuria_hours: 0,
