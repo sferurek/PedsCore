@@ -2,6 +2,8 @@
 
 **Open-source pediatric and neonatal clinical tools with evidence traceability.**
 
+> **Amazon Developer Hackathon 2026:** Alexa+ / MCP work is documented in [HACKATHON_2026.md](HACKATHON_2026.md). The current hackathon contribution is developed on `hackathon/alexa-mcp` and PR #43.
+
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Production](https://img.shields.io/badge/web-Vercel-blue.svg)](https://peds-core.vercel.app/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6.svg)](https://www.typescriptlang.org/)
