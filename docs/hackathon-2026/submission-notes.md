@@ -37,11 +37,13 @@ The strongest demo arc is:
 - simulator-side deterministic bridge on SIM PR #25;
 - public MIT-licensed OSS contribution on PedsCore PR #43.
 
-## External blockers that must be stated accurately
+## Eligibility and external blockers
 
-Alexa AI CLI access is currently blocked by Amazon-side entitlement to the private developer-tools role. The local AWS source profile authenticates successfully; AssumeRole into Amazon's documented private role returns `AccessDenied`. This has been escalated through the hackathon support path and recorded in the friction log.
+The official Alexa+ rules were rechecked on 2026-09-18. A working self-hosted MCP server using MCP 2025-11-25+ over Streamable HTTP is a valid primary-track submission path. Therefore the private Alexa AI CLI / official add-on deployment is an optional enhancement rather than an eligibility blocker.
 
-SIM remote deployment is currently blocked because the Railway GitHub App does not have access to the private SIM repository. Code and CI can continue independently.
+Private Alexa AI CLI access is still blocked by Amazon-side entitlement to the developer-tools role. The local AWS source profile authenticates successfully; AssumeRole into Amazon's documented private role returns `AccessDenied`. This has been escalated through the hackathon support path and recorded in the friction log.
+
+SIM remote deployment is currently blocked because the Railway GitHub App does not have access to the private SIM repository. The simulator bridge is nevertheless validated against a production Next.js server in CI.
 
 ## Final submission assets still required
 
@@ -50,7 +52,7 @@ SIM remote deployment is currently blocked because the Railway GitHub App does n
 - Alexa add-on ID/version if private CLI entitlement is granted;
 - final remote MCP→SIM smoke output once the SIM bridge is deployed;
 - final friction log review;
-- project testing link;
+- project testing link: `https://pedscore-ai-mcp-production.up.railway.app/judge-demo` after final live verification;
 - final feature-request / developer-feedback answers.
 
 ## Rule for final write-up
