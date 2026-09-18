@@ -43,6 +43,10 @@ import {
   modifiedTalCalculator,
   taussigCroupCalculator
 } from "./respiratoryScores.js";
+import {
+  stepByStepFebrileInfantCalculator,
+  strongKidsCalculator
+} from "./openScreening.js";
 
 const calculators = [
   apgarCalculator,
@@ -76,7 +80,9 @@ const calculators = [
   prifleCalculator,
   kdigoPediatricCalculator,
   modifiedTalCalculator,
-  taussigCroupCalculator
+  taussigCroupCalculator,
+  strongKidsCalculator,
+  stepByStepFebrileInfantCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
