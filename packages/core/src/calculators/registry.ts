@@ -73,6 +73,7 @@ import {
 import { garciaAlixNersCalculator } from "./garciaAlixNers.js";
 import { parcCalculator } from "./parc.js";
 import { pcdaiCalculator } from "./pcdai.js";
+import { modifiedBellNecCalculator } from "./modifiedBellNec.js";
 
 const calculators = [
   apgarCalculator,
@@ -127,7 +128,8 @@ const calculators = [
   pecarnFebrileInfantCalculator,
   garciaAlixNersCalculator,
   parcCalculator,
-  pcdaiCalculator
+  pcdaiCalculator,
+  modifiedBellNecCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
