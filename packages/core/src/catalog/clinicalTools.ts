@@ -50,7 +50,10 @@ const implementedToolIds = new Set([
   "risc",
   "pelod_2",
   "pim3",
-  "prism_iv"
+  "prism_iv",
+  "mrisc",
+  "gorelick_dehydration",
+  "visual_analogue_scale"
 ]);
 
 type ToolSeed = Omit<
@@ -67,6 +70,35 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  mrisc: [
+    {
+      id: "mrisc_2014_original",
+      title: "Predicting Mortality among Hospitalized Children with Respiratory Illness in Western Kenya, 2009-2012",
+      year: 2014,
+      journalOrPublisher: "PLoS ONE",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3965502/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access publication with the complete mRISC point table.",
+      appliesTo: ["mrisc"],
+      priority: 1
+    }
+  ],
+  visual_analogue_scale: [
+    {
+      id: "vas_pediatric_pain_open_review",
+      title: "Visual analogue scales for pediatric self-reported pain intensity",
+      journalOrPublisher: "Open-access pediatric pain literature",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5261830/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "VAS is implemented as a continuous 0-10 cm self-report measure; PedsCore intentionally does not impose universal severity bands.",
+      appliesTo: ["visual_analogue_scale"],
+      priority: 1
+    }
+  ],
   risc: [
     {
       id: "risc_2012_original",
@@ -1634,7 +1666,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Block 8B-3: original Gorelick dehydration signs source located. Complete scale/table and validation strategy remain pending.",
+        "Original Gorelick source plus open-access reproductions used to verify the complete 10-sign scale and ≥3 / ≥7 sign thresholds."
       appliesTo: ["gorelick_dehydration"],
       priority: 1
     }
@@ -2037,6 +2069,55 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  mrisc: {
+    validationNotes: {
+      es: "Implementación local del mRISC derivado en menores de 5 años hospitalizados por enfermedad respiratoria grave en Kenia. Se reproduce la tabla de puntos publicada.",
+      en: "Local mRISC implementation derived in hospitalized children under 5 years with severe respiratory illness in Kenya. The published point table is reproduced."
+    },
+    inputs: [
+      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 0, max: 59.99, step: 0.1 },
+      booleanInput("history_unconscious", { es: "Antecedente de pérdida de conciencia en el episodio", en: "History of unconsciousness during illness" }),
+      booleanInput("unable_to_drink", { es: "Incapaz de beber o tomar pecho", en: "Unable to drink or breastfeed" }),
+      booleanInput("night_sweats", { es: "Sudoración nocturna", en: "Night sweats" }),
+      booleanInput("chest_indrawing", { es: "Tiraje de pared torácica", en: "Chest-wall indrawing" }),
+      booleanInput("alert_and_awake", { es: "Alerta y despierto en la exploración", en: "Alert and awake on examination" }),
+      booleanInput("malaria", { es: "Malaria", en: "Malaria" }),
+      booleanInput("dehydrated", { es: "Deshidratación", en: "Dehydration" }),
+      { id: "weight_for_age_z", label: { es: "Z-score peso/edad", en: "Weight-for-age Z-score" }, type: "number", required: true, min: -10, max: 5, step: 0.01 }
+    ]
+  },
+  gorelick_dehydration: {
+    validationNotes: {
+      es: "Implementación de la escala de Gorelick de 10 signos. Cada signo anormal suma 1 punto; ≥3 signos se asocia con ≥5% de pérdida de peso y ≥7 con ≥10% en la población estudiada.",
+      en: "Implementation of the 10-sign Gorelick scale. Each abnormal sign adds 1 point; ≥3 signs is associated with ≥5% weight loss and ≥7 with ≥10% in the studied population."
+    },
+    inputs: [
+      booleanInput("abnormal_general_appearance", { es: "Aspecto general alterado: inquieto, letárgico o inconsciente", en: "Abnormal general appearance: restless, lethargic, or unconscious" }),
+      booleanInput("prolonged_capillary_refill", { es: "Relleno capilar prolongado o mínimo", en: "Prolonged or minimal capillary refill" }),
+      booleanInput("absent_tears", { es: "Ausencia de lágrimas", en: "Absent tears" }),
+      booleanInput("dry_mucous_membranes", { es: "Mucosas secas o muy secas", en: "Dry or very dry mucous membranes" }),
+      booleanInput("sunken_eyes", { es: "Ojos hundidos o muy hundidos", en: "Sunken or deeply sunken eyes" }),
+      booleanInput("deep_breathing", { es: "Respiración profunda o profunda y rápida", en: "Deep or deep-and-rapid breathing" }),
+      booleanInput("weak_pulses", { es: "Pulso filiforme, débil o impalpable", en: "Thready, weak, or impalpable pulses" }),
+      booleanInput("reduced_skin_elasticity", { es: "Elasticidad cutánea reducida / retorno lento", en: "Reduced skin elasticity / slow recoil" }),
+      booleanInput("tachycardia", { es: "Taquicardia", en: "Tachycardia" }),
+      booleanInput("reduced_urine_output", { es: "Diuresis reducida o ausente durante horas", en: "Reduced urine output or none for many hours" })
+    ],
+    interpretationBands: [
+      { id: "minimal", label: { es: "No o mínima deshidratación", en: "No or minimal dehydration" }, min: 0, max: 2 },
+      { id: "significant", label: { es: "≥5% de deshidratación probable", en: "Probable ≥5% dehydration" }, min: 3, max: 6 },
+      { id: "severe", label: { es: "≥10% de deshidratación probable", en: "Probable ≥10% dehydration" }, min: 7, max: 10 }
+    ]
+  },
+  visual_analogue_scale: {
+    validationNotes: {
+      es: "EVA/VAS de autorreporte: distancia continua entre 0 y 10 cm desde 'sin dolor' hasta 'máximo dolor imaginable'. PedsCore no impone categorías universales de gravedad.",
+      en: "Self-report VAS: continuous 0-10 cm distance from 'no pain' to 'worst imaginable pain'. PedsCore does not impose universal severity categories."
+    },
+    inputs: [
+      { id: "pain_vas_cm", label: { es: "Posición marcada en la EVA", en: "Marked position on the VAS" }, type: "number", required: true, unit: "cm", min: 0, max: 10, step: 0.1 }
+    ]
+  },
   pass: {
     validationNotes: {
       es: "PASS de Gorelick: tres dominios clínicos de 0-2 puntos (trabajo respiratorio, sibilancias y espiración prolongada), total 0-6, validado en asma aguda pediátrica de 1-18 años.",

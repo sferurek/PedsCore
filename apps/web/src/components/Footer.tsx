@@ -20,6 +20,11 @@ const formatUsageCount = (value: number, language: Language): string =>
 const shouldShowUsageSummary = (stats: GlobalUsageStats): boolean =>
   stats.status === "ok" && stats.configured && !stats.disabled;
 
+const clinicalReviewLabel = (language: Language): string =>
+  language === "es"
+    ? "Última revisión clínica: 18 de septiembre de 2026"
+    : "Last clinical review: September 18, 2026";
+
 interface FooterUsageSummaryContentProps {
   language: Language;
   navigate?: (href: string) => void;
@@ -74,7 +79,7 @@ export function Footer({ language, navigate, minimal = false }: FooterProps) {
   if (minimal) {
     return (
       <footer className="site-footer pram-minimal-footer">
-        <span>© 2026 PedsCore</span>
+        <span>© 2026 PedsCore · {clinicalReviewLabel(language)}</span>
         <nav aria-label={language === "es" ? "Enlaces legales y de transparencia" : "Legal and transparency links"}>
           {navigate ? (
             <>
@@ -99,6 +104,7 @@ export function Footer({ language, navigate, minimal = false }: FooterProps) {
         <span>{t.footer.mit}</span>
         <span>{t.footer.whoLicense}</span>
         <span>{t.footer.noClinicalStorage}</span>
+        <span>{clinicalReviewLabel(language)}</span>
       </div>
       <div className="footer-links">
         {navigate ? (
