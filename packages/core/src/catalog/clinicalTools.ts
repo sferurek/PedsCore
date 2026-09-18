@@ -1888,11 +1888,11 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       }
     ],
     scoringTable: [
-      { id: "mbp_resp", variable: { es: "Respiracion", en: "Respiration" }, value: "0-3" },
-      { id: "mbp_circ", variable: { es: "Circulacion", en: "Circulation" }, value: "0-3" },
-      { id: "mbp_dis", variable: { es: "AVPU", en: "AVPU" }, value: "0-3" },
-      { id: "mbp_resp_addon", variable: { es: "Inhalacion continua o CPAP", en: "Continuous inhalation or CPAP" }, value: "0/2" },
-      { id: "mbp_vomit", variable: { es: "Vomitos postoperatorios persistentes", en: "Persistent postoperative vomiting" }, value: "0/2" }
+      { id: "mbp_resp", variable: { es: "Respiracion", en: "Respiration" }, value: "0-3", description: { es: "Categoria respiratoria publicada.", en: "Published respiratory category." } },
+      { id: "mbp_circ", variable: { es: "Circulacion", en: "Circulation" }, value: "0-3", description: { es: "Categoria circulatoria publicada.", en: "Published circulation category." } },
+      { id: "mbp_dis", variable: { es: "AVPU", en: "AVPU" }, value: "0-3", description: { es: "Discapacidad mediante AVPU.", en: "Disability using AVPU." } },
+      { id: "mbp_resp_addon", variable: { es: "Inhalacion continua o CPAP", en: "Continuous inhalation or CPAP" }, value: "0/2", description: { es: "Suma 2 puntos si esta presente.", en: "Adds 2 points when present." } },
+      { id: "mbp_vomit", variable: { es: "Vomitos postoperatorios persistentes", en: "Persistent postoperative vomiting" }, value: "0/2", description: { es: "Suma 2 puntos si esta presente.", en: "Adds 2 points when present." } }
     ]
   },
   bedside_pews: {
