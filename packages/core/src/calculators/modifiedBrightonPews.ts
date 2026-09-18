@@ -42,8 +42,12 @@ export const modifiedBrightonPewsCalculator: CalculatorDefinition = {
       };
     }
 
-    const [r, c, d, a, v] = values as number[];
-    const total = r + c + d + a + v;
+    const r = respiratory as number;
+    const cScore = circulation as number;
+    const d = disability as number;
+    const a = respiratoryAddon as number;
+    const v = vomitingAddon as number;
+    const total = r + cScore + d + a + v;
 
     const classification =
       total >= 3
@@ -68,7 +72,7 @@ export const modifiedBrightonPewsCalculator: CalculatorDefinition = {
       warnings: [],
       trace: [
         { inputId: "respiratory_domain", value: input.respiratory_domain, score: r },
-        { inputId: "circulation_domain", value: input.circulation_domain, score: c },
+        { inputId: "circulation_domain", value: input.circulation_domain, score: cScore },
         { inputId: "disability_domain", value: input.disability_domain, score: d },
         { inputId: "continuous_inhalation_or_cpap", value: input.continuous_inhalation_or_cpap, score: a },
         { inputId: "persistent_postoperative_vomiting", value: input.persistent_postoperative_vomiting, score: v }
