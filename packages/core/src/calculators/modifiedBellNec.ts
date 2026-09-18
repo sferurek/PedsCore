@@ -8,6 +8,7 @@ export const modifiedBellNecCalculator: CalculatorDefinition = {
     const tool = getTool("modified-bell-nec");
 
     const systemicInstability = getBoolean(input, "systemic_instability");
+    const mildGiSigns = getBoolean(input, "mild_gi_signs");
     const grossBlood = getBoolean(input, "gross_bloody_stool");
     const absentBowelSoundsOrTenderness = getBoolean(input, "absent_bowel_sounds_or_tenderness");
     const mildAcidosisOrThrombocytopenia = getBoolean(input, "mild_acidosis_or_thrombocytopenia");
@@ -20,6 +21,7 @@ export const modifiedBellNecCalculator: CalculatorDefinition = {
 
     const values = [
       systemicInstability,
+      mildGiSigns,
       grossBlood,
       absentBowelSoundsOrTenderness,
       mildAcidosisOrThrombocytopenia,
@@ -45,10 +47,31 @@ export const modifiedBellNecCalculator: CalculatorDefinition = {
 
     let stage = "IA";
     if (grossBlood) stage = "IB";
-    if (pneumatosis || absentBowelSoundsOrTenderness) stage = "IIA";
-    if (portalVenousGas || mildAcidosisOrThrombocytopenia || abdominalCellulitisOrMass) stage = "IIB";
-    if (hypotensionDicOrNeutropenia || ascites) stage = "IIIA";
+    if (pneumatosis) stage = "IIA";
+    if (pneumatosis && (portalVenousGas || mildAcidosisOrThrombocytopenia || abdominalCellulitisOrMass)) stage = "IIB";
+    if (ascites && hypotensionDicOrNeutropenia) stage = "IIIA";
     if (pneumoperitoneum) stage = "IIIB";
+
+    const compatible =
+      stage !== "IA" ||
+      systemicInstability ||
+      mildGiSigns;
+
+    if (!compatible) {
+      return {
+        toolId: tool.id,
+        classification: label(
+          "Hallazgos insuficientes para asignar un estadio de Bell modificado",
+          "Insufficient findings to assign a modified Bell stage"
+        ),
+        warnings: [warning(
+          "modified_bell_insufficient",
+          "La clasificación requiere integrar hallazgos sistémicos, abdominales y radiológicos; no se debe forzar un estadio con datos incompletos.",
+          "The classification requires integrated systemic, abdominal, and radiologic findings; a stage should not be forced from incomplete data."
+        )],
+        trace: []
+      };
+    }
 
     const classLabel =
       stage === "IA" || stage === "IB"
@@ -73,6 +96,7 @@ export const modifiedBellNecCalculator: CalculatorDefinition = {
       ],
       trace: [
         { inputId: "systemic_instability", value: systemicInstability },
+        { inputId: "mild_gi_signs", value: mildGiSigns },
         { inputId: "gross_bloody_stool", value: grossBlood },
         { inputId: "absent_bowel_sounds_or_tenderness", value: absentBowelSoundsOrTenderness },
         { inputId: "mild_acidosis_or_thrombocytopenia", value: mildAcidosisOrThrombocytopenia },
