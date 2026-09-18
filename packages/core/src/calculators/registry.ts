@@ -56,6 +56,11 @@ import {
   pim3Calculator,
   prism4Calculator
 } from "./criticalCareScores.js";
+import {
+  gorelickDehydrationCalculator,
+  mriscCalculator,
+  visualAnalogueScaleCalculator
+} from "./additionalOpenTools.js";
 
 const calculators = [
   apgarCalculator,
@@ -96,7 +101,10 @@ const calculators = [
   riscCalculator,
   pelod2Calculator,
   pim3Calculator,
-  prism4Calculator
+  prism4Calculator,
+  mriscCalculator,
+  gorelickDehydrationCalculator,
+  visualAnalogueScaleCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
