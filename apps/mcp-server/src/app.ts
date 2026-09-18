@@ -15,6 +15,12 @@ import {
   validateAuthConfig
 } from "./auth.js";
 import type { AuthConfig } from "./auth.js";
+import {
+  createStoreCarousel,
+  createStoreIcon,
+  privacyPolicyHtml,
+  termsOfUseHtml
+} from "./store-assets.js";
 
 const jsonResult = (value: unknown) => ({
   content: [
@@ -126,6 +132,45 @@ export const createPedsCoreMcpApp = (options?: { authConfig?: AuthConfig }) => {
       transport: "streamable-http",
       authentication: authConfig.mode
     });
+  });
+
+  app.get("/privacy", (_req: Request, res: Response) => {
+    res.status(200).type("html").send(privacyPolicyHtml);
+  });
+
+  app.get("/terms", (_req: Request, res: Response) => {
+    res.status(200).type("html").send(termsOfUseHtml);
+  });
+
+  app.get("/store-assets/icon-:size.png", (req: Request, res: Response) => {
+    const match = /^(64|72|88|126|180|241)x\\1$/.exec(req.params.size);
+    if (!match) {
+      res.status(404).json({ error: "asset_not_found" });
+      return;
+    }
+
+    const size = Number(match[1]);
+    const image = createStoreIcon(size);
+    res
+      .status(200)
+      .set({
+        "content-type": "image/png",
+        "content-length": String(image.length),
+        "cache-control": "public, max-age=86400"
+      })
+      .send(image);
+  });
+
+  app.get("/store-assets/carousel-1.png", (_req: Request, res: Response) => {
+    const image = createStoreCarousel();
+    res
+      .status(200)
+      .set({
+        "content-type": "image/png",
+        "content-length": String(image.length),
+        "cache-control": "public, max-age=86400"
+      })
+      .send(image);
   });
 
   app.get("/.well-known/oauth-protected-resource", (_req: Request, res: Response) => {
