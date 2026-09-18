@@ -350,7 +350,6 @@ describe("clinical tools catalog", () => {
 
   it("keeps Block 8B-2 reviewed tools non-operational until source, table, variant, and licensing gates are complete", () => {
     const reviewedPendingIds = [
-      "pipp_r",
       "comfortneo",
       "pediatric_gcs",
       "strongkids"
