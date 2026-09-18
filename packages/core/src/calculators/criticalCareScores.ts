@@ -18,7 +18,7 @@ const logisticPercent = (logit: number): number =>
   Number((100 * (Math.exp(logit) / (1 + Math.exp(logit)))).toFixed(2));
 
 const pelodMapScore = (ageMonths: number, map: number): number => {
-  const rows = ageMonths < 1
+  const rows: [number, number, number] = ageMonths < 1
     ? [46, 31, 17]
     : ageMonths < 12
       ? [55, 39, 25]
