@@ -120,3 +120,34 @@ Measured round trips:
 All four measured MCP protocol/tool operations were below 500 ms in this external run. The first health request was slower (850.7 ms); it is not a tool query, but it should still be monitored for cold-start/network effects.
 
 The live smoke test is now committed as `scripts/remote-mcp-smoke.mjs` and automated by `.github/workflows/hackathon-mcp-remote-smoke.yml`.
+
+## M2 — Alexa+ onboarding package
+
+The Alexa+ store/compliance surface is now complete enough for CLI deployment:
+
+- deployment-ready `alexa-addon/addon-package/addon.json`
+- live privacy policy and terms-of-use pages over HTTPS
+- six required light-theme PNG icon sizes
+- one required 600x900 PNG carousel image
+- live MCP endpoint already embedded in the manifest
+- CI tests for compliance/store endpoints
+- external smoke validation of the public store assets and legal pages
+
+### Account linking decision
+
+Account linking is intentionally disabled for the initial hackathon experience. Amazon documents account linking as optional when an MCP add-on works the same way for all users. PedsCore's current Alexa+ surface is read-only, has no PedsCore customer identity, does not access user-specific data, and does not perform write actions.
+
+The existing Cognito/OAuth code remains available as a future path if personalized data or authenticated actions are introduced.
+
+### Remaining interactive boundary
+
+The next operation is Amazon developer authentication with Alexa AI CLI:
+
+```bash
+npm install -g @alexa-ai/cli
+alexa-ai configure
+cd alexa-addon
+alexa-ai deploy
+```
+
+This step cannot be completed non-interactively without the developer's Login with Amazon authorization. Once authenticated, the manifest is ready for deployment and simulator testing.
