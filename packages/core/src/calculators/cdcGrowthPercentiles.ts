@@ -27,18 +27,21 @@ const interpolateLms = (
   const exact = bySex.find((row) => row.ageMonths === ageMonths);
   if (exact) return { L: exact.L, M: exact.M, S: exact.S };
 
-  let lower = bySex[0];
-  let upper = bySex[bySex.length - 1];
+  let lower: (typeof bySex)[number] | undefined;
+  let upper: (typeof bySex)[number] | undefined;
 
   for (let i = 0; i < bySex.length - 1; i += 1) {
-    if (bySex[i].ageMonths <= ageMonths && bySex[i + 1].ageMonths >= ageMonths) {
-      lower = bySex[i];
-      upper = bySex[i + 1];
+    const a = bySex[i];
+    const b = bySex[i + 1];
+
+    if (a && b && a.ageMonths <= ageMonths && b.ageMonths >= ageMonths) {
+      lower = a;
+      upper = b;
       break;
     }
   }
 
-  if (ageMonths < lower.ageMonths || ageMonths > upper.ageMonths) return null;
+  if (!lower || !upper) return null;
   const span = upper.ageMonths - lower.ageMonths;
   if (span <= 0) return null;
   const f = (ageMonths - lower.ageMonths) / span;
@@ -64,18 +67,21 @@ const interpolateBmiLms = (
     p97: exact.p97
   };
 
-  let lower = bySex[0];
-  let upper = bySex[bySex.length - 1];
+  let lower: (typeof bySex)[number] | undefined;
+  let upper: (typeof bySex)[number] | undefined;
 
   for (let i = 0; i < bySex.length - 1; i += 1) {
-    if (bySex[i].ageMonths <= ageMonths && bySex[i + 1].ageMonths >= ageMonths) {
-      lower = bySex[i];
-      upper = bySex[i + 1];
+    const a = bySex[i];
+    const b = bySex[i + 1];
+
+    if (a && b && a.ageMonths <= ageMonths && b.ageMonths >= ageMonths) {
+      lower = a;
+      upper = b;
       break;
     }
   }
 
-  if (ageMonths < lower.ageMonths || ageMonths > upper.ageMonths) return null;
+  if (!lower || !upper) return null;
   const span = upper.ageMonths - lower.ageMonths;
   if (span <= 0) return null;
   const f = (ageMonths - lower.ageMonths) / span;
