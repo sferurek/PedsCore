@@ -2043,6 +2043,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       en: "Gorelick PASS: three clinical domains scored 0-2 (work of breathing, wheezing, prolonged expiration), total 0-6, validated in acute pediatric asthma ages 1-18 years."
     },
     inputs: [
+      { id: "age_years", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "años", min: 1, max: 18, step: 0.1 },
       {
         id: "work_of_breathing", label: { es: "Trabajo respiratorio", en: "Work of breathing" }, type: "single_choice", required: true,
         options: [option("work_0", "Ausente o leve", "None or mild", 0), option("work_1", "Moderado", "Moderate", 1), option("work_2", "Grave", "Severe", 2)]
@@ -2101,17 +2102,25 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       booleanInput("both_pupils_fixed", { es: "Ambas pupilas fijas y >3 mm", en: "Both pupils fixed and >3 mm" }),
       booleanInput("elective_admission", { es: "Ingreso electivo", en: "Elective admission" }),
       booleanInput("mechanical_ventilation_first_hour", { es: "Asistencia respiratoria mecánica en la primera hora", en: "Mechanical respiratory assistance in first hour" }),
-      { id: "base_excess_mmol_l", label: { es: "Exceso de bases", en: "Base excess" }, type: "number", required: true, unit: "mmol/L", min: -50, max: 50, step: 0.1 },
-      { id: "systolic_bp_mmhg", label: { es: "PAS", en: "Systolic BP" }, type: "number", required: true, unit: "mmHg", min: 0, max: 250, step: 1 },
-      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: true, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
-      { id: "pao2_mmhg", label: { es: "PaO₂", en: "PaO₂" }, type: "number", required: true, unit: "mmHg", min: 1, max: 800, step: 1 },
+      booleanInput("base_excess_unknown", { es: "Exceso de bases desconocido (PIM3 usa 0)", en: "Base excess unknown (PIM3 uses 0)" }),
+      { id: "base_excess_mmol_l", label: { es: "Exceso de bases", en: "Base excess" }, type: "number", required: false, unit: "mmol/L", min: -50, max: 50, step: 0.1 },
+      booleanInput("sbp_unknown", { es: "PAS desconocida (PIM3 usa 120 mmHg)", en: "SBP unknown (PIM3 uses 120 mmHg)" }),
+      { id: "systolic_bp_mmhg", label: { es: "PAS (0 si parada; 30 si shock y no medible)", en: "SBP (0 in cardiac arrest; 30 if shock and unmeasurable)" }, type: "number", required: false, unit: "mmHg", min: 0, max: 250, step: 1 },
+      booleanInput("oxygenation_unknown", { es: "FiO₂/PaO₂ desconocidas (PIM3 usa 0,23)", en: "FiO₂/PaO₂ unknown (PIM3 uses 0.23)" }),
+      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: false, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
+      { id: "pao2_mmhg", label: { es: "PaO₂", en: "PaO₂" }, type: "number", required: false, unit: "mmHg", min: 1, max: 800, step: 1 },
       {
         id: "procedure_category", label: { es: "Recuperación de procedimiento", en: "Procedure recovery" }, type: "select", required: true,
         options: [option("none", "No", "None"), option("cardiac_bypass", "Cirugía cardiaca con bypass", "Cardiac surgery with bypass"), option("cardiac_no_bypass", "Procedimiento cardiaco sin bypass", "Cardiac procedure without bypass"), option("noncardiac", "Procedimiento no cardiaco", "Noncardiac procedure")]
       },
       {
         id: "diagnosis_risk_group", label: { es: "Grupo diagnóstico PIM3", en: "PIM3 diagnostic risk group" }, type: "select", required: true,
-        options: [option("none", "Ninguno", "None"), option("low", "Bajo riesgo", "Low risk"), option("high", "Alto riesgo", "High risk"), option("very_high", "Muy alto riesgo", "Very high risk")]
+        options: [
+          option("none", "Ninguno / duda", "None / uncertain"),
+          option("low", "Bajo: asma, bronquiolitis, crup, SAOS, CAD, convulsiones", "Low: asthma, bronchiolitis, croup, OSA, DKA, seizure disorder"),
+          option("high", "Alto: HIC espontánea, miocarditis/cardiomiopatía, HLHS, neurodegenerativa, NEC", "High: spontaneous cerebral hemorrhage, cardiomyopathy/myocarditis, HLHS, neurodegenerative disorder, NEC"),
+          option("very_high", "Muy alto: parada pre-UCI, SCID, leucemia/linfoma posinducción, TMO, fallo hepático", "Very high: pre-ICU cardiac arrest, SCID, leukemia/lymphoma post-induction, BMT, liver failure")
+        ]
       }
     ]
   },
@@ -2137,8 +2146,10 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         id: "pupil_status", label: { es: "Respuesta pupilar más patológica", en: "Worst pupillary response" }, type: "select", required: true,
         options: [option("reactive", "Ambas reactivas", "Both reactive"), option("one_fixed", "Una fija >3 mm", "One fixed >3 mm"), option("both_fixed", "Ambas fijas >3 mm", "Both fixed >3 mm")]
       },
-      { id: "ph", label: { es: "pH más extremo", en: "Most extreme pH" }, type: "number", required: true, min: 6.5, max: 8, step: 0.01 },
-      { id: "total_co2_mmol_l", label: { es: "CO₂ total más extremo", en: "Most extreme total CO₂" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 60, step: 0.1 },
+      { id: "ph_lowest", label: { es: "pH mínimo", en: "Lowest pH" }, type: "number", required: true, min: 6.5, max: 8, step: 0.01 },
+      { id: "ph_highest", label: { es: "pH máximo", en: "Highest pH" }, type: "number", required: true, min: 6.5, max: 8, step: 0.01 },
+      { id: "total_co2_lowest_mmol_l", label: { es: "CO₂ total mínimo", en: "Lowest total CO₂" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 60, step: 0.1 },
+      { id: "total_co2_highest_mmol_l", label: { es: "CO₂ total máximo", en: "Highest total CO₂" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 60, step: 0.1 },
       { id: "paco2_mmhg", label: { es: "PaCO₂ máxima", en: "Highest PaCO₂" }, type: "number", required: true, unit: "mmHg", min: 0, max: 250, step: 1 },
       { id: "pao2_mmhg", label: { es: "PaO₂ mínima", en: "Lowest PaO₂" }, type: "number", required: true, unit: "mmHg", min: 0, max: 800, step: 1 },
       { id: "glucose_mg_dl", label: { es: "Glucosa máxima", en: "Highest glucose" }, type: "number", required: true, unit: "mg/dL", min: 0, max: 1500, step: 1 },
