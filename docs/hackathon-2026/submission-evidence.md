@@ -20,10 +20,11 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 | Alexa+ manifest | `alexa-addon/addon-package/addon.json` | Verified locally / CI |
 | Alexa+ store asset dimensions | remote PNG IHDR validation | Verified |
 | Privacy / terms URLs | Railway HTTPS endpoints | Verified |
-| SIM IMV deterministic adapter | SIM PR #25 + CI run `35333023142` | Verified |
+| SIM IMV deterministic adapter | SIM PR #25 + CI run `35333822459` | Verified |
 | SIM MCP contracts | `start_simulation_case`, `get_patient_findings`, `submit_triage_decision` | Verified in PedsCore CI |
-| SIM remote bridge endpoint | public deployment | Pending |
-| End-to-end MCP → SIM remote flow | remote deterministic smoke | Pending SIM deployment |
+| SIM production HTTP contract | CI run `35333822459`: production Next.js server + deterministic smoke | Verified |
+| Public SIM bridge endpoint | public deployment | Pending repository authorization / Vercel quota |
+| End-to-end public MCP → SIM flow | remote deterministic smoke | Pending public SIM endpoint |
 | Alexa AI CLI entitlement | STS AssumeRole into Amazon private developer-tools role | Blocked externally / escalated |
 | Alexa+ add-on deployment | Add-on ID/version | Pending Amazon entitlement |
 | Alexa+ simulator conversation | screenshots/video | Pending add-on deployment |
