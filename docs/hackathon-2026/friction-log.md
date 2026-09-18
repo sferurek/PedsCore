@@ -73,3 +73,14 @@ No friction entries recorded yet.
 - **Actionable suggestion:** The Alexa+ QuickStart should put the private-registry prerequisite immediately next to every `npm install -g @alexa-ai/cli` instruction and explicitly warn that a normal public-npm install will return 404.
 - **Affected tool / API / SDK:** Alexa AI CLI distribution / AWS CodeArtifact onboarding.
 - **Evidence:** Local terminal capture from 2026-09-18 shows npm `E404 Not Found` for `@alexa-ai/cli` followed by `command not found`. Amazon's current environment-setup documentation requires CodeArtifact authentication before CLI installation.
+
+### 2026-09-18 — Alexa private developer-tools role rejected an otherwise valid AWS setup
+- **Task attempted:** Assume Amazon's documented Alexa AI developer-tools role after configuring a fresh AWS account, IAM user, access keys, local AWS CLI, source profile, and the required local `sts:AssumeRole` permission.
+- **Steps taken:** Verified that `aws sts get-caller-identity --profile alexa-ai-user` succeeds for the local IAM user, then configured `profile.alexa-ai` to assume `arn:aws:iam::372468808636:role/AddOn3PDeveloperToolsRead` in `us-west-2`.
+- **Expected result:** `aws sts get-caller-identity --profile alexa-ai` should return an assumed-role identity in Amazon account `372468808636`.
+- **Actual result:** STS returned `AccessDenied` for `sts:AssumeRole`. The source profile is valid, so the remaining blocker is external authorization on Amazon's side for the private role.
+- **Severity:** Important
+- **Workaround:** Continue with the self-hosted MCP submission path, which remains independently functional, while requesting Alexa+ developer-tools access for the AWS account through the hackathon support channel / Alexa+ onboarding process.
+- **Actionable suggestion:** Provide a self-service entitlement check page that shows whether an AWS account is allowlisted for `AddOn3PDeveloperToolsRead`, with the exact remediation path if it is not.
+- **Affected tool / API / SDK:** AWS STS / Alexa AI private developer-tools onboarding.
+- **Evidence:** Local source profile identity succeeds; assumed-role profile returns `AccessDenied` against the documented Amazon role.
