@@ -33,6 +33,34 @@ describe("hackathon judge console", () => {
     expect(response.headers.get("location")).toBe("/judge-demo");
   });
 
+  it("exposes a judge-readable capability manifest", async () => {
+    const response = await fetch(`${baseUrl}/capabilities`);
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body).toMatchObject({
+      service: "pedscore-ai-mcp",
+      protocol: "2025-11-25",
+      transport: "streamable-http",
+      simulationBridgeConfigured: false,
+      judgeDemo: "/judge-demo"
+    });
+    expect(body.tools).toEqual(
+      expect.arrayContaining([
+        "search_clinical_tools",
+        "get_clinical_tool",
+        "calculate_clinical_score",
+        "start_simulation_case",
+        "get_patient_findings",
+        "submit_triage_decision"
+      ])
+    );
+    expect(body.deterministicBoundaries).toEqual({
+      clinicalCalculations: true,
+      simulationTriage: true
+    });
+  });
+
   it("serves a self-contained live MCP verification page", async () => {
     const response = await fetch(`${baseUrl}/judge-demo`);
     const html = await response.text();
