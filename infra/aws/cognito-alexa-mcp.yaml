@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: PedsCore AI Cognito authorization server for Alexa+ MCP account linking
+
+Parameters:
+  UserPoolName:
+    Type: String
+    Default: pedscore-ai-alexa
+  CognitoDomainPrefix:
+    Type: String
+    Description: Globally unique Cognito managed-login domain prefix.
+  AlexaRedirectUri:
+    Type: String
+    Description: Alexa account-linking redirect URI shown by the Alexa AI CLI.
+  ResourceServerIdentifier:
+    Type: String
+    Description: Canonical MCP resource URI, for example https://mcp.example.com/mcp
+  ClinicalReadScopeName:
+    Type: String
+    Default: clinical.read
+
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Ref UserPoolName
+      UsernameAttributes:
+        - email
+      AutoVerifiedAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 12
+          RequireLowercase: true
+          RequireUppercase: true
+          RequireNumbers: true
+          RequireSymbols: false
+
+  ResourceServer:
+    Type: AWS::Cognito::UserPoolResourceServer
+    Properties:
+      UserPoolId: !Ref UserPool
+      Identifier: !Ref ResourceServerIdentifier
+      Name: PedsCore MCP
+      Scopes:
+        - ScopeName: !Ref ClinicalReadScopeName
+          ScopeDescription: Read and execute supported PedsCore educational clinical tools
+
+  AppClient:
+    Type: AWS::Cognito::UserPoolClient
+    DependsOn:
+      - ResourceServer
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: alexa-plus-pedscore
+      GenerateSecret: false
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows:
+        - code
+      AllowedOAuthScopes:
+        - !Sub "${ResourceServerIdentifier}/${ClinicalReadScopeName}"
+      CallbackURLs:
+        - !Ref AlexaRedirectUri
+      SupportedIdentityProviders:
+        - COGNITO
+      PreventUserExistenceErrors: ENABLED
+      EnableTokenRevocation: true
+      RefreshTokenValidity: 30
+      AccessTokenValidity: 60
+      IdTokenValidity: 60
+      TokenValidityUnits:
+        AccessToken: minutes
+        IdToken: minutes
+        RefreshToken: days
+
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      UserPoolId: !Ref UserPool
+      Domain: !Ref CognitoDomainPrefix
+      ManagedLoginVersion: 2
+
+Outputs:
+  UserPoolId:
+    Value: !Ref UserPool
+  AppClientId:
+    Value: !Ref AppClient
+  AuthorizationServer:
+    Value: !Sub "https://${CognitoDomainPrefix}.auth.${AWS::Region}.amazoncognito.com"
+  Issuer:
+    Value: !Sub "https://cognito-idp.${AWS::Region}.${AWS::URLSuffix}/${UserPool}"
+  RequiredScope:
+    Value: !Sub "${ResourceServerIdentifier}/${ClinicalReadScopeName}"
