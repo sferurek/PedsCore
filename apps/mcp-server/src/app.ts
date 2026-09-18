@@ -234,6 +234,28 @@ export const createPedsCoreMcpApp = (options?: { authConfig?: AuthConfig }) => {
     });
   });
 
+  app.get("/capabilities", (_req: Request, res: Response) => {
+    res.status(200).json({
+      service: "pedscore-ai-mcp",
+      protocol: "2025-11-25",
+      transport: "streamable-http",
+      tools: [
+        "search_clinical_tools",
+        "get_clinical_tool",
+        "calculate_clinical_score",
+        "start_simulation_case",
+        "get_patient_findings",
+        "submit_triage_decision"
+      ],
+      deterministicBoundaries: {
+        clinicalCalculations: true,
+        simulationTriage: true
+      },
+      simulationBridgeConfigured: Boolean(process.env.SIM_IMV_API_URL),
+      judgeDemo: "/judge-demo"
+    });
+  });
+
   app.get("/judge-demo", (_req: Request, res: Response) => {
     res
       .status(200)
