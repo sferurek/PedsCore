@@ -21,6 +21,8 @@ export * from "./burnTbsa.js";
 export * from "./renalOpen.js";
 export * from "./respiratoryScores.js";
 export * from "./openScreening.js";
+export * from "./respiratoryRisk.js";
+export * from "./criticalCareScores.js";
 export * from "./registry.js";
 
 export * from "./modifiedSarnatNichd.js";
