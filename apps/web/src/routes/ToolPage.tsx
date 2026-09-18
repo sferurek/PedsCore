@@ -7,7 +7,6 @@ import {
   type WhoGrowthPreset
 } from "@peds-core/core";
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { atlas } from "../i18n/atlas";
 import { ClinicalToolShell } from "../components/ClinicalToolShell";
 import { DisclaimerBox } from "../components/DisclaimerBox";
 import { DynamicForm } from "../components/DynamicForm";
@@ -68,7 +67,6 @@ const getWhoGrowthPreset = (tool: ClinicalToolMetadata): WhoGrowthPreset | null 
 
 export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const t = translations[language];
-  const a = atlas[language];
   const discovery = getToolDiscovery(tool.id);
   const whoGrowthPreset = getWhoGrowthPreset(tool);
   const whoGrowthTool = whoGrowthPreset ? getToolBySlug("who-growth") : null;
