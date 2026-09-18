@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// M3 contract deployment verification: simulation tool contracts must be publicly listed.
+
 const baseUrl = (process.env.MCP_REMOTE_BASE_URL ?? process.argv[2] ?? "").replace(/\/$/, "");
 if (!baseUrl) {
   console.error("Set MCP_REMOTE_BASE_URL or pass a base URL.");
