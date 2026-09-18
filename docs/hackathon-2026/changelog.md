@@ -95,3 +95,15 @@ Use this file to record user-visible and technically significant work created du
 - Added a concise reproducible `alexa-addon/demo-script.md` for simulator testing and final video capture.
 - Strengthened the live remote smoke test to parse PNG IHDR metadata and verify the exact dimensions of all six required icon assets plus the 600x900 carousel image.
 - Remote smoke run `35319928356` passed with exact dimensions confirmed for 72, 64, 88, 126, 180, 241, and 600x900 assets.
+
+
+## 2026-09-18 — M3 deterministic SIM bridge
+- Added SIM IMV agent adapter operations for starting a built-in synthetic case, retrieving visible patient findings, and submitting a triage decision.
+- Added `POST /api/hackathon/sim` on the simulator hackathon branch.
+- The correct triage classification is produced by the simulator's existing JumpSTART / SALT / PTT / MITT engine, not by an LLM.
+- Added HTTP contract tests and deterministic adapter tests in SIM IMV.
+- Added corresponding MCP tools in PedsCore and a configurable `SIM_IMV_API_URL` bridge client.
+- Added bridge-client hardening tests for exact forwarding, upstream errors, missing configuration, and timeouts.
+- Expanded MCP protocol tests and remote smoke expectations to cover all six clinical/simulation tool contracts.
+- PedsCore CI at commit `37fa42f43612a884bc57648cb8ec14766e0546a3` passed.
+- Attempted an independent Railway deployment for the SIM bridge; deployment is externally blocked because the Railway GitHub App currently lacks access to the private simulator repository.
