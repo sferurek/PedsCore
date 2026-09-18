@@ -153,17 +153,20 @@ export const pim3Calculator: CalculatorDefinition = {
     const pupilsFixed = getBoolean(input, "both_pupils_fixed");
     const electiveAdmission = getBoolean(input, "elective_admission");
     const mechanicalVentilation = getBoolean(input, "mechanical_ventilation_first_hour");
-    const baseExcess = getNumber(input, "base_excess_mmol_l");
-    const sbp = getNumber(input, "systolic_bp_mmhg");
-    const fio2 = getNumber(input, "fio2_fraction");
-    const pao2 = getNumber(input, "pao2_mmhg");
+    const baseExcessUnknown = getBoolean(input, "base_excess_unknown");
+    const sbpUnknown = getBoolean(input, "sbp_unknown");
+    const oxygenationUnknown = getBoolean(input, "oxygenation_unknown");
+    const baseExcessEntered = getNumber(input, "base_excess_mmol_l");
+    const sbpEntered = getNumber(input, "systolic_bp_mmhg");
+    const fio2Entered = getNumber(input, "fio2_fraction");
+    const pao2Entered = getNumber(input, "pao2_mmhg");
     const procedure = input.procedure_category;
     const riskGroup = input.diagnosis_risk_group;
 
     if (
       pupilsFixed === null || electiveAdmission === null ||
-      mechanicalVentilation === null || baseExcess === null ||
-      sbp === null || fio2 === null || pao2 === null ||
+      mechanicalVentilation === null || baseExcessUnknown === null ||
+      sbpUnknown === null || oxygenationUnknown === null ||
       typeof procedure !== "string" || typeof riskGroup !== "string"
     ) {
       return {
@@ -177,7 +180,15 @@ export const pim3Calculator: CalculatorDefinition = {
       };
     }
 
-    if (sbp < 0 || fio2 <= 0 || fio2 > 1 || pao2 <= 0) {
+    const baseExcess = baseExcessUnknown ? 0 : baseExcessEntered;
+    const sbp = sbpUnknown ? 120 : sbpEntered;
+    const oxygenTerm =
+      oxygenationUnknown ? 0.23 :
+      fio2Entered !== null && pao2Entered !== null && fio2Entered > 0 && fio2Entered <= 1 && pao2Entered > 0
+        ? (fio2Entered * 100) / pao2Entered
+        : null;
+
+    if (baseExcess === null || sbp === null || oxygenTerm === null || sbp < 0) {
       return {
         toolId: tool.id,
         warnings: [warning(
@@ -198,7 +209,6 @@ export const pim3Calculator: CalculatorDefinition = {
       riskGroup === "high" ? 1.0725 :
       riskGroup === "low" ? -2.1766 : 0;
 
-    const oxygenTerm = (fio2 * 100) / pao2;
     const logit =
       -1.7928 +
       3.8233 * (pupilsFixed ? 1 : 0) -
@@ -229,8 +239,11 @@ export const pim3Calculator: CalculatorDefinition = {
         { inputId: "both_pupils_fixed", value: pupilsFixed },
         { inputId: "elective_admission", value: electiveAdmission },
         { inputId: "mechanical_ventilation_first_hour", value: mechanicalVentilation },
+        { inputId: "base_excess_unknown", value: baseExcessUnknown },
         { inputId: "base_excess_mmol_l", value: baseExcess },
+        { inputId: "sbp_unknown", value: sbpUnknown },
         { inputId: "systolic_bp_mmhg", value: sbp },
+        { inputId: "oxygenation_unknown", value: oxygenationUnknown },
         { inputId: "oxygen_term", value: Number(oxygenTerm.toFixed(4)) },
         { inputId: "procedure_category", value: procedure },
         { inputId: "diagnosis_risk_group", value: riskGroup },
@@ -293,8 +306,10 @@ export const prism4Calculator: CalculatorDefinition = {
     const temperature = getNumber(input, "temperature_c");
     const gcs = getNumber(input, "gcs");
     const pupilStatus = input.pupil_status;
-    const ph = getNumber(input, "ph");
-    const totalCo2 = getNumber(input, "total_co2_mmol_l");
+    const phLowest = getNumber(input, "ph_lowest");
+    const phHighest = getNumber(input, "ph_highest");
+    const totalCo2Lowest = getNumber(input, "total_co2_lowest_mmol_l");
+    const totalCo2Highest = getNumber(input, "total_co2_highest_mmol_l");
     const paco2 = getNumber(input, "paco2_mmhg");
     const pao2 = getNumber(input, "pao2_mmhg");
     const glucose = getNumber(input, "glucose_mg_dl");
@@ -310,7 +325,8 @@ export const prism4Calculator: CalculatorDefinition = {
       ageDays === null || typeof admissionSource !== "string" ||
       cpr === null || cancer === null || lowRiskSystem === null ||
       sbp === null || hr === null || temperature === null || gcs === null ||
-      typeof pupilStatus !== "string" || ph === null || totalCo2 === null ||
+      typeof pupilStatus !== "string" || phLowest === null || phHighest === null ||
+      totalCo2Lowest === null || totalCo2Highest === null ||
       paco2 === null || pao2 === null || glucose === null || potassium === null ||
       creatinine === null || bun === null || wbc === null || platelets === null ||
       pt === null || ptt === null
@@ -328,7 +344,9 @@ export const prism4Calculator: CalculatorDefinition = {
 
     if (
       ageDays < 0 || sbp < 0 || hr < 0 || gcs < 3 || gcs > 15 ||
-      ph <= 0 || totalCo2 < 0 || paco2 < 0 || pao2 < 0 ||
+      phLowest <= 0 || phHighest <= 0 || phLowest > phHighest ||
+      totalCo2Lowest < 0 || totalCo2Highest < 0 || totalCo2Lowest > totalCo2Highest ||
+      paco2 < 0 || pao2 < 0 ||
       glucose < 0 || potassium < 0 || creatinine < 0 || bun < 0 ||
       wbc < 0 || platelets < 0 || pt < 0 || ptt < 0
     ) {
@@ -350,12 +368,12 @@ export const prism4Calculator: CalculatorDefinition = {
     const gcsScore = gcs < 8 ? 5 : 0;
     const pupilScore = pupilStatus === "both_fixed" ? 11 : pupilStatus === "one_fixed" ? 7 : 0;
 
-    const acidosisFromPh = ph < 7 ? 6 : ph <= 7.28 ? 2 : 0;
-    const acidosisFromCo2 = totalCo2 < 5 ? 6 : totalCo2 <= 16.9 ? 2 : 0;
+    const acidosisFromPh = phLowest < 7 ? 6 : phLowest <= 7.28 ? 2 : 0;
+    const acidosisFromCo2 = totalCo2Lowest < 5 ? 6 : totalCo2Lowest <= 16.9 ? 2 : 0;
     const acidosisScore = Math.max(acidosisFromPh, acidosisFromCo2);
-    const alkalemiaScore = ph > 7.55 ? 3 : ph >= 7.48 ? 2 : 0;
+    const alkalemiaScore = phHighest > 7.55 ? 3 : phHighest >= 7.48 ? 2 : 0;
     const paco2Score = paco2 > 75 ? 3 : paco2 >= 50 ? 1 : 0;
-    const highTotalCo2Score = totalCo2 > 34 ? 4 : 0;
+    const highTotalCo2Score = totalCo2Highest > 34 ? 4 : 0;
     const pao2Score = pao2 < 42 ? 6 : pao2 < 50 ? 3 : 0;
     const glucoseScore = glucose > 200 ? 2 : 0;
     const potassiumScore = potassium > 6.9 ? 3 : 0;
