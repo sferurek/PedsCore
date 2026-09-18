@@ -32,6 +32,7 @@ const implementedToolIds = [
   "bedside_schwartz",
   "revised_schwartz",
   "westley_croup",
+  "strongkids",
   "pram",
   "clinical_dehydration_scale",
   "pediatric_appendicitis_score",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -327,12 +328,37 @@ describe("clinical tools catalog", () => {
     }
   });
 
+  it("activates STRONGkids with original four-domain weights and bands", () => {
+    const tool = getTool("strongkids");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs?.map((input) => input.id)).toEqual([
+      "subjective_clinical_assessment",
+      "high_risk_disease",
+      "reduced_intake_or_losses",
+      "weight_loss_or_poor_gain"
+    ]);
+    expect(tool?.scoringTable?.map((row) => row.value)).toEqual([
+      "0/1",
+      "0/2",
+      "0/1",
+      "0/1"
+    ]);
+    expect(tool?.interpretationBands?.map((band) => [band.min, band.max])).toEqual([
+      [0, 0],
+      [1, 3],
+      [4, 5]
+    ]);
+    expect(tool?.references.some((reference) => reference.pmid === "19682776")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("independently drafted");
+  });
+
   it("keeps Block 8B-2 reviewed tools non-operational until source, table, variant, and licensing gates are complete", () => {
     const reviewedPendingIds = [
       "pipp_r",
       "comfortneo",
-      "pediatric_gcs",
-      "strongkids"
+      "pediatric_gcs"
     ];
 
     for (const id of reviewedPendingIds) {
