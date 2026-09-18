@@ -41,7 +41,9 @@ const implementedToolIds = new Set([
   "pediatric_burn_tbsa",
   "ckid_u25",
   "prifle",
-  "kdigo_pediatric"
+  "kdigo_pediatric",
+  "modified_tal",
+  "taussig_croup"
 ]);
 
 type ToolSeed = Omit<
@@ -58,6 +60,68 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  modified_tal: [
+    {
+      id: "seup_2024_tal_modified",
+      title: "Diagnóstico y tratamiento de la bronquiolitis aguda en Urgencias - Escala de Tal modificada",
+      authors: "Sociedad Española de Urgencias de Pediatría",
+      year: 2024,
+      journalOrPublisher: "SEUP",
+      url: "https://seup.org/",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "institutional_protocol",
+      accessType: "open_access",
+      notes: "SEUP 2024 reproduces the modified Tal score using age-adjusted respiratory rate, wheeze/crackles, retractions, and oxygen saturation.",
+      appliesTo: ["modified_tal"],
+      priority: 1
+    },
+    {
+      id: "golan_tripton_2018_modified_tal",
+      title: "Modified Tal Score: Validated score for prediction of bronchiolitis severity",
+      authors: "Golan-Tripto I, Goldbart A, Akel K, Dizitzer Y, Novack V, Tal A",
+      year: 2018,
+      journalOrPublisher: "Pediatric Pulmonology",
+      citation: "Golan-Tripto I, Goldbart A, Akel K, Dizitzer Y, Novack V, Tal A. Pediatr Pulmonol. 2018;53(6):796-801.",
+      doi: "10.1002/ppul.24007",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["modified_tal"],
+      priority: 2
+    }
+  ],
+  taussig_croup: [
+    {
+      id: "taussig_1975_original",
+      title: "Treatment of laryngotracheobronchitis (croup): use of intermittent positive-pressure breathing and racemic epinephrine",
+      authors: "Taussig LM, Castro O, Beaudry PH, Fox WW, Bureau M",
+      year: 1975,
+      journalOrPublisher: "American Journal of Diseases of Children",
+      citation: "Taussig LM, Castro O, Beaudry PH, Fox WW, Bureau M. Am J Dis Child. 1975;129(7):790-793.",
+      doi: "10.1001/archpedi.1975.02120440016004",
+      pmid: "1096594",
+      url: "https://pubmed.ncbi.nlm.nih.gov/1096594/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["taussig_croup"],
+      priority: 1
+    },
+    {
+      id: "seup_2024_taussig",
+      title: "Diagnóstico y tratamiento de la laringitis en Urgencias - Escala de Taussig",
+      authors: "Sociedad Española de Urgencias de Pediatría",
+      year: 2024,
+      journalOrPublisher: "SEUP",
+      url: "https://seup.org/",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "institutional_protocol",
+      accessType: "open_access",
+      notes: "SEUP 2024 reproduces the Taussig clinical domains for croup severity.",
+      appliesTo: ["taussig_croup"],
+      priority: 2
+    }
+  ],
   ckid_u25: [
     {
       id: "ckid_u25_niddk_equations",
@@ -1853,6 +1917,128 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  modified_tal: {
+    validationNotes: {
+      es: "Implementación local de la escala de Tal modificada usada para valorar gravedad de bronquiolitis/dificultad respiratoria obstructiva. La variante seleccionada utiliza FR ajustada por edad, sibilancias/crepitantes, retracciones y SatO₂.",
+      en: "Local implementation of the Modified Tal score used to assess bronchiolitis/obstructive respiratory-distress severity. The selected variant uses age-adjusted respiratory rate, wheeze/crackles, retractions, and SpO₂."
+    },
+    calculationNotes: {
+      es: "Cada dominio puntúa 0-3; total 0-12. PedsCore usa bandas descriptivas 0-4 leve, 5-8 moderada y 9-12 grave.",
+      en: "Each domain scores 0-3; total 0-12. PedsCore uses descriptive bands 0-4 mild, 5-8 moderate, and 9-12 severe."
+    },
+    inputs: [
+      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 0, max: 36, step: 0.1 },
+      { id: "respiratory_rate", label: { es: "Frecuencia respiratoria", en: "Respiratory rate" }, type: "number", required: true, unit: "rpm", min: 0, max: 150, step: 1 },
+      {
+        id: "wheeze_crackles",
+        label: { es: "Sibilancias / crepitantes", en: "Wheeze / crackles" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("wheeze_0", "No", "None", 0),
+          option("wheeze_1", "Sibilancias solo en espiración", "Expiratory wheeze only", 1),
+          option("wheeze_2", "Inspiratorias y espiratorias, audibles con estetoscopio", "Inspiratory and expiratory, audible with stethoscope", 2),
+          option("wheeze_3", "Inspiratorias y espiratorias, audibles sin estetoscopio", "Inspiratory and expiratory, audible without stethoscope", 3)
+        ]
+      },
+      {
+        id: "retractions",
+        label: { es: "Retracciones", en: "Retractions" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("retractions_0", "No", "None", 0),
+          option("retractions_1", "Leves: subcostales/intercostales", "Mild: subcostal/intercostal", 1),
+          option("retractions_2", "Moderadas: intercostales", "Moderate: intercostal", 2),
+          option("retractions_3", "Intensas: intercostales y supraesternales; cabeceo", "Severe: intercostal and suprasternal; head bobbing", 3)
+        ]
+      },
+      { id: "spo2", label: { es: "Saturación de oxígeno", en: "Oxygen saturation" }, type: "number", required: true, unit: "%", min: 0, max: 100, step: 1 }
+    ],
+    interpretationBands: [
+      { id: "mild", label: { es: "Leve", en: "Mild" }, min: 0, max: 4 },
+      { id: "moderate", label: { es: "Moderada", en: "Moderate" }, min: 5, max: 8 },
+      { id: "severe", label: { es: "Grave", en: "Severe" }, min: 9, max: 12 }
+    ]
+  },
+  taussig_croup: {
+    validationNotes: {
+      es: "Implementación local de la escala de Taussig para laringitis/crup a partir de la publicación original y de la tabla reproducida por SEUP.",
+      en: "Local Taussig croup-score implementation based on the original publication and the table reproduced by SEUP."
+    },
+    calculationNotes: {
+      es: "Suma estridor, entrada de aire, color, retracciones y conciencia (0-15). La categoría extrema de estridor incluye estridor intenso o ausencia de estridor en contexto de obstrucción grave.",
+      en: "Sums stridor, air entry, color, retractions, and consciousness (0-15). The extreme stridor category includes intense or absent stridor in severe obstruction."
+    },
+    inputs: [
+      {
+        id: "stridor",
+        label: { es: "Estridor", en: "Stridor" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("stridor_0", "No", "None", 0),
+          option("stridor_1", "Leve", "Mild", 1),
+          option("stridor_2", "Moderado", "Moderate", 2),
+          option("stridor_3", "Intenso o ausente con obstrucción grave", "Intense or absent with severe obstruction", 3)
+        ]
+      },
+      {
+        id: "air_entry",
+        label: { es: "Entrada de aire", en: "Air entry" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("air_0", "Normal", "Normal", 0),
+          option("air_1", "Levemente disminuida", "Slightly decreased", 1),
+          option("air_2", "Disminuida", "Decreased", 2),
+          option("air_3", "Muy disminuida", "Markedly decreased", 3)
+        ]
+      },
+      {
+        id: "color",
+        label: { es: "Coloración", en: "Color" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("color_0", "Normal", "Normal", 0),
+          option("color_1", "Normal", "Normal", 1),
+          option("color_2", "Normal", "Normal", 2),
+          option("color_3", "Cianosis", "Cyanosis", 3)
+        ]
+      },
+      {
+        id: "retractions",
+        label: { es: "Retracciones", en: "Retractions" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("taussig_ret_0", "No", "None", 0),
+          option("taussig_ret_1", "Escasas / leves", "Slight / mild", 1),
+          option("taussig_ret_2", "Moderadas", "Moderate", 2),
+          option("taussig_ret_3", "Intensas", "Severe", 3)
+        ]
+      },
+      {
+        id: "consciousness",
+        label: { es: "Estado de conciencia", en: "Level of consciousness" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("conscious_0", "Normal", "Normal", 0),
+          option("conscious_1", "Decaído / intranquilo al molestar", "Mildly affected / restless when disturbed", 1),
+          option("conscious_2", "Deprimido / agitado", "Depressed / agitated", 2),
+          option("conscious_3", "Letargia / somnolencia", "Lethargic / drowsy", 3)
+        ]
+      }
+    ],
+    interpretationBands: [
+      { id: "mild", label: { es: "Leve", en: "Mild" }, min: 0, max: 4 },
+      { id: "mild_moderate", label: { es: "Leve-moderada", en: "Mild-moderate" }, min: 5, max: 6 },
+      { id: "moderate", label: { es: "Moderada", en: "Moderate" }, min: 7, max: 8 },
+      { id: "severe", label: { es: "Grave", en: "Severe" }, min: 9, max: 15 }
+    ]
+  },
   ckid_u25: {
     validationNotes: {
       es: "Implementacion local trazada a las ecuaciones CKiD U25 publicadas y a los coeficientes oficiales NIDDK para 1-25 anos. Permite creatinina, cistatina C o el promedio de ambas estimaciones.",
@@ -4382,6 +4568,8 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados en plantas de hospitalizacion", "Children hospitalized on inpatient wards", "Score de siete items para cuantificar gravedad y detectar deterioro clinico evolutivo en pacientes pediatricos hospitalizados.", "Seven-item score to quantify severity and detect evolving clinical deterioration in hospitalized pediatric patients.", "implemented", "external_validation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
+  makeTool("modified_tal", "modified-tal", "Tal", "Escala de Tal modificada", "Modified Tal Score", "respiratory", "bronchiolitis", "score", "Lactantes y niños pequeños con bronquiolitis o dificultad respiratoria obstructiva", "Infants and young children with bronchiolitis or obstructive respiratory distress", "Escala clínica de 0-12 basada en frecuencia respiratoria ajustada por edad, sibilancias/crepitantes, retracciones y saturación de oxígeno.", "0-12 clinical score based on age-adjusted respiratory rate, wheeze/crackles, retractions, and oxygen saturation.", "implemented", "external_validation_study", "medium", { es: "Variante modificada trazada a SEUP 2024 y validación publicada.", en: "Modified variant traced to SEUP 2024 and published validation." }),
+  makeTool("taussig_croup", "taussig-croup-score", "Taussig", "Escala de Taussig para laringitis", "Taussig Croup Score", "respiratory", "croup", "score", "Niños con laringitis aguda/crup", "Children with acute croup", "Escala clínica de 0-15 para valorar gravedad mediante estridor, entrada de aire, color, retracciones y conciencia.", "0-15 clinical severity score using stridor, air entry, color, retractions, and consciousness.", "implemented", "original_derivation_study", "medium", { es: "Tabla clínica trazada a Taussig 1975 y SEUP 2024.", en: "Clinical table traced to Taussig 1975 and SEUP 2024." }),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
