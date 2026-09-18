@@ -20,14 +20,11 @@ export function Layout({
 }: LayoutProps) {
   const isHomePage = currentPath === `/${language}`;
   const isToolDetailPage = currentPath.startsWith(`/${language}/tools/`);
-  const isPramPilot = currentPath === `/${language}/tools/pram`;
   const frameClassName = isHomePage
     ? "app-frame atlas-home-frame"
-    : isPramPilot
+    : isToolDetailPage
       ? "app-frame atlas-pram-frame atlas-tool-v3-frame"
-      : isToolDetailPage
-        ? "app-frame atlas-tool-v3-frame"
-        : "app-frame";
+      : "app-frame";
 
   return (
     <div className={frameClassName}>
