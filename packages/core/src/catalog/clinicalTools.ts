@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "modified_brighton_pews",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1095,6 +1096,26 @@ const implementedToolReferences: Record<string, Reference[]> = {
       priority: 1
     }
   ],
+  modified_brighton_pews: [
+    {
+      id: "solevag_2013_modified_brighton_pews",
+      title: "Use of a Modified Pediatric Early Warning Score in a Department of Pediatric and Adolescent Medicine",
+      authors: "Solevåg AL, Eggen EH, Schröder J, Nakstad B",
+      year: 2013,
+      journalOrPublisher: "PLOS ONE",
+      citation:
+        "Solevåg AL, Eggen EH, Schröder J, Nakstad B. Use of a Modified Pediatric Early Warning Score in a Department of Pediatric and Adolescent Medicine. PLoS One. 2013;8(8):e72534.",
+      doi: "10.1371/journal.pone.0072534",
+      url: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0072534",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes:
+        "Open CC BY source publishing the complete locally modified Brighton PEWS table, age-specific physiologic reference ranges, score range 0-13, and the study comparison threshold of 3.",
+      appliesTo: ["modified_brighton_pews"],
+      priority: 1
+    }
+  ],
   brighton_pews: [
     {
       id: "monaghan_2005_brighton_pews",
@@ -1793,6 +1814,87 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  modified_brighton_pews: {
+    calculationNotes: {
+      es: "Version modificada del Brighton PEWS publicada por Solevag et al. en 2013. Selecciona la categoria que mejor represente cada dominio; cada dominio principal aporta 0-3 puntos. Se suman 2 puntos si existe medicacion inhalada continua o CPAP y 2 por vomitos postoperatorios persistentes. Total 0-13. La comparacion ≥3 procede de la cohorte publicada y no se convierte en protocolo automatico de escalado.",
+      en: "Modified Brighton PEWS published by Solevåg et al. in 2013. Select the category that best represents each domain; each main domain contributes 0-3 points. Add 2 points for continuous inhaled medication or CPAP and 2 for persistent postoperative vomiting. Total 0-13. The ≥3 comparison comes from the published cohort and is not converted into an automated escalation protocol."
+    },
+    inputs: [
+      {
+        id: "respiratory_domain",
+        label: { es: "Respiracion", en: "Respiration" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("resp_0", "FR y SpO2 normales para la edad, sin retracciones", "Age-normal respiratory rate and SpO2, no retractions", 0),
+          option("resp_1", "Alteracion respiratoria leve: FR ≥10 sobre el rango, retracciones, FiO2 >0,30 o O2 ≥2 L/min", "Mild respiratory abnormality: RR ≥10 above range, retractions, FiO2 >0.30 or O2 ≥2 L/min", 1),
+          option("resp_2", "Alteracion moderada: FR ≥20 sobre el rango, retraccion yugular, FiO2 >0,40 o O2 ≥5 L/min", "Moderate abnormality: RR ≥20 above range, jugular retractions, FiO2 >0.40 or O2 ≥5 L/min", 2),
+          option("resp_3", "Alteracion grave: FR ≥30 sobre el rango o ≤5 por debajo con retracciones/grunting, FiO2 >0,50 u O2 ≥8 L/min", "Severe abnormality: RR ≥30 above range or ≤5 below with retractions/grunting, FiO2 >0.50 or O2 ≥8 L/min", 3)
+        ]
+      },
+      {
+        id: "circulation_domain",
+        label: { es: "Circulacion", en: "Circulation" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("circ_0", "Color normal o relleno capilar 1-2 s", "Normal color or capillary refill 1-2 s", 0),
+          option("circ_1", "Palidez o relleno capilar 3 s", "Pale or capillary refill 3 s", 1),
+          option("circ_2", "Gris/cianosis, taquicardia 20-30 lpm sobre el rango o relleno capilar 4 s", "Grey/cyanotic, HR 20-30 bpm above range, or capillary refill 4 s", 2),
+          option("circ_3", "Gris/cianosis con moteado, taquicardia >30 sobre rango, bradicardia o relleno capilar ≥5 s", "Grey/cyanotic with mottling, HR >30 above range, bradycardia, or capillary refill ≥5 s", 3)
+        ]
+      },
+      {
+        id: "disability_domain",
+        label: { es: "Discapacidad / AVPU", en: "Disability / AVPU" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("dis_0", "Alerta", "Alert", 0),
+          option("dis_1", "Responde a voz", "Responds to voice", 1),
+          option("dis_2", "Responde al dolor", "Responds to pain", 2),
+          option("dis_3", "No responde", "Unresponsive", 3)
+        ]
+      },
+      {
+        id: "continuous_inhalation_or_cpap",
+        label: { es: "Medicacion inhalada continua o CPAP", en: "Continuous inhaled medication or CPAP" },
+        type: "single_choice",
+        required: true,
+        options: [option("no", "No", "No", 0), option("yes", "Si", "Yes", 2)]
+      },
+      {
+        id: "persistent_postoperative_vomiting",
+        label: { es: "Vomitos postoperatorios persistentes", en: "Persistent postoperative vomiting" },
+        type: "single_choice",
+        required: true,
+        options: [option("no", "No", "No", 0), option("yes", "Si", "Yes", 2)]
+      }
+    ],
+    interpretationBands: [
+      {
+        id: "modified_brighton_0_2",
+        label: { es: "PEWS 0-2", en: "PEWS 0-2" },
+        min: 0,
+        max: 2,
+        description: { es: "Grupo comparador de menor puntuacion en la cohorte de 2013.", en: "Lower-score comparison group in the 2013 cohort." }
+      },
+      {
+        id: "modified_brighton_3_plus",
+        label: { es: "PEWS ≥3", en: "PEWS ≥3" },
+        min: 3,
+        max: 13,
+        description: { es: "Umbral usado para comparacion en la cohorte publicada; no es una pauta universal de escalado.", en: "Threshold used for comparison in the published cohort; not a universal escalation rule." }
+      }
+    ],
+    scoringTable: [
+      { id: "mbp_resp", variable: { es: "Respiracion", en: "Respiration" }, value: "0-3" },
+      { id: "mbp_circ", variable: { es: "Circulacion", en: "Circulation" }, value: "0-3" },
+      { id: "mbp_dis", variable: { es: "AVPU", en: "AVPU" }, value: "0-3" },
+      { id: "mbp_resp_addon", variable: { es: "Inhalacion continua o CPAP", en: "Continuous inhalation or CPAP" }, value: "0/2" },
+      { id: "mbp_vomit", variable: { es: "Vomitos postoperatorios persistentes", en: "Persistent postoperative vomiting" }, value: "0/2" }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4207,6 +4309,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("aap_2022_hyperbilirubinemia", "aap-2022-neonatal-hyperbilirubinemia", "AAP Bili 2022", "Hiperbilirrubinemia neonatal AAP 2022", "AAP 2022 Neonatal Hyperbilirubinemia", "neonatology", "jaundice_bilirubin", "algorithm", "Recien nacidos de 35 o mas semanas de gestacion", "Newborn infants 35 or more weeks of gestation", "Acceso operativo a los umbrales de fototerapia y exanguinotransfusion de la guia AAP 2022 mediante PediTools.", "Operational access to the 2022 AAP phototherapy and exchange-transfusion thresholds through PediTools.", "implemented", "clinical_practice_guideline", "high", aap2022HyperbilirubinemiaValidationNotes),
   makeTool("neonatal_growth_fenton", "neonatal-growth-fenton", "Fenton", "Crecimiento neonatal Fenton", "Fenton Neonatal Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros", "Preterm newborns", "Referencia de crecimiento neonatal para prematuros.", "Neonatal growth reference for preterm infants.", "pending_validation", "systematic_review", "medium", fentonValidationNotes),
   makeTool("fenton_2025_growth", "fenton-2025-preterm-growth", "Fenton 2025", "Crecimiento prematuro Fenton 2025", "Fenton 2025 Preterm Growth", "neonatology", "growth", "percentile", "Recien nacidos prematuros y seguimiento hasta 50 semanas de edad postmenstrual", "Preterm newborns and follow-up through 50 weeks postmenstrual age", "Curvas Fenton de tercera generacion para peso, longitud y perimetro cefalico con acceso externo a percentiles y z-scores.", "Third-generation Fenton charts for weight, length, and head circumference with external access to percentiles and Z-scores.", "implemented", "systematic_review", "medium", fenton2025ValidationNotes),
+  makeTool("modified_brighton_pews", "modified-brighton-pews", "Modified Brighton PEWS", "Modified Brighton PEWS", "Modified Brighton PEWS", "emergency", "early_warning", "score", "Ninos y adolescentes de 0 a 18 anos valorados en urgencias u hospitalizacion pediatrica", "Children and adolescents aged 0 to 18 years assessed in pediatric acute care or inpatient settings", "Version modificada y abiertamente publicada del Brighton PEWS con tres dominios y dos modificadores.", "Openly published modified Brighton PEWS with three domains and two add-on modifiers.", "implemented", "external_validation_study", "medium", { es: "Version Solevag 2013 publicada bajo CC BY. Total 0-13. PedsCore conserva el calculo y el umbral descriptivo de la cohorte, pero no incorpora protocolos locales de escalado.", en: "Solevag 2013 version published under CC BY. Total 0-13. PedsCore preserves the calculation and the cohort's descriptive threshold but does not incorporate local escalation protocols." }),
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados en plantas de hospitalizacion", "Children hospitalized on inpatient wards", "Score de siete items para cuantificar gravedad y detectar deterioro clinico evolutivo en pacientes pediatricos hospitalizados.", "Seven-item score to quantify severity and detect evolving clinical deterioration in hospitalized pediatric patients.", "implemented", "external_validation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
