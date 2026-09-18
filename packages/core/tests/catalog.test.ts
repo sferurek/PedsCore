@@ -32,6 +32,7 @@ const implementedToolIds = [
   "bedside_schwartz",
   "revised_schwartz",
   "westley_croup",
+  "modified_brighton_pews",
   "pram",
   "clinical_dehydration_scale",
   "pediatric_appendicitis_score",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -188,7 +189,7 @@ describe("clinical tools catalog", () => {
   });
 
   it("reconciles the physical catalog to the v12 final surface set", () => {
-    expect(clinicalTools).toHaveLength(135);
+    expect(clinicalTools).toHaveLength(136);
     for (const id of removedFinalSurfaceIds) {
       expect(clinicalTools.some((tool) => tool.id === id), id).toBe(false);
     }
@@ -201,6 +202,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("pews")).toBeUndefined();
     expect(getTool("bedside_pews")).toBeDefined();
     expect(getTool("brighton_pews")).toBeDefined();
+    expect(getTool("modified_brighton_pews")).toBeDefined();
   });
 
   it("does not include toxicology tools in the catalog", () => {
@@ -305,6 +307,27 @@ describe("clinical tools catalog", () => {
         tool?.references.some((reference) => Boolean(getReferenceUrl(reference)))
       ).toBe(true);
     }
+  });
+
+  it("activates Modified Brighton PEWS while keeping original Brighton blocked", () => {
+    const modified = getTool("modified_brighton_pews");
+    const original = getTool("brighton_pews");
+
+    expect(modified?.implementationStatus).toBe("implemented");
+    expect(modified?.calculationStatus).toBe("active");
+    expect(original?.implementationStatus).not.toBe("implemented");
+    expect(modified?.inputs?.map((input) => input.id)).toEqual([
+      "respiratory_domain",
+      "circulation_domain",
+      "disability_domain",
+      "continuous_inhalation_or_cpap",
+      "persistent_postoperative_vomiting"
+    ]);
+    expect(modified?.references.some((reference) => reference.doi === "10.1371/journal.pone.0072534")).toBe(true);
+    expect(modified?.interpretationBands?.map((band) => [band.min, band.max])).toEqual([
+      [0, 2],
+      [3, 13]
+    ]);
   });
 
   it("does not promote license-sensitive pending tools to ready for implementation", () => {
