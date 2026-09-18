@@ -269,15 +269,14 @@ export const kdigoPediatricCalculator: CalculatorDefinition = {
 type PrifleStage = 0 | 1 | 2 | 3 | 4 | 5;
 
 const prifleLabel = (stage: PrifleStage) => {
-  const labels = [
-    label("Sin criterio pRIFLE", "No pRIFLE criterion"),
-    label("R · Risk", "R · Risk"),
-    label("I · Injury", "I · Injury"),
-    label("F · Failure", "F · Failure"),
-    label("L · Loss", "L · Loss"),
-    label("E · End-stage", "E · End-stage")
-  ];
-  return labels[stage];
+  switch (stage) {
+    case 1: return label("R · Risk", "R · Risk");
+    case 2: return label("I · Injury", "I · Injury");
+    case 3: return label("F · Failure", "F · Failure");
+    case 4: return label("L · Loss", "L · Loss");
+    case 5: return label("E · End-stage", "E · End-stage");
+    default: return label("Sin criterio pRIFLE", "No pRIFLE criterion");
+  }
 };
 
 export const prifleCalculator: CalculatorDefinition = {
