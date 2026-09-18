@@ -19,11 +19,12 @@ export const passAsthmaCalculator: CalculatorDefinition = {
   toolId: "pass",
   calculate: (input): CalculationResult => {
     const tool = getTool("pass");
+    const ageYears = getNumber(input, "age_years");
     const work = getNumericScore(tool, input, "work_of_breathing");
     const wheeze = getNumericScore(tool, input, "wheezing");
     const expiration = getNumericScore(tool, input, "prolonged_expiration");
 
-    if (work === null || wheeze === null || expiration === null) {
+    if (ageYears === null || work === null || wheeze === null || expiration === null) {
       return {
         toolId: tool.id,
         warnings: [warning(
@@ -32,6 +33,15 @@ export const passAsthmaCalculator: CalculatorDefinition = {
           "One or more PASS components are missing."
         )],
         trace: []
+      };
+    }
+
+    if (ageYears < 1 || ageYears > 18) {
+      return {
+        toolId: tool.id,
+        classification: label("Fuera de la población validada para PASS", "Outside the validated PASS population"),
+        warnings: [contextWarning],
+        trace: [{ inputId: "age_years", value: ageYears }]
       };
     }
 
@@ -51,6 +61,7 @@ export const passAsthmaCalculator: CalculatorDefinition = {
         )
       ],
       trace: [
+        { inputId: "age_years", value: ageYears },
         { inputId: "work_of_breathing", value: input.work_of_breathing, score: work },
         { inputId: "wheezing", value: input.wheezing, score: wheeze },
         { inputId: "prolonged_expiration", value: input.prolonged_expiration, score: expiration }
