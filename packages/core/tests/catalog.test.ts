@@ -32,6 +32,7 @@ const implementedToolIds = [
   "bedside_schwartz",
   "revised_schwartz",
   "westley_croup",
+  "kdigo_pediatric",
   "pram",
   "clinical_dehydration_scale",
   "pediatric_appendicitis_score",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -398,6 +399,36 @@ describe("clinical tools catalog", () => {
     expect(tool?.inputs).toHaveLength(21);
     expect(tool?.validationNotes.en).toContain("does not reproduce");
     expect(tool?.references.some((reference) => reference.doi === "10.1016/S0022-3476(70)80038-5")).toBe(true);
+  });
+
+  it("activates pediatric KDIGO 2012 with explicit non-neonatal scope", () => {
+    const tool = getTool("kdigo_pediatric");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.shortName).toBe("KDIGO 2012");
+    expect(tool?.population.en).toContain("28 days");
+    expect(tool?.inputs?.map((input) => input.id)).toEqual([
+      "age_scope",
+      "creatinine_unit",
+      "current_creatinine",
+      "previous_creatinine_48h",
+      "baseline_status",
+      "baseline_creatinine_7d",
+      "current_egfr",
+      "urine_data_status",
+      "urine_output_ml_kg_h",
+      "urine_duration_hours",
+      "anuria_hours",
+      "rrt_started"
+    ]);
+    expect(tool?.scoringTable?.map((row) => row.id)).toEqual([
+      "kdigo_stage_1",
+      "kdigo_stage_2",
+      "kdigo_stage_3"
+    ]);
+    expect(tool?.references.some((reference) => reference.id === "kdigo_2012_aki_guideline")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("never silently imputes");
   });
 
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
