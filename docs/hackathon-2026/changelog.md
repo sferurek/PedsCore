@@ -117,3 +117,14 @@ Use this file to record user-visible and technically significant work created du
 - Deterministic triage returned GREEN, rule `JS-MOB-01`, canonical ambulation path, and `correct: true`.
 - A repeated identical decision produced the same expected category, rule ID, and canonical path.
 - The smoke report finished with `assertionsPassed: true` and no failed assertions.
+
+
+## 2026-09-18 — Six-tool public MCP runtime verified
+- Railway deployment `27f996da-8056-4724-8a49-526a5e800632` deployed hackathon commit `118cd4c3b39e1e4b20db0c292717278234d6e4d3` successfully.
+- External GitHub Actions smoke run `35334436459` attempt 2 passed against the public Railway domain.
+- `/capabilities` returned HTTP 200, MCP `2025-11-25`, Streamable HTTP, and all six clinical/simulation tool contracts.
+- `/judge-demo` returned HTTP 200 and passed the judge-surface content check.
+- MCP initialize: 122.3 ms; tools/list: 119.1 ms; search: 115.7 ms; deterministic Apgar: 101.2 ms.
+- Live deterministic Apgar remained 9/10.
+- The live SIM tool contract failed closed as designed with `simulation_bridge_not_configured` until the separate SIM backend is published.
+- All remote assertions passed.
