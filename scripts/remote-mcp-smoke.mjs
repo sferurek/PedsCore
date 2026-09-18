@@ -93,6 +93,12 @@ if (!health) {
 }
 
 const compliancePaths = ["/privacy", "/terms", "/judge-demo"];
+
+const capabilitiesResult = await timedFetch(`${baseUrl}/capabilities`);
+if (!capabilitiesResult.response.ok) {
+  throw new Error(`Capabilities endpoint failed: HTTP ${capabilitiesResult.response.status}`);
+}
+const capabilitiesDocument = await capabilitiesResult.response.json();
 const assetPaths = [
   "/store-assets/icon-72x72.png",
   "/store-assets/icon-64x64.png",
@@ -230,6 +236,15 @@ const simulationContract = await rpc(5, "tools/call", {
 const report = {
   baseUrl,
   health,
+  capabilitiesDocument: {
+    status: capabilitiesResult.response.status,
+    durationMs: capabilitiesResult.durationMs,
+    protocol: capabilitiesDocument.protocol,
+    transport: capabilitiesDocument.transport,
+    tools: capabilitiesDocument.tools,
+    simulationBridgeConfigured: capabilitiesDocument.simulationBridgeConfigured,
+    judgeDemo: capabilitiesDocument.judgeDemo
+  },
   compliance,
   assets,
   initialize: {
@@ -261,6 +276,10 @@ const report = {
 };
 
 const assertions = [
+  [report.capabilitiesDocument.protocol === "2025-11-25", "capabilities protocol"],
+  [report.capabilitiesDocument.transport === "streamable-http", "capabilities transport"],
+  [report.capabilitiesDocument.judgeDemo === "/judge-demo", "judge demo capability"],
+  [Array.isArray(report.capabilitiesDocument.tools) && report.capabilitiesDocument.tools.length === 6, "six capability tools"],
   [report.initialize.protocolVersion === "2025-11-25", "protocol version"],
   [report.initialize.serverName === "pedscore-ai", "server name"],
   [report.toolsList.tools.includes("search_clinical_tools"), "search tool"],
