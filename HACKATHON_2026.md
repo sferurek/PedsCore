@@ -64,12 +64,14 @@ Simulation:
 
 ## Live MCP endpoint
 
+- Judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
+- Capability manifest: https://pedscore-ai-mcp-production.up.railway.app/capabilities
 - MCP: https://pedscore-ai-mcp-production.up.railway.app/mcp
 - Health: https://pedscore-ai-mcp-production.up.railway.app/health
 - Privacy: https://pedscore-ai-mcp-production.up.railway.app/privacy
 - Terms: https://pedscore-ai-mcp-production.up.railway.app/terms
 
-The current public runtime is the last known-good M1/M2 deployment. The M3 code exists on the hackathon branch but will not be promoted until the SIM backend is reachable remotely.
+The public MCP runtime exposes the clinical and simulation tool contracts. SIM calls fail closed while the separate simulator backend is not configured; this keeps the public MCP surface testable without fabricating simulation results.
 
 ## Current validation state
 
@@ -85,9 +87,9 @@ Verified:
 Pending:
 - public SIM bridge;
 - remote MCP→SIM end-to-end smoke;
-- official Alexa AI CLI deployment and simulator evidence.
+- optional official Alexa AI CLI deployment and simulator evidence.
 
-The Alexa CLI path is currently blocked by Amazon-side entitlement to the private developer-tools role, not by local AWS authentication.
+The current official rules accept the self-hosted MCP server as an Alexa+ primary-track technology path. The Alexa CLI path is an optional enhancement and is currently blocked by Amazon-side entitlement to the private developer-tools role, not by local AWS authentication.
 
 ## Open-source contribution
 
