@@ -10,7 +10,6 @@ import type { FormValues, FormValue } from "../utils/formState";
 import { validateForm } from "../utils/formState";
 import type { Language } from "../utils/language";
 import { ClinicalToolShell } from "./ClinicalToolShell";
-import { makePath } from "../utils/routes";
 
 interface PramShowcasePageProps {
   language: Language;
