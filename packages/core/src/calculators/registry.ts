@@ -70,6 +70,9 @@ import {
   bacterialMeningitisScoreCalculator,
   pecarnFebrileInfantCalculator
 } from "./infectionOpen.js";
+import { garciaAlixNersCalculator } from "./garciaAlixNers.js";
+import { parcCalculator } from "./parc.js";
+import { pcdaiCalculator } from "./pcdai.js";
 
 const calculators = [
   apgarCalculator,
@@ -121,7 +124,10 @@ const calculators = [
   nSofaCalculator,
   yaleObservationScaleCalculator,
   bacterialMeningitisScoreCalculator,
-  pecarnFebrileInfantCalculator
+  pecarnFebrileInfantCalculator,
+  garciaAlixNersCalculator,
+  parcCalculator,
+  pcdaiCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
