@@ -1521,28 +1521,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       priority: 1
     }
   ],
-  prifle: [
-    {
-      id: "prifle_2007_original",
-      title: "Modified RIFLE criteria in critically ill children with acute kidney injury",
-      authors: "Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL",
-      year: 2007,
-      journalOrPublisher: "Kidney International",
-      citation:
-        "Akcan-Arikan A, Zappitelli M, Loftis LL, Washburn KK, Jefferson LS, Goldstein SL. Modified RIFLE criteria in critically ill children with acute kidney injury. Kidney Int. 2007;71(10):1028-1035.",
-      doi: "10.1038/sj.ki.5002231",
-      pmid: "17396113",
-      url: "https://pubmed.ncbi.nlm.nih.gov/17396113/",
-      evidenceLevel: "original_derivation_study",
-      sourceType: "journal_article",
-      accessType: "open_access",
-      notes:
-        "Block 8B-3: original pRIFLE source located. Complete criteria, baseline eCCl assumptions, urine-output handling, and expert review remain pending.",
-      appliesTo: ["prifle"],
-      priority: 1
-    }
-  ],
-  rflacc: [
+rflacc: [
     {
       id: "rflacc_2006_validation",
       title: "The revised FLACC observational pain tool: improved reliability and validity for pain assessment in children with cognitive impairment",
