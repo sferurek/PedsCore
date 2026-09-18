@@ -53,7 +53,9 @@ const implementedToolIds = new Set([
   "prism_iv",
   "mrisc",
   "gorelick_dehydration",
-  "visual_analogue_scale"
+  "visual_analogue_scale",
+  "cdc_growth_percentiles",
+  "phoenix_sepsis"
 ]);
 
 type ToolSeed = Omit<
@@ -70,6 +72,65 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  cdc_growth_percentiles: [
+    {
+      id: "cdc_2000_growth_lms",
+      title: "CDC Growth Charts - Percentile Data Files with LMS Values",
+      authors: "Centers for Disease Control and Prevention, National Center for Health Statistics",
+      year: 2000,
+      journalOrPublisher: "CDC/NCHS",
+      url: "https://www.cdc.gov/growthcharts/cdc-data-files.htm",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "official_dataset",
+      accessType: "open_access",
+      notes: "Official public-domain LMS datasets for weight-for-age, stature-for-age, and BMI-for-age from 2 to 20 years.",
+      appliesTo: ["cdc_growth_percentiles"],
+      priority: 1
+    },
+    {
+      id: "cdc_growth_training_2024",
+      title: "2000 CDC Growth Charts: Features and Data",
+      authors: "Centers for Disease Control and Prevention",
+      year: 2024,
+      journalOrPublisher: "CDC",
+      url: "https://www.cdc.gov/growth-chart-training/hcp/overview/features-and-data.html",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes: "CDC recommends the 2000 growth charts for children and adolescents aged 2 years and older.",
+      appliesTo: ["cdc_growth_percentiles"],
+      priority: 2
+    }
+  ],
+  phoenix_sepsis: [
+    {
+      id: "phoenix_sepsis_2024_derivation",
+      title: "Development and Validation of the Phoenix Criteria for Pediatric Sepsis and Septic Shock",
+      authors: "Sanchez-Pinto LN, Bennett TD, DeWitt PE, et al.",
+      year: 2024,
+      journalOrPublisher: "JAMA",
+      url: "https://jamanetwork.com/journals/jama/fullarticle/2814296",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Primary derivation and validation article containing the full 4-organ Phoenix Sepsis Score.",
+      appliesTo: ["phoenix_sepsis"],
+      priority: 1
+    },
+    {
+      id: "phoenix_consensus_2024",
+      title: "International Consensus Criteria for Pediatric Sepsis and Septic Shock",
+      year: 2024,
+      journalOrPublisher: "JAMA",
+      url: "https://jamanetwork.com/journals/jama/fullarticle/2814297",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "consensus_statement",
+      accessType: "open_access",
+      notes: "Consensus definition: suspected infection plus Phoenix score >=2 for sepsis; sepsis plus >=1 cardiovascular point for septic shock.",
+      appliesTo: ["phoenix_sepsis"],
+      priority: 2
+    }
+  ],
   mrisc: [
     {
       id: "mrisc_2014_original",
@@ -2069,6 +2130,57 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  cdc_growth_percentiles: {
+    validationNotes: {
+      es: "Implementación local de las curvas CDC 2000 para 2-20 años. PedsCore incorpora los parámetros LMS oficiales de peso/edad, talla/edad e IMC/edad y calcula z-score y percentil mediante la ecuación CDC publicada.",
+      en: "Local implementation of the CDC 2000 charts for ages 2-20 years. PedsCore bundles the official LMS parameters for weight-for-age, stature-for-age, and BMI-for-age and calculates z-scores and percentiles with the published CDC equation."
+    },
+    calculationNotes: {
+      es: "Los valores LMS se interpolan linealmente entre puntos mensuales oficiales. El resultado principal es IMC/edad; también se muestran peso/edad y talla/edad. Para IMC >=P95 se recomienda consultar las curvas CDC Extended BMI.",
+      en: "LMS values are linearly interpolated between official monthly points. The primary result is BMI-for-age; weight-for-age and stature-for-age are also shown. For BMI >=P95, CDC Extended BMI charts are recommended."
+    },
+    inputs: [
+      {
+        id: "sex", label: { es: "Sexo de referencia CDC", en: "CDC reference sex" }, type: "select", required: true,
+        options: [option("male", "Masculino", "Male"), option("female", "Femenino", "Female")]
+      },
+      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 24, max: 240, step: 0.1 },
+      { id: "weight_kg", label: { es: "Peso", en: "Weight" }, type: "number", required: true, unit: "kg", min: 1, max: 300, step: 0.01 },
+      { id: "stature_cm", label: { es: "Talla de pie", en: "Standing stature" }, type: "number", required: true, unit: "cm", min: 60, max: 230, step: 0.1 }
+    ]
+  },
+  phoenix_sepsis: {
+    validationNotes: {
+      es: "Implementación local de los criterios Phoenix 2024. Suma cuatro dominios: respiratorio 0-3, cardiovascular 0-6, coagulación 0-2 y neurológico 0-2; total 0-13.",
+      en: "Local implementation of the 2024 Phoenix criteria. It sums four domains: respiratory 0-3, cardiovascular 0-6, coagulation 0-2, and neurologic 0-2; total 0-13."
+    },
+    calculationNotes: {
+      es: "Con infección sospechada o confirmada, Phoenix >=2 cumple criterios de sepsis. Shock séptico requiere además >=1 punto cardiovascular. No es un cribado precoz de infección.",
+      en: "With suspected or confirmed infection, Phoenix >=2 meets sepsis criteria. Septic shock additionally requires >=1 cardiovascular point. This is not an early infection screening tool."
+    },
+    inputs: [
+      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 0, max: 215.99, step: 0.1 },
+      booleanInput("suspected_infection", { es: "Infección sospechada o confirmada", en: "Suspected or confirmed infection" }),
+      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: true, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
+      { id: "pao2_mmhg", label: { es: "PaO₂ (si disponible)", en: "PaO₂ (if available)" }, type: "number", required: false, unit: "mmHg", min: 1, max: 800, step: 1 },
+      { id: "spo2_percent", label: { es: "SpO₂ (si PaO₂ no disponible)", en: "SpO₂ (if PaO₂ unavailable)" }, type: "number", required: false, unit: "%", min: 1, max: 100, step: 1 },
+      booleanInput("any_respiratory_support", { es: "Cualquier soporte respiratorio", en: "Any respiratory support" }),
+      booleanInput("invasive_mechanical_ventilation", { es: "Ventilación mecánica invasiva", en: "Invasive mechanical ventilation" }),
+      { id: "vasoactive_count", label: { es: "Número de fármacos vasoactivos simultáneos", en: "Number of concurrent vasoactive medications" }, type: "number", required: true, min: 0, max: 10, step: 1 },
+      { id: "lactate_mmol_l", label: { es: "Lactato", en: "Lactate" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 50, step: 0.1 },
+      { id: "map_mmhg", label: { es: "Presión arterial media", en: "Mean arterial pressure" }, type: "number", required: true, unit: "mmHg", min: 0, max: 200, step: 1 },
+      { id: "platelets_10e3_ul", label: { es: "Plaquetas", en: "Platelets" }, type: "number", required: true, unit: "×10³/µL", min: 0, max: 1500, step: 1 },
+      { id: "inr", label: { es: "INR", en: "INR" }, type: "number", required: true, min: 0, max: 20, step: 0.01 },
+      { id: "d_dimer_mg_l_feu", label: { es: "D-dímero", en: "D-dimer" }, type: "number", required: true, unit: "mg/L FEU", min: 0, max: 100, step: 0.1 },
+      { id: "fibrinogen_mg_dl", label: { es: "Fibrinógeno", en: "Fibrinogen" }, type: "number", required: true, unit: "mg/dL", min: 0, max: 1500, step: 1 },
+      { id: "gcs", label: { es: "Glasgow", en: "Glasgow Coma Scale" }, type: "number", required: true, min: 3, max: 15, step: 1 },
+      booleanInput("both_pupils_fixed", { es: "Ambas pupilas fijas", en: "Both pupils fixed" })
+    ],
+    interpretationBands: [
+      { id: "below_threshold", label: { es: "0-1 puntos", en: "0-1 points" }, min: 0, max: 1 },
+      { id: "sepsis_threshold", label: { es: ">=2 puntos: umbral de sepsis si hay infección", en: ">=2 points: sepsis threshold if infection is present" }, min: 2, max: 13 }
+    ]
+  },
   mrisc: {
     validationNotes: {
       es: "Implementación local del mRISC derivado en menores de 5 años hospitalizados por enfermedad respiratoria grave en Kenia. Se reproduce la tabla de puntos publicada.",
