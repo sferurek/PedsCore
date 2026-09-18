@@ -62,6 +62,34 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  step_by_step: [
+    {
+      id: "step_by_step_2016_validation",
+      title: "Validation of the Step-by-Step Approach in the Management of Young Febrile Infants",
+      authors: "Gómez B, Mintegi S, Bressan S, et al.",
+      year: 2016,
+      journalOrPublisher: "Pediatrics",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Prospective validation of sequential risk stratification in febrile infants 90 days or younger.",
+      appliesTo: ["step_by_step"],
+      priority: 1
+    },
+    {
+      id: "step_by_step_open_review",
+      title: "Management of the Febrile Young Infant: Update for the 21st Century",
+      year: 2017,
+      journalOrPublisher: "Pediatric Emergency Care review / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5679412/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access table verifies the age, appearance, leukocyturia, PCT, CRP, and ANC thresholds.",
+      appliesTo: ["step_by_step"],
+      priority: 2
+    }
+  ],
   modified_tal: [
     {
       id: "seup_2024_tal_modified",
@@ -1320,7 +1348,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Block 8B-2: original STRONGkids source located. Complete tool wording/table and reuse terms remain pending.",
+        "Original STRONGkids source plus open-access reproductions used to verify the four items, 2+1+1+1 weighting, and 0 / 1-3 / 4-5 risk bands.",
       appliesTo: ["strongkids"],
       priority: 1
     }
