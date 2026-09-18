@@ -149,8 +149,8 @@ export const createPedsCoreMcpApp = (options?: { authConfig?: AuthConfig }) => {
       return;
     }
 
-    const match = /^(64|72|88|126|180|241)x\\1$/.exec(sizeParam);
-    if (!match) {
+    const match = /^(64|72|88|126|180|241)x(64|72|88|126|180|241)$/.exec(sizeParam);
+    if (!match || match[1] !== match[2]) {
       res.status(404).json({ error: "asset_not_found" });
       return;
     }
