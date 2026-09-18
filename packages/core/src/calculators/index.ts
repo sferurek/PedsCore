@@ -10,6 +10,7 @@ export * from "./schwartz.js";
 export * from "./westleyCroup.js";
 export * from "./pram.js";
 export * from "./clinicalDehydrationScale.js";
+export * from "./strongkids.js";
 export * from "./bedsidePews.js";
 export * from "./pediatricAppendicitisScore.js";
 export * from "./pecarn.js";
