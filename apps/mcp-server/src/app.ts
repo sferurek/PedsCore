@@ -143,7 +143,13 @@ export const createPedsCoreMcpApp = (options?: { authConfig?: AuthConfig }) => {
   });
 
   app.get("/store-assets/icon-:size.png", (req: Request, res: Response) => {
-    const match = /^(64|72|88|126|180|241)x\\1$/.exec(req.params.size);
+    const sizeParam = req.params.size;
+    if (typeof sizeParam !== "string") {
+      res.status(404).json({ error: "asset_not_found" });
+      return;
+    }
+
+    const match = /^(64|72|88|126|180|241)x\\1$/.exec(sizeParam);
     if (!match) {
       res.status(404).json({ error: "asset_not_found" });
       return;
