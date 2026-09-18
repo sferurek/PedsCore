@@ -62,3 +62,13 @@ Use this file to record user-visible and technically significant work created du
 - Railway deployment from commit `65641045486ff555fab014140ad394f0180092b3` completed successfully.
 - Generated public domain `pedscore-ai-mcp-production.up.railway.app`.
 - Updated the Alexa+ manifest template with the real remote MCP endpoint.
+
+## 2026-09-18 — Independent remote MCP smoke passed
+- Added a GitHub Actions workflow that validates the public Railway service from outside Railway.
+- Remote smoke run `35318399887` completed successfully.
+- Confirmed HTTP 200 health response and MCP protocol negotiation `2025-11-25`.
+- Confirmed the live server exposes all three initial tools.
+- Confirmed live natural-language discovery returns `apgar`.
+- Confirmed live deterministic Apgar execution returns 9/10.
+- Measured MCP round trips from a Central US GitHub runner: initialize 232.5 ms; tools/list 143.1 ms; search 112.7 ms; calculation 134.7 ms — all below the current 500 ms Alexa+ query target.
+- Initial health request measured 850.7 ms and is retained as a performance observation rather than hidden.
