@@ -30,6 +30,9 @@ export * from "./ibdActivity.js";
 export * from "./nSofa.js";
 export * from "./yaleObservation.js";
 export * from "./infectionOpen.js";
+export * from "./garciaAlixNers.js";
+export * from "./parc.js";
+export * from "./pcdai.js";
 export * from "./registry.js";
 
 export * from "./modifiedSarnatNichd.js";
