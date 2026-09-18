@@ -29,3 +29,14 @@ No friction entries recorded yet.
 - **Actionable suggestion:** Ensure SDK transport interfaces compile cleanly with `exactOptionalPropertyTypes: true`, and document the expected stateless constructor form for strict TypeScript configurations.
 - **Affected tool / API / SDK:** MCP TypeScript SDK v1 Streamable HTTP transport.
 - **Evidence:** GitHub Actions CI run #341 failed at the MCP server build; run #342 passed after the isolated compatibility adjustment.
+
+### 2026-09-18 — Vercel preview deployment blocked by build rate limit
+- **Task attempted:** Produce a remote preview endpoint for the hackathon MCP branch through the repository's existing Vercel Git integration.
+- **Steps taken:** Pushed the `hackathon/alexa-mcp` branch and opened draft PR #43, allowing the normal Vercel preview integration to run.
+- **Expected result:** Vercel should create a preview deployment that can later expose the MCP endpoint for remote Alexa+/client testing.
+- **Actual result:** GitHub commit status `Vercel` returned `failure` and linked to Vercel's `upgradeToPro=build-rate-limit` page.
+- **Severity:** Important
+- **Workaround:** Continue validating the MCP server end-to-end in GitHub Actions and keep the remote deployment configuration ready; retry preview deployment once the account build-rate window clears or deploy the MCP service separately.
+- **Actionable suggestion:** Surface the exact retry/reset time directly in failed Git checks and provide an explicit queued-preview option rather than a generic upgrade redirect.
+- **Affected tool / API / SDK:** Vercel Git preview deployments.
+- **Evidence:** GitHub combined status on PR #43 head reported `context: Vercel`, `state: failure`, target `upgradeToPro=build-rate-limit`.
