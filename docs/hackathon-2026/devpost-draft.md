@@ -57,7 +57,7 @@ Agentic interfaces become more trustworthy when deterministic domain logic is tr
 
 ## What's next
 
-Complete the official Alexa+ add-on deployment as soon as private CLI entitlement is granted, publish the SIM IMV bridge, run the full remote MCP→SIM smoke, capture simulator evidence, and continue expanding the reusable deterministic clinical-tool pattern.
+The self-hosted MCP path already satisfies the current Alexa+ primary-track technology requirement. Next we will publish the SIM IMV bridge, run the full public MCP→SIM smoke, and capture the strongest possible demo evidence. If Amazon grants private Alexa AI CLI entitlement, we will also deploy the optional official add-on and capture simulator evidence.
 
 ## Open Source Mini Challenge
 
@@ -72,3 +72,17 @@ The reusable contribution is the deterministic agent boundary: natural-language 
 ## AWS Builder Mini Challenge
 
 Do **not** submit this section unless a useful AWS integration is actually deployed and documented before final submission.
+
+
+## Testing link
+
+Judge console:
+https://pedscore-ai-mcp-production.up.railway.app/judge-demo
+
+Capability manifest:
+https://pedscore-ai-mcp-production.up.railway.app/capabilities
+
+MCP endpoint:
+https://pedscore-ai-mcp-production.up.railway.app/mcp
+
+The judge console is a browser verification surface that performs real MCP `tools/call` requests against the public service. It is not presented as the official Alexa+ simulator.
