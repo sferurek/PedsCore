@@ -193,10 +193,13 @@ export const kdigoPediatricCalculator: CalculatorDefinition = {
     const urineDuration = getNumber(input, "urine_duration_hours");
     const anuriaHours = getNumber(input, "anuria_hours") ?? 0;
     const rrt = getBoolean(input, "renal_replacement_therapy");
+    const baselineWithin7Days = getBoolean(input, "baseline_within_7_days");
+    const riseWithin48Hours = getBoolean(input, "rise_within_48_hours");
 
     if (
       baselineScr === null || currentScr === null || ageYears === null ||
-      urineOutput === null || urineDuration === null || rrt === null
+      urineOutput === null || urineDuration === null || rrt === null ||
+      baselineWithin7Days === null || riseWithin48Hours === null
     ) {
       return {
         toolId: tool.id,
@@ -225,11 +228,11 @@ export const kdigoPediatricCalculator: CalculatorDefinition = {
     const delta = currentScr - baselineScr;
     let creatinineStage: AkiStage = 0;
     if (
-      ratio >= 3 || currentScr >= 4 || rrt ||
+      (baselineWithin7Days && ratio >= 3) || currentScr >= 4 || rrt ||
       (ageYears < 18 && currentEgfr !== null && currentEgfr < 35)
     ) creatinineStage = 3;
-    else if (ratio >= 2) creatinineStage = 2;
-    else if (ratio >= 1.5 || delta >= 0.3) creatinineStage = 1;
+    else if (baselineWithin7Days && ratio >= 2) creatinineStage = 2;
+    else if ((baselineWithin7Days && ratio >= 1.5) || (riseWithin48Hours && delta >= 0.3)) creatinineStage = 1;
 
     let urineStage: AkiStage = 0;
     if ((urineOutput < 0.3 && urineDuration >= 24) || anuriaHours >= 12) urineStage = 3;
@@ -257,6 +260,8 @@ export const kdigoPediatricCalculator: CalculatorDefinition = {
         { inputId: "creatinine_delta_mg_dl", value: Number(delta.toFixed(3)) },
         { inputId: "age_years", value: ageYears },
         { inputId: "current_egfr", value: currentEgfr },
+        { inputId: "baseline_within_7_days", value: baselineWithin7Days },
+        { inputId: "rise_within_48_hours", value: riseWithin48Hours },
         { inputId: "renal_replacement_therapy", value: rrt },
         { inputId: "urine_output_ml_kg_h", value: urineOutput },
         { inputId: "urine_duration_hours", value: urineDuration, score: urineStage },
@@ -329,8 +334,8 @@ export const prifleCalculator: CalculatorDefinition = {
     else if (urineOutput < 0.5 && urineDuration >= 8) urineStage = 1;
 
     let stage = Math.max(renalStage, urineStage) as PrifleStage;
-    if (persistentFailureWeeks >= 12) stage = 5;
-    else if (persistentFailureWeeks >= 4) stage = Math.max(stage, 4) as PrifleStage;
+    if (persistentFailureWeeks > 13) stage = 5;
+    else if (persistentFailureWeeks > 4) stage = Math.max(stage, 4) as PrifleStage;
 
     return {
       toolId: tool.id,
