@@ -81,20 +81,7 @@ if (!health) {
   throw new Error("Remote health endpoint did not become ready within five minutes.");
 }
 
-const compliance = {};
-for (const path of ["/privacy", "/terms"]) {
-  const result = await timedFetch(`${baseUrl}${path}`);
-  compliance[path] = {
-    status: result.response.status,
-    contentType: result.response.headers.get("content-type"),
-    durationMs: result.durationMs
-  };
-  if (!result.response.ok || !compliance[path].contentType?.includes("text/html")) {
-    throw new Error(`Compliance endpoint failed: ${path}`);
-  }
-  await result.response.arrayBuffer();
-}
-
+const compliancePaths = ["/privacy", "/terms"];
 const assetPaths = [
   "/store-assets/icon-72x72.png",
   "/store-assets/icon-64x64.png",
@@ -104,20 +91,58 @@ const assetPaths = [
   "/store-assets/icon-241x241.png",
   "/store-assets/carousel-1.png"
 ];
-const assets = {};
-for (const path of assetPaths) {
-  const result = await timedFetch(`${baseUrl}${path}`);
-  const bytes = new Uint8Array(await result.response.arrayBuffer());
-  assets[path] = {
-    status: result.response.status,
-    contentType: result.response.headers.get("content-type"),
-    bytes: bytes.length,
-    durationMs: result.durationMs
-  };
-  const signature = Array.from(bytes.slice(0, 8)).join(",");
-  if (!result.response.ok || !assets[path].contentType?.includes("image/png") || signature !== "137,80,78,71,13,10,26,10") {
-    throw new Error(`Store asset failed: ${path}`);
+
+let compliance = {};
+let assets = {};
+let storeSurfaceReady = false;
+
+for (let attempt = 1; attempt <= 30; attempt += 1) {
+  try {
+    const nextCompliance = {};
+    const nextAssets = {};
+
+    for (const path of compliancePaths) {
+      const result = await timedFetch(`${baseUrl}${path}`);
+      const contentType = result.response.headers.get("content-type");
+      if (!result.response.ok || !contentType?.includes("text/html")) {
+        throw new Error(`Compliance endpoint not ready: ${path} HTTP ${result.response.status}`);
+      }
+      await result.response.arrayBuffer();
+      nextCompliance[path] = {
+        status: result.response.status,
+        contentType,
+        durationMs: result.durationMs
+      };
+    }
+
+    for (const path of assetPaths) {
+      const result = await timedFetch(`${baseUrl}${path}`);
+      const bytes = new Uint8Array(await result.response.arrayBuffer());
+      const contentType = result.response.headers.get("content-type");
+      const signature = Array.from(bytes.slice(0, 8)).join(",");
+      if (!result.response.ok || !contentType?.includes("image/png") || signature !== "137,80,78,71,13,10,26,10") {
+        throw new Error(`Store asset not ready: ${path} HTTP ${result.response.status}`);
+      }
+      nextAssets[path] = {
+        status: result.response.status,
+        contentType,
+        bytes: bytes.length,
+        durationMs: result.durationMs
+      };
+    }
+
+    compliance = nextCompliance;
+    assets = nextAssets;
+    storeSurfaceReady = true;
+    break;
+  } catch (error) {
+    if (attempt === 30) throw error;
+    await sleep(10_000);
   }
+}
+
+if (!storeSurfaceReady) {
+  throw new Error("Alexa+ store surface did not become ready within five minutes.");
 }
 
 const initialize = await rpc(1, "initialize", {
