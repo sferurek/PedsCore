@@ -89,3 +89,9 @@ Use this file to record user-visible and technically significant work created du
 - Added `npm run alexa:validate`.
 - Added the Alexa+ manifest validation gate to the main CI workflow.
 - CI run `35319496923` passed lint, tests, Alexa manifest validation, and full build.
+
+## 2026-09-18 — Simulator test pack and live asset dimension checks
+- Added `alexa-simulator-test-plan.md` with end-to-end Alexa+ scenarios for discovery, metadata inspection, deterministic Apgar calculation, incomplete input, and safety behavior.
+- Added a concise reproducible `alexa-addon/demo-script.md` for simulator testing and final video capture.
+- Strengthened the live remote smoke test to parse PNG IHDR metadata and verify the exact dimensions of all six required icon assets plus the 600x900 carousel image.
+- Remote smoke run `35319928356` passed with exact dimensions confirmed for 72, 64, 88, 126, 180, 241, and 600x900 assets.
