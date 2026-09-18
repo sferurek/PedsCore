@@ -6,7 +6,26 @@ import { createPedsCoreMcpApp } from "../src/app.js";
 let baseUrl = "";
 let httpServer: ReturnType<typeof createServer>;
 
-const decodeRpcResponse = async (response: Response): Promise<any> => {
+type RpcPayload = {
+  result?: {
+    protocolVersion?: string;
+    serverInfo?: { name?: string };
+    tools?: Array<{ name: string }>;
+    isError?: boolean;
+    structuredContent?: {
+      tools?: Array<{ id: string }>;
+      result?: {
+        toolId?: string;
+        score?: number;
+        maxScore?: number;
+        warnings?: unknown[];
+      };
+    };
+  };
+  error?: unknown;
+};
+
+const decodeRpcResponse = async (response: Response): Promise<RpcPayload> => {
   const text = await response.text();
   const contentType = response.headers.get("content-type") ?? "";
 
@@ -86,8 +105,8 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     });
 
     expect(response.ok).toBe(true);
-    expect(payload.result.protocolVersion).toBe("2025-11-25");
-    expect(payload.result.serverInfo.name).toBe("pedscore-ai");
+    expect(payload.result?.protocolVersion).toBe("2025-11-25");
+    expect(payload.result?.serverInfo?.name).toBe("pedscore-ai");
   });
 
   it("lists the three initial clinical tools", async () => {
@@ -99,7 +118,7 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     });
 
     expect(response.ok).toBe(true);
-    const names = payload.result.tools.map((tool: { name: string }) => tool.name);
+    const names = payload.result?.tools?.map((tool) => tool.name) ?? [];
     expect(names).toEqual(
       expect.arrayContaining([
         "search_clinical_tools",
@@ -125,8 +144,8 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     });
 
     expect(response.ok).toBe(true);
-    expect(payload.result.isError).not.toBe(true);
-    expect(payload.result.structuredContent.tools[0].id).toBe("apgar");
+    expect(payload.result?.isError).not.toBe(true);
+    expect(payload.result?.structuredContent?.tools?.[0]?.id).toBe("apgar");
   });
 
   it("calculates Apgar deterministically through MCP", async () => {
@@ -151,8 +170,8 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     });
 
     expect(response.ok).toBe(true);
-    expect(payload.result.isError).not.toBe(true);
-    expect(payload.result.structuredContent.result).toMatchObject({
+    expect(payload.result?.isError).not.toBe(true);
+    expect(payload.result?.structuredContent?.result).toMatchObject({
       toolId: "apgar",
       score: 9,
       maxScore: 10,
