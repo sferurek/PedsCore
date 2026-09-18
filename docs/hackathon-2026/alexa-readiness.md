@@ -29,7 +29,7 @@ https://www.developer.amazon.com/docs/alexaplus/add-ons/mcp-toolkit-quickstart.h
 | Tool discovery | Implemented | `search_clinical_tools` |
 | Tool detail retrieval | Implemented | `get_clinical_tool` |
 | Deterministic calculation | Implemented | `calculate_clinical_score` |
-| Remote HTTPS URL | Blocked | Vercel preview is currently build-rate-limited |
+| Remote HTTPS URL | Implemented | `https://pedscore-ai-mcp-production.up.railway.app/mcp` on Railway |
 | <500 ms remote latency | Pending | Must measure against deployed endpoint |
 | OAuth 2.1 / PKCE | Implemented server-side protection scaffold | Cognito IaC + JWT validation added; live provider provisioning and Alexa linking still pending |
 | Protected Resource Metadata | Implemented | `/.well-known/oauth-protected-resource` with configurable resource/server/scopes |
@@ -57,8 +57,8 @@ This is a design candidate, not yet a completed integration. Before marking it c
 ## Next engineering gates
 
 1. Keep protocol-level MCP tests green.
-2. Obtain a remote HTTPS deployment.
-3. Measure latency for initialize, tools/list, search, detail, and calculation.
+2. Remote HTTPS deployment obtained on Railway.
+3. Measure latency for initialize, tools/list, search, detail, and calculation against the Railway endpoint.
 4. Implement and test OAuth protection and PRM discovery.
 5. Scaffold the Alexa+ add-on with the real remote MCP URL.
 6. Authenticate with the Alexa AI CLI and deploy to the development stage.
@@ -90,3 +90,15 @@ npm run check:alexa-oauth -w @peds-core/mcp-server -- https://AUTH-SERVER
 ```
 
 The check fails unless discovery exposes an authorization endpoint, token endpoint, and `code_challenge_methods_supported` containing `S256`.
+
+## Remote deployment
+
+The hackathon MCP service is deployed on Railway from branch `hackathon/alexa-mcp`.
+
+- Public base URL: `https://pedscore-ai-mcp-production.up.railway.app`
+- MCP endpoint: `https://pedscore-ai-mcp-production.up.railway.app/mcp`
+- Health endpoint: `https://pedscore-ai-mcp-production.up.railway.app/health`
+- Railway deployment status: SUCCESS
+- Railway deployment healthcheck: passed after fixing public-bind host validation
+
+The current remote deployment intentionally runs with `MCP_AUTH_MODE=off` until the Alexa/Cognito account-linking configuration can be completed. The authentication code path and infrastructure-as-code are already present and tested in CI.
