@@ -62,3 +62,14 @@ No friction entries recorded yet.
 - **Actionable suggestion:** Deployment documentation should call out the SDK's localhost Host protection and show the production/reverse-proxy configuration directly.
 - **Affected tool / API / SDK:** MCP TypeScript SDK + Railway healthchecks.
 - **Evidence:** Railway build logs showed repeated `Attempt #N failed with HTTP 403` until the public-bind change; deployment `19f324c8-53ca-4270-bba3-d77391db27a7` then reached SUCCESS.
+
+### 2026-09-18 — Alexa AI CLI package returned npm 404 before private registry setup
+- **Task attempted:** Install the Alexa AI CLI on a clean macOS development machine with Node.js 24.
+- **Steps taken:** Ran `npm install -g @alexa-ai/cli` against the default public npm registry.
+- **Expected result:** Install the CLI and proceed to `alexa-ai configure`.
+- **Actual result:** npm returned HTTP 404 for `https://registry.npmjs.org/@alexa-ai%2fcli`; subsequent `alexa-ai --version`, `alexa-ai configure`, and `alexa-ai deploy` all failed because the CLI was not installed.
+- **Severity:** Important
+- **Workaround:** Install AWS CLI, configure the AWS account previously provided to Amazon, create the documented base and assumed-role profiles, authenticate npm to Amazon's private CodeArtifact registry, then install `@alexa-ai/cli`.
+- **Actionable suggestion:** The Alexa+ QuickStart should put the private-registry prerequisite immediately next to every `npm install -g @alexa-ai/cli` instruction and explicitly warn that a normal public-npm install will return 404.
+- **Affected tool / API / SDK:** Alexa AI CLI distribution / AWS CodeArtifact onboarding.
+- **Evidence:** Local terminal capture from 2026-09-18 shows npm `E404 Not Found` for `@alexa-ai/cli` followed by `command not found`. Amazon's current environment-setup documentation requires CodeArtifact authentication before CLI installation.
