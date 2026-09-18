@@ -15,6 +15,7 @@ import {
   validateAuthConfig
 } from "./auth.js";
 import type { AuthConfig } from "./auth.js";
+import { callSimulationBridge } from "./sim-client.js";
 import {
   createStoreCarousel,
   createStoreIcon,
@@ -113,6 +114,100 @@ export const createPedsCoreMcpServer = (): McpServer => {
         ...jsonResult({ result }),
         ...(failed ? { isError: true } : {})
       };
+    }
+  );
+
+
+  server.registerTool(
+    "start_simulation_case",
+    {
+      title: "Start pediatric MCI triage simulation",
+      description:
+        "Start a built-in synthetic pediatric mass-casualty triage scenario in SIM IMV. The simulator supplies the scenario and visible patient information; no real patient data is accepted.",
+      inputSchema: {
+        scenarioId: z.string().min(1).optional(),
+        algorithmId: z.enum(["jumpstart", "salt", "ptt", "mitt"])
+      }
+    },
+    async ({ scenarioId, algorithmId }) => {
+      try {
+        const result = await callSimulationBridge({
+          action: "start_simulation_case",
+          ...(scenarioId ? { scenarioId } : {}),
+          algorithmId
+        });
+        return jsonResult({ result });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "simulation_bridge_error";
+        return {
+          content: [{ type: "text", text: `SIM IMV unavailable: ${message}` }],
+          isError: true
+        };
+      }
+    }
+  );
+
+  server.registerTool(
+    "get_patient_findings",
+    {
+      title: "Get synthetic simulation patient findings",
+      description:
+        "Return the visible findings and valid initial assessment actions for one synthetic SIM IMV patient. This is educational simulation content, not a real-patient assessment service.",
+      inputSchema: {
+        scenarioId: z.string().min(1),
+        algorithmId: z.enum(["jumpstart", "salt", "ptt", "mitt"]),
+        patientId: z.string().min(1)
+      }
+    },
+    async ({ scenarioId, algorithmId, patientId }) => {
+      try {
+        const result = await callSimulationBridge({
+          action: "get_patient_findings",
+          scenarioId,
+          algorithmId,
+          patientId
+        });
+        return jsonResult({ result });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "simulation_bridge_error";
+        return {
+          content: [{ type: "text", text: `SIM IMV unavailable: ${message}` }],
+          isError: true
+        };
+      }
+    }
+  );
+
+  server.registerTool(
+    "submit_triage_decision",
+    {
+      title: "Submit synthetic triage decision",
+      description:
+        "Submit a triage category for one synthetic SIM IMV patient. Correctness and educational feedback are computed by the simulator's deterministic triage engine, not inferred by the language model.",
+      inputSchema: {
+        scenarioId: z.string().min(1),
+        algorithmId: z.enum(["jumpstart", "salt", "ptt", "mitt"]),
+        patientId: z.string().min(1),
+        category: z.enum(["GREEN", "YELLOW", "RED", "BLACK", "GREY"])
+      }
+    },
+    async ({ scenarioId, algorithmId, patientId, category }) => {
+      try {
+        const result = await callSimulationBridge({
+          action: "submit_triage_decision",
+          scenarioId,
+          algorithmId,
+          patientId,
+          category
+        });
+        return jsonResult({ result });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "simulation_bridge_error";
+        return {
+          content: [{ type: "text", text: `SIM IMV unavailable: ${message}` }],
+          isError: true
+        };
+      }
     }
   );
 
