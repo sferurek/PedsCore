@@ -41,7 +41,9 @@ const implementedToolIds = new Set([
   "pediatric_burn_tbsa",
   "ckid_u25",
   "prifle",
-  "kdigo_pediatric"
+  "kdigo_pediatric",
+  "bacterial_meningitis_score",
+  "pecarn_febrile_infant"
 ]);
 
 type ToolSeed = Omit<
@@ -58,6 +60,69 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  bacterial_meningitis_score: [
+    {
+      id: "bms_multicenter_validation_2007",
+      title: "Clinical prediction rule for identifying children with cerebrospinal fluid pleocytosis at very low risk of bacterial meningitis",
+      authors: "Nigrovic LE, Kuppermann N, Macias CG, et al.",
+      year: 2007,
+      journalOrPublisher: "JAMA",
+      citation: "Nigrovic LE, Kuppermann N, Macias CG, et al. JAMA. 2007;297(1):52-60.",
+      doi: "10.1001/jama.297.1.52",
+      pmid: "17200475",
+      url: "https://pubmed.ncbi.nlm.nih.gov/17200475/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Defines the five BMS predictors and the validated eligibility population.",
+      appliesTo: ["bacterial_meningitis_score"],
+      priority: 1
+    },
+    {
+      id: "bms_open_validation_table",
+      title: "Applying the bacterial meningitis score in children with cerebrospinal fluid pleocytosis",
+      year: 2015,
+      journalOrPublisher: "Korean Journal of Pediatrics",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4543184/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access verification of BMS scoring: positive Gram stain 2 points; CSF ANC ≥1000, CSF protein ≥80 mg/dL, peripheral ANC ≥10000, and seizure 1 point each.",
+      appliesTo: ["bacterial_meningitis_score"],
+      priority: 2
+    }
+  ],
+  pecarn_febrile_infant: [
+    {
+      id: "pecarn_fi_2019_original",
+      title: "A Clinical Prediction Rule to Identify Febrile Infants 60 Days and Younger at Low Risk for Serious Bacterial Infections",
+      authors: "Kuppermann N, Dayan PS, Levine DA, et al.",
+      year: 2019,
+      journalOrPublisher: "JAMA Pediatrics",
+      citation: "Kuppermann N, Dayan PS, Levine DA, et al. JAMA Pediatr. 2019;173(4):342-351.",
+      doi: "10.1001/jamapediatrics.2018.5501",
+      url: "https://jamanetwork.com/journals/jamapediatrics/fullarticle/2725042",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Prospective derivation and validation study; subsequent simplified thresholds use ANC ≤4000/mm3 and procalcitonin ≤0.5 ng/mL with negative urinalysis.",
+      appliesTo: ["pecarn_febrile_infant"],
+      priority: 1
+    },
+    {
+      id: "pecarn_fi_2025_neonate_validation",
+      title: "Prediction of Bacteremia and Bacterial Meningitis Among Febrile Infants Aged 28 Days or Younger",
+      year: 2025,
+      journalOrPublisher: "JAMA",
+      url: "https://jamanetwork.com/journals/jama/fullarticle/2842440",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "International pooled validation of the updated PECARN rule using negative urinalysis, PCT ≤0.5 ng/mL, and ANC ≤4000/mm3.",
+      appliesTo: ["pecarn_febrile_infant"],
+      priority: 2
+    }
+  ],
   ckid_u25: [
     {
       id: "ckid_u25_niddk_equations",
@@ -1853,6 +1918,57 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  bacterial_meningitis_score: {
+    validationNotes: {
+      es: "Implementacion local del Bacterial Meningitis Score con comprobacion previa de elegibilidad. La puntuacion solo se interpreta como validada en niños con pleocitosis de LCR dentro de la poblacion descrita en los estudios.",
+      en: "Local Bacterial Meningitis Score implementation with an eligibility gate. The score is interpreted as validated only in children with CSF pleocytosis within the studied population."
+    },
+    calculationNotes: {
+      es: "Gram de LCR positivo suma 2 puntos; ANC de LCR ≥1000/mm3, proteinas de LCR ≥80 mg/dL, ANC periferico ≥10000/mm3 y convulsion al inicio o antes de la presentacion suman 1 punto cada uno. BMS=0 identifica el grupo de muy bajo riesgo dentro de la poblacion validada.",
+      en: "Positive CSF Gram stain adds 2 points; CSF ANC ≥1000/mm3, CSF protein ≥80 mg/dL, peripheral ANC ≥10000/mm3, and seizure at or before presentation add 1 point each. BMS=0 identifies the very-low-risk group within the validated population."
+    },
+    inputs: [
+      { id: "age_days", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "dias", min: 0, max: 7000, step: 1 },
+      { id: "csf_wbc", label: { es: "Leucocitos en LCR", en: "CSF white blood cells" }, type: "number", required: true, unit: "/mm3", min: 0, max: 100000, step: 1 },
+      booleanInput("antibiotics_before_lp", { es: "Antibioticos antes de la puncion lumbar", en: "Antibiotics before lumbar puncture" }),
+      booleanInput("critical_illness", { es: "Enfermedad critica / sepsis clinica / alteracion mental grave", en: "Critical illness / clinical sepsis / severe altered mental status" }),
+      booleanInput("immunosuppression", { es: "Inmunosupresion", en: "Immunosuppression" }),
+      booleanInput("cns_device_or_recent_neurosurgery", { es: "Dispositivo SNC o neurocirugia reciente", en: "CNS device or recent neurosurgery" }),
+      booleanInput("other_bacterial_infection", { es: "Otra infeccion bacteriana que requiere antibiotico parenteral", en: "Other bacterial infection requiring parenteral antibiotics" }),
+      booleanInput("csf_gram_positive", { es: "Tincion de Gram de LCR positiva", en: "Positive CSF Gram stain" }),
+      { id: "csf_anc", label: { es: "ANC en LCR", en: "CSF ANC" }, type: "number", required: true, unit: "/mm3", min: 0, max: 100000, step: 1 },
+      { id: "csf_protein_mg_dl", label: { es: "Proteinas en LCR", en: "CSF protein" }, type: "number", required: true, unit: "mg/dL", min: 0, max: 1000, step: 0.1 },
+      { id: "peripheral_anc", label: { es: "ANC periferico", en: "Peripheral ANC" }, type: "number", required: true, unit: "/mm3", min: 0, max: 100000, step: 1 },
+      booleanInput("seizure", { es: "Convulsion antes o en la presentacion", en: "Seizure before or at presentation" })
+    ],
+    interpretationBands: [
+      { id: "very_low_risk", label: { es: "Muy bajo riesgo segun BMS", en: "Very low risk by BMS" }, min: 0, max: 0 },
+      { id: "not_very_low_risk", label: { es: "No cumple grupo de muy bajo riesgo", en: "Does not meet very-low-risk group" }, min: 1, max: 6 }
+    ]
+  },
+  pecarn_febrile_infant: {
+    validationNotes: {
+      es: "Implementacion local de la regla PECARN para lactante febril con umbrales simplificados validados: urianalisis negativo, ANC ≤4000/mm3 y procalcitonina ≤0,5 ng/mL. Incluye comprobacion de poblacion elegible.",
+      en: "Local PECARN febrile-infant rule using validated simplified thresholds: negative urinalysis, ANC ≤4000/mm3, and procalcitonin ≤0.5 ng/mL. Includes a validated-population eligibility gate."
+    },
+    calculationNotes: {
+      es: "Clasifica como bajo riesgo solo si se cumplen simultaneamente los tres criterios. No convierte la clasificacion en una recomendacion automatica de puncion lumbar, antibioticos, ingreso o alta.",
+      en: "Classifies as low risk only when all three criteria are simultaneously met. It does not convert risk classification into an automatic recommendation for lumbar puncture, antibiotics, admission, or discharge."
+    },
+    inputs: [
+      { id: "age_days", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "dias", min: 0, max: 60, step: 1 },
+      booleanInput("well_appearing", { es: "Buen estado general / no aspecto toxico", en: "Well appearing / not ill appearing" }),
+      booleanInput("previously_healthy", { es: "Previamente sano", en: "Previously healthy" }),
+      booleanInput("term_infant", { es: "Recien nacido a termino (≥37 semanas)", en: "Born at term (≥37 weeks)" }),
+      booleanInput("urinalysis_negative", { es: "Urianalisis negativo segun definicion del estudio", en: "Negative urinalysis by study definition" }),
+      { id: "anc", label: { es: "Recuento absoluto de neutrofilos", en: "Absolute neutrophil count" }, type: "number", required: true, unit: "/mm3", min: 0, max: 100000, step: 1 },
+      { id: "procalcitonin_ng_ml", label: { es: "Procalcitonina", en: "Procalcitonin" }, type: "number", required: true, unit: "ng/mL", min: 0, max: 100, step: 0.01 }
+    ],
+    interpretationBands: [
+      { id: "low_risk", label: { es: "Cumple criterios PECARN de bajo riesgo", en: "Meets PECARN low-risk criteria" }, min: 0, max: 0 },
+      { id: "not_low_risk", label: { es: "No cumple todos los criterios de bajo riesgo", en: "Does not meet all low-risk criteria" }, min: 1, max: 1 }
+    ]
+  },
   ckid_u25: {
     validationNotes: {
       es: "Implementacion local trazada a las ecuaciones CKiD U25 publicadas y a los coeficientes oficiales NIDDK para 1-25 anos. Permite creatinina, cistatina C o el promedio de ambas estimaciones.",
