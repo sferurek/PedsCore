@@ -72,3 +72,14 @@ Use this file to record user-visible and technically significant work created du
 - Confirmed live deterministic Apgar execution returns 9/10.
 - Measured MCP round trips from a Central US GitHub runner: initialize 232.5 ms; tools/list 143.1 ms; search 112.7 ms; calculation 134.7 ms — all below the current 500 ms Alexa+ query target.
 - Initial health request measured 850.7 ms and is retained as a performance observation rather than hidden.
+
+## 2026-09-18 — M2 Alexa+ store package prepared
+- Added live HTTPS privacy-policy and terms-of-use endpoints to the Railway MCP service.
+- Added server-generated PNG store assets so Amazon can fetch all six mandatory light icon sizes and the 600x900 carousel image without a separate CDN.
+- Added unit/integration coverage for the compliance pages and media endpoints.
+- Replaced the Alexa+ manifest placeholders with the live Railway URLs and created a deployable `addon-package/addon.json`.
+- Corrected a TypeScript route-parameter narrowing issue and a store-icon route matching issue found by CI/remote smoke.
+- Deployed commit `afd661382dd661d3992c54cb969cd474688ad3b5` to Railway successfully.
+- CI run `35319230843` passed.
+- External remote smoke run `35319226299` passed against the production service, including the legal pages and required PNG assets.
+- Verified from current Amazon documentation that account linking is optional for an add-on that works identically for all users; the initial PedsCore read-only educational flow therefore keeps account linking disabled.
