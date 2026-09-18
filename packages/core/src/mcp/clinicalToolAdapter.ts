@@ -131,32 +131,38 @@ const toSummary = (
   };
 };
 
-const toInput = (input: ToolInput, language: Language): AgentToolInput => ({
-  id: input.id,
-  label: input.label[language],
-  ...(localize(input.description, language)
-    ? { description: localize(input.description, language) }
-    : {}),
-  type: input.type,
-  required: input.required,
-  ...(input.unit ? { unit: input.unit } : {}),
-  ...(input.min !== undefined ? { min: input.min } : {}),
-  ...(input.max !== undefined ? { max: input.max } : {}),
-  ...(input.step !== undefined ? { step: input.step } : {}),
-  ...(input.options
-    ? {
-        options: input.options.map((option) => ({
-          id: option.id,
-          label: option.label[language],
-          ...(localize(option.description, language)
-            ? { description: localize(option.description, language) }
-            : {}),
-          ...(option.score !== undefined ? { score: option.score } : {}),
-          ...(option.value !== undefined ? { value: option.value } : {})
-        }))
-      }
-    : {})
-});
+const toInput = (input: ToolInput, language: Language): AgentToolInput => {
+  const description = localize(input.description, language);
+
+  return {
+    id: input.id,
+    label: input.label[language],
+    ...(description !== undefined ? { description } : {}),
+    type: input.type,
+    required: input.required,
+    ...(input.unit ? { unit: input.unit } : {}),
+    ...(input.min !== undefined ? { min: input.min } : {}),
+    ...(input.max !== undefined ? { max: input.max } : {}),
+    ...(input.step !== undefined ? { step: input.step } : {}),
+    ...(input.options
+      ? {
+          options: input.options.map((option) => {
+            const optionDescription = localize(option.description, language);
+
+            return {
+              id: option.id,
+              label: option.label[language],
+              ...(optionDescription !== undefined
+                ? { description: optionDescription }
+                : {}),
+              ...(option.score !== undefined ? { score: option.score } : {}),
+              ...(option.value !== undefined ? { value: option.value } : {})
+            };
+          })
+        }
+      : {})
+  };
+};
 
 const searchText = (tool: ClinicalToolMetadata, language: Language): string => {
   const discovery = discoveryFor(tool);
