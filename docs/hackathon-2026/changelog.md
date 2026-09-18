@@ -26,3 +26,12 @@ Use this file to record user-visible and technically significant work created du
 - Added tests covering Apgar discovery, structured input exposure, and score parity with the existing calculator logic.
 - No generative model performs the clinical calculation; the adapter delegates to the existing deterministic PedsCore calculator registry.
 - This is the protocol-independent foundation for the first MCP tools: `search_clinical_tools`, `get_clinical_tool`, and `calculate_clinical_score`.
+
+## 2026-09-18 — M1 Streamable HTTP MCP server
+- Added a dedicated `@peds-core/mcp-server` workspace using the official MCP TypeScript SDK.
+- Added a stateless Streamable HTTP endpoint at `POST /mcp` and health endpoint at `GET /health`.
+- Registered three real MCP tools: `search_clinical_tools`, `get_clinical_tool`, and `calculate_clinical_score`.
+- Tool discovery and metadata are sourced from the existing PedsCore catalog/discovery layer.
+- Clinical score execution delegates to the existing deterministic calculator registry; the MCP/LLM layer does not calculate scores itself.
+- Added root workspace/build scripts so the MCP server is validated in normal CI.
+- CI validation after implementation: lint passed, 472 tests passed, and production build passed.
