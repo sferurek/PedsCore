@@ -43,7 +43,9 @@ const implementedToolIds = new Set([
   "prifle",
   "kdigo_pediatric",
   "modified_tal",
-  "taussig_croup"
+  "taussig_croup",
+  "strongkids",
+  "step_by_step"
 ]);
 
 type ToolSeed = Omit<
@@ -60,6 +62,34 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  step_by_step: [
+    {
+      id: "step_by_step_2016_validation",
+      title: "Validation of the Step-by-Step Approach in the Management of Young Febrile Infants",
+      authors: "Gómez B, Mintegi S, Bressan S, et al.",
+      year: 2016,
+      journalOrPublisher: "Pediatrics",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Prospective validation of sequential risk stratification in febrile infants 90 days or younger.",
+      appliesTo: ["step_by_step"],
+      priority: 1
+    },
+    {
+      id: "step_by_step_open_review",
+      title: "Management of the Febrile Young Infant: Update for the 21st Century",
+      year: 2017,
+      journalOrPublisher: "Pediatric Emergency Care review / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5679412/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access table verifies the age, appearance, leukocyturia, PCT, CRP, and ANC thresholds.",
+      appliesTo: ["step_by_step"],
+      priority: 2
+    }
+  ],
   modified_tal: [
     {
       id: "seup_2024_tal_modified",
@@ -1318,7 +1348,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Block 8B-2: original STRONGkids source located. Complete tool wording/table and reuse terms remain pending.",
+        "Original STRONGkids source plus open-access reproductions used to verify the four items, 2+1+1+1 weighting, and 0 / 1-3 / 4-5 risk bands.",
       appliesTo: ["strongkids"],
       priority: 1
     }
@@ -1917,6 +1947,42 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  strongkids: {
+    validationNotes: {
+      es: "Implementación local de STRONGkids con los cuatro ítems publicados: valoración clínica subjetiva (1), enfermedad de alto riesgo (2), ingesta/pérdidas (1) y pérdida de peso o ganancia insuficiente (1).",
+      en: "Local STRONGkids implementation using the four published items: subjective clinical assessment (1), high-risk disease (2), intake/losses (1), and weight loss or poor weight gain (1)."
+    },
+    inputs: [
+      booleanInput("poor_nutritional_status", { es: "Mal estado nutricional en valoración clínica subjetiva", en: "Poor nutritional status on subjective clinical assessment" }),
+      booleanInput("high_risk_disease", { es: "Enfermedad de alto riesgo nutricional o cirugía mayor prevista", en: "High nutritional-risk disease or planned major surgery" }),
+      booleanInput("reduced_intake_or_losses", { es: "Ingesta reducida o pérdidas relevantes", en: "Reduced intake or relevant losses" }),
+      booleanInput("weight_loss_or_poor_gain", { es: "Pérdida de peso o ganancia ponderal insuficiente", en: "Weight loss or poor weight gain" })
+    ],
+    interpretationBands: [
+      { id: "low", label: { es: "Riesgo nutricional bajo", en: "Low nutritional risk" }, min: 0, max: 0 },
+      { id: "moderate", label: { es: "Riesgo nutricional moderado", en: "Moderate nutritional risk" }, min: 1, max: 3 },
+      { id: "high", label: { es: "Riesgo nutricional alto", en: "High nutritional risk" }, min: 4, max: 5 }
+    ]
+  },
+  step_by_step: {
+    validationNotes: {
+      es: "Implementación local del enfoque Step-by-Step para lactantes febriles ≤90 días con jerarquía de riesgo por aspecto, edad, leucocituria, PCT, PCR y ANC.",
+      en: "Local Step-by-Step implementation for febrile infants ≤90 days using sequential risk classification by appearance, age, leukocyturia, PCT, CRP, and ANC."
+    },
+    inputs: [
+      { id: "age_days", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "días", min: 0, max: 90, step: 1 },
+      booleanInput("well_appearing", { es: "Buen estado general", en: "Well appearing" }),
+      booleanInput("leukocyturia", { es: "Leucocituria", en: "Leukocyturia" }),
+      { id: "procalcitonin_ng_ml", label: { es: "Procalcitonina", en: "Procalcitonin" }, type: "number", required: true, unit: "ng/mL", min: 0, max: 100, step: 0.01 },
+      { id: "crp_mg_l", label: { es: "PCR", en: "CRP" }, type: "number", required: true, unit: "mg/L", min: 0, max: 500, step: 0.1 },
+      { id: "anc", label: { es: "Recuento absoluto de neutrófilos", en: "Absolute neutrophil count" }, type: "number", required: true, unit: "/mm3", min: 0, max: 100000, step: 1 }
+    ],
+    interpretationBands: [
+      { id: "low", label: { es: "Bajo riesgo", en: "Low risk" }, min: 0, max: 0 },
+      { id: "intermediate", label: { es: "Riesgo intermedio", en: "Intermediate risk" }, min: 1, max: 1 },
+      { id: "high", label: { es: "Alto riesgo", en: "High risk" }, min: 2, max: 2 }
+    ]
+  },
   modified_tal: {
     validationNotes: {
       es: "Implementación local de la escala de Tal modificada usada para valorar gravedad de bronquiolitis/dificultad respiratoria obstructiva. La variante seleccionada utiliza FR ajustada por edad, sibilancias/crepitantes, retracciones y SatO₂.",
