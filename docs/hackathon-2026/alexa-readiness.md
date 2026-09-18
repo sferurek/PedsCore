@@ -31,9 +31,9 @@ https://www.developer.amazon.com/docs/alexaplus/add-ons/mcp-toolkit-quickstart.h
 | Deterministic calculation | Implemented | `calculate_clinical_score` |
 | Remote HTTPS URL | Blocked | Vercel preview is currently build-rate-limited |
 | <500 ms remote latency | Pending | Must measure against deployed endpoint |
-| OAuth 2.1 / PKCE | Pending | Candidate architecture below |
-| Protected Resource Metadata | Pending | Add with authentication |
-| Authorization server metadata | Pending | Add with authentication |
+| OAuth 2.1 / PKCE | Implemented server-side protection scaffold | Cognito IaC + JWT validation added; live provider provisioning and Alexa linking still pending |
+| Protected Resource Metadata | Implemented | `/.well-known/oauth-protected-resource` with configurable resource/server/scopes |
+| Authorization server metadata | Provider-dependent | Added a pre-flight probe that verifies discovery endpoints and `S256` before Alexa deployment |
 | Alexa AI CLI add-on deployment | Pending | Requires remote URL and developer-account authentication |
 | Alexa+ web simulator test | Pending | After add-on deployment |
 
@@ -63,3 +63,30 @@ This is a design candidate, not yet a completed integration. Before marking it c
 5. Scaffold the Alexa+ add-on with the real remote MCP URL.
 6. Authenticate with the Alexa AI CLI and deploy to the development stage.
 7. Exercise the add-on in the Alexa+ web simulator.
+
+## Authentication implementation added
+
+The MCP server now supports an optional `MCP_AUTH_MODE=cognito` mode that:
+
+- requires Bearer access tokens on `POST /mcp`
+- validates JWT signature against the Cognito user-pool JWKS
+- validates issuer
+- validates the resource-bound `aud` claim against the canonical MCP URI
+- requires configured OAuth scopes
+- checks `token_use=access`
+- returns HTTP 401 without a `WWW-Authenticate` header when credentials are missing/invalid
+- publishes RFC 9728 protected-resource metadata
+
+Infrastructure-as-code for the Cognito user pool, resource server, app client, managed-login domain, authorization-code flow and Alexa redirect URIs lives at:
+
+`infra/aws/cognito-alexa-mcp.yaml`
+
+Amazon's current Alexa+ MCP account-linking documentation explicitly lists AWS Cognito as a managed authorization-server option and requires PKCE S256. The actual Cognito instance is not yet provisioned because the final remote MCP URI and Alexa redirect-URI list are not available until remote deployment / add-on configuration.
+
+Before using any provider with Alexa+, run:
+
+```bash
+npm run check:alexa-oauth -w @peds-core/mcp-server -- https://AUTH-SERVER
+```
+
+The check fails unless discovery exposes an authorization endpoint, token endpoint, and `code_challenge_methods_supported` containing `S256`.
