@@ -51,7 +51,7 @@
         "endpoints": {
           "default": {
             "type": "HTTPS",
-            "uri": "https://REPLACE_WITH_REMOTE_MCP_URL/mcp"
+            "uri": "https://pedscore-ai-mcp-production.up.railway.app/mcp"
           }
         }
       }
