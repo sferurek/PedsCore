@@ -482,3 +482,307 @@
     grid-template-columns:1fr;
   }
 }
+
+
+/* PRAM PARITY — 2026-09-18
+   The PRAM pilot is the canonical visual specification for every clinical tool page.
+   These overrides intentionally reuse its geometry, typography and surface treatment. */
+.atlas-tool-v3-frame:not(.atlas-pram-frame) {
+  --tool-v3-gutter: clamp(22px, 3vw, 56px);
+  background:#eef6f9;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-page {
+  gap:10px;
+  padding:0 var(--tool-v3-gutter) 28px;
+  color:#0b2b45;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero {
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  overflow:hidden;
+  min-height:260px;
+  margin:0 calc(var(--tool-v3-gutter) * -1);
+  padding:72px var(--tool-v3-gutter) 46px;
+  border-bottom:1px solid rgba(37,92,118,.09);
+  background:
+    linear-gradient(90deg,rgba(250,253,255,.99) 0%,rgba(250,253,255,.96) 42%,rgba(250,253,255,.36) 72%,rgba(250,253,255,.82) 100%),
+    #f7fbfd;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero::before {
+  content:"";
+  position:absolute;
+  inset:0 0 0 45%;
+  z-index:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(90deg,#f8fbfd 0%,rgba(248,251,253,.13) 24%,rgba(248,251,253,.02) 100%),
+    url('/media/clinical-hero.webp');
+  background-size:cover;
+  background-position:center 18%;
+  opacity:.64;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero::after {
+  height:74px;
+  background:linear-gradient(180deg,rgba(7,31,49,.58) 0%,rgba(7,31,49,.25) 48%,rgba(7,31,49,0) 100%);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero h1 {
+  max-width:min(900px,72vw);
+  font-size:clamp(2.5rem,4.3vw,4.25rem);
+  line-height:.96;
+  letter-spacing:-.05em;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero > p {
+  max-width:840px;
+  margin:10px 0 0;
+  font-size:15px;
+  line-height:1.42;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-utility-actions {
+  right:var(--tool-v3-gutter);
+  bottom:18px;
+  gap:7px;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-utility-actions button {
+  min-height:34px;
+  padding:7px 11px;
+  border:1px solid rgba(32,85,109,.15);
+  border-radius:999px;
+  background:rgba(255,255,255,.88);
+  color:#153e58;
+  font-size:11px;
+  font-weight:800;
+  box-shadow:0 6px 18px rgba(18,64,87,.05);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-utility-actions button:hover,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-utility-actions .is-favorite {
+  border-color:#65b8c5;
+  background:#eefbfa;
+  color:#0d6d78;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid-v2,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid {
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  border:1px solid rgba(30,86,112,.12);
+  border-radius:16px;
+  background:rgba(255,255,255,.97);
+  box-shadow:0 12px 34px rgba(14,55,76,.08);
+  backdrop-filter:blur(16px);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid article,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid-v2 article {
+  min-height:66px;
+  padding:10px 14px;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid h3,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid-v2 h3 {
+  font-size:15px;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid p,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid li,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid-v2 p,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid-v2 li {
+  font-size:12.5px;
+  line-height:1.38;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-legacy-workspace {
+  grid-template-columns:minmax(0,1.72fr) minmax(360px,.93fr);
+  gap:10px;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-legacy-workspace > .content-panel {
+  border:1px solid rgba(31,87,112,.12);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(22,64,83,.05);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-legacy-workspace .result-panel {
+  top:78px;
+  min-height:392px;
+  padding-bottom:12px;
+  color:#fff;
+  border-color:#0d607c;
+  border-radius:16px;
+  background-color:#0a4d68;
+  background-image:url('/media/pram-result-landscape.svg');
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 10px 30px rgba(22,64,83,.05);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-legacy-workspace .result-panel::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,36,51,.03) 0%,rgba(3,36,51,.06) 46%,rgba(3,36,51,.2) 100%);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-legacy-workspace .result-panel > * {
+  position:relative;
+  z-index:1;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .result-value > strong {
+  color:#ffd68c;
+  font-size:clamp(4.5rem,6vw,4.875rem);
+  text-shadow:0 8px 26px rgba(0,0,0,.16);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .calculation-trace {
+  margin:8px 14px 0;
+  overflow:hidden;
+  border:0;
+  border-radius:9px;
+  background:rgba(255,255,255,.95);
+  color:#14384e;
+  backdrop-filter:none;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .calculation-trace *,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .calculation-trace dt,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .calculation-trace dd {
+  color:inherit;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-interpretation-stack {
+  padding:13px;
+  border:1px solid rgba(31,87,112,.12);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(22,64,83,.05);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-search-context,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-editorial-insight,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-evidence-summary,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-editorial-transparency,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) #references,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-review-panel,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .evidence-help,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .surface-availability-note,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .partial-active-panel,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .inactive-tool-panel,
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-metadata-panel {
+  border:1px solid #dce8ed;
+  border-radius:10px;
+  background:#fff;
+  box-shadow:none;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-related {
+  padding:12px 14px 14px;
+  border:1px solid rgba(31,87,112,.12);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(22,64,83,.05);
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-related-grid {
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-related-grid a {
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  align-items:center;
+  min-height:64px;
+  padding:9px 10px;
+  border:1px solid #dce8ed;
+  border-radius:9px;
+  color:#173e58;
+  background:#fff;
+  text-decoration:none;
+}
+
+.atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-related-grid a:hover {
+  border-color:#87c6d0;
+  box-shadow:0 7px 18px rgba(20,74,96,.05);
+}
+
+@media (min-width:1500px) {
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) {
+    --tool-v3-gutter:clamp(44px,4vw,76px);
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-legacy-workspace {
+    grid-template-columns:minmax(0,1.8fr) minmax(390px,.9fr);
+  }
+}
+
+@media (max-width:980px) {
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) {
+    --tool-v3-gutter:22px;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero::before {
+    inset:0 0 0 34%;
+    opacity:.42;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-legacy-workspace {
+    grid-template-columns:1fr;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-legacy-workspace .result-panel {
+    position:relative;
+    top:auto;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-related-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:680px) {
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) {
+    --tool-v3-gutter:14px;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-page {
+    gap:8px;
+    padding-bottom:18px;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-breadcrumbs {
+    top:68px;
+    left:18px;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero {
+    min-height:300px;
+    padding:98px 18px 74px;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero::before {
+    inset:0;
+    opacity:.2;
+    background-position:68% 14%;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero h1 {
+    max-width:100%;
+    font-size:40px;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-hero > p {
+    max-width:none;
+    font-size:13px;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .tool-utility-actions {
+    right:18px;
+    bottom:16px;
+  }
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid-v2,
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .clinical-guide-grid,
+  .atlas-tool-v3-frame:not(.atlas-pram-frame) .atlas-related-grid {
+    grid-template-columns:1fr;
+  }
+}

@@ -119,6 +119,8 @@ const titleOverrides: Record<string, LocalizedText> = {
   "bedside-schwartz": { es: "Bedside Schwartz — eGFR pediátrico | PedsCore", en: "Bedside Schwartz eGFR Calculator | PedsCore" },
   "revised-schwartz": { es: "Schwartz revisado — eGFR pediátrico | PedsCore", en: "Revised Schwartz eGFR Calculator | PedsCore" },
   "pediatric-burn-tbsa": { es: "TBSA quemaduras pediátricas — Calculadora | PedsCore", en: "Pediatric Burn TBSA Calculator | PedsCore" },
+  "pediatric-glasgow-coma-scale": { es: "Glasgow pediátrico — Escala de coma | PedsCore", en: "Pediatric Glasgow Coma Scale (GCS) | PedsCore" },
+  "phoenix-sepsis": { es: "Criterios Phoenix — Sepsis pediátrica | PedsCore", en: "Phoenix Sepsis Criteria — Pediatric Sepsis | PedsCore" },
   pim2: { es: "Calculadora PIM2 — Mortalidad pediátrica | PedsCore", en: "PIM2 Calculator — Pediatric Mortality Risk | PedsCore" },
   pim3: { es: "Calculadora PIM3 — Mortalidad pediátrica | PedsCore", en: "PIM3 Calculator — Pediatric Mortality Risk | PedsCore" },
   pipp: { es: "Escala PIPP — Dolor en prematuros | PedsCore", en: "PIPP Scale — Premature Infant Pain Profile | PedsCore" },
@@ -127,6 +129,37 @@ const titleOverrides: Record<string, LocalizedText> = {
   headsss: { es: "HEADSSS — Entrevista del adolescente | PedsCore", en: "HEADSSS Adolescent Interview | PedsCore" },
   pedmidas: { es: "PedMIDAS — Discapacidad por migraña pediátrica | PedsCore", en: "PedMIDAS Score — Pediatric Migraine Disability | PedsCore" },
   "orbegozo-growth-percentiles": { es: "Tablas Orbegozo — Percentiles de crecimiento | PedsCore", en: "Orbegozo Growth Charts — Pediatric Percentiles | PedsCore" }
+};
+
+const searchAliasOverrides: Record<string, Record<Language, string[]>> = {
+  "asthma-control-questionnaire": {
+    es: ["ACQ", "ACQ-5", "cuestionario de control del asma", "asma control test"],
+    en: ["ACQ", "ACQ-5", "Asthma Control Questionnaire", "asthma control test"]
+  },
+  "qtc-fridericia": {
+    es: ["QTc Fridericia", "calculadora QTc Fridericia", "fórmula de Fridericia"],
+    en: ["QTc Fridericia", "QTc calculator Fridericia", "Fridericia formula"]
+  },
+  pram: {
+    es: ["PRAM score", "Pediatric Respiratory Assessment Measure", "PRAM asma"],
+    en: ["PRAM score", "Pediatric Respiratory Assessment Measure", "PRAM asthma score"]
+  },
+  nips: {
+    es: ["NIPS", "Neonatal Infant Pain Scale", "escala de dolor neonatal NIPS"],
+    en: ["NIPS", "Neonatal Infant Pain Scale", "NIPS neonatal pain scale"]
+  },
+  "pediatric-burn-tbsa": {
+    es: ["TBSA quemaduras", "cálculo de superficie corporal quemada pediátrica"],
+    en: ["burn TBSA", "pediatric burn TBSA calculator", "burn calculation in pediatrics"]
+  },
+  "pediatric-glasgow-coma-scale": {
+    es: ["Glasgow pediátrico", "GCS pediátrico", "escala de coma de Glasgow pediátrica"],
+    en: ["pediatric Glasgow Coma Scale", "pediatric GCS", "GCS pedia"]
+  },
+  "phoenix-sepsis": {
+    es: ["criterios Phoenix sepsis pediátrica", "criterios Phoenix sepsis"],
+    en: ["Phoenix criteria pediatric sepsis", "Phoenix sepsis criteria", "Phoenix criteria sepsis"]
+  }
 };
 
 const categoryProfiles: Record<ToolCategory, Record<Language, CategorySeoProfile>> = {
@@ -227,6 +260,7 @@ export const getToolSeoProfile = (
   const aliases = [...new Set([
     shortName,
     ...(discovery?.aliases[language] ?? []),
+    ...(searchAliasOverrides[tool.slug]?.[language] ?? []),
     ...(discovery?.aliases[language === "es" ? "en" : "es"] ?? [])
   ].map((value) => value.trim()).filter(Boolean))].slice(0, 8);
   const baseDescription = tool.description[language] || tool.description.en;
