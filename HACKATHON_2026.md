@@ -102,6 +102,7 @@ See `docs/hackathon-2026/open-source-contribution.md`.
 
 ## Evidence and judging docs
 
+- `docs/hackathon-2026/final-submission-packet.md` — ready-to-paste Devpost packet
 - `docs/hackathon-2026/submission-evidence.md`
 - `docs/hackathon-2026/judging-quickstart.md`
 - `docs/hackathon-2026/devpost-draft.md`
