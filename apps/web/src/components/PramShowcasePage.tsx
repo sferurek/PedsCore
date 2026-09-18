@@ -1,17 +1,15 @@
 import {
   calculateTool,
-  getToolDiscovery,
   type ClinicalToolMetadata,
   type CalculationResult,
   type ToolInput
 } from "@peds-core/core";
 import type { Dispatch, RefObject, SetStateAction } from "react";
-import { categoryLabels, evidenceLabels } from "../i18n/translations";
-import { discoveryLabel } from "../utils/discoveryLabels";
+import { evidenceLabels } from "../i18n/translations";
 import type { FormValues, FormValue } from "../utils/formState";
 import { validateForm } from "../utils/formState";
 import type { Language } from "../utils/language";
-import { makePath } from "../utils/routes";
+import { ClinicalToolShell } from "./ClinicalToolShell";
 
 interface PramShowcasePageProps {
   language: Language;
@@ -75,7 +73,6 @@ export function PramShowcasePage({
   resultRef,
   relatedTools
 }: PramShowcasePageProps) {
-  const discovery = getToolDiscovery(tool.id);
   const validation = validateForm(tool, values);
   const result: CalculationResult | null = validation.isComplete
     ? calculateTool(tool.id, values)
@@ -84,10 +81,6 @@ export function PramShowcasePage({
   const ageInput = getSupportingInput(tool, "age_years");
   const oxygenConditionInput = getSupportingInput(tool, "oxygen_measurement_condition");
   const oxygenInput = getSupportingInput(tool, "oxygen_saturation");
-  const population = tool.population[language];
-  const careSetting = discovery?.careSettings?.[0]
-    ? discoveryLabel(discovery.careSettings[0], language)
-    : language === "es" ? "Urgencias pediátricas" : "Pediatric emergency care";
 
   const update = (inputId: string, value: FormValue) => {
     const next = { ...values, [inputId]: value };
@@ -108,59 +101,17 @@ export function PramShowcasePage({
   const primaryValue = result?.score ?? result?.value;
 
   return (
-    <div className="pram-showcase">
-      <section className="pram-hero-shell">
-        <div className="pram-hero-media" aria-hidden="true" />
-        <nav className="pram-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}>
-          <a href={makePath(language, "tools")} onClick={(event) => { event.preventDefault(); navigate(makePath(language, "tools")); }}>
-            {language === "es" ? "Herramientas" : "Tools"}
-          </a>
-          <span>›</span>
-          <a href={makePath(language, "categories", tool.category)} onClick={(event) => { event.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>
-            {categoryLabels[tool.category][language]}
-          </a>
-          <span>›</span>
-          <span>PRAM</span>
-        </nav>
-
-        <div className="pram-hero-copy">
-          <div className="pram-title-row">
-            <div>
-              <div className="pram-title-line">
-                <h1>PRAM Score</h1>
-                <span className="pram-clinical-badge">✓ {language === "es" ? "Herramienta clínica" : "Clinical tool"}</span>
-              </div>
-              <p>{tool.description[language]}</p>
-              <a className="pram-evidence-jump" href="#evidence">
-                {language === "es" ? "Evidencia y referencias" : "Evidence and references"} ↓
-              </a>
-            </div>
-            <div className="pram-hero-actions">
-              <button className={favorite ? "pram-pill-button is-active" : "pram-pill-button"} onClick={onFavorite} type="button" aria-pressed={favorite}>
-                {favorite ? "♥" : "♡"} {language === "es" ? "Favorito" : "Favorite"}
-              </button>
-              <button className="pram-pill-button" onClick={onShare} type="button">
-                ↗ {language === "es" ? "Compartir" : "Share"}
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="pram-summary-stack">
-        <div className="pram-trust-chips" aria-label={language === "es" ? "Nivel de evidencia" : "Evidence level"}>
-          <span>◆ {language === "es" ? "Basada en evidencia" : "Evidence based"}</span>
-          <span>ⓘ {evidenceLabels[tool.evidenceLevel][language]}</span>
-        </div>
-
-        <section className="pram-quick-strip" aria-label={language === "es" ? "Resumen clínico" : "Clinical summary"}>
-          <div><b>♟</b><span><strong>{language === "es" ? "Población" : "Population"}</strong><small>{population}</small></span></div>
-          <div><b>♧</b><span><strong>{language === "es" ? "Uso en" : "Use in"}</strong><small>{careSetting}</small></span></div>
-          <div><b>▥</b><span><strong>{language === "es" ? "Resultado principal" : "Primary result"}</strong><small>{language === "es" ? "Puntuación PRAM de 0–12" : "PRAM score from 0–12"}</small></span></div>
-          <div className="is-caution"><b>▲</b><span><strong>{language === "es" ? "Precaución importante" : "Important caution"}</strong><small>{language === "es" ? "No reemplaza el juicio clínico." : "Does not replace clinical judgment."}</small></span></div>
-        </section>
-      </div>
-
+    <ClinicalToolShell
+      favorite={favorite}
+      language={language}
+      navigate={navigate}
+      onFavorite={onFavorite}
+      onShare={onShare}
+      primaryResult={language === "es" ? "Puntuación PRAM de 0–12" : "PRAM score from 0–12"}
+      relatedTools={relatedTools}
+      title="PRAM Score"
+      tool={tool}
+    >
       <section className="pram-supporting-inputs">
         {ageInput ? (
           <label>
@@ -301,23 +252,6 @@ export function PramShowcasePage({
         <details><summary>↻ <span><strong>{language === "es" ? "Revisión y mantenimiento" : "Review and maintenance"}</strong><small>{language === "es" ? "Trazabilidad del proyecto" : "Project traceability"}</small></span><b>⌄</b></summary><div><p>{language === "es" ? "La implementación y sus fuentes se mantienen de forma auditable en el repositorio PedsCore." : "Implementation and sources are maintained in an auditable way in the PedsCore repository."}</p></div></details>
       </section>
 
-      {relatedTools.length > 0 ? (
-        <section className="pram-related" id="related">
-          <div className="pram-related-heading">
-            <h2>⌁ {language === "es" ? "Herramientas relacionadas" : "Related tools"}</h2>
-            <p>{language === "es" ? "Otras herramientas pediátricas que pueden ser de interés." : "Other pediatric tools that may be relevant."}</p>
-          </div>
-          <div className="pram-related-grid">
-            {relatedTools.slice(0, 4).map((related) => (
-              <a key={related.id} href={makePath(language, "tools", related.slug)} onClick={(event) => { event.preventDefault(); navigate(makePath(language, "tools", related.slug)); }}>
-                <span className="pram-related-icon">{related.category === "respiratory" ? "◒" : "▦"}</span>
-                <span><strong>{related.shortName || related.name[language]}</strong><small>{related.description[language]}</small></span>
-                <b>→</b>
-              </a>
-            ))}
-          </div>
-        </section>
-      ) : null}
-    </div>
+    </ClinicalToolShell>
   );
 }

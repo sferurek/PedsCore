@@ -1,0 +1,143 @@
+.clinical-tool-shell-body {
+  display:grid;
+  gap:10px;
+  min-width:0;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .tool-layout,
+.atlas-pram-frame .clinical-tool-shell-body .tool-main,
+.atlas-pram-frame .clinical-tool-shell-body .tool-page-main {
+  display:grid;
+  gap:10px;
+  min-width:0;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .tool-layout {
+  grid-template-columns:1fr;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .tool-metadata-panel {
+  width:100%;
+  margin:0;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .tool-clinical-guide,
+.atlas-pram-frame .clinical-tool-shell-body .atlas-section-nav {
+  display:none;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace,
+.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace {
+  display:grid;
+  grid-template-columns:minmax(0,1.72fr) minmax(360px,.93fr);
+  gap:10px;
+  align-items:start;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace > .content-panel,
+.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace > .content-panel,
+.atlas-pram-frame .clinical-tool-shell-body .tool-interpretation-stack,
+.atlas-pram-frame .clinical-tool-shell-body .content-panel,
+.atlas-pram-frame .clinical-tool-shell-body .tool-review-panel,
+.atlas-pram-frame .clinical-tool-shell-body .tool-metadata-panel {
+  margin:0;
+  border:1px solid rgba(31,87,112,.12);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(22,64,83,.05);
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace .result-panel,
+.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace .result-panel {
+  position:sticky;
+  top:78px;
+  overflow:hidden;
+  min-height:392px;
+  padding-bottom:12px;
+  color:#fff;
+  border-color:#0d607c;
+  border-radius:16px;
+  background-color:#0a4d68;
+  background-image:url('/media/pram-result-landscape.svg');
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 10px 30px rgba(22,64,83,.05);
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace .result-panel::before,
+.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace .result-panel::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,36,51,.03) 0%,rgba(3,36,51,.06) 46%,rgba(3,36,51,.2) 100%);
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace .result-panel > *,
+.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace .result-panel > * {
+  position:relative;
+  z-index:1;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .result-panel h2,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel h3,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel p,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel dt,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel dd {
+  color:inherit;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .result-value > strong {
+  color:#ffd68c;
+  font-size:clamp(4.5rem,6vw,4.875rem);
+  text-shadow:0 8px 26px rgba(0,0,0,.16);
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .tool-interpretation-stack,
+.atlas-pram-frame .clinical-tool-shell-body .tool-search-context,
+.atlas-pram-frame .clinical-tool-shell-body .tool-editorial-insight,
+.atlas-pram-frame .clinical-tool-shell-body .tool-evidence-summary,
+.atlas-pram-frame .clinical-tool-shell-body .tool-editorial-transparency,
+.atlas-pram-frame .clinical-tool-shell-body #references,
+.atlas-pram-frame .clinical-tool-shell-body .tool-review-panel,
+.atlas-pram-frame .clinical-tool-shell-body .evidence-help,
+.atlas-pram-frame .clinical-tool-shell-body .surface-availability-note,
+.atlas-pram-frame .clinical-tool-shell-body .partial-active-panel,
+.atlas-pram-frame .clinical-tool-shell-body .inactive-tool-panel,
+.atlas-pram-frame .clinical-tool-shell-body .tool-metadata-panel {
+  padding:13px 16px;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .tool-section-heading h2,
+.atlas-pram-frame .clinical-tool-shell-body .content-panel > h2 {
+  margin-top:0;
+  color:#103d5c;
+  font-size:17px;
+}
+
+.atlas-pram-frame .clinical-tool-shell-body .eyebrow {
+  color:#1591a5;
+  font-size:9px;
+  font-weight:900;
+}
+
+@media (min-width:1500px) {
+  .atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace,
+  .atlas-pram-frame .clinical-tool-shell-body .atlas-workspace {
+    grid-template-columns:minmax(0,1.8fr) minmax(390px,.9fr);
+  }
+}
+
+@media (max-width:980px) {
+  .atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace,
+  .atlas-pram-frame .clinical-tool-shell-body .atlas-workspace {
+    grid-template-columns:1fr;
+  }
+
+  .atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace .result-panel,
+  .atlas-pram-frame .clinical-tool-shell-body .atlas-workspace .result-panel {
+    position:relative;
+    top:auto;
+  }
+}

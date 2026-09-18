@@ -8,6 +8,7 @@ import "./styles/pram-showcase.css";
 import "./styles/pram-refinement.css";
 import "./styles/pram-polish-2.css";
 import "./styles/pram-tuning.css";
+import "./styles/clinical-tool-shell.css";
 import "./styles/tool-v3.css";
 
 const rootElement = document.getElementById("root");

@@ -7,8 +7,7 @@ import {
   type WhoGrowthPreset
 } from "@peds-core/core";
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { atlas } from "../i18n/atlas";
-import { categoryLabels } from "../i18n/translations";
+import { ClinicalToolShell } from "../components/ClinicalToolShell";
 import { DisclaimerBox } from "../components/DisclaimerBox";
 import { DynamicForm } from "../components/DynamicForm";
 import { GitHubFeedbackLink } from "../components/GitHubFeedbackLink";
@@ -20,9 +19,8 @@ import { ScoringTable } from "../components/ScoringTable";
 import { ToolMetadataPanel } from "../components/ToolMetadataPanel";
 import { ToolClinicalGuide } from "../components/ToolClinicalGuide";
 import { ToolEditorialInsight } from "../components/ToolEditorialInsight";
-import { ToolStatusBadge } from "../components/ToolStatusBadge";
 import { ToolReviewPanel } from "../components/ToolReviewPanel";
-import { evidenceLabels, riskLabels, statusLabels, translations } from "../i18n/translations";
+import { evidenceLabels, statusLabels, translations } from "../i18n/translations";
 import {
   getUnlockActions,
   hasEvidenceBlock
@@ -69,8 +67,6 @@ const getWhoGrowthPreset = (tool: ClinicalToolMetadata): WhoGrowthPreset | null 
 
 export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   const t = translations[language];
-  const a = atlas[language];
-  const isCanonical = tool.slug === "pram";
   const discovery = getToolDiscovery(tool.id);
   const whoGrowthPreset = getWhoGrowthPreset(tool);
   const whoGrowthTool = whoGrowthPreset ? getToolBySlug("who-growth") : null;
@@ -177,44 +173,18 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   };
 
   return (
-    <div className={isCanonical ? "tool-page atlas-canonical" : "tool-page"}>
-      <nav className="atlas-breadcrumbs" aria-label={language === "es" ? "Ruta de navegación" : "Breadcrumbs"}><a href={makePath(language, "tools")} onClick={e => { e.preventDefault(); navigate(makePath(language, "tools")); }}>{language === "es" ? "Herramientas" : "Tools"}</a><span>/</span><a href={makePath(language, "categories", tool.category)} onClick={e => { e.preventDefault(); navigate(makePath(language, "categories", tool.category)); }}>{categoryLabels[tool.category][language]}</a><span>/</span><span>{isCanonical ? "PRAM" : tool.name[language]}</span></nav>
-      <section className="tool-hero">
-        <h1>{isCanonical ? "PRAM" : tool.name[language]}</h1>
-        {isCanonical ? <p className="atlas-expanded-name">{tool.name[language]}</p> : null}
-        <p>{tool.description[language]}</p>
-        <div className="tool-hero-meta">
-          <ToolStatusBadge language={language} status={tool.implementationStatus} toolId={tool.id} />
-          <span>{evidenceLabels[tool.evidenceLevel][language]}</span>
-          <span>{riskLabels[tool.regulatoryRisk][language]}</span>
-        </div>
-        <div className="tool-utility-actions">
-          <button
-            aria-pressed={favorite}
-            className={favorite ? "favorite-action is-favorite" : "favorite-action"}
-            onClick={handleFavorite}
-            type="button"
-          >
-            {favorite ? "★" : "☆"} {favorite
-              ? (language === "es" ? "En favoritos" : "Favorited")
-              : (language === "es" ? "Añadir a favoritos" : "Add to favorites")}
-          </button>
-          <button className="secondary-action" onClick={handleShare} type="button">
-            {language === "es" ? "Compartir" : "Share"}
-          </button>
-        </div>
-      </section>
-
-      <nav className="atlas-section-nav" aria-label={language === "es" ? "Secciones de la herramienta" : "Tool sections"}>
-        <a href="#clinical-context">{language === "es" ? "Resumen clínico" : "Clinical summary"}</a>
-        <a href="#about-tool">{language === "es" ? "Sobre la herramienta" : "About this tool"}</a>
-        <a href="#calculator">{hasActiveCalculation ? a.calculator : language === "es" ? "Uso" : "Use"}</a>
-        {hasActiveCalculation ? <a href="#interpretation">{language === "es" ? "Interpretación" : "Interpretation"}</a> : null}
-        <a href="#evidence">{a.evidence}</a>
-        <a href="#clinical-review">{language === "es" ? "Revisión" : "Review"}</a>
-        <a href="#references">{a.references}</a>
-        {relatedTools.length > 0 ? <a href="#related">{a.related}</a> : null}
-      </nav>
+    <ClinicalToolShell
+      favorite={favorite}
+      language={language}
+      navigate={navigate}
+      onFavorite={handleFavorite}
+      onShare={handleShare}
+      primaryResult={hasActiveCalculation
+        ? (language === "es" ? "Resultado calculado e interpretación clínica" : "Calculated result and clinical interpretation")
+        : (language === "es" ? "Referencia clínica" : "Clinical reference")}
+      relatedTools={relatedTools}
+      tool={tool}
+    >
       <div className="tool-layout">
         <div className="tool-main tool-page-main">
           <ToolClinicalGuide language={language} tool={tool} />
@@ -419,7 +389,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
               </div>
             </section>
           ) : hasActiveCalculation ? (
-            <div className={isCanonical ? "atlas-workspace" : "atlas-legacy-workspace"} id="calculator">
+            <div className="atlas-legacy-workspace" id="calculator">
               {isWhoGrowth ? (
                 <WhoGrowthForm
                   language={language}
@@ -625,35 +595,6 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
         </div>
         <ToolMetadataPanel language={language} tool={tool} />
       </div>
-      {relatedTools.length > 0 ? (
-        <section className="atlas-related" id="related">
-          <div className="tool-section-heading">
-            <p className="eyebrow">{language === "es" ? "SIGUE EXPLORANDO" : "KEEP EXPLORING"}</p>
-            <h2>{a.related}</h2>
-            <p>
-              {language === "es"
-                ? "Herramientas próximas por problema clínico, finalidad o especialidad."
-                : "Nearby tools by clinical problem, purpose or specialty."}
-            </p>
-          </div>
-          <div className="atlas-related-grid">
-            {relatedTools.map((item) => (
-              <a
-                key={item.id}
-                href={makePath(language, "tools", item.slug)}
-                onClick={(event) => {
-                  event.preventDefault();
-                  navigate(makePath(language, "tools", item.slug));
-                }}
-              >
-                <span>{item.shortName || item.name[language]}</span>
-                <small>{item.description[language]}</small>
-                <b aria-hidden="true">→</b>
-              </a>
-            ))}
-          </div>
-        </section>
-      ) : null}
-    </div>
+    </ClinicalToolShell>
   );
 }
