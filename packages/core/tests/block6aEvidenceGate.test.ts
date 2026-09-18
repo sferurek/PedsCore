@@ -12,7 +12,6 @@ const blockedTools = [
   { slug: "brighton-pews", id: "brighton_pews", status: "not_implemented_due_to_licensing", note: "complete table is not available from a traceable reusable source" },
   { slug: "brosjod", id: "brosjod", status: "pending_validation", note: "Original/full table" },
   { slug: "pipp", id: "pipp", status: "not_implemented_due_to_licensing" },
-  { slug: "pipp-r", id: "pipp_r", status: "pending_validation" },
   { slug: "comfortneo", id: "comfortneo", status: "pending_validation" }
 ] as const;
 
