@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "kdigo_pediatric",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -55,6 +56,40 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  kdigo_pediatric: [
+    {
+      id: "kdigo_2012_aki_guideline",
+      title: "KDIGO Clinical Practice Guideline for Acute Kidney Injury",
+      authors: "Kidney Disease: Improving Global Outcomes (KDIGO) Acute Kidney Injury Work Group",
+      year: 2012,
+      journalOrPublisher: "Kidney International Supplements",
+      citation:
+        "KDIGO Acute Kidney Injury Work Group. KDIGO Clinical Practice Guideline for Acute Kidney Injury. Kidney Int Suppl. 2012;2:1-138.",
+      url: "https://kdigo.org/wp-content/uploads/2016/10/KDIGO-2012-AKI-Guideline-English.pdf",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "society_statement",
+      accessType: "open_access",
+      notes:
+        "Primary source for AKI definition and staging. PedsCore implements the pediatric <18-year eGFR <35 mL/min/1.73 m² stage-3 criterion and keeps neonatal definitions outside this tool.",
+      appliesTo: ["kdigo_pediatric"],
+      priority: 1
+    },
+    {
+      id: "kdigo_aki_guideline_hub",
+      title: "KDIGO Acute Kidney Injury guideline",
+      authors: "Kidney Disease: Improving Global Outcomes",
+      year: 2026,
+      journalOrPublisher: "KDIGO",
+      url: "https://kdigo.org/guidelines/acute-kidney-injury/",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Official KDIGO hub. The PedsCore implementation remains explicitly versioned to the published 2012 criteria pending a final newer guideline.",
+      appliesTo: ["kdigo_pediatric"],
+      priority: 2
+    }
+  ],
   apgar: [
     {
       id: "apgar_1953_original",
@@ -1684,6 +1719,11 @@ const prifleValidationNotes: LocalizedText = {
   en: "Block 8B-3: original pRIFLE source located with DOI/PMID. Complete criteria, baseline eCCl, urine output, units, and expert review remain pending."
 };
 
+const kdigoPediatricValidationNotes: LocalizedText = {
+  es: "Implementacion pediatrica no neonatal de los criterios KDIGO 2012 para lesion renal aguda. Integra incremento absoluto de creatinina en 48 h, multiplicador respecto al basal de 7 dias, diuresis, eGFR <35 mL/min/1,73 m² en menores de 18 anos y terapia renal sustitutiva para estadio 3. PedsCore no imputa silenciosamente una creatinina basal y usa siempre el estadio mas grave disponible. La salida es clasificatoria, sin recomendaciones terapeuticas.",
+  en: "Non-neonatal pediatric implementation of the 2012 KDIGO acute kidney injury criteria. It integrates absolute creatinine rise over 48 h, the 7-day baseline multiplier, urine output, eGFR <35 mL/min/1.73 m² in patients under 18 years, and renal replacement therapy for stage 3. PedsCore never silently imputes a baseline creatinine and always reports the highest available stage. Output is classificatory and contains no treatment recommendations."
+};
+
 const rflaccValidationNotes: LocalizedText = {
   es: "Bloque 8B-3: validacion rFLACC localizada con DOI/PMID. Pendiente descriptores revisados completos, personalizacion por familia y revision de reutilizacion/licencia.",
   en: "Block 8B-3: rFLACC validation located with DOI/PMID. Complete revised descriptors, family customization handling, and reuse/licensing review remain pending."
@@ -1793,6 +1833,100 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  kdigo_pediatric: {
+    calculationNotes: {
+      es: "KDIGO 2012 pediatrico no neonatal. Introduce creatinina actual, una creatinina previa de hasta 48 h si existe y una basal/de referencia de los 7 dias previos si esta disponible. No se inventa un basal desconocido. La diuresis puede evaluarse por separado y el estadio global es el mayor entre creatinina/eGFR, diuresis y criterios de estadio 3. Menores de 28 dias quedan fuera del alcance.",
+      en: "Non-neonatal pediatric KDIGO 2012. Enter current creatinine, a value from the previous 48 h when available, and a baseline/reference value from the prior 7 days when available. An unknown baseline is not imputed. Urine output is assessed separately and the overall stage is the highest of creatinine/eGFR, urine output, and stage-3 criteria. Infants under 28 days are outside this tool's scope."
+    },
+    inputs: [
+      {
+        id: "age_scope",
+        label: { es: "Grupo de edad", en: "Age group" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("child_28_days_to_under_18_years", "28 dias a <18 anos", "28 days to <18 years"),
+          option("neonate_under_28_days", "<28 dias (fuera de alcance)", "<28 days (out of scope)")
+        ]
+      },
+      {
+        id: "creatinine_unit",
+        label: { es: "Unidad de creatinina", en: "Creatinine unit" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("mg_dl", "mg/dL", "mg/dL"),
+          option("umol_l", "µmol/L", "µmol/L")
+        ]
+      },
+      { id: "current_creatinine", label: { es: "Creatinina actual", en: "Current creatinine" }, type: "number", required: true, min: 0.01, max: 2000, step: 0.01 },
+      { id: "previous_creatinine_48h", label: { es: "Creatinina previa ≤48 h", en: "Previous creatinine ≤48 h" }, description: { es: "Opcional; permite evaluar aumento absoluto ≥0,3 mg/dL en 48 h.", en: "Optional; enables assessment of an absolute ≥0.3 mg/dL rise within 48 h." }, type: "number", required: false, min: 0.01, max: 2000, step: 0.01 },
+      {
+        id: "baseline_status",
+        label: { es: "Creatinina basal/de referencia", en: "Baseline/reference creatinine" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("known_or_estimated", "Disponible (medida o estimada externamente)", "Available (measured or externally estimated)"),
+          option("unknown", "Desconocida · no imputar", "Unknown · do not impute")
+        ]
+      },
+      { id: "baseline_creatinine_7d", label: { es: "Creatinina basal/de referencia ≤7 dias", en: "Baseline/reference creatinine ≤7 days" }, type: "number", required: false, min: 0.01, max: 2000, step: 0.01 },
+      { id: "current_egfr", label: { es: "eGFR actual", en: "Current eGFR" }, description: { es: "Opcional. En <18 anos, eGFR <35 mL/min/1,73 m² cumple criterio KDIGO de estadio 3.", en: "Optional. In patients <18 years, eGFR <35 mL/min/1.73 m² meets the KDIGO stage-3 criterion." }, type: "number", required: false, unit: "mL/min/1,73 m²", min: 0.1, max: 300, step: 0.1 },
+      {
+        id: "urine_data_status",
+        label: { es: "Datos de diuresis", en: "Urine-output data" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("available", "Disponibles", "Available"),
+          option("unavailable", "No disponibles", "Unavailable")
+        ]
+      },
+      { id: "urine_output_ml_kg_h", label: { es: "Diuresis", en: "Urine output" }, type: "number", required: false, unit: "mL/kg/h", min: 0, max: 20, step: 0.01 },
+      { id: "urine_duration_hours", label: { es: "Duracion de esa diuresis", en: "Duration of that urine-output rate" }, type: "number", required: false, unit: "h", min: 0, max: 720, step: 0.5 },
+      { id: "anuria_hours", label: { es: "Horas de anuria", en: "Hours of anuria" }, type: "number", required: false, unit: "h", min: 0, max: 720, step: 0.5 },
+      {
+        id: "rrt_started",
+        label: { es: "Terapia renal sustitutiva iniciada", en: "Renal replacement therapy initiated" },
+        type: "single_choice",
+        required: true,
+        options: [
+          option("no", "No", "No"),
+          option("yes", "Si", "Yes")
+        ]
+      }
+    ],
+    scoringTable: [
+      {
+        id: "kdigo_stage_1",
+        variable: { es: "Estadio 1", en: "Stage 1" },
+        value: "1",
+        description: {
+          es: "SCr 1,5-1,9× basal o aumento ≥0,3 mg/dL; o diuresis <0,5 mL/kg/h durante 6-12 h.",
+          en: "SCr 1.5-1.9× baseline or ≥0.3 mg/dL rise; or urine output <0.5 mL/kg/h for 6-12 h."
+        }
+      },
+      {
+        id: "kdigo_stage_2",
+        variable: { es: "Estadio 2", en: "Stage 2" },
+        value: "2",
+        description: {
+          es: "SCr 2,0-2,9× basal; o diuresis <0,5 mL/kg/h durante ≥12 h.",
+          en: "SCr 2.0-2.9× baseline; or urine output <0.5 mL/kg/h for ≥12 h."
+        }
+      },
+      {
+        id: "kdigo_stage_3",
+        variable: { es: "Estadio 3", en: "Stage 3" },
+        value: "3",
+        description: {
+          es: "SCr ≥3× basal, SCr ≥4 mg/dL, terapia renal sustitutiva o, en <18 anos, eGFR <35 mL/min/1,73 m²; o diuresis <0,3 mL/kg/h ≥24 h o anuria ≥12 h.",
+          en: "SCr ≥3× baseline, SCr ≥4 mg/dL, renal replacement therapy, or in patients <18 years eGFR <35 mL/min/1.73 m²; or urine output <0.3 mL/kg/h ≥24 h or anuria ≥12 h."
+        }
+      }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4233,7 +4367,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("bedside_schwartz", "bedside-schwartz", "Bedside Schwartz", "Bedside Schwartz", "Bedside Schwartz", "nephrology", "egfr", "calculator", "Ninos con creatinina y talla disponibles", "Children with available creatinine and height", "Estimacion de filtrado glomerular pediatrico.", "Pediatric estimated glomerular filtration rate.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con talla, creatinina, cistatina C, BUN y sexo disponibles", "Children with available height, creatinine, cystatin C, BUN, and sex", "Formula CKiD 2009 multivariable para eGFR pediatrico estimado.", "2009 multivariable CKiD equation for estimated pediatric eGFR.", "ready_for_implementation", "original_derivation_study", "medium", revisedSchwartzReadyNotes),
   makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificacion pediatrica de lesion renal aguda.", "Pediatric acute kidney injury classification.", "pending_validation", "original_derivation_study", "medium", prifleValidationNotes),
-  makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO pediatrico", "KDIGO pediatrico", "Pediatric KDIGO", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Aplicacion pediatrica de criterios KDIGO para lesion renal aguda.", "Pediatric application of KDIGO criteria for acute kidney injury.", "pending_validation", "pending_verification", "medium"),
+  makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO 2012", "KDIGO pediatrico 2012", "Pediatric KDIGO 2012", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos de 28 dias a menos de 18 anos con posible lesion renal aguda", "Children aged 28 days to under 18 years with possible acute kidney injury", "Clasificacion KDIGO 2012 de lesion renal aguda pediatrica por creatinina, eGFR, diuresis y terapia renal sustitutiva.", "2012 KDIGO pediatric acute kidney injury classification using creatinine, eGFR, urine output, and renal replacement therapy.", "implemented", "clinical_practice_guideline", "medium", kdigoPediatricValidationNotes),
   makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Evalua disfuncion organica multiple pediatrica.", "Assesses pediatric multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pelod", "pelod", "PELOD", "PELOD", "PELOD", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Score de disfuncion organica pediatrica.", "Pediatric organ dysfunction score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pelod_2", "pelod-2", "PELOD-2", "PELOD-2", "PELOD-2", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Version PELOD-2 para disfuncion organica multiple.", "PELOD-2 version for multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
