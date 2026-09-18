@@ -8,6 +8,13 @@ import {
   getClinicalToolForAgent,
   searchClinicalToolsForAgent
 } from "@peds-core/core";
+import {
+  createBearerAuthMiddleware,
+  loadAuthConfig,
+  protectedResourceMetadata,
+  validateAuthConfig
+} from "./auth.js";
+import type { AuthConfig } from "./auth.js";
 
 const jsonResult = (value: unknown) => ({
   content: [
@@ -106,18 +113,32 @@ export const createPedsCoreMcpServer = (): McpServer => {
   return server;
 };
 
-export const createPedsCoreMcpApp = () => {
+export const createPedsCoreMcpApp = (options?: { authConfig?: AuthConfig }) => {
   const app = createMcpExpressApp();
+  const authConfig = options?.authConfig ?? loadAuthConfig();
+  validateAuthConfig(authConfig);
+  const authMiddleware = createBearerAuthMiddleware(authConfig);
 
   app.get("/health", (_req: Request, res: Response) => {
     res.status(200).json({
       status: "ok",
       service: "pedscore-ai-mcp",
-      transport: "streamable-http"
+      transport: "streamable-http",
+      authentication: authConfig.mode
     });
   });
 
-  app.post("/mcp", async (req: Request, res: Response) => {
+  app.get("/.well-known/oauth-protected-resource", (_req: Request, res: Response) => {
+    const metadata = protectedResourceMetadata(authConfig);
+    if (!metadata) {
+      res.status(404).json({ error: "authentication_not_configured" });
+      return;
+    }
+
+    res.status(200).json(metadata);
+  });
+
+  app.post("/mcp", authMiddleware, async (req: Request, res: Response) => {
     const server = createPedsCoreMcpServer();
     const transport = new StreamableHTTPServerTransport({});
 
