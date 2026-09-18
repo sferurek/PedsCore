@@ -8,9 +8,9 @@ Parameters:
   CognitoDomainPrefix:
     Type: String
     Description: Globally unique Cognito managed-login domain prefix.
-  AlexaRedirectUri:
-    Type: String
-    Description: Alexa account-linking redirect URI shown by the Alexa AI CLI.
+  AlexaRedirectUris:
+    Type: CommaDelimitedList
+    Description: All Alexa account-linking redirect URIs shown by the Alexa AI CLI / Developer Hub.
   ResourceServerIdentifier:
     Type: String
     Description: Canonical MCP resource URI, for example https://mcp.example.com/mcp
@@ -58,8 +58,7 @@ Resources:
         - code
       AllowedOAuthScopes:
         - !Sub "${ResourceServerIdentifier}/${ClinicalReadScopeName}"
-      CallbackURLs:
-        - !Ref AlexaRedirectUri
+      CallbackURLs: !Ref AlexaRedirectUris
       SupportedIdentityProviders:
         - COGNITO
       PreventUserExistenceErrors: ENABLED
