@@ -78,7 +78,7 @@ export function DynamicForm({
 
   if (!hasActiveForm(tool)) {
     return (
-      <section className="content-panel">
+      <section className="content-panel clinical-calculator-card">
         <h2>{t.form.title}</h2>
         <p className="empty-state">{t.form.noActiveForm}</p>
       </section>
@@ -87,7 +87,7 @@ export function DynamicForm({
 
   return (
     <section className="content-panel">
-      <div className="atlas-form-heading"><h2>{t.form.title}</h2><button type="button" onClick={() => { setValues(initialState); setOpenInputId(getFirstInputId(tool)); onStateChange(initialState); }}>{atlas[language].reset}</button></div>
+      <div className="atlas-form-heading clinical-surface-heading"><h2>{t.form.title}</h2><button type="button" onClick={() => { setValues(initialState); setOpenInputId(getFirstInputId(tool)); onStateChange(initialState); }}>{atlas[language].reset}</button></div>
       <p className="muted">{t.form.privacyNote}</p>
       <form className="dynamic-form" noValidate>
         {tool.inputs?.map((input, index) => (
