@@ -2002,8 +2002,6 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         required: true,
         options: [
           option("color_0", "Normal", "Normal", 0),
-          option("color_1", "Normal", "Normal", 1),
-          option("color_2", "Normal", "Normal", 2),
           option("color_3", "Cianosis", "Cyanosis", 3)
         ]
       },
