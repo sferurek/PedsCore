@@ -83,3 +83,9 @@ Use this file to record user-visible and technically significant work created du
 - CI run `35319230843` passed.
 - External remote smoke run `35319226299` passed against the production service, including the legal pages and required PNG assets.
 - Verified from current Amazon documentation that account linking is optional for an add-on that works identically for all users; the initial PedsCore read-only educational flow therefore keeps account linking disabled.
+
+## 2026-09-18 — Alexa manifest gate added
+- Added `scripts/validate-alexa-manifest.mjs` to enforce the current Alexa+ MCP store-listing constraints before deployment.
+- Added `npm run alexa:validate`.
+- Added the Alexa+ manifest validation gate to the main CI workflow.
+- CI run `35319496923` passed lint, tests, Alexa manifest validation, and full build.
