@@ -2,6 +2,12 @@
 
 This document tracks the actual state of the PedsCore Alexa+ / MCP integration.
 
+## Primary-track eligibility
+
+The current Devpost rules explicitly accept a working self-hosted MCP server using MCP 2025-11-25 or later over Streamable HTTP for the Alexa+ primary track. PedsCore uses this route.
+
+The private Alexa AI CLI/add-on workflow is useful additional evidence, but it is not required for the self-hosted MCP submission path.
+
 ## Implemented and verified
 
 | Capability | Status | Evidence |
@@ -33,13 +39,15 @@ The issue has been escalated to the hackathon support path and is recorded in th
 
 ## Remote service
 
-- Base: https://pedscore-ai-mcp-production.up.railway.app
+- Base / judge landing: https://pedscore-ai-mcp-production.up.railway.app
+- Judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
+- Capability manifest: https://pedscore-ai-mcp-production.up.railway.app/capabilities
 - MCP: https://pedscore-ai-mcp-production.up.railway.app/mcp
 - Health: https://pedscore-ai-mcp-production.up.railway.app/health
 - Privacy: https://pedscore-ai-mcp-production.up.railway.app/privacy
 - Terms: https://pedscore-ai-mcp-production.up.railway.app/terms
 
-The currently validated public deployment intentionally remains on the known-good M1/M2 runtime until the SIM bridge backend can be published. This avoids exposing MCP tools that depend on an unreachable simulator service.
+The MCP surface includes the SIM tool contracts even when the remote simulator backend is unavailable. Those calls fail closed with an explicit `SIM IMV unavailable` MCP error until `SIM_IMV_API_URL` is configured; the three clinical tools remain independent.
 
 ## Performance evidence
 
