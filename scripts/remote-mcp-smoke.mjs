@@ -219,6 +219,14 @@ const calculation = await rpc(4, "tools/call", {
   }
 });
 
+const simulationContract = await rpc(5, "tools/call", {
+  name: "start_simulation_case",
+  arguments: {
+    scenarioId: "school-bus",
+    algorithmId: "jumpstart"
+  }
+});
+
 const report = {
   baseUrl,
   health,
@@ -242,6 +250,13 @@ const report = {
     toolId: calculation.payload.result?.structuredContent?.result?.toolId,
     score: calculation.payload.result?.structuredContent?.result?.score,
     maxScore: calculation.payload.result?.structuredContent?.result?.maxScore
+  },
+  simulationContract: {
+    durationMs: simulationContract.durationMs,
+    isError: simulationContract.payload.result?.isError === true,
+    scenarioId:
+      simulationContract.payload.result?.structuredContent?.result?.scenario?.id,
+    text: simulationContract.payload.result?.content?.[0]?.text
   }
 };
 
@@ -257,7 +272,13 @@ const assertions = [
   [report.search.firstToolId === "apgar", "Apgar discovery"],
   [report.calculation.toolId === "apgar", "Apgar calculation tool"],
   [report.calculation.score === 9, "Apgar score"],
-  [report.calculation.maxScore === 10, "Apgar max score"]
+  [report.calculation.maxScore === 10, "Apgar max score"],
+  [
+    report.simulationContract.scenarioId === "school-bus" ||
+      (report.simulationContract.isError &&
+        report.simulationContract.text?.includes("SIM IMV unavailable")),
+    "simulation contract response"
+  ]
 ];
 
 const failed = assertions.filter(([ok]) => !ok).map(([, label]) => label);
