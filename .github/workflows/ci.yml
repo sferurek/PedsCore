@@ -29,6 +29,9 @@ jobs:
       - name: Test
         run: npm run test
 
+      - name: Validate Alexa+ manifest
+        run: npm run alexa:validate
+
       - name: Build
         run: npm run build
 
