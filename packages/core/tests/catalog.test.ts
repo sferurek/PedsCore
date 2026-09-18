@@ -32,6 +32,7 @@ const implementedToolIds = [
   "bedside_schwartz",
   "revised_schwartz",
   "westley_croup",
+  "cdc_growth_percentiles",
   "pram",
   "clinical_dehydration_scale",
   "pediatric_appendicitis_score",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -290,10 +291,31 @@ describe("clinical tools catalog", () => {
     expect(tool?.validationNotes.en).toContain("PediTools API");
   });
 
+  it("activates CDC 2000/2022 growth percentiles with local LMS data", () => {
+    const tool = getTool("cdc_growth_percentiles");
+
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.shortName).toBe("CDC 2000/2022");
+    expect(tool?.inputs?.map((input) => input.id)).toEqual([
+      "sex",
+      "age_months",
+      "weight_kg",
+      "height_cm"
+    ]);
+    expect(tool?.scoringTable?.map((row) => row.id)).toEqual([
+      "cdc_weight_for_age",
+      "cdc_stature_for_age",
+      "cdc_bmi_for_age"
+    ]);
+    expect(tool?.references.some((reference) => reference.id === "cdc_growth_charts_lms_data")).toBe(true);
+    expect(tool?.references.some((reference) => reference.id === "cdc_extended_bmi_2022")).toBe(true);
+    expect(tool?.validationNotes.en).toContain("CDC 2022");
+  });
+
   it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
     const reviewedPendingIds = [
-      "bhutani_nomogram",
-      "cdc_growth_percentiles"
+      "bhutani_nomogram"
     ];
 
     for (const id of reviewedPendingIds) {
@@ -473,8 +495,7 @@ describe("clinical tools catalog", () => {
       "pim3",
       "prism_iii",
       "prism_iv",
-      "who_growth_percentiles",
-      "cdc_growth_percentiles"
+      "who_growth_percentiles"
     ];
 
     for (const id of maintainerDependentIds) {
@@ -505,9 +526,6 @@ describe("clinical tools catalog", () => {
       expect(tool?.validationNotes.en).toContain("WHO");
     }
 
-    expect(getTool("cdc_growth_percentiles")?.implementationStatus).toBe(
-      "pending_validation"
-    );
     expect(getTool("neonatal_growth_fenton")?.implementationStatus).toBe(
       "pending_validation"
     );
