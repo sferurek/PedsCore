@@ -92,7 +92,7 @@ if (!health) {
   throw new Error("Remote health endpoint did not become ready within five minutes.");
 }
 
-const compliancePaths = ["/privacy", "/terms"];
+const compliancePaths = ["/privacy", "/terms", "/judge-demo"];
 const assetPaths = [
   "/store-assets/icon-72x72.png",
   "/store-assets/icon-64x64.png",
@@ -118,11 +118,21 @@ for (let attempt = 1; attempt <= 30; attempt += 1) {
       if (!result.response.ok || !contentType?.includes("text/html")) {
         throw new Error(`Compliance endpoint not ready: ${path} HTTP ${result.response.status}`);
       }
-      await result.response.arrayBuffer();
+      const html = await result.response.text();
+      if (
+        path === "/judge-demo" &&
+        (!html.includes("Judge Console") ||
+          !html.includes("search_clinical_tools") ||
+          !html.includes("calculate_clinical_score") ||
+          !html.includes("start_simulation_case"))
+      ) {
+        throw new Error("Judge demo is missing required live MCP verification content");
+      }
       nextCompliance[path] = {
         status: result.response.status,
         contentType,
-        durationMs: result.durationMs
+        durationMs: result.durationMs,
+        ...(path === "/judge-demo" ? { judgeDemoVerified: true } : {})
       };
     }
 
