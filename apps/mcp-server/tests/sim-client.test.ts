@@ -99,7 +99,7 @@ describe("SIM IMV bridge client", () => {
   });
 
   it("aborts an upstream request that exceeds the configured timeout", async () => {
-    const url = await listen((_req, _res) => {
+    const url = await listen(() => {
       // Intentionally leave the response open until the client aborts.
     });
 
