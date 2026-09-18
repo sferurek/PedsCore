@@ -44,3 +44,12 @@ Use this file to record user-visible and technically significant work created du
 - Added a non-deployable Alexa+ `addon.template.json` with PedsCore-specific store copy, example phrases, and MCP integration structure.
 - Recorded the current Vercel preview build-rate limit as a hackathon friction item.
 - Latest validation: lint passed, all tests passed, and all builds passed.
+
+## 2026-09-18 — Alexa OAuth / Cognito security scaffold
+- Added optional Bearer-token protection for the MCP endpoint.
+- Added RFC 9728 protected-resource metadata at `/.well-known/oauth-protected-resource`.
+- Added Cognito JWT verification against remote JWKS, issuer, resource-bound audience, access-token type, and required scopes.
+- Added tests proving unauthenticated MCP calls return HTTP 401 without `WWW-Authenticate`, as required by Alexa+ MCP onboarding.
+- Added AWS CloudFormation for a Cognito user pool, resource server, authorization-code app client, managed-login domain, refresh-token lifetime, and support for all Alexa redirect URIs.
+- Added an authorization-server metadata pre-flight probe that checks Alexa-required PKCE S256 discovery before deployment.
+- CI remains green after the authentication work: lint, tests, and all builds pass.
