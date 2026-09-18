@@ -1,7 +1,8 @@
-// Vendored CDC 2000 LMS data. Canonical source: https://www.cdc.gov/growthcharts/data/zscore/bmiagerev.csv
-// Source rows verified against CDC's published data-file schema; mirror used only to vendor immutable CSV bytes into the repository.
-export type CdcLmsRow = { sex: "male" | "female"; ageMonths: number; L: number; M: number; S: number; p97: number };
-export const cdcBmiForAge: CdcLmsRow[] = [
+// Vendored CDC 2000 BMI-for-age LMS data (2-20 years).
+// Canonical source: https://www.cdc.gov/growthcharts/data/zscore/bmiagerev.csv
+// Source rows verified against CDC's published schema; mirror used only to vendor immutable CSV bytes into the repository.
+export type CdcBmiLmsRow = { sex: "male" | "female"; ageMonths: number; L: number; M: number; S: number; p97: number };
+export const cdcBmiForAge: CdcBmiLmsRow[] = [
 {sex:"male",ageMonths:24,L:-2.01118107,M:16.57502768,S:0.080592465,p97:19.85985812},
 {sex:"male",ageMonths:24.5,L:-1.982373595,M:16.54777487,S:0.080127429,p97:19.79194014},
 {sex:"male",ageMonths:25.5,L:-1.924100169,M:16.49442763,S:0.079233994,p97:19.66102345},
@@ -439,57 +440,6 @@ export const cdcBmiForAge: CdcLmsRow[] = [
 {sex:"female",ageMonths:238.5,L:-2.350528726,M:21.70108288,S:0.152221086,p97:34.91250374},
 {sex:"female",ageMonths:239.5,L:-2.346962247,M:21.71189225,S:0.152716206,p97:35.00830552},
 {sex:"female",ageMonths:240,L:-2.34495843,M:21.71699934,S:0.152974718,p97:35.05675093},
-{sex:"female",ageMonths:240.5,L:-2.342796948,M:21.72190973,S:0.153240872,p97:35.10555822},
-{sex:"male",ageMonths:0,L:-0.3053,M:13.4069,S:0.0956,p97:16.1},
-{sex:"male",ageMonths:1,L:0.2708,M:14.9441,S:0.09027,p97:17.6},
-{sex:"male",ageMonths:2,L:0.1118,M:16.3195,S:0.08677,p97:19.2},
-{sex:"male",ageMonths:3,L:0.0068,M:16.8987,S:0.08495,p97:19.8},
-{sex:"male",ageMonths:4,L:-0.0727,M:17.1579,S:0.08378,p97:20.1},
-{sex:"male",ageMonths:5,L:-0.137,M:17.2919,S:0.08296,p97:20.2},
-{sex:"male",ageMonths:6,L:-0.1913,M:17.3422,S:0.08234,p97:20.3},
-{sex:"male",ageMonths:7,L:-0.2385,M:17.3288,S:0.08183,p97:20.3},
-{sex:"male",ageMonths:8,L:-0.2802,M:17.2647,S:0.0814,p97:20.2},
-{sex:"male",ageMonths:9,L:-0.3176,M:17.1662,S:0.08102,p97:20.1},
-{sex:"male",ageMonths:10,L:-0.3516,M:17.0488,S:0.08068,p97:19.9},
-{sex:"male",ageMonths:11,L:-0.3828,M:16.9239,S:0.08037,p97:19.8},
-{sex:"male",ageMonths:12,L:-0.4115,M:16.7981,S:0.08009,p97:19.6},
-{sex:"male",ageMonths:13,L:-0.4382,M:16.6743,S:0.07982,p97:19},
-{sex:"male",ageMonths:14,L:-0.463,M:16.5548,S:0.07958,p97:19.3},
-{sex:"male",ageMonths:15,L:-0.4863,M:16.4409,S:0.07935,p97:19.2},
-{sex:"male",ageMonths:16,L:-0.5082,M:16.3335,S:0.07913,p97:19.1},
-{sex:"male",ageMonths:17,L:-0.5289,M:16.2329,S:0.07892,p97:18.9},
-{sex:"male",ageMonths:18,L:-0.5484,M:16.1392,S:0.07873,p97:18.8},
-{sex:"male",ageMonths:19,L:-0.5669,M:16.0528,S:0.07854,p97:18.7},
-{sex:"male",ageMonths:20,L:-0.5846,M:15.9743,S:0.07836,p97:18.6},
-{sex:"male",ageMonths:21,L:-0.6014,M:15.9039,S:0.07818,p97:18.6},
-{sex:"male",ageMonths:22,L:-0.6174,M:15.8412,S:0.07802,p97:18.5},
-{sex:"male",ageMonths:23,L:-0.6328,M:15.7852,S:0.07786,p97:18.4},
-{sex:"male",ageMonths:24,L:-0.6473,M:15.7356,S:0.07771,p97:18.3},
-{sex:"female",ageMonths:0,L:-0.0631,M:13.3363,S:0.09272,p97:15.9},
-{sex:"female",ageMonths:1,L:0.3448,M:14.5679,S:0.09556,p97:17.3},
-{sex:"female",ageMonths:2,L:0.1749,M:15.7679,S:0.09371,p97:18.8},
-{sex:"female",ageMonths:3,L:0.0643,M:16.3574,S:0.09254,p97:19.4},
-{sex:"female",ageMonths:4,L:-0.0191,M:16.6703,S:0.09166,p97:19.8},
-{sex:"female",ageMonths:5,L:-0.0864,M:16.8386,S:0.09096,p97:20},
-{sex:"female",ageMonths:6,L:-0.1429,M:16.9083,S:0.09036,p97:20.1},
-{sex:"female",ageMonths:7,L:-0.1916,M:16.902,S:0.08984,p97:20.1},
-{sex:"female",ageMonths:8,L:-0.2344,M:16.8404,S:0.08939,p97:20},
-{sex:"female",ageMonths:9,L:-0.2725,M:16.7406,S:0.08898,p97:19.9},
-{sex:"female",ageMonths:10,L:-0.3068,M:16.6184,S:0.08861,p97:19.7},
-{sex:"female",ageMonths:11,L:-0.3381,M:16.4875,S:0.08828,p97:19.6},
-{sex:"female",ageMonths:12,L:-0.3667,M:16.3568,S:0.08797,p97:19.4},
-{sex:"female",ageMonths:13,L:-0.3932,M:16.2311,S:0.08768,p97:19.2},
-{sex:"female",ageMonths:14,L:-0.4177,M:16.1128,S:0.08741,p97:19.1},
-{sex:"female",ageMonths:15,L:-0.4407,M:16.0028,S:0.08716,p97:19},
-{sex:"female",ageMonths:16,L:-0.4623,M:15.9017,S:0.08693,p97:18.8},
-{sex:"female",ageMonths:17,L:-0.4825,M:15.8096,S:0.08671,p97:18.7},
-{sex:"female",ageMonths:18,L:-0.5017,M:15.7263,S:0.0865,p97:18.6},
-{sex:"female",ageMonths:19,L:-0.5199,M:15.6517,S:0.0863,p97:18.5},
-{sex:"female",ageMonths:20,L:-0.5372,M:15.5855,S:0.08612,p97:18.5},
-{sex:"female",ageMonths:21,L:-0.5537,M:15.5278,S:0.08594,p97:18.4},
-{sex:"female",ageMonths:22,L:-0.5695,M:15.4787,S:0.08577,p97:18.3},
-{sex:"female",ageMonths:23,L:-0.5846,M:15.438,S:0.0856,p97:18.3},
-{sex:"female",ageMonths:24,L:-0.5989,M:15.4052,S:0.08545,p97:18.2}
+{sex:"female",ageMonths:240.5,L:-2.342796948,M:21.72190973,S:0.153240872,p97:35.10555822}
 ];
-
 export const cdcBmiForAgeSource = "https://www.cdc.gov/growthcharts/data/zscore/bmiagerev.csv";
