@@ -130,11 +130,9 @@ export const kdigoPediatricCalculator: CalculatorDefinition = {
     }
 
     let creatinineStage: Stage = 0;
-    let akiByCreatinine = false;
 
     if (previous48 !== null && current - previous48 >= 0.3) {
       creatinineStage = maxStage(creatinineStage, 1);
-      akiByCreatinine = true;
     }
 
     if (baseline !== null) {
@@ -143,7 +141,6 @@ export const kdigoPediatricCalculator: CalculatorDefinition = {
       else if (ratio >= 2) creatinineStage = maxStage(creatinineStage, 2);
       else if (ratio >= 1.5) creatinineStage = maxStage(creatinineStage, 1);
 
-      if (ratio >= 1.5) akiByCreatinine = true;
     }
 
     if (current >= 4) {
