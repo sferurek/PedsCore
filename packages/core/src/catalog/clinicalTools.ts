@@ -90,7 +90,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       id: "vas_pediatric_pain_open_review",
       title: "Visual analogue scales for pediatric self-reported pain intensity",
       journalOrPublisher: "Open-access pediatric pain literature",
-      url: "https://pmc.ncbi.nlm.nih.gov/",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5261830/",
       evidenceLevel: "peer_reviewed_review",
       sourceType: "journal_article",
       accessType: "open_access",
