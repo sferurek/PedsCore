@@ -32,6 +32,7 @@ const implementedToolIds = [
   "bedside_schwartz",
   "revised_schwartz",
   "westley_croup",
+  "pipp_r",
   "pram",
   "clinical_dehydration_scale",
   "pediatric_appendicitis_score",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -311,7 +312,6 @@ describe("clinical tools catalog", () => {
     const licenseSensitivePendingIds = [
       "bhutani_nomogram",
       "pipp",
-      "pipp_r",
       "comfortneo",
       "brighton_pews",
       "orbegozo_growth_percentiles",
@@ -325,6 +325,27 @@ describe("clinical tools catalog", () => {
         "ready_for_implementation"
       );
     }
+  });
+
+  it("activates PIPP-R 2014 while keeping original PIPP separate", () => {
+    const revised = getTool("pipp_r");
+    const original = getTool("pipp");
+
+    expect(revised?.implementationStatus).toBe("implemented");
+    expect(revised?.calculationStatus).toBe("active");
+    expect(original?.implementationStatus).not.toBe("implemented");
+    expect(revised?.inputs?.map((input) => input.id)).toEqual([
+      "corrected_gestational_age_weeks",
+      "baseline_behavioral_state",
+      "heart_rate_increase_bpm",
+      "oxygen_saturation_decrease_points",
+      "oxygen_increase_required",
+      "brow_bulge_seconds",
+      "eye_squeeze_seconds",
+      "nasolabial_furrow_seconds"
+    ]);
+    expect(revised?.references.some((reference) => reference.pmid === "24503979")).toBe(true);
+    expect(revised?.validationNotes.en).toContain("subtotal");
   });
 
   it("keeps Block 8B-2 reviewed tools non-operational until source, table, variant, and licensing gates are complete", () => {
