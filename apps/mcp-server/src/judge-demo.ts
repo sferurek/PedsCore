@@ -1,4 +1,4 @@
-export const judgeDemoHtml = \`<!doctype html>
+export const judgeDemoHtml = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -43,4 +43,4 @@ function summary(kind,payload){const r=payload.result||{};const s=r.structuredCo
 document.querySelectorAll("button[data-demo]").forEach(function(button){button.addEventListener("click",async function(){const kind=button.dataset.demo;const result=document.getElementById("result-"+kind);const trace=document.getElementById("trace-"+kind);button.disabled=true;result.className="result";result.textContent="Calling the live MCP server…";trace.innerHTML="";try{const payload=await toolCall(calls[kind]);result.innerHTML=summary(kind,payload);result.classList.add(payload.result&&payload.result.isError?"warn":"ok");const d=document.createElement("details");const s=document.createElement("summary");s.textContent="Show MCP trace";const p=document.createElement("pre");p.textContent=JSON.stringify(payload,null,2);d.appendChild(s);d.appendChild(p);trace.appendChild(d)}catch(error){result.textContent="Request failed: "+String(error);result.classList.add("warn")}finally{button.disabled=false}})});
 </script>
 </body>
-</html>\`;
+</html>`;
