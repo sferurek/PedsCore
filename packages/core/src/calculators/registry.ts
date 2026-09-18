@@ -39,6 +39,10 @@ import {
   kdigoPediatricCalculator,
   prifleCalculator
 } from "./renalOpen.js";
+import {
+  modifiedTalCalculator,
+  taussigCroupCalculator
+} from "./respiratoryScores.js";
 
 const calculators = [
   apgarCalculator,
@@ -70,7 +74,9 @@ const calculators = [
   pediatricBurnTbsaCalculator,
   ckidU25Calculator,
   prifleCalculator,
-  kdigoPediatricCalculator
+  kdigoPediatricCalculator,
+  modifiedTalCalculator,
+  taussigCroupCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
