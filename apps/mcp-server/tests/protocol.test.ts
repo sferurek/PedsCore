@@ -182,6 +182,35 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     });
   });
 
+  it("fails closed when the SIM bridge is not configured", async () => {
+    const previous = process.env.SIM_IMV_API_URL;
+    delete process.env.SIM_IMV_API_URL;
+
+    try {
+      const { response, payload } = await rpc({
+        jsonrpc: "2.0",
+        id: 5,
+        method: "tools/call",
+        params: {
+          name: "start_simulation_case",
+          arguments: {
+            scenarioId: "school-bus",
+            algorithmId: "jumpstart"
+          }
+        }
+      });
+
+      expect(response.ok).toBe(true);
+      expect(payload.result?.isError).toBe(true);
+    } finally {
+      if (previous === undefined) {
+        delete process.env.SIM_IMV_API_URL;
+      } else {
+        process.env.SIM_IMV_API_URL = previous;
+      }
+    }
+  });
+
   it("rejects unsupported HTTP methods on the MCP endpoint", async () => {
     const response = await fetch(`${baseUrl}/mcp`);
     expect(response.status).toBe(405);
