@@ -21,7 +21,15 @@ The model does not invent score arithmetic or the canonical triage answer.
 
 ## 2. Verify the public MCP service
 
-Public endpoint:
+Judge console:
+
+`https://pedscore-ai-mcp-production.up.railway.app/judge-demo`
+
+Capability manifest:
+
+`https://pedscore-ai-mcp-production.up.railway.app/capabilities`
+
+MCP endpoint:
 
 `https://pedscore-ai-mcp-production.up.railway.app/mcp`
 
@@ -29,7 +37,7 @@ Health:
 
 `https://pedscore-ai-mcp-production.up.railway.app/health`
 
-The current production service is the last validated M1/M2 runtime while the M3 SIM backend is awaiting a public deployment.
+The judge console performs real MCP calls against the public service. The capability manifest exposes the protocol target, transport, six tool contracts, deterministic boundaries, and whether the optional SIM backend is remotely configured.
 
 ## 3. Inspect the implementation
 
@@ -73,7 +81,7 @@ A learner may submit a triage category conversationally, but correctness is comp
 
 ## 6. Current external constraints
 
-Two external integration constraints are intentionally documented rather than hidden:
+Two external integration constraints are intentionally documented rather than hidden. Neither is required for the current self-hosted MCP eligibility path:
 
 - Alexa AI CLI access is waiting on Amazon-side authorization to the private developer-tools role.
 - The private SIM IMV repository is not currently authorized in the Railway GitHub App, blocking its independent public deployment.
