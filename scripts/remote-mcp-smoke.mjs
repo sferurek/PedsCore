@@ -36,6 +36,15 @@ const timedFetch = async (url, init) => {
   return { response, durationMs };
 };
 
+const pngDimensions = (bytes) => {
+  if (bytes.length < 24) throw new Error("PNG too small to contain IHDR dimensions");
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  return {
+    width: view.getUint32(16, false),
+    height: view.getUint32(20, false)
+  };
+};
+
 const rpc = async (id, method, params = {}) => {
   const { response, durationMs } = await timedFetch(`${baseUrl}/mcp`, {
     method: "POST",
@@ -123,10 +132,31 @@ for (let attempt = 1; attempt <= 30; attempt += 1) {
       if (!result.response.ok || !contentType?.includes("image/png") || signature !== "137,80,78,71,13,10,26,10") {
         throw new Error(`Store asset not ready: ${path} HTTP ${result.response.status}`);
       }
+      const dimensions = pngDimensions(bytes);
+      const iconMatch = /icon-(\d+)x(\d+)\.png$/.exec(path);
+      if (iconMatch) {
+        const expectedWidth = Number(iconMatch[1]);
+        const expectedHeight = Number(iconMatch[2]);
+        if (dimensions.width !== expectedWidth || dimensions.height !== expectedHeight) {
+          throw new Error(
+            `Store icon dimensions mismatch: ${path} expected ${expectedWidth}x${expectedHeight}, got ${dimensions.width}x${dimensions.height}`
+          );
+        }
+      } else if (
+        path.endsWith("/carousel-1.png") &&
+        (dimensions.width !== 600 || dimensions.height !== 900)
+      ) {
+        throw new Error(
+          `Carousel dimensions mismatch: expected 600x900, got ${dimensions.width}x${dimensions.height}`
+        );
+      }
+
       nextAssets[path] = {
         status: result.response.status,
         contentType,
         bytes: bytes.length,
+        width: dimensions.width,
+        height: dimensions.height,
         durationMs: result.durationMs
       };
     }
