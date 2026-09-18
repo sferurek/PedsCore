@@ -61,6 +61,8 @@ import {
   mriscCalculator,
   visualAnalogueScaleCalculator
 } from "./additionalOpenTools.js";
+import { cdcGrowthPercentilesCalculator } from "./cdcGrowth.js";
+import { phoenixSepsisCalculator } from "./phoenixSepsis.js";
 
 const calculators = [
   apgarCalculator,
@@ -104,7 +106,9 @@ const calculators = [
   prism4Calculator,
   mriscCalculator,
   gorelickDehydrationCalculator,
-  visualAnalogueScaleCalculator
+  visualAnalogueScaleCalculator,
+  cdcGrowthPercentilesCalculator,
+  phoenixSepsisCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
