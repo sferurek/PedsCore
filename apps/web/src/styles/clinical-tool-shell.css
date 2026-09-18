@@ -1,3 +1,6 @@
+/* Canonical clinical tool surfaces.
+   PRAM is the visual source of truth; every tool detail page uses these primitives. */
+
 .clinical-tool-shell-body {
   display:grid;
   gap:10px;
@@ -26,6 +29,7 @@
   display:none;
 }
 
+/* Shared PRAM workspace geometry */
 .atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace,
 .atlas-pram-frame .clinical-tool-shell-body .atlas-workspace {
   display:grid;
@@ -34,12 +38,11 @@
   align-items:start;
 }
 
-.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace > .content-panel,
-.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace > .content-panel,
-.atlas-pram-frame .clinical-tool-shell-body .tool-interpretation-stack,
+/* Shared clinical cards */
 .atlas-pram-frame .clinical-tool-shell-body .content-panel,
 .atlas-pram-frame .clinical-tool-shell-body .tool-review-panel,
-.atlas-pram-frame .clinical-tool-shell-body .tool-metadata-panel {
+.atlas-pram-frame .clinical-tool-shell-body .tool-metadata-panel,
+.atlas-pram-frame .clinical-tool-shell-body .tool-interpretation-stack {
   margin:0;
   border:1px solid rgba(31,87,112,.12);
   border-radius:16px;
@@ -47,54 +50,6 @@
   box-shadow:0 10px 30px rgba(22,64,83,.05);
 }
 
-.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace .result-panel,
-.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace .result-panel {
-  position:sticky;
-  top:78px;
-  overflow:hidden;
-  min-height:392px;
-  padding-bottom:12px;
-  color:#fff;
-  border-color:#0d607c;
-  border-radius:16px;
-  background-color:#0a4d68;
-  background-image:url('/media/pram-result-landscape.svg');
-  background-size:cover;
-  background-position:center;
-  box-shadow:0 10px 30px rgba(22,64,83,.05);
-}
-
-.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace .result-panel::before,
-.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace .result-panel::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  background:linear-gradient(180deg,rgba(3,36,51,.03) 0%,rgba(3,36,51,.06) 46%,rgba(3,36,51,.2) 100%);
-}
-
-.atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace .result-panel > *,
-.atlas-pram-frame .clinical-tool-shell-body .atlas-workspace .result-panel > * {
-  position:relative;
-  z-index:1;
-}
-
-.atlas-pram-frame .clinical-tool-shell-body .result-panel h2,
-.atlas-pram-frame .clinical-tool-shell-body .result-panel h3,
-.atlas-pram-frame .clinical-tool-shell-body .result-panel p,
-.atlas-pram-frame .clinical-tool-shell-body .result-panel dt,
-.atlas-pram-frame .clinical-tool-shell-body .result-panel dd {
-  color:inherit;
-}
-
-.atlas-pram-frame .clinical-tool-shell-body .result-value > strong {
-  color:#ffd68c;
-  font-size:clamp(4.5rem,6vw,4.875rem);
-  text-shadow:0 8px 26px rgba(0,0,0,.16);
-}
-
-.atlas-pram-frame .clinical-tool-shell-body .tool-interpretation-stack,
 .atlas-pram-frame .clinical-tool-shell-body .tool-search-context,
 .atlas-pram-frame .clinical-tool-shell-body .tool-editorial-insight,
 .atlas-pram-frame .clinical-tool-shell-body .tool-evidence-summary,
@@ -122,6 +77,366 @@
   font-weight:900;
 }
 
+/* Canonical calculator surface */
+.atlas-pram-frame .clinical-calculator-card {
+  overflow:hidden;
+  padding:0;
+}
+
+.atlas-pram-frame .clinical-calculator-card > .clinical-surface-heading,
+.atlas-pram-frame .clinical-calculator-card > .atlas-form-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:0;
+  padding:13px 16px;
+  border-bottom:1px solid #e2edf1;
+}
+
+.atlas-pram-frame .clinical-calculator-card > .clinical-surface-heading h2,
+.atlas-pram-frame .clinical-calculator-card > .atlas-form-heading h2 {
+  margin:0;
+  color:#103d5c;
+  font-size:17px;
+}
+
+.atlas-pram-frame .clinical-calculator-card > .clinical-surface-heading button,
+.atlas-pram-frame .clinical-calculator-card > .atlas-form-heading button {
+  min-height:30px;
+  padding:5px 9px;
+  border:1px solid #d5e4ea;
+  border-radius:999px;
+  background:white;
+  color:#356179;
+  font-size:10px;
+  font-weight:800;
+  line-height:1;
+}
+
+.atlas-pram-frame .clinical-calculator-card > .muted {
+  margin:9px 16px 0;
+  color:#607685;
+  font-size:10px;
+}
+
+.atlas-pram-frame .clinical-calculator-card .dynamic-form {
+  display:grid;
+  gap:7px;
+  padding:10px 16px 14px;
+}
+
+.atlas-pram-frame .clinical-calculator-card .accordion-field {
+  overflow:hidden;
+  border:1px solid #e1eaee;
+  border-radius:10px;
+  background:#fbfcfd;
+}
+
+.atlas-pram-frame .clinical-calculator-card .accordion-field.open {
+  border-color:#8fcbd4;
+  background:#fff;
+}
+
+.atlas-pram-frame .clinical-calculator-card .accordion-trigger {
+  width:100%;
+  min-height:54px;
+  padding:10px 12px;
+  border:0;
+  background:transparent;
+}
+
+.atlas-pram-frame .clinical-calculator-card .accordion-label strong {
+  color:#103b58;
+  font-size:11px;
+}
+
+.atlas-pram-frame .clinical-calculator-card .accordion-label small,
+.atlas-pram-frame .clinical-calculator-card .accordion-content p,
+.atlas-pram-frame .clinical-calculator-card .option-card span,
+.atlas-pram-frame .clinical-calculator-card .option-card small {
+  font-size:9px;
+  line-height:1.3;
+}
+
+.atlas-pram-frame .clinical-calculator-card .step-badge {
+  display:grid;
+  place-items:center;
+  min-width:30px;
+  height:30px;
+  border-radius:999px;
+  background:#eef7f9;
+  color:#0f6d8f;
+  font-size:10px;
+  font-weight:900;
+}
+
+.atlas-pram-frame .clinical-calculator-card .accordion-content {
+  padding:0 12px 12px;
+}
+
+.atlas-pram-frame .clinical-calculator-card .option-grid {
+  gap:6px;
+}
+
+.atlas-pram-frame .clinical-calculator-card .option-card,
+.atlas-pram-frame .clinical-calculator-card .boolean-toggle button {
+  min-height:52px;
+  padding:6px 8px;
+  border:1px solid #e1eaee;
+  border-radius:8px;
+  background:linear-gradient(180deg,#fbfcfd,#f5f7f8);
+  color:#39566a;
+}
+
+.atlas-pram-frame .clinical-calculator-card .option-card.selected,
+.atlas-pram-frame .clinical-calculator-card .boolean-toggle button.selected {
+  border-color:#51b4c4;
+  background:linear-gradient(180deg,#e4f8fa,#d7f1f4);
+  color:#0b5d6d;
+  box-shadow:inset 0 0 0 1px rgba(81,180,196,.18);
+}
+
+.atlas-pram-frame .clinical-calculator-card .number-input,
+.atlas-pram-frame .clinical-calculator-card select {
+  border-color:#cddfe7;
+  border-radius:9px;
+  background:#fff;
+}
+
+.atlas-pram-frame .clinical-calculator-card .form-continue {
+  min-height:34px;
+  border-radius:999px;
+  background:#0f7892;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+}
+
+/* Canonical result surface — exact PRAM visual treatment */
+.atlas-pram-frame .clinical-result-card,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel {
+  position:sticky;
+  top:78px;
+  overflow:hidden;
+  min-height:392px;
+  padding:0 0 12px;
+  color:#fff;
+  border-color:#0d607c;
+  border-radius:16px;
+  background-color:#0a4d68;
+  background-image:url('/media/pram-result-landscape.svg');
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 10px 30px rgba(22,64,83,.05);
+}
+
+.atlas-pram-frame .clinical-result-card::before,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(3,36,51,.03) 0%,rgba(3,36,51,.06) 46%,rgba(3,36,51,.2) 100%);
+}
+
+.atlas-pram-frame .clinical-result-card > *,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel > * {
+  position:relative;
+  z-index:1;
+}
+
+.atlas-pram-frame .clinical-result-card > h2,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel > h2 {
+  margin:0;
+  padding:13px 16px 4px;
+  color:#fff;
+  font-size:17px;
+}
+
+.atlas-pram-frame .clinical-result-card h3,
+.atlas-pram-frame .clinical-result-card p,
+.atlas-pram-frame .clinical-result-card dt,
+.atlas-pram-frame .clinical-result-card dd,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel h3,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel p,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel dt,
+.atlas-pram-frame .clinical-tool-shell-body .result-panel dd {
+  color:inherit;
+}
+
+.atlas-pram-frame .clinical-result-card .calculated-result {
+  padding:0 14px;
+}
+
+.atlas-pram-frame .clinical-result-card .result-value {
+  display:grid;
+  place-items:center;
+  gap:3px;
+  padding:4px 0 8px;
+  border:0;
+  background:transparent;
+  text-align:center;
+}
+
+.atlas-pram-frame .clinical-result-card .result-value > span {
+  color:#d8edf4;
+  font-size:9px;
+  font-weight:800;
+}
+
+.atlas-pram-frame .clinical-result-card .result-value > strong,
+.atlas-pram-frame .clinical-tool-shell-body .result-value > strong {
+  display:block;
+  color:#ffd68c;
+  font-size:clamp(4.5rem,6vw,4.875rem);
+  line-height:1;
+  letter-spacing:-.06em;
+  text-shadow:0 8px 26px rgba(0,0,0,.16);
+}
+
+.atlas-pram-frame .clinical-result-card .calculated-result > div:not(.result-value):not(.calculation-trace) {
+  margin:9px 0;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:10px;
+  background:rgba(4,40,59,.4);
+  backdrop-filter:blur(4px);
+}
+
+.atlas-pram-frame .clinical-result-card .calculated-result h3 {
+  margin:0 0 4px;
+  font-size:11px;
+}
+
+.atlas-pram-frame .clinical-result-card .calculated-result p,
+.atlas-pram-frame .clinical-result-card .warning-list {
+  margin:0;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.atlas-pram-frame .clinical-result-card .calculation-trace,
+.atlas-pram-frame .clinical-tool-shell-body .calculation-trace {
+  margin:8px 0 0;
+  overflow:hidden;
+  border:0;
+  border-radius:9px;
+  background:rgba(255,255,255,.95);
+  color:#14384e;
+  backdrop-filter:none;
+}
+
+.atlas-pram-frame .clinical-result-card .calculation-trace *,
+.atlas-pram-frame .clinical-tool-shell-body .calculation-trace * {
+  color:inherit;
+}
+
+.atlas-pram-frame .clinical-result-card .calculation-trace summary {
+  padding:9px 10px;
+  font-size:10px;
+  font-weight:900;
+}
+
+.atlas-pram-frame .clinical-result-card .trace-list {
+  margin:0;
+  padding:0 10px 8px;
+}
+
+.atlas-pram-frame .clinical-result-card .trace-list > div {
+  padding:5px 0;
+  border-top:1px solid #dce8ed;
+  font-size:9px;
+}
+
+.atlas-pram-frame .clinical-result-card > .inactive-calculation,
+.atlas-pram-frame .clinical-result-card > p {
+  margin:10px 14px;
+  padding:11px 13px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:10px;
+  background:rgba(4,40,59,.38);
+  color:#effaff;
+  font-size:10px;
+  line-height:1.4;
+}
+
+/* Canonical interpretation/scoring surfaces */
+.atlas-pram-frame .tool-interpretation-stack {
+  display:grid;
+  gap:8px;
+  padding:0 13px 13px;
+}
+
+.atlas-pram-frame .tool-interpretation-stack > .tool-section-heading {
+  padding:11px 2px 1px;
+}
+
+.atlas-pram-frame .clinical-interpretation-card,
+.atlas-pram-frame .clinical-scoring-card {
+  padding:0;
+  overflow:hidden;
+  border-radius:10px;
+  box-shadow:none;
+}
+
+.atlas-pram-frame .clinical-interpretation-card > h2,
+.atlas-pram-frame .clinical-scoring-card > h2 {
+  margin:0;
+  padding:10px 12px;
+  border-bottom:1px solid #e2edf1;
+  color:#103d5c;
+  font-size:12px;
+}
+
+.atlas-pram-frame .clinical-interpretation-card .table-scroll,
+.atlas-pram-frame .clinical-scoring-card .table-scroll {
+  overflow:auto;
+}
+
+.atlas-pram-frame .clinical-interpretation-card table,
+.atlas-pram-frame .clinical-scoring-card table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:9px;
+}
+
+.atlas-pram-frame .clinical-interpretation-card th,
+.atlas-pram-frame .clinical-scoring-card th {
+  padding:8px 10px;
+  background:#f0f5f7;
+  color:#36576b;
+  font-size:8px;
+  text-align:left;
+}
+
+.atlas-pram-frame .clinical-interpretation-card td,
+.atlas-pram-frame .clinical-scoring-card td {
+  padding:8px 10px;
+  border-top:1px solid #e6eff3;
+  color:#39566a;
+  line-height:1.3;
+}
+
+.atlas-pram-frame .clinical-interpretation-card tbody tr:nth-child(even),
+.atlas-pram-frame .clinical-scoring-card tbody tr:nth-child(even) {
+  background:#fbfcfd;
+}
+
+/* Keep special WHO/AAP/external surfaces within the same system. */
+.atlas-pram-frame .clinical-tool-shell-body .who-growth-result-panel,
+.atlas-pram-frame .clinical-tool-shell-body .partial-active-panel,
+.atlas-pram-frame .clinical-tool-shell-body .surface-availability-note,
+.atlas-pram-frame .clinical-tool-shell-body .inactive-tool-panel {
+  border-radius:16px;
+}
+
+/* Header alignment for all tool-detail routes. */
+.atlas-tool-v3-frame .tool-minimal-header {
+  padding-right:clamp(8px,1vw,14px);
+}
+
 @media (min-width:1500px) {
   .atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace,
   .atlas-pram-frame .clinical-tool-shell-body .atlas-workspace {
@@ -135,9 +450,24 @@
     grid-template-columns:1fr;
   }
 
-  .atlas-pram-frame .clinical-tool-shell-body .atlas-legacy-workspace .result-panel,
-  .atlas-pram-frame .clinical-tool-shell-body .atlas-workspace .result-panel {
+  .atlas-pram-frame .clinical-result-card,
+  .atlas-pram-frame .clinical-tool-shell-body .result-panel {
     position:relative;
     top:auto;
+  }
+}
+
+@media (max-width:680px) {
+  .atlas-pram-frame .clinical-calculator-card .dynamic-form {
+    padding-inline:12px;
+  }
+
+  .atlas-pram-frame .clinical-calculator-card .number-accordion-row {
+    grid-template-columns:1fr;
+  }
+
+  .atlas-pram-frame .clinical-interpretation-card table,
+  .atlas-pram-frame .clinical-scoring-card table {
+    min-width:520px;
   }
 }

@@ -14,7 +14,7 @@ export function InterpretationTable({
   const t = translations[language];
 
   return (
-    <section className="content-panel">
+    <section className="content-panel clinical-interpretation-card">
       <h2>{t.tables.interpretation}</h2>
       {tool.interpretationBands?.length ? (
         <div className="table-scroll">
