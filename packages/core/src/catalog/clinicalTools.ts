@@ -20,6 +20,7 @@ const implementedToolIds = new Set([
   "modified_sarnat_nichd",
   "thompson_hie",
   "cries",
+  "pipp_r",
   "bedside_pews",
   "wood_downes_ferres",
   "qtc_bazett",
@@ -1690,8 +1691,13 @@ const rflaccValidationNotes: LocalizedText = {
 };
 
 const pippValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuentes PIPP y PIPP-R localizadas. Siguen pendientes tabla completa, ajuste por edad gestacional, interpretacion, permisos de reutilizacion y separacion clara de variantes antes de activar calculo.",
-  en: "Block 8B-2: PIPP and PIPP-R sources located. Complete table, gestational-age adjustment, interpretation, reuse permissions, and clear variant separation remain pending before calculation."
+  es: "PIPP original se mantiene como referencia historica separada y no activa.",
+  en: "Original PIPP remains a separate historical reference and is not activated."
+};
+
+const pippRValidationNotes: LocalizedText = {
+  es: "Implementacion independiente de PIPP-R 2014 para dolor agudo/procedimental neonatal. Conserva siete componentes, aplica los factores contextuales solo cuando el subtotal fisiologico/conductual es >0 y usa redaccion propia ES/EN. No reproduce el formulario original ni genera recomendaciones analgesicas o de sedacion.",
+  en: "Independent implementation of the 2014 PIPP-R for neonatal acute/procedural pain. It retains seven components, adds contextual factors only when the physiologic/behavioral subtotal is >0, and uses independently drafted ES/EN wording. It does not reproduce the original form or generate analgesia or sedation recommendations."
 };
 
 const comfortneoValidationNotes: LocalizedText = {
@@ -1793,6 +1799,28 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  pipp_r: {
+    calculationNotes: {
+      es: "Registra 15 s basales y 30 s tras el estimulo. PIPP-R puntua cambio de FC, descenso de SpO2, tres acciones faciales y, solo si ese subtotal es >0, anade edad gestacional corregida y estado conductual basal.",
+      en: "Record a 15-second baseline and 30 seconds after the stimulus. PIPP-R scores HR increase, SpO2 decrease, three facial actions and, only when that subtotal is >0, adds corrected gestational age and baseline behavioral state."
+    },
+    inputs: [
+      { id: "corrected_gestational_age_weeks", label: { es: "Edad gestacional corregida", en: "Corrected gestational age" }, type: "number", required: true, unit: "semanas", min: 20, max: 50, step: 0.1 },
+      { id: "baseline_behavioral_state", label: { es: "Estado conductual basal", en: "Baseline behavioral state" }, type: "single_choice", required: true, options: [option("active_awake","Despierto activo","Active awake",0),option("quiet_awake","Despierto tranquilo","Quiet awake",1),option("active_sleep","Dormido activo","Active sleep",2),option("quiet_sleep","Dormido tranquilo","Quiet sleep",3)] },
+      { id: "heart_rate_increase_bpm", label: { es: "Aumento maximo de FC", en: "Maximum HR increase" }, type: "number", required: true, unit: "lpm", min: 0, max: 250, step: 1 },
+      { id: "oxygen_saturation_decrease_points", label: { es: "Descenso maximo de SpO2", en: "Maximum SpO2 decrease" }, type: "number", required: true, unit: "puntos %", min: 0, max: 100, step: 1 },
+      { id: "oxygen_increase_required", label: { es: "Fue necesario aumentar el oxigeno", en: "Supplemental oxygen had to be increased" }, type: "single_choice", required: true, options: [option("no","No","No"),option("yes","Si","Yes")] },
+      { id: "brow_bulge_seconds", label: { es: "Duracion ceño fruncido", en: "Brow bulge duration" }, type: "number", required: true, unit: "s/30 s", min: 0, max: 30, step: 0.1 },
+      { id: "eye_squeeze_seconds", label: { es: "Duracion ojos apretados", en: "Eye squeeze duration" }, type: "number", required: true, unit: "s/30 s", min: 0, max: 30, step: 0.1 },
+      { id: "nasolabial_furrow_seconds", label: { es: "Duracion surco nasolabial", en: "Nasolabial furrow duration" }, type: "number", required: true, unit: "s/30 s", min: 0, max: 30, step: 0.1 }
+    ],
+    interpretationBands: [
+      { id:"pippr_none", label:{es:"Sin respuesta dolorosa",en:"No pain response"}, min:0,max:0 },
+      { id:"pippr_low", label:{es:"Dolor bajo",en:"Low pain"}, min:1,max:6 },
+      { id:"pippr_moderate", label:{es:"Dolor moderado",en:"Moderate pain"}, min:7,max:12 },
+      { id:"pippr_severe", label:{es:"Dolor intenso",en:"Severe pain"}, min:13,max:21 }
+    ]
+  },
   bedside_pews: {
     calculationNotes: {
       es: "Introduce edad en meses y las siete variables Bedside PEWS. FC, FR y PAS se puntuan con limites especificos por edad; relleno capilar, esfuerzo respiratorio, SpO2 y oxigenoterapia usan las categorias originales. Total 0-26. PedsCore no asocia el resultado a una pauta automatica de escalado.",
@@ -4200,7 +4228,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("eat_sleep_console", "eat-sleep-console", "ESC", "Eat Sleep Console", "Eat Sleep Console", "neonatology", "neonatal_abstinence", "algorithm", "Recien nacidos expuestos a opioides", "Opioid-exposed newborns", "Modelo funcional para seguimiento de abstinencia neonatal.", "Functional model for neonatal withdrawal assessment.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("nips", "nips", "NIPS", "Neonatal Infant Pain Scale", "Neonatal Infant Pain Scale", "pain", "neonatal_pain", "scale", "Neonatos", "Neonates", "Escala observacional de dolor neonatal.", "Observational neonatal pain scale.", "ready_for_implementation", "moderate", "low", nipsQaValidationNotes, [docRef("nips_kb", "PedsCore_Knowledge_Base_v1: NIPS", "pending_verification")]),
   makeTool("pipp", "pipp", "PIPP", "Premature Infant Pain Profile", "Premature Infant Pain Profile", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Escala de dolor neonatal, especialmente en prematuros.", "Neonatal pain scale, especially for preterm infants.", "pending_validation", "pending_verification", "medium", pippValidationNotes),
-  makeTool("pipp_r", "pipp-r", "PIPP-R", "Premature Infant Pain Profile-Revised", "Premature Infant Pain Profile-Revised", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Version revisada de PIPP.", "Revised version of PIPP.", "pending_validation", "pending_verification", "medium", pippValidationNotes),
+  makeTool("pipp_r", "pipp-r", "PIPP-R", "Premature Infant Pain Profile-Revised", "Premature Infant Pain Profile-Revised", "pain", "neonatal_pain", "scale", "Prematuros y neonatos", "Preterm infants and neonates", "Escala multidimensional revisada para dolor neonatal agudo y procedimental.", "Revised multidimensional scale for neonatal acute and procedural pain.", "implemented", "original_derivation_study", "medium", pippRValidationNotes),
   makeTool("cries", "cries", "CRIES", "CRIES", "CRIES", "pain", "neonatal_pain", "scale", "Neonatos con dolor postoperatorio", "Neonates with postoperative pain", "Escala neonatal de dolor basada en cinco dominios.", "Neonatal pain scale based on five domains.", "pending_validation", "pending_verification", "low", criesValidationNotes, [docRef("cries_kb", "PedsCore_Knowledge_Base_v1: CRIES", "pending_verification")]),
   makeTool("comfortneo", "comfortneo", "COMFORTneo", "COMFORTneo", "COMFORTneo", "neonatology", "sedation_pain", "scale", "Neonatos en cuidados intensivos", "Neonates in intensive care", "Escala multidimensional de sedacion y dolor neonatal.", "Multidimensional neonatal sedation and pain scale.", "pending_validation", "pending_verification", "medium", comfortneoValidationNotes),
   makeTool("bhutani_nomogram", "bhutani-nomogram", "Bhutani", "Nomograma de Bhutani", "Bhutani Nomogram", "neonatology", "jaundice_bilirubin", "nomogram", "Recien nacidos con hiperbilirrubinemia", "Newborns with hyperbilirubinemia", "Nomograma de riesgo para bilirrubina neonatal.", "Risk nomogram for neonatal bilirubin.", "pending_validation", "original_derivation_study", "medium", bhutaniValidationNotes),
