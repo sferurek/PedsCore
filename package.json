@@ -16,7 +16,8 @@
     "seo:check": "npm run seo:check -w @peds-core/web",
     "seo:indexnow": "npm run seo:indexnow -w @peds-core/web",
     "dev:mcp": "npm run dev -w @peds-core/mcp-server",
-    "build:mcp": "npm run build -w @peds-core/mcp-server"
+    "build:mcp": "npm run build -w @peds-core/mcp-server",
+    "start": "npm run start -w @peds-core/mcp-server"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
