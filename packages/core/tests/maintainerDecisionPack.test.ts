@@ -44,7 +44,6 @@ describe("maintainer decision pack", () => {
       "shockable_rhythm_algorithm",
       "non_shockable_rhythm_algorithm",
       "who_growth_percentiles",
-      "cdc_growth_percentiles",
       "bmi_percentile",
       "head_circumference_percentile",
       "orbegozo_growth_percentiles",
