@@ -81,6 +81,45 @@ if (!health) {
   throw new Error("Remote health endpoint did not become ready within five minutes.");
 }
 
+const compliance = {};
+for (const path of ["/privacy", "/terms"]) {
+  const result = await timedFetch(`${baseUrl}${path}`);
+  compliance[path] = {
+    status: result.response.status,
+    contentType: result.response.headers.get("content-type"),
+    durationMs: result.durationMs
+  };
+  if (!result.response.ok || !compliance[path].contentType?.includes("text/html")) {
+    throw new Error(`Compliance endpoint failed: ${path}`);
+  }
+  await result.response.arrayBuffer();
+}
+
+const assetPaths = [
+  "/store-assets/icon-72x72.png",
+  "/store-assets/icon-64x64.png",
+  "/store-assets/icon-88x88.png",
+  "/store-assets/icon-126x126.png",
+  "/store-assets/icon-180x180.png",
+  "/store-assets/icon-241x241.png",
+  "/store-assets/carousel-1.png"
+];
+const assets = {};
+for (const path of assetPaths) {
+  const result = await timedFetch(`${baseUrl}${path}`);
+  const bytes = new Uint8Array(await result.response.arrayBuffer());
+  assets[path] = {
+    status: result.response.status,
+    contentType: result.response.headers.get("content-type"),
+    bytes: bytes.length,
+    durationMs: result.durationMs
+  };
+  const signature = Array.from(bytes.slice(0, 8)).join(",");
+  if (!result.response.ok || !assets[path].contentType?.includes("image/png") || signature !== "137,80,78,71,13,10,26,10") {
+    throw new Error(`Store asset failed: ${path}`);
+  }
+}
+
 const initialize = await rpc(1, "initialize", {
   protocolVersion: "2025-11-25",
   capabilities: {},
@@ -116,6 +155,8 @@ const calculation = await rpc(4, "tools/call", {
 const report = {
   baseUrl,
   health,
+  compliance,
+  assets,
   initialize: {
     durationMs: initialize.durationMs,
     protocolVersion: initialize.payload.result?.protocolVersion,
