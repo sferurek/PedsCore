@@ -84,7 +84,7 @@ The model orchestrates. PedsCore and SIM IMV own the clinical logic.
 - Judge console: verified live.
 - Capability manifest: verified live.
 - External smoke run 35334436459 attempt 2: passed.
-- Railway deployment 27f996da-8056-4724-8a49-526a5e800632: successful.
+- Railway MCP production endpoint: successful and remotely verified.
 - SIM production HTTP smoke: passed in CI.
 - SIM school-bus / JumpSTART / patient 01: GREEN, rule JS-MOB-01, deterministic repeat parity passed.
 
@@ -150,6 +150,10 @@ Do not make this a submission dependency. The self-hosted MCP route is already a
 
 Do not claim official Alexa AI CLI/add-on deployment. Devpost support confirmed that these tools are restricted to selected Amazon partners. Use the verified self-hosted MCP evidence.
 
-## Optional SIM public endpoint
+## SIM public endpoint
 
-The simulator bridge is production-server verified in CI but its private repository is not yet authorized for Railway. If the repository is authorized before the final video, add the full public MCP → SIM flow to the recording. Otherwise the core Alexa+ submission remains valid, and the SIM integration can be shown using clearly labeled verified CI evidence rather than claiming a public backend that does not exist.
+SIM PR #25 is merged into the simulator main branch. The production SIM deployment is live on Vercel and the PedsCore MCP service is configured with:
+
+`https://pedscore-triage-sim.vercel.app/api/hackathon/sim`
+
+The strict public MCP → SIM end-to-end smoke is the final technical evidence gate before freezing the submission candidate.
