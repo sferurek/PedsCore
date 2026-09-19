@@ -47,7 +47,8 @@ const expectedImplementedToolIds = [
   "strongkids",
   "visual_analogue_scale",
   "step_by_step",
-  "pecarn_febrile_infant"
+  "pecarn_febrile_infant",
+  "yos"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -90,7 +91,8 @@ const implementedTestFiles: Record<string, string> = {
   strongkids: "strongkids.test.ts",
   visual_analogue_scale: "visualAnalogueScale.test.ts",
   step_by_step: "stepByStep.test.ts",
-  pecarn_febrile_infant: "pecarnFebrileInfant.test.ts"
+  pecarn_febrile_infant: "pecarnFebrileInfant.test.ts",
+  yos: "yaleObservation.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [

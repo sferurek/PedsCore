@@ -29,6 +29,7 @@ import { strongkidsCalculator } from "./strongkids.js";
 import { visualAnalogueScaleCalculator } from "./additionalOpenTools.js";
 import { stepByStepCalculator } from "./stepByStep.js";
 import { pecarnFebrileInfantCalculator } from "./infectionOpen.js";
+import { yaleObservationScaleCalculator } from "./yaleObservation.js";
 
 const calculators = [
   apgarCalculator,
@@ -63,7 +64,8 @@ const calculators = [
   strongkidsCalculator,
   visualAnalogueScaleCalculator,
   stepByStepCalculator,
-  pecarnFebrileInfantCalculator
+  pecarnFebrileInfantCalculator,
+  yaleObservationScaleCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

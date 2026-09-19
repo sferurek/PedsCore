@@ -48,7 +48,8 @@ const implementedToolIds = new Set([
   "strongkids",
   "visual_analogue_scale",
   "step_by_step",
-  "pecarn_febrile_infant"
+  "pecarn_febrile_infant",
+  "yos"
 ]);
 
 type ToolSeed = Omit<
@@ -78,7 +79,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Table 1 reproduces modified Bell staging under CC BY, permitting reuse with attribution.",
       appliesTo: ["modified_bell_nec"],
-      priority: 1
+      priority: 2
     }
   ],
   garcia_alix_ners: [
@@ -227,6 +228,21 @@ const implementedToolReferences: Record<string, Reference[]> = {
     }
   ],
   yos: [
+    {
+      id: "yos_1982_original",
+      title: "Observation scales to identify serious illness in febrile children",
+      authors: "McCarthy PL, Sharpe MR, Spiesel SZ, et al.",
+      year: 1982,
+      journalOrPublisher: "Pediatrics",
+      pmid: "7133831",
+      url: "https://pubmed.ncbi.nlm.nih.gov/7133831/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Original Yale/Acute Illness Observation Scale publication.",
+      appliesTo: ["yos"],
+      priority: 1
+    },
     {
       id: "yos_open_table",
       title: "The Yale Observation Scale Score and the Risk of Serious Bacterial Infections in Febrile Infants",
@@ -2517,8 +2533,10 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     ]
   },
   yos: {
-    validationNotes:{es:"Yale Observation Scale completa: seis dominios puntuados 1, 3 o 5; total 6-30.",en:"Complete Yale Observation Scale: six domains scored 1, 3, or 5; total 6-30."},
+    validationNotes:{es:"Yale Observation Scale clásica: seis dominios puntuados 1, 3 o 5; total 6-30. PedsCore restringe su uso operativo principal a niños febriles de 3-24 meses y no permite usar una puntuación baja para excluir infección bacteriana grave en lactantes pequeños.",en:"Classic Yale Observation Scale: six domains scored 1, 3, or 5; total 6-30. PedsCore limits primary operational use to febrile children aged 3-24 months and does not allow a low score to be used to exclude serious bacterial infection in young infants."},
     inputs:[
+      {id:"age_months",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"meses",min:3,max:24,step:0.1},
+      booleanInput("febrile_illness",{es:"Enfermedad febril",en:"Febrile illness"}),
       {id:"cry",label:{es:"Calidad del llanto",en:"Quality of cry"},type:"single_choice",required:true,options:[option("1","Fuerte/normal o contento","Strong/normal or content",1),option("3","Quejumbroso/sollozo","Whimpering/sobbing",3),option("5","Débil, gemido o agudo","Weak, moaning, or high-pitched",5)]},
       {id:"parent_reaction",label:{es:"Reacción a los padres",en:"Reaction to parents"},type:"single_choice",required:true,options:[option("1","Llora brevemente y cesa / contento","Cries briefly then stops / content",1),option("3","Llora intermitente","Cries on and off",3),option("5","Llanto continuo o casi no responde","Continual cry or hardly responds",5)]},
       {id:"state_variation",label:{es:"Variación del estado",en:"State variation"},type:"single_choice",required:true,options:[option("1","Permanece despierto / despierta rápido","Stays awake / wakes quickly",1),option("3","Ojos se cierran / requiere estímulo prolongado","Eyes close / prolonged stimulation",3),option("5","Se duerme o no despierta","Falls asleep or will not rouse",5)]},
@@ -5376,7 +5394,7 @@ const priorityExpansionSurfaces: ClinicalToolMetadata[] = [
   referenceSurface({ id:"pscam_icu", slug:"pscam-icu", shortName:"psCAM-ICU", nameEs:"psCAM-ICU", nameEn:"psCAM-ICU", category:"intensive_care", subcategory:"delirium", type:"scale", populationEs:"Niños pequeños en UCI pediátrica", populationEn:"Younger children in pediatric intensive care", descriptionEs:"Referencia para detección de delirium adaptada a niños pequeños en UCI.", descriptionEn:"Reference for delirium detection adapted to younger children in intensive care.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"step_by_step", slug:"step-by-step-febrile-infant", shortName:"Step-by-Step", nameEs:"Enfoque Step-by-Step", nameEn:"Step-by-Step Approach", category:"emergency", subcategory:"febrile_infant", type:"clinical_rule", populationEs:"Lactantes de hasta 90 días con fiebre sin foco", populationEn:"Infants up to 90 days old with fever without source", descriptionEs:"Estratificación secuencial de riesgo de infección bacteriana invasiva mediante aspecto, edad, orina, PCT, PCR y ANC.", descriptionEn:"Sequential invasive-bacterial-infection risk stratification using appearance, age, urine, PCT, CRP, and ANC.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"pecarn_febrile_infant", slug:"pecarn-febrile-infant", shortName:"PECARN FI", nameEs:"Regla PECARN para lactante febril", nameEn:"PECARN Febrile Infant Rule", category:"emergency", subcategory:"febrile_infant", type:"clinical_rule", populationEs:"Lactantes febriles de hasta 60 días según elegibilidad publicada", populationEn:"Febrile infants up to 60 days meeting published eligibility", descriptionEs:"Regla PECARN para identificar bajo riesgo de infección bacteriana grave mediante urianálisis, ANC y PCT.", descriptionEn:"PECARN rule to identify low risk for serious bacterial infection using urinalysis, ANC, and PCT.", evidenceLevel:"original_derivation_study", regulatoryRisk:"high" }),
-  referenceSurface({ id:"yos", slug:"yale-observation-scale", shortName:"YOS", nameEs:"Escala de Observación de Yale", nameEn:"Yale Observation Scale", category:"emergency", subcategory:"febrile_infant", type:"scale", populationEs:"Niños pequeños con enfermedad febril", populationEn:"Young children with febrile illness", descriptionEs:"Escala histórica de referencia para observación clínica en enfermedad febril.", descriptionEn:"Historical reference scale for clinical observation in febrile illness.", evidenceLevel:"original_derivation_study", regulatoryRisk:"high" }),
+  referenceSurface({ id:"yos", slug:"yale-observation-scale", shortName:"YOS", nameEs:"Escala de Observación de Yale", nameEn:"Yale Observation Scale", category:"emergency", subcategory:"febrile_infant", type:"scale", populationEs:"Niños de 3-24 meses con enfermedad febril", populationEn:"Febrile children aged 3-24 months", descriptionEs:"Escala clínica de seis dominios para objetivar la apariencia general en enfermedad febril.", descriptionEn:"Six-domain clinical observation scale for overall appearance in febrile illness.", evidenceLevel:"original_derivation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"greulich_pyle", slug:"greulich-pyle", shortName:"Greulich-Pyle", nameEs:"Atlas de Greulich y Pyle", nameEn:"Greulich and Pyle Atlas", category:"growth_nutrition", subcategory:"bone_age", type:"nomogram", populationEs:"Niños y adolescentes con radiografía de mano o muñeca", populationEn:"Children and adolescents with a hand or wrist radiograph", descriptionEs:"Atlas de referencia para estimación de edad ósea; no es una regla de decisión aguda.", descriptionEn:"Reference atlas for bone-age estimation; it is not an acute decision rule.", evidenceLevel:"official_manual_or_institutional_protocol", regulatoryRisk:"medium" }),
   referenceSurface({ id:"tw3", slug:"tanner-whitehouse-3", shortName:"TW3", nameEs:"Tanner-Whitehouse 3", nameEn:"Tanner-Whitehouse 3", category:"growth_nutrition", subcategory:"bone_age", type:"nomogram", populationEs:"Niños y adolescentes con radiografía de mano o muñeca", populationEn:"Children and adolescents with a hand or wrist radiograph", descriptionEs:"Método de referencia para edad ósea que se mantiene diferenciado de Greulich-Pyle.", descriptionEn:"Reference method for bone age, kept distinct from Greulich-Pyle.", evidenceLevel:"official_manual_or_institutional_protocol", regulatoryRisk:"medium" }),
   referenceSurface({ id:"tanner_staging", slug:"tanner-staging", shortName:"Tanner", nameEs:"Estadificación de Tanner", nameEn:"Tanner Sexual Maturity Rating", category:"growth_nutrition", subcategory:"pubertal_development", type:"scale", populationEs:"Niños y adolescentes en valoración puberal", populationEn:"Children and adolescents undergoing pubertal assessment", descriptionEs:"Marco de referencia para describir el desarrollo puberal en estadios.", descriptionEn:"Reference framework for describing pubertal development in stages.", evidenceLevel:"original_derivation_study", regulatoryRisk:"medium" }),
