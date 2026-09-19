@@ -71,7 +71,7 @@ Simulation:
 - Privacy: https://pedscore-ai-mcp-production.up.railway.app/privacy
 - Terms: https://pedscore-ai-mcp-production.up.railway.app/terms
 
-The public MCP runtime exposes the clinical and simulation tool contracts. SIM calls fail closed while the separate simulator backend is not configured; this keeps the public MCP surface testable without fabricating simulation results.
+The public MCP runtime exposes the clinical and simulation tool contracts. The production MCP service is configured against the deployed SIM IMV bridge at `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`; failures remain fail-closed rather than fabricating simulation results.
 
 ## Current validation state
 
@@ -82,11 +82,12 @@ Verified:
 - deterministic Apgar 9/10 remote round trip;
 - store/compliance endpoints and exact media dimensions;
 - six-tool MCP contract in current PedsCore CI;
-- simulator-side deterministic bridge implementation and tests.
+- simulator-side deterministic bridge implementation and tests;
+- SIM PR #25 merged to `main`;
+- production SIM commits deployed successfully by Vercel.
 
 Pending:
-- production deployment of the newly merged SIM bridge;
-- remote MCP→SIM end-to-end smoke.
+- strict remote MCP→SIM end-to-end smoke.
 
 The current official rules accept the self-hosted MCP server as an Alexa+ primary-track technology path. The Alexa add-on/private CLI path is partner-only per Devpost support. The submission uses the rules-compliant self-hosted MCP path.
 
