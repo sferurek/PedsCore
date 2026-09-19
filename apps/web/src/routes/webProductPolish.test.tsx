@@ -59,8 +59,8 @@ describe("public product web polish", () => {
     expect(html).toContain("Silverman-Andersen");
     expect(html).toContain("STRONGkids");
     expect(html).toContain("BMI-for-age");
-    expect(html).toContain("módulo activo");
-    expect(html).not.toContain("OMS 5-19 parcial");
+    expect(html).toContain("active module");
+    expect(html).not.toContain("WHO 5-19 partial");
   });
 
   it("renders ToolsPage with clinical availability filters", () => {
