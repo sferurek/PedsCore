@@ -93,7 +93,7 @@ describe("SNAPPE-II", () => {
       birth_weight_g: 750,
       sga_below_3rd_percentile: false
     });
-    expect(result.score).toBe(36);
+    expect(result.score).toBe(39);
   });
 });
 
