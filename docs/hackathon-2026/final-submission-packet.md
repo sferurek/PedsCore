@@ -15,7 +15,7 @@ Prepared for direct transfer into the Amazon Developer Hackathon Devpost form. R
 - AWS Builder Mini Challenge: **No unless a useful AWS integration is actually deployed before submission**
 - GitHub username: **sferurek**
 - Repository: https://github.com/sferurek/PedsCore
-- Open Source contribution: https://github.com/sferurek/PedsCore/pull/43
+- Open Source contribution: https://github.com/sferurek/PedsCore/pull/91
 - Testing link: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
 - Capability manifest: https://pedscore-ai-mcp-production.up.railway.app/capabilities
 - MCP endpoint: https://pedscore-ai-mcp-production.up.railway.app/mcp
@@ -92,7 +92,7 @@ The model orchestrates. PedsCore and SIM IMV own the clinical logic.
 
 ### Contribution URL
 
-https://github.com/sferurek/PedsCore/pull/43
+https://github.com/sferurek/PedsCore/pull/91
 
 ### Repository URL
 
@@ -148,12 +148,7 @@ Requirements:
 
 Do not make this a submission dependency. The self-hosted MCP route is already a valid Alexa+ primary-track path.
 
-If Amazon enables the private developer-tools role before recording/submission, add:
-- Add-on ID/version;
-- official Alexa+ simulator capture;
-- CLI deployment evidence.
-
-Otherwise omit those claims and use the verified self-hosted MCP evidence.
+Do not claim official Alexa AI CLI/add-on deployment. Devpost support confirmed that these tools are restricted to selected Amazon partners. Use the verified self-hosted MCP evidence.
 
 ## Optional SIM public endpoint
 
