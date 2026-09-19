@@ -4,7 +4,6 @@ export * from "./silvermanAndersen.js";
 export * from "./ballard.js";
 export * from "./dubowitz.js";
 export * from "./woodDownesFerres.js";
-export * from "./flacc.js";
 export * from "./qtc.js";
 export * from "./schwartz.js";
 export * from "./westleyCroup.js";
