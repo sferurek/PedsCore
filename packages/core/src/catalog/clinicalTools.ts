@@ -44,7 +44,8 @@ const implementedToolIds = new Set([
   "taussig_croup",
   "pass",
   "risc",
-  "mrisc"
+  "mrisc",
+  "gorelick_dehydration"
 ]);
 
 type ToolSeed = Omit<
@@ -2165,8 +2166,8 @@ const brosjodValidationNotes: LocalizedText = {
 };
 
 const gorelickValidationNotes: LocalizedText = {
-  es: "Sprint 1: fuente Gorelick dehydration localizada con DOI/PMID, pero la tabla completa y la eleccion 4 frente a 10 items no quedan suficientemente trazadas desde una fuente reutilizable. No se implementa; queda bloqueada por seleccion de variante y tabla.",
-  en: "Sprint 1: Gorelick dehydration source located with DOI/PMID, but the complete table and 4-item versus 10-item choice are not sufficiently traced from a reusable source. It is not implemented; it remains blocked by variant selection and table review."
+  es: "Variante original de 10 signos seleccionada y verificada frente a Gorelick et al. 1997 y reproducciones abiertas. Cada signo vale 1 punto; >=3 signos identifica aproximadamente >=5% y >=7 signos aproximadamente >=10% de deshidratacion.",
+  en: "Original 10-sign variant selected and verified against Gorelick et al. 1997 and open-access reproductions. Each sign scores 1 point; >=3 signs identifies approximately >=5% and >=7 signs approximately >=10% dehydration."
 };
 
 const revisedSchwartzReadyNotes: LocalizedText = {
