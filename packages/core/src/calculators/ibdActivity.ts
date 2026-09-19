@@ -1,5 +1,5 @@
 import type { CalculationResult } from "../types.js";
-import { getBoolean, getNumber, getNumericScore, getTool, label, warning } from "./common.js";
+import { getNumber, getNumericScore, getTool, label, warning } from "./common.js";
 import type { CalculatorDefinition } from "./common.js";
 
 const ibdWarning = warning(
