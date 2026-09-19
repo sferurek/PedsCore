@@ -52,6 +52,10 @@ export const loadWhoLmsRecords = async (
   }
 
   if (indicator === "weight_for_age") {
+    if (options.ageRange === "5_19") {
+      const module = await import("./weightForAge5To10.js");
+      return { indicator, records: module.whoWeightForAge5To10LmsRecords, dataStatus: module.whoWeightForAge5To10DataStatus };
+    }
     const module = await import("./weightForAge.js");
 
     return {
