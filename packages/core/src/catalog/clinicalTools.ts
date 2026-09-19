@@ -2572,16 +2572,17 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   snappii: {
     validationNotes: {
-      es: "SNAPPE-II de nueve variables para gravedad neonatal, usando los peores valores de las primeras 12 horas. PedsCore reproduce únicamente la lógica numérica publicada y no genera una predicción individual ni recomendaciones de limitación de soporte.",
-      en: "Nine-variable SNAPPE-II neonatal severity score using the worst values from the first 12 hours. PedsCore reproduces only the published numeric logic and does not generate an individual prediction or limitation-of-support recommendations."
+      es: "SNAPPE-II de nueve variables con peores valores de las primeras 12 horas. La oxigenación se introduce como PaO₂ (mmHg) y FiO₂ (%) y se calcula internamente la convención publicada PaO₂/FiO₂% (cortes 0,3/1/2,5). Variables fisiológicas no obtenidas aportan 0 puntos según la implementación publicada.",
+      en: "Nine-variable SNAPPE-II using the worst values from the first 12 hours. Oxygenation is entered as PaO₂ (mmHg) and FiO₂ (%) and the published PaO₂/FiO₂% convention is calculated internally (cut-offs 0.3/1/2.5). Unobtained physiologic variables contribute 0 points according to published implementation."
     },
     inputs: [
-      {id:"mean_bp_mmhg",label:{es:"PAM más baja",en:"Lowest mean blood pressure"},type:"number",required:true,unit:"mmHg",min:0,max:150,step:1},
-      {id:"lowest_temp_c",label:{es:"Temperatura más baja",en:"Lowest temperature"},type:"number",required:true,unit:"°C",min:25,max:42,step:0.1},
-      {id:"pao2_fio2_ratio",label:{es:"Relación PaO₂/FiO₂ (convención SNAPPE-II)",en:"PaO₂/FiO₂ ratio (SNAPPE-II convention)"},type:"number",required:true,min:0,max:10,step:0.01},
-      {id:"lowest_ph",label:{es:"pH sérico más bajo",en:"Lowest serum pH"},type:"number",required:true,min:6,max:8,step:0.01},
-      booleanInput("multiple_seizures",{es:"Convulsiones múltiples",en:"Multiple seizures"}),
-      {id:"urine_output_ml_kg_h",label:{es:"Diuresis",en:"Urine output"},type:"number",required:true,unit:"mL/kg/h",min:0,max:20,step:0.01},
+      {id:"mean_bp_mmhg",label:{es:"PAM más baja (si obtenida)",en:"Lowest mean blood pressure (if obtained)"},type:"number",required:false,unit:"mmHg",min:0,max:150,step:1},
+      {id:"lowest_temp_c",label:{es:"Temperatura más baja (si obtenida)",en:"Lowest temperature (if obtained)"},type:"number",required:false,unit:"°C",min:25,max:42,step:0.1},
+      {id:"pao2_mmhg",label:{es:"PaO₂ más baja (si obtenida)",en:"Lowest PaO₂ (if obtained)"},type:"number",required:false,unit:"mmHg",min:1,max:800,step:1},
+      {id:"fio2_percent",label:{es:"FiO₂ correspondiente",en:"Corresponding FiO₂"},description:{es:"Introducir 21-100%. SNAPPE-II usa PaO₂/FiO₂% y no el P/F moderno con FiO₂ 0-1.",en:"Enter 21-100%. SNAPPE-II uses PaO₂/FiO₂% rather than the modern P/F ratio with FiO₂ 0-1."},type:"number",required:false,unit:"%",min:21,max:100,step:1},
+      {id:"lowest_ph",label:{es:"pH sérico más bajo (si obtenido)",en:"Lowest serum pH (if obtained)"},type:"number",required:false,min:6,max:8,step:0.01},
+      { id:"multiple_seizures", label:{es:"Convulsiones múltiples (si valorado)",en:"Multiple seizures (if assessed)"}, type:"boolean", required:false, options:booleanOptions },
+      {id:"urine_output_ml_kg_h",label:{es:"Diuresis (si obtenida)",en:"Urine output (if obtained)"},type:"number",required:false,unit:"mL/kg/h",min:0,max:20,step:0.01},
       {id:"apgar_5min",label:{es:"Apgar a los 5 minutos",en:"5-minute Apgar"},type:"number",required:true,min:0,max:10,step:1},
       {id:"birth_weight_g",label:{es:"Peso al nacer",en:"Birth weight"},type:"number",required:true,unit:"g",min:200,max:7000,step:1},
       booleanInput("sga_below_3rd_percentile",{es:"Pequeño para edad gestacional <P3",en:"Small for gestational age <3rd percentile"})
@@ -2770,74 +2771,32 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   phoenix_sepsis: {
     validationNotes: {
-      es: "Implementación local de los criterios Phoenix 2024. Suma cuatro dominios: respiratorio 0-3, cardiovascular 0-6, coagulación 0-2 y neurológico 0-2; total 0-13.",
-      en: "Local implementation of the 2024 Phoenix criteria. It sums four domains: respiratory 0-3, cardiovascular 0-6, coagulation 0-2, and neurologic 0-2; total 0-13."
+      es: "Implementación local de los criterios Phoenix 2024. Aplica a menores de 18 años, excluyendo hospitalización desde el nacimiento antes del alta y edad postconcepcional <37 semanas. El cociente SpO₂/FiO₂ solo se usa con SpO₂ ≤97%.",
+      en: "Local implementation of the 2024 Phoenix criteria. Applies to patients under 18 years, excluding birth hospitalization before discharge and postconceptional age <37 weeks. SpO₂/FiO₂ is used only when SpO₂ ≤97%."
     },
     calculationNotes: {
-      es: "Con infección sospechada o confirmada, Phoenix >=2 cumple criterios de sepsis. Shock séptico requiere además >=1 punto cardiovascular. No es un cribado precoz de infección.",
-      en: "With suspected or confirmed infection, Phoenix >=2 meets sepsis criteria. Septic shock additionally requires >=1 cardiovascular point. This is not an early infection screening tool."
+      es: "Con infección sospechada o confirmada, Phoenix ≥2 cumple criterios de sepsis; shock séptico requiere además ≥1 punto cardiovascular. Puede calcularse con variables no disponibles: las no medidas no aportan puntos y el resultado representa el mínimo con los datos disponibles.",
+      en: "With suspected or confirmed infection, Phoenix ≥2 meets sepsis criteria; septic shock additionally requires ≥1 cardiovascular point. It can be calculated with unavailable variables: unmeasured variables add no points and the result represents the minimum supported by available data."
     },
     inputs: [
       { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 0, max: 215.99, step: 0.1 },
       booleanInput("suspected_infection", { es: "Infección sospechada o confirmada", en: "Suspected or confirmed infection" }),
-      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: true, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
+      booleanInput("birth_hospitalization_before_discharge", { es: "Hospitalización desde el nacimiento, antes del alta inicial", en: "Birth hospitalization before initial discharge" }),
+      booleanInput("postconceptional_age_at_least_37_weeks", { es: "Edad postconcepcional ≥37 semanas", en: "Postconceptional age ≥37 weeks" }),
+      { id: "fio2_fraction", label: { es: "FiO₂ (si se usa P/F o S/F)", en: "FiO₂ (if using P/F or S/F)" }, type: "number", required: false, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
       { id: "pao2_mmhg", label: { es: "PaO₂ (si disponible)", en: "PaO₂ (if available)" }, type: "number", required: false, unit: "mmHg", min: 1, max: 800, step: 1 },
-      { id: "spo2_percent", label: { es: "SpO₂ (si PaO₂ no disponible)", en: "SpO₂ (if PaO₂ unavailable)" }, type: "number", required: false, unit: "%", min: 1, max: 100, step: 1 },
+      { id: "spo2_percent", label: { es: "SpO₂ (S/F solo válido si ≤97%)", en: "SpO₂ (S/F valid only if ≤97%)" }, type: "number", required: false, unit: "%", min: 1, max: 100, step: 1 },
       booleanInput("any_respiratory_support", { es: "Cualquier soporte respiratorio", en: "Any respiratory support" }),
       booleanInput("invasive_mechanical_ventilation", { es: "Ventilación mecánica invasiva", en: "Invasive mechanical ventilation" }),
-      { id: "vasoactive_count", label: { es: "Número de fármacos vasoactivos simultáneos", en: "Number of concurrent vasoactive medications" }, type: "number", required: true, min: 0, max: 10, step: 1 },
-      { id: "lactate_mmol_l", label: { es: "Lactato", en: "Lactate" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 50, step: 0.1 },
-      { id: "map_mmhg", label: { es: "Presión arterial media", en: "Mean arterial pressure" }, type: "number", required: true, unit: "mmHg", min: 0, max: 200, step: 1 },
-      { id: "platelets_10e3_ul", label: { es: "Plaquetas", en: "Platelets" }, type: "number", required: true, unit: "×10³/µL", min: 0, max: 1500, step: 1 },
-      { id: "inr", label: { es: "INR", en: "INR" }, type: "number", required: true, min: 0, max: 20, step: 0.01 },
-      { id: "d_dimer_mg_l_feu", label: { es: "D-dímero", en: "D-dimer" }, type: "number", required: true, unit: "mg/L FEU", min: 0, max: 100, step: 0.1 },
-      { id: "fibrinogen_mg_dl", label: { es: "Fibrinógeno", en: "Fibrinogen" }, type: "number", required: true, unit: "mg/dL", min: 0, max: 1500, step: 1 },
-      { id: "gcs", label: { es: "Glasgow", en: "Glasgow Coma Scale" }, type: "number", required: true, min: 3, max: 15, step: 1 },
-      booleanInput("both_pupils_fixed", { es: "Ambas pupilas fijas", en: "Both pupils fixed" })
-    ],
-    interpretationBands: [
-      { id: "below_threshold", label: { es: "0-1 puntos", en: "0-1 points" }, min: 0, max: 1 },
-      { id: "sepsis_threshold", label: { es: ">=2 puntos: umbral de sepsis si hay infección", en: ">=2 points: sepsis threshold if infection is present" }, min: 2, max: 13 }
-    ]
-  },
-  mrisc: {
-    validationNotes: {
-      es: "Implementación local del mRISC derivado en menores de 5 años hospitalizados por enfermedad respiratoria grave en Kenia. Se reproduce la tabla de puntos publicada.",
-      en: "Local mRISC implementation derived in hospitalized children under 5 years with severe respiratory illness in Kenya. The published point table is reproduced."
-    },
-    inputs: [
-      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 0, max: 59.99, step: 0.1 },
-      booleanInput("history_unconscious", { es: "Antecedente de pérdida de conciencia en el episodio", en: "History of unconsciousness during illness" }),
-      booleanInput("unable_to_drink", { es: "Incapaz de beber o tomar pecho", en: "Unable to drink or breastfeed" }),
-      booleanInput("night_sweats", { es: "Sudoración nocturna", en: "Night sweats" }),
-      booleanInput("chest_indrawing", { es: "Tiraje de pared torácica", en: "Chest-wall indrawing" }),
-      booleanInput("alert_and_awake", { es: "Alerta y despierto en la exploración", en: "Alert and awake on examination" }),
-      booleanInput("malaria", { es: "Malaria", en: "Malaria" }),
-      booleanInput("dehydrated", { es: "Deshidratación", en: "Dehydration" }),
-      { id: "weight_for_age_z", label: { es: "Z-score peso/edad", en: "Weight-for-age Z-score" }, type: "number", required: true, min: -10, max: 5, step: 0.01 }
-    ]
-  },
-  gorelick_dehydration: {
-    validationNotes: {
-      es: "Implementación de la escala de Gorelick de 10 signos. Cada signo anormal suma 1 punto; ≥3 signos se asocia con ≥5% de pérdida de peso y ≥7 con ≥10% en la población estudiada.",
-      en: "Implementation of the 10-sign Gorelick scale. Each abnormal sign adds 1 point; ≥3 signs is associated with ≥5% weight loss and ≥7 with ≥10% in the studied population."
-    },
-    inputs: [
-      booleanInput("abnormal_general_appearance", { es: "Aspecto general alterado: inquieto, letárgico o inconsciente", en: "Abnormal general appearance: restless, lethargic, or unconscious" }),
-      booleanInput("prolonged_capillary_refill", { es: "Relleno capilar prolongado o mínimo", en: "Prolonged or minimal capillary refill" }),
-      booleanInput("absent_tears", { es: "Ausencia de lágrimas", en: "Absent tears" }),
-      booleanInput("dry_mucous_membranes", { es: "Mucosas secas o muy secas", en: "Dry or very dry mucous membranes" }),
-      booleanInput("sunken_eyes", { es: "Ojos hundidos o muy hundidos", en: "Sunken or deeply sunken eyes" }),
-      booleanInput("deep_breathing", { es: "Respiración profunda o profunda y rápida", en: "Deep or deep-and-rapid breathing" }),
-      booleanInput("weak_pulses", { es: "Pulso filiforme, débil o impalpable", en: "Thready, weak, or impalpable pulses" }),
-      booleanInput("reduced_skin_elasticity", { es: "Elasticidad cutánea reducida / retorno lento", en: "Reduced skin elasticity / slow recoil" }),
-      booleanInput("tachycardia", { es: "Taquicardia", en: "Tachycardia" }),
-      booleanInput("reduced_urine_output", { es: "Diuresis reducida o ausente durante horas", en: "Reduced urine output or none for many hours" })
-    ],
-    interpretationBands: [
-      { id: "minimal", label: { es: "No o mínima deshidratación", en: "No or minimal dehydration" }, min: 0, max: 2 },
-      { id: "significant", label: { es: "≥5% de deshidratación probable", en: "Probable ≥5% dehydration" }, min: 3, max: 6 },
-      { id: "severe", label: { es: "≥10% de deshidratación probable", en: "Probable ≥10% dehydration" }, min: 7, max: 10 }
+      { id: "vasoactive_count", label: { es: "Número de vasoactivos (si conocido)", en: "Number of vasoactive medications (if known)" }, type: "number", required: false, min: 0, max: 10, step: 1 },
+      { id: "lactate_mmol_l", label: { es: "Lactato (si medido)", en: "Lactate (if measured)" }, type: "number", required: false, unit: "mmol/L", min: 0, max: 30, step: 0.1 },
+      { id: "map_mmhg", label: { es: "PAM (si medida)", en: "MAP (if measured)" }, type: "number", required: false, unit: "mmHg", min: 0, max: 200, step: 1 },
+      { id: "platelets_10e3_ul", label: { es: "Plaquetas (si medidas)", en: "Platelets (if measured)" }, type: "number", required: false, unit: "×10³/µL", min: 0, max: 1500, step: 1 },
+      { id: "inr", label: { es: "INR (si medido)", en: "INR (if measured)" }, type: "number", required: false, min: 0, max: 20, step: 0.01 },
+      { id: "d_dimer_mg_l_feu", label: { es: "Dímero D FEU (si medido)", en: "D-dimer FEU (if measured)" }, type: "number", required: false, unit: "mg/L", min: 0, max: 100, step: 0.01 },
+      { id: "fibrinogen_mg_dl", label: { es: "Fibrinógeno (si medido)", en: "Fibrinogen (if measured)" }, type: "number", required: false, unit: "mg/dL", min: 0, max: 1500, step: 1 },
+      { id: "gcs", label: { es: "GCS (si valorable)", en: "GCS (if assessable)" }, type: "number", required: false, min: 3, max: 15, step: 1 },
+      { id:"both_pupils_fixed", label:{es:"Ambas pupilas fijas (si valorable)",en:"Both pupils fixed (if assessable)"}, type:"boolean", required:false, options:booleanOptions }
     ]
   },
   visual_analogue_scale: {
@@ -2959,26 +2918,28 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   prism_iv: {
     validationNotes: {
-      es: "PRISM IV completo: PedsCore calcula internamente los subpuntajes fisiológicos neurológico y no neurológico PRISM y aplica la ecuación PRISM IV de dominio público.",
-      en: "Complete PRISM IV: PedsCore internally calculates neurologic and non-neurologic PRISM physiologic subscores and applies the public-domain PRISM IV equation."
+      es: "PRISM IV completo. Los datos fisiológicos deben corresponder a las primeras 4 h de UCI pediátrica; los datos de laboratorio, desde 2 h antes hasta 4 h después del ingreso. En determinados pacientes cardíacos <3 meses el intervalo es postintervención.",
+      en: "Complete PRISM IV. Physiologic data must come from the first 4 h of PICU care; laboratory data from 2 h before through 4 h after admission. In selected cardiac patients <3 months the interval is post-intervention."
+    },
+    calculationNotes: {
+      es: "Usar solo el primer ingreso en UCI pediátrica de la hospitalización. En cirugía cardíaca/cateterismo intervencionista de pacientes <3 meses, confirmar el intervalo postintervención según el algoritmo publicado.",
+      en: "Use only the first PICU admission of the hospitalization. For cardiac surgery/interventional catheterization in patients <3 months, confirm the post-intervention interval according to the published algorithm."
     },
     inputs: [
+      booleanInput("first_picu_admission_this_hospitalization",{es:"Primer ingreso en UCI pediátrica de esta hospitalización",en:"First PICU admission of this hospitalization"}),
+      booleanInput("prism_iv_sampling_window_confirmed",{es:"Intervalo PRISM IV correcto confirmado",en:"Correct PRISM IV sampling window confirmed"}),
+      booleanInput("cardiac_intervention_under_3_months",{es:"Cirugía cardíaca/cateterismo intervencionista en paciente <3 meses",en:"Cardiac surgery/interventional catheterization in patient <3 months"}),
+      booleanInput("cardiac_postintervention_window_confirmed",{es:"Si aplica: intervalo postintervención confirmado",en:"If applicable: post-intervention interval confirmed"}),
       { id: "age_days", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "días", min: 0, max: 6575, step: 1 },
-      {
-        id: "admission_source", label: { es: "Procedencia del ingreso", en: "Admission source" }, type: "select", required: true,
-        options: [option("other", "Otra / referencia", "Other / reference"), option("other_hospital", "Otro hospital", "Another hospital"), option("inpatient_unit", "Unidad de hospitalización", "Inpatient unit"), option("emergency_department", "Urgencias", "Emergency department")]
-      },
+      { id: "admission_source", label: { es: "Procedencia del ingreso", en: "Admission source" }, type: "select", required: true, options: [option("other", "Otra / referencia", "Other / reference"), option("other_hospital", "Otro hospital", "Another hospital"), option("inpatient_unit", "Unidad de hospitalización", "Inpatient unit"), option("emergency_department", "Urgencias", "Emergency department")] },
       booleanInput("cpr_within_24h", { es: "RCP en las 24 h previas al ingreso", en: "CPR within 24 h before admission" }),
       booleanInput("cancer", { es: "Cáncer agudo o crónico", en: "Acute or chronic cancer" }),
-      booleanInput("low_risk_primary_system", { es: "Sistema primario de bajo riesgo: endocrino, hematológico, musculoesquelético o renal", en: "Low-risk primary system: endocrine, hematologic, musculoskeletal, or renal" }),
+      booleanInput("low_risk_primary_system", { es: "Sistema primario de bajo riesgo", en: "Low-risk primary system" }),
       { id: "systolic_bp_mmhg", label: { es: "PAS mínima", en: "Lowest systolic BP" }, type: "number", required: true, unit: "mmHg", min: 0, max: 250, step: 1 },
       { id: "heart_rate", label: { es: "FC máxima", en: "Highest heart rate" }, type: "number", required: true, unit: "lpm", min: 0, max: 350, step: 1 },
       { id: "temperature_c", label: { es: "Temperatura más extrema", en: "Most extreme temperature" }, type: "number", required: true, unit: "°C", min: 20, max: 45, step: 0.1 },
       { id: "gcs", label: { es: "GCS mínimo", en: "Lowest GCS" }, type: "number", required: true, min: 3, max: 15, step: 1 },
-      {
-        id: "pupil_status", label: { es: "Respuesta pupilar más patológica", en: "Worst pupillary response" }, type: "select", required: true,
-        options: [option("reactive", "Ambas reactivas", "Both reactive"), option("one_fixed", "Una fija >3 mm", "One fixed >3 mm"), option("both_fixed", "Ambas fijas >3 mm", "Both fixed >3 mm")]
-      },
+      { id: "pupil_status", label: { es: "Respuesta pupilar más patológica", en: "Worst pupillary response" }, type: "select", required: true, options: [option("reactive", "Ambas reactivas", "Both reactive"), option("one_fixed", "Una fija >3 mm", "One fixed >3 mm"), option("both_fixed", "Ambas fijas >3 mm", "Both fixed >3 mm")] },
       { id: "ph_lowest", label: { es: "pH mínimo", en: "Lowest pH" }, type: "number", required: true, min: 6.5, max: 8, step: 0.01 },
       { id: "ph_highest", label: { es: "pH máximo", en: "Highest pH" }, type: "number", required: true, min: 6.5, max: 8, step: 0.01 },
       { id: "total_co2_lowest_mmol_l", label: { es: "CO₂ total mínimo", en: "Lowest total CO₂" }, type: "number", required: true, unit: "mmol/L", min: 0, max: 60, step: 0.1 },
@@ -3204,20 +3165,20 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   prifle: {
     validationNotes: {
-      es: "Criterios R/I/F implementados desde la publicacion original y tabla abierta de verificacion. L y E se muestran solo cuando se declara duracion de fallo renal persistente de al menos 4 o 12 semanas.",
-      en: "R/I/F criteria implemented from the original publication and an open verification table. L and E are shown only when persistent renal failure duration of at least 4 or 12 weeks is explicitly entered."
+      es: "Criterios R/I/F implementados desde la publicación original. L requiere fallo renal persistente >4 semanas (>28 días) y E >3 meses (>90 días).",
+      en: "R/I/F criteria implemented from the original publication. L requires persistent renal failure >4 weeks (>28 days) and E >3 months (>90 days)."
     },
     calculationNotes: {
-      es: "Clasifica por el peor criterio entre descenso de eCCl y diuresis. Requiere un eCCl basal fiable; la categoria puede cambiar si el basal o el metodo de estimacion cambian.",
-      en: "Classifies by the worst criterion between eCCl decline and urine output. A reliable baseline eCCl is required; classification can change if the baseline or estimation method changes."
+      es: "Clasifica por el peor criterio entre descenso de eCCl y diuresis. El eCCl basal y actual deben estimarse con un método pediátrico apropiado y consistente.",
+      en: "Classifies by the worst criterion between eCCl decline and urine output. Baseline and current eCCl should be estimated using an appropriate and consistent pediatric method."
     },
     inputs: [
-      { id: "baseline_eccl", label: { es: "eCCl basal", en: "Baseline eCCl" }, type: "number", required: true, unit: "mL/min/1.73 m2", min: 1, max: 250, step: 0.1 },
-      { id: "current_eccl", label: { es: "eCCl actual", en: "Current eCCl" }, type: "number", required: true, unit: "mL/min/1.73 m2", min: 0, max: 250, step: 0.1 },
+      { id: "baseline_eccl", label: { es: "eCCl basal (método pediátrico consistente)", en: "Baseline eCCl (consistent pediatric method)" }, type: "number", required: true, unit: "mL/min/1.73 m2", min: 1, max: 250, step: 0.1 },
+      { id: "current_eccl", label: { es: "eCCl actual (mismo método)", en: "Current eCCl (same method)" }, type: "number", required: true, unit: "mL/min/1.73 m2", min: 0, max: 250, step: 0.1 },
       { id: "urine_output_ml_kg_h", label: { es: "Diuresis", en: "Urine output" }, type: "number", required: true, unit: "mL/kg/h", min: 0, max: 20, step: 0.01 },
-      { id: "urine_duration_hours", label: { es: "Duracion de ese nivel de diuresis", en: "Duration at that urine-output level" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
+      { id: "urine_duration_hours", label: { es: "Duración de ese nivel de diuresis", en: "Duration at that urine-output level" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
       { id: "anuria_hours", label: { es: "Horas de anuria", en: "Hours of anuria" }, type: "number", required: true, unit: "h", min: 0, max: 168, step: 0.5 },
-      { id: "persistent_failure_weeks", label: { es: "Semanas de fallo renal persistente", en: "Weeks of persistent renal failure" }, type: "number", required: true, unit: "semanas", min: 0, max: 104, step: 0.5 }
+      { id: "persistent_failure_days", label: { es: "Días de fallo renal persistente", en: "Days of persistent renal failure" }, type: "number", required: true, unit: "días", min: 0, max: 730, step: 1 }
     ],
     interpretationBands: [
       { id: "none", label: { es: "Sin criterio pRIFLE", en: "No pRIFLE criterion" }, min: 0, max: 0 },
@@ -5248,187 +5209,109 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   pecarn_tbi_under_2: {
     calculationStatus: "metadata_ready",
-    calculationNotes: pendingCalculationNotes,
+    calculationNotes: {
+      es: "Solo se calcula en <2 años con TCE cerrado no trivial, <24 h, GCS 14-15 y sin exclusiones publicadas. Mecanismo grave: eyección/muerte/vuelco en vehículo; peatón/ciclista sin casco atropellado; caída >0,9 m; u objeto de alta energía.",
+      en: "Calculated only in <2 years with non-trivial blunt head trauma, <24 h, GCS 14-15 and no published exclusions. Severe mechanism: MVC ejection/death/rollover; unhelmeted pedestrian/bicyclist struck; fall >0.9 m; or high-impact object."
+    },
     inputs: [
-      "altered_mental_status_or_gcs_less_than_15",
-      "palpable_skull_fracture",
-      "non_frontal_scalp_hematoma",
-      "loss_of_consciousness_5_seconds_or_more",
-      "severe_mechanism",
-      "abnormal_behavior_per_parent"
-    ].map((id) => ({
-      id,
-      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
-      type: "boolean" as const,
-      required: true,
-      options: booleanOptions
-    })),
-    scoringTable: [
-      {
-        id: "pecarn_under_2_criteria",
-        variable: { es: "Criterios PECARN menor de 2 anos", en: "PECARN under 2 criteria" },
-        value: "boolean",
-        description: {
-          es: "Criterios documentados; no se activa algoritmo de decision en este bloque.",
-          en: "Criteria documented; decision algorithm is not activated in this block."
-        }
-      }
+      {id:"age_months",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"meses",min:0,max:215.99,step:0.1},
+      {id:"initial_gcs",label:{es:"GCS inicial",en:"Initial GCS"},type:"number",required:true,min:3,max:15,step:1},
+      booleanInput("blunt_head_trauma",{es:"Traumatismo craneal cerrado",en:"Blunt head trauma"}),
+      booleanInput("presentation_within_24h",{es:"Presentación dentro de 24 h",en:"Presentation within 24 h"}),
+      booleanInput("trivial_mechanism_only",{es:"Mecanismo trivial sin otros signos/síntomas",en:"Trivial mechanism with no other signs/symptoms"}),
+      booleanInput("penetrating_trauma",{es:"Traumatismo penetrante",en:"Penetrating trauma"}),
+      booleanInput("known_brain_tumor",{es:"Tumor cerebral conocido",en:"Known brain tumor"}),
+      booleanInput("preexisting_neurologic_disorder_complicating_assessment",{es:"Trastorno neurológico previo que dificulta valoración",en:"Pre-existing neurologic disorder complicating assessment"}),
+      booleanInput("prior_neuroimaging_before_transfer",{es:"Neuroimagen previa antes del traslado",en:"Prior neuroimaging before transfer"}),
+      booleanInput("ventricular_shunt",{es:"Derivación ventricular",en:"Ventricular shunt"}),
+      booleanInput("bleeding_disorder",{es:"Trastorno hemorrágico",en:"Bleeding disorder"}),
+      booleanInput("altered_mental_status_or_gcs_less_than_15",{es:"Alteración mental o GCS <15",en:"Altered mental status or GCS <15"}),
+      booleanInput("palpable_skull_fracture",{es:"Fractura craneal palpable",en:"Palpable skull fracture"}),
+      booleanInput("non_frontal_scalp_hematoma",{es:"Hematoma no frontal",en:"Non-frontal scalp hematoma"}),
+      booleanInput("loss_of_consciousness_5_seconds_or_more",{es:"Pérdida de conciencia ≥5 s",en:"Loss of consciousness ≥5 s"}),
+      booleanInput("severe_mechanism",{es:"Mecanismo grave PECARN (<2 a): caída >0,9 m u otros criterios publicados",en:"PECARN severe mechanism (<2 y): fall >0.9 m or other published criteria"}),
+      booleanInput("abnormal_behavior_per_parent",{es:"No actúa normal según padres/tutores",en:"Not acting normally according to parent/guardian"})
     ]
   },
   pecarn_tbi_2_or_more: {
     calculationStatus: "metadata_ready",
-    calculationNotes: pendingCalculationNotes,
+    calculationNotes: {
+      es: "Solo se calcula en 2 a <18 años con TCE cerrado no trivial, <24 h, GCS 14-15 y sin exclusiones publicadas. Mecanismo grave: eyección/muerte/vuelco; peatón/ciclista sin casco atropellado; caída >1,5 m; u objeto de alta energía.",
+      en: "Calculated only in age 2 to <18 years with non-trivial blunt head trauma, <24 h, GCS 14-15 and no published exclusions. Severe mechanism: ejection/death/rollover; unhelmeted pedestrian/bicyclist struck; fall >1.5 m; or high-impact object."
+    },
     inputs: [
-      "altered_mental_status_or_gcs_less_than_15",
-      "signs_of_basilar_skull_fracture",
-      "history_of_loss_of_consciousness",
-      "history_of_vomiting",
-      "severe_mechanism",
-      "severe_headache"
-    ].map((id) => ({
-      id,
-      label: { es: id.replaceAll("_", " "), en: id.replaceAll("_", " ") },
-      type: "boolean" as const,
-      required: true,
-      options: booleanOptions
-    })),
-    scoringTable: [
-      {
-        id: "pecarn_2_or_more_criteria",
-        variable: { es: "Criterios PECARN 2 anos o mas", en: "PECARN 2 years or older criteria" },
-        value: "boolean",
-        description: {
-          es: "Criterios documentados; no se activa algoritmo de decision en este bloque.",
-          en: "Criteria documented; decision algorithm is not activated in this block."
-        }
-      }
+      {id:"age_months",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"meses",min:0,max:215.99,step:0.1},
+      {id:"initial_gcs",label:{es:"GCS inicial",en:"Initial GCS"},type:"number",required:true,min:3,max:15,step:1},
+      booleanInput("blunt_head_trauma",{es:"Traumatismo craneal cerrado",en:"Blunt head trauma"}),
+      booleanInput("presentation_within_24h",{es:"Presentación dentro de 24 h",en:"Presentation within 24 h"}),
+      booleanInput("trivial_mechanism_only",{es:"Mecanismo trivial sin otros signos/síntomas",en:"Trivial mechanism with no other signs/symptoms"}),
+      booleanInput("penetrating_trauma",{es:"Traumatismo penetrante",en:"Penetrating trauma"}),
+      booleanInput("known_brain_tumor",{es:"Tumor cerebral conocido",en:"Known brain tumor"}),
+      booleanInput("preexisting_neurologic_disorder_complicating_assessment",{es:"Trastorno neurológico previo que dificulta valoración",en:"Pre-existing neurologic disorder complicating assessment"}),
+      booleanInput("prior_neuroimaging_before_transfer",{es:"Neuroimagen previa antes del traslado",en:"Prior neuroimaging before transfer"}),
+      booleanInput("ventricular_shunt",{es:"Derivación ventricular",en:"Ventricular shunt"}),
+      booleanInput("bleeding_disorder",{es:"Trastorno hemorrágico",en:"Bleeding disorder"}),
+      booleanInput("altered_mental_status_or_gcs_less_than_15",{es:"Alteración mental o GCS <15",en:"Altered mental status or GCS <15"}),
+      booleanInput("signs_of_basilar_skull_fracture",{es:"Signos de fractura basilar",en:"Signs of basilar skull fracture"}),
+      booleanInput("history_of_loss_of_consciousness",{es:"Pérdida de conciencia",en:"Loss of consciousness"}),
+      booleanInput("history_of_vomiting",{es:"Vómitos",en:"Vomiting"}),
+      booleanInput("severe_mechanism",{es:"Mecanismo grave PECARN (≥2 a): caída >1,5 m u otros criterios publicados",en:"PECARN severe mechanism (≥2 y): fall >1.5 m or other published criteria"}),
+      booleanInput("severe_headache",{es:"Cefalea intensa",en:"Severe headache"})
     ]
   },
   catch_tbi: {
     calculationStatus: "metadata_ready",
-    calculationNotes: pendingCalculationNotes,
+    calculationNotes: {
+      es: "CATCH exige lesión craneal menor dentro de 24 h, GCS 13-15 y al menos uno de los síntomas definitorios publicados, sin exclusiones. Mecanismo peligroso: colisión, caída ≥0,91 m o ≥5 escalones, o caída de bicicleta sin casco.",
+      en: "CATCH requires minor head injury within 24 h, GCS 13-15 and at least one published defining symptom, with no exclusions. Dangerous mechanism: MVC, fall ≥0.91 m or ≥5 stairs, or unhelmeted bicycle fall."
+    },
     inputs: [
-      booleanInput("gcs_less_than_15_at_2_hours", {
-        es: "GCS menor de 15 a las 2 horas",
-        en: "GCS less than 15 at 2 hours"
-      }),
-      booleanInput("suspected_open_or_depressed_skull_fracture", {
-        es: "Sospecha de fractura craneal abierta o deprimida",
-        en: "Suspected open or depressed skull fracture"
-      }),
-      booleanInput("worsening_headache", {
-        es: "Cefalea en empeoramiento",
-        en: "Worsening headache"
-      }),
-      booleanInput("irritability_on_exam", {
-        es: "Irritabilidad en la exploracion",
-        en: "Irritability on examination"
-      }),
-      booleanInput("signs_of_basal_skull_fracture", {
-        es: "Signos de fractura de base de craneo",
-        en: "Signs of basal skull fracture"
-      }),
-      booleanInput("large_boggy_scalp_hematoma", {
-        es: "Hematoma de cuero cabelludo grande y blando",
-        en: "Large boggy scalp hematoma"
-      }),
-      booleanInput("dangerous_mechanism", {
-        es: "Mecanismo peligroso segun regla CATCH",
-        en: "Dangerous mechanism according to CATCH"
-      })
-    ],
-    scoringTable: [
-      {
-        id: "catch_high_risk_criteria",
-        variable: { es: "Criterios de mayor riesgo CATCH", en: "CATCH higher-risk criteria" },
-        value: "boolean",
-        description: {
-          es: "Criterios publicados que se muestran solo como clasificacion informativa.",
-          en: "Published criteria shown only as informational classification."
-        }
-      },
-      {
-        id: "catch_medium_risk_criteria",
-        variable: { es: "Criterios de riesgo medio CATCH", en: "CATCH medium-risk criteria" },
-        value: "boolean",
-        description: {
-          es: "Criterios publicados que se muestran solo como clasificacion informativa.",
-          en: "Published criteria shown only as informational classification."
-        }
-      }
+      {id:"age_years",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"años",min:0,max:16,step:0.1},
+      {id:"initial_gcs",label:{es:"GCS inicial",en:"Initial GCS"},type:"number",required:true,min:3,max:15,step:1},
+      booleanInput("injury_within_24h",{es:"Lesión dentro de 24 h",en:"Injury within 24 h"}),
+      booleanInput("witnessed_loss_of_consciousness",{es:"Pérdida de conciencia presenciada",en:"Witnessed loss of consciousness"}),
+      booleanInput("definite_amnesia",{es:"Amnesia definida",en:"Definite amnesia"}),
+      booleanInput("witnessed_disorientation",{es:"Desorientación presenciada",en:"Witnessed disorientation"}),
+      booleanInput("persistent_vomiting_more_than_one_episode",{es:"Vómitos persistentes (>1 episodio)",en:"Persistent vomiting (>1 episode)"}),
+      booleanInput("persistent_irritability_if_under_2",{es:"Irritabilidad persistente si <2 años",en:"Persistent irritability if <2 years"}),
+      booleanInput("obvious_penetrating_skull_injury",{es:"Lesión penetrante evidente",en:"Obvious penetrating skull injury"}),
+      booleanInput("obvious_depressed_skull_fracture",{es:"Fractura deprimida evidente",en:"Obvious depressed skull fracture"}),
+      booleanInput("acute_focal_neurologic_deficit",{es:"Déficit neurológico focal agudo",en:"Acute focal neurologic deficit"}),
+      booleanInput("chronic_generalized_developmental_delay",{es:"Retraso global del desarrollo crónico",en:"Chronic generalized developmental delay"}),
+      booleanInput("suspected_child_abuse",{es:"Sospecha de maltrato",en:"Suspected child abuse"}),
+      booleanInput("returning_for_reassessment",{es:"Reconsulta por TCE ya valorado",en:"Returning for reassessment"}),
+      booleanInput("gcs_less_than_15_at_2_hours",{es:"GCS <15 a las 2 h",en:"GCS <15 at 2 h"}),
+      booleanInput("suspected_open_or_depressed_skull_fracture",{es:"Sospecha de fractura abierta/deprimida",en:"Suspected open/depressed skull fracture"}),
+      booleanInput("worsening_headache",{es:"Cefalea en empeoramiento",en:"Worsening headache"}),
+      booleanInput("irritability_on_exam",{es:"Irritabilidad en exploración",en:"Irritability on examination"}),
+      booleanInput("signs_of_basal_skull_fracture",{es:"Signos de fractura basal",en:"Signs of basal skull fracture"}),
+      booleanInput("large_boggy_scalp_hematoma",{es:"Hematoma grande y blando",en:"Large boggy scalp hematoma"}),
+      booleanInput("dangerous_mechanism",{es:"Mecanismo peligroso CATCH: colisión, caída ≥0,91 m/5 escalones o bicicleta sin casco",en:"CATCH dangerous mechanism: MVC, fall ≥0.91 m/5 stairs, or unhelmeted bicycle fall"})
     ]
   },
   chalice_tbi: {
     calculationStatus: "metadata_ready",
-    calculationNotes: pendingCalculationNotes,
+    calculationNotes: {
+      es: "CHALICE se aplica a menores de 16 años con antecedente o signos de traumatismo craneal. Tráfico de alta velocidad: peatón, ciclista u ocupante implicado a >40 mph (>64 km/h).",
+      en: "CHALICE applies to patients younger than 16 years with a history or signs of head injury. High-speed road traffic: pedestrian, cyclist, or occupant involved at >40 mph (>64 km/h)."
+    },
     inputs: [
-      booleanInput("witnessed_loss_of_consciousness_over_5_minutes", {
-        es: "Perdida de conciencia presenciada mayor de 5 minutos",
-        en: "Witnessed loss of consciousness over 5 minutes"
-      }),
-      booleanInput("history_of_amnesia_over_5_minutes", {
-        es: "Amnesia mayor de 5 minutos",
-        en: "History of amnesia over 5 minutes"
-      }),
-      booleanInput("abnormal_drowsiness", {
-        es: "Somnolencia anormal",
-        en: "Abnormal drowsiness"
-      }),
-      booleanInput("three_or_more_vomiting_episodes", {
-        es: "Tres o mas episodios de vomitos",
-        en: "Three or more vomiting episodes"
-      }),
-      booleanInput("suspicion_of_non_accidental_injury", {
-        es: "Sospecha de lesion no accidental",
-        en: "Suspicion of non-accidental injury"
-      }),
-      booleanInput("post_traumatic_seizure_without_epilepsy", {
-        es: "Convulsion postraumatica sin epilepsia conocida",
-        en: "Post-traumatic seizure without known epilepsy"
-      }),
-      booleanInput("gcs_less_than_14_or_under_1_less_than_15", {
-        es: "GCS menor de 14, o menor de 15 si tiene menos de 1 ano",
-        en: "GCS less than 14, or less than 15 if under 1 year"
-      }),
-      booleanInput("suspected_penetrating_or_depressed_skull_injury_or_tense_fontanelle", {
-        es: "Sospecha de lesion craneal penetrante/deprimida o fontanela tensa",
-        en: "Suspected penetrating/depressed skull injury or tense fontanelle"
-      }),
-      booleanInput("signs_of_basal_skull_fracture", {
-        es: "Signos de fractura de base de craneo",
-        en: "Signs of basal skull fracture"
-      }),
-      booleanInput("focal_neurology", {
-        es: "Neurologia focal",
-        en: "Focal neurology"
-      }),
-      booleanInput("bruise_swelling_laceration_over_5cm_under_1_year", {
-        es: "Hematoma, tumefaccion o laceracion mayor de 5 cm si menor de 1 ano",
-        en: "Bruise, swelling, or laceration over 5 cm if under 1 year"
-      }),
-      booleanInput("high_speed_road_traffic_mechanism", {
-        es: "Mecanismo de trafico de alta energia",
-        en: "High-energy road traffic mechanism"
-      }),
-      booleanInput("fall_over_3_metres", {
-        es: "Caida mayor de 3 metros",
-        en: "Fall over 3 metres"
-      }),
-      booleanInput("high_speed_projectile_or_object", {
-        es: "Proyectil u objeto de alta energia",
-        en: "High-energy projectile or object"
-      })
-    ],
-    scoringTable: [
-      {
-        id: "chalice_criteria",
-        variable: { es: "Criterios CHALICE", en: "CHALICE criteria" },
-        value: "boolean",
-        description: {
-          es: "Criterios publicados que se muestran solo como clasificacion informativa.",
-          en: "Published criteria shown only as informational classification."
-        }
-      }
+      {id:"age_years",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"años",min:0,max:15.99,step:0.1},
+      booleanInput("head_injury_present",{es:"Antecedente o signos de traumatismo craneal",en:"History or signs of head injury"}),
+      booleanInput("witnessed_loss_of_consciousness_over_5_minutes",{es:"Pérdida de conciencia presenciada >5 min",en:"Witnessed LOC >5 min"}),
+      booleanInput("history_of_amnesia_over_5_minutes",{es:"Amnesia >5 min",en:"Amnesia >5 min"}),
+      booleanInput("abnormal_drowsiness",{es:"Somnolencia anormal",en:"Abnormal drowsiness"}),
+      booleanInput("three_or_more_vomiting_episodes",{es:"≥3 episodios de vómitos",en:"≥3 vomiting episodes"}),
+      booleanInput("suspicion_of_non_accidental_injury",{es:"Sospecha de lesión no accidental",en:"Suspicion of non-accidental injury"}),
+      booleanInput("post_traumatic_seizure_without_epilepsy",{es:"Convulsión postraumática sin epilepsia",en:"Post-traumatic seizure without epilepsy"}),
+      booleanInput("gcs_less_than_14_or_under_1_less_than_15",{es:"GCS <14, o <15 si <1 año",en:"GCS <14, or <15 if under 1 year"}),
+      booleanInput("suspected_penetrating_or_depressed_skull_injury_or_tense_fontanelle",{es:"Lesión penetrante/deprimida o fontanela tensa",en:"Penetrating/depressed injury or tense fontanelle"}),
+      booleanInput("signs_of_basal_skull_fracture",{es:"Signos de fractura basal",en:"Signs of basal skull fracture"}),
+      booleanInput("focal_neurology",{es:"Neurología focal",en:"Focal neurology"}),
+      booleanInput("bruise_swelling_laceration_over_5cm_under_1_year",{es:">5 cm de lesión de cuero cabelludo si <1 año",en:">5 cm scalp injury if under 1 year"}),
+      booleanInput("high_speed_road_traffic_mechanism",{es:"Tráfico de alta velocidad >40 mph (>64 km/h)",en:"High-speed road traffic >40 mph (>64 km/h)"}),
+      booleanInput("fall_over_3_metres",{es:"Caída >3 m",en:"Fall >3 m"}),
+      booleanInput("high_speed_projectile_or_object",{es:"Proyectil u objeto de alta energía",en:"High-speed projectile or object"})
     ]
   }
 };
@@ -5727,14 +5610,9 @@ const withRightsExternalReference = (toolMetadata: ClinicalToolMetadata): Clinic
     ...existingReferences.filter((reference) => reference.url !== externalReference.url)
   ];
 
-  const validationNotes: LocalizedText = {
-    es: `${toolMetadata.validationNotes.es} ${explanation.es}`.trim(),
-    en: `${toolMetadata.validationNotes.en} ${explanation.en}`.trim()
-  };
-
   return {
     ...toolMetadata,
-    validationNotes,
+    validationNotes: explanation,
     references
   };
 };
