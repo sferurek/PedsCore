@@ -2581,7 +2581,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       {id:"pao2_mmhg",label:{es:"PaO₂ más baja (si obtenida)",en:"Lowest PaO₂ (if obtained)"},type:"number",required:false,unit:"mmHg",min:1,max:800,step:1},
       {id:"fio2_percent",label:{es:"FiO₂ correspondiente",en:"Corresponding FiO₂"},description:{es:"Introducir 21-100%. SNAPPE-II usa PaO₂/FiO₂% y no el P/F moderno con FiO₂ 0-1.",en:"Enter 21-100%. SNAPPE-II uses PaO₂/FiO₂% rather than the modern P/F ratio with FiO₂ 0-1."},type:"number",required:false,unit:"%",min:21,max:100,step:1},
       {id:"lowest_ph",label:{es:"pH sérico más bajo (si obtenido)",en:"Lowest serum pH (if obtained)"},type:"number",required:false,min:6,max:8,step:0.01},
-      booleanInput("multiple_seizures",{es:"Convulsiones múltiples",en:"Multiple seizures"},false),
+      { id:"multiple_seizures", label:{es:"Convulsiones múltiples (si valorado)",en:"Multiple seizures (if assessed)"}, type:"boolean", required:false, options:booleanOptions },
       {id:"urine_output_ml_kg_h",label:{es:"Diuresis (si obtenida)",en:"Urine output (if obtained)"},type:"number",required:false,unit:"mL/kg/h",min:0,max:20,step:0.01},
       {id:"apgar_5min",label:{es:"Apgar a los 5 minutos",en:"5-minute Apgar"},type:"number",required:true,min:0,max:10,step:1},
       {id:"birth_weight_g",label:{es:"Peso al nacer",en:"Birth weight"},type:"number",required:true,unit:"g",min:200,max:7000,step:1},
@@ -2796,7 +2796,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       { id: "d_dimer_mg_l_feu", label: { es: "Dímero D FEU (si medido)", en: "D-dimer FEU (if measured)" }, type: "number", required: false, unit: "mg/L", min: 0, max: 100, step: 0.01 },
       { id: "fibrinogen_mg_dl", label: { es: "Fibrinógeno (si medido)", en: "Fibrinogen (if measured)" }, type: "number", required: false, unit: "mg/dL", min: 0, max: 1500, step: 1 },
       { id: "gcs", label: { es: "GCS (si valorable)", en: "GCS (if assessable)" }, type: "number", required: false, min: 3, max: 15, step: 1 },
-      booleanInput("both_pupils_fixed", { es: "Ambas pupilas fijas", en: "Both pupils fixed" }, false)
+      { id:"both_pupils_fixed", label:{es:"Ambas pupilas fijas (si valorable)",en:"Both pupils fixed (if assessable)"}, type:"boolean", required:false, options:booleanOptions }
     ]
   },
   visual_analogue_scale: {
