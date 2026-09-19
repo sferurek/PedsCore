@@ -60,6 +60,18 @@ a {
   min-height: 100vh;
 }
 
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .skip-link {
   position: fixed;
   top: 8px;
@@ -5126,4 +5138,26 @@ td {
   color: #315769;
   font-size: 0.72rem;
   font-weight: 800;
+}
+
+
+.finder-privacy-note {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 719px) {
+  .finder-composer textarea {
+    min-height: 96px;
+    font-size: 16px;
+  }
+
+  .finder-composer .primary-action,
+  .quick-filter-chip,
+  .home-discovery-card button,
+  .personal-tool-links a {
+    min-height: 44px;
+  }
 }
