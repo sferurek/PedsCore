@@ -171,8 +171,26 @@ describe("privacy-first analytics utilities", () => {
     expect(JSON.stringify(track.mock.calls)).not.toContain("score=10");
   });
 
+  it("never accepts Finder free text into analytics payloads", () => {
+    const params = sanitizeAnalyticsParams({
+      searchScope: "clinical_finder",
+      hasQuery: true,
+      status: "matches",
+      query: "lactante de 21 días con fiebre",
+      patientName: "example"
+    } as never);
+
+    expect(params).toEqual({
+      status: "matches",
+      searchScope: "clinical_finder",
+      hasQuery: true
+    });
+    expect(JSON.stringify(params)).not.toContain("lactante");
+    expect(JSON.stringify(params)).not.toContain("example");
+  });
+
   it("documents usage counter windows for provider dashboards", () => {
-    expect(getUsageCounterEventNames("last_7_days")).toHaveLength(9);
+    expect(getUsageCounterEventNames("last_7_days")).toHaveLength(13);
     expect(getUsageCounterEventNames("all_time").map((event) => event.eventName))
       .toEqual([
         "app_open",
@@ -183,7 +201,11 @@ describe("privacy-first analytics utilities", () => {
         "score_calculated",
         "protocol_opened",
         "favorite_added",
-        "share_used"
+        "share_used",
+        "finder_used",
+        "finder_result_opened",
+        "finder_compare_used",
+        "navigation_used"
       ]);
   });
 });

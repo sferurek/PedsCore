@@ -12,6 +12,7 @@ import { makePath } from "../utils/routes";
 import { getClinicalSurfaceStats } from "../utils/toolStats";
 import { fetchPopularTools } from "../utils/popularTools";
 import { PEDSCORE_SIM_URL } from "../utils/externalLinks";
+import { trackUsageEvent } from "../utils/analytics";
 import {
   getFavoriteToolIds,
   getRecentToolIds,
@@ -123,8 +124,8 @@ const categoryDetails: Record<
   },
   resuscitation: {
     description: {
-      es: "Algoritmos y referencias de soporte vital pediátrico en revisión editorial.",
-      en: "Pediatric life-support algorithms and references under editorial review."
+      es: "Algoritmos y referencias de soporte vital pediátrico con acceso a fuentes oficiales.",
+      en: "Pediatric life-support algorithms and references with access to official sources."
     },
     examples: ["Pediatric CPR", "Neonatal CPR", "Bradycardia"]
   }
@@ -196,6 +197,13 @@ export function HomePage({ language, navigate }: HomePageProps) {
   const categories = [...categoryCounts.keys()].sort((a, b) =>
     categoryLabels[a][language].localeCompare(categoryLabels[b][language])
   );
+  const trackHomeNavigation = (scope: string, toolId?: string) => {
+    trackUsageEvent("navigation_used", makePath(language), language, {
+      searchScope: scope,
+      ...(toolId ? { toolId } : {})
+    });
+  };
+
   const whoGrowthExamples =
     language === "es"
       ? "BMI-for-age · peso-edad · talla-edad · PC · peso/talla"
@@ -211,7 +219,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
               <button
                 type="button"
                 key={tool.id}
-                onClick={() => navigate(makePath(language, "tools", tool.slug))}
+                onClick={() => { trackHomeNavigation("home_quick_tool", tool.id); navigate(makePath(language, "tools", tool.slug)); }}
               >
                 {tool.shortName || tool.name[language]}
               </button>
@@ -304,7 +312,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
                 <button
                   type="button"
                   key={category}
-                  onClick={() => navigate(makePath(language, "categories", category))}
+                  onClick={() => { trackHomeNavigation("home_specialty"); navigate(makePath(language, "categories", category)); }}
                 >
                   <span>{categoryLabels[category][language]}</span>
                   <small>{categoryCounts.get(category) ?? 0}</small>
@@ -343,7 +351,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
                 <button
                   type="button"
                   key={tool.id}
-                  onClick={() => navigate(makePath(language, "tools", tool.slug))}
+                  onClick={() => { trackHomeNavigation("home_direct_access", tool.id); navigate(makePath(language, "tools", tool.slug)); }}
                 >
                   <span className="home-popular-rank">{String(index + 1).padStart(2, "0")}</span>
                   <span>
@@ -409,7 +417,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
                   <span className="category-card-description">
                     {t.home.whoGrowthBody}
                   </span>
-                  <strong>{t.home.partialMetric}</strong>
+                  <strong>{t.home.activeModuleMetric}</strong>
                   <span className="category-card-examples">
                     {whoGrowthExamples}
                   </span>

@@ -47,7 +47,7 @@ export const translations = {
       implementedMetric: "cálculos locales",
       availableMetric: "disponibles",
       blockedMetric: "con acceso limitado",
-      partialMetric: "implementación parcial",
+      activeModuleMetric: "módulo activo",
       clinicalDataMetric: "datos clínicos almacenados",
       miniDisclaimer:
         "Para uso profesional y educativo. PedsCore acompaña la decisión clínica; no sustituye el juicio profesional ni los protocolos locales.",
@@ -57,16 +57,16 @@ export const translations = {
         "Herramientas listas para usar, con lógica comprobada, referencias visibles y una salida clínica claramente explicada.",
       partiallyImplementedTitle: "Implementación parcial",
       partiallyImplementedBody:
-        "WHO Growth ya cubre el núcleo de crecimiento OMS disponible en PedsCore; parte del alcance 5–19 años sigue en revisión.",
+        "Algunos módulos pueden activarse por fases cuando una parte está completamente validada y otra sigue pendiente. El estado parcial debe describir exactamente qué alcance está disponible.",
       cataloguedValidationTitle: "Catalogadas y en validación",
       cataloguedValidationBody:
         "Una herramienta no se activa hasta que su fuente, versión, tabla y condiciones de uso estén suficientemente claras.",
       whoGrowthTitle: "Módulo WHO Growth",
       whoGrowthBody:
-        "Percentiles OMS de 0–5 años y soporte parcial de 5–19, con gráficas imprimibles.",
+        "Crecimiento OMS de 0–5 años y referencia 5–19 para los indicadores implementados, con percentiles y gráficas imprimibles.",
       whoGrowthFeatures: [
         "OMS 0-5",
-        "OMS 5-19 parcial",
+        "OMS 5-19",
         "Datos oficiales OMS",
         "Gráficas SVG imprimibles",
         "Percentiles P3/P15/P50/P85/P97 escritos",
@@ -179,7 +179,7 @@ export const translations = {
         "El cálculo automático todavía no está disponible. Conservamos esta ficha para que puedas consultar su propósito, su estado y las fuentes que guían su revisión.",
       partialActiveTitle: "Módulo parcialmente disponible",
       partialActiveBody:
-        "Este módulo ya calcula el alcance OMS disponible en PedsCore. Parte del tramo de 5–19 años y algunos detalles de interpolación siguen en revisión antes de cerrar el módulo completo.",
+        "Este módulo tiene funcionalidad parcial disponible. La ficha debe indicar con precisión qué alcance está activo y qué elementos siguen pendientes de validación.",
       disclaimer:
         "PedsCore es una herramienta de apoyo para profesionales sanitarios. La información debe interpretarse junto con la valoración individual del paciente, el juicio clínico y los protocolos aplicables.",
       feedbackQuestion:
@@ -315,7 +315,7 @@ export const translations = {
       implementedMetric: "local calculations",
       availableMetric: "available",
       blockedMetric: "limited access",
-      partialMetric: "partial implementation",
+      activeModuleMetric: "active module",
       clinicalDataMetric: "clinical data stored",
       miniDisclaimer:
         "For professional and educational use. PedsCore supports clinical decisions; it does not replace clinical judgment or local protocols.",
@@ -325,16 +325,16 @@ export const translations = {
         "Tools ready to use, with tested logic, visible references and clearly explained outputs.",
       partiallyImplementedTitle: "Partially implemented",
       partiallyImplementedBody:
-        "WHO Growth: WHO 0-5 + BMI/height 5-19, printable charts, pending final review/interpolation.",
+        "Some modules may be activated in stages when one part is fully validated and another remains pending. Partial status must state exactly which scope is available.",
       cataloguedValidationTitle: "Catalogued / in validation",
       cataloguedValidationBody:
         "A tool is not activated until its source, version, required tables and conditions of use are sufficiently clear.",
       whoGrowthTitle: "WHO Growth module",
       whoGrowthBody:
-        "WHO 0-5 percentiles and partial 5-19 support with printable charts.",
+        "WHO growth from 0–5 years and the implemented 5–19 reference indicators, with percentiles and printable charts.",
       whoGrowthFeatures: [
         "WHO 0-5",
-        "WHO 5-19 partial",
+        "WHO 5-19",
         "Official WHO data",
         "Printable SVG charts",
         "Written P3/P15/P50/P85/P97 percentiles",
@@ -447,7 +447,7 @@ export const translations = {
         "Automatic calculation is not active for this tool yet. This page is shown for review, traceability and implementation preparation.",
       partialActiveTitle: "Active partial module",
       partialActiveBody:
-        "This module already calculates the WHO scope currently available in PedsCore. It remains marked as partially implemented while the remaining 5-19 scope, interpolation policy, and final review are pending.",
+        "This module has partially available functionality. Its page must state exactly which scope is active and which elements still require validation.",
       disclaimer:
         "Disclaimer: PedsCore is an educational and informational reference for healthcare professionals. It does not replace clinical judgment, local protocols or individual patient assessment. It must not be used as the sole basis for clinical decision-making.",
       feedbackQuestion: "Found an error or want to suggest an improvement?",
@@ -703,7 +703,7 @@ export const statusDescriptions: Record<
 };
 
 export const typeLabels: Record<ToolType, Record<Language, string>> = {
-  score: { es: "Score", en: "Score" },
+  score: { es: "Puntuación", en: "Score" },
   scale: { es: "Escala", en: "Scale" },
   calculator: { es: "Calculadora", en: "Calculator" },
   clinical_rule: { es: "Regla clínica", en: "Clinical rule" },

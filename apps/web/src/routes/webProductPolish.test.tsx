@@ -2,6 +2,7 @@ import { getAllTools, getToolBySlug } from "@peds-core/core";
 import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { Footer, FooterUsageSummaryContent } from "../components/Footer";
+import { Layout } from "../components/Layout";
 import { OssSupportBanner } from "../components/OssSupportBanner";
 import { getSeoForRoute } from "../utils/seo";
 import { parseRoute } from "../utils/routes";
@@ -15,6 +16,24 @@ import { ToolsPage } from "./ToolsPage";
 const noopNavigate = () => undefined;
 
 describe("public product web polish", () => {
+  it("renders keyboard skip navigation", () => {
+    const html = renderToString(
+      <Layout
+        currentPath="/es/tools"
+        language="es"
+        navigate={noopNavigate}
+        onLanguageChange={() => undefined}
+      >
+        <p>Contenido</p>
+      </Layout>
+    );
+
+    expect(html).toContain('href="#main-content"');
+    expect(html).toContain("Saltar al contenido principal");
+    expect(html).toContain('id="main-content"');
+  });
+
+
   it("renders Home with current catalog counters", () => {
     const html = renderToString(
       <HomePage language="en" navigate={noopNavigate} />
@@ -40,6 +59,8 @@ describe("public product web polish", () => {
     expect(html).toContain("Silverman-Andersen");
     expect(html).toContain("STRONGkids");
     expect(html).toContain("BMI-for-age");
+    expect(html).toContain("active module");
+    expect(html).not.toContain("WHO 5-19 partial");
   });
 
   it("renders ToolsPage with clinical availability filters", () => {

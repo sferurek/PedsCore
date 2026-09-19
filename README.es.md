@@ -9,7 +9,7 @@
 [![Alpha](https://img.shields.io/badge/estado-alpha-orange.svg)](docs/releases/v0.1.0-alpha.md)
 [![Sin almacenamiento de datos clínicos](https://img.shields.io/badge/datos%20cl%C3%ADnicos-no%20almacenados-0f766e.svg)](DISCLAIMER.md)
 
-PedsCore es una biblioteca bilingüe en alpha pública de herramientas clínicas pediátricas y neonatales para profesionales sanitarios, docentes y contribuidores. Separa explícitamente disponibilidad clínica, evidencia, derechos de reutilización y disponibilidad de cálculo.
+PedsCore es una biblioteca clínica bilingüe para pediatría y neonatología con catálogo estructurado, discovery clínico, motores de cálculo deterministas, trazabilidad de evidencia, gobernanza de derechos y límites de seguridad explícitos. No es sólo una colección de calculadoras: modela qué puede calcularse localmente, qué debe permanecer como referencia externa y por qué.
 
 **Producción:** https://peds-core.vercel.app/
 
@@ -26,6 +26,20 @@ PedsCore es una biblioteca bilingüe en alpha pública de herramientas clínicas
 - Web ES/EN desplegada en Vercel.
 - Sin login ni persistencia de datos clínicos.
 - Los valores de formularios y resultados clínicos no se envían a analítica.
+
+## Qué evaluar primero
+
+Si quieres revisar el “cerebro” de PedsCore, empieza por:
+
+1. `packages/core/src/catalog/`
+2. `packages/core/src/discovery/`
+3. `packages/core/src/calculators/`
+4. `packages/core/tests/`
+5. `docs/CLINICAL_TOOL_RIGHTS.md`
+6. `docs/CLINICAL_REVIEW_PROGRAM.md`
+7. `scripts/verify-governance.mjs`
+
+La CI ejecuta lint, tests, build, auditoría de gobernanza y auditoría SEO. Una divergencia entre catálogo, discovery, registry o derechos se trata como un fallo de build.
 
 ## Principios del producto
 

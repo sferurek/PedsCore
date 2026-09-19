@@ -28,6 +28,7 @@ export function Layout({
 
   return (
     <div className={frameClassName}>
+      <a className="skip-link" href="#main-content">{language === "es" ? "Saltar al contenido principal" : "Skip to main content"}</a>
       <Header
         currentPath={currentPath}
         language={language}

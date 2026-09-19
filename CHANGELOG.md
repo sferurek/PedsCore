@@ -4,6 +4,16 @@ All notable changes to PedsCore are documented here.
 
 ## Unreleased · consolidation baseline · 2026-09-19
 
+### P2 product quality
+
+- Rewrote the GitHub front page to foreground clinical architecture, deterministic calculation, rights governance, safety and review workflow.
+- Removed stale WHO Growth partial-status wording from the current product experience.
+- Refined Spain-Spanish clinical terminology.
+- Added skip navigation, focus-visible treatment and reduced-motion handling.
+- Improved Finder labelling, mobile touch targets and privacy guidance.
+- Added aggregate Finder/navigation events without transmitting Finder free text.
+- Added a documented P2 quality-audit matrix.
+
 ### P1 consolidation
 
 - Added executable governance audit across catalog, discovery metadata, calculator registry and reuse status.
