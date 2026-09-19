@@ -33,11 +33,11 @@ jobs:
       - name: Governance audit
         run: npm run audit:governance
 
+      - name: Build
+        run: npm run build
+
       - name: SEO audit
         run: npm run seo:check
 
       - name: Validate Alexa+ manifest
         run: npm run alexa:validate
-
-      - name: Build
-        run: npm run build
