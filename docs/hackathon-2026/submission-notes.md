@@ -58,3 +58,7 @@ SIM remote deployment is currently blocked because the Railway GitHub App does n
 ## Rule for final write-up
 
 Do not claim Alexa simulator behavior, deployed AWS services, end-to-end SIM remote execution, or other features until they are demonstrable in code or a live/test environment.
+
+## Reconciliation status · 2026-09-19
+
+The final hackathon workstream was rebuilt from the then-current PedsCore `main` and opened as PR #91, avoiding the historical divergence of the original hackathon branch. This PR preserves current clinical catalog, governance, SEO and accessibility work while adding the MCP/Alexa+ submission layer.
