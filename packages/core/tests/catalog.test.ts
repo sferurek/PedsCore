@@ -57,11 +57,8 @@ const implementedToolIds = [
   "pcdai",
   "modified_tal",
   "taussig_croup",
-  "pass",
   "risc",
   "mrisc",
-  "gorelick_dehydration",
-  "prifle",
   "kdigo_pediatric",
   "phoenix_sepsis",
   "parc",
@@ -159,7 +156,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(57);
+    expect(getImplementedTools()).toHaveLength(54);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -435,9 +432,6 @@ describe("clinical tools catalog", () => {
       "neonatal_growth_fenton",
       "rdai",
       "brosjod",
-      "pass",
-      "gorelick_dehydration",
-      "prifle",
       "rflacc",
       "cheops"
     ];
