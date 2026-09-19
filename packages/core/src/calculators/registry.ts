@@ -33,9 +33,9 @@ import { yaleObservationScaleCalculator } from "./yaleObservation.js";
 import { pucaiCalculator } from "./ibdActivity.js";
 import { pcdaiCalculator } from "./pcdai.js";
 import { modifiedTalCalculator, taussigCroupCalculator } from "./respiratoryScores.js";
-import { passAsthmaCalculator, riscCalculator } from "./respiratoryRisk.js";
-import { mriscCalculator, gorelickDehydrationCalculator } from "./additionalOpenTools.js";
-import { ckidU25Calculator, kdigoPediatricCalculator, prifleCalculator } from "./renalOpen.js";
+import { riscCalculator } from "./respiratoryRisk.js";
+import { mriscCalculator } from "./additionalOpenTools.js";
+import { ckidU25Calculator, kdigoPediatricCalculator } from "./renalOpen.js";
 import { phoenixSepsisCalculator } from "./phoenixSepsis.js";
 import { parcCalculator } from "./parc.js";
 import { bacterialMeningitisScoreCalculator } from "./infectionOpen.js";
@@ -82,11 +82,8 @@ const calculators = [
   pcdaiCalculator,
   modifiedTalCalculator,
   taussigCroupCalculator,
-  passAsthmaCalculator,
   riscCalculator,
   mriscCalculator,
-  gorelickDehydrationCalculator,
-  prifleCalculator,
   kdigoPediatricCalculator,
   phoenixSepsisCalculator,
   parcCalculator,
