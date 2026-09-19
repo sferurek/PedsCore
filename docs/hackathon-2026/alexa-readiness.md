@@ -25,7 +25,7 @@ The private Alexa AI CLI/add-on workflow is useful additional evidence, but it i
 | Optional OAuth/Cognito path | Implemented in code | not provisioned |
 | SIM IMV MCP contracts | Verified in PedsCore CI | three simulation tools |
 | SIM deterministic backend bridge | Implemented | SIM PR #25 |
-| Remote MCP→SIM execution | Pending | requires public SIM bridge |
+| Remote MCP→SIM execution | Pending | requires production SIM bridge |
 
 ## Current Alexa AI CLI blocker
 
