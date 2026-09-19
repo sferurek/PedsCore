@@ -28,8 +28,8 @@ if (indexNowKey !== "5845ab92b382405cbba356bf63969310") {
   throw new Error("IndexNow key file content is invalid");
 }
 
-assertIncludes(indexHtml, "PedsCore — Open-source pediatric and neonatal clinical tools", "index.html");
-assertIncludes(indexHtml, "Open-source pediatric and neonatal clinical scores", "index.html");
+assertIncludes(indexHtml, "PedsCore — open-source pediatric and neonatal clinical tools", "index.html");
+assertIncludes(indexHtml, "PedsCore provides open-source pediatric and neonatal clinical tools", "index.html");
 assertIncludes(indexHtml, "https://peds-core.vercel.app/", "index.html canonical/metadata");
 assertIncludes(indexHtml, "application/ld+json", "index.html structured data");
 assertIncludes(indexHtml, '<link rel="icon" href="/favicon.svg"', "index.html favicon");
