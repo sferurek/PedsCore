@@ -6,15 +6,15 @@
 - slug: `bmi-percentile`
 - category: growth_nutrition
 - type: percentile
-- current implementationStatus: `partially_implemented`
+- current implementationStatus: `implemented`
 - current evidenceLevel: `official_manual_or_institutional_protocol`
 
 ## Evidence validation status
 
-- final evidence status: `partially_implemented`
-- blocking reason: exposed as a WHO Growth preset, not as a fully independent tool; final growth-module review and interpolation policy remain pending.
-- depends on maintainer decision: yes
-- maintainer decision needed: confirm final WHO Growth module policy before promoting from partial to implemented.
+- final evidence status: `implemented`
+- blocking reason: none for the WHO BMI-for-age 0-5 and 5-19 preset.
+- depends on maintainer decision: no
+- maintainer decision needed: none for the current WHO scope.
 
 ## Clinical purpose
 
@@ -81,7 +81,7 @@ EN: shortcut to descriptive BMI-for-age calculation through the WHO Growth engin
 
 ## Implementation recommendation
 
-Partial wrapper over WHO Growth module; do not create separate calculation logic.
+Implemented wrapper over WHO Growth module; no duplicate calculation logic.
 
 ## Proposed test cases
 
