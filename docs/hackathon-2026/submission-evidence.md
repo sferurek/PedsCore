@@ -25,8 +25,8 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 | SIM IMV deterministic adapter | SIM PR #25 + CI run `35333822459` | Verified |
 | SIM MCP contracts | 6-tool remote `tools/list` in run `35334436459` | Verified live |
 | SIM production HTTP contract | CI run `35333822459`: production Next.js server + deterministic smoke | Verified |
-| Public SIM bridge endpoint | public deployment | Pending repository authorization / Vercel quota |
-| End-to-end public MCP → SIM flow | remote deterministic smoke | Pending public SIM endpoint |
+| Public SIM bridge endpoint | `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`; Vercel deployment status success | Verified |
+| End-to-end public MCP → SIM flow | GitHub Actions `Hackathon MCP Remote Smoke` run `35462460140` | Verified: `school-bus` → patient `01` → GREEN → `JS-MOB-01`, `correct=true` |
 | Alexa+ private add-on tooling | Devpost support confirmation dated 18 Sep 2026 | Partner-only; intentionally not a submission dependency |
 | AWS Cognito code path | `infra/aws/cognito-alexa-mcp.yaml` | Implemented, not provisioned |
 | AWS Builder Mini Challenge | actual useful deployed AWS integration + write-up | Not yet claimed |
@@ -45,4 +45,4 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 
 ## Evidence capture still required
 
-Before final submission, capture the final remote MCP→SIM smoke output if a public SIM endpoint becomes available, and the final demo recording. Do not mark either as verified before it exists.
+Only the final demo recording / screenshots and final Devpost form submission remain as human-facing evidence tasks. The public technical path is verified end-to-end.
