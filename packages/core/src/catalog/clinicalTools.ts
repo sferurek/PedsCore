@@ -39,7 +39,33 @@ const implementedToolIds = new Set([
   "sipa",
   "nips",
   "pediatric_burn_tbsa",
-  "garcia_alix_ners"
+  "ckid_u25",
+  "prifle",
+  "kdigo_pediatric",
+  "modified_tal",
+  "taussig_croup",
+  "strongkids",
+  "step_by_step",
+  "pass",
+  "risc",
+  "pelod_2",
+  "pim3",
+  "prism_iv",
+  "mrisc",
+  "gorelick_dehydration",
+  "visual_analogue_scale",
+  "cdc_growth_percentiles",
+  "phoenix_sepsis",
+  "wpcdai",
+  "pucai",
+  "nsofa",
+  "yos",
+  "bacterial_meningitis_score",
+  "pecarn_febrile_infant",
+  "garcia_alix_ners",
+  "parc",
+  "pcdai",
+  "modified_bell_nec"
 ]);
 
 type ToolSeed = Omit<
@@ -1427,6 +1453,25 @@ const implementedToolReferences: Record<string, Reference[]> = {
       priority: 1
     }
   ],
+  cdc_growth_percentiles: [
+    {
+      id: "cdc_growth_charts_lms_data",
+      title: "CDC Growth Charts Data Files",
+      authors: "Centers for Disease Control and Prevention; National Center for Health Statistics",
+      year: 2000,
+      journalOrPublisher: "Centers for Disease Control and Prevention",
+      citation:
+        "Centers for Disease Control and Prevention, National Center for Health Statistics. CDC Growth Charts Data Files with LMS Values.",
+      url: "https://www.cdc.gov/growthcharts/cdc-data-files.htm",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes:
+        "Priority A evidence audit: official LMS data source located. Exact chart set, interpolation strategy, and test fixtures remain pending before implementation.",
+      appliesTo: ["cdc_growth_percentiles"],
+      priority: 1
+    }
+  ],
   pipp: [
     {
       id: "pipp_1996_original",
@@ -2541,7 +2586,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   visual_analogue_scale: {
     validationNotes: {
       es: "EVA/VAS de autorreporte: distancia continua entre 0 y 10 cm desde 'sin dolor' hasta 'máximo dolor imaginable'. PedsCore no impone categorías universales de gravedad.",
-      en: "VAS format remains evidence-gated because published implementations may use 0-10 versus 0-100 mm representations. PedsCore does not impose universal severity categories."
+      en: "Self-report VAS: continuous 0-10 cm distance from 'no pain' to 'worst imaginable pain'. PedsCore does not impose universal severity categories."
     },
     inputs: [
       { id: "pain_vas_cm", label: { es: "Posición marcada en la EVA", en: "Marked position on the VAS" }, type: "number", required: true, unit: "cm", min: 0, max: 10, step: 0.1 }
@@ -5357,8 +5402,8 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("brighton_pews", "brighton-pews", "Brighton PEWS", "Brighton PEWS", "Brighton PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados", "Hospitalized children", "Variante de PEWS identificada para revision.", "PEWS variant identified for review.", "pending_validation", "original_derivation_study", "medium", brightonPewsValidationNotes),
   makeTool("bedside_pews", "bedside-pews", "Bedside PEWS", "Bedside PEWS", "Bedside PEWS", "emergency", "early_warning", "score", "Ninos hospitalizados en plantas de hospitalizacion", "Children hospitalized on inpatient wards", "Score de siete items para cuantificar gravedad y detectar deterioro clinico evolutivo en pacientes pediatricos hospitalizados.", "Seven-item score to quantify severity and detect evolving clinical deterioration in hospitalized pediatric patients.", "implemented", "external_validation_study", "medium", bedsidePewsValidationNotes),
   makeTool("westley_croup", "westley-croup-score", "Westley", "Westley Croup Score", "Westley Croup Score", "respiratory", "croup", "score", "Ninos con crup", "Children with croup", "Evalua gravedad del crup mediante signos clinicos.", "Assesses croup severity using clinical signs.", "ready_for_implementation", "moderate", "medium", westleyQaValidationNotes),
-  makeTool("modified_tal", "modified-tal", "Tal", "Escala de Tal modificada", "Modified Tal Score", "respiratory", "bronchiolitis", "score", "Lactantes y niños pequeños con bronquiolitis o dificultad respiratoria obstructiva", "Infants and young children with bronchiolitis or obstructive respiratory distress", "Escala clínica de 0-12 basada en frecuencia respiratoria ajustada por edad, sibilancias/crepitantes, retracciones y saturación de oxígeno.", "0-12 clinical score based on age-adjusted respiratory rate, wheeze/crackles, retractions, and oxygen saturation.", "pending_validation", "external_validation_study", "medium", { es: "Variante modificada trazada a SEUP 2024 y validación publicada.", en: "Modified variant traced to SEUP 2024 and published validation." }),
-  makeTool("taussig_croup", "taussig-croup-score", "Taussig", "Escala de Taussig para laringitis", "Taussig Croup Score", "respiratory", "croup", "score", "Niños con laringitis aguda/crup", "Children with acute croup", "Escala clínica de 0-15 para valorar gravedad mediante estridor, entrada de aire, color, retracciones y conciencia.", "0-15 clinical severity score using stridor, air entry, color, retractions, and consciousness.", "pending_validation", "original_derivation_study", "medium", { es: "Tabla clínica trazada a Taussig 1975 y SEUP 2024.", en: "Clinical table traced to Taussig 1975 and SEUP 2024." }),
+  makeTool("modified_tal", "modified-tal", "Tal", "Escala de Tal modificada", "Modified Tal Score", "respiratory", "bronchiolitis", "score", "Lactantes y niños pequeños con bronquiolitis o dificultad respiratoria obstructiva", "Infants and young children with bronchiolitis or obstructive respiratory distress", "Escala clínica de 0-12 basada en frecuencia respiratoria ajustada por edad, sibilancias/crepitantes, retracciones y saturación de oxígeno.", "0-12 clinical score based on age-adjusted respiratory rate, wheeze/crackles, retractions, and oxygen saturation.", "implemented", "external_validation_study", "medium", { es: "Variante modificada trazada a SEUP 2024 y validación publicada.", en: "Modified variant traced to SEUP 2024 and published validation." }),
+  makeTool("taussig_croup", "taussig-croup-score", "Taussig", "Escala de Taussig para laringitis", "Taussig Croup Score", "respiratory", "croup", "score", "Niños con laringitis aguda/crup", "Children with acute croup", "Escala clínica de 0-15 para valorar gravedad mediante estridor, entrada de aire, color, retracciones y conciencia.", "0-15 clinical severity score using stridor, air entry, color, retractions, and consciousness.", "implemented", "original_derivation_study", "medium", { es: "Tabla clínica trazada a Taussig 1975 y SEUP 2024.", en: "Clinical table traced to Taussig 1975 and SEUP 2024." }),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
