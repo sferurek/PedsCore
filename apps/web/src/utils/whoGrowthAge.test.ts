@@ -109,3 +109,11 @@ describe("WHO growth age input", () => {
     expect(serialized.toLowerCase()).not.toContain("analytics");
   });
 });
+
+
+it("resolves exact dates beyond age 5 into fractional WHO 2007 months", () => {
+  const result = resolveWhoGrowthAge({ who_age_input_mode: "dates", date_of_birth: "2016-01-01", measurement_date: "2026-01-16" });
+  expect(result.warning).toBeUndefined();
+  expect(result.ageMonths).toBeGreaterThan(120);
+  expect(result.ageDays).toBeUndefined();
+});
