@@ -10,7 +10,7 @@ export interface LoadedWhoLmsRecords {
   dataStatus: WhoGrowthDataStatus;
 }
 
-export type WhoGrowthAgeRange = "0_5" | "5_19";
+export type WhoGrowthAgeRange = "0_5" | "5_10" | "5_19";
 
 export interface LoadWhoLmsRecordsOptions {
   ageRange?: WhoGrowthAgeRange;
@@ -52,6 +52,16 @@ export const loadWhoLmsRecords = async (
   }
 
   if (indicator === "weight_for_age") {
+    if (options.ageRange === "5_10") {
+      const module = await import("./weightForAge5To10.js");
+
+      return {
+        indicator,
+        records: module.whoWeightForAge5To10LmsRecords,
+        dataStatus: module.whoWeightForAge5To10DataStatus
+      };
+    }
+
     const module = await import("./weightForAge.js");
 
     return {
