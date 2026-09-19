@@ -3,6 +3,7 @@ import type { Language } from "../utils/language";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { OssSupportBanner } from "./OssSupportBanner";
+import { OfflineStatusBanner } from "./OfflineStatusBanner";
 
 interface LayoutProps extends PropsWithChildren {
   currentPath: string;
@@ -35,6 +36,7 @@ export function Layout({
         navigate={navigate}
         onLanguageChange={onLanguageChange}
       />
+      <OfflineStatusBanner language={language} />
       {isHomePage || isToolDetailPage ? null : <OssSupportBanner language={language} />}
       <main id="main-content" tabIndex={-1}>{children}</main>
       <Footer language={language} navigate={navigate} minimal={isToolDetailPage} />
