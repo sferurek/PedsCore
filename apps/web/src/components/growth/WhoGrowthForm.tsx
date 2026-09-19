@@ -55,7 +55,7 @@ const copy = {
     requiredMessage: "Completa los campos obligatorios de este bloque.",
     fieldInvalid: "Revisa el valor introducido.",
     ageMicrocopy:
-      "Para 0-5 años, la opción más precisa es fecha de nacimiento + fecha de medición. Para 5-19 años, usa meses cumplidos.",
+      "La opción más precisa es fecha de nacimiento + fecha de medición; entre 5-19 años PedsCore interpola los parámetros LMS mensuales OMS 2007 para la edad exacta.",
     anthropometryMicrocopy:
       "El perímetro cefálico es opcional. Longitud tumbado activa peso para longitud; talla de pie activa peso para talla."
   },
@@ -77,7 +77,7 @@ const copy = {
     requiredMessage: "Complete the required fields in this block.",
     fieldInvalid: "Review the entered value.",
     ageMicrocopy:
-      "For 0-5 years, the most accurate option is date of birth + measurement date. For 5-19 years, use completed months.",
+      "The most accurate option is date of birth + measurement date; at 5-19 years PedsCore interpolates the monthly WHO 2007 LMS parameters for exact age.",
     anthropometryMicrocopy:
       "Head circumference is optional. Recumbent length enables weight-for-length; standing height enables weight-for-height."
   }
