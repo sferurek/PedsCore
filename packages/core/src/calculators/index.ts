@@ -26,6 +26,7 @@ export * from "./criticalCareScores.js";
 export * from "./additionalOpenTools.js";
 export * from "./cdcGrowth.js";
 export * from "./strongkids.js";
+export * from "./stepByStep.js";
 export * from "./phoenixSepsis.js";
 export * from "./ibdActivity.js";
 export * from "./nSofa.js";
