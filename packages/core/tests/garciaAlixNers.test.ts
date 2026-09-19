@@ -40,7 +40,8 @@ describe("García-Alix NE-RS", () => {
   });
 
   it("requires all nine NE-RS items", () => {
-    const { aeeg_background: _omitted, ...incomplete } = baseInput;
+    const incomplete = { ...baseInput } as Record<string, string>;
+    delete incomplete.aeeg_background;
     const result = calculate("garcia_alix_ners", incomplete);
     expect(result.score).toBeUndefined();
     expect(result.warnings.some((item) => item.code === "missing_ners")).toBe(true);
