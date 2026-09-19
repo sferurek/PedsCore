@@ -217,13 +217,6 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
 
           <DisclaimerBox language={language} />
 
-          {isWhoGrowth ? (
-            <section className="content-panel partial-active-panel">
-              <h2>{t.tool.partialActiveTitle}</h2>
-              <p>{t.tool.partialActiveBody}</p>
-            </section>
-          ) : null}
-
           {tool.id === "thompson_hie" ? (
             <section className="content-panel surface-availability-note">
               <strong>
