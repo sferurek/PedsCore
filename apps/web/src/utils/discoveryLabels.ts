@@ -16,7 +16,7 @@ const labels: Record<string, LabelPair> = {
   growth_development: { es: "Crecimiento y desarrollo", en: "Growth and development" },
   hematology: { es: "Hematología", en: "Hematology" },
   hepatology: { es: "Hepatología", en: "Hepatology" },
-  infectious_disease: { es: "Infectología", en: "Infectious diseases" },
+  infectious_disease: { es: "Enfermedades infecciosas", en: "Infectious diseases" },
   inflammatory_bowel_disease: { es: "Enfermedad inflamatoria intestinal", en: "Inflammatory bowel disease" },
   intensive_care: { es: "Cuidados intensivos", en: "Intensive care" },
   neonatology: { es: "Neonatología", en: "Neonatology" },
@@ -56,7 +56,7 @@ const labels: Record<string, LabelPair> = {
   postoperative: { es: "Postoperatorio", en: "Postoperative care" },
   prehospital: { es: "Prehospitalario", en: "Prehospital" },
   primary_care: { es: "Atención primaria", en: "Primary care" },
-  research_case_mix: { es: "Investigación / case-mix", en: "Research / case mix" },
+  research_case_mix: { es: "Investigación / casuística", en: "Research / case mix" },
   specialty_clinic: { es: "Consulta especializada", en: "Specialty clinic" },
 
   delirium_assessment: { es: "Valoración del delirium", en: "Delirium assessment" },
