@@ -213,8 +213,8 @@ const formatNumber = (value: number, fractionDigits = 2) =>
     minimumFractionDigits: fractionDigits
   }).format(value);
 
-const isFiveToNineteenResult = (result: WhoGrowthApplicableResult) =>
-  result.source.includes("5-19");
+const usesCompletedMonthsReference = (result: WhoGrowthApplicableResult) =>
+  result.source.includes("5-10") || result.source.includes("5-19");
 
 export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanelProps>(
   function WhoGrowthResultPanel({ language, values, preset = "all" }, ref) {
@@ -716,7 +716,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
                   records={loadedData.records.filter(
                     (record) =>
                       record.indicator === display.indicator &&
-                      (isFiveToNineteenResult(displayResult)
+                      (usesCompletedMonthsReference(displayResult)
                         ? record.ageMonths !== undefined
                         : record.ageMonths === undefined)
                   )}
