@@ -201,7 +201,7 @@ describe("public product web polish", () => {
       tools.filter((tool) => tool.implementationStatus === "implemented")
     ).toHaveLength(34);
     expect(
-      tools.filter((tool) => tool.implementationStatus === "implemented")
+      tools.filter((tool) => tool.implementationStatus === "partially_implemented")
     ).toHaveLength(0);
     expect(getToolBySlug("who-growth")?.id).toBe("who_growth_module");
     expect(getToolBySlug("who-growth")?.implementationStatus).toBe(
