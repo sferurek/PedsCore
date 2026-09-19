@@ -45,7 +45,8 @@ const implementedToolIds = new Set([
   "pass",
   "risc",
   "mrisc",
-  "gorelick_dehydration"
+  "gorelick_dehydration",
+  "prifle"
 ]);
 
 type ToolSeed = Omit<
@@ -2191,8 +2192,8 @@ const chaliceValidationNotes: LocalizedText = {
 };
 
 const prifleValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: fuente pRIFLE original localizada con DOI/PMID. Pendiente tabla/criterios completos, eCCl basal, diuresis, unidades y revision experta.",
-  en: "Block 8B-3: original pRIFLE source located with DOI/PMID. Complete criteria, baseline eCCl, urine output, units, and expert review remain pending."
+  es: "Criterios pRIFLE verificados frente a Akcan-Arikan et al. 2007 y reproducciones abiertas: Risk >=25% de descenso eCCl o diuresis <0,5 mL/kg/h 8 h; Injury >=50% o <0,5 durante 16 h; Failure >=75% o eCCl <35 mL/min/1,73 m2, o diuresis <0,3 durante 24 h. Se aplica el peor criterio.",
+  en: "pRIFLE criteria verified against Akcan-Arikan et al. 2007 and open reproductions: Risk >=25% eCCl decrease or urine output <0.5 mL/kg/h for 8 h; Injury >=50% or <0.5 for 16 h; Failure >=75% or eCCl <35 mL/min/1.73 m2, or urine output <0.3 for 24 h. The worst criterion applies."
 };
 
 const rflaccValidationNotes: LocalizedText = {
