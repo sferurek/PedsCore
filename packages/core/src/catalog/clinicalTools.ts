@@ -71,7 +71,8 @@ const implementedToolIds = new Set([
   "prism_iv",
   "pim3",
   "psofa",
-  "snappii"
+  "snappii",
+  "pyms"
 ]);
 
 type ToolSeed = Omit<
@@ -1977,9 +1978,24 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "open_access",
       notes:
-        "Block 8B-2: original PYMS evaluation source located. Complete form/table and reuse terms remain pending.",
+        "Original PYMS evaluation source.",
       appliesTo: ["pyms"],
       priority: 1
+    },
+    {
+      id: "pyms_ccby_scoring_table",
+      title: "Nutritional risk screening—a cross-sectional study in a tertiary pediatric hospital",
+      authors: "Tuokkola J, Hilpi J, Kolho KL, et al.",
+      year: 2019,
+      journalOrPublisher: "Journal of Health, Population and Nutrition",
+      doi: "10.1186/s41043-019-0166-4",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6434821/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "CC BY 4.0 article with supplementary Table S1 containing PYMS questions/scoring; used to verify functional scoring while PedsCore uses independent wording.",
+      appliesTo: ["pyms"],
+      priority: 2
     }
   ],
   dubowitz: [
@@ -2269,7 +2285,6 @@ const licensingBlockedToolIds = new Set([
   "brighton_pews",
   "orbegozo_growth_percentiles",
   "stamp",
-  "pyms",
   "flacc",
   "rflacc",
   "cheops",
@@ -5420,6 +5435,31 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       booleanInput("sga_below_3rd_percentile",{es:"PEG < percentil 3",en:"SGA <3rd percentile"}),
       { id:"apgar_5min", label:{es:"Apgar a 5 minutos",en:"5-minute Apgar"}, type:"number", required:true, min:0, max:10, step:1 }
     ]
+  },
+  pyms: {
+    validationNotes: {
+      es: "PYMS implementado con cuatro pasos y redacción independiente, verificado frente a material suplementario CC BY 4.0. Total 0-7: 0 bajo, 1 moderado, ≥2 alto riesgo nutricional.",
+      en: "PYMS implemented with four steps and independent wording, verified against CC BY 4.0 supplementary material. Total 0-7: 0 low, 1 moderate, ≥2 high nutritional risk."
+    },
+    inputs: [
+      booleanInput("bmi_below_pyms_cutoff",{es:"IMC por debajo del punto de corte PYMS aplicable",en:"BMI below the applicable PYMS cutoff"}),
+      booleanInput("recent_weight_loss",{es:"Pérdida de peso reciente o ganancia insuficiente relevante",en:"Recent weight loss or relevant poor weight gain"}),
+      { id:"recent_intake", label:{es:"Ingesta durante la última semana",en:"Intake during the past week"}, type:"select", required:true, options:[
+        option("usual","Ingesta habitual","Usual intake"),
+        option("reduced","Ingesta reducida","Reduced intake"),
+        option("minimal_or_none","Ingesta mínima o nula","Minimal or no intake")
+      ]},
+      { id:"expected_nutrition_impact", label:{es:"Impacto nutricional previsto durante la próxima semana",en:"Expected nutritional impact during the next week"}, type:"select", required:true, options:[
+        option("none","Sin impacto relevante previsto","No relevant impact expected"),
+        option("affected","Menor ingesta, mayores necesidades o mayores pérdidas","Reduced intake, increased requirements, or increased losses"),
+        option("minimal_or_none","Se prevé ingesta mínima o nula","Minimal or no intake expected")
+      ]}
+    ],
+    interpretationBands: [
+      { id:"low", label:{es:"Riesgo bajo",en:"Low risk"}, min:0, max:0 },
+      { id:"moderate", label:{es:"Riesgo moderado",en:"Moderate risk"}, min:1, max:1 },
+      { id:"high", label:{es:"Riesgo alto",en:"High risk"}, min:2, max:7 }
+    ]
   }
 };
 
@@ -5765,7 +5805,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("head_circumference_percentile", "head-circumference-percentile", "PC percentil", "Percentil de perimetro cefalico", "Head Circumference Percentile", "growth_nutrition", "growth", "percentile", "Lactantes y ninos pequenos en rango OMS 0-5", "Infants and young children in the WHO 0-5 range", "Preset WHO Growth para perimetro cefalico/edad OMS 0-5 con salida descriptiva.", "WHO Growth preset for WHO 0-5 head circumference-for-age with descriptive output.", "implemented", "official_manual_or_institutional_protocol", "medium", headCircumferencePercentileValidationNotes),
   makeTool("stamp", "stamp", "STAMP", "STAMP", "STAMP", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo nutricional.", "Nutritional risk screening tool.", "pending_validation", "original_derivation_study", "medium", stampValidationNotes),
   makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Cribado de riesgo nutricional hospitalario mediante cuatro dominios y puntuacion 0-5.", "Hospital nutritional-risk screening using four domains and a 0-5 score.", "implemented", "original_derivation_study", "medium", strongkidsValidationNotes),
-  makeTool("pyms", "pyms", "PYMS", "PYMS", "PYMS", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado nutricional pediatrico.", "Pediatric nutritional screening tool.", "pending_validation", "original_derivation_study", "medium", pymsValidationNotes),
+  makeTool("pyms", "pyms", "PYMS", "PYMS", "PYMS", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Cribado PYMS de cuatro pasos para riesgo nutricional pediatrico hospitalario.", "Four-step PYMS screening for pediatric inpatient nutritional risk.", "implemented", "original_derivation_study", "medium", {es:"Implementacion independiente verificada con material suplementario CC BY 4.0.",en:"Independent implementation verified against CC BY 4.0 supplementary material."}),
   makeTool("flacc", "flacc", "FLACC", "FLACC", "FLACC", "pain", "pediatric_pain", "scale", "Ninos pequenos o no verbales", "Young or non-verbal children", "Escala observacional de dolor basada en rostro, piernas, actividad, llanto y consolabilidad.", "Observational pain scale based on face, legs, activity, cry, and consolability.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("rflacc", "rflacc", "rFLACC", "rFLACC", "rFLACC", "pain", "pediatric_pain", "scale", "Ninos con necesidades especiales o comunicacion limitada", "Children with special needs or limited communication", "Version revisada de FLACC identificada para revision.", "Revised FLACC version identified for review.", "pending_validation", "external_validation_study", "medium", rflaccValidationNotes),
   makeTool("cheops", "cheops", "CHEOPS", "CHEOPS", "CHEOPS", "pain", "pediatric_pain", "scale", "Ninos de 1 a 7 anos", "Children aged 1 to 7 years", "Escala observacional de dolor pediatrico.", "Observational pediatric pain scale.", "pending_validation", "original_derivation_study", "medium", cheopsValidationNotes),
