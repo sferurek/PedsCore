@@ -384,16 +384,44 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   visual_analogue_scale: [
     {
-      id: "vas_pediatric_pain_open_review",
-      title: "Visual analogue scales for pediatric self-reported pain intensity",
-      journalOrPublisher: "Open-access pediatric pain literature",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5261830/",
+      id: "huskisson_vas_1974",
+      title: "Measurement of pain",
+      authors: "Huskisson EC",
+      year: 1974,
+      journalOrPublisher: "The Lancet",
+      doi: "10.1016/S0140-6736(74)90884-8",
+      pmid: "4139420",
+      url: "https://pubmed.ncbi.nlm.nih.gov/4139420/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Foundational pain-measurement publication for visual analogue scaling.",
+      appliesTo: ["visual_analogue_scale"],
+      priority: 1
+    },
+    {
+      id: "vas_pediatric_assessment_review",
+      title: "Evidence-based Assessment of Pediatric Pain",
+      journalOrPublisher: "Journal of Pediatric Psychology / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2639489/",
       evidenceLevel: "peer_reviewed_review",
       sourceType: "journal_article",
       accessType: "open_access",
-      notes: "VAS is implemented as a continuous 0-10 cm self-report measure; PedsCore intentionally does not impose universal severity bands.",
+      notes: "Describes pediatric VAS as a 100-mm horizontal line measured from the no-pain anchor to the child's mark.",
       appliesTo: ["visual_analogue_scale"],
-      priority: 1
+      priority: 2
+    },
+    {
+      id: "acttion_pediatric_vas",
+      title: "Clinical trial designs and models for analgesic medications for acute pain in neonates, infants, toddlers, children, and adolescents: ACTTION recommendations",
+      journalOrPublisher: "Pain / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5949239/",
+      evidenceLevel: "consensus_statement",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Recommends a 100-mm VAS for acute pain in children older than 8 years and adolescents.",
+      appliesTo: ["visual_analogue_scale"],
+      priority: 3
     }
   ],
   risc: [
