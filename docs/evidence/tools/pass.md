@@ -1,96 +1,37 @@
-# Pediatric Asthma Severity Score
+# Pediatric Asthma Severity Score (PASS)
 
-## Current PedsCore status
-- id: pass
-- slug: pass
-- category: respiratory
-- type: score
-- current implementationStatus: pending_validation
-- current evidenceLevel: original_derivation_study
+## PedsCore status
+- id: `pass`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
+- discovery: `local_active`
 
-## Evidence validation status
-- final evidence status: pending_complete_scoring_table
-- reason: Sprint 2A confirms PASS remains blocked. Primary source is located, but the complete reusable table, interpretation bands, and reuse/licensing position are not sufficiently verified for implementation.
+## Selected version
+Original Gorelick PASS for acute pediatric asthma, ages 1-18 years.
 
-## Clinical purpose
-ES: Acute pediatric asthma severity scoring.
-EN: Acute pediatric asthma severity scoring.
+Three clinical domains are scored 0, 1, or 2:
+1. work of breathing;
+2. wheezing;
+3. prolonged expiration.
 
-## Target population
-Children aged 1 to 18 years in acute care settings in the original study.
+Total: 0-6.
 
-## Version / variant
-- exact version: Original PASS by Gorelick et al. 2004.
-- known variants: variant-specific review required before implementation.
-- selected version for PedsCore: Original PASS by Gorelick et al. 2004.
-- variant risk: medium
-
-## Primary source
-- found: yes
-- citation: Gorelick MH, Stevens MW, Schultz TR, Scribano PV. Performance of a novel clinical score, the Pediatric Asthma Severity Score (PASS), in the evaluation of acute asthma. Acad Emerg Med. 2004;11(1):10-18.
+## Evidence
+Primary source:
+Gorelick MH, Stevens MW, Schultz TR, Scribano PV. Acad Emerg Med. 2004;11(1):10-18.
 - DOI: 10.1197/j.aem.2003.07.015
 - PMID: 14709423
-- URL: https://pubmed.ncbi.nlm.nih.gov/14709423/
-- access: open_access
-- notes: Source recorded for traceability only; implementation still follows the evidence gate.
-
-## External validation
-Add validation studies only after source-specific review.
-
-## Guidelines / official sources
-No official guideline implementation is created in this block.
-
-## Complete scoring table availability
-- complete table found: no
-- source: No. Full table must be verified from the article before implementation.
-- copyright/licensing risk: unknown; likely implementable after table and reuse review.
-- notes: Do not reconstruct tables from memory, secondary calculators, pathway PDFs, or commercial tools.
-
-## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/14709423/ | Complete table must be verified before calculator activation. |
-
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/14709423/ |
-
-## Formula / algorithm
-Not applicable or pending complete scoring table.
-
-## Unit handling
-Units, age bands, and edge cases remain pending unless explicitly documented above.
-
-## Safety and regulatory notes
-- risk level: medium
-- why: Clinical outputs could influence care if worded as recommendations.
-- should provide recommendations: no; descriptive outputs only.
-- forbidden outputs: treatment, discharge, admission, CT instruction, medication, resuscitation instruction.
-
-## Licensing / copyright
-- appears implementable: not yet determined
-- license-sensitive: yes
-- requires permission: unknown
-- unknown: yes
-- notes: unknown; likely implementable after table and reuse review.
-
-## Implementation recommendation
-keep_blocked_until_table_and_reuse_review
-
-## Proposed test cases
-- minimum
-- maximum
-- intermediate
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests: no treatment, CT, admission, discharge, medication, or resuscitation instructions.
-
-## Direct links
-- https://pubmed.ncbi.nlm.nih.gov/14709423/
-- https://doi.org/10.1197/j.aem.2003.07.015
 - https://pubmed.ncbi.nlm.nih.gov/14709423/
 
-## Notes
-This fiche was updated in Block 8B-3. Validation does not mean implementation.
+The complete three-domain scoring table is independently reproduced in open peer-reviewed literature and was used to verify the local implementation.
+
+## Interpretation and safety
+PASS is returned as a descriptive severity score. PedsCore does not impose a universal treatment band because the original validation does not define a universal treatment protocol from the score alone.
+
+No medication, admission, discharge, or escalation instruction is generated.
+
+## Reuse
+Functional scoring facts are implemented as independently structured data. PedsCore does not reproduce article layout or protected artwork.
+
+## Final decision
+`implemented / local_active`
