@@ -100,6 +100,15 @@ describe("clinical discovery taxonomy", () => {
     }
   });
 
+  it("requires every registered calculator to be an active local discovery surface", () => {
+    for (const id of implementedCalculatorToolIds) {
+      const metadata = getToolDiscovery(id);
+      expect(metadata, id).toBeDefined();
+      expect(metadata?.surfaceStatus, id).toBe("active");
+      expect(metadata?.calculationAvailability, id).toBe("local_active");
+    }
+  });
+
   it("never registers permission-limited or external-only tools as local calculators", () => {
     const localCalculatorIds = new Set(implementedCalculatorToolIds);
 
