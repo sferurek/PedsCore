@@ -1,6 +1,6 @@
 # Clinical Tool Rights & Permissions Register
 
-Last reviewed: 2026-09-18
+Last reviewed: 2026-09-19
 
 Purpose: document the reuse/copyright status of clinical tools in PedsCore. This is a transparency and engineering-control document, not legal advice.
 
@@ -26,7 +26,7 @@ Purpose: document the reuse/copyright status of clinical tools in PedsCore. This
 | pCAM-ICU | permission_required | Keep blocked / external | Instrument-specific terms apply. |
 | psCAM-ICU | permission_required | Keep blocked / external | Instrument-specific terms apply. |
 | PIPP | unresolved | Keep blocked pending rights resolution | Publicly described, but no verified unrestricted republication licence. |
-| PIPP-R | unresolved | Keep blocked pending rights resolution | Same rationale as PIPP. |
+| PIPP-R | permission_required | Keep blocked | A Spanish cross-cultural validation protocol explicitly states that consent was sought from and granted by the author of the original scale before translation/adaptation; the same paper states that study data are unavailable due to copyright protection: https://pmc.ncbi.nlm.nih.gov/articles/PMC9566023/ |
 | COMFORTneo | unresolved | Keep blocked pending rights resolution | Publicly described; instrument-level reuse terms not verified. |
 | Brighton PEWS | unresolved | Keep blocked pending rights resolution | No verified unrestricted republication licence. |
 | RDAI | unresolved | Keep blocked pending rights resolution | Public score descriptions exist; republication permission not yet verified. |
@@ -37,11 +37,11 @@ Purpose: document the reuse/copyright status of clinical tools in PedsCore. This
 | FLACC | unresolved | Keep blocked pending rights resolution | Widely reproduced clinically, but PedsCore has not verified a publication licence suitable for public republication. |
 | rFLACC | unresolved | Keep blocked pending rights resolution | Same rationale; derivative/modified instrument. |
 | CHEOPS | unresolved | Keep blocked pending rights resolution | No verified unrestricted instrument licence. |
-| SOS-PD | unresolved (high-priority review) | Re-review for possible activation | Validation papers are CC BY 4.0, but original-instrument/translation permissions must be separated from article licence. https://pmc.ncbi.nlm.nih.gov/articles/PMC6247513/ |
+| SOS-PD | permission_required | Keep blocked; official external reference/download is acceptable | The official English instrument PDF states “Copyright Benelux, van Dijk - 2014” and “Do not reproduce without permission.” This instrument-level notice controls despite the 2018 validation article being CC BY: https://comfortassessment.nl/web/files/7014/2919/5578/SOS-PD_scale_EN_April_2015.pdf |
 | PedNIHSS | unresolved | Keep blocked pending rights resolution | Instrument-specific reuse not verified. |
 | CRIB II | unresolved | Keep blocked pending rights resolution | Original publication/publisher rights remain relevant; no verified unrestricted instrument licence. |
-| N-PASS | unresolved | Keep blocked pending rights resolution | Public descriptions available; unrestricted republication licence not verified. |
-| EDIN | unresolved | Keep blocked pending rights resolution | Public descriptions available; unrestricted republication licence not verified. |
+| N-PASS | permission_required | Keep blocked | Multiple implementations identify the instrument as © Pat Hummel and “used with permission”; this is positive evidence against assuming unrestricted republication. LOINC also records the instrument panel as © 2009 Pat Hummel / used with permission. |
+| EDIN | unresolved | Keep blocked pending rights resolution | Public descriptions and scoring summaries are available, but no authoritative unrestricted republication licence for the operational instrument has been verified. |
 | NFCS | unresolved | Keep blocked pending rights resolution | Includes facial coding descriptors; unrestricted republication licence not verified. |
 | CMAS | permission_required | Keep blocked | IMACS/NIH materials indicate permission may be required for specific instruments. |
 | MMT8 | permission_required | Keep blocked | IMACS/NIH instrument-use restrictions apply. |
@@ -61,9 +61,20 @@ A tool may move from `blocked_by_rights` to `local_active` only when at least on
 
 When evidence is ambiguous, use `reuse: unresolved` rather than `permission_required`.
 
+## Evidence hierarchy for rights decisions
+
+1. Rights notice or licence attached to the instrument itself.
+2. Written terms from the instrument author/rightsholder or official instrument site.
+3. Explicit permission statement in a peer-reviewed translation/adaptation/validation paper.
+4. Publisher licence covering the exact operational content being reused.
+5. Secondary reproductions only as corroboration; never as sole evidence of permission.
+
+A Creative Commons licence on an article does **not** override a separate copyright notice attached to an instrument reproduced or discussed in that article. SOS-PD is the current canonical example in this register.
+
 ## Notes
 
 - An open-access article is **not automatically** an open-licensed instrument.
 - A Creative Commons licence on a paper does not necessarily license a third-party instrument reproduced in that paper unless the article states otherwise.
 - Translations may have separate permissions from the original instrument.
+- “Freely downloadable” is not equivalent to “freely reproducible.”
 - PedsCore should retain source URLs, access dates, licence terms, and attribution requirements for every locally implemented tool.
