@@ -115,7 +115,7 @@ For Tier A, use:
 - GitHub issue #85 for batch tracking
 - `.github/ISSUE_TEMPLATE/clinical-review.yml` for one structured review record per tool
 
-The current external-review baseline is frozen at `a15d8a514b7b8345fabd010a3f5b13487f3ee4ec` unless a later review-specific SHA is explicitly agreed.
+The current Tier A **clinical implementation baseline** is frozen at `a9d2bfcb569600a5e0c9be681b729cc2bf4ba661`. The adaptive-flow addendum is documented in `docs/TIER_A_ADAPTIVE_FLOW_REAUDIT_2026-09-19.md`. Documentation-only commits after that SHA do not change the implementation under review.
 
 ## Initial milestone
 
