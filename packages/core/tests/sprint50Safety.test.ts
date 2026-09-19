@@ -66,7 +66,10 @@ const expectedImplementedToolIds = [
   "pass",
   "gorelick_dehydration",
   "prifle",
+  "pelod_2",
+  "prism_iv",
   "pim3",
+  "psofa",
   "snappii",
   "pyms"
 ];
@@ -145,11 +148,8 @@ const blockedTherapeuticOrProtectedIds = [
   "pediatric_tachycardia",
   "shockable_rhythm_algorithm",
   "non_shockable_rhythm_algorithm",
-  "psofa",
   "pelod",
-  "pelod_2",
   "prism_iii",
-  "prism_iv",
   "pim2",
   "wong_baker_faces",
   "orbegozo_growth_percentiles",
