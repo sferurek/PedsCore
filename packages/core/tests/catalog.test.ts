@@ -42,7 +42,11 @@ const implementedToolIds = [
   "chalice_tbi",
   "sipa",
   "nips",
-  "pediatric_burn_tbsa"
+  "pediatric_burn_tbsa",
+  "who_growth_module",
+  "who_growth_percentiles",
+  "bmi_percentile",
+  "head_circumference_percentile"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
