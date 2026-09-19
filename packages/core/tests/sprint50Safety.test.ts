@@ -45,7 +45,8 @@ const expectedImplementedToolIds = [
   "head_circumference_percentile",
   "cdc_growth_percentiles",
   "strongkids",
-  "visual_analogue_scale"
+  "visual_analogue_scale",
+  "step_by_step"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -86,7 +87,8 @@ const implementedTestFiles: Record<string, string> = {
   head_circumference_percentile: "whoGrowth.test.ts",
   cdc_growth_percentiles: "cdcGrowth.test.ts",
   strongkids: "strongkids.test.ts",
-  visual_analogue_scale: "visualAnalogueScale.test.ts"
+  visual_analogue_scale: "visualAnalogueScale.test.ts",
+  step_by_step: "stepByStep.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
