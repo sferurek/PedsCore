@@ -101,6 +101,13 @@ export const gorelickDehydrationCalculator: CalculatorDefinition = {
   toolId: "gorelick_dehydration",
   calculate: (input): CalculationResult => {
     const tool = getTool("gorelick-dehydration");
+    const ageMonths = getNumber(input, "age_months");
+    if (ageMonths === null) {
+      return { toolId: tool.id, warnings: [warning("missing_gorelick_age", "Introduce la edad para aplicar la escala de Gorelick.", "Enter age before applying the Gorelick scale.")], trace: [] };
+    }
+    if (ageMonths < 1 || ageMonths > 60) {
+      return { toolId: tool.id, classification: label("Fuera de la población validada para Gorelick", "Outside the validated Gorelick population"), warnings: [contextWarning], trace: [{ inputId: "age_months", value: ageMonths }] };
+    }
     const ids = [
       "abnormal_general_appearance",
       "prolonged_capillary_refill",
@@ -148,11 +155,14 @@ export const gorelickDehydrationCalculator: CalculatorDefinition = {
           "The 10-point Gorelick scale was studied mainly in children aged 1 month to 5 years with gastroenteritis/dehydration."
         )
       ],
-      trace: ids.map((inputId, index) => ({
+      trace: [
+        { inputId: "age_months", value: ageMonths },
+        ...ids.map((inputId, index) => ({
         inputId,
         value: values[index],
         score: values[index] ? 1 : 0
       }))
+      ]
     };
   }
 };
