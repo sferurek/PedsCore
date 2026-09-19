@@ -2709,6 +2709,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       en: "Implementation of the 10-sign Gorelick scale. Each abnormal sign adds 1 point; ≥3 signs is associated with ≥5% weight loss and ≥7 with ≥10% in the studied population."
     },
     inputs: [
+      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 1, max: 60, step: 0.1 },
       booleanInput("abnormal_general_appearance", { es: "Aspecto general alterado: inquieto, letárgico o inconsciente", en: "Abnormal general appearance: restless, lethargic, or unconscious" }),
       booleanInput("prolonged_capillary_refill", { es: "Relleno capilar prolongado o mínimo", en: "Prolonged or minimal capillary refill" }),
       booleanInput("absent_tears", { es: "Ausencia de lágrimas", en: "Absent tears" }),
