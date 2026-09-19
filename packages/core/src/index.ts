@@ -13,3 +13,5 @@ export * from "./growth/who/index.js";
 export * from "./discovery/toolDiscovery.js";
 
 export * from "./seo/toolSeo.js";
+
+export * from "./governance/clinicalRights.js";
