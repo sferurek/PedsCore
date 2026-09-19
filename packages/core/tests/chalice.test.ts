@@ -32,8 +32,7 @@ describe("CHALICE rule", () => {
   });
 
   it("requires the >5 cm scalp criterion only under 1 year", () => {
-    const older = { ...noCriteria };
-    delete older.bruise_swelling_laceration_over_5cm_under_1_year;
+    const older = { ...noCriteria, bruise_swelling_laceration_over_5cm_under_1_year: undefined };
     expect(chaliceCalculator.calculate(older).classification?.en).toContain("no rule criteria");
 
     const infant = { ...noCriteria, age_years: 0.5 };
