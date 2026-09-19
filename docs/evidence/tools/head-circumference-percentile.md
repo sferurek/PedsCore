@@ -6,15 +6,15 @@
 - slug: `head-circumference-percentile`
 - category: growth_nutrition
 - type: percentile
-- current implementationStatus: `partially_implemented`
+- current implementationStatus: `implemented`
 - current evidenceLevel: `official_manual_or_institutional_protocol`
 
 ## Evidence validation status
 
-- final evidence status: `partially_implemented`
-- blocking reason: exposed as a WHO Growth preset limited to available WHO 0-5 head-circumference-for-age LMS data; final growth-module review remains pending.
-- depends on maintainer decision: yes
-- maintainer decision needed: confirm final WHO Growth module policy before promoting from partial to implemented.
+- final evidence status: `implemented`
+- blocking reason: none for the WHO 0-5 head-circumference-for-age preset.
+- depends on maintainer decision: no
+- maintainer decision needed: none for the current WHO 0-5 scope.
 
 ## Clinical purpose
 
@@ -75,7 +75,7 @@ EN: shortcut to descriptive head-circumference-for-age calculation through the W
 
 ## Implementation recommendation
 
-Partial wrapper over WHO Growth module; do not create separate calculation logic.
+Implemented wrapper over WHO Growth module; no duplicate calculation logic.
 
 ## Proposed test cases
 

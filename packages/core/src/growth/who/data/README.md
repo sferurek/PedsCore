@@ -15,10 +15,11 @@ Current status: core WHO 0-5 years indicators imported:
 - Weight-for-length.
 - Weight-for-height.
 
-WHO Growth Reference 2007 5-19 years indicators imported:
+WHO Growth Reference 2007 indicators imported:
 
-- BMI-for-age.
-- Height-for-age.
+- Weight-for-age, 5-10 years (61-120 completed months).
+- BMI-for-age, 5-19 years (61-228 completed months).
+- Height-for-age, 5-19 years (61-228 completed months).
 
 WHO growth data can be incorporated under the applicable WHO terms. For WHO
 publications, this is commonly CC BY-NC-SA 3.0 IGO, including attribution,
@@ -59,6 +60,10 @@ Imported source files:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfh-boys-zscore-expanded-tables.xlsx?sfvrsn=ac60cb13_8
 - Weight-for-height girls expanded z-score table:
   https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/weight-for-length-height/expanded-tables/wfh-girls-zscore-expanded-tables.xlsx?sfvrsn=daac732c_8
+- Weight-for-age 5-10 boys z-score table:
+  https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/weight-for-age-(5-10-years)/wfa-boys-5-10years-z.pdf?sfvrsn=c05c0743_4
+- Weight-for-age 5-10 girls z-score table:
+  https://www.who.int/docs/default-source/child-growth/growth-reference-5-19-years/weight-for-age-%285-10-years%29/wfa-girls-5-10years-z.pdf
 - BMI-for-age 5-19 boys expanded z-score table:
   https://cdn.who.int/media/docs/default-source/child-growth/growth-reference-5-19-years/bmi-for-age-(5-19-years)/bmi-boys-z-who-2007-exp.xlsx?sfvrsn=a84bca93_2
 - BMI-for-age 5-19 girls expanded z-score table:
@@ -71,14 +76,13 @@ Imported source files:
 Imported data:
 
 - Age-based indicators use daily LMS records, range 0-1856 days.
-- 5-19 BMI-for-age and height-for-age use monthly LMS records, range
-  61-228 completed months.
+- WHO Growth Reference 2007 uses monthly LMS records: weight-for-age 61-120 completed months; BMI-for-age and height-for-age 61-228 completed months.
 - Weight-for-length uses length in cm, range 45-110 cm.
 - Weight-for-height uses height in cm, range 65-120 cm.
 - Sex: boys and girls, normalized as `male` and `female`.
 - Units: kg, cm, and BMI kg/m2 according to indicator.
 - LMS fields: L, M, S.
-- Access date: 2026-06-03.
+- Access dates: 2026-06-03 for the previously imported datasets; 2026-09-19 for weight-for-age 5-10.
 
 Excluded sources in this module:
 
@@ -86,9 +90,7 @@ Excluded sources in this module:
 - Orbegozo growth references.
 - Any third-party calculator, copied chart image, or reconstructed table.
 
-No additional 5-19 LMS coefficient is stored here until the source file,
-indicator, age range, sex mapping, license/terms, interpolation policy, and test
-fixtures have been verified.
+Additional WHO data are not added without verifying the official source, indicator, age range, sex mapping, license/terms and test fixtures. Unsupported age ranges are not extrapolated.
 
 The data license policy is documented in `LICENSE.md`.
 

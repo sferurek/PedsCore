@@ -56,6 +56,13 @@ import {
   whoHeightForAge5To19DataStatus
 } from "../src/growth/who/heightForAge5To19";
 import {
+  calculateWhoGrowthWithWeightForAge5To10Data,
+  findImportedWhoWeightForAge5To10Record,
+  who5To10WeightForAge,
+  who5To10WeightForAgeSource,
+  whoWeightForAge5To10DataStatus
+} from "../src/growth/who/weightForAge5To10";
+import {
   calculateWhoGrowthWithWeightForHeightData,
   calculateWhoGrowthWithWeightForLengthData,
   findImportedWhoWeightForHeightRecord,
@@ -204,6 +211,24 @@ describe("WHO growth scaffold", () => {
     ]);
   });
 
+  it("loads official WHO Growth Reference 2007 weight-for-age 5-10 data", async () => {
+    const loaded = await loadWhoLmsRecords("weight_for_age", {
+      ageRange: "5_10"
+    });
+
+    expect(whoWeightForAge5To10DataStatus.officialDataImported).toBe(true);
+    expect(whoWeightForAge5To10DataStatus.importedIndicators).toEqual([
+      "weight_for_age"
+    ]);
+    expect(who5To10WeightForAge).toHaveLength(120);
+    expect(loaded.records).toHaveLength(120);
+    expect(who5To10WeightForAgeSource.sourcePage).toContain("who.int");
+    expect(who5To10WeightForAgeSource.ageRangeMonths).toEqual({
+      min: 61,
+      max: 120
+    });
+  });
+
   it("loads official WHO Growth Reference 2007 BMI-for-age 5-19 data", async () => {
     const loaded = await loadWhoLmsRecords("bmi_for_age", {
       ageRange: "5_19"
@@ -293,6 +318,23 @@ describe("WHO growth scaffold", () => {
         ageDays: 730
       })
     ).toMatchObject({ indicator: "bmi_for_age", sex: "female", ageDays: 730 });
+  });
+
+  it("resolves official WHO 5-10 weight-for-age LMS fixtures by sex and month", () => {
+    expect(
+      findImportedWhoWeightForAge5To10Record({
+        indicator: "weight_for_age",
+        sex: "male",
+        ageMonths: 61
+      })
+    ).toMatchObject({ L: -0.2026, M: 18.5057, S: 0.12988 });
+    expect(
+      findImportedWhoWeightForAge5To10Record({
+        indicator: "weight_for_age",
+        sex: "female",
+        ageMonths: 120
+      })
+    ).toMatchObject({ L: -0.5958, M: 31.8578, S: 0.17262 });
   });
 
   it("resolves official WHO 5-19 LMS fixtures by sex and month", () => {
@@ -517,9 +559,10 @@ describe("WHO growth scaffold", () => {
     expect(weightForHeight?.percentile).toBeCloseTo(50, 1);
   });
 
-  it("calculates only BMI-for-age and height-for-age for WHO 5-19 when age is in completed months", async () => {
+  it("calculates the age-appropriate WHO 2007 indicators from completed months", async () => {
     const loaded = await Promise.all([
       loadWhoLmsRecords("weight_for_age"),
+      loadWhoLmsRecords("weight_for_age", { ageRange: "5_10" }),
       loadWhoLmsRecords("length_height_for_age"),
       loadWhoLmsRecords("head_circumference_for_age"),
       loadWhoLmsRecords("weight_for_length"),
@@ -560,10 +603,26 @@ describe("WHO growth scaffold", () => {
     expect(byIndicator.bmi_for_age.source).toContain("5-19");
     expect(byIndicator.length_height_for_age.isApplicable).toBe(true);
     expect(byIndicator.length_height_for_age.source).toContain("5-19");
-    expect(byIndicator.weight_for_age.isApplicable).toBe(false);
+    expect(byIndicator.weight_for_age.isApplicable).toBe(true);
+    expect(byIndicator.weight_for_age.source).toContain("5-10");
     expect(byIndicator.head_circumference_for_age.isApplicable).toBe(false);
     expect(byIndicator.weight_for_length.isApplicable).toBe(false);
     expect(byIndicator.weight_for_height.isApplicable).toBe(false);
+  });
+
+  it("does not extrapolate WHO weight-for-age beyond 10 years", () => {
+    const result = calculateWhoGrowthWithWeightForAge5To10Data({
+      sex: "male",
+      ageMonths: 121,
+      weightKg: 31
+    });
+    const weightForAge = result.applicableResults.find(
+      (item) => item.indicator === "weight_for_age"
+    );
+
+    expect(weightForAge?.isApplicable).toBe(false);
+    expect(weightForAge?.warning).toContain("5-10");
+    expect(weightForAge?.zScore).toBeUndefined();
   });
 
   it("does not calculate WHO 5-19 indicators from age in days alone", async () => {
@@ -783,12 +842,12 @@ describe("WHO growth scaffold", () => {
     );
   });
 
-  it("marks unified WHO growth catalog entry as partially implemented", () => {
+  it("marks unified WHO growth catalog entry as implemented and active", () => {
     const tool = clinicalTools.find((item) => item.id === "who_growth_module");
 
     expect(tool?.slug).toBe("who-growth");
-    expect(tool?.implementationStatus).toBe("partially_implemented");
-    expect(tool?.calculationStatus).not.toBe("active");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
     expect(tool?.inputs?.map((input) => input.id)).toEqual([
       "sex",
       "who_age_input_mode",
@@ -804,7 +863,7 @@ describe("WHO growth scaffold", () => {
       "measurement_mode",
       "head_circumference_cm"
     ]);
-    expect(tool?.validationNotes.en).toContain("central WHO Growth engine");
+    expect(tool?.validationNotes.en).toContain("WHO Growth engine");
     expect(tool?.validationNotes.en).toContain("separate license");
   });
 

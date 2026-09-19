@@ -193,32 +193,32 @@ describe("public product web polish", () => {
     );
   });
 
-  it("keeps catalog implementation counts and partial WHO Growth preset IDs", () => {
+  it("keeps catalog implementation counts and active WHO Growth preset IDs", () => {
     const tools = getAllTools();
 
     expect(tools).toHaveLength(137);
     expect(
       tools.filter((tool) => tool.implementationStatus === "implemented")
-    ).toHaveLength(30);
+    ).toHaveLength(34);
     expect(
       tools.filter((tool) => tool.implementationStatus === "partially_implemented")
-    ).toHaveLength(4);
+    ).toHaveLength(0);
     expect(getToolBySlug("who-growth")?.id).toBe("who_growth_module");
     expect(getToolBySlug("who-growth")?.implementationStatus).toBe(
-      "partially_implemented"
+      "implemented"
     );
     expect(getToolBySlug("bmi-percentile")?.implementationStatus).toBe(
-      "partially_implemented"
+      "implemented"
     );
     expect(getToolBySlug("head-circumference-percentile")?.implementationStatus).toBe(
-      "partially_implemented"
+      "implemented"
     );
     expect(getToolBySlug("pediatric-burn-tbsa")?.implementationStatus).toBe(
       "implemented"
     );
   });
 
-  it("renders WHO Growth as an active partial module", () => {
+  it("renders WHO Growth as an active implemented module", () => {
     const whoGrowth = getToolBySlug("who-growth");
 
     expect(whoGrowth).toBeDefined();
@@ -231,7 +231,7 @@ describe("public product web polish", () => {
       />
     );
 
-    expect(html).toContain("Active partial module");
+    expect(html).not.toContain("Tool not active yet");
     expect(html).toContain("WHO growth data");
     expect(html).not.toContain("Tool not active yet");
     expect(html).not.toContain("Automatic calculation is not active");

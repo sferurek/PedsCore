@@ -268,6 +268,8 @@ export const calculateWhoGrowth = (
       : undefined;
   const hasZeroToFiveAge =
     ageDays !== undefined && ageDays >= 0 && ageDays <= 1856;
+  const hasFiveToTenAge =
+    ageMonths !== undefined && ageMonths >= 61 && ageMonths <= 120;
   const hasFiveToNineteenAge =
     ageMonths !== undefined && ageMonths >= 61 && ageMonths <= 228;
   const missingZeroToFiveAgeWarning =
@@ -287,14 +289,15 @@ export const calculateWhoGrowth = (
       "Weight-for-age",
       input.weightKg,
       "kg",
-      "WHO indicator-specific range",
+      "WHO 0-5 years / WHO 5-10 years",
       findLmsRecord({
         indicator: "weight_for_age",
         sex: input.sex,
-        ageDays: hasZeroToFiveAge ? ageDays : undefined
+        ageDays: hasZeroToFiveAge ? ageDays : undefined,
+        ageMonths: hasFiveToTenAge ? ageMonths : undefined
       },
       lmsRecords),
-      missingZeroToFiveAgeWarning
+      "WHO weight-for-age requires 0-5 age in days or 5-10 completed age in months (61-120)."
     ),
     buildResult(
       "length_height_for_age",
