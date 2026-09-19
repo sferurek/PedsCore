@@ -82,7 +82,7 @@ const implementedTestFiles: Record<string, string> = {
   who_growth_percentiles: "whoGrowth.test.ts",
   bmi_percentile: "whoGrowth.test.ts",
   head_circumference_percentile: "whoGrowth.test.ts",
-  cdc_growth_percentiles: "../../tests/cdcPhoenix.test.ts"
+  cdc_growth_percentiles: "cdcGrowth.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
