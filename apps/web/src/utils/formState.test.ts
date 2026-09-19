@@ -106,7 +106,7 @@ describe("form state utilities", () => {
   });
 
   it("hides conditional inputs until all visibility conditions are met", () => {
-    const tool = getToolBySlug("step-by-step-febrile-infant");
+    const tool = getAllTools().find((item) => item.id === "step_by_step");
     expect(tool).toBeDefined();
 
     const initial = getInitialFormState(tool!);
