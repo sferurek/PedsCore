@@ -5727,9 +5727,14 @@ const withRightsExternalReference = (toolMetadata: ClinicalToolMetadata): Clinic
     ...existingReferences.filter((reference) => reference.url !== externalReference.url)
   ];
 
+  const validationNotes: LocalizedText = {
+    es: `${toolMetadata.validationNotes.es} ${explanation.es}`.trim(),
+    en: `${toolMetadata.validationNotes.en} ${explanation.en}`.trim()
+  };
+
   return {
     ...toolMetadata,
-    validationNotes: explanation,
+    validationNotes,
     references
   };
 };
