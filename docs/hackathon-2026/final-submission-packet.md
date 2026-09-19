@@ -12,7 +12,7 @@ Prepared for direct transfer into the Amazon Developer Hackathon Devpost form. R
 - Primary track: **Alexa+**
 - Existing project before August 31, 2026: **Yes — significantly updated during the submission period**
 - Open Source Mini Challenge: **Yes**
-- AWS Builder Mini Challenge: **No unless a useful AWS integration is actually deployed before submission**
+- AWS Builder Mini Challenge: **No — intentionally not claimed in the current candidate; no qualifying AWS/Kiro integration is evidenced yet**
 - GitHub username: **sferurek**
 - Repository: https://github.com/sferurek/PedsCore
 - Open Source contribution: https://github.com/sferurek/PedsCore/pull/91
