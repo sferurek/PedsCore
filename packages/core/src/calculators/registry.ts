@@ -29,6 +29,7 @@ import { taussigCroupCalculator } from "./taussigCroup.js";
 import { passCalculator } from "./pass.js";
 import { riscCalculator } from "./risc.js";
 import { mRiscCalculator } from "./mRisc.js";
+import { gorelickDehydrationCalculator } from "./gorelickDehydration.js";
 
 const calculators = [
   apgarCalculator,
@@ -63,7 +64,8 @@ const calculators = [
   taussigCroupCalculator,
   passCalculator,
   riscCalculator,
-  mRiscCalculator
+  mRiscCalculator,
+  gorelickDehydrationCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
