@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   clinicalComparisonGroups,
+  clinicalRightsVerdictById,
   clinicalTools,
   getToolDiscovery,
   implementedCalculatorToolIds,
@@ -97,6 +98,29 @@ describe("clinical discovery taxonomy", () => {
     for (const id of unresolvedIds) {
       expect(getToolDiscovery(id)?.reuseStatus, id).toBe("unresolved");
       expect(getToolDiscovery(id)?.calculationAvailability, id).not.toBe("local_active");
+    }
+  });
+
+  it("keeps the machine-readable rights manifest aligned with discovery", () => {
+    for (const [id, verdict] of Object.entries(clinicalRightsVerdictById)) {
+      const metadata = getToolDiscovery(id);
+      expect(metadata, id).toBeDefined();
+
+      if (verdict === "permission_required") {
+        expect(metadata?.reuseStatus, id).toBe("permission_required");
+        expect(metadata?.calculationAvailability, id).not.toBe("local_active");
+      } else if (verdict === "unresolved") {
+        expect(metadata?.reuseStatus, id).toBe("unresolved");
+        expect(metadata?.calculationAvailability, id).not.toBe("local_active");
+      } else if (verdict === "external_only") {
+        expect(metadata?.reuseStatus, id).toBe("external_only");
+        expect(metadata?.calculationAvailability, id).not.toBe("local_active");
+      } else if (verdict === "criteria_reimplementation") {
+        expect(metadata?.reuseStatus, id).toBe("criteria_reimplementation");
+        expect(metadata?.calculationAvailability, id).toBe("local_active");
+      } else if (verdict === "not_applicable") {
+        expect(metadata?.surfaceStatus, id).toBe("deprecated");
+      }
     }
   });
 
