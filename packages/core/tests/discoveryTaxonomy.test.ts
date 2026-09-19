@@ -57,8 +57,8 @@ describe("clinical discovery taxonomy", () => {
       (metadata) => metadata.surfaceStatus
     );
 
-    expect(statuses.filter((status) => status === "active")).toHaveLength(108);
-    expect(statuses.filter((status) => status === "draft")).toHaveLength(12);
+    expect(statuses.filter((status) => status === "active")).toHaveLength(102);
+    expect(statuses.filter((status) => status === "draft")).toHaveLength(18);
     expect(statuses.filter((status) => status === "blocked")).toHaveLength(14);
     expect(statuses.filter((status) => status === "deprecated")).toHaveLength(3);
     expect(
