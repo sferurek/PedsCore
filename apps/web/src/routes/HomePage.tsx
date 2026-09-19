@@ -148,7 +148,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
   ];
   const [popularSlugs, setPopularSlugs] = useState<string[]>(fallbackPopularSlugs);
   const [popularIsLive, setPopularIsLive] = useState(false);
-  const [personalizedVersion, setPersonalizedVersion] = useState(0);
+  const [, setPersonalizedVersion] = useState(0);
   const [preferredSpecialty, setPreferredSpecialtyState] = useState<ClinicalSpecialty | null>(
     () => getPreferredSpecialty()
   );
@@ -186,14 +186,12 @@ export function HomePage({ language, navigate }: HomePageProps) {
     .map((slug) => getToolBySlug(slug))
     .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
   const byId = useMemo(() => new Map(allTools.map((tool) => [tool.id, tool])), [allTools]);
-  const favoriteTools = useMemo(
-    () => getFavoriteToolIds().map((id) => byId.get(id)).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool)),
-    [byId, personalizedVersion]
-  );
-  const recentTools = useMemo(
-    () => getRecentToolIds().map((id) => byId.get(id)).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool)),
-    [byId, personalizedVersion]
-  );
+  const favoriteTools = getFavoriteToolIds()
+    .map((id) => byId.get(id))
+    .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
+  const recentTools = getRecentToolIds()
+    .map((id) => byId.get(id))
+    .filter((tool): tool is NonNullable<typeof tool> => Boolean(tool));
   const specialtyOptions = useMemo(() => {
     const counts = new Map<ClinicalSpecialty, number>();
     for (const tool of allTools) {
