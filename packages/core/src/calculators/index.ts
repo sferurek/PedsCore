@@ -38,6 +38,7 @@ export * from "./pcdai.js";
 export * from "./modifiedBellNec.js";
 export * from "./psofa.js";
 export * from "./snappeII.js";
+export * from "./pyms.js";
 export * from "./registry.js";
 
 export * from "./modifiedSarnatNichd.js";
