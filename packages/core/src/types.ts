@@ -144,6 +144,7 @@ export type ContentReuseStatus =
   | "open"
   | "public_domain"
   | "attribution_required"
+  | "criteria_reimplementation"
   | "external_only"
   | "permission_required"
   | "unresolved";
