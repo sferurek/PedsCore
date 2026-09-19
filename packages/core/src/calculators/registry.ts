@@ -2,7 +2,6 @@ import type { CalculationResult } from "../types.js";
 import { warning } from "./common.js";
 import type { CalculatorDefinition, CalculatorInput } from "./common.js";
 import { apgarCalculator } from "./apgar.js";
-import { flaccCalculator } from "./flacc.js";
 import { woodDownesFerresCalculator } from "./woodDownesFerres.js";
 import { qtcBazettCalculator, qtcFraminghamCalculator, qtcFridericiaCalculator, qtcHodgesCalculator } from "./qtc.js";
 import { bedsideSchwartzCalculator, revisedSchwartzCalculator } from "./schwartz.js";
@@ -56,7 +55,6 @@ const calculators = [
   thompsonHieCalculator,
   criesCalculator,
   woodDownesFerresCalculator,
-  flaccCalculator,
   qtcBazettCalculator,
   qtcFridericiaCalculator,
   qtcFraminghamCalculator,
