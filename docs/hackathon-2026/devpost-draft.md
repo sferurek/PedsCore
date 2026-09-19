@@ -62,7 +62,7 @@ The self-hosted MCP path already satisfies the current Alexa+ primary-track tech
 ## Open Source Mini Challenge
 
 Primary contribution:
-https://github.com/sferurek/PedsCore/pull/43
+https://github.com/sferurek/PedsCore/pull/91
 
 Repository:
 https://github.com/sferurek/PedsCore
