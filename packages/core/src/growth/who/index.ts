@@ -236,7 +236,7 @@ const buildResult = (
     value,
     unit,
     zScore,
-    percentile: Math.abs(zScore) <= 3 ? zScoreToPercentile(zScore) : undefined,
+    ...(Math.abs(zScore) <= 3 ? { percentile: zScoreToPercentile(zScore) } : {}),
     ageRange,
     source: record.source,
     isApplicable: true
