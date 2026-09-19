@@ -3,7 +3,7 @@ import { getBoolean, getNumber, getTool, label, warning } from "./common.js";
 import type { CalculatorDefinition } from "./common.js";
 
 const mapPoints = (age: number, map: number): number => {
-  const bands = age < 1 ? [46,31,17] : age < 12 ? [55,39,25] : age < 24 ? [60,44,31] : age < 60 ? [62,46,32] : age < 144 ? [65,49,36] : [67,52,38];
+  const bands: [number, number, number] = age < 1 ? [46,31,17] : age < 12 ? [55,39,25] : age < 24 ? [60,44,31] : age < 60 ? [62,46,32] : age < 144 ? [65,49,36] : [67,52,38];
   return map >= bands[0] ? 0 : map >= bands[1] ? 2 : map >= bands[2] ? 3 : 6;
 };
 const creatininePoints = (age: number, cr: number): number => {
