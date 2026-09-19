@@ -5,16 +5,23 @@
   "type": "module",
   "workspaces": [
     "packages/core",
-    "apps/web"
+    "apps/web",
+    "apps/mcp-server"
   ],
   "scripts": {
     "dev": "npm run dev -w @peds-core/web",
     "lint": "eslint .",
     "test": "npm run build -w @peds-core/core && npm run prebuild -w @peds-core/web && vitest run",
-    "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web",
+    "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web && npm run build -w @peds-core/mcp-server",
     "seo:check": "npm run seo:check -w @peds-core/web",
     "audit:governance": "node scripts/verify-governance.mjs",
-    "seo:indexnow": "npm run seo:indexnow -w @peds-core/web"
+    "seo:indexnow": "npm run seo:indexnow -w @peds-core/web",
+    "dev:mcp": "npm run dev -w @peds-core/mcp-server",
+    "build:mcp": "npm run build -w @peds-core/mcp-server",
+    "start": "npm run start -w @peds-core/mcp-server",
+    "alexa:validate": "node scripts/validate-alexa-manifest.mjs",
+    "hackathon:verify": "npm run lint && npm run test && npm run audit:governance && npm run seo:check && npm run alexa:validate && npm run build",
+    "hackathon:smoke:remote": "node scripts/remote-mcp-smoke.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
