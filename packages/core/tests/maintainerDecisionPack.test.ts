@@ -43,7 +43,6 @@ describe("maintainer decision pack", () => {
       "pediatric_tachycardia",
       "shockable_rhythm_algorithm",
       "non_shockable_rhythm_algorithm",
-      "cdc_growth_percentiles",
       "orbegozo_growth_percentiles",
       "psofa",
       "pelod",
