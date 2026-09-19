@@ -35,11 +35,22 @@ describe("calculator registry", () => {
       "sipa",
       "nips",
       "pediatric_burn_tbsa",
-      "garcia_alix_ners"
+      "garcia_alix_ners",
+      "modified_tal",
+      "taussig_croup",
+      "pass",
+      "risc",
+      "mrisc",
+      "gorelick_dehydration",
+      "prifle",
+      "kdigo_pediatric",
+      "pelod_2",
+      "prism_iv",
+      "pim3"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(30);
+    expect(getImplementedTools()).toHaveLength(45);
   });
 
   it("calculates through the dispatcher", () => {
