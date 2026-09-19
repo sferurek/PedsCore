@@ -52,8 +52,11 @@ Key paths:
 - `alexa-addon/addon-package/addon.json` — Alexa+ add-on manifest
 - `docs/hackathon-2026/submission-evidence.md` — evidence matrix
 
-SIM IMV implementation is developed separately in:
+SIM IMV implementation was merged through:
 - https://github.com/sferurek/pedscore-triage-sim/pull/25
+
+Production bridge:
+- `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`
 
 ## 4. Reproduce the deterministic clinical example
 
@@ -79,15 +82,11 @@ The three simulation contracts are:
 
 A learner may submit a triage category conversationally, but correctness is computed by the simulator's existing JumpSTART / SALT / PTT / MITT logic.
 
-## 6. Current external constraints
+## 6. External tooling boundary
 
-Two external integration constraints are intentionally documented rather than hidden. Neither is required for the current self-hosted MCP eligibility path:
+Devpost support confirmed that the private Alexa+ Category SDK / MCP Toolkit / add-on tooling is restricted to selected Amazon partners. PedsCore therefore uses the explicitly permitted self-hosted MCP route and does not claim an official partner-only Alexa add-on deployment.
 
-- Alexa add-on tooling access is waiting on Amazon-side authorization to the private developer-tools role.
-- The private SIM IMV repository is not currently authorized in the Railway GitHub App, blocking its independent public deployment.
-
-Neither changes the deterministic architecture or local/CI verification status. Claims that depend on those integrations remain marked pending in the evidence matrix.
-
+The SIM bridge is no longer an external blocker: PR #25 is merged, Vercel production deployment is green, Railway MCP is configured to call it, and the strict remote MCP→SIM smoke passed.
 
 ## 7. Reproduce the repository validation
 
@@ -104,4 +103,4 @@ To run the public MCP smoke against a base URL:
 MCP_REMOTE_BASE_URL=https://pedscore-ai-mcp-production.up.railway.app npm run hackathon:smoke:remote
 ```
 
-The smoke validates protocol negotiation, the six tool contracts, deterministic Apgar output, the judge surface, compliance/media endpoints, and the SIM MCP contract's graceful behavior while the optional simulator backend is unavailable.
+The smoke validates protocol negotiation, the six tool contracts, deterministic Apgar output, judge/compliance/media surfaces, and the full public SIM path: `school-bus` → patient `01` → submitted `GREEN` → expected `GREEN` → `correct=true` → rule `JS-MOB-01`.
