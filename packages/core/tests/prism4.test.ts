@@ -64,6 +64,12 @@ describe("PRISM IV reference and boundary checks", () => {
     expect(trace(prism4Calculator.calculate({ ...base, pupil_status: "both_fixed" }), "prism_neurologic_score")?.value).toBe(11);
   });
 
+  it("does not require post-intervention confirmation when the special branch does not apply", () => {
+    const input = { ...base, cardiac_postintervention_window_confirmed: undefined };
+    const result = prism4Calculator.calculate(input);
+    expect(result.value).toBeTypeOf("number");
+  });
+
   it("requires the special post-intervention window when applicable", () => {
     const blocked = prism4Calculator.calculate({
       ...base,

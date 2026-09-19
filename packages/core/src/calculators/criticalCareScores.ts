@@ -327,7 +327,7 @@ export const prism4Calculator: CalculatorDefinition = {
 
     if (
       firstPicuAdmission === null || samplingWindowConfirmed === null ||
-      cardiacInterventionUnder3Months === null || cardiacPostinterventionWindowConfirmed === null ||
+      cardiacInterventionUnder3Months === null ||
       ageDays === null || typeof admissionSource !== "string" ||
       cpr === null || cancer === null || lowRiskSystem === null ||
       sbp === null || hr === null || temperature === null || gcs === null ||
@@ -350,7 +350,7 @@ export const prism4Calculator: CalculatorDefinition = {
 
     if (
       !firstPicuAdmission || !samplingWindowConfirmed ||
-      (cardiacInterventionUnder3Months && !cardiacPostinterventionWindowConfirmed)
+      (cardiacInterventionUnder3Months && cardiacPostinterventionWindowConfirmed !== true)
     ) {
       return {
         toolId: tool.id,

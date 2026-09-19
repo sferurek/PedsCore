@@ -120,9 +120,13 @@ export const chaliceCalculator: CalculatorDefinition = {
     const trace = [];
     const matched: LocalizedText[] = [];
 
-    for (const inputId of inputIds) {
+    const applicableInputIds = ageYears < 1
+      ? inputIds
+      : inputIds.filter((id) => id !== "bruise_swelling_laceration_over_5cm_under_1_year");
+
+    for (const inputId of applicableInputIds) {
       if (input[inputId] === undefined || input[inputId] === null || input[inputId] === "") {
-        return missingResult("chalice_tbi", inputIds);
+        return missingResult("chalice_tbi", applicableInputIds);
       }
 
       const value = getBoolean(input, inputId);

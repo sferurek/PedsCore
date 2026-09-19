@@ -6,6 +6,8 @@ import {
   getInitialFormState,
   getInputSummary,
   getNextIncompleteInputId,
+  getVisibleInputs,
+  isInputVisible,
   hasActiveForm,
   isInputComplete,
   validateForm
@@ -101,6 +103,58 @@ describe("form state utilities", () => {
     expect(
       isInputComplete(numericInput, 12)
     ).toBe(false);
+  });
+
+  it("hides conditional inputs until all visibility conditions are met", () => {
+    const tool = getAllTools().find((item) => item.id === "step_by_step");
+    expect(tool).toBeDefined();
+
+    const initial = getInitialFormState(tool!);
+    expect(getVisibleInputs(tool!, initial).map((input) => input.id)).toEqual([
+      "age_days",
+      "fever_without_source"
+    ]);
+
+    const afterEligibility = {
+      ...initial,
+      age_days: 30,
+      fever_without_source: true
+    };
+    expect(getVisibleInputs(tool!, afterEligibility).map((input) => input.id)).toContain(
+      "well_appearing"
+    );
+    expect(getVisibleInputs(tool!, afterEligibility).map((input) => input.id)).not.toContain(
+      "crp_mg_l"
+    );
+
+    const lowHighRiskScreen = {
+      ...afterEligibility,
+      well_appearing: true,
+      leukocyturia: false,
+      procalcitonin_ng_ml: 0.2
+    };
+    const visible = getVisibleInputs(tool!, lowHighRiskScreen).map((input) => input.id);
+    expect(visible).toContain("crp_mg_l");
+    expect(visible).toContain("anc");
+  });
+
+  it("does not require hidden conditional inputs", () => {
+    const tool = getToolBySlug("pim3");
+    const state = {
+      ...getInitialFormState(tool!),
+      both_pupils_fixed: false,
+      elective_admission: false,
+      mechanical_ventilation_first_hour: false,
+      base_excess_unknown: true,
+      sbp_unknown: true,
+      oxygenation_unknown: true,
+      procedure_category: "none",
+      diagnosis_risk_group: "none"
+    };
+
+    expect(validateForm(tool!, state).isComplete).toBe(true);
+    const baseExcess = tool?.inputs?.find((input) => input.id === "base_excess_mmol_l");
+    expect(isInputVisible(baseExcess!, state)).toBe(false);
   });
 
   it("summarizes selected input values", () => {

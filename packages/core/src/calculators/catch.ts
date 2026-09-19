@@ -23,7 +23,6 @@ const eligibilityBooleanIds = [
   "definite_amnesia",
   "witnessed_disorientation",
   "persistent_vomiting_more_than_one_episode",
-  "persistent_irritability_if_under_2",
   "obvious_penetrating_skull_injury",
   "obvious_depressed_skull_fracture",
   "acute_focal_neurologic_deficit",
@@ -57,7 +56,11 @@ const informationalWarning = warning(
 const validateCatchEligibility = (input: CalculatorInput): CalculationResult | null => {
   const ageYears = getNumber(input, "age_years");
   const initialGcs = getNumber(input, "initial_gcs");
-  const requiredIds = ["age_years", "initial_gcs", ...eligibilityBooleanIds];
+  const requiredEligibilityBooleanIds = [
+    ...eligibilityBooleanIds,
+    ...(ageYears !== null && ageYears < 2 ? ["persistent_irritability_if_under_2"] : [])
+  ];
+  const requiredIds = ["age_years", "initial_gcs", ...requiredEligibilityBooleanIds];
 
   for (const id of requiredIds) {
     if (input[id] === undefined || input[id] === null || input[id] === "") {
@@ -77,7 +80,7 @@ const validateCatchEligibility = (input: CalculatorInput): CalculationResult | n
     };
   }
 
-  for (const id of eligibilityBooleanIds) {
+  for (const id of requiredEligibilityBooleanIds) {
     if (getBoolean(input, id) === null) {
       return {
         toolId: "catch_tbi",
@@ -124,7 +127,7 @@ const validateCatchEligibility = (input: CalculatorInput): CalculationResult | n
       trace: [
         { inputId: "age_years", value: ageYears },
         { inputId: "initial_gcs", value: initialGcs },
-        ...eligibilityBooleanIds.map((id) => ({ inputId: id, value: getBoolean(input, id) }))
+        ...requiredEligibilityBooleanIds.map((id) => ({ inputId: id, value: getBoolean(input, id) }))
       ]
     };
   }

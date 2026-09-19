@@ -7,6 +7,7 @@ import {
   getFirstInputId,
   getInitialFormState,
   getInputSummary,
+  getVisibleInputs,
   getNextIncompleteInputId,
   hasActiveForm,
   isInputComplete,
@@ -40,6 +41,8 @@ export function DynamicForm({
   );
   const validation = validateForm(tool, values);
   const missingRequiredIds = new Set(validation.missingRequiredInputIds);
+  const visibleInputs = getVisibleInputs(tool, values);
+  const adaptiveFlow = Boolean(tool.inputs?.some((input) => input.visibleWhen?.length));
 
   useEffect(() => {
     setValues(initialState);
@@ -89,8 +92,15 @@ export function DynamicForm({
     <section className="content-panel">
       <div className="atlas-form-heading clinical-surface-heading"><h2>{t.form.title}</h2><button type="button" onClick={() => { setValues(initialState); setOpenInputId(getFirstInputId(tool)); onStateChange(initialState); }}>{atlas[language].reset}</button></div>
       <p className="muted">{t.form.privacyNote}</p>
+      {adaptiveFlow ? (
+        <p className="muted adaptive-form-note">
+          {language === "es"
+            ? "Flujo adaptativo: PedsCore muestra únicamente las preguntas que siguen siendo pertinentes según las respuestas previas."
+            : "Adaptive flow: PedsCore only shows questions that remain relevant based on previous answers."}
+        </p>
+      ) : null}
       <form className="dynamic-form" noValidate>
-        {tool.inputs?.map((input, index) => (
+        {visibleInputs.map((input, index) => (
           <FormField
             input={input}
             isMissing={missingRequiredIds.has(input.id)}
