@@ -10,11 +10,8 @@ import {
 const reconciledLocalIds = [
   "modified_tal",
   "taussig_croup",
-  "pass",
   "risc",
   "mrisc",
-  "gorelick_dehydration",
-  "prifle",
   "kdigo_pediatric",
   "phoenix_sepsis",
   "parc",
@@ -25,7 +22,8 @@ const reconciledLocalIds = [
   "wpcdai"
 ] as const;
 
-const intentionallyBlockedIds = ["pelod_2", "prism_iv", "pim3"] as const;
+const intentionallyEvidenceBlockedIds = ["pass", "gorelick_dehydration", "prifle", "pelod_2", "pim3"] as const;
+const intentionallyRightsBlockedIds = ["prism_iv"] as const;
 
 describe("local calculator reconciliation", () => {
   it("leaves no discovery surface marked local_planned", () => {
@@ -44,8 +42,19 @@ describe("local calculator reconciliation", () => {
     }
   });
 
-  it("keeps protected prognostic scores blocked rather than pending", () => {
-    for (const id of intentionallyBlockedIds) {
+  it("keeps evidence-gated tools blocked rather than pending", () => {
+    for (const id of intentionallyEvidenceBlockedIds) {
+      expect(implementedCalculatorToolIds).not.toContain(id);
+      expect(getToolDiscovery(id)?.calculationAvailability).toBe("blocked_by_evidence");
+      expect(getToolDiscovery(id)?.surfaceStatus).toBe("blocked");
+      const tool = clinicalTools.find((item) => item.id === id);
+      expect(tool?.implementationStatus).not.toBe("implemented");
+      expect(tool?.calculationStatus).not.toBe("active");
+    }
+  });
+
+  it("keeps rights-gated tools blocked rather than pending", () => {
+    for (const id of intentionallyRightsBlockedIds) {
       expect(implementedCalculatorToolIds).not.toContain(id);
       expect(getToolDiscovery(id)?.calculationAvailability).toBe("blocked_by_rights");
       expect(getToolDiscovery(id)?.surfaceStatus).toBe("blocked");
