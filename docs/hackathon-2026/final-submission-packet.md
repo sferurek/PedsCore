@@ -86,7 +86,7 @@ The model orchestrates. PedsCore and SIM IMV own the clinical logic.
 - External smoke run 35334436459 attempt 2: passed.
 - Railway MCP production endpoint: successful and remotely verified.
 - SIM production HTTP smoke: passed in CI.
-- Public MCP→SIM end-to-end smoke: passed in GitHub Actions run `35462460140`.
+- Public MCP→SIM end-to-end smoke: passed in GitHub Actions run `35466300736`.
 - SIM school-bus / JumpSTART / patient 01: expected GREEN, `correct=true`, rule `JS-MOB-01`, canonical path returned.
 
 ## Open Source Mini Challenge
@@ -157,4 +157,4 @@ SIM PR #25 is merged into the simulator main branch. The production SIM deployme
 
 `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`
 
-The strict public MCP → SIM end-to-end smoke passed in GitHub Actions run `35462460140`, completing the public technical path.
+The strict public MCP → SIM end-to-end smoke passed in GitHub Actions run `35466300736`, completing the public technical path.
