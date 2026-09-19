@@ -2782,7 +2782,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 0, max: 215.99, step: 0.1 },
       booleanInput("suspected_infection", { es: "Infección sospechada o confirmada", en: "Suspected or confirmed infection" }),
       booleanInput("birth_hospitalization_before_discharge", { es: "Hospitalización desde el nacimiento, antes del alta inicial", en: "Birth hospitalization before initial discharge" }),
-      { id: "postconceptional_age_weeks", label: { es: "Edad postconcepcional", en: "Postconceptional age" }, type: "number", required: true, unit: "semanas", min: 20, max: 80, step: 0.1 },
+      booleanInput("postconceptional_age_at_least_37_weeks", { es: "Edad postconcepcional ≥37 semanas", en: "Postconceptional age ≥37 weeks" }),
       { id: "fio2_fraction", label: { es: "FiO₂ (si se usa P/F o S/F)", en: "FiO₂ (if using P/F or S/F)" }, type: "number", required: false, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
       { id: "pao2_mmhg", label: { es: "PaO₂ (si disponible)", en: "PaO₂ (if available)" }, type: "number", required: false, unit: "mmHg", min: 1, max: 800, step: 1 },
       { id: "spo2_percent", label: { es: "SpO₂ (S/F solo válido si ≤97%)", en: "SpO₂ (S/F valid only if ≤97%)" }, type: "number", required: false, unit: "%", min: 1, max: 100, step: 1 },
