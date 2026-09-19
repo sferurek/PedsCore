@@ -24,6 +24,7 @@ import { pramCalculator } from "./pram.js";
 import { sipaCalculator } from "./sipa.js";
 import { westleyCroupCalculator } from "./westleyCroup.js";
 import { garciaAlixNersCalculator } from "./garciaAlixNers.js";
+import { cdcGrowthPercentilesCalculator } from "./cdcGrowth.js";
 
 const calculators = [
   apgarCalculator,
@@ -53,7 +54,8 @@ const calculators = [
   sipaCalculator,
   nipsCalculator,
   pediatricBurnTbsaCalculator,
-  garciaAlixNersCalculator
+  garciaAlixNersCalculator,
+  cdcGrowthPercentilesCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

@@ -43,7 +43,8 @@ const implementedToolIds = new Set([
   "who_growth_module",
   "who_growth_percentiles",
   "bmi_percentile",
-  "head_circumference_percentile"
+  "head_circumference_percentile",
+  "cdc_growth_percentiles"
 ]);
 
 type ToolSeed = Omit<
@@ -291,6 +292,48 @@ const implementedToolReferences: Record<string, Reference[]> = {
       notes: "CDC recommends the 2000 growth charts for children and adolescents aged 2 years and older.",
       appliesTo: ["cdc_growth_percentiles"],
       priority: 2
+    },
+    {
+      id: "cdc_growth_recommended_2025",
+      title: "What Growth Charts Are Recommended?",
+      authors: "Centers for Disease Control and Prevention",
+      year: 2025,
+      journalOrPublisher: "CDC",
+      url: "https://www.cdc.gov/growth-chart-training/hcp/overview/recommended.html",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes: "Current CDC recommendation: WHO charts from birth to 2 years; CDC 2000 charts from age 2 years; 2022 Extended BMI-for-age charts for very high BMI.",
+      appliesTo: ["cdc_growth_percentiles"],
+      priority: 3
+    },
+    {
+      id: "cdc_extended_bmi_2022",
+      title: "Data file for the CDC Extended BMI-for-Age Growth Charts",
+      authors: "Centers for Disease Control and Prevention, National Center for Health Statistics",
+      year: 2022,
+      journalOrPublisher: "CDC/NCHS",
+      url: "https://www.cdc.gov/growthcharts/extended-bmi-data-files.htm",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes: "Official description of the extended BMI percentile method above the CDC BMI-for-age 95th percentile.",
+      appliesTo: ["cdc_growth_percentiles"],
+      priority: 4
+    },
+    {
+      id: "wei_extended_bmi_2020",
+      title: "A method for calculating BMI z-scores and percentiles above the 95th percentile of the CDC growth charts",
+      authors: "Wei R, Ogden CL, Parsons VL, Freedman DS, Hales CM",
+      year: 2020,
+      journalOrPublisher: "Annals of Human Biology",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC11232929/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Publishes the half-normal extended BMI percentile equation and sex-specific quadratic sigma regressions used by the CDC extended method.",
+      appliesTo: ["cdc_growth_percentiles"],
+      priority: 5
     }
   ],
   phoenix_sepsis: [
@@ -2094,8 +2137,8 @@ const headCircumferencePercentileValidationNotes: LocalizedText = {
 };
 
 const cdcGrowthValidationNotes: LocalizedText = {
-  es: "Bloque 8B-1: fuente oficial CDC con ficheros LMS localizada. Pendiente seleccionar curvas, definir interpolacion/edades, revisar atribucion/uso y preparar tests antes de implementar percentiles.",
-  en: "Block 8B-1: official CDC LMS data source located. Chart selection, interpolation/age handling, attribution/use review, and tests remain pending before percentile implementation."
+  es: "Implementación local activa de CDC Growth Charts para 2-20 años: peso/edad, talla/edad e IMC/edad con parámetros LMS oficiales CDC 2000. La edad exacta puede interpolarse linealmente entre puntos LMS oficiales, como permite CDC. Para IMC por encima del P95 se aplica el método CDC Extended BMI 2022 con la distribución half-normal y sigma suavizada por edad/sexo. CDC recomienda OMS por debajo de 2 años.",
+  en: "Active local implementation of CDC Growth Charts for ages 2-20 years: weight-for-age, stature-for-age, and BMI-for-age using official CDC 2000 LMS parameters. Exact age may be linearly interpolated between official LMS points, as allowed by CDC. Above the BMI 95th percentile, the 2022 CDC Extended BMI half-normal method with age/sex-smoothed sigma is used. CDC recommends WHO charts under age 2."
 };
 
 const pediatricGcsValidationNotes: LocalizedText = {
@@ -2453,19 +2496,19 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   cdc_growth_percentiles: {
     validationNotes: {
-      es: "Implementación local de las curvas CDC 2000 para 2-20 años. PedsCore incorpora los parámetros LMS oficiales de peso/edad, talla/edad e IMC/edad y calcula z-score y percentil mediante la ecuación CDC publicada.",
-      en: "Local implementation of the CDC 2000 charts for ages 2-20 years. PedsCore bundles the official LMS parameters for weight-for-age, stature-for-age, and BMI-for-age and calculates z-scores and percentiles with the published CDC equation."
+      es: "Implementación local activa de CDC 2000 para 2-20 años con peso/edad, talla/edad e IMC/edad mediante LMS oficiales. Por encima del P95 de IMC se aplica automáticamente CDC Extended BMI 2022 con la ecuación half-normal publicada y sigma suavizada por sexo y edad.",
+      en: "Active local CDC 2000 implementation for ages 2-20 years with official LMS weight-for-age, stature-for-age, and BMI-for-age. Above the BMI 95th percentile, the published 2022 CDC Extended BMI half-normal method with sex/age-smoothed sigma is applied automatically."
     },
     calculationNotes: {
-      es: "Los valores LMS se interpolan linealmente entre puntos mensuales oficiales. El resultado principal es IMC/edad; también se muestran peso/edad y talla/edad. Para IMC >=P95 se recomienda consultar las curvas CDC Extended BMI.",
-      en: "LMS values are linearly interpolated between official monthly points. The primary result is BMI-for-age; weight-for-age and stature-for-age are also shown. For BMI >=P95, CDC Extended BMI charts are recommended."
+      es: "Usa edad exacta en meses. Los valores LMS se interpolan linealmente entre puntos oficiales cuando la edad cae entre ellos, una opción contemplada por CDC. El resultado principal es IMC/edad y se muestran además peso/edad y talla/edad. Si el IMC supera el P95, PedsCore cambia automáticamente al método CDC Extended BMI 2022; también calcula % del P95 y el criterio CDC de obesidad grave.",
+      en: "Uses exact age in months. LMS values are linearly interpolated between official points when age falls between them, an approach allowed by CDC. The primary result is BMI-for-age, with weight-for-age and stature-for-age also shown. If BMI exceeds the 95th percentile, PedsCore automatically switches to the 2022 CDC Extended BMI method; percent of the 95th percentile and the CDC severe-obesity criterion are also calculated."
     },
     inputs: [
       {
         id: "sex", label: { es: "Sexo de referencia CDC", en: "CDC reference sex" }, type: "select", required: true,
         options: [option("male", "Masculino", "Male"), option("female", "Femenino", "Female")]
       },
-      { id: "age_months", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "meses", min: 24, max: 240, step: 0.1 },
+      { id: "age_months", label: { es: "Edad exacta", en: "Exact age" }, description: { es: "Edad exacta en meses; admite decimales. CDC recomienda usar la información de edad más precisa disponible.", en: "Exact age in months; decimals are accepted. CDC recommends using the most accurate age information available." }, type: "number", required: true, unit: "meses", min: 24, max: 240, step: 0.01 },
       { id: "weight_kg", label: { es: "Peso", en: "Weight" }, type: "number", required: true, unit: "kg", min: 1, max: 300, step: 0.01 },
       { id: "stature_cm", label: { es: "Talla de pie", en: "Standing stature" }, type: "number", required: true, unit: "cm", min: 60, max: 230, step: 0.1 }
     ]
@@ -5449,7 +5492,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
     ]
   ),
   makeTool("who_growth_percentiles", "who-growth-percentiles", "OMS", "Percentiles OMS", "WHO Growth Percentiles", "growth_nutrition", "growth", "percentile", "Lactantes, ninos y adolescentes segun rangos OMS aplicables", "Infants, children and adolescents according to applicable WHO ranges", "Acceso al modulo WHO Growth central para indicadores OMS disponibles.", "Entry point to the central WHO Growth module for available WHO indicators.", "implemented", "official_manual_or_institutional_protocol", "medium", whoGrowthValidationNotes),
-  makeTool("cdc_growth_percentiles", "cdc-growth-percentiles", "CDC", "Percentiles CDC", "CDC Growth Percentiles", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes segun edad aplicable", "Children and adolescents depending on applicable age", "Curvas de crecimiento CDC.", "CDC growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", cdcGrowthValidationNotes),
+  makeTool("cdc_growth_percentiles", "cdc-growth-percentiles", "CDC", "Percentiles CDC", "CDC Growth Percentiles", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes de 2 a 20 anos", "Children and adolescents aged 2 to 20 years", "Percentiles y z-scores CDC de peso/edad, talla/edad e IMC/edad, con CDC Extended BMI para IMC alto.", "CDC weight-for-age, stature-for-age, and BMI-for-age percentiles and z-scores, with CDC Extended BMI for high BMI.", "implemented", "official_manual_or_institutional_protocol", "medium", cdcGrowthValidationNotes),
   makeTool("orbegozo_growth_percentiles", "orbegozo-growth-percentiles", "Orbegozo", "Percentiles Orbegozo", "Orbegozo Growth Percentiles", "growth_nutrition", "growth", "percentile", "Poblacion pediatrica segun tablas aplicables", "Pediatric population depending on applicable tables", "Curvas de crecimiento Fundacion Orbegozo.", "Fundacion Orbegozo growth curves.", "pending_validation", "official_manual_or_institutional_protocol", "medium", orbegozoGrowthValidationNotes),
   makeTool("bmi_percentile", "bmi-percentile", "IMC percentilado", "IMC percentilado", "BMI Percentile", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes en rangos OMS 0-5 o 5-19", "Children and adolescents in WHO 0-5 or 5-19 ranges", "Preset WHO Growth para BMI-for-age con salida descriptiva.", "WHO Growth preset for BMI-for-age with descriptive output.", "implemented", "official_manual_or_institutional_protocol", "medium", bmiPercentileValidationNotes),
   makeTool("head_circumference_percentile", "head-circumference-percentile", "PC percentil", "Percentil de perimetro cefalico", "Head Circumference Percentile", "growth_nutrition", "growth", "percentile", "Lactantes y ninos pequenos en rango OMS 0-5", "Infants and young children in the WHO 0-5 range", "Preset WHO Growth para perimetro cefalico/edad OMS 0-5 con salida descriptiva.", "WHO Growth preset for WHO 0-5 head circumference-for-age with descriptive output.", "implemented", "official_manual_or_institutional_protocol", "medium", headCircumferencePercentileValidationNotes),

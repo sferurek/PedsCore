@@ -42,7 +42,8 @@ const expectedImplementedToolIds = [
   "who_growth_module",
   "who_growth_percentiles",
   "bmi_percentile",
-  "head_circumference_percentile"
+  "head_circumference_percentile",
+  "cdc_growth_percentiles"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -80,7 +81,8 @@ const implementedTestFiles: Record<string, string> = {
   who_growth_module: "whoGrowth.test.ts",
   who_growth_percentiles: "whoGrowth.test.ts",
   bmi_percentile: "whoGrowth.test.ts",
-  head_circumference_percentile: "whoGrowth.test.ts"
+  head_circumference_percentile: "whoGrowth.test.ts",
+  cdc_growth_percentiles: "cdcGrowth.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [

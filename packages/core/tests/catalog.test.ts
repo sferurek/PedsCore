@@ -46,7 +46,8 @@ const implementedToolIds = [
   "who_growth_module",
   "who_growth_percentiles",
   "bmi_percentile",
-  "head_circumference_percentile"
+  "head_circumference_percentile",
+  "cdc_growth_percentiles"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -136,7 +137,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(34);
+    expect(getImplementedTools()).toHaveLength(35);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -295,21 +296,16 @@ describe("clinical tools catalog", () => {
     expect(tool?.validationNotes.en).toContain("PediTools API");
   });
 
-  it("keeps Block 8B-1 evidence-reviewed tools pending until implementation gates are complete", () => {
-    const reviewedPendingIds = [
-      "bhutani_nomogram",
-      "cdc_growth_percentiles"
-    ];
+  it("keeps Bhutani pending while CDC Growth is active after its evidence gate", () => {
+    const bhutani = getTool("bhutani_nomogram");
+    expect(bhutani?.implementationStatus).toBe("pending_validation");
+    expect(bhutani?.calculationStatus).not.toBe("active");
 
-    for (const id of reviewedPendingIds) {
-      const tool = getTool(id);
-
-      expect(tool?.implementationStatus).toBe("pending_validation");
-      expect(tool?.calculationStatus).not.toBe("active");
-      expect(
-        tool?.references.some((reference) => Boolean(getReferenceUrl(reference)))
-      ).toBe(true);
-    }
+    const cdc = getTool("cdc_growth_percentiles");
+    expect(cdc?.implementationStatus).toBe("implemented");
+    expect(cdc?.calculationStatus).toBe("active");
+    expect(cdc?.references.some((reference) => Boolean(getReferenceUrl(reference)))).toBe(true);
+    expect(cdc?.validationNotes.en).toContain("Extended BMI");
   });
 
   it("does not promote license-sensitive pending tools to ready for implementation", () => {
@@ -477,8 +473,7 @@ describe("clinical tools catalog", () => {
       "pim2",
       "pim3",
       "prism_iii",
-      "prism_iv",
-      "cdc_growth_percentiles"
+      "prism_iv"
     ];
 
     for (const id of maintainerDependentIds) {
@@ -510,8 +505,9 @@ describe("clinical tools catalog", () => {
     }
 
     expect(getTool("cdc_growth_percentiles")?.implementationStatus).toBe(
-      "pending_validation"
+      "implemented"
     );
+    expect(getTool("cdc_growth_percentiles")?.calculationStatus).toBe("active");
     expect(getTool("neonatal_growth_fenton")?.implementationStatus).toBe(
       "pending_validation"
     );
