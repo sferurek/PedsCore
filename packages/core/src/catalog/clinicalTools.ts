@@ -3451,7 +3451,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     ]
   },
   who_growth_module: {
-    calculationStatus: "implemented",
+    calculationStatus: "active",
     calculationNotes: {
       es: "Motor OMS completo: 0-5, peso/edad 5-10 y BMI/talla 5-19, con datos LMS oficiales, interpolación por edad exacta y gráficas SVG imprimibles.",
       en: "Complete WHO engine: 0-5, weight-for-age 5-10 and BMI/height 5-19, with official LMS data, exact-age interpolation and printable SVG charts."
