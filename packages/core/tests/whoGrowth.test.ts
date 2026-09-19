@@ -805,7 +805,7 @@ describe("WHO growth scaffold", () => {
       "head_circumference_cm"
     ]);
     expect(tool?.validationNotes.en).toContain("Complete WHO Growth engine");
-    expect(tool?.validationNotes.en).toContain("separate license");
+    expect(tool?.validationNotes.en).toContain("interpolates LMS");
   });
 
   it("exposes BMI and head circumference presets without duplicate engines", () => {
