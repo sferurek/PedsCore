@@ -2,6 +2,9 @@ name: Hackathon MCP Remote Smoke
 
 on:
   workflow_dispatch:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - hackathon/alexa-mcp-v2
