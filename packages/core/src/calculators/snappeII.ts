@@ -39,7 +39,7 @@ export const snappeIiCalculator: CalculatorDefinition = {
     }
 
     const mapScore = map >= 30 ? 0 : map >= 20 ? 9 : 19;
-    const tempScore = temperature > 35.6 ? 0 : temperature >= 35 ? 8 : 15;
+    const tempScore = temperature > 35.5556 ? 0 : temperature >= 35 ? 8 : 15;
     const oxygenScore = pfRatio >= 250 ? 0 : pfRatio >= 100 ? 5 : pfRatio >= 30 ? 16 : 28;
     const phScore = ph >= 7.2 ? 0 : ph >= 7.1 ? 7 : 16;
     const seizureScore = multipleSeizures ? 19 : 0;
