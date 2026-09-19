@@ -42,11 +42,12 @@ describe("calculator registry", () => {
       "step_by_step",
       "pecarn_febrile_infant",
       "yos",
-      "pucai"
+      "pucai",
+      "pcdai"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(41);
+    expect(getImplementedTools()).toHaveLength(42);
   });
 
   it("calculates through the dispatcher", () => {
