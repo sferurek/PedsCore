@@ -43,6 +43,20 @@ describe("CATCH rule", () => {
     expect(catchCalculator.calculate({ ...noCriteria, suspected_child_abuse: true }).warnings[0]?.id).toBe("catch_outside_validated_population");
   });
 
+  it("requires persistent irritability only when age is under 2 years", () => {
+    const older = { ...noCriteria };
+    delete older.persistent_irritability_if_under_2;
+    expect(catchCalculator.calculate(older).classification?.en).toContain("no rule criteria");
+
+    const infant = {
+      ...noCriteria,
+      age_years: 1,
+      witnessed_loss_of_consciousness: true
+    };
+    delete infant.persistent_irritability_if_under_2;
+    expect(catchCalculator.calculate(infant).warnings[0]?.id).toBe("missing_required_inputs");
+  });
+
   it("warns on incomplete and invalid predictor input", () => {
     expect(catchCalculator.calculate({}).warnings[0]?.id).toBe("missing_required_inputs");
     expect(catchCalculator.calculate({ ...noCriteria, dangerous_mechanism: "bad" }).warnings[0]?.id).toBe("invalid_boolean_input");
