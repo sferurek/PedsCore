@@ -73,6 +73,22 @@ const tierARecord: TechnicalAuditRecord = {
   status: "remediated_and_verified"
 };
 
+const adaptiveFlowReauditedToolIds = new Set([
+  "step_by_step",
+  "pim3",
+  "prism_iv",
+  "catch_tbi",
+  "chalice_tbi"
+]);
+
+const tierAAdaptiveFlowRecord: TechnicalAuditRecord = {
+  auditDate: "2026-09-19",
+  auditSha: "a9d2bfcb569600a5e0c9be681b729cc2bf4ba661",
+  verificationSha: "a9d2bfcb569600a5e0c9be681b729cc2bf4ba661",
+  reportPath: "docs/TIER_A_ADAPTIVE_FLOW_REAUDIT_2026-09-19.md",
+  status: "remediated_and_verified"
+};
+
 // Independent reviews must only be added after an identifiable reviewer has
 // completed the documented Clinical Review Program against an exact commit.
 const independentReviewByToolId: Record<string, IndependentClinicalReviewRecord> = {};
@@ -85,8 +101,12 @@ export const getClinicalReviewTier = (toolId: string): ClinicalReviewTier => {
 
 export const getTechnicalClinicalAudit = (
   toolId: string
-): TechnicalAuditRecord | null =>
-  tierAToolIds.has(toolId) ? tierARecord : null;
+): TechnicalAuditRecord | null => {
+  if (!tierAToolIds.has(toolId)) return null;
+  return adaptiveFlowReauditedToolIds.has(toolId)
+    ? tierAAdaptiveFlowRecord
+    : tierARecord;
+};
 
 export const getIndependentClinicalReview = (
   toolId: string
