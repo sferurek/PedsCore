@@ -22,7 +22,7 @@ export const phoenixSepsisCalculator: CalculatorDefinition = {
     const ageMonths = getNumber(input, "age_months");
     const suspectedInfection = getBoolean(input, "suspected_infection");
     const birthHospitalization = getBoolean(input, "birth_hospitalization_before_discharge");
-    const postconceptionalAgeWeeks = getNumber(input, "postconceptional_age_weeks");
+    const postconceptionalAgeAtLeast37Weeks = getBoolean(input, "postconceptional_age_at_least_37_weeks");
     const fio2 = getNumber(input, "fio2_fraction");
     const pao2 = getNumber(input, "pao2_mmhg");
     const spo2 = getNumber(input, "spo2_percent");
@@ -40,7 +40,7 @@ export const phoenixSepsisCalculator: CalculatorDefinition = {
 
     if (
       ageMonths === null || suspectedInfection === null ||
-      birthHospitalization === null || postconceptionalAgeWeeks === null ||
+      birthHospitalization === null || postconceptionalAgeAtLeast37Weeks === null ||
       anySupportEntered === null || imv === null
     ) {
       return {
@@ -55,7 +55,7 @@ export const phoenixSepsisCalculator: CalculatorDefinition = {
     }
 
     if (
-      ageMonths < 0 || ageMonths >= 216 || postconceptionalAgeWeeks < 0 ||
+      ageMonths < 0 || ageMonths >= 216 ||
       (fio2 !== null && (fio2 <= 0 || fio2 > 1)) ||
       (pao2 !== null && pao2 <= 0) ||
       (spo2 !== null && (spo2 <= 0 || spo2 > 100)) ||
@@ -79,7 +79,7 @@ export const phoenixSepsisCalculator: CalculatorDefinition = {
       };
     }
 
-    if (birthHospitalization || postconceptionalAgeWeeks < 37) {
+    if (birthHospitalization || !postconceptionalAgeAtLeast37Weeks) {
       return {
         toolId: tool.id,
         warnings: [warning(
@@ -89,7 +89,7 @@ export const phoenixSepsisCalculator: CalculatorDefinition = {
         )],
         trace: [
           { inputId: "birth_hospitalization_before_discharge", value: birthHospitalization },
-          { inputId: "postconceptional_age_weeks", value: postconceptionalAgeWeeks }
+          { inputId: "postconceptional_age_at_least_37_weeks", value: postconceptionalAgeAtLeast37Weeks }
         ]
       };
     }
