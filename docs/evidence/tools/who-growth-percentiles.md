@@ -5,8 +5,8 @@ Date: 2026-06-17
 ## Decision
 
 - Priority: A
-- Final decision: `partially_implemented`
-- Catalog status: `partially_implemented`
+- Final decision: `implemented`
+- Catalog status: `implemented`
 - Rationale: WHO Growth Percentiles now acts as a source-specific catalog entry into the central WHO Growth module. It does not own a separate percentile engine.
 
 ## Source
@@ -20,7 +20,7 @@ Date: 2026-06-17
 ## Version And Population
 
 - WHO Child Growth Standards 0-5 years for imported 0-5 LMS indicators.
-- WHO Growth Reference 2007 5-19 years for imported BMI-for-age and height-for-age LMS indicators.
+- WHO Growth Reference 2007: weight-for-age 5-10 years, BMI-for-age 5-19 years and height-for-age 5-19 years.
 - PedsCore shows explicit unavailable/out-of-range states when a requested indicator is outside imported WHO scope.
 
 ## Variables And Scoring
@@ -53,4 +53,4 @@ Date: 2026-06-17
 - Interpretation: descriptive only.
 - Variant selected: WHO central engine with presets.
 - Licensing: separate WHO data terms documented.
-- Ready for full implementation: no; final maintainer review and interpolation policy remain pending.
+- Ready for full implementation: yes for the documented anthropometric scope. Exact official age granularity is used; unsupported ages return a not-applicable state.
