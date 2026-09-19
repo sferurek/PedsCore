@@ -510,6 +510,22 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   pelod_2: [
     {
+      id: "pelod2_2013_original",
+      title: "PELOD-2: an update of the PEdiatric logistic organ dysfunction score",
+      authors: "Leteurtre S, Duhamel A, Salleron J, et al.",
+      year: 2013,
+      journalOrPublisher: "Critical Care Medicine",
+      doi: "10.1097/CCM.0b013e31828a2bbd",
+      pmid: "23685639",
+      url: "https://pubmed.ncbi.nlm.nih.gov/23685639/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Original PELOD-2 derivation/validation; authors state the score will be in the public domain and can be freely used in clinical trials.",
+      appliesTo: ["pelod_2"],
+      priority: 1
+    },
+    {
       id: "pelod2_open_table",
       title: "Pediatric Logistic Organ Dysfunction-2 Score",
       journalOrPublisher: "Open-access PELOD-2 reproductions and critical-care review",
@@ -519,7 +535,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Open table used to verify all ten PELOD-2 variables, age-specific MAP and creatinine thresholds, and point weights.",
       appliesTo: ["pelod_2"],
-      priority: 1
+      priority: 2
     },
     {
       id: "pelod2_practical_guide",
@@ -532,10 +548,26 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Verifies PELOD-2 mortality logit: -6.61 + 0.47 x score.",
       appliesTo: ["pelod_2"],
-      priority: 2
+      priority: 3
     }
   ],
   pim3: [
+    {
+      id: "pim3_2013_original",
+      title: "Paediatric Index of Mortality 3: an updated model for predicting mortality in pediatric intensive care",
+      authors: "Straney L, Clements A, Parslow RC, et al.",
+      year: 2013,
+      journalOrPublisher: "Pediatric Critical Care Medicine",
+      doi: "10.1097/PCC.0b013e31829760cf",
+      pmid: "23863821",
+      url: "https://pubmed.ncbi.nlm.nih.gov/23863821/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Original PIM3 development study.",
+      appliesTo: ["pim3"],
+      priority: 1
+    },
     {
       id: "pim3_open_formula",
       title: "Validation of the Pediatric Index of Mortality 3 in a Single Pediatric Intensive Care Unit in Korea",
@@ -547,7 +579,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Open-access reproduction of the full PIM3 formula and diagnostic risk groups.",
       appliesTo: ["pim3"],
-      priority: 1
+      priority: 2
     }
   ],
   prism_iv: [
