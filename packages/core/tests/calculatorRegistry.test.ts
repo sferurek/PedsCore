@@ -36,11 +36,12 @@ describe("calculator registry", () => {
       "nips",
       "pediatric_burn_tbsa",
       "garcia_alix_ners",
-      "cdc_growth_percentiles"
+      "cdc_growth_percentiles",
+      "strongkids"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(35);
+    expect(getImplementedTools()).toHaveLength(36);
   });
 
   it("calculates through the dispatcher", () => {
