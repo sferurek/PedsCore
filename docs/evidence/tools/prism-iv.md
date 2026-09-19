@@ -1,95 +1,26 @@
 # PRISM IV
 
-## Current PedsCore status
+## PedsCore status
 - id: `prism_iv`
-- slug: `prism-iv`
-- category: intensive_care
-- type: score
-- current implementationStatus: `coming_soon`
-- current evidenceLevel: `pending_verification`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
+- discovery: `local_active`
+- reuse: `public_domain`
 
-## Evidence validation status
-- final evidence status: `blocked_licensing_or_copyright`
-- blocking reason: model source and usage terms are not yet sufficiently verified for open implementation.
-- depends on maintainer decision: yes
-- maintainer decision needed: model inclusion policy.
+## Evidence and rights
+Pollack MM, Holubkov R, Funai T, et al. The Pediatric Risk of Mortality Score: Update 2015. Pediatr Crit Care Med. 2016.
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC5048467/
 
-## Clinical purpose
-ES: score pronóstico de riesgo en UCI pediátrica.
-EN: pediatric ICU prognostic score framework.
+The original PRISM IV publication explicitly places the prediction algorithms in the public domain.
 
-## Target population
-Children admitted to pediatric intensive care.
+Open critical-care literature was additionally used to verify the physiologic PRISM component ranges used by the PRISM IV equation:
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC9004120/
 
-## Version / variant
-- exact version: PRISM IV.
-- known variants: PRISM III and local/derivative models.
-- selected version for PedsCore: pending.
-- variant risk: high
+## Implementation
+PedsCore calculates the neurologic and non-neurologic physiologic subscores and applies the published PRISM IV model. Required collection windows are surfaced as a safety warning.
 
-## Primary source
-- found: no
-- citation: pending full primary reference in this pass.
-- PMID: 
-- DOI: 
-- URL: 
-- access: unknown
-- notes: locate source and licensing before progress.
+## Safety
+PRISM IV is a population-level PICU mortality-risk model. The output is not an individual prognosis and must not be used as a treatment, admission, discharge, or limitation-of-care instruction.
 
-## External validation
-No implementation-grade validation extracted.
-
-## Guidelines / official sources
-None.
-
-## Complete scoring table availability
-- complete table found: no
-- source: pending.
-- copyright/licensing risk: high
-- notes: keep blocked.
-
-## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| pending | pending | pending | pending | source extraction pending |
-
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| pending | pending | pending | pending |
-
-## Formula / algorithm
-Model unavailable for safe implementation.
-
-## Unit handling
-Pending.
-
-## Safety and regulatory notes
-- risk level: high
-- why: direct mortality-risk output.
-- should provide recommendations: no.
-- forbidden outputs: treatment, discharge, admission directives.
-
-## Licensing / copyright
-- appears implementable: no
-- license-sensitive: yes
-- requires permission: unknown
-- unknown: yes
-- notes: requires maintainer and legal review.
-
-## Implementation recommendation
-requires_domain_expert_review
-
-## Proposed test cases
-- minimum
-- maximum
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests
-
-## Direct links
-- pending
-
-## Notes
-No implementation changes in this pass.
+## Final decision
+`implemented / local_active`
