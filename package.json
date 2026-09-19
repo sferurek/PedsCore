@@ -20,7 +20,7 @@
     "build:mcp": "npm run build -w @peds-core/mcp-server",
     "start": "npm run start -w @peds-core/mcp-server",
     "alexa:validate": "node scripts/validate-alexa-manifest.mjs",
-    "hackathon:verify": "npm run lint && npm run test && npm run audit:governance && npm run seo:check && npm run alexa:validate && npm run build",
+    "hackathon:verify": "npm run lint && npm run test && npm run build && npm run audit:governance && npm run seo:check && npm run alexa:validate",
     "hackathon:smoke:remote": "node scripts/remote-mcp-smoke.mjs"
   },
   "devDependencies": {
