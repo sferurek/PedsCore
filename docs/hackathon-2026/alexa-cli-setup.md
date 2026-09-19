@@ -1,6 +1,10 @@
-# Alexa AI CLI setup — PedsCore hackathon
+# Alexa AI CLI setup — partner-only reference
 
-This is the reproducible setup path for a new macOS development machine.
+> **Confirmed access status (Devpost support, 18 September 2026):** Alexa+ Category SDK / MCP Toolkit / add-on developer tools are available only to selected Amazon partners, with no application path for general hackathon participants. This document is retained solely as a technical record of the investigated partner workflow. It is **not** part of the PedsCore submission critical path.
+
+PedsCore uses the accepted self-hosted MCP route: MCP `2025-11-25` over Streamable HTTP.
+
+The steps below describe the partner-only setup path that was investigated before the restriction was confirmed.
 
 ## Prerequisites
 
@@ -95,9 +99,9 @@ Action: repeat the CodeArtifact login step.
 
 ### `AccessDenied` / `sts:AssumeRole`
 
-Cause: the AWS account or IAM user cannot assume Amazon's Alexa developer-tools role.
+Cause for a general hackathon participant: the Amazon-side role is partner-restricted.
 
-Action: verify that this is the AWS account enrolled for Alexa+ access and that the IAM user has the documented `sts:AssumeRole` permission.
+Action: do not continue IAM troubleshooting unless Amazon has explicitly confirmed that the account belongs to the selected partner cohort. Use the self-hosted MCP track path instead.
 
 ### `alexa-ai: command not found`
 
