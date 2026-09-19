@@ -58,7 +58,7 @@ The contribution includes:
 - manifest validation;
 - live media/compliance endpoint validation;
 - simulator bridge unit/HTTP tests;
-- a remote deterministic SIM smoke script ready to run once the private simulator repository is deployable.
+- a strict public MCP→SIM deterministic smoke, verified in GitHub Actions run `35462460140`.
 
 ## Why it matters
 
