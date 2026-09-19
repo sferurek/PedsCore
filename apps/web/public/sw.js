@@ -38,6 +38,8 @@ self.addEventListener("fetch", (event) => {
   if (!canCache(request)) return;
 
   if (request.mode === "navigate") {
+    const url = new URL(request.url);
+    const languageFallback = url.pathname.startsWith("/es") ? "/es" : "/en";
     event.respondWith(
       fetch(request)
         .then((response) => {
@@ -50,7 +52,7 @@ self.addEventListener("fetch", (event) => {
         .catch(async () => {
           return (
             await caches.match(request) ||
-            await caches.match("/en") ||
+            await caches.match(languageFallback) ||
             await caches.match("/")
           );
         })
