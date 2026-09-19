@@ -103,3 +103,25 @@ Amazon's submission form explicitly rewards useful friction logs. Record concret
 - **Actionable suggestion:** Put the partner-only limitation prominently on every setup page that references the private CLI, CodeArtifact registry, Category SDK, MCP Toolkit, or `AddOn3PDeveloperToolsRead`; distinguish these from the self-hosted MCP submission path before IAM setup begins.
 - **Affected tool / API / SDK:** Alexa+ add-on onboarding documentation / private developer tooling.
 - **Evidence:** Devpost support email dated 18 September 2026 confirming the partner-only restriction.
+
+
+### 2026-09-19 — Railway ignored updated branch and explicit commit SHA during candidate deployment
+- **Task attempted:** Deploy the reconciled hackathon release candidate from `hackathon/alexa-mcp-v2` to an existing Railway MCP service.
+- **Steps taken:** Updated the service source branch to `hackathon/alexa-mcp-v2`, verified the branch existed, then set an explicit candidate `commitSha` and triggered fresh deployments.
+- **Expected result:** Deployment metadata should reference the configured branch or exact commit SHA.
+- **Actual result:** The service configuration correctly stored the requested branch and commit SHA, but new deployment snapshots repeatedly selected `main` at commit `297921191584b41b2428478ada77b46ed7bb43da`.
+- **Severity:** Important
+- **Workaround:** Keep the verified production MCP service for judge testing, use GitHub PR/CI as the immutable candidate evidence, and avoid claiming that the unreconciled Railway candidate service contains the v2 branch.
+- **Actionable suggestion:** Railway should make source selection transactional with deployment creation and reject a deployment when the resolved branch/SHA differs from the staged service source.
+- **Affected tool / API / SDK:** Railway Git source deployment.
+- **Evidence:** Service config reported `hackathon/alexa-mcp-v2` plus explicit candidate SHA while deployment IDs `dbc58cb4-107b-4720-a2cd-89327303d110`, `7d223992-3080-4cd5-9364-593acee3166d`, and `5711762f-1773-4646-b5db-d0c029295714` reported `main` / `297921191584...`.
+
+### 2026-09-19 — Private SIM repository deployment blocker resolved through production Vercel merge
+- **Task attempted:** Publish the deterministic SIM IMV bridge for public MCP end-to-end validation.
+- **Expected result:** A public simulator bridge callable by the PedsCore MCP service.
+- **Actual result:** Railway could not clone the private simulator repository, while earlier Vercel previews had been rate-limited.
+- **Severity:** Important
+- **Workaround:** Merge SIM PR #25 into `main`; subsequent production commits deployed successfully through the existing Vercel integration. Configure Railway MCP with `SIM_IMV_API_URL=https://pedscore-triage-sim.vercel.app/api/hackathon/sim`.
+- **Resolution evidence:** Strict public MCP→SIM GitHub Actions run `35462460140` passed with `school-bus`, patient `01`, expected `GREEN`, `correct=true`, rule `JS-MOB-01`.
+- **Actionable suggestion:** Deployment platforms should fail fast with a direct repository-authorization action when a private Git source cannot be cloned.
+- **Affected tool / API / SDK:** Railway GitHub integration / Vercel production deployment.
