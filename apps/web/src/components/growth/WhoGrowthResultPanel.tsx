@@ -32,6 +32,7 @@ interface LoadedIndicatorRequest {
 
 const loadedIndicatorRequests: ReadonlyArray<LoadedIndicatorRequest> = [
   { indicator: "weight_for_age" },
+  { indicator: "weight_for_age", options: { ageRange: "5_19" } },
   { indicator: "length_height_for_age" },
   { indicator: "head_circumference_for_age" },
   { indicator: "weight_for_length" },
@@ -90,7 +91,7 @@ const displayIndicators = {
     {
       group: "age",
       indicator: "weight_for_age",
-      label: "Peso para la edad OMS 0-5",
+      label: "Peso para la edad OMS 0-10",
       yAxisLabel: "Peso (kg)",
       xAxisLabel: "Edad (meses)",
       xUnit: "meses",
@@ -148,7 +149,7 @@ const displayIndicators = {
     {
       group: "age",
       indicator: "weight_for_age",
-      label: "WHO weight-for-age 0-5",
+      label: "WHO weight-for-age 0-10",
       yAxisLabel: "Weight (kg)",
       xAxisLabel: "Age (months)",
       xUnit: "months",
@@ -231,8 +232,13 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     const measurementMode = isMeasurementMode(values.measurement_mode)
       ? values.measurement_mode
       : undefined;
-    const lengthCm = measurementMode === "recumbent_length" ? statureCm : undefined;
-    const heightCm = measurementMode === "standing_height" ? statureCm : undefined;
+    const underTwo = ageDays !== undefined ? ageDays < 731 : ageMonths !== undefined ? ageMonths < 24 : false;
+    const correctedStatureCm = statureCm === undefined ? undefined
+      : underTwo && measurementMode === "standing_height" ? statureCm + 0.7
+      : !underTwo && measurementMode === "recumbent_length" ? statureCm - 0.7
+      : statureCm;
+    const lengthCm = underTwo ? correctedStatureCm : undefined;
+    const heightCm = underTwo ? undefined : correctedStatureCm;
     const requiredMeasurementsComplete =
       preset === "head_circumference"
         ? headCircumferenceCm !== undefined
@@ -273,7 +279,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
                 (item) => item.dataStatus.officialDataImported
               ),
               reason:
-                "WHO 0-5 core LMS data and WHO Growth Reference 2007 BMI-for-age and height-for-age 5-19 LMS data are normalized and verified. Remaining WHO 5-19 indicators remain pending.",
+                "WHO Child Growth Standards 0-5 and WHO Growth Reference 2007 weight-for-age 5-10, BMI-for-age 5-19, and height-for-age 5-19 LMS data are normalized and verified.",
               importedIndicators,
               allowedSources: firstStatus.allowedSources,
               excludedSources: firstStatus.excludedSources
