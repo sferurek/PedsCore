@@ -45,6 +45,7 @@ import { wpcdaiCalculator } from "./ibdActivity.js";
 import { pelod2Calculator, pim3Calculator, prism4Calculator } from "./criticalCareScores.js";
 import { psofaCalculator } from "./psofa.js";
 import { snappeIiCalculator } from "./snappeII.js";
+import { pymsCalculator } from "./pyms.js";
 
 const calculators = [
   apgarCalculator,
@@ -102,7 +103,8 @@ const calculators = [
   prism4Calculator,
   pim3Calculator,
   psofaCalculator,
-  snappeIiCalculator
+  snappeIiCalculator,
+  pymsCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
