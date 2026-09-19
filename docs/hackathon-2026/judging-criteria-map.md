@@ -49,7 +49,7 @@ Evidence:
 
 ## Quality of the Idea
 
-**Claim:** This is not a single-turn Q&A bot or a thin API wrapper.
+**Claim:** This is not a single-turn Q&A bot or a thin API wrapper; the interaction is a multi-step agentic workflow with explicit deterministic execution boundaries.
 
 The agent-facing interface orchestrates across:
 - clinical-tool discovery;
