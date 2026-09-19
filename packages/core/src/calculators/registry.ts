@@ -31,6 +31,7 @@ import { stepByStepCalculator } from "./stepByStep.js";
 import { pecarnFebrileInfantCalculator } from "./infectionOpen.js";
 import { yaleObservationScaleCalculator } from "./yaleObservation.js";
 import { pucaiCalculator } from "./ibdActivity.js";
+import { pcdaiCalculator } from "./pcdai.js";
 
 const calculators = [
   apgarCalculator,
@@ -67,7 +68,8 @@ const calculators = [
   stepByStepCalculator,
   pecarnFebrileInfantCalculator,
   yaleObservationScaleCalculator,
-  pucaiCalculator
+  pucaiCalculator,
+  pcdaiCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
