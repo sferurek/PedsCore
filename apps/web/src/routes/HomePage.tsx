@@ -4,8 +4,8 @@ import { SearchCommand } from "../components/atlas/SearchCommand";
 import { HomeStories } from "../components/atlas/HomeStories";
 import { Icon } from "../components/atlas/Icon";
 import { PedsCoreFinder } from "../components/PedsCoreFinder";
-import { getAllTools, getToolBySlug } from "@peds-core/core";
-import type { ToolCategory } from "@peds-core/core";
+import { getAllTools, getToolBySlug, getToolDiscovery } from "@peds-core/core";
+import type { ClinicalSpecialty, ToolCategory } from "@peds-core/core";
 import { categoryLabels, translations } from "../i18n/translations";
 import type { Language } from "../utils/language";
 import { makePath } from "../utils/routes";
@@ -13,9 +13,12 @@ import { getClinicalSurfaceStats } from "../utils/toolStats";
 import { fetchPopularTools } from "../utils/popularTools";
 import { PEDSCORE_SIM_URL } from "../utils/externalLinks";
 import { trackUsageEvent } from "../utils/analytics";
+import { discoveryLabel } from "../utils/discoveryLabels";
 import {
   getFavoriteToolIds,
+  getPreferredSpecialty,
   getRecentToolIds,
+  setPreferredSpecialty,
   userToolsStorageDescription
 } from "../utils/userTools";
 
@@ -146,9 +149,15 @@ export function HomePage({ language, navigate }: HomePageProps) {
   const [popularSlugs, setPopularSlugs] = useState<string[]>(fallbackPopularSlugs);
   const [popularIsLive, setPopularIsLive] = useState(false);
   const [personalizedVersion, setPersonalizedVersion] = useState(0);
+  const [preferredSpecialty, setPreferredSpecialtyState] = useState<ClinicalSpecialty | null>(
+    () => getPreferredSpecialty()
+  );
 
   useEffect(() => {
-    const sync = () => setPersonalizedVersion((value) => value + 1);
+    const sync = () => {
+      setPersonalizedVersion((value) => value + 1);
+      setPreferredSpecialtyState(getPreferredSpecialty());
+    };
     window.addEventListener("pedscore:user-tools-changed", sync);
     return () => window.removeEventListener("pedscore:user-tools-changed", sync);
   }, []);
@@ -185,6 +194,33 @@ export function HomePage({ language, navigate }: HomePageProps) {
     () => getRecentToolIds().map((id) => byId.get(id)).filter((tool): tool is NonNullable<typeof tool> => Boolean(tool)),
     [byId, personalizedVersion]
   );
+  const specialtyOptions = useMemo(() => {
+    const counts = new Map<ClinicalSpecialty, number>();
+    for (const tool of allTools) {
+      const discovery = getToolDiscovery(tool.id);
+      if (discovery?.surfaceStatus !== "active") continue;
+      for (const specialty of discovery.specialties) {
+        counts.set(specialty, (counts.get(specialty) ?? 0) + 1);
+      }
+    }
+    return [...counts.entries()]
+      .filter(([, count]) => count >= 2)
+      .sort((a, b) => discoveryLabel(a[0], language).localeCompare(discoveryLabel(b[0], language)));
+  }, [allTools, language]);
+  const preferredSpecialtyTools = useMemo(() => {
+    if (!preferredSpecialty) return [];
+    return allTools
+      .filter((tool) => {
+        const discovery = getToolDiscovery(tool.id);
+        return discovery?.surfaceStatus === "active" && discovery.specialties.includes(preferredSpecialty);
+      })
+      .sort((a, b) => {
+        const aLocal = getToolDiscovery(a.id)?.calculationAvailability === "local_active" ? 0 : 1;
+        const bLocal = getToolDiscovery(b.id)?.calculationAvailability === "local_active" ? 0 : 1;
+        return aLocal - bLocal || (a.shortName || a.name[language]).localeCompare(b.shortName || b.name[language]);
+      })
+      .slice(0, 6);
+  }, [allTools, language, preferredSpecialty]);
   const categoryCounts = useMemo(() => {
     const counts = new Map<ToolCategory, number>();
 
@@ -243,6 +279,63 @@ export function HomePage({ language, navigate }: HomePageProps) {
         <div className="home-finder-stage">
           <PedsCoreFinder tools={allTools} language={language} navigate={navigate} />
         </div>
+
+        <section className="home-specialty-personalization" aria-labelledby="home-specialty-personalization-title">
+          <div className="home-specialty-personalization-copy">
+            <p className="eyebrow">{language === "es" ? "PERSONALIZACIÓN LOCAL" : "LOCAL PERSONALIZATION"}</p>
+            <h3 id="home-specialty-personalization-title">
+              {language === "es" ? "Prioriza tu área clínica" : "Prioritize your clinical area"}
+            </h3>
+            <p>
+              {language === "es"
+                ? "Opcional. Solo cambia el orden de acceso rápido en este dispositivo; no oculta ninguna herramienta ni se envía a la analítica."
+                : "Optional. This only changes quick access on this device; it hides no tools and is not sent to analytics."}
+            </p>
+          </div>
+          <label className="home-specialty-select">
+            <span>{language === "es" ? "Área preferida" : "Preferred area"}</span>
+            <select
+              value={preferredSpecialty ?? ""}
+              onChange={(event) => {
+                const next = event.target.value
+                  ? (event.target.value as ClinicalSpecialty)
+                  : null;
+                setPreferredSpecialty(next);
+                setPreferredSpecialtyState(next);
+              }}
+            >
+              <option value="">{language === "es" ? "Sin preferencia" : "No preference"}</option>
+              {specialtyOptions.map(([specialty, count]) => (
+                <option key={specialty} value={specialty}>
+                  {discoveryLabel(specialty, language)} · {count}
+                </option>
+              ))}
+            </select>
+          </label>
+          {preferredSpecialty && preferredSpecialtyTools.length > 0 ? (
+            <div className="home-specialty-recommendations">
+              <strong>
+                {language === "es"
+                  ? `Accesos rápidos · ${discoveryLabel(preferredSpecialty, language)}`
+                  : `Quick access · ${discoveryLabel(preferredSpecialty, language)}`}
+              </strong>
+              <div className="personal-tool-links">
+                {preferredSpecialtyTools.map((tool) => (
+                  <a
+                    href={makePath(language, "tools", tool.slug)}
+                    key={tool.id}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      navigate(makePath(language, "tools", tool.slug));
+                    }}
+                  >
+                    {tool.shortName || tool.name[language]}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </section>
 
         {(favoriteTools.length > 0 || recentTools.length > 0) ? (
           <section className="home-personal-tools" aria-labelledby="home-personal-tools-title">
