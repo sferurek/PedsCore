@@ -58,7 +58,7 @@ The contribution includes:
 - manifest validation;
 - live media/compliance endpoint validation;
 - simulator bridge unit/HTTP tests;
-- a strict public MCP→SIM deterministic smoke, verified in GitHub Actions run `35462460140`.
+- a strict public MCP→SIM deterministic smoke, verified in GitHub Actions run `35466300736`.
 
 ## Why it matters
 
