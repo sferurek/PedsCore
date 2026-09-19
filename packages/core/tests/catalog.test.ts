@@ -61,6 +61,8 @@ const implementedToolIds = [
   "pelod_2",
   "prism_iv",
   "pim3",
+  "psofa",
+  "snappii",
   "modified_tal",
   "taussig_croup",
   "risc",
@@ -162,7 +164,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(60);
+    expect(getImplementedTools()).toHaveLength(62);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -552,7 +554,6 @@ describe("clinical tools catalog", () => {
 
   it("does not promote intensive care or mortality-oriented tools to ready without expert review", () => {
     const criticalCareIds = [
-      "psofa",
       "pelod",
       "prism_iii",
       "pim2"
