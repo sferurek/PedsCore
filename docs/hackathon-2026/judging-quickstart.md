@@ -83,7 +83,7 @@ A learner may submit a triage category conversationally, but correctness is comp
 
 Two external integration constraints are intentionally documented rather than hidden. Neither is required for the current self-hosted MCP eligibility path:
 
-- Alexa AI CLI access is waiting on Amazon-side authorization to the private developer-tools role.
+- Alexa add-on tooling access is waiting on Amazon-side authorization to the private developer-tools role.
 - The private SIM IMV repository is not currently authorized in the Railway GitHub App, blocking its independent public deployment.
 
 Neither changes the deterministic architecture or local/CI verification status. Claims that depend on those integrations remain marked pending in the evidence matrix.
