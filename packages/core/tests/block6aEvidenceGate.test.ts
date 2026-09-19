@@ -6,10 +6,10 @@ import {
 } from "../src/index";
 
 const blockedTools = [
-  { slug: "cheops", id: "cheops", status: "not_implemented_due_to_licensing", note: "exact score per option" },
+  { slug: "cheops", id: "cheops", status: "not_implemented_due_to_licensing", note: "has not verified a licence" },
   { slug: "pediatric-glasgow-coma-scale", id: "pediatric_gcs", status: "pending_validation", note: "pediatric verbal" },
-  { slug: "brighton-pews", id: "brighton_pews", status: "not_implemented_due_to_licensing", note: "complete table is not available from a traceable reusable source" },
-  { slug: "brosjod", id: "brosjod", status: "pending_validation", note: "Original/full table" },
+  { slug: "brighton-pews", id: "brighton_pews", status: "not_implemented_due_to_licensing", note: "has not verified a licence" },
+  { slug: "brosjod", id: "brosjod", status: "pending_validation", note: "has not verified a licence" },
   { slug: "pipp", id: "pipp", status: "not_implemented_due_to_licensing" },
   { slug: "pipp-r", id: "pipp_r", status: "pending_validation" },
   { slug: "comfortneo", id: "comfortneo", status: "pending_validation" }
