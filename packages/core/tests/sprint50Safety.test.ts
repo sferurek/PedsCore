@@ -62,7 +62,11 @@ const expectedImplementedToolIds = [
   "ckid_u25",
   "modified_bell_nec",
   "nsofa",
-  "wpcdai"
+  "wpcdai",
+  "pass",
+  "gorelick_dehydration",
+  "prifle",
+  "pim3"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -120,7 +124,13 @@ const implementedTestFiles: Record<string, string> = {
   ckid_u25: "localCalculatorReconciliation.test.ts",
   modified_bell_nec: "localCalculatorReconciliation.test.ts",
   nsofa: "localCalculatorReconciliation.test.ts",
-  wpcdai: "localCalculatorReconciliation.test.ts"
+  wpcdai: "localCalculatorReconciliation.test.ts",
+  pass: "unlockedEvidenceBatch.test.ts",
+  gorelick_dehydration: "unlockedEvidenceBatch.test.ts",
+  prifle: "unlockedEvidenceBatch.test.ts",
+  pelod_2: "unlockedEvidenceBatch.test.ts",
+  prism_iv: "unlockedEvidenceBatch.test.ts",
+  pim3: "unlockedEvidenceBatch.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
@@ -136,7 +146,6 @@ const blockedTherapeuticOrProtectedIds = [
   "prism_iii",
   "prism_iv",
   "pim2",
-  "pim3",
   "wong_baker_faces",
   "orbegozo_growth_percentiles",
   "stamp"
