@@ -23,6 +23,7 @@ import { pediatricBurnTbsaCalculator } from "./burnTbsa.js";
 import { pramCalculator } from "./pram.js";
 import { sipaCalculator } from "./sipa.js";
 import { westleyCroupCalculator } from "./westleyCroup.js";
+import { garciaAlixNersCalculator } from "./garciaAlixNers.js";
 
 const calculators = [
   apgarCalculator,
@@ -51,7 +52,8 @@ const calculators = [
   chaliceCalculator,
   sipaCalculator,
   nipsCalculator,
-  pediatricBurnTbsaCalculator
+  pediatricBurnTbsaCalculator,
+  garciaAlixNersCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
