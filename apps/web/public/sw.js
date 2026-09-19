@@ -1,3 +1,4 @@
+/* global self, caches, fetch, URL */
 const CACHE_NAME = "pedscore-shell-v1";
 const PRECACHE_URLS = [
   "/",
