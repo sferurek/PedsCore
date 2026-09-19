@@ -10,10 +10,10 @@ describe("public launch repository documentation", () => {
     const readme = read("README.md");
 
     expect(readme).toContain("https://peds-core.vercel.app/");
-    expect(readme).toContain("26 fully implemented");
-    expect(readme).toContain("4 partially implemented WHO Growth entries");
+    expect(readme).toContain("**64** tools marked as implemented clinical products");
+    expect(readme).toContain("WHO Growth and CDC Growth are operational");
     expect(readme).toContain("No clinical data storage");
-    expect(readme).toContain("WHO growth data are kept under separate WHO licensing");
+    expect(readme).toContain("WHO source data remain subject to WHO attribution/licensing terms");
     expect(readme.toLowerCase()).not.toContain("certified");
     expect(readme.toLowerCase()).not.toContain("validated medical device");
   });
@@ -21,11 +21,11 @@ describe("public launch repository documentation", () => {
   it("keeps Spanish README aligned with public alpha scope", () => {
     const readme = read("README.es.md");
 
-    expect(readme).toContain("132 herramientas pediátricas y neonatales catalogadas");
-    expect(readme).toContain("20 herramientas completamente implementadas");
-    expect(readme).toContain("4 entradas WHO Growth parcialmente implementadas");
+    expect(readme).toContain("**137** herramientas/superficies clínicas catalogadas");
+    expect(readme).toContain("**64** herramientas marcadas como producto clínico implementado");
+    expect(readme).toContain("Crecimiento OMS y CDC operativos");
     expect(readme).toContain("Sin almacenamiento de datos clínicos");
-    expect(readme).toContain("licencia OMS separada");
+    expect(readme).toContain("condiciones específicas de atribución/licencia");
   });
 
   it("has public contribution and security files", () => {
