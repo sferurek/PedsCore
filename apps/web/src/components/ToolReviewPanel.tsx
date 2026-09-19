@@ -1,6 +1,7 @@
 import { getToolDiscovery } from "@peds-core/core";
 import type { ClinicalToolMetadata } from "@peds-core/core";
 import type { Language } from "../utils/language";
+import { getTechnicalClinicalAudit } from "../utils/clinicalAudit";
 
 interface ToolReviewPanelProps {
   language: Language;
@@ -28,6 +29,7 @@ export function ToolReviewPanel({ language, tool }: ToolReviewPanelProps) {
     ? ["open", "public_domain", "attribution_required", "external_only"].includes(discovery.reuseStatus)
     : false;
   const calculationActive = discovery?.calculationAvailability === "local_active";
+  const technicalAudit = getTechnicalClinicalAudit(tool.id);
 
   return (
     <section className="content-panel tool-review-panel" id="clinical-review">
@@ -47,6 +49,22 @@ export function ToolReviewPanel({ language, tool }: ToolReviewPanelProps) {
             {implementationReviewed
               ? (language === "es" ? "Documentada en el repositorio" : "Documented in the repository")
               : (language === "es" ? "Aún no cerrada" : "Not yet closed")}
+          </dd>
+        </div>
+        <div>
+          <dt>{language === "es" ? "Auditoría clínica-técnica" : "Clinical technical audit"}</dt>
+          <dd>
+            {technicalAudit ? (
+              <a
+                href={`https://github.com/sferurek/PedsCore/blob/${technicalAudit.verificationSha}/${technicalAudit.reportPath}`}
+                rel="noreferrer"
+                target="_blank"
+              >
+                {language === "es" ? "Completada · hallazgos corregidos y verificados" : "Completed · findings remediated and verified"}
+              </a>
+            ) : (
+              language === "es" ? "Sin registro Tier A específico" : "No specific Tier A record"
+            )}
           </dd>
         </div>
         <div>
@@ -86,6 +104,7 @@ export function ToolReviewPanel({ language, tool }: ToolReviewPanelProps) {
           <li><span>{hasPrimarySource ? "✓" : "—"}</span>{language === "es" ? "Fuente primaria/guía identificada" : "Primary source/guideline identified"}</li>
           <li><span>{hasExternalValidation ? "✓" : "—"}</span>{language === "es" ? "Validación externa citada" : "External validation cited"}</li>
           <li><span>{reuseClosed ? "✓" : "—"}</span>{language === "es" ? "Ruta de reutilización definida" : "Reuse pathway defined"}</li>
+          <li><span>{technicalAudit ? "✓" : "—"}</span>{language === "es" ? "Auditoría clínica-técnica Tier A documentada" : "Documented Tier A clinical technical audit"}</li>
           <li><span>{implementationReviewed ? "✓" : "—"}</span>{language === "es" ? "Implementación marcada como completada" : "Implementation marked complete"}</li>
           <li><span>{calculationActive ? "✓" : "—"}</span>{language === "es" ? "Cálculo local activo" : "Local calculation active"}</li>
           <li><span>{tool.references.length > 0 ? "✓" : "—"}</span>{language === "es" ? "Referencias visibles" : "Visible references"}</li>
@@ -94,8 +113,12 @@ export function ToolReviewPanel({ language, tool }: ToolReviewPanelProps) {
 
       <p className="review-profile-note">
         {language === "es"
-          ? "PedsCore separa la revisión documental y técnica de una revisión clínica independiente. No se atribuye una revisión nominal hasta que exista un registro público que la respalde."
-          : "PedsCore separates documentary/technical review from independent clinical review. A named reviewer is not attributed until a public record supports that claim."}
+          ? technicalAudit
+            ? `La auditoría clínica-técnica Tier A fue realizada el ${technicalAudit.auditDate} y sus correcciones quedaron verificadas en el commit ${technicalAudit.verificationSha.slice(0, 8)}. Esto no equivale a revisión clínica externa independiente, que se registra por separado.`
+            : "PedsCore separa la revisión documental y técnica de una revisión clínica independiente. No se atribuye una revisión nominal hasta que exista un registro público que la respalde."
+          : technicalAudit
+            ? `The Tier A clinical technical audit was performed on ${technicalAudit.auditDate}, with remediation verified at commit ${technicalAudit.verificationSha.slice(0, 8)}. This is not equivalent to independent external clinical review, which is recorded separately.`
+            : "PedsCore separates documentary/technical review from independent clinical review. A named reviewer is not attributed until a public record supports that claim."}
       </p>
     </section>
   );
