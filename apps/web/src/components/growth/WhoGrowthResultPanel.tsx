@@ -32,6 +32,7 @@ interface LoadedIndicatorRequest {
 
 const loadedIndicatorRequests: ReadonlyArray<LoadedIndicatorRequest> = [
   { indicator: "weight_for_age" },
+  { indicator: "weight_for_age", options: { ageRange: "5_10" } },
   { indicator: "length_height_for_age" },
   { indicator: "head_circumference_for_age" },
   { indicator: "weight_for_length" },
@@ -90,11 +91,12 @@ const displayIndicators = {
     {
       group: "age",
       indicator: "weight_for_age",
-      label: "Peso para la edad OMS 0-5",
+      label: "Peso para la edad OMS 0-10",
       yAxisLabel: "Peso (kg)",
       xAxisLabel: "Edad (meses)",
       xUnit: "meses",
-      getXValue: ({ ageDays }) => ageDays
+      getXValue: ({ ageDays, ageMonths, result }) =>
+        result.source.includes("5-10") ? ageMonths : ageDays
     },
     {
       group: "age",
@@ -148,11 +150,12 @@ const displayIndicators = {
     {
       group: "age",
       indicator: "weight_for_age",
-      label: "WHO weight-for-age 0-5",
+      label: "WHO weight-for-age 0-10",
       yAxisLabel: "Weight (kg)",
       xAxisLabel: "Age (months)",
       xUnit: "months",
-      getXValue: ({ ageDays }) => ageDays
+      getXValue: ({ ageDays, ageMonths, result }) =>
+        result.source.includes("5-10") ? ageMonths : ageDays
     },
     {
       group: "age",
@@ -273,7 +276,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
                 (item) => item.dataStatus.officialDataImported
               ),
               reason:
-                "WHO 0-5 core LMS data and WHO Growth Reference 2007 BMI-for-age and height-for-age 5-19 LMS data are normalized and verified. Remaining WHO 5-19 indicators remain pending.",
+                "WHO 0-5 core LMS data plus WHO Growth Reference 2007 weight-for-age 5-10 years and BMI-for-age/height-for-age 5-19 years are normalized and verified.",
               importedIndicators,
               allowedSources: firstStatus.allowedSources,
               excludedSources: firstStatus.excludedSources
@@ -362,7 +365,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
               : [
                   "Para 0-5 años, lo más preciso es introducir fecha de nacimiento y fecha de medición.",
                   "Si introduces años/meses/días, PedsCore lo convierte a días y muestra la edad usada.",
-                  "Para 5-19 años, utiliza meses cumplidos según la referencia OMS 2007.",
+                  "Para la referencia OMS 2007, utiliza meses cumplidos: peso/edad está disponible hasta 10 años (120 meses), mientras talla/edad e IMC/edad llegan hasta 19 años (228 meses).",
                   "Longitud tumbado activa peso para longitud; talla de pie activa peso para talla.",
                   "El perímetro cefálico solo se calcula si se introduce PC."
                 ],
@@ -415,7 +418,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
               : [
                   "For 0-5 years, the most accurate option is date of birth plus measurement date.",
                   "If you enter years/months/days, PedsCore converts it to days and shows the age used.",
-                  "For 5-19 years, use completed months according to the WHO Growth Reference 2007.",
+                  "For the WHO Growth Reference 2007, use completed months: weight-for-age is available through 10 years (120 months), while height-for-age and BMI-for-age extend through 19 years (228 months).",
                   "Recumbent length enables weight-for-length; standing height enables weight-for-height.",
                   "Head circumference is calculated only when head circumference is entered."
                 ],
@@ -443,8 +446,8 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
 
       if (display.indicator === "weight_for_age") {
         return language === "es"
-          ? "Requiere edad exacta 0-5 en días y peso dentro del rango OMS."
-          : "Requires exact 0-5 age in days and weight within the WHO range.";
+          ? "Requiere edad OMS 0-5 en días o edad 5-10 en meses cumplidos (61-120), además de peso dentro del rango."
+          : "Requires WHO 0-5 age in days or 5-10 age in completed months (61-120), plus weight within range.";
       }
 
       if (display.indicator === "head_circumference_for_age") {
