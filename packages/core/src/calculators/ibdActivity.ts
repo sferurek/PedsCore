@@ -64,7 +64,7 @@ export const pucaiCalculator: CalculatorDefinition = {
         score<=64?label("Actividad moderada","Moderate activity"):
         label("Actividad grave","Severe activity"),
       warnings:[ibdWarning],
-      trace:ids.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i]}))
+      trace:ids.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i] ?? 0}))
     };
   }
 };
