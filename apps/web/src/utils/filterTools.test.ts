@@ -28,7 +28,8 @@ describe("tool filtering", () => {
 
     expect(filteredTools.map((tool) => tool.slug)).toEqual([
       "pecarn-tbi-under-2",
-      "pecarn-tbi-2-or-more"
+      "pecarn-tbi-2-or-more",
+      "pecarn-febrile-infant"
     ]);
   });
 });
