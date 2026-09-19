@@ -48,7 +48,8 @@ const expectedImplementedToolIds = [
   "visual_analogue_scale",
   "step_by_step",
   "pecarn_febrile_infant",
-  "yos"
+  "yos",
+  "pucai"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -92,7 +93,8 @@ const implementedTestFiles: Record<string, string> = {
   visual_analogue_scale: "visualAnalogueScale.test.ts",
   step_by_step: "stepByStep.test.ts",
   pecarn_febrile_infant: "pecarnFebrileInfant.test.ts",
-  yos: "yaleObservation.test.ts"
+  yos: "yaleObservation.test.ts",
+  pucai: "pucai.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
