@@ -90,7 +90,6 @@ const implementedTestFiles: Record<string, string> = {
   catch_tbi: "catch.test.ts",
   chalice_tbi: "chalice.test.ts",
   clinical_dehydration_scale: "clinicalDehydrationScale.test.ts",
-  flacc: "flacc.test.ts",
   nips: "nips.test.ts",
   pediatric_burn_tbsa: "burnTbsa.test.ts",
   pediatric_appendicitis_score: "pediatricAppendicitisScore.test.ts",
@@ -184,7 +183,7 @@ describe("SPRINT-50 implementation safety gates", () => {
     const implementedIds = getImplementedTools().map((tool) => tool.id).sort();
 
     expect(implementedIds).toEqual([...expectedImplementedToolIds].sort());
-    expect(implementedCalculatorToolIds).toContain("flacc");
+    expect(implementedCalculatorToolIds).not.toContain("flacc");
     expect(implementedIds).not.toContain("flacc");
 
     for (const id of implementedIds) {
