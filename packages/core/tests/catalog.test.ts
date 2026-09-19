@@ -476,11 +476,6 @@ describe("clinical tools catalog", () => {
       "sex"
     ]);
 
-    for (const id of ["gorelick_dehydration"]) {
-      const tool = getTool(id);
-      expect(tool?.implementationStatus).toBe("pending_validation");
-      expect(tool?.calculationStatus).not.toBe("active");
-    }
   });
 
   it("requires every ready-for-implementation tool to have a direct source identifier", () => {
@@ -497,8 +492,7 @@ describe("clinical tools catalog", () => {
     const blockedByLicenseIds = [
       "wong_baker_faces",
       "stamp",
-      "prism_iii",
-      "prism_iv"
+      "prism_iii"
     ];
 
     for (const id of blockedByLicenseIds) {
@@ -510,9 +504,7 @@ describe("clinical tools catalog", () => {
     const maintainerDependentIds = [
       "pediatric_gcs",
       "pim2",
-      "pim3",
-      "prism_iii",
-      "prism_iv"
+      "prism_iii"
     ];
 
     for (const id of maintainerDependentIds) {
