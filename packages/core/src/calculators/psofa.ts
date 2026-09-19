@@ -26,10 +26,10 @@ const renalScore = (ageMonths: number, creatinine: number): number => {
     ageMonths <= 216 ? [1.0, 1.7, 2.9, 4.2] :
     [1.2, 2.0, 3.5, 5.0];
 
-  if (creatinine < cuts[0]) return 0;
-  if (creatinine < cuts[1]) return 1;
-  if (creatinine < cuts[2]) return 2;
-  if (creatinine < cuts[3]) return 3;
+  if (creatinine < cuts[0]!) return 0;
+  if (creatinine < cuts[1]!) return 1;
+  if (creatinine < cuts[2]!) return 2;
+  if (creatinine < cuts[3]!) return 3;
   return 4;
 };
 
