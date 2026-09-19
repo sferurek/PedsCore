@@ -43,11 +43,23 @@ describe("calculator registry", () => {
       "pecarn_febrile_infant",
       "yos",
       "pucai",
-      "pcdai"
+      "pcdai",
+      "modified_tal",
+      "taussig_croup",
+      "risc",
+      "mrisc",
+      "kdigo_pediatric",
+      "phoenix_sepsis",
+      "parc",
+      "bacterial_meningitis_score",
+      "ckid_u25",
+      "modified_bell_nec",
+      "nsofa",
+      "wpcdai"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(42);
+    expect(getImplementedTools()).toHaveLength(54);
   });
 
   it("calculates through the dispatcher", () => {
