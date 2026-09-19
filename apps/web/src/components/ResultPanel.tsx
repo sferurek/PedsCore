@@ -1,16 +1,72 @@
 import { calculateTool } from "@peds-core/core";
 import type { CalculationResult, ClinicalToolMetadata } from "@peds-core/core";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { translations } from "../i18n/translations";
 import type { FormValues } from "../utils/formState";
 import { hasActiveForm, validateForm } from "../utils/formState";
 import type { Language } from "../utils/language";
+import { trackUsageEvent } from "../utils/analytics";
 
 interface ResultPanelProps {
   language: Language;
   tool: ClinicalToolMetadata;
   values: FormValues;
 }
+
+export const formatClinicalResultForClipboard = (
+  language: Language,
+  tool: ClinicalToolMetadata,
+  result: CalculationResult
+): string => {
+  const lines: string[] = [tool.name[language]];
+  const primaryValue = result.score ?? result.value;
+
+  if (primaryValue !== undefined) {
+    const label = result.score !== undefined
+      ? (language === "es" ? "Puntuación" : "Score")
+      : (language === "es" ? "Valor" : "Value");
+    lines.push(`${label}: ${primaryValue}${result.unit ? ` ${result.unit}` : ""}${result.maxScore !== undefined ? ` / ${result.maxScore}` : ""}`);
+  }
+
+  if (result.classification) {
+    lines.push(`${language === "es" ? "Clasificación" : "Classification"}: ${result.classification[language]}`);
+  }
+
+  if (result.interpretation) {
+    lines.push(`${language === "es" ? "Interpretación" : "Interpretation"}: ${result.interpretation.label[language]}`);
+  }
+
+  if (result.criteriaMatched?.length) {
+    lines.push(
+      `${language === "es" ? "Criterios presentes" : "Matched criteria"}: ${result.criteriaMatched.map((item) => item[language]).join("; ")}`
+    );
+  }
+
+  if (result.warnings.length) {
+    lines.push(
+      `${language === "es" ? "Advertencias" : "Warnings"}: ${result.warnings.map((item) => item.message[language]).join(" | ")}`
+    );
+  }
+
+  const primaryReference = tool.references[0];
+  if (primaryReference) {
+    const source = [
+      primaryReference.title,
+      primaryReference.year ? String(primaryReference.year) : "",
+      primaryReference.doi ? `DOI ${primaryReference.doi}` : primaryReference.pmid ? `PMID ${primaryReference.pmid}` : ""
+    ].filter(Boolean).join(" · ");
+    lines.push(`${language === "es" ? "Fuente" : "Source"}: ${source}`);
+  }
+
+  lines.push(`PedsCore · https://peds-core.vercel.app/${language}/tools/${tool.slug}`);
+  lines.push(
+    language === "es"
+      ? "Resultado informativo; no sustituye la valoración clínica ni los protocolos locales."
+      : "Informational result; does not replace clinical assessment or local protocols."
+  );
+
+  return lines.join("\n");
+};
 
 export const ResultPanel = forwardRef<HTMLElement, ResultPanelProps>(
   function ResultPanel({ language, tool, values }, ref) {
@@ -50,11 +106,41 @@ interface CalculatedResultProps {
 
 function CalculatedResult({ language, result, tool }: CalculatedResultProps) {
   const t = translations[language];
+  const [copied, setCopied] = useState(false);
   const primaryValue = result.score ?? result.value;
   const valueLabel = result.score !== undefined ? t.result.score : t.result.value;
 
+  const copyResult = async () => {
+    if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) return;
+    try {
+      await navigator.clipboard.writeText(formatClinicalResultForClipboard(language, tool, result));
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+      trackUsageEvent("result_copied", window.location.pathname, language, {
+        toolId: tool.id,
+        toolType: tool.type,
+        category: tool.category,
+        status: tool.implementationStatus
+      });
+    } catch {
+      // Clipboard availability must never affect the clinical result.
+    }
+  };
+
   return (
     <div className="calculated-result">
+      <div className="result-copy-row">
+        <button className="secondary-action result-copy-button" type="button" onClick={() => void copyResult()}>
+          {copied
+            ? (language === "es" ? "✓ Copiado" : "✓ Copied")
+            : (language === "es" ? "Copiar resultado" : "Copy result")}
+        </button>
+        <small>
+          {language === "es"
+            ? "Copia solo resultado, interpretación y fuente; no copia los datos introducidos."
+            : "Copies only the result, interpretation and source; entered clinical values are not copied."}
+        </small>
+      </div>
       {primaryValue !== undefined ? (
         <div className="result-value">
           <span>{valueLabel}</span>

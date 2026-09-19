@@ -18,6 +18,7 @@ export type AnalyticsEventName =
   | "protocol_opened"
   | "favorite_added"
   | "share_used"
+  | "result_copied"
   | "finder_used"
   | "finder_result_opened"
   | "finder_compare_used"
@@ -74,6 +75,7 @@ const analyticsEventNames = [
   "protocol_opened",
   "favorite_added",
   "share_used",
+  "result_copied",
   "finder_used",
   "finder_result_opened",
   "finder_compare_used",

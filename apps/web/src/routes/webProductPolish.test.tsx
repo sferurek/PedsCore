@@ -11,6 +11,7 @@ import { EvidencePage } from "./EvidencePage";
 import { GlobalStatsPage } from "./GlobalStatsPage";
 import { HomePage } from "./HomePage";
 import { ToolPage } from "./ToolPage";
+import { ToolReviewPanel } from "../components/ToolReviewPanel";
 import { ToolsPage } from "./ToolsPage";
 
 const noopNavigate = () => undefined;
@@ -52,6 +53,7 @@ describe("public product web polish", () => {
     expect(html).toContain("WHO Growth");
     expect(html).toContain("Open module");
     expect(html).toContain("Transparency, end to end");
+    expect(html).toContain("Prioritize your clinical area");
     expect(html).toContain("Westley Croup");
     expect(html).toContain("PRAM");
     expect(html).toContain("Wood-Downes-Ferres");
@@ -61,6 +63,21 @@ describe("public product web polish", () => {
     expect(html).toContain("BMI-for-age");
     expect(html).toContain("active module");
     expect(html).not.toContain("WHO 5-19 partial");
+  });
+
+  it("surfaces Tier A technical audit separately from independent review", () => {
+    const phoenix = getToolBySlug("phoenix-sepsis");
+    expect(phoenix).toBeDefined();
+
+    const html = renderToString(
+      <ToolReviewPanel language="en" tool={phoenix!} />
+    );
+
+    expect(html).toContain("Clinical technical audit");
+    expect(html).toContain("Completed · findings remediated and verified");
+    expect(html).toContain("Independent review");
+    expect(html).toContain("Not claimed without documentation");
+    expect(html).toContain("64b0dbc4");
   });
 
   it("renders ToolsPage with clinical availability filters", () => {

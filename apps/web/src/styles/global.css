@@ -5161,3 +5161,98 @@ td {
     min-height: 44px;
   }
 }
+
+
+/* P3 clinician workflow: local specialty personalization and clean result copy. */
+.home-specialty-personalization {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: minmax(0, 1.25fr) minmax(15rem, 0.75fr);
+  align-items: end;
+  padding: clamp(0.9rem, 1.8vw, 1.15rem);
+  border: 1px solid rgba(180, 205, 215, 0.82);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.home-specialty-personalization-copy {
+  display: grid;
+  gap: 0.28rem;
+}
+
+.home-specialty-personalization-copy h3,
+.home-specialty-personalization-copy p {
+  margin: 0;
+}
+
+.home-specialty-personalization-copy h3 {
+  color: #15384a;
+}
+
+.home-specialty-personalization-copy p:last-child {
+  color: #526b76;
+  font-size: 0.86rem;
+}
+
+.home-specialty-select {
+  display: grid;
+  gap: 0.35rem;
+  color: #526b76;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.home-specialty-select select {
+  min-height: 44px;
+  padding: 0.58rem 0.68rem;
+  border: 1px solid rgba(159, 191, 203, 0.9);
+  border-radius: 11px;
+  background: #fff;
+  color: #15384a;
+  font: inherit;
+}
+
+.home-specialty-recommendations {
+  display: grid;
+  gap: 0.55rem;
+  grid-column: 1 / -1;
+  padding-top: 0.7rem;
+  border-top: 1px solid rgba(187, 209, 218, 0.72);
+  color: #294b5a;
+}
+
+.result-copy-row {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(187, 209, 218, 0.72);
+}
+
+.result-copy-row small {
+  max-width: 38rem;
+  color: #607783;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.result-copy-button {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 719px) {
+  .home-specialty-personalization {
+    grid-template-columns: 1fr;
+  }
+
+  .result-copy-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .result-copy-button {
+    width: 100%;
+    min-height: 44px;
+  }
+}
