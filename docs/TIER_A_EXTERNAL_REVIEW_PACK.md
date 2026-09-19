@@ -10,16 +10,17 @@ The reviewer is not being asked to audit TypeScript, GitHub Actions, SEO, or sof
 
 ## Frozen version to review
 
-Review this exact PedsCore state unless a later review-specific SHA is explicitly agreed:
+Review this exact **clinical implementation** unless a later logic-changing SHA is explicitly agreed:
 
-- Production/review baseline: `a15d8a514b7b8345fabd010a3f5b13487f3ee4ec`
+- Frozen clinical implementation baseline: `a9d2bfcb569600a5e0c9be681b729cc2bf4ba661`
 - Tier A remediation merge: `0fdc57f223b66222a6e373c409ba79745fabae83`
 - Tier A dedicated reference/boundary test merge: `64b0dbc4cc0c7ae695536ae02006a049eb1bd059`
 - AI-assisted audit report: `docs/TIER_A_AI_CLINICAL_AUDIT_2026-09-19.md`
+- Adaptive-flow re-audit addendum (Step-by-Step, PIM3, PRISM IV, CATCH, CHALICE): `docs/TIER_A_ADAPTIVE_FLOW_REAUDIT_2026-09-19.md`
 
 Production site: https://peds-core.vercel.app/
 
-The reviewer should record the exact commit reviewed in every submitted review.
+The reviewer should record `a9d2bfcb569600a5e0c9be681b729cc2bf4ba661` as the clinical implementation reviewed unless a later clinical-logic baseline is explicitly issued. Documentation-only commits after this SHA do not alter the frozen clinical implementation.
 
 ## Reviewer instructions
 
