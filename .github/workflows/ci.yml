@@ -9,6 +9,7 @@ on:
 
 jobs:
   validate:
+    name: CI
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +23,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
@@ -30,11 +31,11 @@ jobs:
       - name: Test
         run: npm run test
 
-      - name: Governance audit
-        run: npm run audit:governance
-
       - name: Build
         run: npm run build
+
+      - name: Governance audit
+        run: npm run audit:governance
 
       - name: SEO audit
         run: npm run seo:check
