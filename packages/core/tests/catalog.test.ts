@@ -74,7 +74,8 @@ const implementedToolIds = [
   "prism_iv",
   "pim3",
   "psofa",
-  "snappii"
+  "snappii",
+  "pyms"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -164,7 +165,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(62);
+    expect(getImplementedTools()).toHaveLength(63);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -343,8 +344,7 @@ describe("clinical tools catalog", () => {
       "comfortneo",
       "brighton_pews",
       "orbegozo_growth_percentiles",
-      "stamp",
-      "pyms"
+      "stamp"
     ];
 
     for (const id of licenseSensitivePendingIds) {
@@ -372,8 +372,7 @@ describe("clinical tools catalog", () => {
       "pipp",
       "brighton_pews",
       "orbegozo_growth_percentiles",
-      "stamp",
-      "pyms"
+      "stamp"
     ]) {
       const tool = getTool(id);
       expect(tool?.implementationStatus).toBe("not_implemented_due_to_licensing");
