@@ -106,6 +106,17 @@ Any logic-changing review outcome requires:
 4. updated evidence note;
 5. re-run of `npm run audit:governance`, `npm run test`, `npm run build`, and `npm run seo:check`.
 
+## External reviewer handoff
+
+For Tier A, use:
+
+- `docs/TIER_A_EXTERNAL_REVIEW_PACK.md`
+- `docs/TIER_A_EXTERNAL_REVIEW_HANDOFF.md`
+- GitHub issue #85 for batch tracking
+- `.github/ISSUE_TEMPLATE/clinical-review.yml` for one structured review record per tool
+
+The current external-review baseline is frozen at `a15d8a514b7b8345fabd010a3f5b13487f3ee4ec` unless a later review-specific SHA is explicitly agreed.
+
 ## Initial milestone
 
 Complete Tier A before making stronger public claims about clinical validation. Until then, PedsCore remains an evidence-traceable public-alpha project rather than an independently validated clinical product.
