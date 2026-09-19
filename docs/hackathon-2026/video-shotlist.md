@@ -40,8 +40,6 @@ Then briefly show CI/remote smoke evidence proving the same result outside the c
 
 ## 1:20–1:55 — SIM IMV wow moment
 
-Use only after the public bridge is working.
-
 Prompt:
 “Start the school-bus pediatric mass-casualty scenario using JumpSTART.”
 
@@ -59,7 +57,7 @@ Narration:
 ## 1:55–2:15 — Open source and reproducibility
 
 Visual:
-- GitHub PR #43
+- GitHub PR #91
 - MIT license
 - tests
 - remote smoke workflow
@@ -80,8 +78,7 @@ Narration:
 Before recording, obtain:
 - final green CI screenshots;
 - public MCP health / remote smoke evidence;
-- Alexa+ simulator capture if entitlement is granted;
 - SIM remote bridge capture;
-- GitHub PR #43 and SIM PR #25;
+- GitHub PR #91 and merged SIM PR #25;
 - no real patient data;
 - no unsupported claims.
