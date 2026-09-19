@@ -867,3 +867,28 @@ describe("WHO growth scaffold", () => {
     expect(serialized).not.toContain("diet");
   });
 });
+
+
+describe("WHO Growth Reference 2007 completed scope", () => {
+  it("interpolates monthly LMS parameters for exact age", async () => {
+    const { whoWeightForAge5To10LmsRecords } = await import("../src/growth/who/weightForAge5To10.js");
+    const record = findLmsRecord({ indicator: "weight_for_age", sex: "male", ageMonths: 61.5 }, whoWeightForAge5To10LmsRecords);
+    expect(record?.M).toBeCloseTo((18.5057 + 18.6802) / 2, 6);
+  });
+
+  it("calculates WHO 2007 weight-for-age through 120 completed months", async () => {
+    const { calculateWhoGrowthWithWeightForAge5To10Data } = await import("../src/growth/who/weightForAge5To10.js");
+    const result = calculateWhoGrowthWithWeightForAge5To10Data({ sex: "female", ageMonths: 120, weightKg: 31.8578 });
+    const wfa = result.applicableResults.find((item) => item.indicator === "weight_for_age");
+    expect(wfa?.isApplicable).toBe(true);
+    expect(wfa?.zScore).toBeCloseTo(0, 6);
+  });
+
+  it("uses WHO restricted LMS tails for weight-based indicators and suppresses percentiles beyond 3 SD", async () => {
+    const { calculateWhoGrowthWithWeightForAge5To10Data } = await import("../src/growth/who/weightForAge5To10.js");
+    const result = calculateWhoGrowthWithWeightForAge5To10Data({ sex: "male", ageMonths: 61, weightKg: 40 });
+    const wfa = result.applicableResults.find((item) => item.indicator === "weight_for_age");
+    expect((wfa?.zScore ?? 0) > 3).toBe(true);
+    expect(wfa?.percentile).toBeUndefined();
+  });
+});
