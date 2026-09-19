@@ -397,7 +397,7 @@ describe("clinical tools catalog", () => {
       "complete pediatric verbal table"
     );
     expect(getTool("orbegozo_growth_percentiles")?.validationNotes.en).toContain(
-      "reusable data/LMS"
+      "subject to copyright or use conditions"
     );
   });
 
