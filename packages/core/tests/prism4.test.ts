@@ -65,8 +65,7 @@ describe("PRISM IV reference and boundary checks", () => {
   });
 
   it("does not require post-intervention confirmation when the special branch does not apply", () => {
-    const input = { ...base };
-    delete input.cardiac_postintervention_window_confirmed;
+    const input = { ...base, cardiac_postintervention_window_confirmed: undefined };
     const result = prism4Calculator.calculate(input);
     expect(result.value).toBeTypeOf("number");
   });
