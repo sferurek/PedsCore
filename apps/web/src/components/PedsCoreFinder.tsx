@@ -7,6 +7,7 @@ import { makePath } from "../utils/routes";
 import type { Language } from "../utils/language";
 import { runPedsCoreFinder } from "../utils/pedsCoreFinder";
 import { discoveryLabel } from "../utils/discoveryLabels";
+import { trackUsageEvent } from "../utils/analytics";
 
 interface Props {
   tools: ClinicalToolMetadata[];
@@ -47,6 +48,30 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
   };
 
   const topTwo = response.matches.slice(0, 2);
+
+  const submitFinderQuery = (nextQuery: string) => {
+    const normalized = nextQuery.trim();
+    setShowCompare(false);
+    setQuery(normalized);
+    if (normalized) {
+      const result = runPedsCoreFinder(tools, normalized, language);
+      trackUsageEvent("finder_used", makePath(language), language, {
+        searchScope: "clinical_finder",
+        hasQuery: true,
+        status: result.matches.length > 0 ? "matches" : "empty"
+      });
+    }
+  };
+
+  const openFinderResult = (tool: ClinicalToolMetadata) => {
+    trackUsageEvent("finder_result_opened", makePath(language), language, {
+      searchScope: "clinical_finder",
+      toolId: tool.id,
+      toolType: tool.type,
+      category: tool.category
+    });
+    navigate(makePath(language, "tools", tool.slug));
+  };
 
   return (
     <section className="finder-shell" aria-labelledby="finder-title">
@@ -103,7 +128,7 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
         ) : null}
 
         {query && response.matches.length > 0 ? (
-          <div className="finder-results">
+          <div className="finder-results" aria-live="polite">
             {response.matches.map((match) => (
               <article className="finder-result-card" key={match.tool.id}>
                 <div className="finder-result-heading">
@@ -114,9 +139,7 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
                   <button
                     type="button"
                     className="secondary-action"
-                    onClick={() =>
-                      navigate(makePath(language, "tools", match.tool.slug))
-                    }
+                    onClick={() => openFinderResult(match.tool)}
                   >
                     {es ? "Abrir" : "Open"}
                   </button>
@@ -172,7 +195,13 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
             <button
               className="secondary-action"
               type="button"
-              onClick={() => setShowCompare((value) => !value)}
+              onClick={() => {
+                setShowCompare((value) => !value);
+                trackUsageEvent("finder_compare_used", makePath(language), language, {
+                  searchScope: "clinical_finder",
+                  status: showCompare ? "closed" : "opened"
+                });
+              }}
             >
               {showCompare
                 ? es
@@ -235,11 +264,15 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
         className="finder-composer"
         onSubmit={(event) => {
           event.preventDefault();
-          setShowCompare(false);
-          setQuery(draft.trim());
+          submitFinderQuery(draft);
         }}
       >
+        <label className="sr-only" htmlFor="peds-core-finder-query">
+          {es ? "Describe el contexto clínico para buscar herramientas" : "Describe the clinical context to find tools"}
+        </label>
         <textarea
+          id="peds-core-finder-query"
+          aria-describedby="finder-privacy-note"
           rows={2}
           value={draft}
           placeholder={
@@ -256,6 +289,11 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
         >
           {es ? "Buscar herramientas" : "Find tools"}
         </button>
+        <p className="finder-privacy-note" id="finder-privacy-note">
+          {es
+            ? "No incluyas nombres, fechas de nacimiento, números de historia ni otros datos identificables. PedsCore no envía el texto de esta consulta a la analítica."
+            : "Do not include names, dates of birth, medical-record numbers or other identifying data. PedsCore does not send this query text to analytics."}
+        </p>
       </form>
 
       <div className="finder-example-row">
@@ -266,8 +304,7 @@ export function PedsCoreFinder({ tools, language, navigate }: Props) {
             key={example}
             onClick={() => {
               setDraft(example);
-              setQuery(example);
-              setShowCompare(false);
+              submitFinderQuery(example);
             }}
           >
             {example}
