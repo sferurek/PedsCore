@@ -1,0 +1,72 @@
+name: Clinical review
+description: Structured independent review of an implemented PedsCore clinical tool
+title: "[Clinical review] "
+labels:
+  - clinical-review
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for structured review of a locally implemented clinical tool. Do not include identifiable patient information or real patient cases.
+  - type: input
+    id: tool
+    attributes:
+      label: Tool
+      description: Exact PedsCore tool name and slug/ID.
+    validations:
+      required: true
+  - type: input
+    id: reviewer
+    attributes:
+      label: Reviewer role
+      description: Professional role/specialty. Do not include private contact details.
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit reviewed
+      description: Commit SHA or release version.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources checked
+      description: DOI, PMID, guideline, official manual or authoritative URL.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Clinical review checklist
+      options:
+        - label: Exact version/variant verified
+        - label: Population and exclusions verified
+        - label: Inputs and units verified
+        - label: Formula/table/branching logic verified
+        - label: Boundary conditions verified
+        - label: Missing-data behavior verified
+        - label: Interpretation/output wording verified
+        - label: Rights/reuse status reviewed
+        - label: ES/EN terminology reviewed
+        - label: Tests/fixtures checked
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Outcome
+      options:
+        - reviewed_no_change
+        - reviewed_minor_correction
+        - reviewed_logic_change
+        - review_blocked_source
+        - review_blocked_rights
+    validations:
+      required: true
+  - type: textarea
+    id: findings
+    attributes:
+      label: Findings
+      description: Concrete discrepancies, corrections, limitations or confirmation.
+    validations:
+      required: true

@@ -216,6 +216,10 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? "PedsCore distingue entre herramientas activas, referencias clínicas, borradores y contenidos limitados por evidencia o licencia. Esa información es visible para evitar que la presencia de una herramienta en el catálogo se confunda con una recomendación de uso."
         : "PedsCore distinguishes active tools, clinical references, drafts and content limited by evidence or licensing. This is shown explicitly so that inclusion in the catalog is not mistaken for a recommendation to use the tool."}</p>
+      <h2>${isEs ? "Alcance y mantenimiento" : "Scope and maintenance"}</h2>
+      <p>${isEs
+        ? "Las fichas de esta categoría se mantienen de forma individual: una actualización de evidencia, una nueva versión de una escala o un cambio en las condiciones de reutilización puede modificar la disponibilidad de una herramienta sin afectar necesariamente al resto de la categoría. PedsCore conserva referencias, notas de validación y trazabilidad de cambios para que cada resultado pueda revisarse en su contexto."
+        : "Pages in this category are maintained individually: new evidence, a revised score version or a change in reuse conditions can alter one tool's availability without changing the rest of the category. PedsCore keeps references, validation notes and change traceability so that each result can be reviewed in its own clinical and documentary context."}</p>
       <h2>${isEs ? "Herramientas disponibles" : "Available tools"}</h2>
       <ul>${items.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))} — ${escapeHtml(localized(item.description, language))}</li>`).join("")}</ul>
       <p>${internalLink(toolsUrl, isEs ? "Ver todo el catálogo de PedsCore" : "View the full PedsCore catalog")}</p>

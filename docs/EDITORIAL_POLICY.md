@@ -54,6 +54,12 @@ Changes to code and documentation remain visible in the public repository histor
 
 Errors, missing sources, licensing concerns, and proposed updates can be reported through GitHub Issues. Changes that affect clinical logic should be traceable to a source and accompanied by tests when applicable.
 
+## Clinical review program
+
+Independent clinical review follows the risk-based workflow in [CLINICAL_REVIEW_PROGRAM.md](CLINICAL_REVIEW_PROGRAM.md). Technical implementation, evidence traceability and independent clinical review are separate states.
+
+A review that changes calculation logic requires a dedicated pull request, source documentation and updated deterministic tests.
+
 ## Review claims
 
 PedsCore does not claim independent expert review, formal guideline endorsement, or regulatory approval unless there is explicit documentation supporting that statement.

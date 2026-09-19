@@ -49,3 +49,10 @@ Use actual impressions to improve pages for clinically accurate intents such as 
 ## Repository discoverability
 
 Keep GitHub description, website and topics aligned with the canonical site. README figures must match code-level catalog/discovery tests.
+
+
+## GitHub Pages migration
+
+The legacy root `https://sferurek.github.io/PedsCore/` currently serves a visible “PedsCore has moved” landing that points to Vercel. The verified root mapping is recorded in GSC Wizard under `github-pages-to-vercel-2026`.
+
+The canonical production host remains `https://peds-core.vercel.app/`. Because the legacy Pages deployment is not sourced from the current `main` branch, PedsCore should not claim an HTTP 301 unless the Pages hosting configuration is explicitly changed and verified.

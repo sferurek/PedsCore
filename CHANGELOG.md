@@ -4,6 +4,16 @@ All notable changes to PedsCore are documented here.
 
 ## Unreleased · consolidation baseline · 2026-09-19
 
+### P1 consolidation
+
+- Added executable governance audit across catalog, discovery metadata, calculator registry and reuse status.
+- CI now runs both governance and SEO audits after build.
+- SEO route-count checks are derived from the live catalog instead of stale hard-coded totals.
+- Added formal risk-based Clinical Review Program and structured review issue template.
+- Opened Tier A high-risk clinical review tracker (#85).
+- Recorded the verified GitHub Pages → Vercel root migration in GSC Wizard.
+- Strengthened category editorial content after live on-page SEO audit found two low-severity thin-content notices.
+
 ### Catalog and availability
 
 - Catalog reconciled to **137** clinical tools/surfaces.
