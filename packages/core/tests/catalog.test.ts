@@ -55,6 +55,12 @@ const implementedToolIds = [
   "yos",
   "pucai",
   "pcdai",
+  "pass",
+  "gorelick_dehydration",
+  "prifle",
+  "pelod_2",
+  "prism_iv",
+  "pim3",
   "modified_tal",
   "taussig_croup",
   "risc",
@@ -156,7 +162,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(54);
+    expect(getImplementedTools()).toHaveLength(60);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -468,11 +474,6 @@ describe("clinical tools catalog", () => {
       "sex"
     ]);
 
-    for (const id of ["gorelick_dehydration"]) {
-      const tool = getTool(id);
-      expect(tool?.implementationStatus).toBe("pending_validation");
-      expect(tool?.calculationStatus).not.toBe("active");
-    }
   });
 
   it("requires every ready-for-implementation tool to have a direct source identifier", () => {
@@ -490,7 +491,6 @@ describe("clinical tools catalog", () => {
       "wong_baker_faces",
       "stamp",
       "prism_iii",
-      "prism_iv"
     ];
 
     for (const id of blockedByLicenseIds) {
@@ -502,9 +502,7 @@ describe("clinical tools catalog", () => {
     const maintainerDependentIds = [
       "pediatric_gcs",
       "pim2",
-      "pim3",
       "prism_iii",
-      "prism_iv"
     ];
 
     for (const id of maintainerDependentIds) {
@@ -548,9 +546,7 @@ describe("clinical tools catalog", () => {
     const criticalCareIds = [
       "psofa",
       "pelod",
-      "pelod_2",
       "prism_iii",
-      "prism_iv",
       "pim2",
       "pim3"
     ];
