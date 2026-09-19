@@ -50,9 +50,9 @@ describe("CATCH rule", () => {
     const infant = {
       ...noCriteria,
       age_years: 1,
-      witnessed_loss_of_consciousness: true
+      witnessed_loss_of_consciousness: true,
+      persistent_irritability_if_under_2: undefined
     };
-    delete infant.persistent_irritability_if_under_2;
     expect(catchCalculator.calculate(infant).warnings[0]?.id).toBe("missing_required_inputs");
   });
 
