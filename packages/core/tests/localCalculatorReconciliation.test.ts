@@ -25,10 +25,12 @@ const reconciledLocalIds = [
   "prifle",
   "pelod_2",
   "prism_iv",
-  "pim3"
+  "pim3",
+  "psofa",
+  "snappii"
 ] as const;
 
-const intentionallyEvidenceBlockedIds = ["psofa", "snappii"] as const;
+const intentionallyEvidenceBlockedIds = [] as const;
 const intentionallyRightsBlockedIds = [] as const;
 
 describe("local calculator reconciliation", () => {
