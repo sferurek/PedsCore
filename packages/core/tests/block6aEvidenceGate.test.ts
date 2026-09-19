@@ -7,7 +7,6 @@ import {
 
 const blockedTools = [
   { slug: "cheops", id: "cheops", status: "not_implemented_due_to_licensing", note: "exact score per option" },
-  { slug: "visual-analogue-scale", id: "visual_analogue_scale", status: "needs_primary_reference", note: "0-10 versus 0-100 mm" },
   { slug: "pediatric-glasgow-coma-scale", id: "pediatric_gcs", status: "pending_validation", note: "pediatric verbal" },
   { slug: "brighton-pews", id: "brighton_pews", status: "not_implemented_due_to_licensing", note: "complete table is not available from a traceable reusable source" },
   { slug: "brosjod", id: "brosjod", status: "pending_validation", note: "Original/full table" },
@@ -29,6 +28,12 @@ describe("Block 6A evidence gate", () => {
     for (const tool of blockedTools.filter((item) => item.note)) {
       expect(getToolBySlug(tool.slug)?.validationNotes.en).toContain(tool.note);
     }
+  });
+
+  it("keeps the now-selected VAS variant active and traceable", () => {
+    expect(getToolBySlug("visual-analogue-scale")?.implementationStatus).toBe("implemented");
+    expect(implementedCalculatorToolIds).toContain("visual_analogue_scale");
+    expect(getToolBySlug("visual-analogue-scale")?.validationNotes.en).toContain("100-mm");
   });
 
   it("keeps Wong-Baker inactive because of licensing", () => {
