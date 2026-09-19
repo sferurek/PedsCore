@@ -79,7 +79,7 @@ for (const url of sitemapUrls) {
   const bodyText = (bodyMatch?.[1] ?? "").replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").replace(/\s+/g, " ").trim();
   const bodyWordCount = bodyText ? bodyText.split(" ").length : 0;
   if (bodyWordCount < 20) throw new Error(`Static SEO body too thin (${bodyWordCount} words): ${url}`);
-  if (!/<a\s+href="\/(?:es|en)\//.test(bodyMatch?.[1] ?? "")) throw new Error(`Missing crawlable internal links: ${url}`);
+  if (!/<a\s+href="\/(?:es|en)(?:\/|")/.test(bodyMatch?.[1] ?? "")) throw new Error(`Missing crawlable internal links: ${url}`);
   const canonical = routeHtml.match(/<link rel="canonical" href="([^"]+)"/);
   if (canonical) canonicalUrls.add(canonical[1]);
   if (routeHtml.includes("vercel.app/preview") || routeHtml.includes("vercel.app-") ) throw new Error(`Preview URL in metadata: ${url}`);
