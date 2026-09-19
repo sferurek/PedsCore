@@ -161,46 +161,62 @@ export const visualAnalogueScaleCalculator: CalculatorDefinition = {
   toolId: "visual_analogue_scale",
   calculate: (input): CalculationResult => {
     const tool = getTool("visual-analogue-scale");
-    const pain = getNumber(input, "pain_vas_cm");
+    const painMm = getNumber(input, "pain_vas_mm");
 
-    if (pain === null) {
+    if (painMm === null) {
       return {
         toolId: tool.id,
         warnings: [warning(
           "missing_vas_input",
-          "Introduce la posición marcada en la escala visual analógica.",
-          "Enter the marked position on the visual analogue scale."
+          "Introduce la distancia marcada en la EVA de 100 mm.",
+          "Enter the marked distance on the 100-mm VAS."
         )],
         trace: []
       };
     }
 
-    if (pain < 0 || pain > 10) {
+    if (painMm < 0 || painMm > 100) {
       return {
         toolId: tool.id,
         warnings: [warning(
           "invalid_vas_input",
-          "La EVA debe estar entre 0 y 10 cm.",
-          "VAS must be between 0 and 10 cm."
+          "La EVA debe estar entre 0 y 100 mm.",
+          "VAS must be between 0 and 100 mm."
         )],
         trace: []
       };
     }
 
+    const painCm = painMm / 10;
+
     return {
       toolId: tool.id,
-      value: Number(pain.toFixed(1)),
-      unit: "cm",
+      value: Number(painMm.toFixed(1)),
+      unit: "mm",
       label: label("Intensidad de dolor EVA", "VAS pain intensity"),
+      criteriaMatched: [
+        label(
+          `Distancia desde el extremo «sin dolor»: ${painMm.toFixed(1)} mm (${painCm.toFixed(1)} cm)`,
+          `Distance from the “no pain” anchor: ${painMm.toFixed(1)} mm (${painCm.toFixed(1)} cm)`
+        )
+      ],
       warnings: [
         contextWarning,
         warning(
+          "vas_self_report_scope",
+          "EVA es una medida de autorreporte. En pediatría se recomienda principalmente en mayores de 8 años y adolescentes capaces de comprender la escala.",
+          "VAS is a self-report measure. In pediatrics it is recommended mainly for children older than 8 years and adolescents able to understand the scale."
+        ),
+        warning(
           "vas_no_universal_bands",
-          "PedsCore no aplica bandas universales de leve/moderado/grave porque los puntos de corte dependen de edad, contexto y población.",
-          "PedsCore does not apply universal mild/moderate/severe bands because cutoffs vary by age, context, and population."
+          "PedsCore no aplica categorías universales de dolor leve, moderado o grave porque los puntos de corte dependen de población y contexto.",
+          "PedsCore does not apply universal mild, moderate, or severe pain categories because cutoffs vary by population and context."
         )
       ],
-      trace: [{ inputId: "pain_vas_cm", value: pain }]
+      trace: [
+        { inputId: "pain_vas_mm", value: painMm },
+        { inputId: "pain_vas_cm_equivalent", value: Number(painCm.toFixed(2)) }
+      ]
     };
   }
 };
