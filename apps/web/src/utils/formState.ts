@@ -37,6 +37,45 @@ export const isEmptyFormValue = (value: FormValue): boolean => {
   return value === null || value === "";
 };
 
+const conditionMatches = (
+  actual: FormValue,
+  operator: NonNullable<ToolInput["visibleWhen"]>[number]["operator"],
+  expected: string | number | boolean
+): boolean => {
+  if (actual === null || actual === "" || Array.isArray(actual)) return false;
+
+  if (operator === "equals") return actual === expected;
+  if (operator === "not_equals") return actual !== expected;
+
+  const actualNumber = typeof actual === "number" ? actual : Number(actual);
+  const expectedNumber = typeof expected === "number" ? expected : Number(expected);
+  if (!Number.isFinite(actualNumber) || !Number.isFinite(expectedNumber)) return false;
+
+  if (operator === "lt") return actualNumber < expectedNumber;
+  if (operator === "lte") return actualNumber <= expectedNumber;
+  if (operator === "gt") return actualNumber > expectedNumber;
+  return actualNumber >= expectedNumber;
+};
+
+export const isInputVisible = (
+  input: ToolInput,
+  values: FormValues
+): boolean =>
+  !input.visibleWhen?.length ||
+  input.visibleWhen.every((condition) =>
+    conditionMatches(
+      values[condition.inputId] ?? null,
+      condition.operator,
+      condition.value
+    )
+  );
+
+export const getVisibleInputs = (
+  tool: ClinicalToolMetadata,
+  values: FormValues
+): ToolInput[] =>
+  (tool.inputs ?? []).filter((input) => isInputVisible(input, values));
+
 export const isInputComplete = (
   input: ToolInput,
   value: FormValue
@@ -73,7 +112,7 @@ export const getMissingRequiredInputs = (
   tool: ClinicalToolMetadata,
   values: FormValues
 ): string[] =>
-  (tool.inputs ?? [])
+  getVisibleInputs(tool, values)
     .filter((input) => !isInputComplete(input, values[input.id] ?? null))
     .map((input) => input.id);
 
@@ -95,16 +134,19 @@ export const canPrepareResult = (
 ): boolean => hasActiveForm(tool) && validateForm(tool, values).isComplete;
 
 export const getFirstInputId = (
-  tool: ClinicalToolMetadata
-): string | null =>
-  tool.inputs?.find((input) => input.required)?.id ?? tool.inputs?.[0]?.id ?? null;
+  tool: ClinicalToolMetadata,
+  values: FormValues = getInitialFormState(tool)
+): string | null => {
+  const inputs = getVisibleInputs(tool, values);
+  return inputs.find((input) => input.required)?.id ?? inputs[0]?.id ?? null;
+};
 
 export const getNextIncompleteInputId = (
   tool: ClinicalToolMetadata,
   values: FormValues,
   currentInputId?: string
 ): string | null => {
-  const inputs = tool.inputs ?? [];
+  const inputs = getVisibleInputs(tool, values);
   const currentIndex = currentInputId
     ? inputs.findIndex((input) => input.id === currentInputId)
     : -1;
