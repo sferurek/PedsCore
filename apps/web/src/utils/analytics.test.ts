@@ -190,7 +190,7 @@ describe("privacy-first analytics utilities", () => {
   });
 
   it("documents usage counter windows for provider dashboards", () => {
-    expect(getUsageCounterEventNames("last_7_days")).toHaveLength(13);
+    expect(getUsageCounterEventNames("last_7_days")).toHaveLength(14);
     expect(getUsageCounterEventNames("all_time").map((event) => event.eventName))
       .toEqual([
         "app_open",
@@ -202,6 +202,7 @@ describe("privacy-first analytics utilities", () => {
         "protocol_opened",
         "favorite_added",
         "share_used",
+        "result_copied",
         "finder_used",
         "finder_result_opened",
         "finder_compare_used",
