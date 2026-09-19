@@ -5420,7 +5420,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       booleanInput("sga_below_3rd_percentile",{es:"PEG < percentil 3",en:"SGA <3rd percentile"}),
       { id:"apgar_5min", label:{es:"Apgar a 5 minutos",en:"5-minute Apgar"}, type:"number", required:true, min:0, max:10, step:1 }
     ]
-
+  }
 };
 
 const tool = (seed: ToolSeed): ClinicalToolMetadata => {
