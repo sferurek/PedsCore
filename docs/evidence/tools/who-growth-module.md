@@ -6,15 +6,15 @@
 - slug: `who-growth`
 - category: `growth_nutrition`
 - type: `percentile`
-- current implementationStatus: `partially_implemented`
+- current implementationStatus: `implemented`
 - current evidenceLevel: `official_manual_or_institutional_protocol`
 
 ## Evidence validation status
 
-- final evidence status: `partially_implemented`
-- blocking reason: core WHO 0-5 indicators plus WHO 5-19 BMI-for-age and height-for-age are normalized and available, but remaining 5-19 scope, interpolation policy, and final maintainer review remain pending.
-- depends on maintainer decision: yes
-- maintainer decision needed: confirm remaining 5-19 scope, interpolation policy, chart percentile set, and print-output wording before marking the unified module fully implemented.
+- final evidence status: `implemented`
+- blocking reason: none.
+- depends on maintainer decision: no.
+- completed scope: WHO 0-5 core anthropometric indicators; WHO 2007 weight-for-age 5-10, BMI-for-age 5-19 and height-for-age 5-19; exact-age LMS interpolation for WHO 2007; WHO restricted-LMS tail handling; automatic 0.7 cm length/height conversion when measurement mode does not match age.
 
 ## Clinical purpose
 
@@ -90,10 +90,11 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 
 - source: World Health Organization. Growth reference data for 5-19 years.
 - direct URL: https://www.who.int/tools/growth-reference-data-for-5to19-years
-- imported indicators after WHO-GROWTH-4A:
-  - BMI-for-age.
-  - height-for-age.
-- status: partial import and validation; remaining 5-19 scope and interpolation policy remain pending.
+- imported indicators:
+  - weight-for-age (61-120 completed months; interpolation supports exact age below 121 months).
+  - BMI-for-age (61-228 months).
+  - height-for-age (61-228 months).
+- status: complete for all indicators published by WHO for the 2007 5-19 reference; WHO does not provide weight-for-age beyond age 10.
 
 ### WHO BMI-for-age 5-19 years
 
