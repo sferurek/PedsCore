@@ -10,17 +10,16 @@ Everything in this file is intentionally limited to actions that cannot be compl
 - [ ] Review the final Devpost text/track selections and click the final Submit button.
 - [ ] Confirm the project remains publicly accessible to judges for the judging period.
 
-## Manual actions that unlock additional evidence
+## Remaining optional manual actions
 
-- [ ] **One technical authorization remains if you want the full public SIM demo:** authorize the private `sferurek/pedscore-triage-sim` repository for the Railway GitHub App, or wait for the Vercel deployment quota to reopen. In Railway: open the `pedscore-triage-sim-hackathon` service → Settings → Source → reconnect GitHub / configure GitHub App access → grant access to `sferurek/pedscore-triage-sim`. Keep the selected branch as `hackathon/alexa-sim`; do not deploy `main`.
-- [ ] If Janet/Amazon grants Alexa AI developer-tools entitlement, run the official Alexa AI CLI flow and capture Add-on ID/version plus official simulator evidence.
+There is no longer a manual authorization required for the SIM bridge: SIM PR #25 is merged, Vercel production deployment is green, the MCP service is configured to use it, and strict public MCP→SIM smoke has passed.
 
-These two items improve the demo but are **not prerequisites for primary Alexa+ eligibility**, because the official rules accept the working self-hosted MCP server over Streamable HTTP. The public PedsCore MCP path is already live and independently smoke-tested.
+The partner-only Alexa AI add-on tooling cannot be unlocked by a general hackathon participant; do not spend additional time troubleshooting IAM unless Amazon explicitly changes the account's partner entitlement.
 
 ## Optional
 
 - [ ] Request the $150 AWS Promotional Credits by October 21 at 12:00 PM PT if useful.
-- [ ] Add a meaningful deployed AWS integration only if entering the AWS Builder Mini Challenge.
+- [ ] Re-open AWS Builder only if you genuinely use Kiro Crew for a material development task or deploy a useful AWS integration; otherwise leave the mini-challenge unchecked.
 - [ ] Capture extra screenshots for the Devpost image gallery.
 
 ## Security
@@ -35,6 +34,7 @@ These two items improve the demo but are **not prerequisites for primary Alexa+ 
 - MCP `2025-11-25` and Streamable HTTP verified remotely.
 - Live judge console and capability manifest verified remotely.
 - Deterministic Apgar 9/10 verified remotely.
-- SIM bridge production-server smoke verified in CI.
+- SIM bridge merged and deployed on Vercel.
+- Strict public MCP→SIM E2E smoke verified: `school-bus` / patient `01` / GREEN / `JS-MOB-01`.
 - Open Source contribution evidence packaged.
 - Devpost narrative, product feedback, feature requests, friction log, judging map, and final English video script drafted.
