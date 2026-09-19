@@ -123,8 +123,8 @@ const categoryDetails: Record<
   },
   resuscitation: {
     description: {
-      es: "Algoritmos y referencias de soporte vital pediátrico en revisión editorial.",
-      en: "Pediatric life-support algorithms and references under editorial review."
+      es: "Algoritmos y referencias de soporte vital pediátrico con acceso a fuentes oficiales.",
+      en: "Pediatric life-support algorithms and references with access to official sources."
     },
     examples: ["Pediatric CPR", "Neonatal CPR", "Bradycardia"]
   }
@@ -409,7 +409,7 @@ export function HomePage({ language, navigate }: HomePageProps) {
                   <span className="category-card-description">
                     {t.home.whoGrowthBody}
                   </span>
-                  <strong>{t.home.partialMetric}</strong>
+                  <strong>{t.home.activeModuleMetric}</strong>
                   <span className="category-card-examples">
                     {whoGrowthExamples}
                   </span>
