@@ -57,7 +57,7 @@ Agentic interfaces become more trustworthy when deterministic domain logic is tr
 
 ## What's next
 
-The self-hosted MCP path already satisfies the current Alexa+ primary-track technology requirement. Next we will publish the SIM IMV bridge, run the full public MCP→SIM smoke, and capture the strongest possible demo evidence. If Amazon grants private Alexa AI CLI entitlement, we will also deploy the optional official add-on and capture simulator evidence.
+The self-hosted MCP path already satisfies the current Alexa+ primary-track technology requirement. Next we will publish the SIM IMV bridge, run the full public MCP→SIM smoke, and capture the strongest possible demo evidence. Devpost support has confirmed that the private Alexa+ add-on tooling is partner-only, so the submission intentionally uses the rules-compliant self-hosted MCP path rather than presenting unavailable partner tooling as a dependency.
 
 ## Open Source Mini Challenge
 
