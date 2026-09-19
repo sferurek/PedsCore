@@ -41,8 +41,8 @@ Official Alexa AI CLI/add-on tooling is partner-only according to Devpost suppor
 
 1. Publish SIM IMV if repository authorization or Vercel quota allows it.
 2. If SIM becomes public, set `SIM_IMV_API_URL` and run public MCP→SIM smoke.
-3. Record the final English demo video under 3 minutes.
-4. Upload the video publicly and complete the final Devpost submission.
+3. Freeze the reconciled hackathon candidate on top of current `main` and keep CI green.
+4. Record/upload the final English demo video and complete the final Devpost submission.
 
 ## Optional enhancement path
 
