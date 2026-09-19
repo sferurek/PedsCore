@@ -61,6 +61,7 @@ Important project documents:
 - [Contributing guide](CONTRIBUTING.md)
 - [Roadmap](ROADMAP.md)
 - [Changelog](CHANGELOG.md)
+- [Clinical review queue](docs/CLINICAL_REVIEW_QUEUE.md)
 
 Local activation requires source traceability, a complete formula/table/logic path, an exact variant, safe wording, deterministic tests and compatible reuse rights.
 
