@@ -47,7 +47,8 @@ const implementedToolIds = new Set([
   "cdc_growth_percentiles",
   "strongkids",
   "visual_analogue_scale",
-  "step_by_step"
+  "step_by_step",
+  "pecarn_febrile_infant"
 ]);
 
 type ToolSeed = Omit<
@@ -257,8 +258,10 @@ const implementedToolReferences: Record<string, Reference[]> = {
     {
       id: "pecarn_fi_2019",
       title: "A Clinical Prediction Rule to Identify Febrile Infants 60 Days and Younger at Low Risk for Serious Bacterial Infections",
+      authors: "Kuppermann N, Dayan PS, Levine DA, et al.; PECARN",
       year: 2019,
       journalOrPublisher: "JAMA Pediatrics",
+      doi: "10.1001/jamapediatrics.2018.5501",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6450281/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
@@ -2543,12 +2546,23 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     ]
   },
   pecarn_febrile_infant: {
-    validationNotes:{es:"Regla PECARN simplificada para lactantes febriles ≤60 días: urianálisis negativo, ANC ≤4000/mm³ y PCT ≤0,5 ng/mL.",en:"Simplified PECARN rule for febrile infants ≤60 days: negative urinalysis, ANC ≤4000/mm³, and PCT ≤0.5 ng/mL."},
+    validationNotes:{
+      es:"Implementación local de la regla PECARN 2019 para lactantes febriles ≤60 días. Usa la versión principal derivada y validada: urianálisis negativo, ANC ≤4.090/mm³ y PCT ≤1,71 ng/mL, dentro de la población de elegibilidad publicada.",
+      en:"Local implementation of the 2019 PECARN rule for febrile infants ≤60 days. It uses the primary derived and validated version: negative urinalysis, ANC ≤4,090/mm³, and PCT ≤1.71 ng/mL, within the published eligible population."
+    },
+    calculationNotes:{
+      es:"El estudio original incluyó fiebre ≥38 °C documentada en urgencias, otro centro sanitario o domicilio en las 24 h previas y excluyó aspecto críticamente enfermo, prematuridad ≤36 semanas, enfermedad previa relevante, antibióticos en las 48 h previas, dispositivos permanentes e infección de partes blandas.",
+      en:"The original study included fever ≥38 °C documented in the ED, another health care setting, or at home within the preceding 24 hours and excluded critically ill appearance, prematurity ≤36 weeks, relevant pre-existing conditions, antibiotics in the preceding 48 hours, indwelling devices, and soft-tissue infection."
+    },
     inputs:[
       {id:"age_days",label:{es:"Edad",en:"Age"},type:"number",required:true,unit:"días",min:0,max:60,step:1},
-      booleanInput("well_appearing",{es:"Buen estado general",en:"Well appearing"}),
+      booleanInput("fever_38_within_24h",{es:"Fiebre ≥38 °C en las últimas 24 h",en:"Fever ≥38 °C within the last 24 h"}),
+      booleanInput("critically_ill",{es:"Aspecto críticamente enfermo",en:"Critically ill appearance"}),
       booleanInput("previously_healthy",{es:"Previamente sano",en:"Previously healthy"}),
-      booleanInput("term_infant",{es:"Recién nacido a término",en:"Term infant"}),
+      booleanInput("gestation_over_36_weeks",{es:"Edad gestacional al nacer >36 semanas",en:"Gestational age at birth >36 weeks"}),
+      booleanInput("antibiotics_last_48h",{es:"Antibióticos en las últimas 48 h",en:"Antibiotics in the last 48 h"}),
+      booleanInput("indwelling_device",{es:"Dispositivo permanente",en:"Indwelling device"}),
+      booleanInput("soft_tissue_infection",{es:"Infección de partes blandas",en:"Soft-tissue infection"}),
       booleanInput("urinalysis_negative",{es:"Urianálisis negativo",en:"Negative urinalysis"}),
       {id:"anc",label:{es:"ANC",en:"ANC"},type:"number",required:true,unit:"/mm³",min:0,max:100000,step:1},
       {id:"procalcitonin_ng_ml",label:{es:"Procalcitonina",en:"Procalcitonin"},type:"number",required:true,unit:"ng/mL",min:0,max:100,step:0.01}
@@ -5361,7 +5375,7 @@ const priorityExpansionSurfaces: ClinicalToolMetadata[] = [
   referenceSurface({ id:"pcam_icu", slug:"pcam-icu", shortName:"pCAM-ICU", nameEs:"pCAM-ICU", nameEn:"pCAM-ICU", category:"intensive_care", subcategory:"delirium", type:"scale", populationEs:"Niños en UCI pediátrica capaces de participar según la herramienta", populationEn:"PICU children able to participate as required by the instrument", descriptionEs:"Referencia para detección de delirium pediátrico en cuidados intensivos.", descriptionEn:"Reference for pediatric delirium detection in intensive care.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"pscam_icu", slug:"pscam-icu", shortName:"psCAM-ICU", nameEs:"psCAM-ICU", nameEn:"psCAM-ICU", category:"intensive_care", subcategory:"delirium", type:"scale", populationEs:"Niños pequeños en UCI pediátrica", populationEn:"Younger children in pediatric intensive care", descriptionEs:"Referencia para detección de delirium adaptada a niños pequeños en UCI.", descriptionEn:"Reference for delirium detection adapted to younger children in intensive care.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"step_by_step", slug:"step-by-step-febrile-infant", shortName:"Step-by-Step", nameEs:"Enfoque Step-by-Step", nameEn:"Step-by-Step Approach", category:"emergency", subcategory:"febrile_infant", type:"clinical_rule", populationEs:"Lactantes de hasta 90 días con fiebre sin foco", populationEn:"Infants up to 90 days old with fever without source", descriptionEs:"Estratificación secuencial de riesgo de infección bacteriana invasiva mediante aspecto, edad, orina, PCT, PCR y ANC.", descriptionEn:"Sequential invasive-bacterial-infection risk stratification using appearance, age, urine, PCT, CRP, and ANC.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
-  referenceSurface({ id:"pecarn_febrile_infant", slug:"pecarn-febrile-infant", shortName:"PECARN FI", nameEs:"Regla PECARN para lactante febril", nameEn:"PECARN Febrile Infant Rule", category:"emergency", subcategory:"febrile_infant", type:"clinical_rule", populationEs:"Lactantes febriles de hasta 60 días según elegibilidad publicada", populationEn:"Febrile infants up to 60 days meeting published eligibility", descriptionEs:"Regla de referencia para riesgo de infección bacteriana invasiva en lactantes febriles; no sustituye la valoración clínica.", descriptionEn:"Reference rule for invasive bacterial infection risk in febrile infants; it does not replace clinical assessment.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
+  referenceSurface({ id:"pecarn_febrile_infant", slug:"pecarn-febrile-infant", shortName:"PECARN FI", nameEs:"Regla PECARN para lactante febril", nameEn:"PECARN Febrile Infant Rule", category:"emergency", subcategory:"febrile_infant", type:"clinical_rule", populationEs:"Lactantes febriles de hasta 60 días según elegibilidad publicada", populationEn:"Febrile infants up to 60 days meeting published eligibility", descriptionEs:"Regla PECARN para identificar bajo riesgo de infección bacteriana grave mediante urianálisis, ANC y PCT.", descriptionEn:"PECARN rule to identify low risk for serious bacterial infection using urinalysis, ANC, and PCT.", evidenceLevel:"original_derivation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"yos", slug:"yale-observation-scale", shortName:"YOS", nameEs:"Escala de Observación de Yale", nameEn:"Yale Observation Scale", category:"emergency", subcategory:"febrile_infant", type:"scale", populationEs:"Niños pequeños con enfermedad febril", populationEn:"Young children with febrile illness", descriptionEs:"Escala histórica de referencia para observación clínica en enfermedad febril.", descriptionEn:"Historical reference scale for clinical observation in febrile illness.", evidenceLevel:"original_derivation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"greulich_pyle", slug:"greulich-pyle", shortName:"Greulich-Pyle", nameEs:"Atlas de Greulich y Pyle", nameEn:"Greulich and Pyle Atlas", category:"growth_nutrition", subcategory:"bone_age", type:"nomogram", populationEs:"Niños y adolescentes con radiografía de mano o muñeca", populationEn:"Children and adolescents with a hand or wrist radiograph", descriptionEs:"Atlas de referencia para estimación de edad ósea; no es una regla de decisión aguda.", descriptionEn:"Reference atlas for bone-age estimation; it is not an acute decision rule.", evidenceLevel:"official_manual_or_institutional_protocol", regulatoryRisk:"medium" }),
   referenceSurface({ id:"tw3", slug:"tanner-whitehouse-3", shortName:"TW3", nameEs:"Tanner-Whitehouse 3", nameEn:"Tanner-Whitehouse 3", category:"growth_nutrition", subcategory:"bone_age", type:"nomogram", populationEs:"Niños y adolescentes con radiografía de mano o muñeca", populationEn:"Children and adolescents with a hand or wrist radiograph", descriptionEs:"Método de referencia para edad ósea que se mantiene diferenciado de Greulich-Pyle.", descriptionEn:"Reference method for bone age, kept distinct from Greulich-Pyle.", evidenceLevel:"official_manual_or_institutional_protocol", regulatoryRisk:"medium" }),

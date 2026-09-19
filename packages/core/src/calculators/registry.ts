@@ -28,6 +28,7 @@ import { cdcGrowthPercentilesCalculator } from "./cdcGrowth.js";
 import { strongkidsCalculator } from "./strongkids.js";
 import { visualAnalogueScaleCalculator } from "./additionalOpenTools.js";
 import { stepByStepCalculator } from "./stepByStep.js";
+import { pecarnFebrileInfantCalculator } from "./infectionOpen.js";
 
 const calculators = [
   apgarCalculator,
@@ -61,7 +62,8 @@ const calculators = [
   cdcGrowthPercentilesCalculator,
   strongkidsCalculator,
   visualAnalogueScaleCalculator,
-  stepByStepCalculator
+  stepByStepCalculator,
+  pecarnFebrileInfantCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

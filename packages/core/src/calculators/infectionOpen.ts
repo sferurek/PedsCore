@@ -135,41 +135,70 @@ export const pecarnFebrileInfantCalculator: CalculatorDefinition = {
   calculate: (input): CalculationResult => {
     const tool = getTool("pecarn-febrile-infant");
     const ageDays = getNumber(input, "age_days");
-    const wellAppearing = getBoolean(input, "well_appearing");
+    const fever38Within24h = getBoolean(input, "fever_38_within_24h");
+    const criticallyIll = getBoolean(input, "critically_ill");
     const previouslyHealthy = getBoolean(input, "previously_healthy");
-    const termInfant = getBoolean(input, "term_infant");
+    const gestationOver36Weeks = getBoolean(input, "gestation_over_36_weeks");
+    const antibioticsLast48h = getBoolean(input, "antibiotics_last_48h");
+    const indwellingDevice = getBoolean(input, "indwelling_device");
+    const softTissueInfection = getBoolean(input, "soft_tissue_infection");
 
     if (
-      ageDays === null || wellAppearing === null ||
-      previouslyHealthy === null || termInfant === null
+      ageDays === null ||
+      fever38Within24h === null ||
+      criticallyIll === null ||
+      previouslyHealthy === null ||
+      gestationOver36Weeks === null ||
+      antibioticsLast48h === null ||
+      indwellingDevice === null ||
+      softTissueInfection === null
     ) {
       return {
         toolId: tool.id,
         warnings: [warning(
           "missing_pecarn_fi_eligibility",
-          "Faltan datos de elegibilidad para aplicar la regla PECARN del lactante febril.",
-          "Eligibility data are missing for the PECARN febrile infant rule."
+          "Completa los criterios de elegibilidad antes de aplicar la regla PECARN del lactante febril.",
+          "Complete the eligibility criteria before applying the PECARN febrile infant rule."
         )],
         trace: []
       };
     }
 
-    if (
-      ageDays < 0 || ageDays > 60 ||
-      !wellAppearing || !previouslyHealthy || !termInfant
-    ) {
+    const eligible =
+      ageDays >= 0 &&
+      ageDays <= 60 &&
+      fever38Within24h &&
+      !criticallyIll &&
+      previouslyHealthy &&
+      gestationOver36Weeks &&
+      !antibioticsLast48h &&
+      !indwellingDevice &&
+      !softTissueInfection;
+
+    if (!eligible) {
       return {
         toolId: tool.id,
         classification: label(
-          "Fuera de la poblacion validada para esta regla PECARN",
+          "Fuera de la población validada para esta regla PECARN",
           "Outside the validated population for this PECARN rule"
         ),
-        warnings: [infectionContextWarning],
+        warnings: [
+          infectionContextWarning,
+          warning(
+            "pecarn_fi_population",
+            "La cohorte original incluyó lactantes febriles de ≤60 días previamente sanos y excluyó aspecto críticamente enfermo, prematuridad ≤36 semanas, antibióticos en las 48 h previas, dispositivos permanentes y infección de partes blandas.",
+            "The original cohort included previously healthy febrile infants ≤60 days and excluded critically ill appearance, prematurity ≤36 weeks, antibiotics in the preceding 48 hours, indwelling devices, and soft-tissue infection."
+          )
+        ],
         trace: [
           { inputId: "age_days", value: ageDays },
-          { inputId: "well_appearing", value: wellAppearing },
+          { inputId: "fever_38_within_24h", value: fever38Within24h },
+          { inputId: "critically_ill", value: criticallyIll },
           { inputId: "previously_healthy", value: previouslyHealthy },
-          { inputId: "term_infant", value: termInfant }
+          { inputId: "gestation_over_36_weeks", value: gestationOver36Weeks },
+          { inputId: "antibiotics_last_48h", value: antibioticsLast48h },
+          { inputId: "indwelling_device", value: indwellingDevice },
+          { inputId: "soft_tissue_infection", value: softTissueInfection }
         ]
       };
     }
@@ -183,7 +212,7 @@ export const pecarnFebrileInfantCalculator: CalculatorDefinition = {
         toolId: tool.id,
         warnings: [warning(
           "missing_pecarn_fi_inputs",
-          "Faltan urianalisis, ANC o procalcitonina.",
+          "Faltan urianálisis, ANC o procalcitonina.",
           "Urinalysis, ANC, or procalcitonin is missing."
         )],
         trace: []
@@ -195,14 +224,19 @@ export const pecarnFebrileInfantCalculator: CalculatorDefinition = {
         toolId: tool.id,
         warnings: [warning(
           "invalid_pecarn_fi_inputs",
-          "ANC y procalcitonina deben ser valores validos y no negativos.",
+          "ANC y procalcitonina deben ser valores válidos y no negativos.",
           "ANC and procalcitonin must be valid non-negative values."
         )],
         trace: []
       };
     }
 
-    const lowRisk = urineNegative && anc <= 4000 && procalcitonin <= 0.5;
+    const lowRisk = urineNegative && anc <= 4090 && procalcitonin <= 1.71;
+    const failedCriteria = [
+      ...(!urineNegative ? [label("Urianálisis no negativo", "Urinalysis not negative")] : []),
+      ...(anc > 4090 ? [label("ANC >4.090/mm³", "ANC >4,090/mm³")] : []),
+      ...(procalcitonin > 1.71 ? [label("PCT >1,71 ng/mL", "PCT >1.71 ng/mL")] : [])
+    ];
 
     return {
       toolId: tool.id,
@@ -212,14 +246,22 @@ export const pecarnFebrileInfantCalculator: CalculatorDefinition = {
         ? label("Cumple criterios PECARN de bajo riesgo", "Meets PECARN low-risk criteria")
         : label("No cumple todos los criterios PECARN de bajo riesgo", "Does not meet all PECARN low-risk criteria"),
       criteriaMatched: lowRisk
-        ? [label("Urianalisis negativo, ANC ≤4000/mm³ y PCT ≤0,5 ng/mL", "Negative urinalysis, ANC ≤4000/mm³, and PCT ≤0.5 ng/mL")]
-        : [],
+        ? [label(
+            "Urianálisis negativo, ANC ≤4.090/mm³ y PCT ≤1,71 ng/mL",
+            "Negative urinalysis, ANC ≤4,090/mm³, and PCT ≤1.71 ng/mL"
+          )]
+        : failedCriteria,
       warnings: [
         infectionContextWarning,
         warning(
           "pecarn_fi_not_management_protocol",
-          "La clasificacion de riesgo no determina por si sola la necesidad de puncion lumbar, antibioticos, ingreso o alta.",
+          "La clasificación de riesgo no determina por sí sola la necesidad de punción lumbar, antibióticos, ingreso o alta.",
           "Risk classification alone does not determine lumbar puncture, antibiotics, admission, or discharge."
+        ),
+        warning(
+          "pecarn_fi_threshold_variant",
+          "PedsCore usa los umbrales principales derivados y validados (ANC ≤4.090/mm³, PCT ≤1,71 ng/mL). El artículo también exploró umbrales redondeados alternativos, que no son el algoritmo principal mostrado aquí.",
+          "PedsCore uses the primary derived and validated thresholds (ANC ≤4,090/mm³, PCT ≤1.71 ng/mL). The article also explored rounded alternative thresholds, which are not the primary algorithm shown here."
         )
       ],
       trace: [

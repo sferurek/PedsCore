@@ -46,7 +46,8 @@ const expectedImplementedToolIds = [
   "cdc_growth_percentiles",
   "strongkids",
   "visual_analogue_scale",
-  "step_by_step"
+  "step_by_step",
+  "pecarn_febrile_infant"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -88,7 +89,8 @@ const implementedTestFiles: Record<string, string> = {
   cdc_growth_percentiles: "cdcGrowth.test.ts",
   strongkids: "strongkids.test.ts",
   visual_analogue_scale: "visualAnalogueScale.test.ts",
-  step_by_step: "stepByStep.test.ts"
+  step_by_step: "stepByStep.test.ts",
+  pecarn_febrile_infant: "pecarnFebrileInfant.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
