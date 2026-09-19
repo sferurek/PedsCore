@@ -49,7 +49,8 @@ const implementedToolIds = new Set([
   "prifle",
   "kdigo_pediatric",
   "pelod_2",
-  "prism_iv"
+  "prism_iv",
+  "pim3"
 ]);
 
 type ToolSeed = Omit<
