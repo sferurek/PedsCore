@@ -48,7 +48,8 @@ const implementedToolIds = [
   "bmi_percentile",
   "head_circumference_percentile",
   "cdc_growth_percentiles",
-  "strongkids"
+  "strongkids",
+  "visual_analogue_scale"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -138,7 +139,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(36);
+    expect(getImplementedTools()).toHaveLength(37);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -418,8 +419,7 @@ describe("clinical tools catalog", () => {
       "gorelick_dehydration",
       "prifle",
       "rflacc",
-      "cheops",
-      "visual_analogue_scale"
+      "cheops"
     ];
 
     for (const id of blockedIds) {
@@ -429,6 +429,15 @@ describe("clinical tools catalog", () => {
       expect(tool?.implementationStatus).not.toBe("implemented");
       expect(tool?.calculationStatus).not.toBe("active");
     }
+  });
+
+  it("activates EVA as a 100-mm pediatric self-report scale without universal severity bands", () => {
+    const tool = getTool("visual_analogue_scale");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs?.[0]?.id).toBe("pain_vas_mm");
+    expect(tool?.inputs?.[0]?.max).toBe(100);
+    expect(tool?.validationNotes.en).toContain("100-mm");
   });
 
   it("keeps Sprint 1 tools in their evidence-gated outcomes", () => {
