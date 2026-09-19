@@ -41,7 +41,8 @@ const implementedToolIds = new Set([
   "pediatric_burn_tbsa",
   "garcia_alix_ners",
   "modified_tal",
-  "taussig_croup"
+  "taussig_croup",
+  "pass"
 ]);
 
 type ToolSeed = Omit<
@@ -2137,8 +2138,8 @@ const rdaiValidationNotes: LocalizedText = {
 };
 
 const passValidationNotes: LocalizedText = {
-  es: "Sprint 2A: fuente PASS original localizada con DOI/PMID, pero la tabla completa, interpretacion y reutilizacion no estan suficientemente verificadas. No se implementa ni se activa calculo.",
-  en: "Sprint 2A: original PASS source located with DOI/PMID, but the complete table, interpretation, and reuse status are not sufficiently verified. It is not implemented and calculation is not activated."
+  es: "PASS verificado frente al estudio original de Gorelick 2004 y reproducciones abiertas posteriores: tres dominios (sibilancias, trabajo respiratorio y prolongacion espiratoria), 0-2 cada uno, total 0-6. Se muestra como score descriptivo sin imponer bandas terapeuticas.",
+  en: "PASS verified against the original Gorelick 2004 study and later open reproductions: three domains (wheezing, work of breathing, and prolonged expiration), 0-2 each, total 0-6. Reported as a descriptive score without imposing treatment bands."
 };
 
 const pramQaValidationNotes: LocalizedText = {
