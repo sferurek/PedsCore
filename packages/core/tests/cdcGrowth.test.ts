@@ -65,6 +65,22 @@ describe("CDC Growth Percentiles", () => {
     expect(trace.bmi_method).toBe("cdc_2000_lms");
   });
 
+  it("reproduces the published CDC Extended BMI example parameters", () => {
+    const result = cdcGrowthPercentilesCalculator.calculate({
+      sex: "male",
+      age_months: 50.5,
+      weight_kg: 22.6,
+      stature_cm: 100
+    });
+    const trace = traceObject(result);
+
+    expect(trace.bmi).toBeCloseTo(22.6, 2);
+    expect(trace.bmi_p95).toBeCloseTo(17.8219, 3);
+    expect(trace.extended_bmi_sigma).toBeCloseTo(2.3983, 3);
+    expect(trace.bmi_method).toBe("cdc_extended_2022");
+    expect(result.value).toBeGreaterThan(95);
+  });
+
   it("switches automatically to CDC Extended BMI 2022 above P95", () => {
     const result = cdcGrowthPercentilesCalculator.calculate({
       sex: "male",
