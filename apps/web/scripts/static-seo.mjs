@@ -408,13 +408,19 @@ export const getStaticSeo = (pathname, tools) => {
 
 export const renderSeoHead = (template, seo) => {
   const alternateLanguage = seo.language === "es" ? "en" : "es";
+  const normalizedTitle = String(seo.title ?? "")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#39;", "'");
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": seo.tool ? "MedicalWebPage" : (seo.category || seo.topic) ? "CollectionPage" : "WebPage",
         "@id": `${seo.url}#webpage`,
-        name: seo.title,
+        name: normalizedTitle,
         description: seo.description,
         url: seo.url,
         inLanguage: seo.language,
@@ -483,15 +489,15 @@ export const renderSeoHead = (template, seo) => {
   };
   return template
     .replace(/<html lang="[^"]+">/, `<html lang="${seo.language}">`)
-    .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(seo.title)}</title>`)
+    .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(normalizedTitle)}</title>`)
     .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${escapeHtml(seo.description)}$2`)
     .replace(/(<link\s+rel="canonical"\s+href=")[^"]*(")/, `$1${seo.url}$2`)
-    .replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
+    .replace(/(<meta\s+property="og:title"\s+content=")[^"]*(")/, `$1${escapeHtml(normalizedTitle)}$2`)
     .replace(/(<meta\s+property="og:description"\s+content=")[^"]*(")/, `$1${escapeHtml(seo.description)}$2`)
     .replace(/(<meta\s+property="og:url"\s+content=")[^"]*(")/, `$1${seo.url}$2`)
     .replace(/(<meta\s+property="og:locale"\s+content=")[^"]*(")/, `$1${seo.language === "es" ? "es_ES" : "en_US"}$2`)
     .replace(/(<meta\s+property="og:locale:alternate"\s+content=")[^"]*(")/, `$1${seo.language === "es" ? "en_US" : "es_ES"}$2`)
-    .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
+    .replace(/(<meta\s+name="twitter:title"\s+content=")[^"]*(")/, `$1${escapeHtml(normalizedTitle)}$2`)
     .replace(/(<meta\s+name="twitter:description"\s+content=")[^"]*(")/, `$1${escapeHtml(seo.description)}$2`)
     .replace(/<script type="application\/ld\+json">\s*\{[\s\S]*?\}\s*<\/script>/, `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>`)
     .replace(/\s*<link rel="alternate" hreflang="[^"]+" href="[^"]+" \/>/g, "")
