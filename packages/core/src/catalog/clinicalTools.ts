@@ -2748,8 +2748,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   strongkids: {
     validationNotes: {
-      es: "Implementación local de STRONGkids con los cuatro ítems publicados: valoración clínica subjetiva (1), enfermedad de alto riesgo (2), ingesta/pérdidas (1) y pérdida de peso o ganancia insuficiente (1).",
-      en: "Local STRONGkids implementation using the four published items: subjective clinical assessment (1), high-risk disease (2), intake/losses (1), and weight loss or poor weight gain (1)."
+      es: "Implementación local independiente de STRONGkids con redacción propia y ponderación publicada 1+2+1+1: valoración clínica subjetiva (1), enfermedad de alto riesgo/cirugía mayor prevista (2), ingesta reducida o pérdidas relevantes (1) y pérdida de peso o ganancia insuficiente (1). No reproduce el formulario original.",
+      en: "Independent local STRONGkids implementation with independently worded items and the published 1+2+1+1 weighting: subjective clinical assessment (1), high-risk disease/planned major surgery (2), reduced intake or relevant losses (1), and weight loss or poor weight gain (1). It does not reproduce the original form."
     },
     inputs: [
       booleanInput("poor_nutritional_status", { es: "Mal estado nutricional en valoración clínica subjetiva", en: "Poor nutritional status on subjective clinical assessment" }),
