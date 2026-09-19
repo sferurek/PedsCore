@@ -44,13 +44,6 @@ describe("calculator registry", () => {
       "yos",
       "pucai",
       "pcdai",
-      "pass",
-      "gorelick_dehydration",
-      "prifle",
-      "pelod_2",
-      "prism_iv",
-      "pim3",
-      "psofa",
       "modified_tal",
       "taussig_croup",
       "risc",
@@ -62,7 +55,14 @@ describe("calculator registry", () => {
       "ckid_u25",
       "modified_bell_nec",
       "nsofa",
-      "wpcdai"
+      "wpcdai",
+      "pass",
+      "gorelick_dehydration",
+      "prifle",
+      "pelod_2",
+      "prism_iv",
+      "pim3",
+      "psofa"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
