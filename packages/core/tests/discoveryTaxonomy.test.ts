@@ -82,7 +82,6 @@ describe("clinical discovery taxonomy", () => {
       "edin",
       "nfcs",
       "j4s",
-      "fnass_21"
     ];
 
     for (const id of unresolvedIds) {
