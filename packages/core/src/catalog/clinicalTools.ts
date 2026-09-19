@@ -51,7 +51,25 @@ const implementedToolIds = new Set([
   "pecarn_febrile_infant",
   "yos",
   "pucai",
-  "pcdai"
+  "pcdai",
+  "modified_tal",
+  "taussig_croup",
+  "pass",
+  "risc",
+  "mrisc",
+  "gorelick_dehydration",
+  "prifle",
+  "kdigo_pediatric",
+  "pelod_2",
+  "prism_iv",
+  "pim3",
+  "phoenix_sepsis",
+  "parc",
+  "bacterial_meningitis_score",
+  "ckid_u25",
+  "modified_bell_nec",
+  "nsofa",
+  "wpcdai"
 ]);
 
 type ToolSeed = Omit<
