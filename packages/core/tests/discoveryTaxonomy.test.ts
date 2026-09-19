@@ -65,7 +65,44 @@ describe("clinical discovery taxonomy", () => {
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
-    ).toHaveLength(30);
+    ).toHaveLength(57);
+  });
+
+  it("keeps rights metadata aligned with the audited rights register", () => {
+    const unresolvedIds = [
+      "pipp",
+      "comfortneo",
+      "brighton_pews",
+      "rdai",
+      "brosjod",
+      "pyms",
+      "cheops",
+      "pednihss",
+      "crib_ii",
+      "edin",
+      "nfcs",
+      "j4s",
+      "fnass_21"
+    ];
+
+    for (const id of unresolvedIds) {
+      expect(getToolDiscovery(id)?.reuseStatus, id).toBe("unresolved");
+      expect(getToolDiscovery(id)?.calculationAvailability, id).not.toBe("local_active");
+    }
+  });
+
+  it("keeps local calculation and catalog implementation state synchronized", () => {
+    for (const tool of clinicalTools) {
+      const discovery = getToolDiscovery(tool.id);
+      if (discovery?.calculationAvailability === "local_active") {
+        expect(tool.calculationStatus, tool.id).toBe("active");
+        expect(tool.implementationStatus, tool.id).toBe("implemented");
+      }
+
+      if (tool.calculationStatus === "active") {
+        expect(discovery?.calculationAvailability, tool.id).toBe("local_active");
+      }
+    }
   });
 
   it("does not expose removed final surfaces through discovery", () => {
