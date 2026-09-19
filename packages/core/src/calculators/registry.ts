@@ -43,6 +43,7 @@ import { modifiedBellNecCalculator } from "./modifiedBellNec.js";
 import { nSofaCalculator } from "./nSofa.js";
 import { wpcdaiCalculator } from "./ibdActivity.js";
 import { pelod2Calculator, pim3Calculator, prism4Calculator } from "./criticalCareScores.js";
+import { psofaCalculator } from "./psofa.js";
 
 const calculators = [
   apgarCalculator,
@@ -98,7 +99,8 @@ const calculators = [
   prifleCalculator,
   pelod2Calculator,
   prism4Calculator,
-  pim3Calculator
+  pim3Calculator,
+  psofaCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
