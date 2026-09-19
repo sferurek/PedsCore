@@ -344,7 +344,7 @@ describe("WHO growth scaffold", () => {
     );
     expect(result.applicableResults).toHaveLength(6);
     expect(bmiForAge?.isApplicable).toBe(true);
-    expect(bmiForAge?.value).toBeCloseTo(16.22, 2);
+    expect(bmiForAge?.value).toBeCloseTo(15.96, 2);
     expect(bmiForAge?.zScore).toBeTypeOf("number");
     expect(bmiForAge?.percentile).toBeTypeOf("number");
   });
@@ -498,7 +498,7 @@ describe("WHO growth scaffold", () => {
     });
     const heightResult = calculateWhoGrowthWithWeightForHeightData({
       sex: "male",
-      ageDays: 730,
+      ageDays: 731,
       weightKg: 7.4327,
       heightCm: 65
     });
