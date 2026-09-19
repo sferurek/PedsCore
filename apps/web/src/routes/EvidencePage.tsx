@@ -2,6 +2,7 @@ import { clinicalTools, getToolDiscovery } from "@peds-core/core";
 import { statusLabels, surfaceStatusLabels, translations } from "../i18n/translations";
 import { evidenceStatusDescriptions } from "../utils/evidenceStatus";
 import type { Language } from "../utils/language";
+import { ClinicalReviewDashboard } from "../components/ClinicalReviewDashboard";
 
 interface EvidencePageProps {
   language: Language;
@@ -140,6 +141,8 @@ export function EvidencePage({ language }: EvidencePageProps) {
           ))}
         </dl>
       </section>
+
+      <ClinicalReviewDashboard language={language} />
 
       <section className="content-panel subtle-panel">
         <h2>{t.evidence.statusTitle}</h2>
