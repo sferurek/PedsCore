@@ -293,7 +293,9 @@ export const prifleCalculator: CalculatorDefinition = {
     const urineOutput = getNumber(input, "urine_output_ml_kg_h");
     const urineDuration = getNumber(input, "urine_duration_hours");
     const anuriaHours = getNumber(input, "anuria_hours") ?? 0;
-    const persistentFailureWeeks = getNumber(input, "persistent_failure_weeks") ?? 0;
+    const persistentFailureDays =
+      getNumber(input, "persistent_failure_days") ??
+      ((getNumber(input, "persistent_failure_weeks") ?? 0) * 7);
 
     if (baselineEccl === null || currentEccl === null || urineOutput === null || urineDuration === null) {
       return {
@@ -309,7 +311,7 @@ export const prifleCalculator: CalculatorDefinition = {
 
     if (
       baselineEccl <= 0 || currentEccl < 0 || urineOutput < 0 ||
-      urineDuration < 0 || anuriaHours < 0 || persistentFailureWeeks < 0
+      urineDuration < 0 || anuriaHours < 0 || persistentFailureDays < 0
     ) {
       return {
         toolId: tool.id,
@@ -334,8 +336,8 @@ export const prifleCalculator: CalculatorDefinition = {
     else if (urineOutput < 0.5 && urineDuration >= 8) urineStage = 1;
 
     let stage = Math.max(renalStage, urineStage) as PrifleStage;
-    if (persistentFailureWeeks > 13) stage = 5;
-    else if (persistentFailureWeeks > 4) stage = Math.max(stage, 4) as PrifleStage;
+    if (persistentFailureDays > 90) stage = 5;
+    else if (persistentFailureDays > 28) stage = Math.max(stage, 4) as PrifleStage;
 
     return {
       toolId: tool.id,
@@ -346,8 +348,8 @@ export const prifleCalculator: CalculatorDefinition = {
         renalContextWarning,
         warning(
           "prifle_baseline_dependency",
-          "pRIFLE depende del eCCl basal y del metodo usado para estimarlo. Si el basal no es fiable, la categoria puede cambiar.",
-          "pRIFLE depends on baseline eCCl and the method used to estimate it. If baseline is unreliable, classification may change."
+          "pRIFLE depende del eCCl basal y del método pediátrico utilizado para estimarlo; no asumas que cualquier eGFR de laboratorio es intercambiable. Si el basal no es fiable, la categoría puede cambiar.",
+          "pRIFLE depends on baseline eCCl and the pediatric method used to estimate it; do not assume any laboratory eGFR is interchangeable. If baseline is unreliable, classification may change."
         )
       ],
       trace: [
@@ -357,7 +359,7 @@ export const prifleCalculator: CalculatorDefinition = {
         { inputId: "urine_output_ml_kg_h", value: urineOutput },
         { inputId: "urine_duration_hours", value: urineDuration, score: urineStage },
         { inputId: "anuria_hours", value: anuriaHours },
-        { inputId: "persistent_failure_weeks", value: persistentFailureWeeks }
+        { inputId: "persistent_failure_days", value: persistentFailureDays }
       ]
     };
   }
