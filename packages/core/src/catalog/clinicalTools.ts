@@ -69,7 +69,9 @@ const implementedToolIds = new Set([
   "prifle",
   "pelod_2",
   "prism_iv",
-  "pim3"
+  "pim3",
+  "psofa",
+  "snappii"
 ]);
 
 type ToolSeed = Omit<
@@ -86,6 +88,54 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  psofa: [
+    {
+      id: "psofa_2017_original",
+      title: "Adaptation and Validation of a Pediatric Sequential Organ Failure Assessment Score and Evaluation of the Sepsis-3 Definitions in Critically Ill Children",
+      authors: "Matics TJ, Sanchez-Pinto LN",
+      year: 2017,
+      journalOrPublisher: "JAMA Pediatrics",
+      doi: "10.1001/jamapediatrics.2017.2352",
+      pmid: "28783810",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open full text includes the complete age-adapted pSOFA scoring table.",
+      appliesTo: ["psofa"],
+      priority: 1
+    }
+  ],
+  snappii: [
+    {
+      id: "snappeii_2001_original",
+      title: "SNAP-II and SNAPPE-II: Simplified newborn illness severity and mortality risk scores",
+      authors: "Richardson DK, Corcoran JD, Escobar GJ, Lee SK",
+      year: 2001,
+      journalOrPublisher: "The Journal of Pediatrics",
+      doi: "10.1067/mpd.2001.109608",
+      pmid: "11148519",
+      url: "https://pubmed.ncbi.nlm.nih.gov/11148519/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Original SNAP-II/SNAPPE-II derivation.",
+      appliesTo: ["snappii"],
+      priority: 1
+    },
+    {
+      id: "snappeii_open_table",
+      title: "SNAPPE-II table reproduced in open neonatal critical-care literature",
+      journalOrPublisher: "Open-access neonatal literature",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4625304/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open source used to verify the nine variables and point weights.",
+      appliesTo: ["snappii"],
+      priority: 2
+    }
+  ],
   modified_bell_nec: [
     {
       id: "modified_bell_ccby_table",
@@ -5327,7 +5377,50 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         }
       }
     ]
-  }
+  },
+  psofa: {
+    validationNotes: {
+      es: "pSOFA original pediátrico de seis sistemas, 0-24 puntos. Se implementa para cuantificar disfunción orgánica/pronóstico; no como definición actual de sepsis ni como regla terapéutica.",
+      en: "Original pediatric six-system pSOFA, 0-24 points. Implemented for organ-dysfunction/prognostic assessment, not as a current sepsis definition or treatment rule."
+    },
+    inputs: [
+      { id:"age_months", label:{es:"Edad",en:"Age"}, type:"number", required:true, unit:"meses", min:0, max:300, step:0.1 },
+      { id:"oxygenation_mode", label:{es:"Índice respiratorio",en:"Respiratory ratio"}, type:"select", required:true, options:[
+        option("pf","PaO₂/FiO₂ (P/F)","PaO₂/FiO₂ (P/F)"),
+        option("sf","SpO₂/FiO₂ (S/F)","SpO₂/FiO₂ (S/F)")
+      ]},
+      { id:"oxygenation_ratio", label:{es:"Valor P/F o S/F",en:"P/F or S/F value"}, type:"number", required:true, min:0, max:1000, step:1 },
+      booleanInput("respiratory_support",{es:"Soporte respiratorio",en:"Respiratory support"}),
+      { id:"platelets_10e3_ul", label:{es:"Plaquetas",en:"Platelets"}, type:"number", required:true, unit:"×10³/µL", min:0, max:2000, step:1 },
+      { id:"bilirubin_mg_dl", label:{es:"Bilirrubina",en:"Bilirubin"}, type:"number", required:true, unit:"mg/dL", min:0, max:100, step:0.1 },
+      { id:"map_mmhg", label:{es:"Presión arterial media",en:"Mean arterial pressure"}, type:"number", required:true, unit:"mmHg", min:0, max:200, step:1 },
+      { id:"vasoactive_level", label:{es:"Soporte vasoactivo",en:"Vasoactive support"}, type:"select", required:true, options:[
+        option("none","Ninguno","None"),
+        option("low","Dopamina ≤5 o dobutamina a cualquier dosis","Dopamine ≤5 or dobutamine at any dose"),
+        option("moderate","Dopamina >5-15 o adrenalina/noradrenalina ≤0,1","Dopamine >5-15 or epinephrine/norepinephrine ≤0.1"),
+        option("high","Dopamina >15 o adrenalina/noradrenalina >0,1","Dopamine >15 or epinephrine/norepinephrine >0.1")
+      ]},
+      { id:"gcs", label:{es:"Glasgow",en:"Glasgow Coma Scale"}, type:"number", required:true, min:3, max:15, step:1 },
+      { id:"creatinine_mg_dl", label:{es:"Creatinina",en:"Creatinine"}, type:"number", required:true, unit:"mg/dL", min:0, max:20, step:0.01 }
+    ]
+  },
+  snappii: {
+    validationNotes: {
+      es: "SNAPPE-II completo de nueve variables, 0-162 puntos, para gravedad/riesgo neonatal temprano. No se convierte en una predicción individual determinista.",
+      en: "Complete nine-variable SNAPPE-II, 0-162 points, for early neonatal severity/risk assessment. It is not converted into a deterministic individual prediction."
+    },
+    inputs: [
+      { id:"mean_bp_mmhg", label:{es:"PAM mínima",en:"Lowest mean BP"}, type:"number", required:true, unit:"mmHg", min:0, max:150, step:1 },
+      { id:"lowest_temperature_c", label:{es:"Temperatura mínima",en:"Lowest temperature"}, type:"number", required:true, unit:"°C", min:20, max:45, step:0.1 },
+      { id:"pao2_fio2_ratio", label:{es:"PaO₂/FiO₂ mínimo",en:"Lowest PaO₂/FiO₂"}, type:"number", required:true, min:0, max:1000, step:1 },
+      { id:"lowest_ph", label:{es:"pH mínimo",en:"Lowest pH"}, type:"number", required:true, min:6.5, max:8, step:0.01 },
+      booleanInput("multiple_seizures",{es:"Convulsiones múltiples",en:"Multiple seizures"}),
+      { id:"urine_output_ml_kg_h", label:{es:"Diuresis",en:"Urine output"}, type:"number", required:true, unit:"mL/kg/h", min:0, max:20, step:0.01 },
+      { id:"birth_weight_g", label:{es:"Peso al nacer",en:"Birth weight"}, type:"number", required:true, unit:"g", min:200, max:7000, step:1 },
+      booleanInput("sga_below_3rd_percentile",{es:"PEG < percentil 3",en:"SGA <3rd percentile"}),
+      { id:"apgar_5min", label:{es:"Apgar a 5 minutos",en:"5-minute Apgar"}, type:"number", required:true, min:0, max:10, step:1 }
+    ]
+
 };
 
 const tool = (seed: ToolSeed): ClinicalToolMetadata => {
@@ -5501,7 +5594,7 @@ const targetExpansionSurfaces: ClinicalToolMetadata[] = [
   referenceSurface({ id:"pvas", slug:"pvas", shortName:"PVAS", nameEs:"Escala pediátrica de actividad de vasculitis", nameEn:"Paediatric Vasculitis Activity Score", category:"neurology", subcategory:"systemic_vasculitis", type:"scale", populationEs:"Niños con vasculitis sistémica", populationEn:"Children with systemic vasculitis", descriptionEs:"Escala de referencia para actividad de vasculitis pediátrica.", descriptionEn:"Reference scale for pediatric vasculitis activity.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"pednihss", slug:"pednihss", shortName:"PedNIHSS", nameEs:"Escala pediátrica NIH de ictus", nameEn:"Pediatric NIH Stroke Scale", category:"neurology", subcategory:"stroke", type:"scale", populationEs:"Niños con sospecha o diagnóstico de ictus", populationEn:"Children with suspected or diagnosed stroke", descriptionEs:"Escala de referencia para gravedad neurológica en ictus pediátrico.", descriptionEn:"Reference scale for neurologic severity in pediatric stroke.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"modified_bell_nec", slug:"modified-bell-nec", shortName:"Bell", nameEs:"Estadificación de Bell modificada para NEC", nameEn:"Modified Bell Staging for NEC", category:"neonatology", subcategory:"necrotizing_enterocolitis", type:"scale", populationEs:"Recién nacidos con sospecha de enterocolitis necrosante", populationEn:"Newborns with suspected necrotizing enterocolitis", descriptionEs:"Marco de estadificación de referencia para enterocolitis necrosante.", descriptionEn:"Reference staging framework for necrotizing enterocolitis.", evidenceLevel:"clinical_practice_guideline", regulatoryRisk:"high" }),
-  referenceSurface({ id:"snappii", slug:"snappe-ii", shortName:"SNAPPE-II", nameEs:"SNAPPE-II", nameEn:"SNAPPE-II", category:"neonatology", subcategory:"neonatal_severity", type:"score", populationEs:"Recién nacidos críticamente enfermos", populationEn:"Critically ill newborns", descriptionEs:"Puntaje de referencia para gravedad y riesgo en neonatología; no predice un desenlace individual.", descriptionEn:"Reference score for neonatal severity and risk; it does not predict an individual outcome.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
+  referenceSurface({ id:"snappii", slug:"snappe-ii", shortName:"SNAPPE-II", nameEs:"SNAPPE-II", nameEn:"SNAPPE-II", category:"neonatology", subcategory:"neonatal_severity", type:"score", populationEs:"Recién nacidos críticamente enfermos", populationEn:"Critically ill newborns", descriptionEs:"SNAPPE-II completo de nueve variables para gravedad y riesgo neonatal temprano.", descriptionEn:"Complete nine-variable SNAPPE-II for early neonatal severity and risk.", evidenceLevel:"original_derivation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"crib_ii", slug:"crib-ii", shortName:"CRIB II", nameEs:"CRIB II", nameEn:"CRIB II", category:"neonatology", subcategory:"neonatal_severity", type:"score", populationEs:"Recién nacidos prematuros según criterios publicados", populationEn:"Preterm newborns meeting published criteria", descriptionEs:"Puntaje de referencia para riesgo neonatal en prematuros.", descriptionEn:"Reference score for neonatal risk in preterm infants.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"nsofa", slug:"nsofa", shortName:"nSOFA", nameEs:"nSOFA", nameEn:"nSOFA", category:"neonatology", subcategory:"neonatal_sepsis", type:"score", populationEs:"Recién nacidos con sospecha de sepsis", populationEn:"Newborns with suspected sepsis", descriptionEs:"Puntaje de referencia de disfunción orgánica neonatal asociada a sepsis.", descriptionEn:"Reference score for neonatal sepsis-associated organ dysfunction.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"ispad_dka", slug:"ispad-pediatric-dka-severity", shortName:"ISPAD DKA", nameEs:"Gravedad de cetoacidosis diabética pediátrica ISPAD", nameEn:"ISPAD Pediatric DKA Severity", category:"intensive_care", subcategory:"diabetic_ketoacidosis", type:"clinical_rule", populationEs:"Niños y adolescentes con cetoacidosis diabética", populationEn:"Children and adolescents with diabetic ketoacidosis", descriptionEs:"Marco de referencia para gravedad de cetoacidosis diabética pediátrica según ISPAD.", descriptionEn:"ISPAD reference framework for pediatric diabetic-ketoacidosis severity.", evidenceLevel:"clinical_practice_guideline", regulatoryRisk:"high" }),
@@ -5604,7 +5697,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con talla, creatinina, cistatina C, BUN y sexo disponibles", "Children with available height, creatinine, cystatin C, BUN, and sex", "Formula CKiD 2009 multivariable para eGFR pediatrico estimado.", "2009 multivariable CKiD equation for estimated pediatric eGFR.", "ready_for_implementation", "original_derivation_study", "medium", revisedSchwartzReadyNotes),
   makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos criticamente enfermos con riesgo de lesion renal aguda", "Critically ill children at risk of acute kidney injury", "Clasificacion pRIFLE original mediante eCCl y diuresis.", "Original pRIFLE classification using eCCl and urine output.", "implemented", "original_derivation_study", "medium", prifleValidationNotes),
   makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO pediatrico", "KDIGO pediatrico", "Pediatric KDIGO", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Aplicacion pediatrica de criterios KDIGO para lesion renal aguda.", "Pediatric application of KDIGO criteria for acute kidney injury.", "pending_validation", "pending_verification", "medium"),
-  makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Evalua disfuncion organica multiple pediatrica.", "Assesses pediatric multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
+  makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Score pediatrico de seis sistemas para cuantificar disfuncion organica.", "Six-system pediatric score for organ dysfunction.", "implemented", "original_derivation_study", "high", {es:"Tabla completa verificada en el articulo abierto de Matics y Sanchez-Pinto.",en:"Complete scoring table verified in the open Matics and Sanchez-Pinto article."}),
   makeTool("pelod", "pelod", "PELOD", "PELOD", "PELOD", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Score de disfuncion organica pediatrica.", "Pediatric organ dysfunction score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pelod_2", "pelod-2", "PELOD-2", "PELOD-2", "PELOD-2", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "PELOD-2 completo para cuantificar disfuncion organica multiple.", "Complete PELOD-2 for pediatric multiple-organ dysfunction.", "implemented", "original_derivation_study", "high", {es:"PELOD-2 completo verificado con fuentes abiertas; el articulo original declara el score de dominio publico para uso en ensayos clinicos.",en:"Complete PELOD-2 verified against open sources; the original paper states the score will be in the public domain for clinical-trial use."}),
   makeTool("prism_iii", "prism-iii", "PRISM III", "PRISM III", "PRISM III", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Score de riesgo de mortalidad en UCI pediatrica.", "Pediatric ICU mortality risk score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
