@@ -254,16 +254,16 @@ const finalDispositionOverrides: Record<string, Partial<ClinicalToolDiscoveryMet
   stamp: { surfaceStatus:"active" },
   strongkids: { surfaceStatus:"active" },
   pyms: { surfaceStatus:"active" },
-  flacc: { surfaceStatus:"active", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
+  flacc: { surfaceStatus:"active", calculationAvailability:"external_official", reuseStatus:"permission_required" },
   rflacc: { surfaceStatus:"active" },
   cheops: { surfaceStatus:"active" },
   visual_analogue_scale: { surfaceStatus:"active" },
-  pediatric_cpr: { surfaceStatus:"active", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
-  neonatal_cpr: { surfaceStatus:"active", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
-  pediatric_bradycardia: { surfaceStatus:"active", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
-  pediatric_tachycardia: { surfaceStatus:"active", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
-  shockable_rhythm_algorithm: { surfaceStatus:"active", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" },
-  non_shockable_rhythm_algorithm: { surfaceStatus:"active", calculationAvailability:"blocked_by_rights", reuseStatus:"permission_required" }
+  pediatric_cpr: { surfaceStatus:"active", calculationAvailability:"external_official", reuseStatus:"permission_required" },
+  neonatal_cpr: { surfaceStatus:"active", calculationAvailability:"external_official", reuseStatus:"permission_required" },
+  pediatric_bradycardia: { surfaceStatus:"active", calculationAvailability:"external_official", reuseStatus:"permission_required" },
+  pediatric_tachycardia: { surfaceStatus:"active", calculationAvailability:"external_official", reuseStatus:"permission_required" },
+  shockable_rhythm_algorithm: { surfaceStatus:"active", calculationAvailability:"external_official", reuseStatus:"permission_required" },
+  non_shockable_rhythm_algorithm: { surfaceStatus:"active", calculationAvailability:"external_official", reuseStatus:"permission_required" }
 };
 
 const applyFinalDisposition = (
