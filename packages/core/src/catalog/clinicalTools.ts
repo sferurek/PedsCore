@@ -1940,7 +1940,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Original Gorelick source plus open-access reproductions used to verify the complete 10-sign scale and ≥3 / ≥7 sign thresholds."
+        "Original Gorelick source plus open-access reproductions used to verify the complete 10-sign scale and ≥3 / ≥7 sign thresholds.",
       appliesTo: ["gorelick_dehydration"],
       priority: 1
     }
