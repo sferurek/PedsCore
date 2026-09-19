@@ -5641,6 +5641,99 @@ const reconciliationSurfaces: ClinicalToolMetadata[] = [
   referenceSurface({ id:"fnass_21", slug:"fnass-21", shortName:"FNASS", nameEs:"Sistema de Puntuación de Abstinencia Neonatal de Finnegan de 21 ítems", nameEn:"21-item Finnegan Neonatal Abstinence Scoring System", category:"neonatology", subcategory:"neonatal_withdrawal", type:"scale", populationEs:"Recién nacidos a término expuestos intraútero a sustancias psicoactivas, especialmente opioides", populationEn:"Term newborns exposed in utero to psychoactive substances, particularly opioids", descriptionEs:"FNAST de 21 síntomas para evaluación longitudinal de signos de abstinencia neonatal; salida descriptiva sin instrucciones terapéuticas.", descriptionEn:"21-symptom FNAST for longitudinal assessment of neonatal withdrawal signs; descriptive output without treatment instructions.", evidenceLevel:"official_manual_or_institutional_protocol", regulatoryRisk:"high", references:implementedToolReferences.fnass_21! })
 ];
 
+type RightsExternalReferenceSeed = {
+  title: string;
+  url: string;
+  publisher: string;
+  reason: "permission_required" | "unresolved" | "external_only";
+  sourceType?: "website" | "journal_article" | "guideline";
+};
+
+const rightsExternalReferenceById: Record<string, RightsExternalReferenceSeed> = {
+  pipp: { title:"PIPP-R educational module", url:"https://lab.research.sickkids.ca/stevens/pipp-r-module/", publisher:"The Hospital for Sick Children (SickKids)", reason:"unresolved" },
+  pipp_r: { title:"PIPP-R educational module", url:"https://lab.research.sickkids.ca/stevens/pipp-r-module/", publisher:"The Hospital for Sick Children (SickKids)", reason:"permission_required" },
+  comfortneo: { title:"COMFORT Behaviour Scale / COMFORTneo information", url:"https://eprovide.mapi-trust.org/instruments/comfort-behaviour-scale", publisher:"ePROVIDE / Mapi Research Trust", reason:"unresolved" },
+  brighton_pews: { title:"Brighton Paediatric Early Warning Score source material", url:"https://www.england.nhs.uk/patientsafety/wp-content/uploads/sites/32/2015/03/5-pews-scottish2.pdf", publisher:"NHS England", reason:"unresolved" },
+  brosjod: { title:"BROSJOD bronchiolitis score publication", url:"https://onlinelibrary.wiley.com/doi/10.1002/ppul.23546", publisher:"Pediatric Pulmonology / Wiley", reason:"unresolved", sourceType:"journal_article" },
+  prism_iii: { title:"PRISM scoring system information", url:"https://www.cpccrn.org/calculators/", publisher:"Collaborative Pediatric Critical Care Research Network", reason:"permission_required" },
+  orbegozo_growth_percentiles: { title:"Gráficas y tablas de crecimiento", url:"https://www.fundacionorbegozo.com/el-instituto-de-investigacion-del-crecimiento-y-desarrollo/graficas-y-tablas/", publisher:"Fundación Faustino Orbegozo", reason:"permission_required" },
+  pyms: { title:"Paediatric Yorkhill Malnutrition Score original publication", url:"https://www.clinicalnutritionjournal.com/article/S0261-5614(11)00032-X/fulltext", publisher:"Clinical Nutrition / Elsevier", reason:"unresolved", sourceType:"journal_article" },
+  flacc: { title:"FLACC / rFLACC official licensing page", url:"https://available-inventions.umich.edu/product/face-legs-activity-cry-consolability-observational-tool-as-a-measure-of-pain", publisher:"University of Michigan", reason:"permission_required" },
+  rflacc: { title:"FLACC / rFLACC official licensing page", url:"https://available-inventions.umich.edu/product/face-legs-activity-cry-consolability-observational-tool-as-a-measure-of-pain", publisher:"University of Michigan", reason:"permission_required" },
+  cheops: { title:"CHEOPS official measure reference", url:"https://pediatric-pain.ca/resources/our-measures/", publisher:"Centre for Pediatric Pain Research", reason:"unresolved" },
+  capd: { title:"Cornell Assessment of Pediatric Delirium", url:"https://www.icudelirium.org/medical-professionals/pediatric-care", publisher:"ICU Delirium and Cognitive Impairment Study Group", reason:"permission_required" },
+  wat_1: { title:"Withdrawal Assessment Tool-1 (WAT-1)", url:"https://www.marthaaqcurley.com/wat-1.html", publisher:"Martha A.Q. Curley / Linda S. Franck", reason:"permission_required" },
+  sbs: { title:"State Behavioral Scale (SBS)", url:"https://www.marthaaqcurley.com/sbs.html", publisher:"Martha A.Q. Curley", reason:"permission_required" },
+  sos_pd: { title:"SOS-Pediatric Delirium scale", url:"https://www.comfortassessment.nl/web/index.php/instruments/sos-pediatric-delirium-sos-pd/", publisher:"COMFORT Assessment", reason:"permission_required" },
+  pcam_icu: { title:"Pediatric delirium resources", url:"https://www.icudelirium.org/medical-professionals/pediatric-care", publisher:"ICU Delirium and Cognitive Impairment Study Group", reason:"permission_required" },
+  pscam_icu: { title:"psCAM-ICU instruction tool and resources", url:"https://www.icudelirium.org/medical-professionals/downloads/resources-by-category", publisher:"ICU Delirium and Cognitive Impairment Study Group", reason:"permission_required" },
+  braden_qd: { title:"Braden QD source and licensing information", url:"https://www.bradenscale.com/", publisher:"Braden Scale / Health Sense Ai", reason:"permission_required" },
+  pednihss: { title:"Pediatric NIH Stroke Scale clinical literature", url:"https://pubmed.ncbi.nlm.nih.gov/37079905/", publisher:"PubMed / National Library of Medicine", reason:"unresolved", sourceType:"journal_article" },
+  crib_ii: { title:"CRIB II original publication", url:"https://pubmed.ncbi.nlm.nih.gov/12781540/", publisher:"The Lancet / PubMed", reason:"unresolved", sourceType:"journal_article" },
+  comfort_b: { title:"COMFORT Behaviour Scale licensing record", url:"https://eprovide.mapi-trust.org/instruments/comfort-behaviour-scale", publisher:"ePROVIDE / Mapi Research Trust", reason:"permission_required" },
+  n_pass: { title:"N-PASS terminology and copyright record", url:"https://loinc.org/95620-1/", publisher:"LOINC / Regenstrief Institute", reason:"permission_required" },
+  edin: { title:"EDIN original validation", url:"https://pubmed.ncbi.nlm.nih.gov/11420320/", publisher:"Archives of Disease in Childhood / PubMed", reason:"unresolved", sourceType:"journal_article" },
+  nfcs: { title:"Neonatal Facial Coding System source literature", url:"https://pubmed.ncbi.nlm.nih.gov/?term=Neonatal+Facial+Coding+System+Grunau+Craig", publisher:"PubMed / National Library of Medicine", reason:"unresolved", sourceType:"journal_article" },
+  cmas: { title:"IMACS assessment tools and permissions", url:"https://www.niehs.nih.gov/research/resources/imacs/othertools", publisher:"NIH / NIEHS IMACS", reason:"permission_required" },
+  mmt8: { title:"MMT-8 Clinical Outcome Assessment licensing", url:"https://www.wiley.com/en-mx/solutions-partnerships/corporates/reprints-licensing/clinical-outcome-assessments/about-coas/mmt8/", publisher:"Wiley", reason:"permission_required" },
+  j4s: { title:"Juvenile Systemic Sclerosis Severity Score publication", url:"https://onlinelibrary.wiley.com/doi/10.1002/art.34652", publisher:"Arthritis & Rheumatism / Wiley", reason:"unresolved", sourceType:"journal_article" },
+  jdm_disease_activity_score: { title:"IMACS Disease Activity Score resources and permissions", url:"https://www.niehs.nih.gov/research/resources/imacs/othertools", publisher:"NIH / NIEHS IMACS", reason:"permission_required" },
+  myositis_damage_index: { title:"Myositis Damage Index instrument record", url:"https://eprovide.mapi-trust.org/instruments/myositis-damage-index", publisher:"ePROVIDE / Mapi Research Trust", reason:"permission_required" },
+  stamp: { title:"STAMP paediatric nutrition screening tool", url:"https://www.stampscreeningtool.org/", publisher:"STAMP", reason:"external_only" },
+  pediatric_cpr: { title:"2025 Pediatric Advanced Life Support guideline", url:"https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-advanced-life-support", publisher:"American Heart Association", reason:"external_only", sourceType:"guideline" },
+  pediatric_bradycardia: { title:"2025 Pediatric Advanced Life Support guideline", url:"https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-advanced-life-support", publisher:"American Heart Association", reason:"external_only", sourceType:"guideline" },
+  pediatric_tachycardia: { title:"2025 Pediatric Advanced Life Support guideline", url:"https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-advanced-life-support", publisher:"American Heart Association", reason:"external_only", sourceType:"guideline" },
+  shockable_rhythm_algorithm: { title:"2025 Pediatric Advanced Life Support guideline", url:"https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-advanced-life-support", publisher:"American Heart Association", reason:"external_only", sourceType:"guideline" },
+  non_shockable_rhythm_algorithm: { title:"2025 Pediatric Advanced Life Support guideline", url:"https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/pediatric-advanced-life-support", publisher:"American Heart Association", reason:"external_only", sourceType:"guideline" },
+  neonatal_cpr: { title:"2025 Neonatal Resuscitation guideline", url:"https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines/neonatal-resuscitation", publisher:"American Heart Association / American Academy of Pediatrics", reason:"external_only", sourceType:"guideline" }
+};
+
+const withRightsExternalReference = (toolMetadata: ClinicalToolMetadata): ClinicalToolMetadata => {
+  const seed = rightsExternalReferenceById[toolMetadata.id];
+  if (!seed) return toolMetadata;
+
+  const explanation: LocalizedText =
+    seed.reason === "permission_required"
+      ? {
+          es: "Herramienta sujeta a derechos o condiciones de uso. PedsCore no reproduce localmente el formulario, matriz o contenido operativo protegido; se ofrece acceso directo a la fuente oficial o autorizada.",
+          en: "Tool subject to copyright or use conditions. PedsCore does not reproduce the protected form, matrix, or operational content locally; direct access to the official or authorized source is provided."
+        }
+      : seed.reason === "unresolved"
+        ? {
+            es: "PedsCore no ha verificado una licencia que autorice inequívocamente la republicación íntegra de esta herramienta. Se mantiene una ficha clínica activa con enlace directo a la fuente original u oficial.",
+            en: "PedsCore has not verified a licence that unambiguously permits full republication of this tool. An active clinical reference page is retained with a direct link to the original or official source."
+          }
+        : {
+            es: "Contenido mantenido como referencia externa oficial. PedsCore enlaza a la fuente vigente en lugar de duplicar localmente el material protegido.",
+            en: "Content retained as an official external reference. PedsCore links to the current source instead of duplicating protected material locally."
+          };
+
+  const externalReference: Reference = {
+    id: `${toolMetadata.id}_external_official`,
+    title: seed.title,
+    journalOrPublisher: seed.publisher,
+    url: seed.url,
+    evidenceLevel: seed.sourceType === "journal_article" ? "original_derivation_study" : "official_manual_or_institutional_protocol",
+    sourceType: seed.sourceType ?? "website",
+    accessType: "open_access",
+    notes: explanation.en,
+    appliesTo: [toolMetadata.id],
+    priority: 1
+  };
+
+  const existingReferences = toolMetadata.references ?? [];
+  const references = [
+    externalReference,
+    ...existingReferences.filter((reference) => reference.url !== externalReference.url)
+  ];
+
+  return {
+    ...toolMetadata,
+    validationNotes: explanation,
+    references
+  };
+};
+
 export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool(
     "apgar",
@@ -5790,7 +5883,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   ...priorityExpansionSurfaces,
   ...targetExpansionSurfaces,
   ...reconciliationSurfaces
-];
+].map(withRightsExternalReference);
 
 export const getAllTools = (): ClinicalToolMetadata[] => [...clinicalTools];
 

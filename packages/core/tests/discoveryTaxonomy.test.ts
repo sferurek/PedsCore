@@ -57,15 +57,25 @@ describe("clinical discovery taxonomy", () => {
       (metadata) => metadata.surfaceStatus
     );
 
-    expect(statuses.filter((status) => status === "active")).toHaveLength(120);
+    expect(statuses.filter((status) => status === "active")).toHaveLength(134);
     expect(statuses.filter((status) => status === "draft")).toHaveLength(0);
-    expect(statuses.filter((status) => status === "blocked")).toHaveLength(14);
+    expect(statuses.filter((status) => status === "blocked")).toHaveLength(0);
     expect(statuses.filter((status) => status === "deprecated")).toHaveLength(3);
     expect(
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
     ).toHaveLength(61);
+  });
+
+  it("exposes rights-limited active tools through an external source instead of a dead-end blocker", () => {
+    const activeRightsDeadEnds = Object.entries(toolDiscoveryById).filter(
+      ([, metadata]) =>
+        metadata.surfaceStatus === "active" &&
+        metadata.calculationAvailability === "blocked_by_rights"
+    );
+
+    expect(activeRightsDeadEnds).toHaveLength(0);
   });
 
   it("keeps rights metadata aligned with the audited rights register", () => {
