@@ -26,7 +26,7 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 | SIM MCP contracts | 6-tool remote `tools/list` in run `35334436459` | Verified live |
 | SIM production HTTP contract | CI run `35333822459`: production Next.js server + deterministic smoke | Verified |
 | Public SIM bridge endpoint | `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`; Vercel deployment status success | Verified |
-| End-to-end public MCP → SIM flow | GitHub Actions `Hackathon MCP Remote Smoke` run `35462460140` | Verified: `school-bus` → patient `01` → GREEN → `JS-MOB-01`, `correct=true` |
+| End-to-end public MCP → SIM flow | GitHub Actions `Hackathon MCP Remote Smoke` run `35466300736` | Verified: `school-bus` → patient `01` → GREEN → `JS-MOB-01`, `correct=true` |
 | Alexa+ private add-on tooling | Devpost support confirmation dated 18 Sep 2026 | Partner-only; intentionally not a submission dependency |
 | AWS Cognito code path | `infra/aws/cognito-alexa-mcp.yaml` | Implemented, not provisioned |
 | AWS Builder Mini Challenge | actual useful deployed AWS integration + write-up | Not yet claimed |
