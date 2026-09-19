@@ -51,7 +51,10 @@ const implementedToolIds = new Set([
   "pelod_2",
   "prism_iv",
   "pim3",
-  "who_growth_percentiles"
+  "who_growth_percentiles",
+  "who_growth_module",
+  "bmi_percentile",
+  "head_circumference_percentile"
 ]);
 
 type ToolSeed = Omit<
