@@ -25,7 +25,7 @@ const creatinineScore = (ageMonths: number, cr: number): number => {
     ageMonths < 144 ? [0.7,1.1,1.8,2.6] :
     ageMonths <= 216 ? [1.0,1.7,2.9,4.2] :
     [1.2,2.0,3.5,5.0];
-  return cr >= bands[3] ? 4 : cr >= bands[2] ? 3 : cr >= bands[1] ? 2 : cr >= bands[0] ? 1 : 0;
+  return cr >= bands[3]! ? 4 : cr >= bands[2]! ? 3 : cr >= bands[1]! ? 2 : cr >= bands[0]! ? 1 : 0;
 };
 
 export const psofaCalculator: CalculatorDefinition = {
