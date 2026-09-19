@@ -226,6 +226,7 @@ Useful entry points for evaluating the project:
 - [Roadmap](ROADMAP.md)
 - [Changelog](CHANGELOG.md)
 - [SEO / indexability checks](docs/SEO_CHECKLIST.md)
+- [P2 Quality Audit](docs/P2_QUALITY_AUDIT.md)
 - [Evidence documentation](docs/evidence/)
 
 If you are evaluating the clinical “brain” of PedsCore, start with:
