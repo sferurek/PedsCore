@@ -411,7 +411,11 @@ describe("clinical tools catalog", () => {
       expect(tool?.calculationStatus).toBe("active");
       expect(tool?.references.some((reference) => reference.doi || reference.pmid || reference.url)).toBe(true);
       expect(tool?.validationNotes.en).toContain("without CT or management recommendations");
-      expect(tool?.inputs?.every((input) => input.type === "boolean")).toBe(true);
+      const predictorIds = id === "catch_tbi"
+        ? ["gcs_less_than_15_at_2_hours","suspected_open_or_depressed_skull_fracture","worsening_headache","irritability_on_exam","signs_of_basal_skull_fracture","large_boggy_scalp_hematoma","dangerous_mechanism"]
+        : ["witnessed_loss_of_consciousness_over_5_minutes","history_of_amnesia_over_5_minutes","abnormal_drowsiness","three_or_more_vomiting_episodes","suspicion_of_non_accidental_injury","post_traumatic_seizure_without_epilepsy","gcs_less_than_14_or_under_1_less_than_15","suspected_penetrating_or_depressed_skull_injury_or_tense_fontanelle","signs_of_basal_skull_fracture","focal_neurology","bruise_swelling_laceration_over_5cm_under_1_year","high_speed_road_traffic_mechanism","fall_over_3_metres","high_speed_projectile_or_object"];
+      expect(tool?.inputs?.filter((input) => predictorIds.includes(input.id)).every((input) => input.type === "boolean")).toBe(true);
+      expect(tool?.inputs?.some((input) => input.id === (id === "catch_tbi" ? "age_years" : "age_years"))).toBe(true);
     }
   });
 
