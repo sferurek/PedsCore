@@ -55,11 +55,18 @@ describe("calculator registry", () => {
       "ckid_u25",
       "modified_bell_nec",
       "nsofa",
-      "wpcdai"
+      "wpcdai",
+      "pass",
+      "gorelick_dehydration",
+      "prifle",
+      "pelod_2",
+      "prism_iv",
+      "pim3",
+      "psofa"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(54);
+    expect(getImplementedTools()).toHaveLength(61);
   });
 
   it("calculates through the dispatcher", () => {

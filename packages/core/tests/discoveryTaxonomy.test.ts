@@ -57,15 +57,15 @@ describe("clinical discovery taxonomy", () => {
       (metadata) => metadata.surfaceStatus
     );
 
-    expect(statuses.filter((status) => status === "active")).toHaveLength(114);
+    expect(statuses.filter((status) => status === "active")).toHaveLength(120);
     expect(statuses.filter((status) => status === "draft")).toHaveLength(0);
-    expect(statuses.filter((status) => status === "blocked")).toHaveLength(20);
+    expect(statuses.filter((status) => status === "blocked")).toHaveLength(14);
     expect(statuses.filter((status) => status === "deprecated")).toHaveLength(3);
     expect(
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
-    ).toHaveLength(51);
+    ).toHaveLength(58);
   });
 
   it("keeps rights metadata aligned with the audited rights register", () => {

@@ -199,7 +199,7 @@ describe("public product web polish", () => {
     expect(tools).toHaveLength(137);
     expect(
       tools.filter((tool) => tool.implementationStatus === "implemented")
-    ).toHaveLength(54);
+    ).toHaveLength(61);
     expect(
       tools.filter((tool) => tool.implementationStatus === "partially_implemented")
     ).toHaveLength(0);

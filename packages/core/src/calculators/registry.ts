@@ -33,15 +33,17 @@ import { yaleObservationScaleCalculator } from "./yaleObservation.js";
 import { pucaiCalculator } from "./ibdActivity.js";
 import { pcdaiCalculator } from "./pcdai.js";
 import { modifiedTalCalculator, taussigCroupCalculator } from "./respiratoryScores.js";
-import { riscCalculator } from "./respiratoryRisk.js";
-import { mriscCalculator } from "./additionalOpenTools.js";
-import { ckidU25Calculator, kdigoPediatricCalculator } from "./renalOpen.js";
+import { passAsthmaCalculator, riscCalculator } from "./respiratoryRisk.js";
+import { gorelickDehydrationCalculator, mriscCalculator } from "./additionalOpenTools.js";
+import { ckidU25Calculator, kdigoPediatricCalculator, prifleCalculator } from "./renalOpen.js";
 import { phoenixSepsisCalculator } from "./phoenixSepsis.js";
 import { parcCalculator } from "./parc.js";
 import { bacterialMeningitisScoreCalculator } from "./infectionOpen.js";
 import { modifiedBellNecCalculator } from "./modifiedBellNec.js";
 import { nSofaCalculator } from "./nSofa.js";
 import { wpcdaiCalculator } from "./ibdActivity.js";
+import { pelod2Calculator, pim3Calculator, prism4Calculator } from "./criticalCareScores.js";
+import { psofaCalculator } from "./psofa.js";
 
 const calculators = [
   apgarCalculator,
@@ -91,7 +93,14 @@ const calculators = [
   ckidU25Calculator,
   modifiedBellNecCalculator,
   nSofaCalculator,
-  wpcdaiCalculator
+  wpcdaiCalculator,
+  passAsthmaCalculator,
+  gorelickDehydrationCalculator,
+  prifleCalculator,
+  pelod2Calculator,
+  prism4Calculator,
+  pim3Calculator,
+  psofaCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

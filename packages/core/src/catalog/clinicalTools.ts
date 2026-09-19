@@ -52,6 +52,13 @@ const implementedToolIds = new Set([
   "yos",
   "pucai",
   "pcdai",
+  "pass",
+  "gorelick_dehydration",
+  "prifle",
+  "pelod_2",
+  "prism_iv",
+  "pim3",
+  "psofa",
   "modified_tal",
   "taussig_croup",
   "risc",
@@ -499,6 +506,24 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Original open-access derivation study with the HIV-negative RISC scoring table.",
       appliesTo: ["risc"],
+      priority: 1
+    }
+  ],
+  psofa: [
+    {
+      id: "psofa_2017_original",
+      title: "Adaptation and Validation of a Pediatric Sequential Organ Failure Assessment Score and Evaluation of the Sepsis-3 Definitions in Critically Ill Children",
+      authors: "Matics TJ, Sanchez-Pinto LN",
+      year: 2017,
+      journalOrPublisher: "JAMA Pediatrics",
+      doi: "10.1001/jamapediatrics.2017.2352",
+      pmid: "28783810",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access article contains the complete pediatric SOFA scoring table.",
+      appliesTo: ["psofa"],
       priority: 1
     }
   ],
@@ -2765,7 +2790,28 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       { id: "weight_for_age_z", label: { es: "Z-score peso/edad OMS", en: "WHO weight-for-age Z-score" }, type: "number", required: true, min: -10, max: 5, step: 0.01 }
     ]
   },
-  pelod_2: {
+  psofa: {
+    validationNotes: {
+      es: "pSOFA completo de seis sistemas, 0-24 puntos, con umbrales pediátricos por edad para PAM y creatinina y opción PaO₂/FiO₂ o SpO₂/FiO₂.",
+      en: "Complete six-system pSOFA, 0-24 points, with pediatric age-specific MAP and creatinine thresholds and PaO₂/FiO₂ or SpO₂/FiO₂ respiratory scoring."
+    },
+    inputs: [
+      { id:"age_months", label:{es:"Edad",en:"Age"}, type:"number", required:true, unit:"meses", min:0, max:300, step:0.1 },
+      { id:"pao2_fio2_ratio", label:{es:"PaO₂/FiO₂",en:"PaO₂/FiO₂"}, type:"number", required:false, min:0, max:1000, step:1 },
+      { id:"spo2_fio2_ratio", label:{es:"SpO₂/FiO₂",en:"SpO₂/FiO₂"}, type:"number", required:false, min:0, max:1000, step:1 },
+      booleanInput("respiratory_support",{es:"Soporte respiratorio",en:"Respiratory support"}),
+      { id:"platelets_10e3_ul", label:{es:"Plaquetas",en:"Platelets"}, type:"number", required:true, unit:"×10³/µL", min:0, max:1500, step:1 },
+      { id:"bilirubin_mg_dl", label:{es:"Bilirrubina total",en:"Total bilirubin"}, type:"number", required:true, unit:"mg/dL", min:0, max:100, step:0.1 },
+      { id:"map_mmhg", label:{es:"PAM",en:"MAP"}, type:"number", required:true, unit:"mmHg", min:0, max:200, step:1 },
+      { id:"dopamine_mcg_kg_min", label:{es:"Dopamina",en:"Dopamine"}, type:"number", required:true, unit:"µg/kg/min", min:0, max:100, step:0.1 },
+      booleanInput("dobutamine_any_dose",{es:"Dobutamina a cualquier dosis",en:"Dobutamine at any dose"}),
+      { id:"epinephrine_mcg_kg_min", label:{es:"Adrenalina",en:"Epinephrine"}, type:"number", required:true, unit:"µg/kg/min", min:0, max:10, step:0.01 },
+      { id:"norepinephrine_mcg_kg_min", label:{es:"Noradrenalina",en:"Norepinephrine"}, type:"number", required:true, unit:"µg/kg/min", min:0, max:10, step:0.01 },
+      { id:"gcs", label:{es:"Glasgow",en:"GCS"}, type:"number", required:true, min:3, max:15, step:1 },
+      { id:"creatinine_mg_dl", label:{es:"Creatinina",en:"Creatinine"}, type:"number", required:true, unit:"mg/dL", min:0, max:20, step:0.01 }
+    ]
+  },
+    pelod_2: {
     validationNotes: {
       es: "PELOD-2 completo con diez variables y umbrales dependientes de edad para PAM y creatinina. La salida incluye puntaje 0-33 y la probabilidad derivada del modelo logístico publicado.",
       en: "Complete PELOD-2 with ten variables and age-dependent MAP and creatinine thresholds. Output includes the 0-33 score and probability from the published logistic model."
@@ -5545,13 +5591,13 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
   makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
-  makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos con asma o broncoespasmo", "Children with asthma or wheezing", "Score de gravedad de asma pediatrica identificado para revision.", "Pediatric asthma severity score identified for review.", "pending_validation", "original_derivation_study", "medium", passValidationNotes),
+  makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos de 1 a 18 anos con exacerbacion aguda de asma", "Children aged 1 to 18 years with acute asthma exacerbation", "PASS original de Gorelick: tres dominios clinicos, total 0-6.", "Original Gorelick PASS: three clinical domains, total 0-6.", "implemented", "original_derivation_study", "medium", passValidationNotes),
   makeTool("risc", "risc", "RISC", "RISC", "RISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Score de gravedad de neumonia identificado en recomendaciones.", "Pneumonia severity score identified in recommendations.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("mrisc", "mrisc", "mRISC", "mRISC", "mRISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Variante modificada RISC para neumonia.", "Modified RISC variant for pneumonia.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
   makeTool("pediatric_gcs", "pediatric-glasgow-coma-scale", "pGCS", "Escala de Coma de Glasgow pediatrica", "Pediatric Glasgow Coma Scale", "neurology", "consciousness", "scale", "Ninos con necesidad de valoracion neurologica", "Children requiring neurologic assessment", "Adaptacion pediatrica de apertura ocular, respuesta verbal y motora.", "Pediatric adaptation of eye, verbal, and motor response.", "pending_validation", "pending_verification", "medium", pediatricGcsValidationNotes),
   makeTool("clinical_dehydration_scale", "clinical-dehydration-scale", "CDS", "Clinical Dehydration Scale", "Clinical Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Score clinico de gravedad de deshidratacion.", "Clinical score for dehydration severity.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("pediatric_appendicitis_score", "pediatric-appendicitis-score", "PAS", "Pediatric Appendicitis Score", "Pediatric Appendicitis Score", "emergency", "abdominal_pain", "score", "Ninos con dolor abdominal y sospecha clinica de apendicitis", "Children with abdominal pain and clinical concern for appendicitis", "Calculadora educativa de riesgo de apendicitis pediatrica basada en ocho items clinicos y analiticos.", "Educational pediatric appendicitis risk calculator based on eight clinical and laboratory items.", "ready_for_implementation", "original_derivation_study", "medium", pediatricAppendicitisScoreValidationNotes),
-  makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos con sospecha de deshidratacion", "Children with suspected dehydration", "Escala alternativa de deshidratacion identificada.", "Alternative dehydration scale identified.", "pending_validation", "original_derivation_study", "medium", gorelickValidationNotes),
+  makeTool("gorelick_dehydration", "gorelick-dehydration", "Gorelick", "Escala de Gorelick", "Gorelick Dehydration Scale", "emergency", "dehydration", "score", "Ninos de 1 mes a 5 anos con sospecha de deshidratacion", "Children aged 1 month to 5 years with suspected dehydration", "Escala de Gorelick de 10 signos con recuento 0-10.", "Gorelick 10-sign dehydration scale, score 0-10.", "implemented", "original_derivation_study", "medium", gorelickValidationNotes),
   makeTool("pediatric_burn_tbsa", "pediatric-burn-tbsa", "TBSA Burns", "Estimacion TBSA de quemaduras pediatrica", "Pediatric Burn TBSA Estimate", "emergency", "burns", "calculator", "Pacientes pediatricos con quemaduras de espesor parcial o total", "Pediatric patients with partial-thickness or full-thickness burns", "Estimacion descriptiva de superficie corporal quemada usando porcentajes regionales pediatricos ajustados por edad.", "Descriptive burned total body surface area estimate using pediatric age-adjusted regional percentages.", "ready_for_implementation", "official_manual_or_institutional_protocol", "medium", pediatricBurnTbsaValidationNotes),
   makeTool("pecarn_tbi_under_2", "pecarn-tbi-under-2", "PECARN <2", "PECARN TCE menor de 2 anos", "PECARN TBI Under 2 Years", "emergency", "head_trauma", "clinical_rule", "Menores de 2 anos con traumatismo craneal", "Children under 2 years with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
   makeTool("pecarn_tbi_2_or_more", "pecarn-tbi-2-or-more", "PECARN >=2", "PECARN TCE 2 anos o mas", "PECARN TBI 2 Years or Older", "emergency", "head_trauma", "clinical_rule", "Ninos de 2 anos o mas con traumatismo craneal", "Children 2 years or older with head trauma", "Regla clinica PECARN para estratificacion de riesgo en TCE.", "PECARN clinical rule for TBI risk stratification.", "ready_for_implementation", "high", "medium", baseValidationNotes.ready),
@@ -5564,15 +5610,15 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("qtc_hodges", "qtc-hodges", "QTc Hodges", "QTc Hodges", "QTc Hodges", "cardiology", "electrocardiography", "calculator", "Pacientes pediatricos con intervalo QT medido", "Pediatric patients with measured QT interval", "Correccion QT mediante formula de Hodges.", "QT correction using Hodges formula.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("bedside_schwartz", "bedside-schwartz", "Bedside Schwartz", "Bedside Schwartz", "Bedside Schwartz", "nephrology", "egfr", "calculator", "Ninos con creatinina y talla disponibles", "Children with available creatinine and height", "Estimacion de filtrado glomerular pediatrico.", "Pediatric estimated glomerular filtration rate.", "ready_for_implementation", "moderate", "medium", baseValidationNotes.ready),
   makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con talla, creatinina, cistatina C, BUN y sexo disponibles", "Children with available height, creatinine, cystatin C, BUN, and sex", "Formula CKiD 2009 multivariable para eGFR pediatrico estimado.", "2009 multivariable CKiD equation for estimated pediatric eGFR.", "ready_for_implementation", "original_derivation_study", "medium", revisedSchwartzReadyNotes),
-  makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificacion pediatrica de lesion renal aguda.", "Pediatric acute kidney injury classification.", "pending_validation", "original_derivation_study", "medium", prifleValidationNotes),
+  makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificacion pRIFLE por descenso de eCCl y diuresis.", "pRIFLE classification by eCCl decline and urine output.", "implemented", "original_derivation_study", "medium", prifleValidationNotes),
   makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO pediatrico", "KDIGO pediatrico", "Pediatric KDIGO", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Aplicacion pediatrica de criterios KDIGO para lesion renal aguda.", "Pediatric application of KDIGO criteria for acute kidney injury.", "pending_validation", "pending_verification", "medium"),
-  makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Evalua disfuncion organica multiple pediatrica.", "Assesses pediatric multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
+  makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Puntaje pediatrico de seis sistemas para cuantificar disfuncion organica.", "Six-system pediatric score for organ dysfunction.", "implemented", "original_derivation_study", "high", baseValidationNotes.ready),
   makeTool("pelod", "pelod", "PELOD", "PELOD", "PELOD", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Score de disfuncion organica pediatrica.", "Pediatric organ dysfunction score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
-  makeTool("pelod_2", "pelod-2", "PELOD-2", "PELOD-2", "PELOD-2", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Version PELOD-2 para disfuncion organica multiple.", "PELOD-2 version for multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
+  makeTool("pelod_2", "pelod-2", "PELOD-2", "PELOD-2", "PELOD-2", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Version PELOD-2 para disfuncion organica multiple.", "PELOD-2 version for multi-organ dysfunction.", "implemented", "original_derivation_study", "high", baseValidationNotes.ready),
   makeTool("prism_iii", "prism-iii", "PRISM III", "PRISM III", "PRISM III", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Score de riesgo de mortalidad en UCI pediatrica.", "Pediatric ICU mortality risk score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
-  makeTool("prism_iv", "prism-iv", "PRISM IV", "PRISM IV", "PRISM IV", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Version PRISM IV identificada para revision.", "PRISM IV version identified for review.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
+  makeTool("prism_iv", "prism-iv", "PRISM IV", "PRISM IV", "PRISM IV", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Version PRISM IV identificada para revision.", "PRISM IV version identified for review.", "implemented", "original_derivation_study", "high", baseValidationNotes.ready),
   makeTool("pim2", "pim2", "PIM2", "PIM2", "PIM2", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Indice de mortalidad pediatrica version 2.", "Pediatric Index of Mortality version 2.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
-  makeTool("pim3", "pim3", "PIM3", "PIM3", "PIM3", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Indice de mortalidad pediatrica version 3.", "Pediatric Index of Mortality version 3.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
+  makeTool("pim3", "pim3", "PIM3", "PIM3", "PIM3", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Indice de mortalidad pediatrica version 3.", "Pediatric Index of Mortality version 3.", "implemented", "original_derivation_study", "high", baseValidationNotes.ready),
   makeTool(
     "who_growth_module",
     "who-growth",
