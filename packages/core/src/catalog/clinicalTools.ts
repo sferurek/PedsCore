@@ -50,7 +50,8 @@ const implementedToolIds = new Set([
   "step_by_step",
   "pecarn_febrile_infant",
   "yos",
-  "pucai"
+  "pucai",
+  "pcdai"
 ]);
 
 type ToolSeed = Omit<
@@ -156,6 +157,19 @@ const implementedToolReferences: Record<string, Reference[]> = {
       notes: "Open table reproduces the complete PCDAI item scoring.",
       appliesTo: ["pcdai"],
       priority: 2
+    },
+    {
+      id: "pcdai_ecco_espghan_2026",
+      title: "Management of Pediatric Crohn’s Disease: an ECCO-ESPGHAN Guideline Update",
+      year: 2026,
+      journalOrPublisher: "Journal of Crohn's and Colitis",
+      url: "https://academic.oup.com/ecco-jcc/article/20/8/jjag084/8766823",
+      evidenceLevel: "clinical_practice_guideline",
+      sourceType: "guideline",
+      accessType: "open_access",
+      notes: "Current guideline lists PCDAI decrease ≥12.5 points for response and PCDAI ≤10 points for clinical remission.",
+      appliesTo: ["pcdai"],
+      priority: 3
     }
   ],
   wpcdai: [
@@ -2489,7 +2503,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     ]
   },
   pcdai: {
-    validationNotes:{es:"PCDAI original de 11 componentes, rango 0-100. Los ítems de hematocrito y crecimiento se introducen por categoría publicada para respetar referencias dependientes de edad/sexo.",en:"Original 11-component PCDAI, range 0-100. Hematocrit and growth items are entered using the published categories to respect age/sex-dependent references."},
+    validationNotes:{es:"PCDAI original de 11 componentes, rango 0-100. Los ítems de hematocrito y crecimiento se introducen por categoría publicada para respetar referencias dependientes de edad/sexo. PedsCore muestra el puntaje continuo y añade como contexto contemporáneo que ECCO-ESPGHAN 2026 usa PCDAI ≤10 como objetivo de remisión clínica y una disminución ≥12,5 puntos como respuesta.",en:"Original 11-component PCDAI, range 0-100. Hematocrit and growth items are entered using the published categories to respect age/sex-dependent references. PedsCore reports the continuous score and adds contemporary context that ECCO-ESPGHAN 2026 uses PCDAI ≤10 as a clinical-remission target and a decrease ≥12.5 points as response."},
     inputs:[
       {id:"abdominal_pain",label:{es:"Dolor abdominal",en:"Abdominal pain"},type:"single_choice",required:true,options:[option("0","Ninguno","None",0),option("5","Leve/breve","Mild/brief",5),option("10","Moderado-grave/diario/nocturno","Moderate-severe/daily/nocturnal",10)]},
       {id:"stools",label:{es:"Deposiciones",en:"Stools"},type:"single_choice",required:true,options:[option("0","0-1 líquidas sin sangre","0-1 liquid without blood",0),option("5","Hasta 2 semiformadas con poca sangre o 2-5 líquidas","Up to 2 semi-formed with little blood or 2-5 liquid",5),option("10","Sangrado macroscópico, ≥6 líquidas o diarrea nocturna","Gross bleeding, ≥6 liquid or nocturnal diarrhea",10)]},
