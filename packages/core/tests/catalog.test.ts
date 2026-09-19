@@ -47,7 +47,8 @@ const implementedToolIds = [
   "who_growth_percentiles",
   "bmi_percentile",
   "head_circumference_percentile",
-  "cdc_growth_percentiles"
+  "cdc_growth_percentiles",
+  "strongkids"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -137,7 +138,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(35);
+    expect(getImplementedTools()).toHaveLength(36);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -317,7 +318,6 @@ describe("clinical tools catalog", () => {
       "brighton_pews",
       "orbegozo_growth_percentiles",
       "stamp",
-      "strongkids",
       "pyms"
     ];
 
@@ -332,8 +332,7 @@ describe("clinical tools catalog", () => {
     const reviewedPendingIds = [
       "pipp_r",
       "comfortneo",
-      "pediatric_gcs",
-      "strongkids"
+      "pediatric_gcs"
     ];
 
     for (const id of reviewedPendingIds) {
@@ -354,6 +353,15 @@ describe("clinical tools catalog", () => {
       expect(tool?.implementationStatus).toBe("not_implemented_due_to_licensing");
       expect(tool?.calculationStatus).not.toBe("active");
     }
+  });
+
+  it("activates STRONGkids with the verified independent scoring implementation", () => {
+    const tool = getTool("strongkids");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.inputs).toHaveLength(4);
+    expect(tool?.interpretationBands).toHaveLength(3);
+    expect(tool?.validationNotes.en).toContain("1+2+1+1");
   });
 
   it("keeps variant-sensitive Block 8B-2 tools explicitly blocked", () => {
