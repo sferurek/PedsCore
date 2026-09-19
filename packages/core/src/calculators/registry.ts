@@ -28,6 +28,7 @@ import { modifiedTalCalculator } from "./modifiedTal.js";
 import { taussigCroupCalculator } from "./taussigCroup.js";
 import { passCalculator } from "./pass.js";
 import { riscCalculator } from "./risc.js";
+import { mRiscCalculator } from "./mRisc.js";
 
 const calculators = [
   apgarCalculator,
@@ -61,7 +62,8 @@ const calculators = [
   modifiedTalCalculator,
   taussigCroupCalculator,
   passCalculator,
-  riscCalculator
+  riscCalculator,
+  mRiscCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
