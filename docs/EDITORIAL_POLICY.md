@@ -54,6 +54,12 @@ Changes to code and documentation remain visible in the public repository histor
 
 Errors, missing sources, licensing concerns, and proposed updates can be reported through GitHub Issues. Changes that affect clinical logic should be traceable to a source and accompanied by tests when applicable.
 
+## Independent clinical review
+
+PedsCore distinguishes implementation/evidence review from independent clinical review. Local activation does not by itself establish independent expert review.
+
+The prioritized queue is maintained in `docs/CLINICAL_REVIEW_QUEUE.md`; individual reviews should follow `docs/CLINICAL_REVIEW_TEMPLATE.md`. A tool may only be described as externally reviewed when a concrete dated review record exists.
+
 ## Review claims
 
 PedsCore does not claim independent expert review, formal guideline endorsement, or regulatory approval unless there is explicit documentation supporting that statement.
