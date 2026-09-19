@@ -30,22 +30,22 @@ Amazon's submission form explicitly rewards useful friction logs. Record concret
 
 ### 2026-09-18 — Vercel preview deployment blocked by build rate limit
 - **Task attempted:** Produce a remote preview endpoint for the hackathon MCP branch through the repository's existing Vercel Git integration.
-- **Steps taken:** Pushed the `hackathon/alexa-mcp` branch and opened draft PR #43, allowing the normal Vercel preview integration to run.
+- **Steps taken:** Pushed the `hackathon/alexa-mcp-v2` branch and opened draft PR #91, allowing the normal Vercel preview integration to run.
 - **Expected result:** Vercel should create a preview deployment that can later expose the MCP endpoint for remote Alexa+/client testing.
 - **Actual result:** GitHub commit status `Vercel` returned `failure` and linked to Vercel's `upgradeToPro=build-rate-limit` page.
 - **Severity:** Important
 - **Workaround:** Continue validating the MCP server end-to-end in GitHub Actions and keep the remote deployment configuration ready; retry preview deployment once the account build-rate window clears or deploy the MCP service separately.
 - **Actionable suggestion:** Surface the exact retry/reset time directly in failed Git checks and provide an explicit queued-preview option rather than a generic upgrade redirect.
 - **Affected tool / API / SDK:** Vercel Git preview deployments.
-- **Evidence:** GitHub combined status on PR #43 head reported `context: Vercel`, `state: failure`, target `upgradeToPro=build-rate-limit`.
+- **Evidence:** GitHub combined status on PR #91 head reported `context: Vercel`, `state: failure`, target `upgradeToPro=build-rate-limit`.
 
 ### 2026-09-18 — Railway Git source silently deployed the default branch
-- **Task attempted:** Deploy the `hackathon/alexa-mcp` branch of the PedsCore monorepo to a new Railway service.
+- **Task attempted:** Deploy the `hackathon/alexa-mcp-v2` branch of the PedsCore monorepo to a new Railway service.
 - **Steps taken:** Created the service from GitHub and passed `branch: hackathon/alexa-mcp` during deployment creation.
 - **Expected result:** The first deployment should build the requested hackathon branch.
 - **Actual result:** Railway deployment metadata showed `branch: main` and baseline commit `069eb6ad...`, so the MCP workspace did not exist and the build reported only two workspaces.
 - **Severity:** Important
-- **Workaround:** Explicitly staged the service source branch through Railway service configuration, committed the staged environment changes, then deployed a specific commit SHA from `hackathon/alexa-mcp`.
+- **Workaround:** Explicitly staged the service source branch through Railway service configuration, committed the staged environment changes, then deployed a specific commit SHA from `hackathon/alexa-mcp-v2`.
 - **Actionable suggestion:** Surface the effective Git branch prominently when creating a service and reject or warn when the requested branch is not applied.
 - **Affected tool / API / SDK:** Railway GitHub deployment workflow.
 - **Evidence:** Initial deployment metadata reported `branch: main`; successful hackathon deployment later used commit `65641045486ff555fab014140ad394f0180092b3`.
@@ -93,3 +93,13 @@ Amazon's submission form explicitly rewards useful friction logs. Record concret
 - **Actionable suggestion:** When service creation targets a private repository that the GitHub App cannot clone, fail immediately with an explicit repository-authorization action instead of creating an offline service with no deployment.
 - **Affected tool / API / SDK:** Railway GitHub source integration.
 - **Evidence:** Railway service configuration shows the correct repository and `hackathon/alexa-sim` branch but no deployment; Railway agent inspection identified missing GitHub App repository access.
+
+### 2026-09-19 — Devpost confirmed Alexa+ add-on tooling is partner-only
+- **Task attempted:** Resolve the remaining `AccessDenied` for Amazon's documented `AddOn3PDeveloperToolsRead` role.
+- **Expected result:** Identify an account allowlisting or IAM remediation path available to hackathon participants.
+- **Actual result:** Devpost support (Janet Fang) confirmed that Category SDK and MCP Toolkit / Alexa+ add-on tools are available only to selected Amazon partners and there is currently no way for general participants to apply for that access. The setup page followed during troubleshooting did not surface that limitation clearly.
+- **Severity:** Important onboarding/documentation friction; not a submission blocker.
+- **Workaround:** Use the explicitly permitted self-hosted MCP route with MCP 2025-11-25+ over Streamable HTTP.
+- **Actionable suggestion:** Put the partner-only limitation prominently on every setup page that references the private CLI, CodeArtifact registry, Category SDK, MCP Toolkit, or `AddOn3PDeveloperToolsRead`; distinguish these from the self-hosted MCP submission path before IAM setup begins.
+- **Affected tool / API / SDK:** Alexa+ add-on onboarding documentation / private developer tooling.
+- **Evidence:** Devpost support email dated 18 September 2026 confirming the partner-only restriction.
