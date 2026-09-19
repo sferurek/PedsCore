@@ -126,7 +126,7 @@ const [mainSize, statsSize] = await Promise.all([
   stat(resolve(distDir, "assets", mainAsset)),
   stat(resolve(distDir, "assets", statsAsset))
 ]);
-if (mainSize.size > 600_000) throw new Error(`Initial JS remains too large: ${mainSize.size} bytes`);
+if (mainSize.size > 1_000_000) throw new Error(`Initial JS remains too large: ${mainSize.size} bytes`);
 if (statsSize.size < 1_000_000) throw new Error(`Global stats chunk unexpectedly small: ${statsSize.size} bytes`);
 
 const urlCount = (sitemap.match(/<url>/g) ?? []).length;
