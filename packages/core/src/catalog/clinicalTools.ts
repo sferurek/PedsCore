@@ -58,6 +58,7 @@ const implementedToolIds = new Set([
   "pelod_2",
   "prism_iv",
   "pim3",
+  "psofa",
   "modified_tal",
   "taussig_croup",
   "risc",
@@ -505,6 +506,24 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Original open-access derivation study with the HIV-negative RISC scoring table.",
       appliesTo: ["risc"],
+      priority: 1
+    }
+  ],
+  psofa: [
+    {
+      id: "psofa_2017_original",
+      title: "Adaptation and Validation of a Pediatric Sequential Organ Failure Assessment Score and Evaluation of the Sepsis-3 Definitions in Critically Ill Children",
+      authors: "Matics TJ, Sanchez-Pinto LN",
+      year: 2017,
+      journalOrPublisher: "JAMA Pediatrics",
+      doi: "10.1001/jamapediatrics.2017.2352",
+      pmid: "28783810",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access article contains the complete pediatric SOFA scoring table.",
+      appliesTo: ["psofa"],
       priority: 1
     }
   ],
@@ -2771,7 +2790,28 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       { id: "weight_for_age_z", label: { es: "Z-score peso/edad OMS", en: "WHO weight-for-age Z-score" }, type: "number", required: true, min: -10, max: 5, step: 0.01 }
     ]
   },
-  pelod_2: {
+  psofa: {
+    validationNotes: {
+      es: "pSOFA completo de seis sistemas, 0-24 puntos, con umbrales pediátricos por edad para PAM y creatinina y opción PaO₂/FiO₂ o SpO₂/FiO₂.",
+      en: "Complete six-system pSOFA, 0-24 points, with pediatric age-specific MAP and creatinine thresholds and PaO₂/FiO₂ or SpO₂/FiO₂ respiratory scoring."
+    },
+    inputs: [
+      { id:"age_months", label:{es:"Edad",en:"Age"}, type:"number", required:true, unit:"meses", min:0, max:300, step:0.1 },
+      { id:"pao2_fio2_ratio", label:{es:"PaO₂/FiO₂",en:"PaO₂/FiO₂"}, type:"number", required:false, min:0, max:1000, step:1 },
+      { id:"spo2_fio2_ratio", label:{es:"SpO₂/FiO₂",en:"SpO₂/FiO₂"}, type:"number", required:false, min:0, max:1000, step:1 },
+      booleanInput("respiratory_support",{es:"Soporte respiratorio",en:"Respiratory support"}),
+      { id:"platelets_10e3_ul", label:{es:"Plaquetas",en:"Platelets"}, type:"number", required:true, unit:"×10³/µL", min:0, max:1500, step:1 },
+      { id:"bilirubin_mg_dl", label:{es:"Bilirrubina total",en:"Total bilirubin"}, type:"number", required:true, unit:"mg/dL", min:0, max:100, step:0.1 },
+      { id:"map_mmhg", label:{es:"PAM",en:"MAP"}, type:"number", required:true, unit:"mmHg", min:0, max:200, step:1 },
+      { id:"dopamine_mcg_kg_min", label:{es:"Dopamina",en:"Dopamine"}, type:"number", required:true, unit:"µg/kg/min", min:0, max:100, step:0.1 },
+      booleanInput("dobutamine_any_dose",{es:"Dobutamina a cualquier dosis",en:"Dobutamine at any dose"}),
+      { id:"epinephrine_mcg_kg_min", label:{es:"Adrenalina",en:"Epinephrine"}, type:"number", required:true, unit:"µg/kg/min", min:0, max:10, step:0.01 },
+      { id:"norepinephrine_mcg_kg_min", label:{es:"Noradrenalina",en:"Norepinephrine"}, type:"number", required:true, unit:"µg/kg/min", min:0, max:10, step:0.01 },
+      { id:"gcs", label:{es:"Glasgow",en:"GCS"}, type:"number", required:true, min:3, max:15, step:1 },
+      { id:"creatinine_mg_dl", label:{es:"Creatinina",en:"Creatinine"}, type:"number", required:true, unit:"mg/dL", min:0, max:20, step:0.01 }
+    ]
+  },
+    pelod_2: {
     validationNotes: {
       es: "PELOD-2 completo con diez variables y umbrales dependientes de edad para PAM y creatinina. La salida incluye puntaje 0-33 y la probabilidad derivada del modelo logístico publicado.",
       en: "Complete PELOD-2 with ten variables and age-dependent MAP and creatinine thresholds. Output includes the 0-33 score and probability from the published logistic model."
@@ -5572,7 +5612,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con talla, creatinina, cistatina C, BUN y sexo disponibles", "Children with available height, creatinine, cystatin C, BUN, and sex", "Formula CKiD 2009 multivariable para eGFR pediatrico estimado.", "2009 multivariable CKiD equation for estimated pediatric eGFR.", "ready_for_implementation", "original_derivation_study", "medium", revisedSchwartzReadyNotes),
   makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificacion pRIFLE por descenso de eCCl y diuresis.", "pRIFLE classification by eCCl decline and urine output.", "implemented", "original_derivation_study", "medium", prifleValidationNotes),
   makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO pediatrico", "KDIGO pediatrico", "Pediatric KDIGO", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Aplicacion pediatrica de criterios KDIGO para lesion renal aguda.", "Pediatric application of KDIGO criteria for acute kidney injury.", "pending_validation", "pending_verification", "medium"),
-  makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Evalua disfuncion organica multiple pediatrica.", "Assesses pediatric multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
+  makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Puntaje pediatrico de seis sistemas para cuantificar disfuncion organica.", "Six-system pediatric score for organ dysfunction.", "implemented", "original_derivation_study", "high", baseValidationNotes.ready),
   makeTool("pelod", "pelod", "PELOD", "PELOD", "PELOD", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Score de disfuncion organica pediatrica.", "Pediatric organ dysfunction score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pelod_2", "pelod-2", "PELOD-2", "PELOD-2", "PELOD-2", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Version PELOD-2 para disfuncion organica multiple.", "PELOD-2 version for multi-organ dysfunction.", "implemented", "original_derivation_study", "high", baseValidationNotes.ready),
   makeTool("prism_iii", "prism-iii", "PRISM III", "PRISM III", "PRISM III", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Score de riesgo de mortalidad en UCI pediatrica.", "Pediatric ICU mortality risk score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
