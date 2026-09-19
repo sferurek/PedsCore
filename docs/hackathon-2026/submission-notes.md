@@ -10,7 +10,7 @@ Working notes for the final Amazon Developer Hackathon 2026 submission.
 - Primary track: Alexa+
 - Existing project: Yes, significantly updated during the submission period
 - Open Source Mini Challenge: **Yes**
-- AWS Builder Mini Challenge: **Only claim if a useful AWS service is actually deployed and documented before submission**
+- AWS Builder Mini Challenge: **No in the current candidate** — reopen only with documented Kiro Crew use or a useful deployed AWS integration.
 - GitHub username: `sferurek`
 
 ## Core submission story
