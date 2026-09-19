@@ -892,3 +892,20 @@ describe("WHO Growth Reference 2007 completed scope", () => {
     expect(wfa?.percentile).toBeUndefined();
   });
 });
+
+
+describe("WHO length/height measurement conversion", () => {
+  it("adds 0.7 cm to standing height below 24 months before weight-for-length", async () => {
+    const { calculateWhoGrowthWithWeightForLengthData } = await import("../src/growth/who/weightForLengthHeight.js");
+    const result = calculateWhoGrowthWithWeightForLengthData({ sex: "male", ageDays: 500, weightKg: 10, heightCm: 79.3, measurementMode: "standing_height" });
+    const item = result.applicableResults.find((x) => x.indicator === "weight_for_length");
+    expect(item?.isApplicable).toBe(true);
+  });
+
+  it("subtracts 0.7 cm from recumbent length from 24 months through age 5 before weight-for-height", async () => {
+    const { calculateWhoGrowthWithWeightForHeightData } = await import("../src/growth/who/weightForLengthHeight.js");
+    const result = calculateWhoGrowthWithWeightForHeightData({ sex: "female", ageDays: 900, weightKg: 15, lengthCm: 100.7, measurementMode: "recumbent_length" });
+    const item = result.applicableResults.find((x) => x.indicator === "weight_for_height");
+    expect(item?.isApplicable).toBe(true);
+  });
+});
