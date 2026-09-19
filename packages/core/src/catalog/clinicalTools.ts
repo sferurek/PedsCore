@@ -44,7 +44,8 @@ const implementedToolIds = new Set([
   "who_growth_percentiles",
   "bmi_percentile",
   "head_circumference_percentile",
-  "cdc_growth_percentiles"
+  "cdc_growth_percentiles",
+  "strongkids"
 ]);
 
 type ToolSeed = Omit<
@@ -1746,9 +1747,35 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Original STRONGkids source plus open-access reproductions used to verify the four items, 2+1+1+1 weighting, and 0 / 1-3 / 4-5 risk bands.",
+        "Original STRONGkids source defining the hospitalized-child screening construct and four domains.",
       appliesTo: ["strongkids"],
       priority: 1
+    },
+    {
+      id: "strongkids_open_validation_2014",
+      title: "Application of a score system to evaluate the risk of malnutrition in a multiple hospital setting",
+      year: 2014,
+      journalOrPublisher: "Italian Journal of Pediatrics",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3901031/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access validation reproduces the four-domain structure, five-point total, and low/moderate/high risk bands.",
+      appliesTo: ["strongkids"],
+      priority: 2
+    },
+    {
+      id: "strongkids_open_comparison_2020",
+      title: "Screening for Pediatric Malnutrition at Hospital Admission: Which Screening Tool Is Best?",
+      year: 2020,
+      journalOrPublisher: "Nutrition in Clinical Practice",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7539919/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access comparison confirms the original STRONGkids cutoffs: 0 low, 1-3 moderate, 4-5 high risk.",
+      appliesTo: ["strongkids"],
+      priority: 3
     }
   ],
   pyms: [
@@ -2267,8 +2294,8 @@ const stampValidationNotes: LocalizedText = {
 };
 
 const strongkidsValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuente STRONGkids localizada con DOI/PMID. Pendiente tabla completa, texto de items, licencia/reutilizacion e interpretacion antes de implementar.",
-  en: "Block 8B-2: STRONGkids source located with DOI/PMID. Complete table, item wording, license/reuse terms, and interpretation remain pending before implementation."
+  es: "Implementación local independiente de STRONGkids para cribado de riesgo nutricional en niños hospitalizados. Usa redacción propia de los cuatro dominios publicados y la ponderación 1+2+1+1, con categorías 0 bajo, 1-3 moderado y 4-5 alto. No reproduce el formulario original ni genera recomendaciones terapéuticas.",
+  en: "Independent local STRONGkids implementation for nutritional-risk screening in hospitalized children. It uses independently worded versions of the four published domains and the 1+2+1+1 weighting, with 0 low, 1-3 moderate, and 4-5 high risk. It does not reproduce the original form or generate treatment recommendations."
 };
 
 const pymsValidationNotes: LocalizedText = {
@@ -5497,7 +5524,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("bmi_percentile", "bmi-percentile", "IMC percentilado", "IMC percentilado", "BMI Percentile", "growth_nutrition", "growth", "percentile", "Ninos y adolescentes en rangos OMS 0-5 o 5-19", "Children and adolescents in WHO 0-5 or 5-19 ranges", "Preset WHO Growth para BMI-for-age con salida descriptiva.", "WHO Growth preset for BMI-for-age with descriptive output.", "implemented", "official_manual_or_institutional_protocol", "medium", bmiPercentileValidationNotes),
   makeTool("head_circumference_percentile", "head-circumference-percentile", "PC percentil", "Percentil de perimetro cefalico", "Head Circumference Percentile", "growth_nutrition", "growth", "percentile", "Lactantes y ninos pequenos en rango OMS 0-5", "Infants and young children in the WHO 0-5 range", "Preset WHO Growth para perimetro cefalico/edad OMS 0-5 con salida descriptiva.", "WHO Growth preset for WHO 0-5 head circumference-for-age with descriptive output.", "implemented", "official_manual_or_institutional_protocol", "medium", headCircumferencePercentileValidationNotes),
   makeTool("stamp", "stamp", "STAMP", "STAMP", "STAMP", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo nutricional.", "Nutritional risk screening tool.", "pending_validation", "original_derivation_study", "medium", stampValidationNotes),
-  makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado de riesgo de malnutricion.", "Malnutrition risk screening tool.", "pending_validation", "original_derivation_study", "medium", strongkidsValidationNotes),
+  makeTool("strongkids", "strongkids", "STRONGkids", "STRONGkids", "STRONGkids", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Cribado de riesgo nutricional hospitalario mediante cuatro dominios y puntuacion 0-5.", "Hospital nutritional-risk screening using four domains and a 0-5 score.", "implemented", "original_derivation_study", "medium", strongkidsValidationNotes),
   makeTool("pyms", "pyms", "PYMS", "PYMS", "PYMS", "growth_nutrition", "malnutrition_risk", "score", "Ninos hospitalizados", "Hospitalized children", "Herramienta de cribado nutricional pediatrico.", "Pediatric nutritional screening tool.", "pending_validation", "original_derivation_study", "medium", pymsValidationNotes),
   makeTool("flacc", "flacc", "FLACC", "FLACC", "FLACC", "pain", "pediatric_pain", "scale", "Ninos pequenos o no verbales", "Young or non-verbal children", "Escala observacional de dolor basada en rostro, piernas, actividad, llanto y consolabilidad.", "Observational pain scale based on face, legs, activity, cry, and consolability.", "ready_for_implementation", "moderate", "low", baseValidationNotes.ready),
   makeTool("rflacc", "rflacc", "rFLACC", "rFLACC", "rFLACC", "pain", "pediatric_pain", "scale", "Ninos con necesidades especiales o comunicacion limitada", "Children with special needs or limited communication", "Version revisada de FLACC identificada para revision.", "Revised FLACC version identified for review.", "pending_validation", "external_validation_study", "medium", rflaccValidationNotes),
