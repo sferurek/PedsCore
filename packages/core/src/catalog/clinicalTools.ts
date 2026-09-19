@@ -49,7 +49,8 @@ const implementedToolIds = new Set([
   "visual_analogue_scale",
   "step_by_step",
   "pecarn_febrile_infant",
-  "yos"
+  "yos",
+  "pucai"
 ]);
 
 type ToolSeed = Omit<
@@ -79,7 +80,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Table 1 reproduces modified Bell staging under CC BY, permitting reuse with attribution.",
       appliesTo: ["modified_bell_nec"],
-      priority: 2
+      priority: 3
     }
   ],
   garcia_alix_ners: [
@@ -187,6 +188,22 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   pucai: [
     {
+      id: "pucai_2007_original",
+      title: "Development, validation, and evaluation of a pediatric ulcerative colitis activity index: a prospective multicenter study",
+      authors: "Turner D, Otley AR, Mack D, et al.",
+      year: 2007,
+      journalOrPublisher: "Gastroenterology",
+      doi: "10.1053/j.gastro.2007.05.029",
+      pmid: "17681163",
+      url: "https://pubmed.ncbi.nlm.nih.gov/17681163/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Original prospective multicenter derivation and validation of PUCAI.",
+      appliesTo: ["pucai"],
+      priority: 1
+    },
+    {
       id: "pucai_open_table",
       title: "Inflammatory Bowel Disease in Childhood and Adolescence: Diagnosis and Treatment",
       year: 2017,
@@ -197,7 +214,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Open-access table reproduces the complete PUCAI 0-85 scoring system.",
       appliesTo: ["pucai"],
-      priority: 1
+      priority: 2
     },
     {
       id: "pucai_espghan_ecco_2025",
@@ -210,7 +227,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Current guideline recommends PUCAI monitoring at each visit.",
       appliesTo: ["pucai"],
-      priority: 2
+      priority: 3
     }
   ],
   nsofa: [
@@ -2510,7 +2527,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     ]
   },
   pucai: {
-    validationNotes:{es:"PUCAI completo 0-85 para actividad de colitis ulcerosa pediátrica.",en:"Complete 0-85 PUCAI for pediatric ulcerative-colitis activity."},
+    validationNotes:{es:"PUCAI completo 0-85 para actividad de colitis ulcerosa pediátrica. PedsCore usa los seis dominios originales y las bandas <10 remisión, 10-34 leve, 35-64 moderada y ≥65 grave. El índice monitoriza actividad y no diagnostica EII ni prescribe tratamiento.",en:"Complete 0-85 PUCAI for pediatric ulcerative-colitis activity. PedsCore uses the six original domains and bands <10 remission, 10-34 mild, 35-64 moderate, and ≥65 severe. The index monitors activity and does not diagnose IBD or prescribe treatment."},
     inputs:[
       {id:"abdominal_pain",label:{es:"Dolor abdominal",en:"Abdominal pain"},type:"single_choice",required:true,options:[option("0","Ninguno","None",0),option("5","Puede ignorarse","Can be ignored",5),option("10","No puede ignorarse","Cannot be ignored",10)]},
       {id:"rectal_bleeding",label:{es:"Sangrado rectal",en:"Rectal bleeding"},type:"single_choice",required:true,options:[option("0","Ninguno","None",0),option("10","Pequeña cantidad en <50%","Small amount in <50%",10),option("20","Pequeña cantidad en la mayoría","Small amount with most stools",20),option("30","Gran cantidad","Large amount",30)]},
@@ -5406,7 +5423,7 @@ const priorityExpansionSurfaces: ClinicalToolMetadata[] = [
 const targetExpansionSurfaces: ClinicalToolMetadata[] = [
   referenceSurface({ id:"hjhs_21", slug:"hjhs-21", shortName:"HJHS 2.1", nameEs:"Hemophilia Joint Health Score 2.1", nameEn:"Hemophilia Joint Health Score 2.1", category:"cardiology", subcategory:"hemophilic_arthropathy", type:"scale", populationEs:"Niños y adolescentes con hemofilia", populationEn:"Children and adolescents with hemophilia", descriptionEs:"Herramienta externa para seguimiento de salud articular en hemofilia.", descriptionEn:"External tool for longitudinal joint-health assessment in hemophilia.", evidenceLevel:"external_validation_study", regulatoryRisk:"medium" }),
   referenceSurface({ id:"garcia_alix_ners", slug:"garcia-alix-ne-rs", shortName:"García-Alix NE-RS", nameEs:"Escala García-Alix de encefalopatía neonatal", nameEn:"García-Alix Neonatal Encephalopathy Rating Scale", category:"neonatology", subcategory:"neonatal_encephalopathy", type:"scale", populationEs:"Recién nacidos con encefalopatía neonatal", populationEn:"Newborns with neonatal encephalopathy", descriptionEs:"Escala de referencia para valoración estructurada de encefalopatía neonatal.", descriptionEn:"Reference scale for structured neonatal-encephalopathy assessment.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
-  referenceSurface({ id:"pucai", slug:"pucai", shortName:"PUCAI", nameEs:"Índice pediátrico de actividad de colitis ulcerosa", nameEn:"Pediatric Ulcerative Colitis Activity Index", category:"growth_nutrition", subcategory:"inflammatory_bowel_disease", type:"scale", populationEs:"Niños y adolescentes con colitis ulcerosa", populationEn:"Children and adolescents with ulcerative colitis", descriptionEs:"Índice de referencia para actividad de colitis ulcerosa y seguimiento longitudinal.", descriptionEn:"Reference index for ulcerative-colitis activity and longitudinal follow-up.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
+  referenceSurface({ id:"pucai", slug:"pucai", shortName:"PUCAI", nameEs:"Índice pediátrico de actividad de colitis ulcerosa", nameEn:"Pediatric Ulcerative Colitis Activity Index", category:"growth_nutrition", subcategory:"inflammatory_bowel_disease", type:"scale", populationEs:"Niños y adolescentes con colitis ulcerosa", populationEn:"Children and adolescents with ulcerative colitis", descriptionEs:"Índice clínico validado de seis dominios para cuantificar actividad de colitis ulcerosa y seguimiento longitudinal.", descriptionEn:"Validated six-domain clinical index for ulcerative-colitis activity and longitudinal follow-up.", evidenceLevel:"original_derivation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"pcdai", slug:"pcdai", shortName:"PCDAI", nameEs:"Índice pediátrico de actividad de Crohn", nameEn:"Pediatric Crohn Disease Activity Index", category:"growth_nutrition", subcategory:"inflammatory_bowel_disease", type:"scale", populationEs:"Niños y adolescentes con enfermedad de Crohn", populationEn:"Children and adolescents with Crohn disease", descriptionEs:"Índice de referencia para actividad de enfermedad de Crohn y seguimiento longitudinal.", descriptionEn:"Reference index for Crohn-disease activity and longitudinal follow-up.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"phoenix_sepsis", slug:"phoenix-sepsis", shortName:"Phoenix", nameEs:"Criterios de sepsis Phoenix", nameEn:"Phoenix Sepsis Criteria", category:"intensive_care", subcategory:"sepsis", type:"clinical_rule", populationEs:"Niños con infección sospechada o confirmada", populationEn:"Children with suspected or confirmed infection", descriptionEs:"Marco de referencia para disfunción orgánica asociada a sepsis pediátrica; no es un cribado precoz.", descriptionEn:"Reference framework for pediatric sepsis-associated organ dysfunction; it is not an early screening tool.", evidenceLevel:"clinical_practice_guideline", regulatoryRisk:"high" }),
   referenceSurface({ id:"parc", slug:"parc", shortName:"pARC", nameEs:"Calculadora pediátrica de riesgo de apendicitis", nameEn:"Pediatric Appendicitis Risk Calculator", category:"emergency", subcategory:"appendicitis", type:"clinical_rule", populationEs:"Niños con sospecha de apendicitis según elegibilidad publicada", populationEn:"Children with suspected appendicitis meeting published eligibility", descriptionEs:"Referencia para estratificación de riesgo de apendicitis pediátrica; no confirma un diagnóstico.", descriptionEn:"Reference for pediatric appendicitis risk stratification; it does not confirm a diagnosis.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),

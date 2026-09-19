@@ -41,11 +41,12 @@ describe("calculator registry", () => {
       "visual_analogue_scale",
       "step_by_step",
       "pecarn_febrile_infant",
-      "yos"
+      "yos",
+      "pucai"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(40);
+    expect(getImplementedTools()).toHaveLength(41);
   });
 
   it("calculates through the dispatcher", () => {
