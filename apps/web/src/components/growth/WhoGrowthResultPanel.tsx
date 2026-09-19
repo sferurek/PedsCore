@@ -355,7 +355,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
             ? [
                 "BMI-for-age usa el mismo motor WHO Growth y no un cálculo duplicado.",
                 "Para 0-5 años, lo más preciso es introducir fecha de nacimiento y fecha de medición.",
-                "Para 5-19 años, utiliza meses cumplidos según la referencia OMS 2007.",
+                "Para 5-19 años puedes usar fechas (edad exacta con interpolación LMS) o meses; peso/edad solo está definido por OMS hasta 10 años.",
                 "Introduce peso y longitud/talla para calcular BMI-for-age."
               ]
             : preset === "head_circumference"
@@ -368,8 +368,8 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
               : [
                   "Para 0-5 años, lo más preciso es introducir fecha de nacimiento y fecha de medición.",
                   "Si introduces años/meses/días, PedsCore lo convierte a días y muestra la edad usada.",
-                  "Para 5-19 años, utiliza meses cumplidos según la referencia OMS 2007.",
-                  "Longitud tumbado activa peso para longitud; talla de pie activa peso para talla.",
+                  "Para 5-19 años puedes usar fechas (edad exacta con interpolación LMS) o meses; peso/edad solo está definido por OMS hasta 10 años.",
+                  "PedsCore aplica automáticamente la conversión OMS de 0,7 cm si longitud/talla no corresponde al modo esperado para la edad.",
                   "El perímetro cefálico solo se calcula si se introduce PC."
                 ],
         ageGroupTitle: "Indicadores por edad",
@@ -408,7 +408,7 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
             ? [
                 "BMI-for-age uses the same WHO Growth engine and not a duplicated calculator.",
                 "For 0-5 years, the most accurate option is date of birth plus measurement date.",
-                "For 5-19 years, use completed months according to the WHO Growth Reference 2007.",
+                "For 5-19 years you can use dates (exact age with LMS interpolation) or months; WHO weight-for-age is defined only through age 10.",
                 "Enter weight and length/height to calculate BMI-for-age."
               ]
             : preset === "head_circumference"
@@ -421,8 +421,8 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
               : [
                   "For 0-5 years, the most accurate option is date of birth plus measurement date.",
                   "If you enter years/months/days, PedsCore converts it to days and shows the age used.",
-                  "For 5-19 years, use completed months according to the WHO Growth Reference 2007.",
-                  "Recumbent length enables weight-for-length; standing height enables weight-for-height.",
+                  "For 5-19 years you can use dates (exact age with LMS interpolation) or months; WHO weight-for-age is defined only through age 10.",
+                  "PedsCore automatically applies the WHO 0.7 cm conversion when length/height measurement mode does not match the expected mode for age.",
                   "Head circumference is calculated only when head circumference is entered."
                 ],
         ageGroupTitle: "Age-based indicators",
@@ -449,8 +449,8 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
 
       if (display.indicator === "weight_for_age") {
         return language === "es"
-          ? "Requiere edad exacta 0-5 en días y peso dentro del rango OMS."
-          : "Requires exact 0-5 age in days and weight within the WHO range.";
+          ? "Requiere edad OMS válida y peso; peso/edad está disponible de 0 a 10 años."
+          : "Requires a valid WHO age and weight; weight-for-age is available from birth through age 10.";
       }
 
       if (display.indicator === "head_circumference_for_age") {
@@ -464,23 +464,11 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
       }
 
       if (display.indicator === "weight_for_length") {
-        return measurementMode !== "recumbent_length"
-          ? language === "es"
-            ? "Selecciona longitud tumbado para activar peso para longitud."
-            : "Select recumbent length to enable weight-for-length."
-          : language === "es"
-            ? "Requiere longitud y peso dentro del rango OMS."
-            : "Requires length and weight within the WHO range.";
+        return language === "es" ? "Peso para longitud se aplica en menores de 2 años; PedsCore corrige automáticamente 0,7 cm si la medición fue de pie." : "Weight-for-length applies below age 2; PedsCore automatically corrects 0.7 cm if measured standing.";
       }
 
       if (display.indicator === "weight_for_height") {
-        return measurementMode !== "standing_height"
-          ? language === "es"
-            ? "Selecciona talla de pie para activar peso para talla."
-            : "Select standing height to enable weight-for-height."
-          : language === "es"
-            ? "Requiere talla y peso dentro del rango OMS."
-            : "Requires height and weight within the WHO range.";
+        return language === "es" ? "Peso para talla se aplica desde los 2 hasta los 5 años; PedsCore corrige automáticamente 0,7 cm si la medición fue tumbado." : "Weight-for-height applies from age 2 through 5; PedsCore automatically corrects 0.7 cm if measured recumbent.";
       }
 
       if (display.indicator === "length_height_for_age") {
