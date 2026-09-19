@@ -303,43 +303,37 @@ License uncertainty is the principal blocker.
 
 ## PIM/PRISM/PELOD/pSOFA
 
-### Current blocker
-- Regulatory blocker: prognostic/mortality framing and high-risk decision context.
-- Evidence blocker: complete criteria and version harmonization still pending.
-- Variant blocker: model variants across populations and local calibrations.
-- Maintainer decision needed: whether these stay catalog-only in MVP.
+### 2026-09-19 resolution
 
-### Available options
-- Option A: Catalog-only indefinitely.
-- Option B: Descriptive educational summary with no risk score output.
-- Option C: Enable score-only with strict non-therapeutic constraints and maintainer governance.
-- Option D: Full implementation after clinical/ethics review.
+The previous family-wide block has been narrowed after source, formula, reuse, and safety review.
 
-### Recommended option
-Option A.
+Now implemented locally:
+- pSOFA: complete six-system score, with open complete table and attribution.
+- PELOD-2: complete score/model; original authors state that PELOD-2 is in the public domain for free use in clinical trials.
+- PRISM IV: complete model; the original publication places the prediction algorithms in the public domain.
+- PIM3: complete published equation with open-access formula reproduction.
 
-### Rationale
-Prognostic risk scores are highest priority for governance and output safety.
+Still not implemented in this family:
+- PELOD (legacy): deprecated/reference-only in discovery.
+- PRISM III: deprecated/reference-only; no need to duplicate the current PRISM IV implementation.
+- PIM2: deprecated/reference-only; no need to duplicate the current PIM3 implementation.
 
-### Clinical safety constraints
-- Never return mortality probabilities as directive advice.
-- Never use as direct admission/discharge trigger.
-- No therapeutic escalation mapping.
+### Governance policy
 
-### Evidence required before implementation
-- Exact source, version, and formula tables per score.
-- Expert review of clinical context.
-- Explicit governance policy for prognostic outputs.
+Prognostic outputs are permitted only as descriptive population-level score/model outputs with explicit warnings. They must never be presented as individual prognosis, admission/discharge criteria, treatment recommendations, or limitation-of-support advice.
 
-### Proposed implementation scope
-- Catalog-only with citation and scope text.
+### Required safeguards
+- version and formula must remain source-traceable;
+- unit and time-window definitions must be explicit;
+- population calibration limitations must be visible;
+- regression tests must cover normal, severe, boundary, and missing-input cases;
+- no therapeutic mapping.
 
-### Recommended PedsCore status
-- keep_pending_validation
+### Current PedsCore status
 
-### Tests required
-- Ensure no `implemented` status.
-- Ensure status remains non-ready without explicit policy.
+Current-generation scores above: `implemented / local_active`.
+
+Legacy PELOD, PRISM III, and PIM2: `deprecated / not_applicable`.
 
 ## Propietarias / licencia
 
