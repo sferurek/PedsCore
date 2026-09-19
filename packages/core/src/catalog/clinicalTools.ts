@@ -2895,12 +2895,12 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       booleanInput("elective_admission", { es: "Ingreso electivo", en: "Elective admission" }),
       booleanInput("mechanical_ventilation_first_hour", { es: "Asistencia respiratoria mecánica en la primera hora", en: "Mechanical respiratory assistance in first hour" }),
       booleanInput("base_excess_unknown", { es: "Exceso de bases desconocido (PIM3 usa 0)", en: "Base excess unknown (PIM3 uses 0)" }),
-      { id: "base_excess_mmol_l", label: { es: "Exceso de bases", en: "Base excess" }, type: "number", required: false, unit: "mmol/L", min: -50, max: 50, step: 0.1 },
+      { id: "base_excess_mmol_l", label: { es: "Exceso de bases", en: "Base excess" }, type: "number", required: false, unit: "mmol/L", min: -50, max: 50, step: 0.1, visibleWhen: [{ inputId: "base_excess_unknown", operator: "equals", value: false }] },
       booleanInput("sbp_unknown", { es: "PAS desconocida (PIM3 usa 120 mmHg)", en: "SBP unknown (PIM3 uses 120 mmHg)" }),
-      { id: "systolic_bp_mmhg", label: { es: "PAS (0 si parada; 30 si shock y no medible)", en: "SBP (0 in cardiac arrest; 30 if shock and unmeasurable)" }, type: "number", required: false, unit: "mmHg", min: 0, max: 250, step: 1 },
+      { id: "systolic_bp_mmhg", label: { es: "PAS (0 si parada; 30 si shock y no medible)", en: "SBP (0 in cardiac arrest; 30 if shock and unmeasurable)" }, type: "number", required: false, unit: "mmHg", min: 0, max: 250, step: 1, visibleWhen: [{ inputId: "sbp_unknown", operator: "equals", value: false }] },
       booleanInput("oxygenation_unknown", { es: "FiO₂/PaO₂ desconocidas (PIM3 usa 0,23)", en: "FiO₂/PaO₂ unknown (PIM3 uses 0.23)" }),
-      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: false, unit: "0-1", min: 0.21, max: 1, step: 0.01 },
-      { id: "pao2_mmhg", label: { es: "PaO₂", en: "PaO₂" }, type: "number", required: false, unit: "mmHg", min: 1, max: 800, step: 1 },
+      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: false, unit: "0-1", min: 0.21, max: 1, step: 0.01, visibleWhen: [{ inputId: "oxygenation_unknown", operator: "equals", value: false }] },
+      { id: "pao2_mmhg", label: { es: "PaO₂", en: "PaO₂" }, type: "number", required: false, unit: "mmHg", min: 1, max: 800, step: 1, visibleWhen: [{ inputId: "oxygenation_unknown", operator: "equals", value: false }] },
       {
         id: "procedure_category", label: { es: "Recuperación de procedimiento", en: "Procedure recovery" }, type: "select", required: true,
         options: [option("none", "No", "None"), option("cardiac_bypass", "Cirugía cardiaca con bypass", "Cardiac surgery with bypass"), option("cardiac_no_bypass", "Procedimiento cardiaco sin bypass", "Cardiac procedure without bypass"), option("noncardiac", "Procedimiento no cardiaco", "Noncardiac procedure")]
@@ -2929,7 +2929,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       booleanInput("first_picu_admission_this_hospitalization",{es:"Primer ingreso en UCI pediátrica de esta hospitalización",en:"First PICU admission of this hospitalization"}),
       booleanInput("prism_iv_sampling_window_confirmed",{es:"Intervalo PRISM IV correcto confirmado",en:"Correct PRISM IV sampling window confirmed"}),
       booleanInput("cardiac_intervention_under_3_months",{es:"Cirugía cardíaca/cateterismo intervencionista en paciente <3 meses",en:"Cardiac surgery/interventional catheterization in patient <3 months"}),
-      booleanInput("cardiac_postintervention_window_confirmed",{es:"Si aplica: intervalo postintervención confirmado",en:"If applicable: post-intervention interval confirmed"}),
+      { ...booleanInput("cardiac_postintervention_window_confirmed",{es:"Si aplica: intervalo postintervención confirmado",en:"If applicable: post-intervention interval confirmed"}), visibleWhen: [{ inputId: "cardiac_intervention_under_3_months", operator: "equals", value: true }] },
       { id: "age_days", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "días", min: 0, max: 6575, step: 1 },
       { id: "admission_source", label: { es: "Procedencia del ingreso", en: "Admission source" }, type: "select", required: true, options: [option("other", "Otra / referencia", "Other / reference"), option("other_hospital", "Otro hospital", "Another hospital"), option("inpatient_unit", "Unidad de hospitalización", "Inpatient unit"), option("emergency_department", "Urgencias", "Emergency department")] },
       booleanInput("cpr_within_24h", { es: "RCP en las 24 h previas al ingreso", en: "CPR within 24 h before admission" }),
@@ -2981,11 +2981,35 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     inputs: [
       { id: "age_days", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "días", min: 0, max: 90, step: 1 },
       booleanInput("fever_without_source", { es: "Fiebre sin foco aparente", en: "Fever without an apparent source" }),
-      booleanInput("well_appearing", { es: "Buen estado general", en: "Well appearing" }),
-      booleanInput("leukocyturia", { es: "Leucocituria", en: "Leukocyturia" }),
-      { id: "procalcitonin_ng_ml", label: { es: "Procalcitonina", en: "Procalcitonin" }, type: "number", required: true, unit: "ng/mL", min: 0, max: 100, step: 0.01 },
-      { id: "crp_mg_l", label: { es: "PCR", en: "CRP" }, type: "number", required: true, unit: "mg/L", min: 0, max: 500, step: 0.1 },
-      { id: "anc", label: { es: "Recuento absoluto de neutrófilos", en: "Absolute neutrophil count" }, type: "number", required: true, unit: "/mm3", min: 0, max: 100000, step: 1 }
+      { ...booleanInput("well_appearing", { es: "Buen estado general", en: "Well appearing" }), visibleWhen: [
+        { inputId: "fever_without_source", operator: "equals", value: true },
+        { inputId: "age_days", operator: "gt", value: 21 }
+      ] },
+      { ...booleanInput("leukocyturia", { es: "Leucocituria", en: "Leukocyturia" }), visibleWhen: [
+        { inputId: "fever_without_source", operator: "equals", value: true },
+        { inputId: "age_days", operator: "gt", value: 21 },
+        { inputId: "well_appearing", operator: "equals", value: true }
+      ] },
+      { id: "procalcitonin_ng_ml", label: { es: "Procalcitonina", en: "Procalcitonin" }, type: "number", required: true, unit: "ng/mL", min: 0, max: 100, step: 0.01, visibleWhen: [
+        { inputId: "fever_without_source", operator: "equals", value: true },
+        { inputId: "age_days", operator: "gt", value: 21 },
+        { inputId: "well_appearing", operator: "equals", value: true },
+        { inputId: "leukocyturia", operator: "equals", value: false }
+      ] },
+      { id: "crp_mg_l", label: { es: "PCR", en: "CRP" }, type: "number", required: true, unit: "mg/L", min: 0, max: 500, step: 0.1, visibleWhen: [
+        { inputId: "fever_without_source", operator: "equals", value: true },
+        { inputId: "age_days", operator: "gt", value: 21 },
+        { inputId: "well_appearing", operator: "equals", value: true },
+        { inputId: "leukocyturia", operator: "equals", value: false },
+        { inputId: "procalcitonin_ng_ml", operator: "lt", value: 0.5 }
+      ] },
+      { id: "anc", label: { es: "Recuento absoluto de neutrófilos", en: "Absolute neutrophil count" }, type: "number", required: true, unit: "/mm3", min: 0, max: 100000, step: 1, visibleWhen: [
+        { inputId: "fever_without_source", operator: "equals", value: true },
+        { inputId: "age_days", operator: "gt", value: 21 },
+        { inputId: "well_appearing", operator: "equals", value: true },
+        { inputId: "leukocyturia", operator: "equals", value: false },
+        { inputId: "procalcitonin_ng_ml", operator: "lt", value: 0.5 }
+      ] }
     ],
     interpretationBands: [
       { id: "low", label: { es: "Bajo riesgo", en: "Low risk" }, min: 0, max: 0 },
@@ -5273,7 +5297,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       booleanInput("definite_amnesia",{es:"Amnesia definida",en:"Definite amnesia"}),
       booleanInput("witnessed_disorientation",{es:"Desorientación presenciada",en:"Witnessed disorientation"}),
       booleanInput("persistent_vomiting_more_than_one_episode",{es:"Vómitos persistentes (>1 episodio)",en:"Persistent vomiting (>1 episode)"}),
-      booleanInput("persistent_irritability_if_under_2",{es:"Irritabilidad persistente si <2 años",en:"Persistent irritability if <2 years"}),
+      { ...booleanInput("persistent_irritability_if_under_2",{es:"Irritabilidad persistente si <2 años",en:"Persistent irritability if <2 years"}), visibleWhen: [{ inputId: "age_years", operator: "lt", value: 2 }] },
       booleanInput("obvious_penetrating_skull_injury",{es:"Lesión penetrante evidente",en:"Obvious penetrating skull injury"}),
       booleanInput("obvious_depressed_skull_fracture",{es:"Fractura deprimida evidente",en:"Obvious depressed skull fracture"}),
       booleanInput("acute_focal_neurologic_deficit",{es:"Déficit neurológico focal agudo",en:"Acute focal neurologic deficit"}),
@@ -5308,7 +5332,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       booleanInput("suspected_penetrating_or_depressed_skull_injury_or_tense_fontanelle",{es:"Lesión penetrante/deprimida o fontanela tensa",en:"Penetrating/depressed injury or tense fontanelle"}),
       booleanInput("signs_of_basal_skull_fracture",{es:"Signos de fractura basal",en:"Signs of basal skull fracture"}),
       booleanInput("focal_neurology",{es:"Neurología focal",en:"Focal neurology"}),
-      booleanInput("bruise_swelling_laceration_over_5cm_under_1_year",{es:">5 cm de lesión de cuero cabelludo si <1 año",en:">5 cm scalp injury if under 1 year"}),
+      { ...booleanInput("bruise_swelling_laceration_over_5cm_under_1_year",{es:">5 cm de lesión de cuero cabelludo si <1 año",en:">5 cm scalp injury if under 1 year"}), visibleWhen: [{ inputId: "age_years", operator: "lt", value: 1 }] },
       booleanInput("high_speed_road_traffic_mechanism",{es:"Tráfico de alta velocidad >40 mph (>64 km/h)",en:"High-speed road traffic >40 mph (>64 km/h)"}),
       booleanInput("fall_over_3_metres",{es:"Caída >3 m",en:"Fall >3 m"}),
       booleanInput("high_speed_projectile_or_object",{es:"Proyectil u objeto de alta energía",en:"High-speed projectile or object"})
