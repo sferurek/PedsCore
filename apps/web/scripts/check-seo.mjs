@@ -75,7 +75,7 @@ for (const url of sitemapUrls) {
   if (!/<h1>[^<]+<\/h1>/.test(routeHtml)) throw new Error(`Missing crawlable H1: ${url}`);
   if (!routeHtml.includes('"logo":"https://peds-core.vercel.app/favicon.svg"')) throw new Error(`Missing Organization logo schema: ${url}`);
   if (!routeHtml.includes('class="seo-static-fallback"')) throw new Error(`Missing static SEO body: ${url}`);
-  const bodyMatch = routeHtml.match(/<div id="root">([\s\S]*?)<\/div>\s*<script/);
+  const bodyMatch = routeHtml.match(/<div id="root">([\s\S]*?)<\/body>/);
   const bodyText = (bodyMatch?.[1] ?? "").replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").replace(/\s+/g, " ").trim();
   const bodyWordCount = bodyText ? bodyText.split(" ").length : 0;
   if (bodyWordCount < 20) throw new Error(`Static SEO body too thin (${bodyWordCount} words): ${url}`);
