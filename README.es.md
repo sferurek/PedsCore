@@ -9,123 +9,97 @@
 [![Alpha](https://img.shields.io/badge/estado-alpha-orange.svg)](docs/releases/v0.1.0-alpha.md)
 [![Sin almacenamiento de datos clínicos](https://img.shields.io/badge/datos%20cl%C3%ADnicos-no%20almacenados-0f766e.svg)](DISCLAIMER.md)
 
-PedsCore es una biblioteca open source en alpha pública para profesionales sanitarios, docentes y contribuidores. El proyecto prioriza estado de implementación transparente, referencias visibles, trazabilidad de evidencia y mensajes de seguridad prudentes.
+PedsCore es una biblioteca bilingüe en alpha pública de herramientas clínicas pediátricas y neonatales para profesionales sanitarios, docentes y contribuidores. Separa explícitamente disponibilidad clínica, evidencia, derechos de reutilización y disponibilidad de cálculo.
 
-Aplicación web pública:
+**Producción:** https://peds-core.vercel.app/
 
-https://peds-core.vercel.app/
+## Estado actual · 19 de septiembre de 2026
 
-## Estado Alpha Actual
-
-- 132 herramientas pediátricas y neonatales catalogadas.
-- 20 herramientas completamente implementadas con cálculo activo o salida informativa de regla clínica.
-- 4 entradas WHO Growth parcialmente implementadas: módulo central, percentiles WHO, preset IMC y preset perímetro craneal.
+- **137** herramientas/superficies clínicas catalogadas.
+- **134** superficies activas.
+- **3** superficies históricas deprecadas.
+- **0** superficies activas bloqueadas y **0** entradas `local_planned`.
+- **64** herramientas marcadas como producto clínico implementado.
+- **61** superficies con cálculo local activo en los metadatos de discovery.
+- Las herramientas con derechos limitados permanecen accesibles mediante referencia oficial/original, sin reproducir contenido protegido.
+- Crecimiento OMS y CDC operativos.
 - Web ES/EN desplegada en Vercel.
-- API serverless de analítica agregada en `/api/analytics/countries`.
-- Sin login.
-- Sin almacenamiento de datos clínicos.
-- Sin envío de valores de formularios clínicos ni resultados a analítica.
+- Sin login ni persistencia de datos clínicos.
+- Los valores de formularios y resultados clínicos no se envían a analítica.
 
-PedsCore es deliberadamente conservador: una herramienta catalogada no se activa hasta superar puertas de fuente, fórmula/tabla, variante exacta, tests, redacción segura y licencia.
+## Principios del producto
 
-## Qué Incluye
+PedsCore prioriza:
 
-- Scores pediátricos y neonatales.
-- Calculadoras clínicas y paneles de resultado trazables.
-- Reglas informativas de traumatismo craneoencefálico pediátrico.
-- Módulo WHO Growth con datos oficiales OMS.
-- Estado de evidencia para herramientas implementadas, parcialmente implementadas, pendientes y sensibles a licencia.
-- Documentación pública de roadmap, revisión de evidencia y notas de release.
-- Monorepo TypeScript con web React/Vite y paquete core testeado.
+- identificación exacta de versión/variante;
+- fuentes primarias o autoritativas;
+- cálculo determinista cuando la implementación local es apropiada;
+- límites de población y seguridad explícitos;
+- revisión de licencias y reutilización;
+- presentación clínica bilingüe;
+- referencias y trazabilidad visibles;
+- salidas descriptivas, no instrucciones automáticas de tratamiento, ingreso, alta o pruebas.
 
-Términos útiles de descubrimiento: pediatric scores, neonatal scores, clinical calculators, WHO Growth, evidence-based medicine, open-source healthcare, clinical decision support, medical education.
+Una herramienta protegida puede ser una **referencia externa activa** sin que PedsCore reproduzca formularios, matrices, imágenes o redacción protegida.
 
-## Módulo WHO Growth
+## Arquitectura
 
-El módulo WHO Growth está disponible como flujo de crecimiento parcialmente implementado, con IMC y perímetro craneal como entradas de catálogo que actúan como presets sobre el mismo motor WHO.
+- `packages/core`: catálogo, discovery, contratos y calculadoras deterministas.
+- `apps/web`: aplicación React + TypeScript + Vite.
+- `docs`: evidencia, registro de derechos, política editorial, releases y SEO.
+- `.github`: CI y plantillas de contribución.
 
-Alcance actual:
+Los cálculos se realizan localmente en el navegador cuando es posible. PedsCore no necesita backend clínico ni cuenta de paciente.
 
-- Indicadores oficiales WHO Child Growth Standards 0-5.
-- Indicadores parciales WHO Growth Reference 2007 5-19: IMC para la edad y talla para la edad.
-- Datos LMS oficiales OMS bajo licencia OMS separada.
-- Gráficas SVG imprimibles generadas por PedsCore.
-- Percentiles escritos: P3, P15, P50, P85 y P97.
-- Punto del paciente visible en las gráficas.
-- Entrada guiada de edad.
-- Sin almacenamiento de datos clínicos introducidos.
+## Gobernanza clínica
 
-WHO Growth sigue como `partially_implemented` mientras se completan revisión final del maintainer, política de interpolación y alcance restante 5-19. No proporciona diagnósticos nutricionales ni recomendaciones terapéuticas.
+Documentos principales:
 
-## Seguridad Y Alcance
+- [Política editorial](docs/EDITORIAL_POLICY.md)
+- [Registro de derechos de herramientas](docs/CLINICAL_TOOL_RIGHTS.md)
+- [Aviso legal](DISCLAIMER.md)
+- [Guía de contribución](CONTRIBUTING.md)
+- [Roadmap](ROADMAP.md)
+- [Changelog](CHANGELOG.md)
 
-PedsCore es un recurso educativo e informativo para uso profesional.
+La activación local exige fuente trazable, lógica completa, variante exacta, redacción segura, tests deterministas y derechos de reutilización compatibles.
+
+## Crecimiento
+
+Actualmente incluye:
+
+- WHO Child Growth Standards 0-5.
+- WHO Growth Reference 5-19 para los indicadores implementados, incluido peso/edad 5-10.
+- Presets OMS de IMC/edad y perímetro cefálico.
+- Percentiles CDC 2000 con Extended BMI.
+- Herramientas de crecimiento externas/de referencia cuando la redistribución local no es apropiada.
+
+Los datos OMS mantienen sus condiciones específicas de atribución/licencia y no se relicencian como MIT.
+
+## Seguridad y alcance
+
+PedsCore es un recurso educativo e informativo para profesionales sanitarios cualificados.
 
 - No diagnostica.
-- No recomienda tratamientos.
-- No sustituye el juicio clínico, protocolos locales, políticas institucionales ni valoración especializada.
-- No almacena datos identificativos de pacientes.
-- No incluyas datos reales de pacientes en issues, pull requests o ejemplos.
+- No prescribe tratamiento.
+- No sustituye juicio clínico, protocolos locales, políticas institucionales ni valoración especializada.
+- Las escalas pronósticas se muestran de forma descriptiva/poblacional cuando corresponde.
+- No incluyas información identificable de pacientes en GitHub.
 
-Consulta [DISCLAIMER.md](DISCLAIMER.md) para el aviso legal completo.
+Consulta [DISCLAIMER.md](DISCLAIMER.md).
 
-## Herramientas Implementadas
+## Búsqueda, descubrimiento y SEO
 
-Las 20 herramientas completamente implementadas son:
+La aplicación incluye Finder clínico, navegación por categorías, páginas ES/EN individuales, canonical SEO, sitemap/hreflang, rutas estáticas/prerenderizadas, IndexNow y monitorización con Google Search Console.
 
-- Apgar.
-- Silverman-Andersen.
-- Wood-Downes-Ferres.
-- QTc Bazett.
-- QTc Fridericia.
-- QTc Framingham.
-- QTc Hodges.
-- Bedside Schwartz.
-- Westley Croup Score.
-- PRAM.
-- Clinical Dehydration Scale.
-- Pediatric Appendicitis Score.
-- PECARN TCE menor de 2 años.
-- PECARN TCE 2 años o más.
-- CATCH.
-- CHALICE.
-- SIPA.
-- NIPS.
-- Estimación TBSA de quemaduras pediátrica.
+Consulta [docs/SEO_CHECKLIST.md](docs/SEO_CHECKLIST.md).
 
-Muchas herramientas adicionales permanecen catalogadas pero bloqueadas por fuente, tabla, variante, licencia o revisión experta. Esto es una decisión de seguridad, no una omisión.
+## Cómo contribuir
 
-## Estructura Del Repositorio
+Son especialmente útiles la revisión de cálculos, verificación de fuentes primarias, revisión lingüística, accesibilidad/UX y actualizaciones de evidencia. Los cambios clínicos deben incluir fuentes reproducibles y tests.
 
-- `packages/core`: catálogo, contratos y lógica determinista en TypeScript.
-- `apps/web`: aplicación web estática React + TypeScript + Vite.
-- `docs/`: documentación pública, evidencia, notas de release y checklist de lanzamiento.
-- `.github/`: workflows, plantillas de issues y plantilla de pull request.
-
-## Cómo Contribuir
-
-Formas útiles de apoyar PedsCore:
-
-- Dejar una estrella en el repositorio.
-- Abrir feedback o bugs en GitHub Issues.
-- Proponer evidencia con DOI, PMID o URLs oficiales.
-- Sugerir mejoras de UX, traducción o documentación.
-- Revisar cálculos solo con fuentes trazables y tests.
-
-Empieza por [CONTRIBUTING.md](CONTRIBUTING.md). Las contribuciones clínicas deben incluir fuente, versión/variante exacta, fórmula o tabla reutilizable, notas de licencia y redacción segura de salida.
-
-## Notas De Lanzamiento Público
-
-- Release notes: [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md)
-- Changelog: [CHANGELOG.md](CHANGELOG.md)
-- Roadmap: [ROADMAP.md](ROADMAP.md)
-- Checklist de lanzamiento: [docs/PUBLIC_LAUNCH_CHECKLIST.md](docs/PUBLIC_LAUNCH_CHECKLIST.md)
-- Checklist SEO: [docs/SEO_CHECKLIST.md](docs/SEO_CHECKLIST.md)
+Empieza por [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Licencia
 
-El código fuente de PedsCore se publica bajo [licencia MIT](LICENSE).
-
-La documentación es documentación pública del proyecto salvo que un archivo indique otra cosa.
-
-Los datos y materiales de terceros no quedan automáticamente cubiertos por la licencia MIT. Los datos de crecimiento OMS se mantienen bajo licencia y atribución OMS separadas.
+El código fuente de PedsCore se publica bajo [licencia MIT](LICENSE). Los instrumentos, datos y materiales de terceros no quedan automáticamente cubiertos por esa licencia.
