@@ -152,7 +152,7 @@ assertIncludes(pippEs, "<title>Escala PIPP — Dolor en prematuros | PedsCore</t
 assertIncludes(nipsEn, "<title>NIPS Pain Scale — Neonatal Pain Assessment | PedsCore</title>", "NIPS intent title");
 assertIncludes(homeEs, "<title>PedsCore — herramientas clínicas pediátricas</title>", "Spanish home title");
 assertIncludes(homeEs, "Cómo se construye PedsCore", "home trust content");
-assertIncludes(aboutEs, "Gobernanza y trazabilidad", "about trust content");
+assertIncludes(aboutEs, "Qué puede auditarse públicamente", "about trust content");
 assertIncludes(evidenceEn, "Source policy", "evidence trust content");
 assertIncludes(pim2Es, '"@type":"MedicalWebPage"', "tool medical schema");
 assertIncludes(pim2Es, '"@type":"Organization"', "organization schema");
