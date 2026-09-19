@@ -31,6 +31,16 @@ describe("CHALICE rule", () => {
     expect(chaliceCalculator.calculate({ ...noCriteria, head_injury_present: false }).warnings[0]?.id).toBe("chalice_outside_validated_population");
   });
 
+  it("requires the >5 cm scalp criterion only under 1 year", () => {
+    const older = { ...noCriteria };
+    delete older.bruise_swelling_laceration_over_5cm_under_1_year;
+    expect(chaliceCalculator.calculate(older).classification?.en).toContain("no rule criteria");
+
+    const infant = { ...noCriteria, age_years: 0.5 };
+    delete infant.bruise_swelling_laceration_over_5cm_under_1_year;
+    expect(chaliceCalculator.calculate(infant).warnings[0]?.id).toBe("missing_required_inputs");
+  });
+
   it("warns on incomplete and invalid predictor input", () => {
     expect(chaliceCalculator.calculate({}).warnings[0]?.id).toBe("missing_required_inputs");
     expect(chaliceCalculator.calculate({ ...noCriteria, focal_neurology: "bad" }).warnings[0]?.id).toBe("invalid_boolean_input");
