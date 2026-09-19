@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - hackathon/alexa-mcp
+      - hackathon/alexa-mcp-v2
+      - main
     paths:
       - "apps/mcp-server/**"
       - "packages/core/src/mcp/**"
