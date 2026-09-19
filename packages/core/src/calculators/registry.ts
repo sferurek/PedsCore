@@ -34,6 +34,7 @@ import { pRifleCalculator } from "./pRifle.js";
 import { pediatricKdigoCalculator } from "./pediatricKdigo.js";
 import { pelod2Calculator } from "./pelod2.js";
 import { prismIvCalculator } from "./prismIv.js";
+import { pim3Calculator } from "./pim3.js";
 
 const calculators = [
   apgarCalculator,
@@ -73,7 +74,8 @@ const calculators = [
   pRifleCalculator,
   pediatricKdigoCalculator,
   pelod2Calculator,
-  prismIvCalculator
+  prismIvCalculator,
+  pim3Calculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
