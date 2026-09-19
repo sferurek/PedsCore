@@ -229,7 +229,7 @@ Dosing behavior in acute care has unacceptable implicit treatment pressure in MV
 - WHO Growth Reference 2007: weight-for-age 5-10 years (61-120 completed months), height-for-age 5-19 years and BMI-for-age 5-19 years (61-228 completed months).
 - WHO weight-for-age is intentionally unavailable beyond 10 years and is not extrapolated.
 - WHO calculations use the source granularity directly: exact daily records for 0-5 age-based standards, exact 0.1 cm records for weight-for-length/height, and exact completed-month records for the 2007 reference.
-- CDC: remains a separate pending-validation reference; it is not silently substituted into the WHO module.
+- CDC: implemented as a separate local tool for the current recommended 2-20-year scope; it is not silently substituted into the WHO module.
 
 ### Governance decision closed for WHO
 
@@ -249,12 +249,12 @@ The unified `who_growth_module` is the primary WHO-only experience. Source-speci
 - WHO data/materials remain under the applicable WHO/source license, separate from MIT code.
 - No WHO logo or implied endorsement.
 - Future WHO source revisions or additional indicators require a fresh evidence/licensing review.
-- CDC still requires its own source/age/product-policy completion before activation.
+- CDC source, age policy, interpolation, and Extended BMI method are now documented and implemented independently.
 
 ### Recommended PedsCore status
 
 - WHO Growth and WHO presets: implemented / local active.
-- CDC Growth Percentiles: keep pending validation.
+- CDC Growth Percentiles: implemented / local active.
 
 ### Tests required
 
@@ -263,7 +263,7 @@ The unified `who_growth_module` is the primary WHO-only experience. Source-speci
 - Tests preventing weight-for-age extrapolation beyond 120 months.
 - Printable graph labels and patient point.
 - Separate WHO licensing/attribution gate.
-- CDC remains non-active until independently completed.
+- CDC tests cover LMS fixtures, interpolation, Extended BMI, age boundaries, and registry activation.
 
 ## Orbegozo
 
