@@ -225,11 +225,30 @@ const calculation = await rpc(4, "tools/call", {
   }
 });
 
-const simulationContract = await rpc(5, "tools/call", {
+const simulationStart = await rpc(5, "tools/call", {
   name: "start_simulation_case",
   arguments: {
     scenarioId: "school-bus",
     algorithmId: "jumpstart"
+  }
+});
+
+const simulationFindings = await rpc(6, "tools/call", {
+  name: "get_patient_findings",
+  arguments: {
+    scenarioId: "school-bus",
+    algorithmId: "jumpstart",
+    patientId: "01"
+  }
+});
+
+const simulationDecision = await rpc(7, "tools/call", {
+  name: "submit_triage_decision",
+  arguments: {
+    scenarioId: "school-bus",
+    algorithmId: "jumpstart",
+    patientId: "01",
+    category: "GREEN"
   }
 });
 
@@ -266,12 +285,22 @@ const report = {
     score: calculation.payload.result?.structuredContent?.result?.score,
     maxScore: calculation.payload.result?.structuredContent?.result?.maxScore
   },
-  simulationContract: {
-    durationMs: simulationContract.durationMs,
-    isError: simulationContract.payload.result?.isError === true,
+  simulation: {
+    startDurationMs: simulationStart.durationMs,
+    findingsDurationMs: simulationFindings.durationMs,
+    decisionDurationMs: simulationDecision.durationMs,
     scenarioId:
-      simulationContract.payload.result?.structuredContent?.result?.scenario?.id,
-    text: simulationContract.payload.result?.content?.[0]?.text
+      simulationStart.payload.result?.structuredContent?.result?.scenario?.id,
+    patientId:
+      simulationFindings.payload.result?.structuredContent?.result?.patient?.id,
+    expectedCategory:
+      simulationDecision.payload.result?.structuredContent?.result?.expectedCategory,
+    correct:
+      simulationDecision.payload.result?.structuredContent?.result?.correct,
+    ruleId:
+      simulationDecision.payload.result?.structuredContent?.result?.ruleId,
+    canonicalPath:
+      simulationDecision.payload.result?.structuredContent?.result?.canonicalPath
   }
 };
 
@@ -292,12 +321,13 @@ const assertions = [
   [report.calculation.toolId === "apgar", "Apgar calculation tool"],
   [report.calculation.score === 9, "Apgar score"],
   [report.calculation.maxScore === 10, "Apgar max score"],
-  [
-    report.simulationContract.scenarioId === "school-bus" ||
-      (report.simulationContract.isError &&
-        report.simulationContract.text?.includes("SIM IMV unavailable")),
-    "simulation contract response"
-  ]
+  [report.capabilitiesDocument.simulationBridgeConfigured === true, "simulation bridge configured"],
+  [report.simulation.scenarioId === "school-bus", "simulation scenario"],
+  [report.simulation.patientId === "01", "simulation patient"],
+  [report.simulation.expectedCategory === "GREEN", "JumpSTART expected category"],
+  [report.simulation.correct === true, "triage decision correctness"],
+  [report.simulation.ruleId === "JS-MOB-01", "JumpSTART rule id"],
+  [Array.isArray(report.simulation.canonicalPath), "canonical triage path"]
 ];
 
 const failed = assertions.filter(([ok]) => !ok).map(([, label]) => label);
