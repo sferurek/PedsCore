@@ -62,7 +62,7 @@ const copy = {
     measurementBeforeBirth:
       "La fecha de medición no puede ser anterior a la fecha de nacimiento.",
     datesOutOfRange:
-      "La edad calculada por fechas supera 0-5 años. Para OMS 5-19 usa meses cumplidos.",
+      "La edad calculada supera el límite OMS de 19 años (228 meses).",
     daysMissing: "Introduce edad exacta en días para 0-5 años.",
     daysOutOfRange: "La edad en días debe estar entre 0 y 1856.",
     structuredMissing: "Introduce años, meses o días para edad estructurada 0-5.",
@@ -85,7 +85,7 @@ const copy = {
     measurementBeforeBirth:
       "Measurement date cannot be before date of birth.",
     datesOutOfRange:
-      "Age calculated from dates is above 0-5 years. For WHO 5-19, use completed months.",
+      "Calculated age exceeds the WHO upper limit of 19 years (228 months).",
     daysMissing: "Enter exact age in days for 0-5 years.",
     daysOutOfRange: "Age in days must be between 0 and 1856.",
     structuredMissing: "Enter years, months or days for structured 0-5 age.",
@@ -160,21 +160,13 @@ export const resolveWhoGrowthAge = (
     try {
       const ageDays = calculateAgeDaysFromDates(dateOfBirth, measurementDate);
 
-      if (ageDays > maxWhoZeroToFiveDays) {
-        return {
-          isExact: true,
-          label: t.labels.dates(ageDays),
-          mode,
-          warning: t.datesOutOfRange
-        };
+      const ageMonths = ageDays / daysPerMonth;
+      if (ageMonths > maxWhoFiveToNineteenMonths) {
+        return { isExact: true, label: t.labels.dates(ageDays), mode, warning: t.datesOutOfRange };
       }
-
-      return {
-        ageDays,
-        isExact: true,
-        label: t.labels.dates(ageDays),
-        mode
-      };
+      return ageDays <= maxWhoZeroToFiveDays
+        ? { ageDays, isExact: true, label: t.labels.dates(ageDays), mode }
+        : { ageMonths, isExact: true, label: t.labels.dates(ageDays), mode };
     } catch (error) {
       const warning = error instanceof Error && error.message === "measurement_before_birth"
         ? t.measurementBeforeBirth
