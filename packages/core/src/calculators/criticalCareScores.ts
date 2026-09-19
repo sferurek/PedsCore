@@ -296,6 +296,10 @@ export const prism4Calculator: CalculatorDefinition = {
   toolId: "prism_iv",
   calculate: (input): CalculationResult => {
     const tool = getTool("prism-iv");
+    const firstPicuAdmission = getBoolean(input, "first_picu_admission_this_hospitalization");
+    const samplingWindowConfirmed = getBoolean(input, "prism_iv_sampling_window_confirmed");
+    const cardiacInterventionUnder3Months = getBoolean(input, "cardiac_intervention_under_3_months");
+    const cardiacPostinterventionWindowConfirmed = getBoolean(input, "cardiac_postintervention_window_confirmed");
     const ageDays = getNumber(input, "age_days");
     const admissionSource = input.admission_source;
     const cpr = getBoolean(input, "cpr_within_24h");
@@ -322,6 +326,8 @@ export const prism4Calculator: CalculatorDefinition = {
     const ptt = getNumber(input, "ptt_seconds");
 
     if (
+      firstPicuAdmission === null || samplingWindowConfirmed === null ||
+      cardiacInterventionUnder3Months === null || cardiacPostinterventionWindowConfirmed === null ||
       ageDays === null || typeof admissionSource !== "string" ||
       cpr === null || cancer === null || lowRiskSystem === null ||
       sbp === null || hr === null || temperature === null || gcs === null ||
@@ -339,6 +345,26 @@ export const prism4Calculator: CalculatorDefinition = {
           "Required PRISM IV variables are missing."
         )],
         trace: []
+      };
+    }
+
+    if (
+      !firstPicuAdmission || !samplingWindowConfirmed ||
+      (cardiacInterventionUnder3Months && !cardiacPostinterventionWindowConfirmed)
+    ) {
+      return {
+        toolId: tool.id,
+        warnings: [warning(
+          "prism4_sampling_not_confirmed",
+          "PRISM IV requiere el primer ingreso en UCI pediátrica y el intervalo de recogida publicado; en determinados pacientes cardíacos <3 meses debe confirmarse el intervalo postintervención.",
+          "PRISM IV requires the first PICU admission and the published sampling interval; selected cardiac patients <3 months require confirmation of the post-intervention interval."
+        )],
+        trace: [
+          { inputId: "first_picu_admission_this_hospitalization", value: firstPicuAdmission },
+          { inputId: "prism_iv_sampling_window_confirmed", value: samplingWindowConfirmed },
+          { inputId: "cardiac_intervention_under_3_months", value: cardiacInterventionUnder3Months },
+          { inputId: "cardiac_postintervention_window_confirmed", value: cardiacPostinterventionWindowConfirmed }
+        ]
       };
     }
 
@@ -425,6 +451,10 @@ export const prism4Calculator: CalculatorDefinition = {
         )
       ],
       trace: [
+        { inputId: "first_picu_admission_this_hospitalization", value: firstPicuAdmission },
+        { inputId: "prism_iv_sampling_window_confirmed", value: samplingWindowConfirmed },
+        { inputId: "cardiac_intervention_under_3_months", value: cardiacInterventionUnder3Months },
+        { inputId: "cardiac_postintervention_window_confirmed", value: cardiacPostinterventionWindowConfirmed },
         { inputId: "prism_neurologic_score", value: neurologicScore },
         { inputId: "prism_non_neurologic_score", value: nonNeurologicScore },
         { inputId: "age_coefficient", value: ageCoefficient },
