@@ -54,7 +54,22 @@ const implementedToolIds = [
   "pecarn_febrile_infant",
   "yos",
   "pucai",
-  "pcdai"
+  "pcdai",
+  "modified_tal",
+  "taussig_croup",
+  "pass",
+  "risc",
+  "mrisc",
+  "gorelick_dehydration",
+  "prifle",
+  "kdigo_pediatric",
+  "phoenix_sepsis",
+  "parc",
+  "bacterial_meningitis_score",
+  "ckid_u25",
+  "modified_bell_nec",
+  "nsofa",
+  "wpcdai"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -144,7 +159,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(42);
+    expect(getImplementedTools()).toHaveLength(57);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
