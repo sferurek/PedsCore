@@ -1,84 +1,79 @@
 # PedsCore Roadmap
 
-This roadmap tracks the public alpha path for PedsCore. Dates are intentionally omitted until maintainer review and contributor capacity are stable.
+Updated: 19 September 2026.
 
-## Completed For v0.1.0-alpha
+## Current production baseline
 
-- Monorepo infrastructure with TypeScript, ESLint, Vitest and workspaces.
-- `packages/core` clinical tool contracts, catalog and calculator registry.
-- `apps/web` React + Vite catalog-driven web application.
-- ES/EN routing, language selection and localized UI.
-- Vercel production deployment with SPA fallback and serverless aggregate analytics API.
-- Evidence matrix and evidence documentation under `docs/evidence`.
-- Dynamic forms, result panels, trace output, references and disclaimers.
-- Initial validated calculators and scores.
-- Pediatric head trauma rules implemented as informational-only clinical rules.
-- WHO Growth module with official WHO 0-5 indicators, partial WHO 5-19
-  BMI-for-age/height-for-age, guided age input and printable SVG charts.
-- Visible validation status for implemented, pending, catalog-only and license-sensitive tools.
-- No login or clinical data storage.
-- Aggregate analytics API only; no clinical values are collected.
+PedsCore has completed the catalog-expansion/unblocking phase.
 
-## Current Alpha Release
+- 137 cataloged surfaces.
+- 134 active.
+- 3 deprecated legacy surfaces.
+- 0 active blocked surfaces.
+- 0 local-planned entries.
+- 64 implemented clinical products.
+- 61 local-active calculation surfaces.
+- Rights-limited tools use official/original external references instead of dead ends.
+- WHO and CDC growth workflows are operational.
+- ES/EN production is deployed on Vercel.
 
-`v0.1.0-alpha` includes:
+## Phase 1 — Consolidation and governance
 
-- 79 cataloged pediatric and neonatal tools.
-- 17 fully implemented tools.
-- 1 partially implemented module: WHO Growth.
-- SPRINT-50 implementation audit completed with no unsafe promotions; see
-  `docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md`.
-- Production app: https://peds-core.vercel.app/
-- Legacy GitHub Pages URL redirects to Vercel.
-- MIT-licensed code.
-- Evidence-first release documentation: [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md).
+Priority work:
 
-## Next Priorities
+- Keep catalog, discovery metadata, calculator registry and rights register synchronized by automated tests.
+- Prevent `permission_required` and `external_only` tools from entering the local calculator registry.
+- Keep documentation counts generated or reviewed against code rather than manually drifting.
+- Close superseded branches/PRs before new clinical batches are opened.
+- Maintain a visible clinical review date and evidence trail.
 
-### Maintainer Decisions
+## Phase 2 — Clinical review
 
-- Select exact variants for tools with multiple versions.
-- Decide catalog-only versus active implementation for higher-risk tools.
-- Define allowed output style for resuscitation, intensive care and prognostic tools.
+The next clinical-quality milestone is external/independent review, prioritizing the 61 local-active surfaces.
 
-### Literal Spain Spanish Wording
+Review order:
 
-- Audit implemented scores and scales for literal Spain Spanish wording.
-- Add only source-verified literal text.
-- Avoid copying license-sensitive tables or protected scale text without permission.
+1. Critical care and prognostic scores.
+2. Sepsis and febrile-infant rules.
+3. Head trauma and emergency rules.
+4. Renal/AKI tools.
+5. Neonatal scores.
+6. Respiratory, pain, nutrition and growth tools.
 
-### Evidence And Expert Review
+Review should verify population, exact variant, formula/table, boundaries, missing-data behavior, wording and source version.
 
-- Continue primary source, DOI/PMID/URL and licensing checks.
-- Prioritize clinical expert review for implemented tools.
-- Keep tools blocked when source, table, variant or license gates are incomplete.
-- Use the SPRINT-50 audit to select the next implementation batch only after
-  blockers are resolved.
+## Phase 3 — SEO and real-world discovery
 
-### WHO Growth And Percentiles
+- Monitor sitemap/indexing coverage in Google Search Console.
+- Expand URL inspection tracking to high-value ES/EN tool pages.
+- Improve titles/descriptions from real query data, not keyword stuffing.
+- Preserve canonical migration from the former GitHub Pages URL to Vercel.
+- Track outbound clicks to official external tools without collecting clinical values.
 
-- Complete visual QA of WHO Growth charts and print output.
-- Complete maintainer/expert review for WHO Growth.
-- Define interpolation policy before enabling interpolated lookup.
-- Review whether WHO 5-10 weight-for-age should be added when applicable.
-- Continue dataset versioning and attribution policy.
-- Review CDC datasets only in a separate future block.
-- Review Orbegozo data availability and licensing.
-- Implement only after data and license gates are clear.
+## Phase 4 — Product quality
 
-### Additional Calculators
+- Spain-Spanish terminology review.
+- Accessibility and narrow-viewport QA.
+- Print/export QA for growth tools.
+- Finder relevance tuning from privacy-preserving usage data.
+- Error and empty-state review across local and external tools.
 
-- Add new calculators only after evidence, variant, licensing and test gates are satisfied.
-- Keep outputs descriptive and traceable.
-- Avoid treatment, admission, discharge, imaging or referral recommendations unless explicitly reviewed and in scope.
+## Phase 5 — Project maturity
 
-## Out Of Scope For Current Alpha
+- Formal clinical-review workflow and reviewer attribution.
+- Release/versioning refresh beyond the original alpha baseline.
+- Security/disclosure documentation.
+- Citation/archival strategy such as Zenodo/DOI.
+- Consider a stable custom domain.
 
-- Toxicology.
-- Backend beyond the existing aggregate analytics API.
-- Login.
-- Supabase.
-- Analytics.
-- Clinical data storage.
-- Public API.
-- Mobile app.
+## Parallel workstream — Alexa+ / MCP
+
+The Alexa+/MCP hackathon branch remains separate from the production clinical baseline. Reconcile it from current `main` before any merge; do not merge the historical long-running branch wholesale without revalidation.
+
+## Deliberately out of scope for now
+
+- Patient accounts.
+- Clinical-data persistence.
+- Diagnostic chatbot behavior.
+- Automatic treatment/prescribing decisions.
+- Making every protected tool local merely to increase the local-calculator count.
