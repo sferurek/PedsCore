@@ -44,6 +44,6 @@ describe("García-Alix NE-RS", () => {
     delete incomplete.aeeg_background;
     const result = garciaAlixNersCalculator.calculate(incomplete);
     expect(result.score).toBeUndefined();
-    expect(result.warnings.some((item) => item.code === "missing_ners")).toBe(true);
+    expect(result.warnings.some((item) => item.id === "missing_ners")).toBe(true);
   });
 });
