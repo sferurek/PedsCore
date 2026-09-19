@@ -89,7 +89,13 @@ for (const url of sitemapUrls) {
     if (bodyWordCount < 220) throw new Error(`Tool editorial content too thin (${bodyWordCount} words): ${url}`);
     if (!routeHtml.includes('"@type":"MedicalWebPage"')) throw new Error(`Missing MedicalWebPage schema: ${url}`);
     if (!routeHtml.includes('"@id":"https://peds-core.vercel.app/#organization"')) throw new Error(`Missing publisher organization schema: ${url}`);
-    const title = routeHtml.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
+    const encodedTitle = routeHtml.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
+    const title = encodedTitle
+      .replaceAll("&amp;", "&")
+      .replaceAll("&lt;", "<")
+      .replaceAll("&gt;", ">")
+      .replaceAll("&quot;", '"')
+      .replaceAll("&#39;", "'");
     const language = toolMatch[1];
     if (!title.includes("PedsCore")) throw new Error(`Tool title missing brand: ${url}`);
     if (title.length > 60) throw new Error(`Tool title too long (${title.length}): ${url} -> ${title}`);
