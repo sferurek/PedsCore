@@ -1,0 +1,48 @@
+import { describe, expect, it } from "vitest";
+import { calculate } from "../src/calculators/registry.js";
+
+const baseInput = {
+  alertness: "a0",
+  posture: "p0",
+  spontaneous_activity: "s0",
+  motor_response: "m0",
+  myotatic_reflexes: "r0",
+  breathing: "b0",
+  clinical_seizures: "c0",
+  aeeg_seizures: "e0",
+  aeeg_background: "g0"
+};
+
+describe("García-Alix NE-RS", () => {
+  it("classifies a complete normal/mild profile", () => {
+    const result = calculate("garcia_alix_ners", baseInput);
+    expect(result.score).toBe(0);
+    expect(result.maxScore).toBe(70);
+    expect(result.classification?.en).toContain("Mild");
+  });
+
+  it("uses the validated 8-point moderate threshold", () => {
+    const result = calculate("garcia_alix_ners", { ...baseInput, alertness: "a8" });
+    expect(result.score).toBe(8);
+    expect(result.classification?.en).toContain("Moderate");
+  });
+
+  it("uses the validated 30-point severe threshold", () => {
+    const result = calculate("garcia_alix_ners", {
+      ...baseInput,
+      alertness: "a8",
+      posture: "p8",
+      spontaneous_activity: "s8",
+      motor_response: "m6"
+    });
+    expect(result.score).toBe(30);
+    expect(result.classification?.en).toContain("Severe");
+  });
+
+  it("requires all nine NE-RS items", () => {
+    const { aeeg_background: _omitted, ...incomplete } = baseInput;
+    const result = calculate("garcia_alix_ners", incomplete);
+    expect(result.score).toBeUndefined();
+    expect(result.warnings.some((item) => item.code === "missing_ners")).toBe(true);
+  });
+});
