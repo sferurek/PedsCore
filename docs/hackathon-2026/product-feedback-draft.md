@@ -16,15 +16,15 @@ The hackathon rules also clearly recognize self-hosted MCP as a first-class Alex
 
 ### What could improve
 
-The onboarding story becomes confusing when public hackathon eligibility and private Alexa AI CLI tooling are mixed together. A clean developer can reasonably try `npm install -g @alexa-ai/cli` against public npm and receive a 404 before discovering the private CodeArtifact prerequisite.
+The largest onboarding issue is the separation between public hackathon eligibility and private partner-only Alexa+ add-on tooling. During setup, the public documentation path led us through npm, CodeArtifact, AWS CLI, IAM and STS troubleshooting before Devpost support confirmed that Category SDK and MCP Toolkit / add-on tooling are restricted to selected Amazon partners and that general participants cannot apply for access.
 
-After configuring AWS correctly, the private `AddOn3PDeveloperToolsRead` role may still reject the developer with `AccessDenied` if the AWS account has not been entitled on Amazon's side. The current failure does not clearly explain that this is an allowlisting/trust issue or provide a self-service remediation path.
+The resulting `AccessDenied` is therefore not an IAM misconfiguration and cannot be remediated by a normal participant. The self-hosted MCP path works independently and is sufficient for the Alexa+ track, but that distinction should be visible before developers begin private-tool setup.
 
 ### Suggested improvements
 
 - Put the private CodeArtifact prerequisite directly beside every Alexa AI CLI install command.
-- Provide a preflight entitlement command/page that says whether an AWS account can assume the developer-tools role.
-- Return an actionable onboarding URL when entitlement is missing.
+- Mark partner-only tooling explicitly before installation or IAM steps begin.
+- Provide a preflight entitlement check that immediately identifies accounts without partner access and directs hackathon participants to the self-hosted MCP route.
 - Clearly separate “required for self-hosted MCP hackathon eligibility” from “optional/private-preview Alexa add-on tooling.”
 
 ### Would we build with it again?
