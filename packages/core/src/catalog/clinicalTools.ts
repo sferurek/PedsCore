@@ -193,9 +193,9 @@ const implementedToolReferences: Record<string, Reference[]> = {
       authors: "Turner D, Otley AR, Mack D, et al.",
       year: 2007,
       journalOrPublisher: "Gastroenterology",
-      doi: "10.1053/j.gastro.2006.12.029",
-      pmid: "17383462",
-      url: "https://pubmed.ncbi.nlm.nih.gov/17383462/",
+      doi: "10.1053/j.gastro.2007.05.029",
+      pmid: "17681163",
+      url: "https://pubmed.ncbi.nlm.nih.gov/17681163/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
       accessType: "abstract_only",
@@ -227,7 +227,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Current guideline recommends PUCAI monitoring at each visit.",
       appliesTo: ["pucai"],
-      priority: 2
+      priority: 3
     }
   ],
   nsofa: [
