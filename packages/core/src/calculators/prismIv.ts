@@ -1,5 +1,5 @@
 import type { CalculationResult } from "../types.js";
-import { getBoolean, getNumber, getString, getTool, label, warning } from "./common.js";
+import { getBoolean, getNumber, getTool, label, warning } from "./common.js";
 import type { CalculatorDefinition } from "./common.js";
 
 export const prismIvCalculator: CalculatorDefinition = {
@@ -7,7 +7,8 @@ export const prismIvCalculator: CalculatorDefinition = {
   calculate: (input): CalculationResult => {
     const tool = getTool("prism-iv");
     const ageDays = getNumber(input, "age_days");
-    const source = getString(input, "admission_source");
+    const sourceValue = input["admission_source"];
+    const source = typeof sourceValue === "string" ? sourceValue : null;
     const cpr = getBoolean(input, "cpr_within_24h");
     const cancer = getBoolean(input, "cancer");
     const lowRisk = getBoolean(input, "low_risk_primary_system");
