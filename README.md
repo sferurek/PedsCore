@@ -117,6 +117,12 @@ A catalog/runtime mismatch is therefore treated as a build failure, not as docum
 
 ---
 
+## Public metadata API
+
+PedsCore exposes an initial read-only metadata API for catalog discovery, provenance and review-state integrations. It accepts no patient data and does not calculate clinical scores.
+
+See [`docs/PUBLIC_API_V1.md`](docs/PUBLIC_API_V1.md).
+
 ## Architecture
 
 ```text
