@@ -275,6 +275,18 @@ export interface ToolOption {
   value?: string | number | boolean;
 }
 
+export interface ToolInputVisibilityCondition {
+  inputId: string;
+  operator:
+    | "equals"
+    | "not_equals"
+    | "lt"
+    | "lte"
+    | "gt"
+    | "gte";
+  value: string | number | boolean;
+}
+
 export interface ToolInput {
   id: string;
   label: LocalizedText;
@@ -294,6 +306,7 @@ export interface ToolInput {
   placeholder?: LocalizedText;
   options?: ToolOption[];
   helperText?: LocalizedText;
+  visibleWhen?: ToolInputVisibilityCondition[];
 }
 
 export interface InterpretationBand {
