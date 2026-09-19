@@ -66,7 +66,13 @@ const implementedToolIds = [
   "ckid_u25",
   "modified_bell_nec",
   "nsofa",
-  "wpcdai"
+  "wpcdai",
+  "pass",
+  "gorelick_dehydration",
+  "prifle",
+  "pelod_2",
+  "prism_iv",
+  "pim3"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -156,7 +162,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(54);
+    expect(getImplementedTools()).toHaveLength(60);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -548,11 +554,8 @@ describe("clinical tools catalog", () => {
     const criticalCareIds = [
       "psofa",
       "pelod",
-      "pelod_2",
       "prism_iii",
-      "prism_iv",
-      "pim2",
-      "pim3"
+      "pim2"
     ];
 
     for (const id of criticalCareIds) {
