@@ -1,0 +1,33 @@
+{
+  "name": "PedsCore",
+  "short_name": "PedsCore",
+  "description": "Open-source pediatric and neonatal clinical tools with evidence traceability.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#0b6280",
+  "lang": "en",
+  "categories": ["medical", "productivity", "education"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Clinical tools",
+      "short_name": "Tools",
+      "url": "/en/tools"
+    },
+    {
+      "name": "Herramientas clínicas",
+      "short_name": "Herramientas",
+      "url": "/es/tools"
+    }
+  ]
+}

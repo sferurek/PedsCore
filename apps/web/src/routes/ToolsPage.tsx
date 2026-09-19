@@ -47,21 +47,15 @@ export function ToolsPage({ language, navigate }: ToolsPageProps) {
   const t = translations[language];
   const allTools = getAllTools();
   const [filters, setFilters] = useState(defaultFilters);
-  const [personalizedVersion, setPersonalizedVersion] = useState(0);
+  const [, setPersonalizedVersion] = useState(0);
   const lastTrackedSearchRef = useRef("");
   const categories = [...new Set(allTools.map((tool) => tool.category))].sort();
   const types = [...new Set(allTools.map((tool) => tool.type))].sort();
   const statuses = ["active", "draft", "blocked", "deprecated"] satisfies SurfaceStatus[];
   const statusCounts = getSurfaceStatusCounts(allTools);
   const byId = useMemo(() => new Map(allTools.map((tool) => [tool.id, tool])), [allTools]);
-  const favoriteTools = useMemo(
-    () => getFavoriteToolIds().map((id) => byId.get(id)).filter(Boolean),
-    [byId, personalizedVersion]
-  );
-  const recentTools = useMemo(
-    () => getRecentToolIds().map((id) => byId.get(id)).filter(Boolean),
-    [byId, personalizedVersion]
-  );
+  const favoriteTools = getFavoriteToolIds().map((id) => byId.get(id)).filter(Boolean);
+  const recentTools = getRecentToolIds().map((id) => byId.get(id)).filter(Boolean);
 
   const filteredTools = useMemo(
     () => filterTools(allTools, filters, language),

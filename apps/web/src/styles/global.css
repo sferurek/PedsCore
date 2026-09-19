@@ -5256,3 +5256,29 @@ td {
     min-height: 44px;
   }
 }
+
+
+/* PWA/offline status: explicit degraded-connectivity state. */
+.offline-status-banner {
+  display: flex;
+  gap: 0.65rem 1rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.58rem 1rem;
+  border-bottom: 1px solid rgba(175, 139, 52, 0.35);
+  background: rgba(255, 248, 225, 0.96);
+  color: #5f5126;
+  font-size: 0.82rem;
+}
+
+.offline-status-banner strong {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 719px) {
+  .offline-status-banner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+}
