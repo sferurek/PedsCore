@@ -120,8 +120,8 @@ if (mainSize.size > 600_000) throw new Error(`Initial JS remains too large: ${ma
 if (statsSize.size < 1_000_000) throw new Error(`Global stats chunk unexpectedly small: ${statsSize.size} bytes`);
 
 const urlCount = (sitemap.match(/<url>/g) ?? []).length;
-if (urlCount !== 317) {
-  throw new Error(`sitemap.xml expected 317 URLs, found: ${urlCount}`);
+if (urlCount !== 325) {
+  throw new Error(`sitemap.xml expected 325 URLs for the current 137-surface baseline, found: ${urlCount}`);
 }
 
 const headInjuryHubEs = await read("es/topics/pediatric-head-injury-rules/index.html");
