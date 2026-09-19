@@ -222,47 +222,34 @@ Dosing behavior in acute care has unacceptable implicit treatment pressure in MV
 
 ## Percentiles WHO/CDC
 
-### Current blocker
-- Variant blocker: source selection by age/location requires product policy.
-- Evidence blocker: LMS data selection and interpolation policy not finalized.
-- Regulatory blocker: potential interpretation mismatch across frameworks.
-- Maintainer decision needed: default source strategy, age boundaries, chart percentiles, print scope, and whether the unified `who_growth_module` becomes the primary experience while source-specific tools remain catalog/reference entries.
+### WHO decision closed
+- The unified `who_growth_module` is the primary WHO experience.
+- WHO Child Growth Standards 0-5 use exact daily LMS records.
+- WHO Growth Reference 2007 uses exact-age monthly LMS interpolation.
+- Published WHO scope is implemented: weight-for-age 5-10 years; height-for-age and BMI-for-age 5-19 years.
+- For children under 61 months, measurement position is normalized using the WHO 0.7 cm length/height rule when needed.
+- Weight-based z-scores beyond ±3 use the WHO restricted-LMS tail method; percentiles beyond ±3 are not reported.
+- Printable charts use written P3/P15/P50/P85/P97 labels and patient point.
+- WHO data licensing, attribution and no-endorsement language remain separate from MIT code.
 
-### Available options
-- Option A: Offer both as separate reference pages only.
-- Option B: Activate one as default based on locale (WHO-first or CDC-first).
-- Option C: Add explicit selector and maintain reproducibility metadata.
-- Option D: Do not implement until policy is finalized.
-
-### Recommended option
-Option A for immediate clarity, then Option B/ C once policy is set.
-
-### Rationale
-Policy controls interpretation more than formula mechanics in this phase.
+### CDC remains separate
+CDC growth percentiles remain a separate source-specific tool and are not mixed into the WHO engine. Its activation is governed independently by its own evidence/data review.
 
 ### Clinical safety constraints
-- No deterministic nutritional or treatment classification.
+- No silent mixing of WHO and CDC references.
 - No age-mismatch silent coercion.
-
-### Evidence required before implementation
-- Official LMS/data files per source.
-- Unit conventions and interpolation rules.
-- Locale policy document.
-- For the unified WHO module: verified WHO 0-5 LMS files plus verified WHO 5-19 BMI-for-age and height-for-age LMS files, data versioning, print chart label policy, and fixture tests.
-- Blocks WHO-GROWTH-2B through WHO-GROWTH-4A import core WHO 0-5 LMS data plus WHO 5-19 BMI-for-age and height-for-age from official WHO website XLSX files. WHO data/materials remain under the applicable WHO/source license, separate from MIT code. The remaining maintainer decisions are remaining WHO 5-19 scope, interpolation policy, source-file update policy, attribution/adaptation disclaimer, and final activation criteria.
-
-### Proposed implementation scope
-- Catalog/reference-only.
-- If implemented later: unified WHO module for WHO-only results with full provenance; CDC and Orbegozo remain separate, not mixed into the WHO module.
+- Results retain source provenance and are interpreted with longitudinal and clinical context.
 
 ### Recommended PedsCore status
-- keep_pending_validation
+- WHO: implemented / local_active.
+- CDC: retain its independently audited status.
 
 ### Tests required
-- Data-source and version tests.
-- Locale/age boundary consistency tests.
-- Tests that printable graphs show written percentile labels and the patient point.
-- License-gate tests that keep WHO data licensing separate from MIT and prevent full module implementation until 5-19/interpolation decisions are explicit.
+- Data-source/version and license tests.
+- Exact age and 24-month boundary tests.
+- WHO 2007 interpolation fixtures.
+- Restricted-LMS extreme-tail tests.
+- Printable graph label and patient-point tests.
 
 ## Orbegozo
 
