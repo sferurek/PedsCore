@@ -52,7 +52,8 @@ const implementedToolIds = [
   "visual_analogue_scale",
   "step_by_step",
   "pecarn_febrile_infant",
-  "yos"
+  "yos",
+  "pucai"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -142,7 +143,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(40);
+    expect(getImplementedTools()).toHaveLength(41);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
