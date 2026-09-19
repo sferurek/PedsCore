@@ -604,7 +604,9 @@ The immediate stale failure found is a P0 residue:
 
 This directly conflicts with the P0 rights decision and the current calculator registry.
 
-**Audit PR action:** remove those stale FLACC test residues only. This does not modify clinical scoring logic.
+Further CI execution exposed additional stale P0/P1 assertions (outdated rights wording, Finder expectations, README counts) and a real discovery-governance inconsistency: several active rights-limited surfaces were still represented internally as `blocked_by_rights` even though the intended public architecture is an active official/reference surface.
+
+**Audit PR action:** reconcile those mechanical tests and restore `external_official` for active rights-limited/reference surfaces. No Tier A scoring algorithm is modified in this audit PR.
 
 ## TA-X02 — **Major: “test file exists” is not equivalent to clinical boundary coverage**
 
@@ -648,6 +650,23 @@ must expose the actual source definition. A Boolean with no visible operational 
 PRISM IV, PELOD-2, and PIM3 are population-level prognostic models. Their probabilities should never be represented as individualized mortality predictions or treatment/limitation-of-support triggers.
 
 PedsCore currently includes warnings to that effect; retain them.
+
+## TA-X06 — Moderate: 26 legacy external/reference surfaces lack a direct source URL
+
+The executable governance audit identified 26 active external/reference surfaces whose catalog metadata does not yet contain a resolvable URL, DOI or PMID. This is not a Tier A scoring defect, but it is provenance debt.
+
+The IDs are tracked explicitly in GitHub issue #94 and in a temporary governance allowlist. New untracked external-source omissions still fail CI.
+
+**Required remediation:** resolve each item to a trustworthy original/official source and shrink the allowlist to zero.
+
+## TA-X07 — Repository CI reconciliation
+
+The audit also exposed two repository-level failures unrelated to Tier A calculation formulas:
+
+- stale tests from pre-consolidation catalog/rights states;
+- root static SEO generation omitted the structured-data head renderer, causing the new SEO CI gate to fail despite route-level SEO being correct.
+
+These are repaired in the audit PR so that the protected-branch `CI` check once again reflects the actual current baseline.
 
 ---
 
