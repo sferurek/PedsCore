@@ -69,7 +69,9 @@ const implementedToolIds = new Set([
   "prifle",
   "pelod_2",
   "prism_iv",
-  "pim3"
+  "pim3",
+  "psofa",
+  "snappii"
 ]);
 
 type ToolSeed = Omit<
@@ -86,6 +88,69 @@ const docRef = (id: string, title: string, evidenceLevel: EvidenceLevel): Refere
 });
 
 const implementedToolReferences: Record<string, Reference[]> = {
+  psofa: [
+    {
+      id:"psofa_2017_original",
+      title:"Adaptation and Validation of a Pediatric Sequential Organ Failure Assessment Score and Evaluation of the Sepsis-3 Definitions in Critically Ill Children",
+      authors:"Matics TJ, Sanchez-Pinto LN",
+      year:2017,
+      journalOrPublisher:"JAMA Pediatrics",
+      doi:"10.1001/jamapediatrics.2017.2352",
+      pmid:"28783810",
+      url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/",
+      evidenceLevel:"original_derivation_study",
+      sourceType:"journal_article",
+      accessType:"open_access",
+      appliesTo:["psofa"],
+      priority:1
+    },
+    {
+      id:"psofa_ccby_review",
+      title:"Pediatric Sequential Organ Assessment Score: A Comprehensive Review of the Prognostic Marker in the Pediatric Intensive Care Unit",
+      authors:"Malik A, Taksande A, Meshram R",
+      year:2024,
+      journalOrPublisher:"Cureus",
+      doi:"10.7759/cureus.60034",
+      pmid:"38854197",
+      url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC11162817/",
+      evidenceLevel:"peer_reviewed_review",
+      sourceType:"journal_article",
+      accessType:"open_access",
+      notes:"CC BY 4.0 open reproduction of the complete pSOFA table.",
+      appliesTo:["psofa"],
+      priority:2
+    }
+  ],
+  snappii: [
+    {
+      id:"snappe2_2001_original",
+      title:"SNAP-II and SNAPPE-II: Simplified newborn illness severity and mortality risk scores",
+      authors:"Richardson DK, Corcoran JD, Escobar GJ, Lee SK",
+      year:2001,
+      journalOrPublisher:"The Journal of Pediatrics",
+      doi:"10.1067/mpd.2001.109608",
+      pmid:"11148519",
+      url:"https://pubmed.ncbi.nlm.nih.gov/11148519/",
+      evidenceLevel:"original_derivation_study",
+      sourceType:"journal_article",
+      accessType:"abstract_only",
+      appliesTo:["snappii"],
+      priority:1
+    },
+    {
+      id:"snappe2_ccby_table",
+      title:"SNAPPE II: analysis of accuracy and determination of the cutoff point as a death predictor in a Brazilian neonatal intensive care unit",
+      year:2020,
+      journalOrPublisher:"Revista Paulista de Pediatria / PMC",
+      url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC7747781/",
+      evidenceLevel:"external_validation_study",
+      sourceType:"journal_article",
+      accessType:"open_access",
+      notes:"CC BY open-access article reproducing the complete nine-component scoring table.",
+      appliesTo:["snappii"],
+      priority:2
+    }
+  ],
   modified_bell_nec: [
     {
       id: "modified_bell_ccby_table",
@@ -2532,6 +2597,53 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  psofa: {
+    validationNotes: {
+      es: "pSOFA completo 0-24 con seis sistemas orgánicos, umbrales cardiovasculares y renales ajustados por edad y PaO₂/FiO₂ o SpO₂/FiO₂ como componente respiratorio.",
+      en: "Complete 0-24 pSOFA with six organ systems, age-adjusted cardiovascular and renal thresholds, and PaO₂/FiO₂ or SpO₂/FiO₂ for the respiratory component."
+    },
+    calculationNotes: {
+      es: "Usar el peor valor de cada sistema en 24 horas. El cociente SpO₂/FiO₂ solo se utiliza con SpO₂ ≤97%.",
+      en: "Use the worst value for each system over 24 hours. SpO₂/FiO₂ is only used when SpO₂ ≤97%."
+    },
+    inputs: [
+      { id:"age_months", label:{es:"Edad",en:"Age"}, type:"number", required:true, unit:"meses", min:0, max:300, step:0.1 },
+      { id:"pao2_fio2_ratio", label:{es:"PaO₂/FiO₂",en:"PaO₂/FiO₂"}, type:"number", required:false, min:0, max:2000, step:1 },
+      { id:"spo2_fio2_ratio", label:{es:"SpO₂/FiO₂",en:"SpO₂/FiO₂"}, type:"number", required:false, min:0, max:500, step:1 },
+      { id:"spo2_percent", label:{es:"SpO₂ para validar S/F",en:"SpO₂ for S/F validation"}, type:"number", required:false, unit:"%", min:0, max:100, step:1 },
+      booleanInput("respiratory_support",{es:"Soporte respiratorio",en:"Respiratory support"}),
+      { id:"platelets_10e9_l", label:{es:"Plaquetas",en:"Platelets"}, type:"number", required:true, unit:"×10⁹/L", min:0, max:1500, step:1 },
+      { id:"bilirubin_mg_dl", label:{es:"Bilirrubina total",en:"Total bilirubin"}, type:"number", required:true, unit:"mg/dL", min:0, max:100, step:0.1 },
+      { id:"map_mmhg", label:{es:"Presión arterial media",en:"Mean arterial pressure"}, type:"number", required:true, unit:"mmHg", min:0, max:200, step:1 },
+      { id:"dopamine_mcg_kg_min", label:{es:"Dopamina",en:"Dopamine"}, type:"number", required:false, unit:"µg/kg/min", min:0, max:100, step:0.01 },
+      { id:"dobutamine_mcg_kg_min", label:{es:"Dobutamina",en:"Dobutamine"}, type:"number", required:false, unit:"µg/kg/min", min:0, max:100, step:0.01 },
+      { id:"epinephrine_mcg_kg_min", label:{es:"Adrenalina",en:"Epinephrine"}, type:"number", required:false, unit:"µg/kg/min", min:0, max:10, step:0.01 },
+      { id:"norepinephrine_mcg_kg_min", label:{es:"Noradrenalina",en:"Norepinephrine"}, type:"number", required:false, unit:"µg/kg/min", min:0, max:10, step:0.01 },
+      { id:"gcs", label:{es:"Glasgow",en:"Glasgow Coma Scale"}, type:"number", required:true, min:3, max:15, step:1 },
+      { id:"creatinine_mg_dl", label:{es:"Creatinina",en:"Creatinine"}, type:"number", required:true, unit:"mg/dL", min:0, max:20, step:0.01 }
+    ]
+  },
+  snappii: {
+    validationNotes: {
+      es: "SNAPPE-II completo de nueve componentes, total 0-162, con los peores valores fisiológicos de las primeras 12 horas y tres factores perinatales.",
+      en: "Complete nine-component SNAPPE-II, total 0-162, using worst physiologic values from the first 12 hours plus three perinatal factors."
+    },
+    calculationNotes: {
+      es: "Puntuación de gravedad/riesgo poblacional neonatal; no genera una probabilidad individual ni recomendaciones terapéuticas.",
+      en: "Neonatal population-level severity/risk score; it does not generate an individual probability or treatment recommendations."
+    },
+    inputs: [
+      { id:"mean_bp_mmhg", label:{es:"PAM mínima",en:"Lowest mean BP"}, type:"number", required:true, unit:"mmHg", min:0, max:150, step:1 },
+      { id:"lowest_temperature_c", label:{es:"Temperatura mínima",en:"Lowest temperature"}, type:"number", required:true, unit:"°C", min:20, max:45, step:0.1 },
+      { id:"pao2_fio2_ratio", label:{es:"PaO₂/FiO₂ mínimo",en:"Lowest PaO₂/FiO₂"}, type:"number", required:true, min:0, max:20, step:0.01 },
+      { id:"lowest_ph", label:{es:"pH mínimo",en:"Lowest pH"}, type:"number", required:true, min:6.5, max:8, step:0.01 },
+      booleanInput("multiple_seizures",{es:"Convulsiones múltiples",en:"Multiple seizures"}),
+      { id:"urine_output_ml_kg_h", label:{es:"Diuresis",en:"Urine output"}, type:"number", required:true, unit:"mL/kg/h", min:0, max:20, step:0.01 },
+      { id:"apgar_5min", label:{es:"Apgar a los 5 minutos",en:"5-minute Apgar"}, type:"number", required:true, min:0, max:10, step:1 },
+      { id:"birth_weight_g", label:{es:"Peso al nacer",en:"Birth weight"}, type:"number", required:true, unit:"g", min:200, max:7000, step:1 },
+      booleanInput("sga_below_3rd_percentile",{es:"Pequeño para edad gestacional <P3",en:"Small for gestational age <3rd percentile"})
+    ]
+  },
   modified_bell_nec: {
     validationNotes:{
       es:"Clasificación de Bell modificada para NEC, implementada a partir de una tabla reproducida bajo CC BY. Integra hallazgos sistémicos, abdominales y radiológicos.",
@@ -5632,7 +5744,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("revised_schwartz", "revised-schwartz", "Schwartz", "Schwartz revisado", "Revised Schwartz", "nephrology", "egfr", "calculator", "Ninos con talla, creatinina, cistatina C, BUN y sexo disponibles", "Children with available height, creatinine, cystatin C, BUN, and sex", "Formula CKiD 2009 multivariable para eGFR pediatrico estimado.", "2009 multivariable CKiD equation for estimated pediatric eGFR.", "ready_for_implementation", "original_derivation_study", "medium", revisedSchwartzReadyNotes),
   makeTool("prifle", "prifle", "pRIFLE", "pRIFLE", "pRIFLE", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Clasificación pediátrica R/I/F/L/E de lesión renal aguda basada en eCCl y diuresis.", "Pediatric R/I/F/L/E acute kidney injury classification based on eCCl and urine output.", "implemented", "original_derivation_study", "medium", prifleValidationNotes),
   makeTool("kdigo_pediatric", "kdigo-pediatric", "KDIGO pediatrico", "KDIGO pediatrico", "Pediatric KDIGO", "nephrology", "acute_kidney_injury", "clinical_rule", "Ninos con riesgo de lesion renal aguda", "Children at risk of acute kidney injury", "Aplicacion pediatrica de criterios KDIGO para lesion renal aguda.", "Pediatric application of KDIGO criteria for acute kidney injury.", "pending_validation", "pending_verification", "medium"),
-  makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Evalua disfuncion organica multiple pediatrica.", "Assesses pediatric multi-organ dysfunction.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
+  makeTool("psofa", "psofa", "pSOFA", "pSOFA", "Pediatric Sequential Organ Failure Assessment", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Puntuación de seis sistemas para cuantificar disfunción orgánica pediátrica en ventanas de 24 horas.", "Six-system score for pediatric organ dysfunction over 24-hour windows.", "implemented", "original_derivation_study", "high", clinicalToolFormMetadata.psofa?.validationNotes ?? baseValidationNotes.pending),
   makeTool("pelod", "pelod", "PELOD", "PELOD", "PELOD", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos", "Critically ill children", "Score de disfuncion organica pediatrica.", "Pediatric organ dysfunction score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pelod_2", "pelod-2", "PELOD-2", "PELOD-2", "PELOD-2", "intensive_care", "organ_dysfunction", "score", "Ninos criticamente enfermos en UCI pediatrica", "Critically ill children in pediatric intensive care", "PELOD-2 de 10 variables para cuantificar disfunción orgánica múltiple; el algoritmo fue declarado de dominio público por sus autores.", "Ten-variable PELOD-2 for multiple-organ dysfunction; the algorithm was declared public domain by its authors.", "implemented", "original_derivation_study", "high", pelod2ValidationNotes),
   makeTool("prism_iii", "prism-iii", "PRISM III", "PRISM III", "PRISM III", "intensive_care", "mortality_risk", "score", "Ninos ingresados en UCI pediatrica", "Children admitted to pediatric ICU", "Score de riesgo de mortalidad en UCI pediatrica.", "Pediatric ICU mortality risk score.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
