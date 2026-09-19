@@ -20,7 +20,7 @@ export const pcdaiCalculator: CalculatorDefinition = {
       toolId:tool.id,score,maxScore:100,
       classification:label(`PCDAI ${score}/100`,`PCDAI ${score}/100`),
       warnings:[warning("pcdai_bands","El artículo original de 1991 validó el puntaje continuo pero no definió bandas universales de actividad; PedsCore no impone cortes posteriores como si fueran originales.","The 1991 derivation validated the continuous score but did not define universal activity bands; PedsCore does not present later cutoffs as original.")],
-      trace:[...categorical.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i]})),{inputId:"esr_mm_h",value:esr,score:esrPts},{inputId:"albumin_g_dl",value:albumin,score:albuminPts}]
+      trace:[...categorical.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i] ?? 0})),{inputId:"esr_mm_h",value:esr,score:esrPts},{inputId:"albumin_g_dl",value:albumin,score:albuminPts}]
     };
   }
 };

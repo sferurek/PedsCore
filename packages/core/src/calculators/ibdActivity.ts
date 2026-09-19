@@ -1,5 +1,5 @@
 import type { CalculationResult } from "../types.js";
-import { getBoolean, getNumber, getNumericScore, getTool, label, warning } from "./common.js";
+import { getNumber, getNumericScore, getTool, label, warning } from "./common.js";
 import type { CalculatorDefinition } from "./common.js";
 
 const ibdWarning = warning(
@@ -64,7 +64,7 @@ export const pucaiCalculator: CalculatorDefinition = {
         score<=64?label("Actividad moderada","Moderate activity"):
         label("Actividad grave","Severe activity"),
       warnings:[ibdWarning],
-      trace:ids.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i]}))
+      trace:ids.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i] ?? 0}))
     };
   }
 };

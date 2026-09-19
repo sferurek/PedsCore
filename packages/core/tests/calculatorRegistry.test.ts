@@ -34,11 +34,12 @@ describe("calculator registry", () => {
       "chalice_tbi",
       "sipa",
       "nips",
-      "pediatric_burn_tbsa"
+      "pediatric_burn_tbsa",
+      "garcia_alix_ners"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("calculates through the dispatcher", () => {

@@ -17,7 +17,7 @@ export const garciaAlixNersCalculator: CalculatorDefinition = {
         warning("ners_window","La NE-RS fue validada para graduar encefalopatía neonatal dentro de las primeras 6 horas de vida en recién nacidos ≥34 semanas y ≥1800 g.","NE-RS was validated to grade neonatal encephalopathy within the first 6 hours after birth in infants ≥34 weeks and ≥1800 g."),
         warning("ners_context","Los cortes 8 y 30 discriminan leve/moderada y moderada/grave en la cohorte de validación; la escala no sustituye la valoración integral para hipotermia terapéutica.","Cutoffs 8 and 30 separated mild/moderate and moderate/severe disease in the validation cohort; the scale does not replace comprehensive therapeutic-hypothermia assessment.")
       ],
-      trace:ids.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i]}))
+      trace:ids.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i] ?? 0}))
     };
   }
 };

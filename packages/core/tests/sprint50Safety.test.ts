@@ -20,6 +20,7 @@ const expectedImplementedToolIds = [
   "aap_2022_hyperbilirubinemia",
   "bedside_pews",
   "fenton_2025_growth",
+      "garcia_alix_ners",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -70,7 +71,8 @@ const implementedTestFiles: Record<string, string> = {
   silverman_andersen: "silvermanAndersen.test.ts",
   sipa: "sipa.test.ts",
   wood_downes_ferres: "woodDownesFerres.test.ts",
-  westley_croup: "westleyCroup.test.ts"
+  westley_croup: "westleyCroup.test.ts",
+  garcia_alix_ners: "garciaAlixNers.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [

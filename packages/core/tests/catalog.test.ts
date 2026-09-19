@@ -24,6 +24,7 @@ const implementedToolIds = [
   "aap_2022_hyperbilirubinemia",
   "bedside_pews",
   "fenton_2025_growth",
+        "garcia_alix_ners",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
@@ -131,7 +132,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(29);
+    expect(getImplementedTools()).toHaveLength(30);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -188,7 +189,7 @@ describe("clinical tools catalog", () => {
   });
 
   it("reconciles the physical catalog to the v12 final surface set", () => {
-    expect(clinicalTools).toHaveLength(135);
+    expect(clinicalTools).toHaveLength(137);
     for (const id of removedFinalSurfaceIds) {
       expect(clinicalTools.some((tool) => tool.id === id), id).toBe(false);
     }

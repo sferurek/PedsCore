@@ -21,7 +21,7 @@ export const yaleObservationScaleCalculator: CalculatorDefinition = {
         "YOS describe apariencia clínica y no excluye por sí sola infección bacteriana grave; su rendimiento es limitado en lactantes muy pequeños.",
         "YOS describes clinical appearance and does not by itself exclude serious bacterial infection; performance is limited in very young infants."
       )],
-      trace:ids.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i]}))
+      trace:ids.map((id,i)=>({inputId:id,value:input[id],score:(vals as number[])[i] ?? 0}))
     };
   }
 };

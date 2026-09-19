@@ -127,7 +127,7 @@ export const taussigCroupCalculator: CalculatorDefinition = {
       trace: ids.map((inputId, index) => ({
         inputId,
         value: input[inputId],
-        score: scores[index]
+        score: scores[index] ?? 0
       }))
     };
   }

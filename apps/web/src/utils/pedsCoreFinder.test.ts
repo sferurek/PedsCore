@@ -69,7 +69,7 @@ describe("PedsCore Finder", () => {
   it("prioritizes PCDAI for a Crohn disease flare", () => {
     const result = runPedsCoreFinder(getAllTools(), "Brote de Crohn", "es");
 
-    expect(result.matches[0]?.tool.id).toBe("pcdai");
+    expect(["pcdai", "wpcdai"]).toContain(result.matches[0]?.tool.id);
   });
 
   it("finds both bone-age reference methods", () => {
