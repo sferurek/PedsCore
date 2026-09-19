@@ -473,8 +473,7 @@ describe("clinical tools catalog", () => {
       "pim2",
       "pim3",
       "prism_iii",
-      "prism_iv",
-      "cdc_growth_percentiles"
+      "prism_iv"
     ];
 
     for (const id of maintainerDependentIds) {
@@ -506,8 +505,9 @@ describe("clinical tools catalog", () => {
     }
 
     expect(getTool("cdc_growth_percentiles")?.implementationStatus).toBe(
-      "pending_validation"
+      "implemented"
     );
+    expect(getTool("cdc_growth_percentiles")?.calculationStatus).toBe("active");
     expect(getTool("neonatal_growth_fenton")?.implementationStatus).toBe(
       "pending_validation"
     );
