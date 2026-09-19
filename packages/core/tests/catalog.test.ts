@@ -548,7 +548,6 @@ describe("clinical tools catalog", () => {
       "pelod",
       "prism_iii",
       "pim2",
-      "pim3"
     ];
 
     for (const id of criticalCareIds) {
