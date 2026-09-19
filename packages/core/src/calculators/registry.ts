@@ -26,6 +26,7 @@ import { westleyCroupCalculator } from "./westleyCroup.js";
 import { garciaAlixNersCalculator } from "./garciaAlixNers.js";
 import { cdcGrowthPercentilesCalculator } from "./cdcGrowth.js";
 import { strongkidsCalculator } from "./strongkids.js";
+import { visualAnalogueScaleCalculator } from "./additionalOpenTools.js";
 
 const calculators = [
   apgarCalculator,
@@ -57,7 +58,8 @@ const calculators = [
   pediatricBurnTbsaCalculator,
   garciaAlixNersCalculator,
   cdcGrowthPercentilesCalculator,
-  strongkidsCalculator
+  strongkidsCalculator,
+  visualAnalogueScaleCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
