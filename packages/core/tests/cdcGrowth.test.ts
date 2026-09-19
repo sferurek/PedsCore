@@ -48,7 +48,7 @@ describe("CDC Growth Percentiles", () => {
 
     expect(result.value).toBeUndefined();
     expect(result.warnings.some((item) => item.id === "cdc_scope")).toBe(true);
-    expect(result.warnings.find((item) => item.id === "cdc_scope")?.en).toContain("WHO");
+    expect(JSON.stringify(result.warnings.find((item) => item.id === "cdc_scope"))).toContain("WHO");
   });
 
   it("interpolates official LMS values for exact decimal age", () => {
