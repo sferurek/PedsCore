@@ -164,31 +164,28 @@ export const zScoreToPercentile = (z: number) => {
 };
 
 export const findLmsRecord = ({
-  indicator,
-  sex,
-  ageDays,
-  ageMonths,
-  measureCm
-}: FindLmsRecordParams, records: readonly WhoLmsRecord[] = []): WhoLmsRecord | undefined =>
-  records.find((record) => {
-    if (record.indicator !== indicator || record.sex !== sex) {
-      return false;
+  indicator, sex, ageDays, ageMonths, measureCm
+}: FindLmsRecordParams, records: readonly WhoLmsRecord[] = []): WhoLmsRecord | undefined => {
+  const candidates = records.filter((record) => record.indicator === indicator && record.sex === sex);
+  if (ageDays !== undefined) {
+    const exact = candidates.find((record) => record.ageDays === ageDays);
+    if (exact) return exact;
+  }
+  if (ageMonths !== undefined) {
+    const exact = candidates.find((record) => record.ageMonths === ageMonths);
+    if (exact) return exact;
+    const lowerAge = Math.floor(ageMonths);
+    const upperAge = Math.ceil(ageMonths);
+    const lower = candidates.find((record) => record.ageMonths === lowerAge);
+    const upper = candidates.find((record) => record.ageMonths === upperAge);
+    if (lower && upper && lower.ageMonths !== undefined && upper.ageMonths !== undefined && upperAge !== lowerAge) {
+      const f = (ageMonths - lowerAge) / (upperAge - lowerAge);
+      return { ...lower, ageMonths, L: lower.L + f * (upper.L - lower.L), M: lower.M + f * (upper.M - lower.M), S: lower.S + f * (upper.S - lower.S) };
     }
-
-    if (ageDays !== undefined && record.ageDays !== undefined) {
-      return record.ageDays === ageDays;
-    }
-
-    if (ageMonths !== undefined && record.ageMonths !== undefined) {
-      return record.ageMonths === ageMonths;
-    }
-
-    if (measureCm !== undefined && record.measureCm !== undefined) {
-      return record.measureCm === measureCm;
-    }
-
-    return false;
-  });
+  }
+  if (measureCm !== undefined) return candidates.find((record) => record.measureCm === measureCm);
+  return undefined;
+};
 
 const buildResult = (
   indicator: WhoGrowthIndicator,
@@ -224,7 +221,14 @@ const buildResult = (
     };
   }
 
-  const zScore = calculateLmsZScore(value, record.L, record.M, record.S);
+  let zScore = calculateLmsZScore(value, record.L, record.M, record.S);
+  const weightBased = indicator === "weight_for_age" || indicator === "weight_for_length" || indicator === "weight_for_height" || indicator === "bmi_for_age";
+  if (weightBased && Math.abs(zScore) > 3) {
+    const sd3 = calculateLmsValueFromZScore(zScore > 0 ? 3 : -3, record.L, record.M, record.S);
+    const sd2 = calculateLmsValueFromZScore(zScore > 0 ? 2 : -2, record.L, record.M, record.S);
+    const unitSd = Math.abs(sd3 - sd2);
+    zScore = zScore > 0 ? 3 + (value - sd3) / unitSd : -3 + (value - sd3) / unitSd;
+  }
 
   return {
     indicator,
@@ -232,7 +236,7 @@ const buildResult = (
     value,
     unit,
     zScore,
-    percentile: zScoreToPercentile(zScore),
+    percentile: Math.abs(zScore) <= 3 ? zScoreToPercentile(zScore) : undefined,
     ageRange,
     source: record.source,
     isApplicable: true
@@ -291,7 +295,8 @@ export const calculateWhoGrowth = (
       findLmsRecord({
         indicator: "weight_for_age",
         sex: input.sex,
-        ageDays: hasZeroToFiveAge ? ageDays : undefined
+        ageDays: hasZeroToFiveAge ? ageDays : undefined,
+        ageMonths: hasFiveToNineteenAge && ageMonths !== undefined && ageMonths < 121 ? ageMonths : undefined
       },
       lmsRecords),
       missingZeroToFiveAgeWarning
