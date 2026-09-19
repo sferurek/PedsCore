@@ -34,23 +34,22 @@ The strongest demo arc is:
 - public privacy/terms/media endpoints;
 - three clinical MCP tools;
 - three SIM IMV MCP tool contracts;
-- simulator-side deterministic bridge on SIM PR #25;
-- public MIT-licensed OSS contribution on PedsCore PR #43.
+- simulator-side deterministic bridge merged from SIM PR #25 and deployed on Vercel;
+- public MIT-licensed OSS contribution on PedsCore PR #91.
 
 ## Eligibility and external blockers
 
 The official Alexa+ rules were rechecked on 2026-09-18. A working self-hosted MCP server using MCP 2025-11-25+ over Streamable HTTP is a valid primary-track submission path. Therefore the private Alexa AI CLI / official add-on deployment is an optional enhancement rather than an eligibility blocker.
 
-Private Alexa AI CLI access is still blocked by Amazon-side entitlement to the developer-tools role. The local AWS source profile authenticates successfully; AssumeRole into Amazon's documented private role returns `AccessDenied`. This has been escalated through the hackathon support path and recorded in the friction log.
+Devpost support confirmed that the private Alexa+ Category SDK / MCP Toolkit / add-on tooling is restricted to selected Amazon partners and is not available to general hackathon participants. The `AccessDenied` encountered during setup is therefore not treated as an IAM defect or submission blocker. The rules-compliant self-hosted MCP path is the canonical Alexa+ implementation.
 
-SIM remote deployment is currently blocked because the Railway GitHub App does not have access to the private SIM repository. The simulator bridge is nevertheless validated against a production Next.js server in CI.
+SIM PR #25 has been merged into the simulator `main` branch and the resulting production commits have successful Vercel deployment status. The MCP production service is configured to call `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`.
 
 ## Final submission assets still required
 
 - demo video under the allowed duration;
 - final screenshots / image gallery;
-- Alexa add-on ID/version if private CLI entitlement is granted;
-- final remote MCP→SIM smoke output once the SIM bridge is deployed;
+- final strict remote MCP→SIM smoke output;
 - final friction log review;
 - project testing link: `https://pedscore-ai-mcp-production.up.railway.app/judge-demo` after final live verification;
 - final feature-request / developer-feedback answers.
