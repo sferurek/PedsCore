@@ -67,7 +67,8 @@ const expectedImplementedToolIds = [
   "gorelick_dehydration",
   "prifle",
   "pim3",
-  "snappii"
+  "snappii",
+  "pyms"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -133,7 +134,8 @@ const implementedTestFiles: Record<string, string> = {
   prism_iv: "unlockedEvidenceBatch.test.ts",
   pim3: "unlockedEvidenceBatch.test.ts",
   psofa: "psofa.test.ts",
-  snappii: "snappeII.test.ts"
+  snappii: "snappeII.test.ts",
+  pyms: "pyms.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
