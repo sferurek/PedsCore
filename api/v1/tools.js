@@ -51,6 +51,7 @@ const serializeInput = (input) => ({
   max: input.max ?? null,
   step: input.step ?? null,
   placeholder: input.placeholder ?? null,
+  visibleWhen: input.visibleWhen ?? [],
   options: (input.options ?? []).map((option) => ({
     id: option.id,
     label: option.label,
