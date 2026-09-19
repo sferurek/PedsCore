@@ -9,7 +9,7 @@ const phoenixBase = {
   age_months: 60,
   suspected_infection: true,
   birth_hospitalization_before_discharge: false,
-  postconceptional_age_weeks: 260,
+  postconceptional_age_at_least_37_weeks: true,
   fio2_fraction: 0.4,
   pao2_mmhg: 160,
   spo2_percent: 97,
@@ -59,7 +59,7 @@ describe("Tier A clinical remediation", () => {
     }).warnings[0]?.id).toBe("phoenix_outside_validated_population");
     expect(phoenixSepsisCalculator.calculate({
       ...phoenixBase,
-      postconceptional_age_weeks: 36.9
+      postconceptional_age_at_least_37_weeks: false
     }).warnings[0]?.id).toBe("phoenix_outside_validated_population");
   });
 
