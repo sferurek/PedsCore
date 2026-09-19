@@ -20,6 +20,7 @@ const expectedImplementedToolIds = [
   "aap_2022_hyperbilirubinemia",
   "bedside_pews",
   "fenton_2025_growth",
+      "garcia_alix_ners",
   "wood_downes_ferres",
   "qtc_bazett",
   "qtc_fridericia",
