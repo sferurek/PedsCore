@@ -465,8 +465,6 @@ describe("clinical tools catalog", () => {
       "pediatric_gcs",
       "pim2",
       "prism_iii",
-      "pim2",
-      "pediatric_gcs",
       "cdc_growth_percentiles"
     ];
 
