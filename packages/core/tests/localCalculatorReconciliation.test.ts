@@ -22,8 +22,7 @@ const reconciledLocalIds = [
   "wpcdai"
 ] as const;
 
-const intentionallyEvidenceBlockedIds = ["pass", "gorelick_dehydration", "prifle", "pelod_2", "pim3"] as const;
-const intentionallyRightsBlockedIds = ["prism_iv"] as const;
+const newlyUnlockedIds = ["pass", "gorelick_dehydration", "prifle", "pelod_2", "prism_iv", "pim3", "psofa"] as const;
 
 describe("local calculator reconciliation", () => {
   it("leaves no discovery surface marked local_planned", () => {
@@ -42,25 +41,15 @@ describe("local calculator reconciliation", () => {
     }
   });
 
-  it("keeps evidence-gated tools blocked rather than pending", () => {
-    for (const id of intentionallyEvidenceBlockedIds) {
-      expect(implementedCalculatorToolIds).not.toContain(id);
-      expect(getToolDiscovery(id)?.calculationAvailability).toBe("blocked_by_evidence");
-      expect(getToolDiscovery(id)?.surfaceStatus).toBe("blocked");
+  it("keeps the audited unlock batch locally active", () => {
+    for (const id of newlyUnlockedIds) {
+      expect(implementedCalculatorToolIds).toContain(id);
+      expect(getToolDiscovery(id)?.calculationAvailability).toBe("local_active");
+      expect(getToolDiscovery(id)?.surfaceStatus).toBe("active");
       const tool = clinicalTools.find((item) => item.id === id);
-      expect(tool?.implementationStatus).not.toBe("implemented");
-      expect(tool?.calculationStatus).not.toBe("active");
+      expect(tool?.implementationStatus).toBe("implemented");
+      expect(tool?.calculationStatus).toBe("active");
     }
   });
 
-  it("keeps rights-gated tools blocked rather than pending", () => {
-    for (const id of intentionallyRightsBlockedIds) {
-      expect(implementedCalculatorToolIds).not.toContain(id);
-      expect(getToolDiscovery(id)?.calculationAvailability).toBe("blocked_by_rights");
-      expect(getToolDiscovery(id)?.surfaceStatus).toBe("blocked");
-      const tool = clinicalTools.find((item) => item.id === id);
-      expect(tool?.implementationStatus).not.toBe("implemented");
-      expect(tool?.calculationStatus).not.toBe("active");
-    }
-  });
 });
