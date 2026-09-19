@@ -17,7 +17,11 @@ export type AnalyticsEventName =
   | "score_calculated"
   | "protocol_opened"
   | "favorite_added"
-  | "share_used";
+  | "share_used"
+  | "finder_used"
+  | "finder_result_opened"
+  | "finder_compare_used"
+  | "navigation_used";
 
 export type AnalyticsCounterWindow = "last_7_days" | "all_time";
 
@@ -69,7 +73,11 @@ const analyticsEventNames = [
   "score_calculated",
   "protocol_opened",
   "favorite_added",
-  "share_used"
+  "share_used",
+  "finder_used",
+  "finder_result_opened",
+  "finder_compare_used",
+  "navigation_used"
 ] as const satisfies AnalyticsEventName[];
 const allowedParamKeys = [
   "path",
