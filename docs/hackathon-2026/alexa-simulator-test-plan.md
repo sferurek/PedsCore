@@ -1,6 +1,6 @@
-# Alexa+ simulator test plan
+# Alexa+ interaction test plan — partner-tooling reference
 
-Use this checklist immediately after `alexa-ai deploy` returns an Add-on ID and version.
+> Devpost support confirmed on 18 September 2026 that the official Alexa+ add-on developer tooling is available only to selected Amazon partners. General hackathon participants cannot obtain that access. The scenarios below are retained as a design/evaluation reference; they are **not** required evidence for the PedsCore self-hosted MCP submission.
 
 ## Test objective
 
@@ -15,14 +15,13 @@ Alexa+ user utterance
   -> Alexa+ response
 ```
 
-## Preconditions
+## Preconditions for the rules-compliant self-hosted MCP demo
 
-- Add-on deployed to the developer stage.
-- MCP endpoint reachable:
-  `https://pedscore-ai-mcp-production.up.railway.app/mcp`
-- Railway service reports healthy.
-- Remote smoke workflow is green.
-- No identifiable patient data is used in test prompts.
+- MCP endpoint reachable: `https://pedscore-ai-mcp-production.up.railway.app/mcp`
+- Railway service healthy.
+- Strict remote smoke green.
+- No identifiable patient data used in prompts.
+- Interaction may be demonstrated through the public judge console / MCP trace rather than the partner-only official simulator.
 
 ## Scenario A — tool discovery
 
@@ -117,15 +116,15 @@ Then provide:
 
 ## Evidence to capture for Devpost
 
-Capture screenshots or screen recording of:
+Capture:
+1. conversational prompt / judge-console interaction;
+2. MCP tool invocation and raw trace;
+3. PedsCore-backed result;
+4. deterministic Apgar 9/10 result;
+5. SIM IMV deterministic result;
+6. green remote CI smoke.
 
-1. Alexa+ prompt.
-2. MCP tool invocation / developer trace where available.
-3. PedsCore-backed result.
-4. Deterministic Apgar 9/10 result.
-5. One error/safety case.
-6. Add-on ID and deployed version.
-7. Railway endpoint and green remote CI smoke.
+Do not claim an official Alexa+ simulator session or Add-on ID.
 
 ## Demo selection
 
