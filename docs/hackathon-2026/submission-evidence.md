@@ -14,7 +14,7 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 | Clinical tool discovery | `search_clinical_tools` | Verified |
 | Structured tool metadata | `get_clinical_tool` | Verified |
 | Deterministic score execution | `calculate_clinical_score` | Verified |
-| Public HTTPS MCP endpoint | Railway deployment `27f996da-8056-4724-8a49-526a5e800632` | Verified |
+| Public HTTPS MCP endpoint | `https://pedscore-ai-mcp-production.up.railway.app/mcp` | Verified |
 | External MCP remote smoke | GitHub Actions run `35334436459` attempt 2 | Verified |
 | Deterministic remote Apgar 9/10 | remote smoke evidence | Verified |
 | Live judge console | `/judge-demo`; remote smoke run `35334436459` | Verified |
@@ -27,9 +27,7 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 | SIM production HTTP contract | CI run `35333822459`: production Next.js server + deterministic smoke | Verified |
 | Public SIM bridge endpoint | public deployment | Pending repository authorization / Vercel quota |
 | End-to-end public MCP → SIM flow | remote deterministic smoke | Pending public SIM endpoint |
-| Alexa AI CLI entitlement | STS AssumeRole into Amazon private developer-tools role | Blocked externally / escalated |
-| Alexa+ add-on deployment | Add-on ID/version | Pending Amazon entitlement |
-| Alexa+ simulator conversation | screenshots/video | Pending add-on deployment |
+| Alexa+ private add-on tooling | Devpost support confirmation dated 18 Sep 2026 | Partner-only; intentionally not a submission dependency |
 | AWS Cognito code path | `infra/aws/cognito-alexa-mcp.yaml` | Implemented, not provisioned |
 | AWS Builder Mini Challenge | actual useful deployed AWS integration + write-up | Not yet claimed |
 | Open Source Mini Challenge | public MIT repo + PR #91 contribution | Ready, final submission wording pending |
@@ -47,4 +45,4 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 
 ## Evidence capture still required
 
-Before final submission, capture the Alexa add-on ID/version if Amazon grants CLI access, simulator screenshots/video, the final remote MCP→SIM smoke output, and the final demo recording. Do not mark these as verified before they exist.
+Before final submission, capture the final remote MCP→SIM smoke output if a public SIM endpoint becomes available, and the final demo recording. Do not mark either as verified before it exists.
