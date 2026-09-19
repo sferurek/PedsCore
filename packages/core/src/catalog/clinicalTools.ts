@@ -38,25 +38,7 @@ const implementedToolIds = new Set([
   "chalice_tbi",
   "sipa",
   "nips",
-  "pediatric_burn_tbsa",
-  "ckid_u25",
-  "kdigo_pediatric",
-  "modified_tal",
-  "taussig_croup",
-  "step_by_step",
-  "risc",
-  "mrisc",
-  "phoenix_sepsis",
-  "wpcdai",
-  "pucai",
-  "nsofa",
-  "yos",
-  "bacterial_meningitis_score",
-  "pecarn_febrile_infant",
-  "garcia_alix_ners",
-  "parc",
-  "pcdai",
-  "modified_bell_nec"
+  "pediatric_burn_tbsa"
 ]);
 
 type ToolSeed = Omit<
@@ -2558,7 +2540,7 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   visual_analogue_scale: {
     validationNotes: {
       es: "EVA/VAS de autorreporte: distancia continua entre 0 y 10 cm desde 'sin dolor' hasta 'máximo dolor imaginable'. PedsCore no impone categorías universales de gravedad.",
-      en: "Self-report VAS: continuous 0-10 cm distance from 'no pain' to 'worst imaginable pain'. PedsCore does not impose universal severity categories."
+      en: "VAS format remains evidence-gated because published implementations may use 0-10 versus 0-100 mm representations. PedsCore does not impose universal severity categories."
     },
     inputs: [
       { id: "pain_vas_cm", label: { es: "Posición marcada en la EVA", en: "Marked position on the VAS" }, type: "number", required: true, unit: "cm", min: 0, max: 10, step: 0.1 }
