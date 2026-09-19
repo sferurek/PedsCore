@@ -32,6 +32,7 @@ import { mRiscCalculator } from "./mRisc.js";
 import { gorelickDehydrationCalculator } from "./gorelickDehydration.js";
 import { pRifleCalculator } from "./pRifle.js";
 import { pediatricKdigoCalculator } from "./pediatricKdigo.js";
+import { pelod2Calculator } from "./pelod2.js";
 
 const calculators = [
   apgarCalculator,
@@ -69,7 +70,8 @@ const calculators = [
   mRiscCalculator,
   gorelickDehydrationCalculator,
   pRifleCalculator,
-  pediatricKdigoCalculator
+  pediatricKdigoCalculator,
+  pelod2Calculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
