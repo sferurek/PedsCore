@@ -38,7 +38,11 @@ const expectedImplementedToolIds = [
   "chalice_tbi",
   "sipa",
   "nips",
-  "pediatric_burn_tbsa"
+  "pediatric_burn_tbsa",
+  "who_growth_module",
+  "who_growth_percentiles",
+  "bmi_percentile",
+  "head_circumference_percentile"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -72,7 +76,11 @@ const implementedTestFiles: Record<string, string> = {
   sipa: "sipa.test.ts",
   wood_downes_ferres: "woodDownesFerres.test.ts",
   westley_croup: "westleyCroup.test.ts",
-  garcia_alix_ners: "garciaAlixNers.test.ts"
+  garcia_alix_ners: "garciaAlixNers.test.ts",
+  who_growth_module: "whoGrowth.test.ts",
+  who_growth_percentiles: "whoGrowth.test.ts",
+  bmi_percentile: "whoGrowth.test.ts",
+  head_circumference_percentile: "whoGrowth.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
@@ -145,38 +153,28 @@ describe("SPRINT-50 implementation safety gates", () => {
     }
   });
 
-  it("keeps WHO Growth presets partial and outside the fully implemented count", () => {
-    const whoGrowthModule = clinicalTools.find(
-      (tool) => tool.id === "who_growth_module"
-    );
-
-    expect(whoGrowthModule?.implementationStatus).toBe("partially_implemented");
-    expect(whoGrowthModule?.calculationStatus).toBe("metadata_ready");
-    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
-      "who_growth_module"
-    );
-    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
-      "bmi_percentile"
-    );
-    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
+  it("keeps WHO Growth surfaces fully implemented and active", () => {
+    for (const id of [
+      "who_growth_module",
+      "who_growth_percentiles",
+      "bmi_percentile",
       "head_circumference_percentile"
-    );
+    ]) {
+      const tool = clinicalTools.find((item) => item.id === id);
+      expect(tool?.implementationStatus).toBe("implemented");
+      expect(tool?.calculationStatus).toBe("active");
+      expect(getImplementedTools().map((item) => item.id)).toContain(id);
+    }
   });
 
-  it("tracks partially implemented tools explicitly", () => {
+  it("has no partially implemented WHO leftovers", () => {
     const partialIds = clinicalTools
       .filter((tool) => tool.implementationStatus === "partially_implemented")
-      .map((tool) => tool.id)
-      .sort();
-
-    expect(partialIds).toEqual(
-      [
-        "who_growth_module",
-        "who_growth_percentiles",
-        "bmi_percentile",
-        "head_circumference_percentile"
-      ].sort()
-    );
+      .map((tool) => tool.id);
+    expect(partialIds).not.toContain("who_growth_module");
+    expect(partialIds).not.toContain("who_growth_percentiles");
+    expect(partialIds).not.toContain("bmi_percentile");
+    expect(partialIds).not.toContain("head_circumference_percentile");
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {
