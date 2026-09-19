@@ -63,6 +63,8 @@ const implementedToolIds = [
   "pim3",
   "psofa",
   "fnass_21",
+  "rdai",
+  "snappii",
   "modified_tal",
   "taussig_croup",
   "risc",
@@ -164,7 +166,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(62);
+    expect(getImplementedTools()).toHaveLength(64);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -438,7 +440,6 @@ describe("clinical tools catalog", () => {
   it("keeps Block 8B-3 table, variant, licensing, and expert-review tools blocked", () => {
     const blockedIds = [
       "neonatal_growth_fenton",
-      "rdai",
       "brosjod",
       "rflacc",
       "cheops"
