@@ -232,13 +232,8 @@ export const WhoGrowthResultPanel = forwardRef<HTMLElement, WhoGrowthResultPanel
     const measurementMode = isMeasurementMode(values.measurement_mode)
       ? values.measurement_mode
       : undefined;
-    const underTwo = ageDays !== undefined ? ageDays < 731 : ageMonths !== undefined ? ageMonths < 24 : false;
-    const correctedStatureCm = statureCm === undefined ? undefined
-      : underTwo && measurementMode === "standing_height" ? statureCm + 0.7
-      : !underTwo && measurementMode === "recumbent_length" ? statureCm - 0.7
-      : statureCm;
-    const lengthCm = underTwo ? correctedStatureCm : undefined;
-    const heightCm = underTwo ? undefined : correctedStatureCm;
+    const lengthCm = measurementMode === "recumbent_length" ? statureCm : undefined;
+    const heightCm = measurementMode === "standing_height" ? statureCm : undefined;
     const requiredMeasurementsComplete =
       preset === "head_circumference"
         ? headCircumferenceCm !== undefined
