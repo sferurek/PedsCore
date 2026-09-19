@@ -24,6 +24,30 @@ describe("Step-by-Step febrile infant", () => {
     expect(result.criteriaMatched?.some((item) => item.en.includes("≤21"))).toBe(true);
   });
 
+  it("stops at age <=21 without requiring downstream biomarkers", () => {
+    const result = stepByStepCalculator.calculate({
+      age_days: 21,
+      fever_without_source: true
+    });
+    expect(result.score).toBe(2);
+    expect(result.criteriaMatched?.[0]?.en).toContain("≤21");
+  });
+
+  it("stops at ill appearance or leukocyturia without requiring later tests", () => {
+    expect(stepByStepCalculator.calculate({
+      age_days: 30,
+      fever_without_source: true,
+      well_appearing: false
+    }).score).toBe(2);
+
+    expect(stepByStepCalculator.calculate({
+      age_days: 30,
+      fever_without_source: true,
+      well_appearing: true,
+      leukocyturia: true
+    }).score).toBe(2);
+  });
+
   it("classifies PCT exactly 0.5 ng/mL as high risk", () => {
     const result = stepByStepCalculator.calculate({ ...base, procalcitonin_ng_ml: 0.5 });
     expect(result.score).toBe(2);
