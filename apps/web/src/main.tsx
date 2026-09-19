@@ -21,3 +21,12 @@ createRoot(rootElement).render(
     <App />
   </StrictMode>
 );
+
+
+if (import.meta.env.PROD && "serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    void navigator.serviceWorker.register(`${import.meta.env.BASE_URL}sw.js`).catch(() => {
+      // Offline support is progressive enhancement and must never block the app.
+    });
+  });
+}
