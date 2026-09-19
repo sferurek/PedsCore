@@ -35,8 +35,11 @@ describe("CHALICE rule", () => {
     const older = { ...noCriteria, bruise_swelling_laceration_over_5cm_under_1_year: undefined };
     expect(chaliceCalculator.calculate(older).classification?.en).toContain("no rule criteria");
 
-    const infant = { ...noCriteria, age_years: 0.5 };
-    delete infant.bruise_swelling_laceration_over_5cm_under_1_year;
+    const infant = {
+      ...noCriteria,
+      age_years: 0.5,
+      bruise_swelling_laceration_over_5cm_under_1_year: undefined
+    };
     expect(chaliceCalculator.calculate(infant).warnings[0]?.id).toBe("missing_required_inputs");
   });
 
