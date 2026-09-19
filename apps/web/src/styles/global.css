@@ -5282,3 +5282,152 @@ td {
     gap: 0.2rem;
   }
 }
+
+
+/* Public clinical-review dashboard */
+.clinical-review-dashboard {
+  display: grid;
+  gap: 1rem;
+}
+
+.review-dashboard-lead,
+.review-dashboard-note {
+  margin: 0;
+  color: #526b76;
+}
+
+.review-dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.review-dashboard-summary > div {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.9rem;
+  border: 1px solid rgba(187, 209, 218, 0.78);
+  border-radius: 14px;
+  background: rgba(248, 252, 253, 0.88);
+}
+
+.review-dashboard-summary dt {
+  color: #607783;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.review-dashboard-summary dd {
+  margin: 0;
+  color: #15384a;
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.review-dashboard-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+  color: #526b76;
+  font-size: 0.8rem;
+}
+
+.review-dashboard-legend span {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.review-dot {
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 50%;
+  background: #a7b7be;
+}
+
+.review-dot.completed {
+  background: #2f7a64;
+}
+
+.review-dot.pending {
+  background: #b07b24;
+}
+
+.review-dashboard-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(187, 209, 218, 0.78);
+  border-radius: 14px;
+}
+
+.review-dashboard-table {
+  width: 100%;
+  min-width: 920px;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 0.82rem;
+}
+
+.review-dashboard-table th,
+.review-dashboard-table td {
+  padding: 0.72rem 0.78rem;
+  border-bottom: 1px solid rgba(217, 229, 234, 0.9);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.review-dashboard-table th {
+  position: sticky;
+  top: 0;
+  background: #f4f8fa;
+  color: #45626e;
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.review-dashboard-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.review-dashboard-table a {
+  color: #145e7a;
+  text-decoration: none;
+}
+
+.review-dashboard-table a:hover {
+  text-decoration: underline;
+}
+
+.review-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.7rem;
+  padding: 0.22rem 0.52rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.review-status.completed {
+  background: rgba(47, 122, 100, 0.12);
+  color: #235f50;
+}
+
+.review-status.pending {
+  background: rgba(176, 123, 36, 0.12);
+  color: #77571e;
+}
+
+@media (max-width: 899px) {
+  .review-dashboard-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 519px) {
+  .review-dashboard-summary {
+    grid-template-columns: 1fr;
+  }
+}
