@@ -1,96 +1,32 @@
-# Pediatric Asthma Severity Score
+# Pediatric Asthma Severity Score (PASS)
 
 ## Current PedsCore status
-- id: pass
-- slug: pass
-- category: respiratory
-- type: score
-- current implementationStatus: pending_validation
-- current evidenceLevel: original_derivation_study
+- id: `pass`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
+- discovery: `local_active`
 
-## Evidence validation status
-- final evidence status: pending_complete_scoring_table
-- reason: Sprint 2A confirms PASS remains blocked. Primary source is located, but the complete reusable table, interpretation bands, and reuse/licensing position are not sufficiently verified for implementation.
+## Selected version
+Original Gorelick PASS (2004), validated for children aged 1-18 years with acute asthma.
 
-## Clinical purpose
-ES: Acute pediatric asthma severity scoring.
-EN: Acute pediatric asthma severity scoring.
+Three domains, each scored 0-2:
+1. work of breathing;
+2. wheezing;
+3. prolonged expiration.
 
-## Target population
-Children aged 1 to 18 years in acute care settings in the original study.
+Total range: 0-6.
 
-## Version / variant
-- exact version: Original PASS by Gorelick et al. 2004.
-- known variants: variant-specific review required before implementation.
-- selected version for PedsCore: Original PASS by Gorelick et al. 2004.
-- variant risk: medium
+PedsCore intentionally does not impose universal treatment bands because the original score was validated as a severity measure rather than as a universal treatment protocol.
 
-## Primary source
-- found: yes
-- citation: Gorelick MH, Stevens MW, Schultz TR, Scribano PV. Performance of a novel clinical score, the Pediatric Asthma Severity Score (PASS), in the evaluation of acute asthma. Acad Emerg Med. 2004;11(1):10-18.
-- DOI: 10.1197/j.aem.2003.07.015
-- PMID: 14709423
-- URL: https://pubmed.ncbi.nlm.nih.gov/14709423/
-- access: open_access
-- notes: Source recorded for traceability only; implementation still follows the evidence gate.
+## Sources
+- Gorelick MH, Stevens MW, Schultz TR, Scribano PV. Acad Emerg Med. 2004;11(1):10-18. DOI: 10.1197/j.aem.2003.07.015. PMID: 14709423.
+- Open reproduction of the complete table: https://pmc.ncbi.nlm.nih.gov/articles/PMC7771822/
 
-## External validation
-Add validation studies only after source-specific review.
+## Reuse
+Functional scoring facts are reproduced with independent wording; no proprietary layout or branded form is copied.
 
-## Guidelines / official sources
-No official guideline implementation is created in this block.
+## Safety
+Descriptive severity score only. No automatic admission, discharge, bronchodilator, steroid, or ICU recommendation.
 
-## Complete scoring table availability
-- complete table found: no
-- source: No. Full table must be verified from the article before implementation.
-- copyright/licensing risk: unknown; likely implementable after table and reuse review.
-- notes: Do not reconstruct tables from memory, secondary calculators, pathway PDFs, or commercial tools.
-
-## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/14709423/ | Complete table must be verified before calculator activation. |
-
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| pending | pending | pending | https://pubmed.ncbi.nlm.nih.gov/14709423/ |
-
-## Formula / algorithm
-Not applicable or pending complete scoring table.
-
-## Unit handling
-Units, age bands, and edge cases remain pending unless explicitly documented above.
-
-## Safety and regulatory notes
-- risk level: medium
-- why: Clinical outputs could influence care if worded as recommendations.
-- should provide recommendations: no; descriptive outputs only.
-- forbidden outputs: treatment, discharge, admission, CT instruction, medication, resuscitation instruction.
-
-## Licensing / copyright
-- appears implementable: not yet determined
-- license-sensitive: yes
-- requires permission: unknown
-- unknown: yes
-- notes: unknown; likely implementable after table and reuse review.
-
-## Implementation recommendation
-keep_blocked_until_table_and_reuse_review
-
-## Proposed test cases
-- minimum
-- maximum
-- intermediate
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests: no treatment, CT, admission, discharge, medication, or resuscitation instructions.
-
-## Direct links
-- https://pubmed.ncbi.nlm.nih.gov/14709423/
-- https://doi.org/10.1197/j.aem.2003.07.015
-- https://pubmed.ncbi.nlm.nih.gov/14709423/
-
-## Notes
-This fiche was updated in Block 8B-3. Validation does not mean implementation.
+## Final decision
+`implemented / local_active`
