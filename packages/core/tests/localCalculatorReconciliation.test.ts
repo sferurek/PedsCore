@@ -19,11 +19,17 @@ const reconciledLocalIds = [
   "ckid_u25",
   "modified_bell_nec",
   "nsofa",
-  "wpcdai"
+  "wpcdai",
+  "pass",
+  "gorelick_dehydration",
+  "prifle",
+  "pelod_2",
+  "prism_iv",
+  "pim3"
 ] as const;
 
-const intentionallyEvidenceBlockedIds = ["pass", "gorelick_dehydration", "prifle", "pelod_2", "pim3"] as const;
-const intentionallyRightsBlockedIds = ["prism_iv"] as const;
+const intentionallyEvidenceBlockedIds = ["psofa", "snappii"] as const;
+const intentionallyRightsBlockedIds = [] as const;
 
 describe("local calculator reconciliation", () => {
   it("leaves no discovery surface marked local_planned", () => {
