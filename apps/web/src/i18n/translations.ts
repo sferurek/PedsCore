@@ -703,7 +703,7 @@ export const statusDescriptions: Record<
 };
 
 export const typeLabels: Record<ToolType, Record<Language, string>> = {
-  score: { es: "Score", en: "Score" },
+  score: { es: "Puntuación", en: "Score" },
   scale: { es: "Escala", en: "Scale" },
   calculator: { es: "Calculadora", en: "Calculator" },
   clinical_rule: { es: "Regla clínica", en: "Clinical rule" },
