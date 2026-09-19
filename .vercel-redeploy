@@ -1,0 +1,2 @@
+Production redeploy trigger: 2026-09-19
+Reason: retry production deployment after Vercel Pro upgrade.
