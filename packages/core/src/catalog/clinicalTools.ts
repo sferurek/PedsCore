@@ -2496,8 +2496,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   cdc_growth_percentiles: {
     validationNotes: {
-      es: "Implementación local de las curvas CDC 2000 para 2-20 años. PedsCore incorpora los parámetros LMS oficiales de peso/edad, talla/edad e IMC/edad y calcula z-score y percentil mediante la ecuación CDC publicada.",
-      en: "Local implementation of the CDC 2000 charts for ages 2-20 years. PedsCore bundles the official LMS parameters for weight-for-age, stature-for-age, and BMI-for-age and calculates z-scores and percentiles with the published CDC equation."
+      es: "Implementación local activa de CDC 2000 para 2-20 años con peso/edad, talla/edad e IMC/edad mediante LMS oficiales. Por encima del P95 de IMC se aplica automáticamente CDC Extended BMI 2022 con la ecuación half-normal publicada y sigma suavizada por sexo y edad.",
+      en: "Active local CDC 2000 implementation for ages 2-20 years with official LMS weight-for-age, stature-for-age, and BMI-for-age. Above the BMI 95th percentile, the published 2022 CDC Extended BMI half-normal method with sex/age-smoothed sigma is applied automatically."
     },
     calculationNotes: {
       es: "Usa edad exacta en meses. Los valores LMS se interpolan linealmente entre puntos oficiales cuando la edad cae entre ellos, una opción contemplada por CDC. El resultado principal es IMC/edad y se muestran además peso/edad y talla/edad. Si el IMC supera el P95, PedsCore cambia automáticamente al método CDC Extended BMI 2022; también calcula % del P95 y el criterio CDC de obesidad grave.",
