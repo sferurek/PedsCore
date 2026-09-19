@@ -8,7 +8,7 @@ PedsCore existed before the hackathon. The immutable pre-hackathon baselines are
 
 - PedsCore baseline: `069eb6ad4626829f5d8c0bee53f4a28af163ffe4`
 - SIM IMV baseline: `3d0311cd82df42c88500b6b0e931a3df3e213b59`
-- PedsCore hackathon branch: `hackathon/alexa-mcp`
+- PedsCore hackathon branch: `hackathon/alexa-mcp-v2`
 - SIM hackathon branch: `hackathon/alexa-sim`
 
 ## What changed during the hackathon
@@ -85,16 +85,15 @@ Verified:
 - simulator-side deterministic bridge implementation and tests.
 
 Pending:
-- public SIM bridge;
-- remote MCP→SIM end-to-end smoke;
-- optional official Alexa AI CLI deployment and simulator evidence.
+- production deployment of the newly merged SIM bridge;
+- remote MCP→SIM end-to-end smoke.
 
-The current official rules accept the self-hosted MCP server as an Alexa+ primary-track technology path. The Alexa CLI path is an optional enhancement and is currently blocked by Amazon-side entitlement to the private developer-tools role, not by local AWS authentication.
+The current official rules accept the self-hosted MCP server as an Alexa+ primary-track technology path. The Alexa add-on/private CLI path is partner-only per Devpost support. The submission uses the rules-compliant self-hosted MCP path.
 
 ## Open-source contribution
 
 Primary public contribution:
-- https://github.com/sferurek/PedsCore/pull/43
+- https://github.com/sferurek/PedsCore/pull/91
 
 The core OSS contribution is a reusable pattern for exposing deterministic clinical software to agentic interfaces without moving safety-critical execution into the generative model.
 
