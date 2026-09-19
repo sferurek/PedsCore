@@ -65,7 +65,7 @@ describe("clinical discovery taxonomy", () => {
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
-    ).toHaveLength(35);
+    ).toHaveLength(36);
   });
 
   it("keeps rights metadata aligned with the audited rights register", () => {
