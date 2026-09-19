@@ -86,8 +86,9 @@ Verified:
 - SIM PR #25 merged to `main`;
 - production SIM commits deployed successfully by Vercel.
 
-Pending:
-- strict remote MCP→SIM end-to-end smoke.
+Verified end-to-end:
+- strict public MCP→SIM remote smoke passed in GitHub Actions run `35462460140`;
+- `school-bus` / JumpSTART / patient `01` → expected `GREEN`, `correct=true`, rule `JS-MOB-01`.
 
 The current official rules accept the self-hosted MCP server as an Alexa+ primary-track technology path. The Alexa add-on/private CLI path is partner-only per Devpost support. The submission uses the rules-compliant self-hosted MCP path.
 
