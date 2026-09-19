@@ -63,11 +63,12 @@ describe("calculator registry", () => {
       "prism_iv",
       "pim3",
       "psofa",
-      "snappii"
+      "snappii",
+      "pyms"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(62);
+    expect(getImplementedTools()).toHaveLength(63);
   });
 
   it("calculates through the dispatcher", () => {
