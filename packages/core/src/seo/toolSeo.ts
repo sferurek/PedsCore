@@ -104,6 +104,7 @@ const titleOverrides: Record<string, LocalizedText> = {
   cries: { es: "CRIES — Escala de dolor neonatal | PedsCore", en: "CRIES Pain Scale — Neonatal Pain | PedsCore" },
   nips: { es: "Escala NIPS — Dolor neonatal | PedsCore", en: "NIPS Pain Scale — Neonatal Pain Assessment | PedsCore" },
   "westley-croup-score": { es: "Westley Croup Score — Crup pediátrico | PedsCore", en: "Westley Croup Score — Pediatric Croup | PedsCore" },
+  "wood-downes-ferres": { es: "Wood-Downes-Ferres — Bronquiolitis | PedsCore", en: "Wood-Downes-Ferres — Bronchiolitis | PedsCore" },
   pram: { es: "PRAM Score — Gravedad del asma pediátrica | PedsCore", en: "PRAM Score — Pediatric Asthma Severity | PedsCore" },
   "clinical-dehydration-scale": { es: "Clinical Dehydration Scale — Deshidratación | PedsCore", en: "Clinical Dehydration Scale — Dehydration | PedsCore" },
   "pediatric-appendicitis-score": { es: "Pediatric Appendicitis Score (PAS) | PedsCore", en: "Pediatric Appendicitis Score (PAS) | PedsCore" },
