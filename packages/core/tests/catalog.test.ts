@@ -62,6 +62,7 @@ const implementedToolIds = [
   "prism_iv",
   "pim3",
   "psofa",
+  "fnass_21",
   "modified_tal",
   "taussig_croup",
   "risc",
@@ -163,7 +164,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(61);
+    expect(getImplementedTools()).toHaveLength(62);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
