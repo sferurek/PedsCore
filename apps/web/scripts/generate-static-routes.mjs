@@ -21,8 +21,14 @@ const urlEntries = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
 
 const tools = getAllTools();
 
-const withStaticBody = (html, seo) =>
-  html.replace('<div id="root"></div>', `<div id="root">${renderStaticBody(seo, tools)}</div>`);
+const withStaticBody = (html, seo) => {
+  const body = renderStaticBody(seo, tools);
+  const rendered = html.replace(/<div id="root">\s*<\/div>/, `<div id="root">${body}</div>`);
+  if (rendered === html) {
+    throw new Error(`Static root placeholder not found for ${seo.url}`);
+  }
+  return rendered;
+};
 
 const routes = new Set(
   urlEntries
@@ -53,8 +59,8 @@ for (const route of routes) {
   count++;
 }
 
-const rootSeo = getStaticSeo("/en", tools);
-const rootHtml = withStaticBody(distTemplate, rootSeo);
+const rootSeo = { ...getStaticSeo("/en", tools), url: `${baseUrl}/`, alternateUrl: `${baseUrl}/es` };
+const rootHtml = withStaticBody(renderSeoHead(distTemplate, rootSeo), rootSeo);
 await writeFile(distIndexPath, rootHtml, "utf8");
 
 console.log(`Generated ${count} static route index.html files plus crawlable root fallback in dist/.`);

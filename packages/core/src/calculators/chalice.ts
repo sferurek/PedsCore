@@ -1,5 +1,5 @@
 import type { CalculationResult, LocalizedText } from "../types.js";
-import { getBoolean, missingResult, warning } from "./common.js";
+import { getBoolean, getNumber, missingResult, warning } from "./common.js";
 import type { CalculatorDefinition, CalculatorInput } from "./common.js";
 
 const inputIds = [
@@ -98,6 +98,25 @@ const informationalWarning = warning(
 export const chaliceCalculator: CalculatorDefinition = {
   toolId: "chalice_tbi",
   calculate(input: CalculatorInput): CalculationResult {
+    const ageYears = getNumber(input, "age_years");
+    const headInjuryPresent = getBoolean(input, "head_injury_present");
+    if (ageYears === null || headInjuryPresent === null) {
+      return missingResult("chalice_tbi", ["age_years", "head_injury_present"]);
+    }
+    if (ageYears < 0 || ageYears >= 16 || !headInjuryPresent) {
+      return {
+        toolId: "chalice_tbi",
+        warnings: [warning(
+          "chalice_outside_validated_population",
+          "CHALICE se derivó en pacientes menores de 16 años con antecedente o signos de traumatismo craneal.",
+          "CHALICE was derived in patients younger than 16 years with a history or signs of head injury."
+        )],
+        trace: [
+          { inputId: "age_years", value: ageYears },
+          { inputId: "head_injury_present", value: headInjuryPresent }
+        ]
+      };
+    }
     const trace = [];
     const matched: LocalizedText[] = [];
 

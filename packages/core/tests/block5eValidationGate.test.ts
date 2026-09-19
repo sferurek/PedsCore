@@ -26,7 +26,7 @@ describe("Block 5E validation gate", () => {
     const tool = getToolBySlug("cheops");
 
     expect(tool?.implementationStatus).toBe("not_implemented_due_to_licensing");
-    expect(tool?.validationNotes.en).toContain("exact score per option");
+    expect(tool?.validationNotes.en).toContain("has not verified a licence");
     expect(implementedCalculatorToolIds).not.toContain("cheops");
     expect(calculateTool("cheops", {}).warnings[0]?.id).toBe("calculator_not_implemented");
   });

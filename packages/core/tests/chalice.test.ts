@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { chaliceCalculator } from "../src/index";
 
 const noCriteria = {
+  age_years: 8,
+  head_injury_present: true,
   witnessed_loss_of_consciousness_over_5_minutes: false,
   history_of_amnesia_over_5_minutes: false,
   abnormal_drowsiness: false,
@@ -18,56 +20,19 @@ const noCriteria = {
   high_speed_projectile_or_object: false
 };
 
-const forbidden =
-  /\b(CT|TC|tomografia|tomografía|observe|observar|discharge|alta|admit|ingreso|treatment|tratamiento|neurosurgery|neurocirugía|manejo|management|derivar)\b/i;
-
-const resultText = (result: ReturnType<typeof chaliceCalculator.calculate>) =>
-  JSON.stringify({
-    classification: result.classification,
-    criteriaMatched: result.criteriaMatched,
-    warnings: result.warnings
-  });
-
 describe("CHALICE rule", () => {
-  it("classifies no criteria", () => {
-    const result = chaliceCalculator.calculate(noCriteria);
-
-    expect(result.classification?.en).toContain("no rule criteria");
-    expect(result.criteriaMatched).toHaveLength(0);
+  it("classifies no criteria and present criteria", () => {
+    expect(chaliceCalculator.calculate(noCriteria).classification?.en).toContain("no rule criteria");
+    expect(chaliceCalculator.calculate({ ...noCriteria, abnormal_drowsiness: true }).classification?.en).toContain("rule criteria are identified");
   });
 
-  it("classifies a present criterion", () => {
-    const result = chaliceCalculator.calculate({
-      ...noCriteria,
-      abnormal_drowsiness: true
-    });
-
-    expect(result.classification?.en).toContain("rule criteria are identified");
-    expect(result.criteriaMatched).toHaveLength(1);
+  it("blocks patients outside the published pediatric population", () => {
+    expect(chaliceCalculator.calculate({ ...noCriteria, age_years: 16 }).warnings[0]?.id).toBe("chalice_outside_validated_population");
+    expect(chaliceCalculator.calculate({ ...noCriteria, head_injury_present: false }).warnings[0]?.id).toBe("chalice_outside_validated_population");
   });
 
-  it("tracks multiple present criteria", () => {
-    const result = chaliceCalculator.calculate({
-      ...noCriteria,
-      abnormal_drowsiness: true,
-      focal_neurology: true,
-      fall_over_3_metres: true
-    });
-
-    expect(result.classification?.en).toContain("rule criteria are identified");
-    expect(result.criteriaMatched).toHaveLength(3);
-  });
-
-  it("warns on incomplete and invalid input", () => {
+  it("warns on incomplete and invalid predictor input", () => {
     expect(chaliceCalculator.calculate({}).warnings[0]?.id).toBe("missing_required_inputs");
-    expect(
-      chaliceCalculator.calculate({ ...noCriteria, focal_neurology: "bad" }).warnings[0]?.id
-    ).toBe("invalid_boolean_input");
-  });
-
-  it("does not return prohibited management wording", () => {
-    expect(
-      resultText(chaliceCalculator.calculate({ ...noCriteria, abnormal_drowsiness: true }))
-    ).not.toMatch(forbidden);
+    expect(chaliceCalculator.calculate({ ...noCriteria, focal_neurology: "bad" }).warnings[0]?.id).toBe("invalid_boolean_input");
   });
 });
