@@ -53,7 +53,11 @@ for (const route of routes) {
   count++;
 }
 
-const rootSeo = getStaticSeo("/en", tools);
+const rootSeo = {
+  ...getStaticSeo("/en", tools),
+  url: `${baseUrl}/`,
+  alternateUrl: `${baseUrl}/es`
+};
 const rootHtml = withStaticBody(renderSeoHead(distTemplate, rootSeo), rootSeo);
 await writeFile(distIndexPath, rootHtml, "utf8");
 
