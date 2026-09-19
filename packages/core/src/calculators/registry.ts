@@ -37,7 +37,6 @@ import { westleyCroupCalculator } from "./westleyCroup.js";
 import {
   ckidU25Calculator,
   kdigoPediatricCalculator,
-  prifleCalculator
 } from "./renalOpen.js";
 import {
   modifiedTalCalculator,
@@ -45,21 +44,14 @@ import {
 } from "./respiratoryScores.js";
 import {
   stepByStepFebrileInfantCalculator,
-  strongKidsCalculator
 } from "./openScreening.js";
 import {
-  passAsthmaCalculator,
   riscCalculator
 } from "./respiratoryRisk.js";
 import {
-  pelod2Calculator,
-  pim3Calculator,
-  prism4Calculator
 } from "./criticalCareScores.js";
 import {
-  gorelickDehydrationCalculator,
   mriscCalculator,
-  visualAnalogueScaleCalculator
 } from "./additionalOpenTools.js";
 import { cdcGrowthPercentilesCalculator } from "./cdcGrowth.js";
 import { phoenixSepsisCalculator } from "./phoenixSepsis.js";
@@ -118,7 +110,6 @@ const calculators = [
   mriscCalculator,
   gorelickDehydrationCalculator,
   visualAnalogueScaleCalculator,
-  cdcGrowthPercentilesCalculator,
   phoenixSepsisCalculator,
   wpcdaiCalculator,
   pucaiCalculator,
