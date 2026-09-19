@@ -6,15 +6,15 @@
 - slug: `who-growth`
 - category: `growth_nutrition`
 - type: `percentile`
-- current implementationStatus: `partially_implemented`
+- current implementationStatus: `implemented`
 - current evidenceLevel: `official_manual_or_institutional_protocol`
 
 ## Evidence validation status
 
-- final evidence status: `partially_implemented`
-- blocking reason: core WHO 0-5 indicators plus WHO 5-19 BMI-for-age and height-for-age are normalized and available, but remaining 5-19 scope, interpolation policy, and final maintainer review remain pending.
+- final evidence status: `implemented`
+- blocking reason: none for the implemented anthropometric scope; WHO data remain under separate licensing terms.
 - depends on maintainer decision: yes
-- maintainer decision needed: confirm remaining 5-19 scope, interpolation policy, chart percentile set, and print-output wording before marking the unified module fully implemented.
+- maintainer decision needed: no for the implemented scope; future WHO indicators or source changes require a new evidence review.
 
 ## Clinical purpose
 
@@ -93,7 +93,7 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 - imported indicators after WHO-GROWTH-4A:
   - BMI-for-age.
   - height-for-age.
-- status: partial import and validation; remaining 5-19 scope and interpolation policy remain pending.
+- status: implemented for the official reference indicators: weight-for-age 5-10 years, height-for-age 5-19 years and BMI-for-age 5-19 years.
 
 ### WHO BMI-for-age 5-19 years
 
@@ -116,7 +116,7 @@ EN: unified module to evaluate applicable WHO anthropometric indicators from one
 ## Target population
 
 - Children 0-5 years for the imported WHO Child Growth Standards indicators.
-- Children/adolescents 5-19 years for imported WHO Growth Reference 2007 BMI-for-age and height-for-age.
+- Children/adolescents in WHO Growth Reference 2007: weight-for-age 5-10 years (61-120 completed months), height-for-age 5-19 years and BMI-for-age 5-19 years (61-228 completed months).
 - PedsCore shows an explicit not-applicable state when an indicator is outside its WHO range or required data are missing.
 - PedsCore does not mix WHO with CDC or Orbegozo inside this module.
 
@@ -158,16 +158,15 @@ For WHO 5-19 indicators:
 
 - Required mode: completed months according to WHO Growth Reference 2007.
 - PedsCore does not automatically convert 0-5 days or dates into 5-19 months.
-- No interpolation is active.
-- BMI-for-age and height-for-age are the only 5-19 indicators currently
-  available.
+- No interpolation is required or performed: the module uses exact daily records for the 0-5 standards and exact completed-month records for the 2007 reference.
+- Weight-for-age is available from 5-10 years only; height-for-age and BMI-for-age are available from 5-19 years. Weight-for-age is intentionally not extrapolated beyond 10 years.
 
 ## Indicator policy
 
 - Calculate all applicable WHO indicators from the same input when official data are loaded.
 - Mark unavailable indicators as not applicable with a reason.
 - Do not silently coerce source.
-- No interpolation is active yet; lookup uses exact daily records, exact 0.1 cm measure records, or exact completed-month records for WHO 5-19.
+- Lookup uses exact daily records, exact 0.1 cm measure records, or exact completed-month records according to the official WHO table granularity.
 - Do not mix WHO, CDC, and Orbegozo references.
 
 ## LMS formula
@@ -293,9 +292,9 @@ Current print status: implemented with browser-native print output for SVG chart
 
 ## Implementation recommendation
 
-`implement_after_remaining_5_19_and_interpolation_review`
+`implemented_for_official_anthropometric_scope`
 
-Rationale: core WHO 0-5 LMS data plus WHO 5-19 BMI-for-age and height-for-age are imported under separate WHO data licensing and can generate z-scores, percentiles, printable SVG charts, written percentile labels, and patient points. The unified module remains pending because remaining WHO 5-19 scope, interpolation policy, and final maintainer review are not complete.
+Rationale: core WHO 0-5 LMS data plus WHO Growth Reference 2007 weight-for-age 5-10, BMI-for-age 5-19 and height-for-age 5-19 are imported under separate WHO data licensing and generate z-scores, percentiles, printable SVG charts, written percentile labels and patient points. Age limits are enforced explicitly and no unsupported extrapolation is performed.
 
 ## Proposed test cases
 
@@ -324,8 +323,6 @@ Rationale: core WHO 0-5 LMS data plus WHO 5-19 BMI-for-age and height-for-age ar
 ## Notes
 
 WHO-GROWTH-3B imports the core WHO 0-5 LMS coefficient families from official
-WHO XLSX files. WHO-GROWTH-4A adds WHO Growth Reference 2007 BMI-for-age and
-height-for-age for 5-19 years. SVG charts, written percentile labels, patient
+WHO XLSX files. WHO-GROWTH-4A added WHO Growth Reference 2007 BMI-for-age and height-for-age for 5-19 years; the completion pass adds official weight-for-age 5-10 years. SVG charts, written percentile labels, patient
 points, browser-native print workflow and guided age input are available for the
-imported indicators. Remaining 5-19 scope, interpolation policy and final
-maintainer/expert review remain pending.
+imported indicators. The official anthropometric reference scope is complete for the indicators implemented here; future WHO additions require a new evidence and licensing review.
