@@ -670,6 +670,24 @@ These are repaired in the audit PR so that the protected-branch `CI` check once 
 
 ---
 
+## Remediation status
+
+The known clinical defects and applicability gaps identified by this audit were remediated in PR #93 before external human review:
+
+- Phoenix: S/F is now restricted to SpO₂ ≤97%; neonatal exclusions are gated; IMV implies respiratory support; unavailable-variable behavior is explicit and tested.
+- PECARN TBI <2 and ≥2: age branch, GCS, blunt/non-trivial trauma, <24-hour presentation and source exclusions are now first-class eligibility gates; age-specific severe-mechanism definitions are visible.
+- CATCH: source entry criteria and exclusions are gated; dangerous mechanism is operationally defined.
+- CHALICE: pediatric age eligibility is gated and the >40 mph (>64 km/h) road-traffic definition is visible.
+- PRISM IV: first-PICU and sampling-window confirmations are required, including the special cardiac-intervention confirmation.
+- pRIFLE: chronic Loss/End-stage duration is represented directly as >28 and >90 days; eCCl method consistency is explicit.
+- SNAPPE-II: PaO₂ and FiO₂ (%) are entered separately, the historical oxygenation convention is calculated internally, and unmeasured physiology is handled explicitly.
+
+These remediations do **not** convert this audit into an independent external clinical review. The corrected merged commit should be the object of the independent pediatrician review.
+
+Remaining Tier A work is **test-depth hardening** for several calculators where no new scoring defect was identified: PRISM IV full boundary/reference fixtures, PELOD-2, PIM3, expanded pSOFA, pediatric KDIGO, fuller pRIFLE, and nSOFA regression suites.
+
+---
+
 # Remediation priority
 
 ## P0 clinical remediation
