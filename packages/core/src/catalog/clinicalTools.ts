@@ -2081,13 +2081,13 @@ const bedsidePewsValidationNotes: LocalizedText = {
 };
 
 const whoGrowthValidationNotes: LocalizedText = {
-  es: "Sprint 2B: Percentiles OMS funciona como acceso al modulo WHO Growth central. No crea motor separado; usa datos LMS oficiales OMS 0-5 y BMI/talla OMS 5-19 disponibles, con licencia de datos separada.",
-  en: "Sprint 2B: WHO Growth Percentiles acts as an entry point to the central WHO Growth module. It does not create a separate engine; it uses available official WHO 0-5 LMS data plus WHO 5-19 BMI/height data under a separate data license."
+  es: "Motor OMS completo: datos LMS oficiales 0-5 y referencia OMS 2007 para peso/edad 5-10, BMI/edad 5-19 y talla/edad 5-19. Usa interpolacion LMS por edad exacta en la referencia 2007 y metodologia OMS para colas >|3| DE.",
+  en: "Complete WHO engine: official 0-5 LMS data plus WHO 2007 weight-for-age 5-10, BMI-for-age 5-19 and height-for-age 5-19. It uses exact-age LMS interpolation for the 2007 reference and WHO methodology for tails beyond |3| SD."
 };
 
 const whoGrowthModuleValidationNotes: LocalizedText = {
-  es: "Sprint 2B: motor WHO Growth central para indicadores OMS disponibles. Incluye peso/edad, longitud-talla/edad, peso/longitud, peso/talla, BMI/edad y perimetro cefalico/edad OMS 0-5; BMI/edad y talla/edad OMS 5-19. Datos OMS con licencia separada; salida descriptiva sin diagnosticos ni recomendaciones nutricionales.",
-  en: "Sprint 2B: central WHO Growth engine for available WHO indicators. It includes WHO 0-5 weight-for-age, length/height-for-age, weight-for-length, weight-for-height, BMI-for-age and head circumference-for-age; plus WHO 5-19 BMI-for-age and height-for-age. WHO data use a separate license; output is descriptive without diagnoses or nutritional recommendations."
+  es: "Motor WHO Growth completo para los indicadores antropometricos OMS aplicables: 0-5 anos y referencia 2007 (peso/edad 5-10; BMI/edad y talla/edad 5-19). Interpola LMS a edad exacta en 5-19 y aplica conversion longitud/talla de 0,7 cm segun edad y modo de medicion.",
+  en: "Complete WHO Growth engine for applicable WHO anthropometric indicators: 0-5 years and the 2007 reference (weight-for-age 5-10; BMI-for-age and height-for-age 5-19). It interpolates LMS at exact age for 5-19 and applies the WHO 0.7 cm length/height conversion by age and measurement mode."
 };
 
 const bmiPercentileValidationNotes: LocalizedText = {
@@ -3447,10 +3447,10 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
     ]
   },
   who_growth_module: {
-    calculationStatus: "metadata_ready",
+    calculationStatus: "implemented",
     calculationNotes: {
-      es: "Indicadores principales OMS 0-5 y BMI/talla para la edad OMS 5-19 disponibles con datos LMS oficiales normalizados y gráficas SVG imprimibles. Política completa del módulo sigue en validación.",
-      en: "Core WHO 0-5 indicators plus WHO 5-19 BMI-for-age and height-for-age are available with normalized official LMS data and printable SVG charts. The complete module policy remains under validation."
+      es: "Motor OMS completo: 0-5, peso/edad 5-10 y BMI/talla 5-19, con datos LMS oficiales, interpolación por edad exacta y gráficas SVG imprimibles.",
+      en: "Complete WHO engine: 0-5, weight-for-age 5-10 and BMI/height 5-19, with official LMS data, exact-age interpolation and printable SVG charts."
     },
     inputs: [
       {
@@ -3476,8 +3476,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
           en: "Age input mode"
         },
         description: {
-          es: "Recomendado 0-5: fecha de nacimiento + fecha de medición. Recomendado 5-19: meses cumplidos.",
-          en: "Recommended for 0-5: date of birth + measurement date. Recommended for 5-19: completed months."
+          es: "Recomendado: fecha de nacimiento + fecha de medición para edad exacta; también admite días 0-5 o meses 5-19.",
+          en: "Recommended: date of birth + measurement date for exact age; exact days 0-5 or months 5-19 are also supported."
         },
         type: "select",
         required: true,
@@ -3488,8 +3488,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
             "Date of birth + measurement date",
             undefined,
             {
-              es: "Opción más precisa para indicadores OMS 0-5.",
-              en: "Most accurate option for WHO 0-5 indicators."
+              es: "Opción más precisa para indicadores OMS 0-19.",
+              en: "Most accurate option for WHO 0-19 indicators."
             }
           ),
           option(
@@ -3610,8 +3610,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         id: "age_months",
         label: { es: "Edad en meses cumplidos", en: "Completed age in months" },
         description: {
-          es: "Edad en meses cumplidos para referencia OMS 5-19. No se convierte ni interpola desde días.",
-          en: "Completed age in months for the WHO 5-19 reference. It is not converted or interpolated from days."
+          es: "Edad en meses para referencia OMS 2007. Si se usan fechas, PedsCore calcula edad exacta e interpola LMS.",
+          en: "Age in months for the WHO 2007 reference. When dates are used, PedsCore derives exact age and interpolates LMS."
         },
         type: "number",
         required: false,
@@ -3636,8 +3636,8 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
         id: "stature_cm",
         label: { es: "Longitud/talla", en: "Length/height" },
         description: {
-          es: "Introduce longitud o talla ya corregida según el modo de medición OMS aplicable.",
-          en: "Enter length or height already corrected according to the applicable WHO measurement mode."
+          es: "Introduce la medición observada; PedsCore aplica automáticamente la corrección OMS de 0,7 cm si el modo no corresponde a la edad.",
+          en: "Enter the observed measurement; PedsCore automatically applies the WHO 0.7 cm correction when measurement mode does not match age."
         },
         type: "number",
         required: true,
