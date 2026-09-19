@@ -114,3 +114,7 @@ Current unresolved local IDs:
 ## Completion rule
 
 The project may describe a tool as **externally clinically reviewed** only when a concrete review record exists. Global claims such as “all calculators clinically validated” are prohibited unless every applicable item in this queue has a documented review.
+
+## Governance linkage
+
+Machine-readable rights status is enforced in `packages/core/src/governance/clinicalRights.ts`; CI cross-checks that manifest against discovery metadata before merge.
