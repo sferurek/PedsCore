@@ -1,6 +1,6 @@
 # Hackathon project status
 
-Snapshot: 2026-09-18.
+Snapshot: 2026-09-19.
 
 Percentages are engineering-completion estimates based on explicit gates, not marketing scores.
 
@@ -10,10 +10,10 @@ The official rules were rechecked on 2026-09-18. For the Alexa+ primary track, a
 | --- | ---: | --- | --- |
 | M0 — Baseline, traceability, hackathon structure | 100% | immutable baselines, branches, PRs, changelog, evidence/friction docs | none |
 | M1 — PedsCore deterministic MCP foundation | 100% | agent adapter, 3 clinical tools, Streamable HTTP, MCP 2025-11-25, Railway, remote smoke, Apgar parity | none |
-| M2 — Alexa+ primary-track surface | 99% | valid self-hosted MCP path, exact Railway deployment, live judge console, capability manifest, 6 live tools, remote smoke green, manifest/store/compliance package | final video evidence; private Alexa CLI is optional |
+| M2 — Alexa+ primary-track surface | 100% | valid self-hosted MCP path, exact Railway deployment, live judge console, capability manifest, 6 live tools, remote smoke green, manifest/store/compliance package | final video evidence; private Alexa add-on tooling is partner-only and not required |
 | M3 — SIM IMV deterministic MCP integration | 93% | 3 MCP contracts live in MCP, SIM bridge, production Next.js HTTP smoke, repeated-result parity, latest SIM CI green | publish SIM bridge; set `SIM_IMV_API_URL`; public MCP→SIM smoke |
 | M4 — AWS Builder Mini Challenge | 20% | Cognito/OAuth IaC and auth scaffold exist | no deployed useful AWS integration yet; do not claim mini challenge |
-| M5 — Open Source Mini Challenge | 98% | public MIT repo, PR #43, reusable deterministic-agent pattern, one-command verification, judging docs/tests/evidence | final Devpost field entry |
+| M5 — Open Source Mini Challenge | 98% | public MIT repo, PR #91, reusable deterministic-agent pattern, one-command verification, judging docs/tests/evidence | final Devpost field entry |
 | M6 — Demo, judging assets, Devpost submission | 78% | evidence matrix, judging quickstart, rules snapshot, Devpost draft, product-feedback draft, live judge-console code, demo script, video shot list | live judge-console capture, final video/upload, final Devpost review and submit |
 
 ## Overall estimate
@@ -22,7 +22,7 @@ Excluding the optional AWS Builder Mini Challenge, the **Alexa+ + Open Source su
 
 Including the remaining human submission work (video recording/upload and final Devpost form confirmation), overall submission readiness is approximately **92%**.
 
-If a public SIM endpoint is obtained, the technical path rises further because the strongest demo sequence becomes fully remote end-to-end.
+A public SIM endpoint remains the strongest remaining technical enhancement because it enables a fully remote end-to-end MCP → SIM demonstration.
 
 ## Primary-track status
 
@@ -35,7 +35,7 @@ The project already has the core technology required by the current Alexa+ rules
 - public MIT-licensed repository;
 - deterministic live clinical tool execution.
 
-Official Alexa AI CLI access would strengthen the evidence but is not on the eligibility critical path.
+Official Alexa AI CLI/add-on tooling is partner-only according to Devpost support and is not on the eligibility path for this submission.
 
 ## Critical path from here
 
@@ -46,12 +46,7 @@ Official Alexa AI CLI access would strengthen the evidence but is not on the eli
 
 ## Optional enhancement path
 
-If Amazon grants `AddOn3PDeveloperToolsRead` entitlement:
-- install/authenticate the private Alexa AI CLI;
-- deploy the add-on package;
-- capture Add-on ID/version and official Alexa+ simulator evidence.
-
-This is valuable but not required for the self-hosted MCP submission route.
+Devpost support confirmed on 18 September 2026 that Category SDK and MCP Toolkit / Alexa+ add-on developer tools are available only to selected Amazon partners and that there is currently no application path for general participants. Do not treat `AddOn3PDeveloperToolsRead` as an actionable blocker. The submission therefore uses the rules-compliant self-hosted MCP route.
 
 ## Only actions that ultimately require the submitter
 
