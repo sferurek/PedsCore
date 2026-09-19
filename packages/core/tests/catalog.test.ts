@@ -42,7 +42,9 @@ const implementedToolIds = [
   "chalice_tbi",
   "sipa",
   "nips",
-  "pediatric_burn_tbsa"
+  "pediatric_burn_tbsa",
+  "modified_tal", "taussig_croup", "pass", "risc", "mrisc", "gorelick_dehydration", "prifle", "kdigo_pediatric", "pelod_2", "prism_iv", "pim3",
+  "who_growth_module", "who_growth_percentiles", "bmi_percentile", "head_circumference_percentile"
 ];
 
 const nonPrimaryReferenceLevels = new Set([
@@ -132,7 +134,7 @@ describe("clinical tools catalog", () => {
     expect(getToolBySlug("apgar")?.id).toBe("apgar");
     expect(getToolsByCategory("neonatology").length).toBeGreaterThan(5);
     expect(getToolsByStatus("pending_validation").length).toBeGreaterThan(5);
-    expect(getImplementedTools()).toHaveLength(30);
+    expect(getImplementedTools()).toHaveLength(45);
   });
 
   it("keeps the final locally implemented tool set clinically bounded", () => {
@@ -406,9 +408,6 @@ describe("clinical tools catalog", () => {
       "neonatal_growth_fenton",
       "rdai",
       "brosjod",
-      "pass",
-      "gorelick_dehydration",
-      "prifle",
       "rflacc",
       "cheops",
       "visual_analogue_scale"
@@ -437,11 +436,6 @@ describe("clinical tools catalog", () => {
       "sex"
     ]);
 
-    for (const id of ["gorelick_dehydration"]) {
-      const tool = getTool(id);
-      expect(tool?.implementationStatus).toBe("pending_validation");
-      expect(tool?.calculationStatus).not.toBe("active");
-    }
   });
 
   it("requires every ready-for-implementation tool to have a direct source identifier", () => {
@@ -458,8 +452,7 @@ describe("clinical tools catalog", () => {
     const blockedByLicenseIds = [
       "wong_baker_faces",
       "stamp",
-      "prism_iii",
-      "prism_iv"
+      "prism_iii"
     ];
 
     for (const id of blockedByLicenseIds) {
@@ -471,10 +464,9 @@ describe("clinical tools catalog", () => {
     const maintainerDependentIds = [
       "pediatric_gcs",
       "pim2",
-      "pim3",
       "prism_iii",
-      "prism_iv",
-      "who_growth_percentiles",
+      "pim2",
+      "pediatric_gcs",
       "cdc_growth_percentiles"
     ];
 
@@ -487,7 +479,7 @@ describe("clinical tools catalog", () => {
     }
   });
 
-  it("tracks Sprint 2B WHO Growth presets as partial wrappers", () => {
+  it("tracks completed WHO Growth surfaces", () => {
     const whoPresetIds = [
       "who_growth_module",
       "who_growth_percentiles",
@@ -498,8 +490,8 @@ describe("clinical tools catalog", () => {
     for (const id of whoPresetIds) {
       const tool = getTool(id);
 
-      expect(tool?.implementationStatus).toBe("partially_implemented");
-      expect(tool?.calculationStatus).toBe("metadata_ready");
+      expect(tool?.implementationStatus).toBe("implemented");
+      expect(tool?.calculationStatus).toBe("active");
       expect(tool?.references.some((reference) => Boolean(getReferenceUrl(reference)))).toBe(
         true
       );
@@ -518,11 +510,8 @@ describe("clinical tools catalog", () => {
     const criticalCareIds = [
       "psofa",
       "pelod",
-      "pelod_2",
       "prism_iii",
-      "prism_iv",
-      "pim2",
-      "pim3"
+      "pim2"
     ];
 
     for (const id of criticalCareIds) {
