@@ -40,7 +40,8 @@ const implementedToolIds = new Set([
   "nips",
   "pediatric_burn_tbsa",
   "garcia_alix_ners",
-  "modified_tal"
+  "modified_tal",
+  "taussig_croup"
 ]);
 
 type ToolSeed = Omit<
