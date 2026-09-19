@@ -27,6 +27,7 @@ import { garciaAlixNersCalculator } from "./garciaAlixNers.js";
 import { cdcGrowthPercentilesCalculator } from "./cdcGrowth.js";
 import { strongkidsCalculator } from "./strongkids.js";
 import { visualAnalogueScaleCalculator } from "./additionalOpenTools.js";
+import { stepByStepCalculator } from "./stepByStep.js";
 
 const calculators = [
   apgarCalculator,
@@ -59,7 +60,8 @@ const calculators = [
   garciaAlixNersCalculator,
   cdcGrowthPercentilesCalculator,
   strongkidsCalculator,
-  visualAnalogueScaleCalculator
+  visualAnalogueScaleCalculator,
+  stepByStepCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
