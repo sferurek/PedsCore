@@ -93,25 +93,7 @@ const calculators = [
   chaliceCalculator,
   sipaCalculator,
   nipsCalculator,
-  pediatricBurnTbsaCalculator,
-  ckidU25Calculator,
-  kdigoPediatricCalculator,
-  modifiedTalCalculator,
-  taussigCroupCalculator,
-  stepByStepFebrileInfantCalculator,
-  riscCalculator,
-  mriscCalculator,
-  phoenixSepsisCalculator,
-  wpcdaiCalculator,
-  pucaiCalculator,
-  nSofaCalculator,
-  yaleObservationScaleCalculator,
-  bacterialMeningitisScoreCalculator,
-  pecarnFebrileInfantCalculator,
-  garciaAlixNersCalculator,
-  parcCalculator,
-  pcdaiCalculator,
-  modifiedBellNecCalculator
+  pediatricBurnTbsaCalculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(
