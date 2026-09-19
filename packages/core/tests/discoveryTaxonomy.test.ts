@@ -65,7 +65,7 @@ describe("clinical discovery taxonomy", () => {
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
-    ).toHaveLength(59);
+    ).toHaveLength(61);
   });
 
   it("keeps rights metadata aligned with the audited rights register", () => {
@@ -73,7 +73,6 @@ describe("clinical discovery taxonomy", () => {
       "pipp",
       "comfortneo",
       "brighton_pews",
-      "rdai",
       "brosjod",
       "pyms",
       "cheops",
