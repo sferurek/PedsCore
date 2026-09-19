@@ -474,7 +474,6 @@ describe("clinical tools catalog", () => {
       "pim3",
       "prism_iii",
       "prism_iv",
-      "who_growth_percentiles",
       "cdc_growth_percentiles"
     ];
 
@@ -487,7 +486,7 @@ describe("clinical tools catalog", () => {
     }
   });
 
-  it("tracks Sprint 2B WHO Growth presets as partial wrappers", () => {
+  it("tracks WHO Growth module and presets as implemented wrappers", () => {
     const whoPresetIds = [
       "who_growth_module",
       "who_growth_percentiles",
@@ -498,8 +497,8 @@ describe("clinical tools catalog", () => {
     for (const id of whoPresetIds) {
       const tool = getTool(id);
 
-      expect(tool?.implementationStatus).toBe("partially_implemented");
-      expect(tool?.calculationStatus).toBe("metadata_ready");
+      expect(tool?.implementationStatus).toBe("implemented");
+      expect(tool?.calculationStatus).toBe("active");
       expect(tool?.references.some((reference) => Boolean(getReferenceUrl(reference)))).toBe(
         true
       );
