@@ -2895,12 +2895,12 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       booleanInput("elective_admission", { es: "Ingreso electivo", en: "Elective admission" }),
       booleanInput("mechanical_ventilation_first_hour", { es: "Asistencia respiratoria mecánica en la primera hora", en: "Mechanical respiratory assistance in first hour" }),
       booleanInput("base_excess_unknown", { es: "Exceso de bases desconocido (PIM3 usa 0)", en: "Base excess unknown (PIM3 uses 0)" }),
-      { id: "base_excess_mmol_l", label: { es: "Exceso de bases", en: "Base excess" }, type: "number", required: false, unit: "mmol/L", min: -50, max: 50, step: 0.1, visibleWhen: [{ inputId: "base_excess_unknown", operator: "equals", value: false }] },
+      { id: "base_excess_mmol_l", label: { es: "Exceso de bases", en: "Base excess" }, type: "number", required: true, unit: "mmol/L", min: -50, max: 50, step: 0.1, visibleWhen: [{ inputId: "base_excess_unknown", operator: "equals", value: false }] },
       booleanInput("sbp_unknown", { es: "PAS desconocida (PIM3 usa 120 mmHg)", en: "SBP unknown (PIM3 uses 120 mmHg)" }),
-      { id: "systolic_bp_mmhg", label: { es: "PAS (0 si parada; 30 si shock y no medible)", en: "SBP (0 in cardiac arrest; 30 if shock and unmeasurable)" }, type: "number", required: false, unit: "mmHg", min: 0, max: 250, step: 1, visibleWhen: [{ inputId: "sbp_unknown", operator: "equals", value: false }] },
+      { id: "systolic_bp_mmhg", label: { es: "PAS (0 si parada; 30 si shock y no medible)", en: "SBP (0 in cardiac arrest; 30 if shock and unmeasurable)" }, type: "number", required: true, unit: "mmHg", min: 0, max: 250, step: 1, visibleWhen: [{ inputId: "sbp_unknown", operator: "equals", value: false }] },
       booleanInput("oxygenation_unknown", { es: "FiO₂/PaO₂ desconocidas (PIM3 usa 0,23)", en: "FiO₂/PaO₂ unknown (PIM3 uses 0.23)" }),
-      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: false, unit: "0-1", min: 0.21, max: 1, step: 0.01, visibleWhen: [{ inputId: "oxygenation_unknown", operator: "equals", value: false }] },
-      { id: "pao2_mmhg", label: { es: "PaO₂", en: "PaO₂" }, type: "number", required: false, unit: "mmHg", min: 1, max: 800, step: 1, visibleWhen: [{ inputId: "oxygenation_unknown", operator: "equals", value: false }] },
+      { id: "fio2_fraction", label: { es: "FiO₂", en: "FiO₂" }, type: "number", required: true, unit: "0-1", min: 0.21, max: 1, step: 0.01, visibleWhen: [{ inputId: "oxygenation_unknown", operator: "equals", value: false }] },
+      { id: "pao2_mmhg", label: { es: "PaO₂", en: "PaO₂" }, type: "number", required: true, unit: "mmHg", min: 1, max: 800, step: 1, visibleWhen: [{ inputId: "oxygenation_unknown", operator: "equals", value: false }] },
       {
         id: "procedure_category", label: { es: "Recuperación de procedimiento", en: "Procedure recovery" }, type: "select", required: true,
         options: [option("none", "No", "None"), option("cardiac_bypass", "Cirugía cardiaca con bypass", "Cardiac surgery with bypass"), option("cardiac_no_bypass", "Procedimiento cardiaco sin bypass", "Cardiac procedure without bypass"), option("noncardiac", "Procedimiento no cardiaco", "Noncardiac procedure")]
