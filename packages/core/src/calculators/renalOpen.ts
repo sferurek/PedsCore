@@ -334,8 +334,8 @@ export const prifleCalculator: CalculatorDefinition = {
     else if (urineOutput < 0.5 && urineDuration >= 8) urineStage = 1;
 
     let stage = Math.max(renalStage, urineStage) as PrifleStage;
-    if (persistentFailureWeeks > 13) stage = 5;
-    else if (persistentFailureWeeks > 4) stage = Math.max(stage, 4) as PrifleStage;
+    if (persistentFailureWeeks >= 12) stage = 5;
+    else if (persistentFailureWeeks >= 4) stage = Math.max(stage, 4) as PrifleStage;
 
     return {
       toolId: tool.id,
