@@ -265,13 +265,21 @@ export const calculateWhoGrowth = (
     input.dateOfBirth && input.measurementDate
       ? calculateAgeInMonths(input.dateOfBirth, input.measurementDate)
       : input.ageMonths;
-  const statureCm = input.lengthCm ?? input.heightCm;
+  const hasZeroToFiveAge =
+    ageDays !== undefined && ageDays >= 0 && ageDays <= 1856;
+  const underTwo = hasZeroToFiveAge && ageDays !== undefined && ageDays < 731;
+  const observedStatureCm = input.lengthCm ?? input.heightCm;
+  const lengthCm = underTwo
+    ? input.lengthCm ?? (input.heightCm !== undefined ? input.heightCm + 0.7 : undefined)
+    : undefined;
+  const heightCm = hasZeroToFiveAge && !underTwo
+    ? input.heightCm ?? (input.lengthCm !== undefined ? input.lengthCm - 0.7 : undefined)
+    : input.heightCm ?? input.lengthCm;
+  const statureCm = underTwo ? lengthCm : heightCm ?? observedStatureCm;
   const bmi =
     input.weightKg !== undefined && statureCm !== undefined
       ? calculateBmi(input.weightKg, statureCm)
       : undefined;
-  const hasZeroToFiveAge =
-    ageDays !== undefined && ageDays >= 0 && ageDays <= 1856;
   const hasFiveToNineteenAge =
     ageMonths !== undefined && ageMonths >= 61 && ageMonths <= 228;
   const missingZeroToFiveAgeWarning =
@@ -333,7 +341,7 @@ export const calculateWhoGrowth = (
     buildResult(
       "weight_for_length",
       "Weight-for-length",
-      hasZeroToFiveAge && input.lengthCm !== undefined
+      hasZeroToFiveAge && underTwo && lengthCm !== undefined
         ? input.weightKg
         : undefined,
       "kg",
@@ -342,7 +350,7 @@ export const calculateWhoGrowth = (
         ? findLmsRecord({
             indicator: "weight_for_length",
             sex: input.sex,
-            measureCm: input.lengthCm
+            measureCm: lengthCm
           },
           lmsRecords)
         : undefined,
@@ -351,7 +359,7 @@ export const calculateWhoGrowth = (
     buildResult(
       "weight_for_height",
       "Weight-for-height",
-      hasZeroToFiveAge && input.heightCm !== undefined
+      hasZeroToFiveAge && !underTwo && heightCm !== undefined
         ? input.weightKg
         : undefined,
       "kg",
@@ -360,7 +368,7 @@ export const calculateWhoGrowth = (
         ? findLmsRecord({
             indicator: "weight_for_height",
             sex: input.sex,
-            measureCm: input.heightCm
+            measureCm: heightCm
           },
           lmsRecords)
         : undefined,
