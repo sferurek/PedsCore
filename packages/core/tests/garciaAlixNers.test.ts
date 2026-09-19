@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculate } from "../src/calculators/registry.js";
+import { garciaAlixNersCalculator } from "../src/calculators/garciaAlixNers.js";
 
 const baseInput = {
   alertness: "a0",
@@ -15,20 +15,20 @@ const baseInput = {
 
 describe("García-Alix NE-RS", () => {
   it("classifies a complete normal/mild profile", () => {
-    const result = calculate("garcia_alix_ners", baseInput);
+    const result = garciaAlixNersCalculator.calculate(baseInput);
     expect(result.score).toBe(0);
     expect(result.maxScore).toBe(70);
     expect(result.classification?.en).toContain("Mild");
   });
 
   it("uses the validated 8-point moderate threshold", () => {
-    const result = calculate("garcia_alix_ners", { ...baseInput, alertness: "a8" });
+    const result = garciaAlixNersCalculator.calculate({ ...baseInput, alertness: "a8" });
     expect(result.score).toBe(8);
     expect(result.classification?.en).toContain("Moderate");
   });
 
   it("uses the validated 30-point severe threshold", () => {
-    const result = calculate("garcia_alix_ners", {
+    const result = garciaAlixNersCalculator.calculate({
       ...baseInput,
       alertness: "a8",
       posture: "p8",
@@ -42,7 +42,7 @@ describe("García-Alix NE-RS", () => {
   it("requires all nine NE-RS items", () => {
     const incomplete = { ...baseInput } as Record<string, string>;
     delete incomplete.aeeg_background;
-    const result = calculate("garcia_alix_ners", incomplete);
+    const result = garciaAlixNersCalculator.calculate(incomplete);
     expect(result.score).toBeUndefined();
     expect(result.warnings.some((item) => item.code === "missing_ners")).toBe(true);
   });
