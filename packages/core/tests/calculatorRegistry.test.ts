@@ -16,7 +16,6 @@ describe("calculator registry", () => {
       "thompson_hie",
       "cries",
       "wood_downes_ferres",
-      "flacc",
       "qtc_bazett",
       "qtc_fridericia",
       "qtc_framingham",
@@ -67,7 +66,7 @@ describe("calculator registry", () => {
       "rdai",
       "snappii"
     ]);
-    expect(implementedCalculatorToolIds).toContain("flacc");
+    expect(implementedCalculatorToolIds).not.toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
     expect(getImplementedTools()).toHaveLength(64);
   });
@@ -86,8 +85,9 @@ describe("calculator registry", () => {
   });
 
   it("returns a safe response for unavailable calculators", () => {
-    const result = calculateTool("pews", {});
-
-    expect(result.warnings[0]?.id).toBe("calculator_not_implemented");
+    for (const toolId of ["pews", "flacc"]) {
+      const result = calculateTool(toolId, {});
+      expect(result.warnings[0]?.id, toolId).toBe("calculator_not_implemented");
+    }
   });
 });
