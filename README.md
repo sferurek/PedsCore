@@ -104,16 +104,19 @@ It checks consistency across:
 
 **catalog ↔ discovery metadata ↔ calculator registry ↔ reuse status ↔ external references**
 
-CI also runs:
+CI validates the same reproducible sequence used by the hackathon candidate:
 
 ```bash
-npm ci
+npm install
 npm run lint
 npm run test
 npm run build
 npm run audit:governance
 npm run seo:check
+npm run alexa:validate
 ```
+
+For the hackathon workstream, the equivalent one-command verification is `npm run hackathon:verify`.
 
 A catalog/runtime mismatch is therefore treated as a build failure, not as documentation debt.
 
