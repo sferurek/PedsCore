@@ -1453,25 +1453,6 @@ const implementedToolReferences: Record<string, Reference[]> = {
       priority: 1
     }
   ],
-  cdc_growth_percentiles: [
-    {
-      id: "cdc_growth_charts_lms_data",
-      title: "CDC Growth Charts Data Files",
-      authors: "Centers for Disease Control and Prevention; National Center for Health Statistics",
-      year: 2000,
-      journalOrPublisher: "Centers for Disease Control and Prevention",
-      citation:
-        "Centers for Disease Control and Prevention, National Center for Health Statistics. CDC Growth Charts Data Files with LMS Values.",
-      url: "https://www.cdc.gov/growthcharts/cdc-data-files.htm",
-      evidenceLevel: "official_manual_or_institutional_protocol",
-      sourceType: "website",
-      accessType: "open_access",
-      notes:
-        "Priority A evidence audit: official LMS data source located. Exact chart set, interpolation strategy, and test fixtures remain pending before implementation.",
-      appliesTo: ["cdc_growth_percentiles"],
-      priority: 1
-    }
-  ],
   pipp: [
     {
       id: "pipp_1996_original",
