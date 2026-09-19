@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getToolBySlug, type CalculationResult } from "@peds-core/core";
-import { formatClinicalResultForClipboard } from "./ResultPanel";
+import { formatClinicalResultForClipboard } from "../utils/resultCopy";
 
 describe("clinical result copy", () => {
   it("copies result context without reproducing input trace", () => {
