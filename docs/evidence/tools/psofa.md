@@ -1,98 +1,47 @@
-# pSOFA
+# pSOFA — Pediatric Sequential Organ Failure Assessment
 
 ## Current PedsCore status
+
 - id: `psofa`
-- slug: `psofa`
-- category: intensive_care
-- type: score
-- current implementationStatus: `coming_soon`
-- current evidenceLevel: `pending_verification`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
+- discovery: `local_active`
+- reuse: `attribution_required`
 
-## Evidence validation status
-- final evidence status: `blocked_missing_primary_source`
-- blocking reason: scoring and organ thresholds require complete primary score table, age-specific bands, and data model.
-- depends on maintainer decision: no
-- maintainer decision needed: no
+## Selected version
 
-## Clinical purpose
-ES: puntuación de disfunción orgánica pediátrica para investigación y estratificación.
-EN: pediatric multi-organ dysfunction assessment framework.
+PedsCore implements the pediatric adaptation of SOFA published by Matics and Sanchez-Pinto.
 
-## Target population
-Children in critical care where organ dysfunction scoring is evaluated.
+Six organ systems are scored from 0 to 4, for a total of 0-24:
 
-## Version / variant
-- exact version: pSOFA original pediatric adaptation.
-- known variants: adult SOFA adaptations, other pediatric organ-failure sets.
-- selected version for PedsCore: pending.
-- variant risk: high
+1. respiratory;
+2. coagulation;
+3. hepatic;
+4. cardiovascular;
+5. neurologic;
+6. renal.
 
-## Primary source
-- found: partial
-- citation: Matics TJ, Sanchez-Pinto LN. External validity of pSOFA score in pediatric sepsis. Pediatrics.
-- PMID: `28783810`
-- DOI: `10.1001/jamapediatrics.2017.2352`
-- URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/
-- access: abstract_only
-- notes: Source anchor is located in literature, but full reusable model and tables remain pending.
+Age-specific mean arterial pressure and creatinine thresholds are used. The respiratory component accepts PaO2/FiO2 and, when SpO2 is <=97%, the published SpO2/FiO2 substitution.
 
-## External validation
-No direct implementation-grade validation matrix has been added in core yet.
+## Sources
 
-## Guidelines / official sources
-No consensus guideline mapping yet for direct score derivation.
-
-## Complete scoring table availability
-- complete table found: no
-- source: not fully extracted.
-- copyright/licensing risk: unknown
-- notes: cannot implement without exact thresholds and organ definitions.
-
-## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| pending | pending | pending | https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/ | primary table extraction required |
-
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| pending | pending | pending | https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/ |
-
-## Formula / algorithm
-No formula-only implementation; score summation and missing data handling pending.
-
-## Unit handling
-Pending until exact pediatric ranges, age thresholds, and unit conventions are sourced.
-
-## Safety and regulatory notes
-- risk level: high
-- why: high-acuity context and potential indirect treatment influence.
-- should provide recommendations: no.
-- forbidden outputs: treatment, discharge, admission, medication, or escalation directives.
-
-## Licensing / copyright
-- appears implementable: unknown
-- license-sensitive: unknown
-- requires permission: no
-- unknown: yes
-- notes: keep in blocked state until implementation-ready evidence is complete.
-
-## Implementation recommendation
-implement_after_expert_review
-
-## Proposed test cases
-- minimum
-- maximum
-- intermediate
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests
-
-## Direct links
-- https://doi.org/10.1001/jamapediatrics.2017.2352
-- https://pubmed.ncbi.nlm.nih.gov/28783810/
+Primary:
+- Matics TJ, Sanchez-Pinto LN. Adaptation and Validation of a Pediatric Sequential Organ Failure Assessment Score and Evaluation of the Sepsis-3 Definitions in Critically Ill Children. JAMA Pediatr. 2017.
+- DOI: 10.1001/jamapediatrics.2017.2352
+- PMID: 28783810
 - https://pmc.ncbi.nlm.nih.gov/articles/PMC6583375/
 
-## Notes
-Blocker for Block 8B-4: requires full table + maintainer/regulatory decision.
+Open complete table:
+- Malik A, Taksande A, Meshram R. Pediatric Sequential Organ Assessment Score: A Comprehensive Review of the Prognostic Marker in the Pediatric Intensive Care Unit. Cureus. 2024.
+- DOI: 10.7759/cureus.60034
+- PMID: 38854197
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC11162817/
+- License: CC BY 4.0.
+
+## Safety
+
+pSOFA is implemented as a descriptive organ-dysfunction score. PedsCore does not use it as a substitute for current pediatric sepsis definitions, does not convert it into an individual mortality prediction, and does not generate treatment or limitation-of-support recommendations.
+
+## Final decision
+
+`implemented / local_active`
