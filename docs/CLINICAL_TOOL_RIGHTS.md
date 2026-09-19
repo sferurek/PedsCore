@@ -18,7 +18,7 @@ Purpose: document the reuse/copyright status of clinical tools in PedsCore. This
 | Modified Bell NEC | open_reuse | Local implementation allowed with attribution | PLOS ONE 2013 reproduces the staging table under CC BY: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0076858 |
 | pSOFA | unresolved | Do not reproduce locally yet | Original JAMA Pediatrics publication; JAMA directs reuse of tables/figures through RightsLink: https://jamanetwork.com/journals/jamapediatrics/fullarticle/2646857 |
 | SNAPPE-II | unresolved | Do not reproduce locally yet | Full tables are widely reproduced, including open-access articles, but an unambiguous instrument-level licence for unrestricted web reuse has not been verified. Example: https://pmc.ncbi.nlm.nih.gov/articles/PMC4625304/ |
-| CAPD | permission_required | Keep blocked / external reference | Cornell material states copyright/all rights reserved; permission is documented in derivative uses. |
+| CAPD | permission_required | Keep blocked / external reference | Multiple formal translations document obtaining permission from the original author before translation/adaptation. Japanese validation: https://onlinelibrary.wiley.com/doi/10.1002/ams2.312 ; Spanish adaptation includes original authors: https://vivo.weill.cornell.edu/display/pubid30951003 |
 | WAT-1 | permission_required | Keep blocked | Published instrument carries rights restrictions / reproduced-by-permission language. |
 | COMFORT-B | permission_required | Keep blocked | Instrument-specific copyright/permission controls. |
 | Braden QD | permission_required | Keep blocked | Author permits clinical use but requires permission for republication. |
@@ -30,13 +30,13 @@ Purpose: document the reuse/copyright status of clinical tools in PedsCore. This
 | COMFORTneo | unresolved | Keep blocked pending rights resolution | Publicly described; instrument-level reuse terms not verified. |
 | Brighton PEWS | unresolved | Keep blocked pending rights resolution | No verified unrestricted republication licence. |
 | RDAI | unresolved | Keep blocked pending rights resolution | Public score descriptions exist; republication permission not yet verified. |
-| BROSJOD | unresolved | Keep blocked pending rights resolution | Public validation sources exist; instrument-level reuse not yet verified. |
+| BROSJOD | unresolved | Keep blocked pending rights resolution | The validation article is publisher-copyrighted (© 2016 Wiley Periodicals, Inc.); no instrument-level unrestricted licence has been verified: https://onlinelibrary.wiley.com/doi/10.1002/ppul.23546 |
 | PRISM III | permission_required | Keep deprecated/blocked | Proprietary/copyrighted scoring system; PRISM IV is active locally instead. |
 | Orbegozo growth | permission_required | Keep blocked | Proprietary growth references; permission/licence required. |
 | PYMS | unresolved | Keep blocked pending rights resolution | Original publication is publisher-controlled; no verified unrestricted instrument licence. |
-| FLACC | unresolved | Keep blocked pending rights resolution | Widely reproduced clinically, but PedsCore has not verified a publication licence suitable for public republication. |
-| rFLACC | unresolved | Keep blocked pending rights resolution | Same rationale; derivative/modified instrument. |
-| CHEOPS | unresolved | Keep blocked pending rights resolution | No verified unrestricted instrument licence. |
+| FLACC | permission_required | Keep blocked | LOINC records the rights holder as The Regents of the University of Michigan and explicitly states that users must obtain a licence to use FLACC/rFLACC: https://loinc.org/38213-5 |
+| rFLACC | permission_required | Keep blocked | Same University of Michigan licence requirement as FLACC; LOINC explicitly directs users to obtain a licence: https://loinc.org/38213-5 |
+| CHEOPS | unresolved | Keep blocked pending rights resolution | The original instrument is old and widely reproduced, and an openEHR archetype is CC BY-SA, but that licence covers the archetype rather than establishing rights to the original instrument wording. No authoritative instrument-level unrestricted licence verified. |
 | SOS-PD | permission_required | Keep blocked; official external reference/download is acceptable | The official English instrument PDF states “Copyright Benelux, van Dijk - 2014” and “Do not reproduce without permission.” This instrument-level notice controls despite the 2018 validation article being CC BY: https://comfortassessment.nl/web/files/7014/2919/5578/SOS-PD_scale_EN_April_2015.pdf |
 | PedNIHSS | unresolved | Keep blocked pending rights resolution | Instrument-specific reuse not verified. |
 | CRIB II | unresolved | Keep blocked pending rights resolution | Original publication/publisher rights remain relevant; no verified unrestricted instrument licence. |
@@ -48,7 +48,7 @@ Purpose: document the reuse/copyright status of clinical tools in PedsCore. This
 | J4S | unresolved | Keep blocked pending rights resolution | No verified unrestricted republication licence. |
 | JDM Disease Activity Score | unresolved | Keep blocked pending rights resolution | No verified unrestricted republication licence. |
 | Myositis Damage Index | permission_required | Keep blocked | IMACS/NIH indicates permission requirements for instrument reuse. |
-| FNASS 21-item | unresolved | Keep blocked pending rights resolution | Historical scale is widely described, but unrestricted republication of the full operational form has not been verified. |
+| FNASS 21-item | unresolved | Keep blocked pending rights resolution | PhenX provides the 2019 FNAST protocol publicly, but no instrument-level licence granting unrestricted republication has yet been verified: https://www.phenxtoolkit.org/protocols/view/300701 |
 
 ## Review rule
 
