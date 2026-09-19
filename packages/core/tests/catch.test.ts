@@ -44,8 +44,7 @@ describe("CATCH rule", () => {
   });
 
   it("requires persistent irritability only when age is under 2 years", () => {
-    const older = { ...noCriteria };
-    delete older.persistent_irritability_if_under_2;
+    const older = { ...noCriteria, persistent_irritability_if_under_2: undefined };
     expect(catchCalculator.calculate(older).classification?.en).toContain("no rule criteria");
 
     const infant = {
