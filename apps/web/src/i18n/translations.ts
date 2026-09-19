@@ -47,7 +47,7 @@ export const translations = {
       implementedMetric: "cálculos locales",
       availableMetric: "disponibles",
       blockedMetric: "con acceso limitado",
-      partialMetric: "implementación parcial",
+      activeModuleMetric: "módulo activo",
       clinicalDataMetric: "datos clínicos almacenados",
       miniDisclaimer:
         "Para uso profesional y educativo. PedsCore acompaña la decisión clínica; no sustituye el juicio profesional ni los protocolos locales.",
@@ -63,10 +63,10 @@ export const translations = {
         "Una herramienta no se activa hasta que su fuente, versión, tabla y condiciones de uso estén suficientemente claras.",
       whoGrowthTitle: "Módulo WHO Growth",
       whoGrowthBody:
-        "Percentiles OMS de 0–5 años y soporte parcial de 5–19, con gráficas imprimibles.",
+        "Crecimiento OMS de 0–5 años y referencia 5–19 para los indicadores implementados, con percentiles y gráficas imprimibles.",
       whoGrowthFeatures: [
         "OMS 0-5",
-        "OMS 5-19 parcial",
+        "OMS 5-19",
         "Datos oficiales OMS",
         "Gráficas SVG imprimibles",
         "Percentiles P3/P15/P50/P85/P97 escritos",
@@ -315,7 +315,7 @@ export const translations = {
       implementedMetric: "local calculations",
       availableMetric: "available",
       blockedMetric: "limited access",
-      partialMetric: "partial implementation",
+      activeModuleMetric: "active module",
       clinicalDataMetric: "clinical data stored",
       miniDisclaimer:
         "For professional and educational use. PedsCore supports clinical decisions; it does not replace clinical judgment or local protocols.",
@@ -334,7 +334,7 @@ export const translations = {
         "WHO 0-5 percentiles and partial 5-19 support with printable charts.",
       whoGrowthFeatures: [
         "WHO 0-5",
-        "WHO 5-19 partial",
+        "WHO 5-19",
         "Official WHO data",
         "Printable SVG charts",
         "Written P3/P15/P50/P85/P97 percentiles",
