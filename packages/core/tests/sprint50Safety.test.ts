@@ -49,7 +49,8 @@ const expectedImplementedToolIds = [
   "step_by_step",
   "pecarn_febrile_infant",
   "yos",
-  "pucai"
+  "pucai",
+  "pcdai"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -94,7 +95,8 @@ const implementedTestFiles: Record<string, string> = {
   step_by_step: "stepByStep.test.ts",
   pecarn_febrile_infant: "pecarnFebrileInfant.test.ts",
   yos: "yaleObservation.test.ts",
-  pucai: "pucai.test.ts"
+  pucai: "pucai.test.ts",
+  pcdai: "pcdai.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
