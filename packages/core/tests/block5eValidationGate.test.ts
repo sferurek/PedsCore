@@ -31,13 +31,14 @@ describe("Block 5E validation gate", () => {
     expect(calculateTool("cheops", {}).warnings[0]?.id).toBe("calculator_not_implemented");
   });
 
-  it("keeps Visual Analogue Scale needing a primary reference because format is not defined", () => {
+  it("keeps Visual Analogue Scale aligned with the selected 100-mm pediatric variant", () => {
     const tool = getToolBySlug("visual-analogue-scale");
 
-    expect(tool?.implementationStatus).toBe("needs_primary_reference");
-    expect(tool?.validationNotes.en).toContain("0-10 versus 0-100 mm");
-    expect(implementedCalculatorToolIds).not.toContain("visual_analogue_scale");
-    expect(calculateTool("visual_analogue_scale", {}).warnings[0]?.id).toBe("calculator_not_implemented");
+    expect(tool?.implementationStatus).toBe("implemented");
+    expect(tool?.calculationStatus).toBe("active");
+    expect(tool?.validationNotes.en).toContain("100-mm");
+    expect(implementedCalculatorToolIds).toContain("visual_analogue_scale");
+    expect(calculateTool("visual_analogue_scale", {}).warnings[0]?.id).toBe("missing_vas_input");
   });
 
   it("keeps Wong-Baker inactive because of licensing review", () => {

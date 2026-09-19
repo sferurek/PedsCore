@@ -1,96 +1,47 @@
 # Visual Analogue Scale / EVA
 
 ## Current PedsCore status
-- id: visual_analogue_scale
-- slug: visual-analogue-scale
-- category: pain
-- type: scale
-- current implementationStatus: needs_primary_reference
-- current evidenceLevel: primary_reference_needed
 
-## Evidence validation status
-- final evidence status: pending_variant_selection
-- reason: VAS is generic; PedsCore must select 0-10 numeric, 0-100 mm, or pediatric validated format before implementation.
+- id: `visual_analogue_scale`
+- slug: `visual-analogue-scale`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
 
-## Clinical purpose
-ES: Self-reported pain intensity scale.
-EN: Self-reported pain intensity scale.
+## Selected variant
 
-## Target population
-Children able to self-report pain; exact age depends on selected instrument.
+PedsCore implements a true Visual Analogue Scale as a **100-mm line** for self-reported pain intensity.
 
-## Version / variant
-- exact version: Not selected.
-- known variants: variant-specific review required before implementation.
-- selected version for PedsCore: Not selected.
-- variant risk: high
+The patient marks a point between the no-pain anchor and the opposite extreme. The score is the measured distance in millimetres from the no-pain end.
 
-## Primary source
-- found: no
-- citation: Not selected in this block.
-- DOI: not located
-- PMID: not located
-- URL: not located
-- access: unknown
-- notes: Source recorded for traceability only; implementation still follows the evidence gate.
+PedsCore intentionally does **not** treat a 0-10 Numeric Rating Scale as the same instrument.
 
-## External validation
-Add validation studies only after source-specific review.
+## Pediatric scope
 
-## Guidelines / official sources
-No official guideline implementation is created in this block.
+The selected pediatric use is for children older than 8 years and adolescents who can understand and complete a self-report VAS.
 
-## Complete scoring table availability
-- complete table found: no
-- source: No. Operational format and cutoffs not selected.
-- copyright/licensing risk: likely implementable for generic numeric/VAS format, but pediatric source still needed.
-- notes: Do not reconstruct tables from memory or secondary calculators.
+## Sources
 
-## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| pending | pending | pending | pending | Complete table must be verified before calculator activation. |
+- Huskisson EC. Measurement of pain. Lancet. 1974. DOI: 10.1016/S0140-6736(74)90884-8. PMID: 4139420.
+- Evidence-based Assessment of Pediatric Pain: https://pmc.ncbi.nlm.nih.gov/articles/PMC2639489/
+- ACTTION pediatric acute-pain trial recommendations: https://pmc.ncbi.nlm.nih.gov/articles/PMC5949239/
 
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| pending | pending | pending | pending |
+## Output
 
-## Formula / algorithm
-Not applicable or pending complete scoring table.
+- 0-100 mm.
+- Equivalent centimetres are shown for readability.
+- No universal mild/moderate/severe classification is applied.
 
-## Unit handling
-Units, age bands, and edge cases remain pending unless explicitly documented above.
+## Safety constraints
 
-## Safety and regulatory notes
-- risk level: medium
-- why: Clinical outputs could influence care if worded as recommendations.
-- should provide recommendations: no; descriptive outputs only.
-- forbidden outputs: treatment, discharge, admission, CT instruction, medication, resuscitation instruction.
+- Self-report only.
+- Do not substitute observer scoring in children unable to use the scale reliably.
+- No treatment recommendation or analgesic dosing is generated.
+- No universal severity bands are imposed because thresholds vary by context and population.
 
-## Licensing / copyright
-- appears implementable: not yet determined
-- license-sensitive: no
-- requires permission: unknown
-- unknown: no
-- notes: likely implementable for generic numeric/VAS format, but pediatric source still needed.
+## Licensing
 
-## Implementation recommendation
-select_variant_first
+VAS is a generic measurement construct. PedsCore reproduces no proprietary artwork, branded form, faces scale, or protected layout.
 
-## Proposed test cases
-- minimum
-- maximum
-- intermediate
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests: no treatment, CT, admission, discharge, medication, or resuscitation instructions.
+## Final decision
 
-## Direct links
-- Pending direct source link
-
-
-
-## Notes
-This fiche was updated in Block 8B-3. Validation does not mean implementation.
+`implemented / local_active`

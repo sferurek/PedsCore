@@ -45,7 +45,8 @@ const implementedToolIds = new Set([
   "bmi_percentile",
   "head_circumference_percentile",
   "cdc_growth_percentiles",
-  "strongkids"
+  "strongkids",
+  "visual_analogue_scale"
 ]);
 
 type ToolSeed = Omit<
@@ -383,16 +384,44 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   visual_analogue_scale: [
     {
-      id: "vas_pediatric_pain_open_review",
-      title: "Visual analogue scales for pediatric self-reported pain intensity",
-      journalOrPublisher: "Open-access pediatric pain literature",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5261830/",
+      id: "huskisson_vas_1974",
+      title: "Measurement of pain",
+      authors: "Huskisson EC",
+      year: 1974,
+      journalOrPublisher: "The Lancet",
+      doi: "10.1016/S0140-6736(74)90884-8",
+      pmid: "4139420",
+      url: "https://pubmed.ncbi.nlm.nih.gov/4139420/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Foundational pain-measurement publication for visual analogue scaling.",
+      appliesTo: ["visual_analogue_scale"],
+      priority: 1
+    },
+    {
+      id: "vas_pediatric_assessment_review",
+      title: "Evidence-based Assessment of Pediatric Pain",
+      journalOrPublisher: "Journal of Pediatric Psychology / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2639489/",
       evidenceLevel: "peer_reviewed_review",
       sourceType: "journal_article",
       accessType: "open_access",
-      notes: "VAS is implemented as a continuous 0-10 cm self-report measure; PedsCore intentionally does not impose universal severity bands.",
+      notes: "Describes pediatric VAS as a 100-mm horizontal line measured from the no-pain anchor to the child's mark.",
       appliesTo: ["visual_analogue_scale"],
-      priority: 1
+      priority: 2
+    },
+    {
+      id: "acttion_pediatric_vas",
+      title: "Clinical trial designs and models for analgesic medications for acute pain in neonates, infants, toddlers, children, and adolescents: ACTTION recommendations",
+      journalOrPublisher: "Pain / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5949239/",
+      evidenceLevel: "consensus_statement",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Recommends a 100-mm VAS for acute pain in children older than 8 years and adolescents.",
+      appliesTo: ["visual_analogue_scale"],
+      priority: 3
     }
   ],
   risc: [
@@ -2184,8 +2213,8 @@ const cheopsValidationNotes: LocalizedText = {
 };
 
 const visualAnalogueScaleValidationNotes: LocalizedText = {
-  es: "Se necesita referencia primaria: la documentacion local identifica EVA/Escala Visual Analogica, pero no define formato operativo 0-10 frente a 0-100 mm, poblacion aplicable, instrucciones de uso ni tabla de interpretacion. No se activa calculo.",
-  en: "Primary reference needed: local documentation identifies VAS/Visual Analogue Scale, but does not define the operational 0-10 versus 0-100 mm format, applicable population, use instructions, or interpretation table. Calculation is not activated."
+  es: "Implementación local activa de EVA/VAS como línea continua de 100 mm para autorreporte de intensidad de dolor. En pediatría se orienta a mayores de 8 años y adolescentes capaces de comprender la escala. El resultado es la distancia marcada desde el extremo sin dolor; no se aplican bandas universales de gravedad.",
+  en: "Active local VAS implementation as a continuous 100-mm line for self-reported pain intensity. In pediatrics it is intended mainly for children older than 8 years and adolescents able to understand the scale. The result is the marked distance from the no-pain anchor; no universal severity bands are applied."
 };
 
 const dubowitzValidationNotes: LocalizedText = {
@@ -2614,11 +2643,11 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   visual_analogue_scale: {
     validationNotes: {
-      es: "EVA/VAS de autorreporte: distancia continua entre 0 y 10 cm desde 'sin dolor' hasta 'máximo dolor imaginable'. PedsCore no impone categorías universales de gravedad.",
-      en: "VAS format remains evidence-gated because published implementations may use 0-10 versus 0-100 mm representations. PedsCore does not impose universal severity categories."
+      es: "EVA/VAS de autorreporte como línea de 100 mm: se mide la distancia desde el extremo «sin dolor» hasta la marca del paciente. PedsCore no convierte la EVA en una NRS 0-10 ni impone categorías universales de gravedad.",
+      en: "Self-report VAS implemented as a 100-mm line: the distance from the no-pain anchor to the patient's mark is measured. PedsCore does not convert the VAS into a 0-10 NRS or impose universal severity categories."
     },
     inputs: [
-      { id: "pain_vas_cm", label: { es: "Posición marcada en la EVA", en: "Marked position on the VAS" }, type: "number", required: true, unit: "cm", min: 0, max: 10, step: 0.1 }
+      { id: "pain_vas_mm", label: { es: "Distancia marcada en la EVA", en: "Marked distance on the VAS" }, description: { es: "Mide desde el extremo «sin dolor» hasta la marca del paciente en una línea de 100 mm.", en: "Measure from the no-pain anchor to the patient's mark on a 100-mm line." }, type: "number", required: true, unit: "mm", min: 0, max: 100, step: 1 }
     ]
   },
   pass: {
@@ -5530,7 +5559,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("rflacc", "rflacc", "rFLACC", "rFLACC", "rFLACC", "pain", "pediatric_pain", "scale", "Ninos con necesidades especiales o comunicacion limitada", "Children with special needs or limited communication", "Version revisada de FLACC identificada para revision.", "Revised FLACC version identified for review.", "pending_validation", "external_validation_study", "medium", rflaccValidationNotes),
   makeTool("cheops", "cheops", "CHEOPS", "CHEOPS", "CHEOPS", "pain", "pediatric_pain", "scale", "Ninos de 1 a 7 anos", "Children aged 1 to 7 years", "Escala observacional de dolor pediatrico.", "Observational pediatric pain scale.", "pending_validation", "original_derivation_study", "medium", cheopsValidationNotes),
   makeTool("wong_baker_faces", "wong-baker-faces", "Wong-Baker", "Wong-Baker Faces", "Wong-Baker Faces", "pain", "pediatric_pain", "scale", "Ninos capaces de autoevaluacion con caras", "Children able to self-report using faces", "Escala visual de caras para dolor.", "Faces-based visual pain scale.", "not_implemented_due_to_licensing", "pending_verification", "medium", baseValidationNotes.licensing),
-  makeTool("visual_analogue_scale", "visual-analogue-scale", "EVA", "Escala visual analogica", "Visual Analogue Scale", "pain", "pediatric_pain", "scale", "Ninos con capacidad de autoevaluacion", "Children able to self-report", "Escala visual analogica de dolor identificada para catalogo.", "Visual analogue pain scale identified for the catalog.", "needs_primary_reference", "primary_reference_needed", "low", visualAnalogueScaleValidationNotes),
+  makeTool("visual_analogue_scale", "visual-analogue-scale", "EVA", "Escala visual analogica", "Visual Analogue Scale", "pain", "pediatric_pain", "scale", "Mayores de 8 anos y adolescentes capaces de autorreporte", "Children older than 8 years and adolescents able to self-report", "EVA de 100 mm para intensidad de dolor autorreportada.", "100-mm VAS for self-reported pain intensity.", "implemented", "original_derivation_study", "low", visualAnalogueScaleValidationNotes),
   makeTool("pediatric_cpr", "pediatric-cpr", "RCP pediatrica", "RCP pediatrica", "Pediatric CPR", "resuscitation", "pediatric_life_support", "algorithm", "Pacientes pediatricos en parada o peri-parada", "Pediatric patients in arrest or peri-arrest", "Algoritmo de soporte vital pediatrico previsto como ficha trazable.", "Pediatric life support algorithm planned as a traceable entry.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("neonatal_cpr", "neonatal-cpr", "RCP neonatal", "RCP neonatal", "Neonatal CPR", "resuscitation", "neonatal_life_support", "algorithm", "Recien nacidos en reanimacion neonatal", "Newborns undergoing neonatal resuscitation", "Algoritmo de reanimacion neonatal previsto como ficha trazable.", "Neonatal resuscitation algorithm planned as a traceable entry.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
   makeTool("pediatric_bradycardia", "pediatric-bradycardia", "Bradicardia", "Bradicardia pediatrica", "Pediatric Bradycardia", "resuscitation", "pediatric_life_support", "algorithm", "Pacientes pediatricos con bradicardia inestable", "Pediatric patients with unstable bradycardia", "Algoritmo de bradicardia pediatrica para revision futura.", "Pediatric bradycardia algorithm for future review.", "coming_soon", "pending_verification", "high", baseValidationNotes.future),
