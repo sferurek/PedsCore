@@ -46,7 +46,8 @@ const implementedToolIds = new Set([
   "head_circumference_percentile",
   "cdc_growth_percentiles",
   "strongkids",
-  "visual_analogue_scale"
+  "visual_analogue_scale",
+  "step_by_step"
 ]);
 
 type ToolSeed = Omit<
@@ -516,6 +517,9 @@ const implementedToolReferences: Record<string, Reference[]> = {
       authors: "Gómez B, Mintegi S, Bressan S, et al.",
       year: 2016,
       journalOrPublisher: "Pediatrics",
+      doi: "10.1542/peds.2015-4381",
+      pmid: "27382134",
+      url: "https://pubmed.ncbi.nlm.nih.gov/27382134/",
       evidenceLevel: "external_validation_study",
       sourceType: "journal_article",
       accessType: "abstract_only",
@@ -2794,11 +2798,12 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
   },
   step_by_step: {
     validationNotes: {
-      es: "Implementación local del enfoque Step-by-Step para lactantes febriles ≤90 días con jerarquía de riesgo por aspecto, edad, leucocituria, PCT, PCR y ANC.",
-      en: "Local Step-by-Step implementation for febrile infants ≤90 days using sequential risk classification by appearance, age, leukocyturia, PCT, CRP, and ANC."
+      es: "Implementación local del enfoque Step-by-Step para lactantes de hasta 90 días con fiebre sin foco. La clasificación es secuencial: mal aspecto, edad ≤21 días, leucocituria o PCT ≥0,5 ng/mL = alto riesgo; si esos criterios son negativos, PCR >20 mg/L o ANC >10.000/mm³ = riesgo intermedio; si todos son negativos = bajo riesgo.",
+      en: "Local Step-by-Step implementation for infants up to 90 days with fever without source. Classification is sequential: ill appearance, age ≤21 days, leukocyturia, or PCT ≥0.5 ng/mL = high risk; if those are negative, CRP >20 mg/L or ANC >10,000/mm³ = intermediate risk; if all are negative = low risk."
     },
     inputs: [
       { id: "age_days", label: { es: "Edad", en: "Age" }, type: "number", required: true, unit: "días", min: 0, max: 90, step: 1 },
+      booleanInput("fever_without_source", { es: "Fiebre sin foco aparente", en: "Fever without an apparent source" }),
       booleanInput("well_appearing", { es: "Buen estado general", en: "Well appearing" }),
       booleanInput("leukocyturia", { es: "Leucocituria", en: "Leukocyturia" }),
       { id: "procalcitonin_ng_ml", label: { es: "Procalcitonina", en: "Procalcitonin" }, type: "number", required: true, unit: "ng/mL", min: 0, max: 100, step: 0.01 },
@@ -5355,7 +5360,7 @@ const priorityExpansionSurfaces: ClinicalToolMetadata[] = [
   referenceSurface({ id:"sos_pd", slug:"sos-pd", shortName:"SOS-PD", nameEs:"SOS-PD", nameEn:"SOS-PD", category:"intensive_care", subcategory:"delirium", type:"scale", populationEs:"Niños hospitalizados", populationEn:"Hospitalized children", descriptionEs:"Superficie de referencia para delirium pediátrico y su valoración seriada.", descriptionEn:"Reference surface for pediatric delirium and serial assessment.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"pcam_icu", slug:"pcam-icu", shortName:"pCAM-ICU", nameEs:"pCAM-ICU", nameEn:"pCAM-ICU", category:"intensive_care", subcategory:"delirium", type:"scale", populationEs:"Niños en UCI pediátrica capaces de participar según la herramienta", populationEn:"PICU children able to participate as required by the instrument", descriptionEs:"Referencia para detección de delirium pediátrico en cuidados intensivos.", descriptionEn:"Reference for pediatric delirium detection in intensive care.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"pscam_icu", slug:"pscam-icu", shortName:"psCAM-ICU", nameEs:"psCAM-ICU", nameEn:"psCAM-ICU", category:"intensive_care", subcategory:"delirium", type:"scale", populationEs:"Niños pequeños en UCI pediátrica", populationEn:"Younger children in pediatric intensive care", descriptionEs:"Referencia para detección de delirium adaptada a niños pequeños en UCI.", descriptionEn:"Reference for delirium detection adapted to younger children in intensive care.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
-  referenceSurface({ id:"step_by_step", slug:"step-by-step-febrile-infant", shortName:"Step-by-Step", nameEs:"Enfoque Step-by-Step", nameEn:"Step-by-Step Approach", category:"emergency", subcategory:"febrile_infant", type:"clinical_rule", populationEs:"Lactantes pequeños con fiebre según criterios publicados", populationEn:"Young febrile infants meeting published eligibility criteria", descriptionEs:"Regla clínica de referencia para estratificación de riesgo en lactantes febriles; requiere los datos publicados.", descriptionEn:"Clinical-rule reference for risk stratification in febrile infants; it requires the published data elements.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
+  referenceSurface({ id:"step_by_step", slug:"step-by-step-febrile-infant", shortName:"Step-by-Step", nameEs:"Enfoque Step-by-Step", nameEn:"Step-by-Step Approach", category:"emergency", subcategory:"febrile_infant", type:"clinical_rule", populationEs:"Lactantes de hasta 90 días con fiebre sin foco", populationEn:"Infants up to 90 days old with fever without source", descriptionEs:"Estratificación secuencial de riesgo de infección bacteriana invasiva mediante aspecto, edad, orina, PCT, PCR y ANC.", descriptionEn:"Sequential invasive-bacterial-infection risk stratification using appearance, age, urine, PCT, CRP, and ANC.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"pecarn_febrile_infant", slug:"pecarn-febrile-infant", shortName:"PECARN FI", nameEs:"Regla PECARN para lactante febril", nameEn:"PECARN Febrile Infant Rule", category:"emergency", subcategory:"febrile_infant", type:"clinical_rule", populationEs:"Lactantes febriles de hasta 60 días según elegibilidad publicada", populationEn:"Febrile infants up to 60 days meeting published eligibility", descriptionEs:"Regla de referencia para riesgo de infección bacteriana invasiva en lactantes febriles; no sustituye la valoración clínica.", descriptionEn:"Reference rule for invasive bacterial infection risk in febrile infants; it does not replace clinical assessment.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"yos", slug:"yale-observation-scale", shortName:"YOS", nameEs:"Escala de Observación de Yale", nameEn:"Yale Observation Scale", category:"emergency", subcategory:"febrile_infant", type:"scale", populationEs:"Niños pequeños con enfermedad febril", populationEn:"Young children with febrile illness", descriptionEs:"Escala histórica de referencia para observación clínica en enfermedad febril.", descriptionEn:"Historical reference scale for clinical observation in febrile illness.", evidenceLevel:"original_derivation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"greulich_pyle", slug:"greulich-pyle", shortName:"Greulich-Pyle", nameEs:"Atlas de Greulich y Pyle", nameEn:"Greulich and Pyle Atlas", category:"growth_nutrition", subcategory:"bone_age", type:"nomogram", populationEs:"Niños y adolescentes con radiografía de mano o muñeca", populationEn:"Children and adolescents with a hand or wrist radiograph", descriptionEs:"Atlas de referencia para estimación de edad ósea; no es una regla de decisión aguda.", descriptionEn:"Reference atlas for bone-age estimation; it is not an acute decision rule.", evidenceLevel:"official_manual_or_institutional_protocol", regulatoryRisk:"medium" }),
