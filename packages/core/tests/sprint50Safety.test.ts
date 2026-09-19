@@ -38,7 +38,9 @@ const expectedImplementedToolIds = [
   "chalice_tbi",
   "sipa",
   "nips",
-  "pediatric_burn_tbsa"
+  "pediatric_burn_tbsa",
+  "modified_tal", "taussig_croup", "pass", "risc", "mrisc", "gorelick_dehydration", "prifle", "kdigo_pediatric", "pelod_2", "prism_iv", "pim3",
+  "who_growth_module", "who_growth_percentiles", "bmi_percentile", "head_circumference_percentile"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -72,7 +74,9 @@ const implementedTestFiles: Record<string, string> = {
   sipa: "sipa.test.ts",
   wood_downes_ferres: "woodDownesFerres.test.ts",
   westley_croup: "westleyCroup.test.ts",
-  garcia_alix_ners: "garciaAlixNers.test.ts"
+  garcia_alix_ners: "garciaAlixNers.test.ts",
+  modified_tal: "modifiedTal.test.ts", taussig_croup: "taussigCroup.test.ts", pass: "pass.test.ts", risc: "risc.test.ts", mrisc: "mRisc.test.ts", gorelick_dehydration: "gorelickDehydration.test.ts", prifle: "pRifle.test.ts", kdigo_pediatric: "pediatricKdigo.test.ts", pelod_2: "pelod2.test.ts", prism_iv: "prismIv.test.ts", pim3: "pim3.test.ts",
+  who_growth_module: "whoGrowth.test.ts", who_growth_percentiles: "whoGrowth.test.ts", bmi_percentile: "whoGrowth.test.ts", head_circumference_percentile: "whoGrowth.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
@@ -84,11 +88,8 @@ const blockedTherapeuticOrProtectedIds = [
   "non_shockable_rhythm_algorithm",
   "psofa",
   "pelod",
-  "pelod_2",
   "prism_iii",
-  "prism_iv",
   "pim2",
-  "pim3",
   "wong_baker_faces",
   "orbegozo_growth_percentiles",
   "stamp"
@@ -145,22 +146,16 @@ describe("SPRINT-50 implementation safety gates", () => {
     }
   });
 
-  it("keeps WHO Growth presets partial and outside the fully implemented count", () => {
+  it("keeps completed WHO Growth surfaces active", () => {
     const whoGrowthModule = clinicalTools.find(
       (tool) => tool.id === "who_growth_module"
     );
 
-    expect(whoGrowthModule?.implementationStatus).toBe("partially_implemented");
-    expect(whoGrowthModule?.calculationStatus).toBe("metadata_ready");
-    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
-      "who_growth_module"
-    );
-    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
-      "bmi_percentile"
-    );
-    expect(getImplementedTools().map((tool) => tool.id)).not.toContain(
-      "head_circumference_percentile"
-    );
+    expect(whoGrowthModule?.implementationStatus).toBe("implemented");
+    expect(whoGrowthModule?.calculationStatus).toBe("active");
+    expect(getImplementedTools().map((tool) => tool.id)).toContain("who_growth_module");
+    expect(getImplementedTools().map((tool) => tool.id)).toContain("bmi_percentile");
+    expect(getImplementedTools().map((tool) => tool.id)).toContain("head_circumference_percentile");
   });
 
   it("tracks partially implemented tools explicitly", () => {
@@ -169,14 +164,7 @@ describe("SPRINT-50 implementation safety gates", () => {
       .map((tool) => tool.id)
       .sort();
 
-    expect(partialIds).toEqual(
-      [
-        "who_growth_module",
-        "who_growth_percentiles",
-        "bmi_percentile",
-        "head_circumference_percentile"
-      ].sort()
-    );
+    expect(partialIds).toEqual([]);
   });
 
   it("does not use partial status to mask therapeutic or proprietary blockers", () => {
