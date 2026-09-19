@@ -46,11 +46,8 @@ describe("calculator registry", () => {
       "pcdai",
       "modified_tal",
       "taussig_croup",
-      "pass",
       "risc",
       "mrisc",
-      "gorelick_dehydration",
-      "prifle",
       "kdigo_pediatric",
       "phoenix_sepsis",
       "parc",
@@ -62,7 +59,7 @@ describe("calculator registry", () => {
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(57);
+    expect(getImplementedTools()).toHaveLength(54);
   });
 
   it("calculates through the dispatcher", () => {
