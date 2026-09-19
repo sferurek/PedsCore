@@ -59,6 +59,7 @@ const implementedToolIds = new Set([
   "prism_iv",
   "pim3",
   "psofa",
+  "fnass_21",
   "modified_tal",
   "taussig_croup",
   "risc",
@@ -1694,6 +1695,21 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   fnass_21: [
     {
+      id: "phenx_fnast_2019",
+      title: "Neonatal Abstinence Syndrome (NAS) and Neonatal Opioid Withdrawal Syndrome (NOWS) — FNAST 2019 Final",
+      authors: "PhenX Toolkit",
+      year: 2019,
+      journalOrPublisher: "PhenX Toolkit",
+      doi: "10.82568/phenx_toolkit/300701",
+      url: "https://www.phenxtoolkit.org/protocols/view/300701",
+      evidenceLevel: "official_manual_or_institutional_protocol",
+      sourceType: "website",
+      accessType: "open_access",
+      notes: "PhenX publishes the complete FNAST protocol and states that it is freely available and permission is not required for use.",
+      appliesTo: ["fnass_21"],
+      priority: 1
+    },
+    {
       id: "finnegan_1975_original",
       title: "Neonatal abstinence syndrome: assessment and management",
       authors: "Finnegan LP, Connaughton JF Jr, Kron RE, Emich JP",
@@ -1709,7 +1725,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       notes:
         "Block 8B-2: original Finnegan source located. Modified variants, long item table, licensing, and therapeutic-threshold wording remain blocked.",
       appliesTo: ["fnass_21"],
-      priority: 1
+      priority: 2
     }
   ],
   wood_downes_ferres: [
@@ -2492,6 +2508,39 @@ const burnFractionInput = (regionId: string, label: LocalizedText) => ({
 });
 
 const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = {
+  fnass_21: {
+    validationNotes: {
+      es: "FNAST/Finnegan de 21 síntomas según protocolo PhenX 2019, publicado íntegramente y declarado de libre disponibilidad sin permiso requerido para su uso. La salida es descriptiva y no activa tratamiento.",
+      en: "21-symptom FNAST/Finnegan using the 2019 PhenX protocol, published in full and stated to be freely available with no permission required for use. Output is descriptive and does not trigger treatment."
+    },
+    calculationNotes: {
+      es: "Suma la opción seleccionada de cada uno de los 21 síntomas. El formulario agrupa como una sola variable las alternativas mutuamente excluyentes de gravedad publicadas.",
+      en: "Sums the selected option for each of the 21 symptoms. The form groups mutually exclusive published severity alternatives into one variable."
+    },
+    inputs: [
+      {id:"crying",label:{es:"Llanto",en:"Crying"},type:"single_choice",required:true,options:[option("none","No","None",0),option("excessive","Agudo excesivo","Excessive high-pitched",2),option("continuous","Agudo continuo","Continuous high-pitched",3)]},
+      {id:"sleep_after_feeding",label:{es:"Sueño tras la toma",en:"Sleep after feeding"},type:"single_choice",required:true,options:[option("normal","≥3 h / sin alteración","≥3 h / no disturbance",0),option("lt3","<3 h","<3 h",1),option("lt2","<2 h","<2 h",2),option("lt1","<1 h","<1 h",3)]},
+      {id:"moro_reflex",label:{es:"Reflejo de Moro",en:"Moro reflex"},type:"single_choice",required:true,options:[option("normal","Normal","Normal",0),option("hyperactive","Hiperactivo","Hyperactive",2),option("marked","Marcadamente hiperactivo","Markedly hyperactive",3)]},
+      {id:"tremors_disturbed",label:{es:"Temblores con estímulo",en:"Tremors when disturbed"},type:"single_choice",required:true,options:[option("none","No","None",0),option("mild","Leves","Mild",1),option("moderate_severe","Moderados-graves","Moderate-severe",2)]},
+      {id:"tremors_undisturbed",label:{es:"Temblores sin estímulo",en:"Tremors undisturbed"},type:"single_choice",required:true,options:[option("none","No","None",0),option("mild","Leves","Mild",3),option("moderate_severe","Moderados-graves","Moderate-severe",4)]},
+      {id:"muscle_tone",label:{es:"Aumento del tono muscular",en:"Increased muscle tone"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",2)]},
+      {id:"excoriation",label:{es:"Excoriación",en:"Excoriation"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",1)]},
+      {id:"myoclonic_jerks",label:{es:"Mioclonías",en:"Myoclonic jerks"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",3)]},
+      {id:"generalized_convulsions",label:{es:"Convulsiones generalizadas",en:"Generalized convulsions"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",5)]},
+      {id:"sweating",label:{es:"Sudoración",en:"Sweating"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",1)]},
+      {id:"temperature",label:{es:"Temperatura",en:"Temperature"},type:"single_choice",required:true,options:[option("normal","Sin fiebre puntuable","No scored fever",0),option("37_2_38_3","37,2-38,3 °C","37.2-38.3 °C",1),option("ge38_4","≥38,4 °C","≥38.4 °C",2)]},
+      {id:"yawning",label:{es:"Bostezos frecuentes (>3)",en:"Frequent yawning (>3)"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",1)]},
+      {id:"mottling",label:{es:"Moteado cutáneo",en:"Mottling"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",1)]},
+      {id:"nasal_stuffiness",label:{es:"Congestión nasal",en:"Nasal stuffiness"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",1)]},
+      {id:"sneezing",label:{es:"Estornudos (>3)",en:"Sneezing (>3)"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",1)]},
+      {id:"nasal_flaring",label:{es:"Aleteo nasal",en:"Nasal flaring"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",2)]},
+      {id:"respiratory_rate",label:{es:"Frecuencia respiratoria",en:"Respiratory rate"},type:"single_choice",required:true,options:[option("normal","≤60/min","≤60/min",0),option("gt60",">60/min sin retracciones",">60/min without retractions",1),option("gt60_retractions",">60/min con retracciones",">60/min with retractions",2)]},
+      {id:"excessive_sucking",label:{es:"Succión excesiva",en:"Excessive sucking"},type:"single_choice",required:true,options:[option("no","No","No",0),option("yes","Sí","Yes",1)]},
+      {id:"feeding",label:{es:"Alimentación",en:"Feeding"},type:"single_choice",required:true,options:[option("normal","Normal","Normal",0),option("poor","Mala alimentación","Poor feeding",2)]},
+      {id:"vomiting",label:{es:"Regurgitación / vómitos",en:"Regurgitation / vomiting"},type:"single_choice",required:true,options:[option("none","No","None",0),option("regurgitation","Regurgitación","Regurgitation",2),option("projectile","Vómito proyectivo","Projectile vomiting",3)]},
+      {id:"stools",label:{es:"Heces",en:"Stools"},type:"single_choice",required:true,options:[option("normal","Normales","Normal",0),option("loose","Blandas","Loose",2),option("watery","Acuosas","Watery",3)]}
+    ]
+  },
   modified_bell_nec: {
     validationNotes:{
       es:"Clasificación de Bell modificada para NEC, implementada a partir de una tabla reproducida bajo CC BY. Integra hallazgos sistémicos, abdominales y radiológicos.",
@@ -5543,7 +5592,7 @@ const reconciliationSurfaces: ClinicalToolMetadata[] = [
   referenceSurface({ id:"psc", slug:"pediatric-symptom-checklist", shortName:"PSC", nameEs:"Lista de Síntomas Pediátricos", nameEn:"Pediatric Symptom Checklist", category:"behavioral_health", subcategory:"psychosocial_screening", type:"scale", populationEs:"Niños y adolescentes en cribado psicosocial", populationEn:"Children and adolescents undergoing psychosocial screening", descriptionEs:"Superficie externa de referencia para cribado psicosocial general y sus versiones autorizadas.", descriptionEn:"External reference surface for broad psychosocial screening and authorized versions.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"acq", slug:"asthma-control-questionnaire", shortName:"ACQ", nameEs:"Cuestionario de Control del Asma", nameEn:"Asthma Control Questionnaire", category:"respiratory", subcategory:"asthma_control", type:"scale", populationEs:"Niños con asma en seguimiento dentro de la edad aplicable a la versión autorizada", populationEn:"Children with asthma undergoing follow-up within the authorized version's age range", descriptionEs:"Superficie externa de referencia para control seriado del asma, diferenciada de las escalas de exacerbación aguda.", descriptionEn:"External reference surface for serial asthma control, distinct from acute-exacerbation scales.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"wpcdai", slug:"wpcdai", shortName:"wPCDAI", nameEs:"Índice Pediátrico Ponderado de Actividad de Crohn", nameEn:"Weighted Pediatric Crohn Disease Activity Index", category:"gastroenterology", subcategory:"inflammatory_bowel_disease", type:"scale", populationEs:"Niños y adolescentes con enfermedad de Crohn", populationEn:"Children and adolescents with Crohn disease", descriptionEs:"Variante ponderada diferenciada del PCDAI original para valorar actividad y seguimiento; el cálculo local no está activo.", descriptionEn:"Weighted variant kept distinct from original PCDAI for activity assessment and follow-up; local calculation is not active.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
-  referenceSurface({ id:"fnass_21", slug:"fnass-21", shortName:"FNASS", nameEs:"Sistema de Puntuación de Abstinencia Neonatal de Finnegan de 21 ítems", nameEn:"21-item Finnegan Neonatal Abstinence Scoring System", category:"neonatology", subcategory:"neonatal_withdrawal", type:"scale", populationEs:"Recién nacidos con signos de abstinencia neonatal", populationEn:"Newborns with signs of neonatal withdrawal", descriptionEs:"Superficie de referencia para el sistema neonatal de 21 ítems identificado en v12; no reproduce el formulario operativo.", descriptionEn:"Reference surface for the named 21-item neonatal system identified in v12; it does not reproduce the operational form.", evidenceLevel:"peer_reviewed_review", regulatoryRisk:"high", references:implementedToolReferences.fnass_21! })
+  referenceSurface({ id:"fnass_21", slug:"fnass-21", shortName:"FNASS", nameEs:"Sistema de Puntuación de Abstinencia Neonatal de Finnegan de 21 ítems", nameEn:"21-item Finnegan Neonatal Abstinence Scoring System", category:"neonatology", subcategory:"neonatal_withdrawal", type:"scale", populationEs:"Recién nacidos a término expuestos intraútero a sustancias psicoactivas, especialmente opioides", populationEn:"Term newborns exposed in utero to psychoactive substances, particularly opioids", descriptionEs:"FNAST de 21 síntomas para evaluación longitudinal de signos de abstinencia neonatal; salida descriptiva sin instrucciones terapéuticas.", descriptionEn:"21-symptom FNAST for longitudinal assessment of neonatal withdrawal signs; descriptive output without treatment instructions.", evidenceLevel:"official_manual_or_institutional_protocol", regulatoryRisk:"high", references:implementedToolReferences.fnass_21! })
 ];
 
 export const clinicalTools: ClinicalToolMetadata[] = [

@@ -44,6 +44,7 @@ import { nSofaCalculator } from "./nSofa.js";
 import { wpcdaiCalculator } from "./ibdActivity.js";
 import { pelod2Calculator, pim3Calculator, prism4Calculator } from "./criticalCareScores.js";
 import { psofaCalculator } from "./psofa.js";
+import { fnast21Calculator } from "./fnast21.js";
 
 const calculators = [
   apgarCalculator,
@@ -100,7 +101,8 @@ const calculators = [
   pelod2Calculator,
   prism4Calculator,
   pim3Calculator,
-  psofaCalculator
+  psofaCalculator,
+  fnast21Calculator
 ] satisfies CalculatorDefinition[];
 
 const calculatorByToolId = new Map(

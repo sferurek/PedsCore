@@ -24,6 +24,7 @@ export * from "./openScreening.js";
 export * from "./respiratoryRisk.js";
 export * from "./criticalCareScores.js";
 export * from "./psofa.js";
+export * from "./fnast21.js";
 export * from "./additionalOpenTools.js";
 export * from "./cdcGrowth.js";
 export * from "./strongkids.js";
