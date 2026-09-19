@@ -11,7 +11,7 @@ The official rules were rechecked on 2026-09-18. For the Alexa+ primary track, a
 | M0 — Baseline, traceability, hackathon structure | 100% | immutable baselines, branches, PRs, changelog, evidence/friction docs | none |
 | M1 — PedsCore deterministic MCP foundation | 100% | agent adapter, 3 clinical tools, Streamable HTTP, MCP 2025-11-25, Railway, remote smoke, Apgar parity | none |
 | M2 — Alexa+ primary-track surface | 100% | valid self-hosted MCP path, exact Railway deployment, live judge console, capability manifest, 6 live tools, remote smoke green, manifest/store/compliance package | final video evidence; private Alexa add-on tooling is partner-only and not required |
-| M3 — SIM IMV deterministic MCP integration | 93% | 3 MCP contracts live in MCP, SIM bridge, production Next.js HTTP smoke, repeated-result parity, latest SIM CI green | publish SIM bridge; set `SIM_IMV_API_URL`; public MCP→SIM smoke |
+| M3 — SIM IMV deterministic MCP integration | 100% | SIM PR #25 merged, Vercel production deployment green, `SIM_IMV_API_URL` configured, strict public MCP→SIM smoke passed (`school-bus` / JumpSTART / patient 01 / GREEN / `JS-MOB-01`) | none |
 | M4 — AWS Builder Mini Challenge | 20% | Cognito/OAuth IaC and auth scaffold exist | no deployed useful AWS integration yet; do not claim mini challenge |
 | M5 — Open Source Mini Challenge | 98% | public MIT repo, PR #91, reusable deterministic-agent pattern, one-command verification, judging docs/tests/evidence | final Devpost field entry |
 | M6 — Demo, judging assets, Devpost submission | 78% | evidence matrix, judging quickstart, rules snapshot, Devpost draft, product-feedback draft, live judge-console code, demo script, video shot list | live judge-console capture, final video/upload, final Devpost review and submit |
@@ -39,9 +39,9 @@ Official Alexa AI CLI/add-on tooling is partner-only according to Devpost suppor
 
 ## Critical path from here
 
-1. Publish SIM IMV if repository authorization or Vercel quota allows it.
-2. If SIM becomes public, set `SIM_IMV_API_URL` and run public MCP→SIM smoke.
-3. Freeze the reconciled hackathon candidate on top of current `main` and keep CI green.
+1. Keep PR #91 green and mergeable.
+2. Freeze the verified hackathon release-candidate commit.
+3. Transfer the prepared final fields into Devpost.
 4. Record/upload the final English demo video and complete the final Devpost submission.
 
 ## Optional enhancement path
