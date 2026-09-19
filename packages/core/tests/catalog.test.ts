@@ -188,7 +188,7 @@ describe("clinical tools catalog", () => {
   });
 
   it("reconciles the physical catalog to the v12 final surface set", () => {
-    expect(clinicalTools).toHaveLength(135);
+    expect(clinicalTools).toHaveLength(137);
     for (const id of removedFinalSurfaceIds) {
       expect(clinicalTools.some((tool) => tool.id === id), id).toBe(false);
     }
