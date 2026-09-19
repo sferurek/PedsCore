@@ -48,7 +48,8 @@ const implementedToolIds = new Set([
   "gorelick_dehydration",
   "prifle",
   "kdigo_pediatric",
-  "pelod_2"
+  "pelod_2",
+  "prism_iv"
 ]);
 
 type ToolSeed = Omit<
