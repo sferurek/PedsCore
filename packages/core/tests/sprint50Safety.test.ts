@@ -50,7 +50,22 @@ const expectedImplementedToolIds = [
   "pecarn_febrile_infant",
   "yos",
   "pucai",
-  "pcdai"
+  "pcdai",
+  "modified_tal",
+  "taussig_croup",
+  "pass",
+  "risc",
+  "mrisc",
+  "gorelick_dehydration",
+  "prifle",
+  "kdigo_pediatric",
+  "phoenix_sepsis",
+  "parc",
+  "bacterial_meningitis_score",
+  "ckid_u25",
+  "modified_bell_nec",
+  "nsofa",
+  "wpcdai"
 ];
 
 const implementedTestFiles: Record<string, string> = {
@@ -96,7 +111,22 @@ const implementedTestFiles: Record<string, string> = {
   pecarn_febrile_infant: "pecarnFebrileInfant.test.ts",
   yos: "yaleObservation.test.ts",
   pucai: "pucai.test.ts",
-  pcdai: "pcdai.test.ts"
+  pcdai: "pcdai.test.ts",
+  modified_tal: "localCalculatorReconciliation.test.ts",
+  taussig_croup: "localCalculatorReconciliation.test.ts",
+  pass: "localCalculatorReconciliation.test.ts",
+  risc: "localCalculatorReconciliation.test.ts",
+  mrisc: "localCalculatorReconciliation.test.ts",
+  gorelick_dehydration: "localCalculatorReconciliation.test.ts",
+  prifle: "localCalculatorReconciliation.test.ts",
+  kdigo_pediatric: "localCalculatorReconciliation.test.ts",
+  phoenix_sepsis: "localCalculatorReconciliation.test.ts",
+  parc: "localCalculatorReconciliation.test.ts",
+  bacterial_meningitis_score: "localCalculatorReconciliation.test.ts",
+  ckid_u25: "localCalculatorReconciliation.test.ts",
+  modified_bell_nec: "localCalculatorReconciliation.test.ts",
+  nsofa: "localCalculatorReconciliation.test.ts",
+  wpcdai: "localCalculatorReconciliation.test.ts"
 };
 
 const blockedTherapeuticOrProtectedIds = [
