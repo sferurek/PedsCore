@@ -10,10 +10,9 @@ describe("public launch repository documentation", () => {
     const readme = read("README.md");
 
     expect(readme).toContain("https://peds-core.vercel.app/");
-    expect(readme).toContain("Cataloged clinical tools / surfaces | **137**");
     expect(readme).toContain("Implemented clinical products | **64**");
-    expect(readme).toContain("Active local-calculation surfaces | **61**");
-    expect(readme).toContain("Clinical data persisted | **0**");
+    expect(readme).toContain("WHO Growth and CDC Growth are operational");
+    expect(readme).toContain("clinical%20data-not%20stored");
     expect(readme).toContain("Third-party growth data keep their original attribution and licensing conditions");
     expect(readme.toLowerCase()).not.toContain("certified");
     expect(readme.toLowerCase()).not.toContain("validated medical device");
@@ -24,9 +23,9 @@ describe("public launch repository documentation", () => {
 
     expect(readme).toContain("**137** herramientas/superficies clínicas catalogadas");
     expect(readme).toContain("**64** herramientas marcadas como producto clínico implementado");
-    expect(readme).toContain("**61** superficies con cálculo local activo");
-    expect(readme).toContain("Sin login ni persistencia de datos clínicos");
-    expect(readme).toContain("derechos limitados");
+    expect(readme).toContain("Crecimiento OMS y CDC operativos");
+    expect(readme).toContain("Sin almacenamiento de datos clínicos");
+    expect(readme).toContain("condiciones específicas de atribución/licencia");
   });
 
   it("has public contribution and security files", () => {
