@@ -3,6 +3,7 @@ import {
   clinicalComparisonGroups,
   clinicalTools,
   getToolDiscovery,
+  implementedCalculatorToolIds,
   toolDiscoveryById
 } from "../src/index";
 
@@ -96,6 +97,26 @@ describe("clinical discovery taxonomy", () => {
     for (const id of unresolvedIds) {
       expect(getToolDiscovery(id)?.reuseStatus, id).toBe("unresolved");
       expect(getToolDiscovery(id)?.calculationAvailability, id).not.toBe("local_active");
+    }
+  });
+
+  it("requires every registered calculator to be an active local discovery surface", () => {
+    for (const id of implementedCalculatorToolIds) {
+      const metadata = getToolDiscovery(id);
+      expect(metadata, id).toBeDefined();
+      expect(metadata?.surfaceStatus, id).toBe("active");
+      expect(metadata?.calculationAvailability, id).toBe("local_active");
+    }
+  });
+
+  it("never registers permission-limited or external-only tools as local calculators", () => {
+    const localCalculatorIds = new Set(implementedCalculatorToolIds);
+
+    for (const [id, metadata] of Object.entries(toolDiscoveryById)) {
+      if (metadata.reuseStatus === "permission_required" || metadata.reuseStatus === "external_only") {
+        expect(localCalculatorIds.has(id), id).toBe(false);
+        expect(metadata.calculationAvailability, id).not.toBe("local_active");
+      }
     }
   });
 

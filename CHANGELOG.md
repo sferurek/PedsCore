@@ -1,102 +1,44 @@
 # Changelog
 
-All notable changes to PedsCore are documented in this file.
+All notable changes to PedsCore are documented here.
+
+## Unreleased · consolidation baseline · 2026-09-19
+
+### Catalog and availability
+
+- Catalog reconciled to **137** clinical tools/surfaces.
+- **134** surfaces active and **3** legacy surfaces deprecated.
+- **0** active blocked surfaces and **0** local-planned entries.
+- **64** tools marked implemented.
+- **61** discovery surfaces marked `local_active`.
+- Rights-limited tools are exposed through official/original external references rather than dead-end blockers.
+
+### Clinical implementations
+
+Recent activation work includes WHO Growth, CDC Growth, STRONGkids, VAS/EVA, Step-by-Step, PECARN Febrile Infant, Yale Observation Scale, PUCAI, PCDAI, PASS, Gorelick, pRIFLE, KDIGO, PELOD-2, PRISM IV, PIM3, pSOFA, FNAST/Finnegan 21-item, RDAI, SNAPPE-II, Modified Tal, Taussig, RISC/mRISC, Phoenix Sepsis, pARC, Bacterial Meningitis Score, CKiD U25, Modified Bell NEC, nSOFA and wPCDAI.
+
+### Rights and governance
+
+- Added and reconciled `docs/CLINICAL_TOOL_RIGHTS.md`.
+- PRISM IV documented as public-domain algorithm logic.
+- Rights-limited instruments retain active reference surfaces with authoritative links.
+- Removed FLACC from the local calculator registry/export and removed its local calculator implementation.
+- Added a regression gate preventing `permission_required` or `external_only` tools from entering the local calculator registry.
+
+### Product and SEO
+
+- ES/EN clinical pages and Finder remain active.
+- Static/prerendered routes, canonical metadata, sitemap/hreflang and SEO checks are integrated.
+- Google Search Console indexing monitoring is active.
+- Clinical review date is visible in the product.
+
+### Safety
+
+- Local tools remain descriptive/traceable and avoid automatic treatment, admission, discharge, imaging or limitation-of-support recommendations unless explicitly reviewed.
+- No clinical form values or calculation results are stored by PedsCore.
 
 ## v0.1.0-alpha
 
-Initial public alpha release.
+Initial public-alpha foundation: bilingual React/Vite application, TypeScript clinical core, evidence-first catalog, local calculation engine, WHO growth foundation, public documentation, CI and Vercel deployment.
 
-- 79 pediatric and neonatal clinical tools cataloged.
-- 18 tools fully implemented with active calculation or informational rule output.
-- 1 partially implemented module: WHO Growth.
-- Bilingual ES/EN web application.
-- Vercel production deployment configured and active.
-- Evidence-first references and validation status model.
-- Dynamic forms for implemented tools.
-- WHO Growth module with official WHO 0-5 indicators, partial WHO 5-19 support,
-  printable SVG charts, written percentile labels and guided age input.
-- Pediatric head trauma rules hardened as informational-only outputs.
-- Visible validation status for implemented, pending, catalog-only and license-sensitive tools.
-- Serverless aggregate analytics API only; no clinical backend.
-- No clinical data storage.
-- MIT license for code.
-
-### Public launch readiness
-
-- Refreshed README and README.es as public GitHub landing pages.
-- Added repository contribution guidance with clinical evidence and licensing gates.
-- Replaced issue templates with structured GitHub YAML templates for bugs,
-  clinical tool requests, evidence updates, calculation review and UX feedback.
-- Added pull request checklist covering patient data, evidence, licensing,
-  tests, build and SEO checks.
-- Updated security and conduct documentation for public open-source
-  collaboration.
-- Added public launch checklist for GitHub metadata, release preparation,
-  Search Console, LinkedIn and manual QA.
-- Clarified no clinical data storage and separate WHO data licensing.
-- WHO Growth public status remains `partially_implemented`.
-- Implemented Wood-Downes-Ferres as a descriptive six-domain bronchiolitis score.
-- Documented BROSJOD as blocked pending reusable original table/licensing review.
-
-### SPRINT-50 safety audit
-
-- Implementation count before audit: 17.
-- Current implementation count after BRONCHIOLITIS-IMPLEMENTATION-1: 18.
-- Partial implementation count after status-model refresh: 1.
-- No new tools were promoted to `implemented` because no additional
-  unimplemented tool simultaneously satisfied source, complete formula/table,
-  exact variant, inputs, tests, safe output and licensing gates.
-- Added `docs/evidence/SPRINT_50_IMPLEMENTATION_PLAN.md` with a full catalog
-  audit and deferred-tool rationale.
-- Added safety tests to keep RCP/therapeutic algorithms, ICU/prognostic scores,
-  proprietary tools and license-sensitive tools out of `implemented` status.
-- WHO Growth remains available as a partial guided module and stays
-  `partially_implemented` until remaining 5-19 scope, interpolation policy and
-  final maintainer/expert review are complete.
-
-### Implemented tools
-
-- Apgar.
-- Silverman-Andersen.
-- Wood-Downes-Ferres.
-- FLACC.
-- QTc Bazett.
-- QTc Fridericia.
-- QTc Framingham.
-- QTc Hodges.
-- Bedside Schwartz.
-- Westley Croup Score.
-- PRAM.
-- Clinical Dehydration Scale.
-- PECARN TBI under 2 years.
-- PECARN TBI 2 years or older.
-- CATCH.
-- CHALICE.
-- SIPA.
-- NIPS.
-
-### WHO Growth module
-
-- WHO Child Growth Standards 0-5 indicators available in the unified growth
-  module: BMI-for-age, weight-for-age, length/height-for-age, head
-  circumference-for-age, weight-for-length and weight-for-height.
-- WHO Growth Reference 2007 5-19 indicators partially available:
-  BMI-for-age and height-for-age.
-- Uses normalized official WHO LMS data under separate WHO data licensing; WHO
-  data are not relicensed as MIT.
-- Charts are generated as PedsCore SVG, not copied WHO images.
-- Printable charts include written percentile labels P3/P15/P50/P85/P97 and a
-  visible patient point.
-- Guided age input supports dates, exact days, structured years/months/days and
-  completed months for 5-19.
-- No clinical data are stored or sent to analytics.
-- The unified module remains `partially_implemented` pending final maintainer
-  review, interpolation policy and remaining 5-19 scope.
-
-### Safety notes
-
-- Clinical rules are presented as informational and traceability outputs only.
-- PedsCore does not provide treatment, admission, discharge, imaging or referral recommendations.
-- WHO Growth outputs do not provide nutritional diagnoses or treatment
-  recommendations.
-- PedsCore does not replace clinical judgment, local protocols or medical decision-making.
+Historical counts in early alpha planning documents have been superseded by the current consolidation baseline above.

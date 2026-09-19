@@ -9,140 +9,110 @@
 [![Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](docs/releases/v0.1.0-alpha.md)
 [![No clinical data storage](https://img.shields.io/badge/clinical%20data-not%20stored-0f766e.svg)](DISCLAIMER.md)
 
-PedsCore is a public-alpha, open-source library of pediatric and neonatal clinical tools for healthcare professionals, educators and contributors. It focuses on transparent implementation status, visible references, evidence traceability and careful safety wording.
+PedsCore is a bilingual public-alpha library of pediatric and neonatal clinical tools for healthcare professionals, educators and contributors. It separates clinical availability, evidence, licensing/reuse status and calculation availability instead of treating every catalog entry as a local calculator.
 
-Public web app:
+**Production:** https://peds-core.vercel.app/
 
-https://peds-core.vercel.app/
+## Current status · 19 September 2026
 
-## Current Alpha Status
-
-- 133 cataloged pediatric and neonatal tools.
-- 26 fully implemented tools with active calculation or completed reference/rule output.
-- 4 partially implemented WHO Growth entries: central module, WHO percentiles, BMI preset and head circumference preset.
+- **137** cataloged clinical tools/surfaces.
+- **134** active surfaces.
+- **3** intentionally deprecated legacy surfaces.
+- **0** active blocked surfaces and **0** local-planned entries.
+- **64** tools marked as implemented clinical products.
+- **61** active local-calculation surfaces in discovery metadata.
+- Rights-limited instruments remain useful through official/original external references rather than dead-end blockers.
+- WHO Growth and CDC Growth are operational.
 - ES/EN web app deployed on Vercel.
-- Serverless aggregate analytics API at `/api/analytics/countries`.
-- No login.
-- No clinical data storage.
-- No clinical form values or calculation results are sent to analytics.
+- No login and no clinical-data persistence.
+- Clinical form values and calculation results are not sent to analytics.
 
-PedsCore is intentionally conservative: cataloged tools are not activated until source, formula/table, exact variant, tests, safe wording and licensing gates are satisfied.
+## Product principles
 
-## Highlights
+PedsCore prioritizes:
 
-- Pediatric scores and neonatal scores.
-- Clinical calculators and traceable result panels.
-- Informational pediatric head trauma rules.
-- WHO Growth module with official WHO data.
-- Evidence status for implemented, partially implemented, pending and license-sensitive tools.
-- Public docs for roadmap, evidence review and release notes.
-- TypeScript monorepo with React/Vite web app and tested core package.
+- exact tool/version identification;
+- primary or authoritative sources;
+- deterministic calculation logic where local calculation is appropriate;
+- explicit population and safety boundaries;
+- licensing and reuse review;
+- bilingual clinical presentation;
+- visible references and traceability;
+- descriptive outputs rather than automated treatment, admission, discharge or imaging instructions.
 
-Relevant discovery terms: pediatric scores, neonatal scores, clinical calculators, WHO Growth, evidence-based medicine, open-source healthcare, clinical decision support, medical education.
+A protected tool can be an **active external reference** without PedsCore reproducing protected forms, matrices, images or wording.
 
-## WHO Growth Module
+## Architecture
 
-The WHO Growth module is available as a partially implemented growth workflow, with BMI and head circumference catalog entries acting as presets over the same WHO engine.
+- `packages/core`: catalog, discovery metadata, deterministic calculators and clinical contracts.
+- `apps/web`: React + TypeScript + Vite application.
+- `docs`: evidence notes, rights register, editorial policy, release and SEO documentation.
+- `.github`: CI and contribution templates.
 
-Current scope:
+The web app calculates locally in the browser where possible. PedsCore does not require a clinical backend or patient account.
 
-- Official WHO Child Growth Standards 0-5 indicators.
-- Partial WHO Growth Reference 2007 5-19 indicators: BMI-for-age and height-for-age.
-- Official WHO LMS data kept under separate WHO data licensing.
-- PedsCore-generated printable SVG charts.
-- Written percentile labels: P3, P15, P50, P85 and P97.
-- Visible patient point on charts.
-- Guided age input.
-- No storage of entered clinical data.
+## Clinical governance
 
-The WHO Growth module remains `partially_implemented` while final maintainer review, interpolation policy and remaining 5-19 scope are completed. It does not provide nutritional diagnoses or treatment recommendations.
+Important project documents:
 
-## Safety And Scope
+- [Editorial policy](docs/EDITORIAL_POLICY.md)
+- [Clinical tool rights register](docs/CLINICAL_TOOL_RIGHTS.md)
+- [Disclaimer](DISCLAIMER.md)
+- [Contributing guide](CONTRIBUTING.md)
+- [Roadmap](ROADMAP.md)
+- [Changelog](CHANGELOG.md)
 
-PedsCore is an educational and informational resource for professional use.
+Local activation requires source traceability, a complete formula/table/logic path, an exact variant, safe wording, deterministic tests and compatible reuse rights.
+
+## Growth
+
+Current growth support includes:
+
+- WHO Child Growth Standards 0-5.
+- WHO Growth Reference 5-19 for the applicable implemented indicators, including the completed 5-10 weight-for-age range.
+- WHO BMI-for-age and head-circumference presets.
+- CDC 2000 growth percentiles with Extended BMI handling.
+- External/reference growth tools where local redistribution is not appropriate.
+
+WHO source data remain subject to WHO attribution/licensing terms and are not relicensed under MIT.
+
+## Safety and scope
+
+PedsCore is an educational and informational resource for qualified healthcare professionals.
 
 - It does not diagnose.
-- It does not recommend treatment.
-- It does not replace clinical judgment, local protocols, institutional policies or specialist assessment.
-- It does not store patient-identifiable data.
-- Do not submit real patient data in issues, pull requests or examples.
+- It does not prescribe treatment.
+- It does not replace clinical judgment, local protocols, institutional policy or specialist assessment.
+- Prognostic scores are presented as descriptive/population-level tools where appropriate.
+- Do not submit identifiable patient information to GitHub issues, pull requests or examples.
 
-See [DISCLAIMER.md](DISCLAIMER.md) for the full disclaimer.
+See [DISCLAIMER.md](DISCLAIMER.md).
 
-## Implemented Tools
+## Search, discovery and SEO
 
-The 26 fully implemented tools are:
+The application includes:
 
-- Apgar.
-- Silverman-Andersen.
-- New Ballard Score.
-- Dubowitz gestational-age assessment.
-- Classic Sarnat staging (reference surface).
-- Modified Sarnat / NICHD.
-- Thompson HIE Score.
-- CRIES.
-- Wood-Downes-Ferres.
-- QTc Bazett.
-- QTc Fridericia.
-- QTc Framingham.
-- QTc Hodges.
-- Bedside Schwartz.
-- Revised Schwartz.
-- Westley Croup Score.
-- PRAM.
-- Clinical Dehydration Scale.
-- Pediatric Appendicitis Score.
-- PECARN TBI under 2 years.
-- PECARN TBI 2 years or older.
-- CATCH.
-- CHALICE.
-- SIPA.
-- NIPS.
-- Pediatric Burn TBSA Estimate.
+- clinical Finder;
+- category and topic discovery;
+- individual ES/EN tool pages;
+- canonical SEO metadata;
+- sitemap and hreflang generation;
+- static/prerendered routes;
+- IndexNow tooling;
+- Google Search Console monitoring.
 
-Many additional tools remain cataloged but blocked pending source, table, variant, licensing or expert review. This is a safety decision, not a missing feature.
-
-## Repository Structure
-
-- `packages/core`: TypeScript catalog, contracts and deterministic calculation logic.
-- `apps/web`: React + TypeScript + Vite static web application.
-- `docs/`: Public documentation, evidence notes, release notes and launch checklists.
-- `.github/`: Workflows, issue templates and pull request template.
+See [docs/SEO_CHECKLIST.md](docs/SEO_CHECKLIST.md).
 
 ## Contributing
 
-Useful ways to support PedsCore:
+Useful contributions include clinical calculation review, primary-source verification, translation review, accessibility/UX feedback and evidence updates. Clinical changes should include reproducible sources and tests.
 
-- Star the repository.
-- Open feedback or bug reports through GitHub Issues.
-- Propose evidence updates with DOI, PMID or official URLs.
-- Suggest UX, translation or documentation improvements.
-- Review calculations only with traceable sources and tests.
+Start with [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Start with [CONTRIBUTING.md](CONTRIBUTING.md). Clinical content contributions must include source, exact version/variant, reusable formula or table, licensing notes and safe output wording.
+## Citation
 
-## Public Launch Notes
-
-- Release notes: [docs/releases/v0.1.0-alpha.md](docs/releases/v0.1.0-alpha.md)
-- Changelog: [CHANGELOG.md](CHANGELOG.md)
-- Roadmap: [ROADMAP.md](ROADMAP.md)
-- Launch checklist: [docs/PUBLIC_LAUNCH_CHECKLIST.md](docs/PUBLIC_LAUNCH_CHECKLIST.md)
-- SEO checklist: [docs/SEO_CHECKLIST.md](docs/SEO_CHECKLIST.md)
-
-## Citing PedsCore
-
-If PedsCore is used in clinical education, research, software, or documentation, please cite the project and link to the canonical website:
-
-https://peds-core.vercel.app/
-
-Machine-readable citation metadata are available in [CITATION.cff](CITATION.cff), with additional guidance in [docs/CITATION.md](docs/CITATION.md).
-
-Editorial and evidence-handling principles are documented in [docs/EDITORIAL_POLICY.md](docs/EDITORIAL_POLICY.md).
+Machine-readable metadata are available in [CITATION.cff](CITATION.cff). See [docs/CITATION.md](docs/CITATION.md).
 
 ## License
 
-PedsCore source code is released under the [MIT License](LICENSE).
-
-Documentation is intended for public project documentation unless a file states otherwise.
-
-Third-party data and source materials are not automatically covered by the MIT license. WHO growth data are kept under separate WHO licensing and attribution terms.
+PedsCore source code is released under the [MIT License](LICENSE). Third-party instruments, data and source materials are not automatically covered by that license.

@@ -1,104 +1,56 @@
-# Public Launch Checklist
+# Public Launch / Consolidation Checklist
 
-Manual checklist for preparing PedsCore public alpha distribution on GitHub, LinkedIn and search engines.
+Updated: 19 September 2026.
 
-Prepared launch assets:
+## Current baseline
 
-- GitHub Release draft: `docs/releases/GITHUB_RELEASE_v0.1.0-alpha.md`
-- LinkedIn long post: `docs/social/LINKEDIN_LAUNCH_POST_ES.md`
-- LinkedIn short post: `docs/social/LINKEDIN_SHORT_POST_ES.md`
-- GitHub profile pin text: `docs/social/GITHUB_PROFILE_PIN_TEXT.md`
-- Repository metadata: `docs/social/REPO_DESCRIPTION_AND_TOPICS.md`
-- Screenshot checklist: `docs/social/SCREENSHOT_CHECKLIST.md`
+- 137 cataloged surfaces.
+- 134 active.
+- 3 deprecated.
+- 64 implemented clinical products.
+- 61 local-active calculation surfaces.
+- 0 active blocked surfaces.
+- ES/EN production: https://peds-core.vercel.app/
 
-## 1. GitHub Repository
+## GitHub
 
-- Set repository description:
-  `Open-source pediatric and neonatal clinical tools with evidence traceability.`
-- Set website:
-  `https://peds-core.vercel.app/`
-- Add topics:
-  - pediatrics
-  - neonatology
-  - pediatric-emergency
-  - clinical-decision-support
-  - medical-education
-  - digital-health
-  - healthtech
-  - open-source
-  - typescript
-  - react
-  - vite
-  - clinical-tools
-  - pediatric-scores
-  - neonatal-scores
-  - who-growth
-  - evidence-based-medicine
-- Pin the repository on the GitHub profile.
-- Use `docs/social/GITHUB_PROFILE_PIN_TEXT.md` for profile README or pinned repo copy.
-- Confirm README badges render correctly.
-- Confirm issue templates and pull request template appear in GitHub UI.
+- Repository description and website point to the canonical Vercel production site.
+- README / README.es / ROADMAP / CHANGELOG reflect the current baseline.
+- Rights register is current.
+- Superseded PRs are closed rather than merged.
+- CI must pass lint, tests and build.
 
-## 2. GitHub Release
+## Search
 
-- Review `CHANGELOG.md`.
-- Review `docs/releases/v0.1.0-alpha.md`.
-- Review `docs/releases/GITHUB_RELEASE_v0.1.0-alpha.md`.
-- Create tag `v0.1.0-alpha` manually after final review.
-- Create GitHub Release manually from that tag.
-- Paste release summary from `docs/releases/GITHUB_RELEASE_v0.1.0-alpha.md`.
-- Link the public web app:
-  `https://peds-core.vercel.app/`
-- Do not attach patient data, clinical screenshots or proprietary source material.
+- Canonical property: `https://peds-core.vercel.app/`
+- Sitemap: `https://peds-core.vercel.app/sitemap.xml`
+- Verify robots and sitemap after major deployments.
+- Reinspect priority ES/EN routes after major catalog changes.
+- Preserve redirect/canonical migration from the former GitHub Pages deployment.
+- Monitor Search Console coverage rather than relying only on sitemap aggregate counters.
 
-## 3. Google Search Console
+## Manual QA
 
-- Submit sitemap:
-  `https://peds-core.vercel.app/sitemap.xml`
-- Request indexing for home:
-  `https://peds-core.vercel.app/`
-- Request indexing for WHO Growth:
-  `https://peds-core.vercel.app/en/tools/who-growth`
-  `https://peds-core.vercel.app/es/tools/who-growth`
-- Request indexing for GitHub repository:
-  `https://github.com/sferurek/PedsCore`
-- Verify robots file:
-  `https://peds-core.vercel.app/robots.txt`
+- Home counters and Finder.
+- Tool availability filters.
+- Local calculator form/result/trace.
+- External-reference CTA and rights explanation.
+- ES/EN language switching.
+- Mobile layout and tap targets.
+- WHO/CDC growth output and print behavior.
+- Disclaimer, evidence and footer links.
+- No protected local calculator exposed for rights-limited instruments.
 
-## 4. LinkedIn
+## Release communication
 
-- Choose either `docs/social/LINKEDIN_LAUNCH_POST_ES.md` or `docs/social/LINKEDIN_SHORT_POST_ES.md`.
-- Publish a public-alpha post.
-- Include GitHub repository link:
-  `https://github.com/sferurek/PedsCore`
-- Include public web app link:
-  `https://peds-core.vercel.app/`
-- Mention alpha status, 81 cataloged tools, 21 fully implemented tools and 4 partially implemented WHO Growth entries.
-- Mention no clinical data storage.
-- Use `docs/social/SCREENSHOT_CHECKLIST.md` before sharing screenshots.
-- Include screenshots only after manual visual QA.
-- Avoid claims such as certified, validated medical device, diagnostic app or treatment recommendation.
+Any public post should use the current baseline numbers above and avoid claims such as certified medical device, diagnostic app or treatment recommendation.
 
-## 5. Manual QA
-
-- Home: hero, metrics, CTAs, GitHub links, responsive layout.
-- Tools: filters, status counts, WHO Growth discoverability, empty state.
-- WHO Growth: form, result panels, charts, print layout, mobile scroll behavior.
-- Evidence: status explanation, contribution CTA and safety rationale.
-- Disclaimer: scope, clinical judgment and data handling.
-- Footer: GitHub, Evidence, Disclaimer, MIT, WHO data license, alpha, no clinical data storage.
-- Mobile: no horizontal scroll outside chart containers, tap targets usable.
-- Mobile: check home, tools, WHO Growth, evidence and footer on a narrow viewport.
-- Print: WHO Growth chart output readable and no navigation chrome.
-
-## 6. Final Local Commands
+## Local/CI verification
 
 ```bash
-npm install
+npm ci
 npm run lint
 npm run test
 npm run build
 npm run seo:check
-test -f apps/web/dist/index.html
-test -f apps/web/dist/404.html
 ```
