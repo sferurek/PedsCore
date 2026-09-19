@@ -510,6 +510,22 @@ const implementedToolReferences: Record<string, Reference[]> = {
   ],
   pelod_2: [
     {
+      id: "pelod2_2013_original",
+      title: "PELOD-2: an update of the PEdiatric logistic organ dysfunction score",
+      authors: "Leteurtre S, Duhamel A, Salleron J, et al.",
+      year: 2013,
+      journalOrPublisher: "Critical Care Medicine",
+      doi: "10.1097/CCM.0b013e31828a2bbd",
+      pmid: "23685639",
+      url: "https://pubmed.ncbi.nlm.nih.gov/23685639/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      notes: "Original derivation explicitly states that PELOD-2 will be in the public domain and may be freely used in clinical trials.",
+      appliesTo: ["pelod_2"],
+      priority: 1
+    },
+    {
       id: "pelod2_open_table",
       title: "Pediatric Logistic Organ Dysfunction-2 Score",
       journalOrPublisher: "Open-access PELOD-2 reproductions and critical-care review",
@@ -519,7 +535,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Open table used to verify all ten PELOD-2 variables, age-specific MAP and creatinine thresholds, and point weights.",
       appliesTo: ["pelod_2"],
-      priority: 1
+      priority: 2
     },
     {
       id: "pelod2_practical_guide",
@@ -532,10 +548,25 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Verifies PELOD-2 mortality logit: -6.61 + 0.47 x score.",
       appliesTo: ["pelod_2"],
-      priority: 2
+      priority: 3
     }
   ],
   pim3: [
+    {
+      id: "pim3_2013_original",
+      title: "Paediatric Index of Mortality 3: an updated model for predicting mortality in pediatric intensive care",
+      authors: "Straney L, Clements A, Parslow RC, et al.",
+      year: 2013,
+      journalOrPublisher: "Pediatric Critical Care Medicine",
+      doi: "10.1097/PCC.0b013e31829760cf",
+      pmid: "23863821",
+      url: "https://pubmed.ncbi.nlm.nih.gov/23863821/",
+      evidenceLevel: "original_derivation_study",
+      sourceType: "journal_article",
+      accessType: "abstract_only",
+      appliesTo: ["pim3"],
+      priority: 1
+    },
     {
       id: "pim3_open_formula",
       title: "Validation of the Pediatric Index of Mortality 3 in a Single Pediatric Intensive Care Unit in Korea",
@@ -547,7 +578,7 @@ const implementedToolReferences: Record<string, Reference[]> = {
       accessType: "open_access",
       notes: "Open-access reproduction of the full PIM3 formula and diagnostic risk groups.",
       appliesTo: ["pim3"],
-      priority: 1
+      priority: 2
     }
   ],
   prism_iv: [
@@ -557,6 +588,8 @@ const implementedToolReferences: Record<string, Reference[]> = {
       authors: "Pollack MM, Holubkov R, Funai T, et al.",
       year: 2016,
       journalOrPublisher: "Pediatric Critical Care Medicine",
+      doi: "10.1097/PCC.0000000000000558",
+      pmid: "26492059",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5048467/",
       evidenceLevel: "original_derivation_study",
       sourceType: "journal_article",
@@ -2031,6 +2064,19 @@ const implementedToolReferences: Record<string, Reference[]> = {
         "Block 8B-3: original PASS source located. Full table and interpretation require source review before implementation.",
       appliesTo: ["pass"],
       priority: 1
+    },
+    {
+      id: "pass_open_table",
+      title: "Emergency department treatment of asthma in children: A review",
+      year: 2020,
+      journalOrPublisher: "Journal of the American College of Emergency Physicians Open / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC7771822/",
+      evidenceLevel: "peer_reviewed_review",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access table reproduces the 3-domain PASS structure and 0-2 scoring.",
+      appliesTo: ["pass"],
+      priority: 2
     }
   ],
   brosjod: [
@@ -2073,6 +2119,19 @@ const implementedToolReferences: Record<string, Reference[]> = {
         "Original Gorelick source plus open-access reproductions used to verify the complete 10-sign scale and ≥3 / ≥7 sign thresholds.",
       appliesTo: ["gorelick_dehydration"],
       priority: 1
+    },
+    {
+      id: "gorelick_open_table",
+      title: "Comparing the accuracy of three popular clinical dehydration scales in children with diarrhea",
+      year: 2011,
+      journalOrPublisher: "International Journal of Emergency Medicine / PMC",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3182880/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access reproduction of all 10 signs and the >=3 / >=7 thresholds.",
+      appliesTo: ["gorelick_dehydration"],
+      priority: 2
     }
   ],
   catch_tbi: [
