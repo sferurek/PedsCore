@@ -2496,11 +2496,6 @@ const strongkidsValidationNotes: LocalizedText = {
   en: "Independent local STRONGkids implementation for nutritional-risk screening in hospitalized children. It uses independently worded versions of the four published domains and the 1+2+1+1 weighting, with 0 low, 1-3 moderate, and 4-5 high risk. It does not reproduce the original form or generate treatment recommendations."
 };
 
-const pymsValidationNotes: LocalizedText = {
-  es: "Bloque 8B-2: fuente PYMS localizada con DOI/PMID. Pendiente formulario/tabla completa, condiciones de reutilizacion, interpretacion y tests antes de implementar.",
-  en: "Block 8B-2: PYMS source located with DOI/PMID. Complete form/table, reuse terms, interpretation, and tests remain pending before implementation."
-};
-
 const pediatricBurnTbsaValidationNotes: LocalizedText = {
   es: "Sprint 3A: estimador descriptivo TBSA pediatrico con tabla numerica Lund-Browder modificada de Vanderbilt como fuente primaria. No copia diagramas ni formularios; no genera decisiones asistenciales.",
   en: "Sprint 3A: descriptive pediatric TBSA estimator using the Vanderbilt modified Lund-Browder numeric table as the primary source. It does not copy diagrams or forms; it does not generate care decisions."
