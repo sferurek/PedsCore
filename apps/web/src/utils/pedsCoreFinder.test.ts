@@ -99,7 +99,7 @@ describe("PedsCore Finder", () => {
     const sedation = runPedsCoreFinder(getAllTools(), "N-PASS dolor y sedación neonatal", "es");
     const ids = general.matches.map((match) => match.tool.id);
 
-    expect(ids).toEqual(expect.arrayContaining(["nips", "pipp_r", "cries", "nfcs"]));
+    expect(ids).toEqual(expect.arrayContaining(["nips", "pipp", "cries", "nfcs"]));
     expect(prolonged.matches[0]?.tool.id).toBe("edin");
     expect(facial.matches[0]?.tool.id).toBe("nfcs");
     expect(sedation.matches[0]?.tool.id).toBe("n_pass");

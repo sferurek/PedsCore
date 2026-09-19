@@ -1,5 +1,7 @@
 # PedsCore
 
+> **Amazon Developer Hackathon 2026:** the Alexa+ / self-hosted MCP workstream is documented in [HACKATHON_2026.md](HACKATHON_2026.md). Current contribution: PR #91. Live judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
+
 **Evidence-traceable pediatric clinical tools — deterministic where appropriate, explicit about uncertainty, licensing and clinical scope.**
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)

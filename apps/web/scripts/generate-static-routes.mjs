@@ -54,7 +54,7 @@ for (const route of routes) {
 }
 
 const rootSeo = getStaticSeo("/en", tools);
-const rootHtml = withStaticBody(distTemplate, rootSeo);
+const rootHtml = withStaticBody(renderSeoHead(distTemplate, rootSeo), rootSeo);
 await writeFile(distIndexPath, rootHtml, "utf8");
 
 console.log(`Generated ${count} static route index.html files plus crawlable root fallback in dist/.`);

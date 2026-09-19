@@ -1,0 +1,33 @@
+name: Hackathon MCP Remote Smoke
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - hackathon/alexa-mcp-v2
+      - main
+    paths:
+      - "apps/mcp-server/**"
+      - "packages/core/src/mcp/**"
+      - ".github/workflows/hackathon-mcp-remote-smoke.yml"
+      - "scripts/remote-mcp-smoke.mjs"
+
+permissions:
+  contents: read
+
+jobs:
+  remote-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      MCP_REMOTE_BASE_URL: https://pedscore-ai-mcp-production.up.railway.app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Wait for and validate Railway MCP endpoint
+        run: node scripts/remote-mcp-smoke.mjs

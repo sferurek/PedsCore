@@ -1,0 +1,88 @@
+import { createServer } from "node:http";
+import type { AddressInfo } from "node:net";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { createPedsCoreMcpApp } from "../src/app.js";
+
+let baseUrl = "";
+let httpServer: ReturnType<typeof createServer>;
+
+beforeAll(async () => {
+  const app = createPedsCoreMcpApp();
+  httpServer = createServer(app);
+
+  await new Promise<void>((resolve, reject) => {
+    httpServer.once("error", reject);
+    httpServer.listen(0, "127.0.0.1", () => resolve());
+  });
+
+  const address = httpServer.address() as AddressInfo;
+  baseUrl = `http://127.0.0.1:${address.port}`;
+});
+
+afterAll(async () => {
+  await new Promise<void>((resolve, reject) => {
+    httpServer.close((error) => (error ? reject(error) : resolve()));
+  });
+});
+
+describe("hackathon judge console", () => {
+  it("redirects the service root to the judge console", async () => {
+    const response = await fetch(`${baseUrl}/`, { redirect: "manual" });
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get("location")).toBe("/judge-demo");
+  });
+
+  it("exposes a judge-readable capability manifest", async () => {
+    const response = await fetch(`${baseUrl}/capabilities`);
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body).toMatchObject({
+      service: "pedscore-ai-mcp",
+      protocol: "2025-11-25",
+      transport: "streamable-http",
+      simulationBridgeConfigured: false,
+      judgeDemo: "/judge-demo"
+    });
+    expect(body.tools).toEqual(
+      expect.arrayContaining([
+        "search_clinical_tools",
+        "get_clinical_tool",
+        "calculate_clinical_score",
+        "start_simulation_case",
+        "get_patient_findings",
+        "submit_triage_decision"
+      ])
+    );
+    expect(body.deterministicBoundaries).toEqual({
+      clinicalCalculations: true,
+      simulationTriage: true
+    });
+  });
+
+  it("serves a self-contained live MCP verification page", async () => {
+    const response = await fetch(`${baseUrl}/judge-demo`);
+    const html = await response.text();
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("content-type")).toContain("text/html");
+    expect(response.headers.get("cache-control")).toBe("no-store");
+    expect(html).toContain("PedsCore AI");
+    expect(html).toContain("Judge Console");
+    expect(html).toContain("search_clinical_tools");
+    expect(html).toContain("calculate_clinical_score");
+    expect(html).toContain("start_simulation_case");
+    expect(html).toContain('fetch("/mcp"');
+    expect(html).toContain("9/10");
+  });
+
+  it("states the deterministic and privacy boundaries", async () => {
+    const response = await fetch(`${baseUrl}/judge-demo`);
+    const html = await response.text();
+
+    expect(html).toContain("PedsCore and SIM IMV own the clinical logic");
+    expect(html).toContain("No identifiable patient data");
+    expect(html).toContain("Educational and simulation use only");
+  });
+});
