@@ -1,95 +1,24 @@
 # PRISM IV
 
-## Current PedsCore status
+## Status
 - id: `prism_iv`
-- slug: `prism-iv`
-- category: intensive_care
-- type: score
-- current implementationStatus: `coming_soon`
-- current evidenceLevel: `pending_verification`
+- implementationStatus: `implemented`
+- calculationStatus: `active`
 
-## Evidence validation status
-- final evidence status: `blocked_licensing_or_copyright`
-- blocking reason: model source and usage terms are not yet sufficiently verified for open implementation.
-- depends on maintainer decision: yes
-- maintainer decision needed: model inclusion policy.
+## Implementation
+PRISM IV uses the PRISM physiologic components separated into neurologic and non-neurologic subscores plus the published PRISM IV predictors and logistic model.
 
-## Clinical purpose
-ES: score pronóstico de riesgo en UCI pediátrica.
-EN: pediatric ICU prognostic score framework.
+The data-collection timing warning is preserved because correct windows are essential to model validity.
 
-## Target population
-Children admitted to pediatric intensive care.
+## Evidence and rights
+Pollack MM, Holubkov R, Funai T, et al. Pediatr Crit Care Med. 2016;17(1):2-9.
+- DOI: 10.1097/PCC.0000000000000558
+- https://pmc.ncbi.nlm.nih.gov/articles/PMC5048467/
 
-## Version / variant
-- exact version: PRISM IV.
-- known variants: PRISM III and local/derivative models.
-- selected version for PedsCore: pending.
-- variant risk: high
+The original paper explicitly places the PRISM IV prediction algorithms in the public domain.
 
-## Primary source
-- found: no
-- citation: pending full primary reference in this pass.
-- PMID: 
-- DOI: 
-- URL: 
-- access: unknown
-- notes: locate source and licensing before progress.
+## Safety
+PRISM IV is a population-level prognostic/case-mix model, not an individual treatment, admission, discharge, or limitation-of-care rule.
 
-## External validation
-No implementation-grade validation extracted.
-
-## Guidelines / official sources
-None.
-
-## Complete scoring table availability
-- complete table found: no
-- source: pending.
-- copyright/licensing risk: high
-- notes: keep blocked.
-
-## Variables and scoring
-| variable | option | score/value | source | notes |
-|---|---|---|---|---|
-| pending | pending | pending | pending | source extraction pending |
-
-## Interpretation bands / cutoffs
-| range/value | category | interpretation | source |
-|---|---|---|---|
-| pending | pending | pending | pending |
-
-## Formula / algorithm
-Model unavailable for safe implementation.
-
-## Unit handling
-Pending.
-
-## Safety and regulatory notes
-- risk level: high
-- why: direct mortality-risk output.
-- should provide recommendations: no.
-- forbidden outputs: treatment, discharge, admission directives.
-
-## Licensing / copyright
-- appears implementable: no
-- license-sensitive: yes
-- requires permission: unknown
-- unknown: yes
-- notes: requires maintainer and legal review.
-
-## Implementation recommendation
-requires_domain_expert_review
-
-## Proposed test cases
-- minimum
-- maximum
-- missing input
-- invalid input
-- edge cases
-- forbidden wording tests
-
-## Direct links
-- pending
-
-## Notes
-No implementation changes in this pass.
+## Final decision
+`implemented / local_active / public_domain algorithm`
