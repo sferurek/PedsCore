@@ -19,6 +19,10 @@
       "destination": "/api/analytics/countries.js"
     },
     {
+      "source": "/api/v1/tools",
+      "destination": "/api/v1/tools.js"
+    },
+    {
       "source": "/api/v1/tools/:id",
       "destination": "/api/v1/tools.js?id=:id"
     },
