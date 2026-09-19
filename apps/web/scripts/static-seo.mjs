@@ -220,6 +220,10 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? "Las fichas de esta categoría se mantienen de forma individual: una actualización de evidencia, una nueva versión de una escala o un cambio en las condiciones de reutilización puede modificar la disponibilidad de una herramienta sin afectar necesariamente al resto de la categoría. PedsCore conserva referencias, notas de validación y trazabilidad de cambios para que cada resultado pueda revisarse en su contexto."
         : "Pages in this category are maintained individually: new evidence, a revised score version or a change in reuse conditions can alter one tool's availability without changing the rest of the category. PedsCore keeps references, validation notes and change traceability so that each result can be reviewed in its own clinical and documentary context."}</p>
+      <h2>${isEs ? "Lectura clínica responsable" : "Responsible clinical reading"}</h2>
+      <p>${isEs
+        ? "Las páginas de categoría facilitan el acceso, pero no sustituyen las instrucciones del instrumento ni las guías de práctica clínica. Las herramientas de mayor riesgo deben revisarse junto con su fuente, población de validación, fecha y contexto asistencial. Cuando PedsCore enlaza una fuente externa oficial, ese enlace forma parte del diseño de seguridad y evita reproducir contenido que requiere autorización."
+        : "Category pages are discovery aids, not substitutes for instrument instructions or clinical practice guidelines. Higher-risk tools should be reviewed alongside their source, validation population, date and care setting. When PedsCore links to an official external source, that link is part of the safety design and avoids reproducing material that requires authorization."}</p>
       <h2>${isEs ? "Herramientas disponibles" : "Available tools"}</h2>
       <ul>${items.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))} — ${escapeHtml(localized(item.description, language))}</li>`).join("")}</ul>
       <p>${internalLink(toolsUrl, isEs ? "Ver todo el catálogo de PedsCore" : "View the full PedsCore catalog")}</p>
