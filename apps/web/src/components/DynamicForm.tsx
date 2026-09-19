@@ -7,6 +7,7 @@ import {
   getFirstInputId,
   getInitialFormState,
   getInputSummary,
+  getVisibleInputs,
   getNextIncompleteInputId,
   hasActiveForm,
   isInputComplete,
@@ -40,6 +41,7 @@ export function DynamicForm({
   );
   const validation = validateForm(tool, values);
   const missingRequiredIds = new Set(validation.missingRequiredInputIds);
+  const visibleInputs = getVisibleInputs(tool, values);
 
   useEffect(() => {
     setValues(initialState);
@@ -90,7 +92,7 @@ export function DynamicForm({
       <div className="atlas-form-heading clinical-surface-heading"><h2>{t.form.title}</h2><button type="button" onClick={() => { setValues(initialState); setOpenInputId(getFirstInputId(tool)); onStateChange(initialState); }}>{atlas[language].reset}</button></div>
       <p className="muted">{t.form.privacyNote}</p>
       <form className="dynamic-form" noValidate>
-        {tool.inputs?.map((input, index) => (
+        {visibleInputs.map((input, index) => (
           <FormField
             input={input}
             isMissing={missingRequiredIds.has(input.id)}
