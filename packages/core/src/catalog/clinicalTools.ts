@@ -60,6 +60,8 @@ const implementedToolIds = new Set([
   "pim3",
   "psofa",
   "fnass_21",
+  "rdai",
+  "snappii",
   "modified_tal",
   "taussig_croup",
   "risc",
@@ -2041,9 +2043,22 @@ const implementedToolReferences: Record<string, Reference[]> = {
       sourceType: "journal_article",
       accessType: "abstract_only",
       notes:
-        "Block 8B-3: source trail for Lowell RDAI located. Complete table reuse remains license-sensitive because the accessible table is reproduced in secondary articles.",
+        "Original source trail for RDAI. Complete six-domain scoring table independently verified against an open-access randomized bronchiolitis trial reproducing the instrument.",
       appliesTo: ["rdai"],
       priority: 1
+    },
+    {
+      id: "rdai_open_table_2005",
+      title: "Racemic epinephrine compared to salbutamol in hospitalized young children with bronchiolitis",
+      year: 2005,
+      journalOrPublisher: "BMC Pediatrics",
+      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC1142326/",
+      evidenceLevel: "external_validation_study",
+      sourceType: "journal_article",
+      accessType: "open_access",
+      notes: "Open-access Table 1 reproduces the complete RDAI scoring matrix: wheezing 0-8 plus retractions 0-9, total 0-17.",
+      appliesTo: ["rdai"],
+      priority: 2
     }
   ],
   pass: [
@@ -2340,8 +2355,8 @@ const fenton2025ValidationNotes: LocalizedText = {
 };
 
 const rdaiValidationNotes: LocalizedText = {
-  es: "Bloque 8B-3: localizado rastro bibliografico de Lowell/RDAI, pero DOI/PMID y tabla primaria reutilizable no estan verificados. Mantener bloqueada por fuente/tabla.",
-  en: "Block 8B-3: Lowell/RDAI bibliographic source trail located, but DOI/PMID and a reusable primary table are not verified. Keep blocked for source/table review."
+  es: "RDAI clásico verificado con fuente original y tabla completa reproducida en literatura open-access; implementación local descriptiva 0-17 sin bandas terapéuticas.",
+  en: "Classic RDAI verified against the original source trail and a complete table reproduced in open-access literature; descriptive local 0-17 implementation without treatment bands."
 };
 
 const passValidationNotes: LocalizedText = {
@@ -2539,6 +2554,37 @@ const clinicalToolFormMetadata: Record<string, Partial<ClinicalToolMetadata>> = 
       {id:"feeding",label:{es:"Alimentación",en:"Feeding"},type:"single_choice",required:true,options:[option("normal","Normal","Normal",0),option("poor","Mala alimentación","Poor feeding",2)]},
       {id:"vomiting",label:{es:"Regurgitación / vómitos",en:"Regurgitation / vomiting"},type:"single_choice",required:true,options:[option("none","No","None",0),option("regurgitation","Regurgitación","Regurgitation",2),option("projectile","Vómito proyectivo","Projectile vomiting",3)]},
       {id:"stools",label:{es:"Heces",en:"Stools"},type:"single_choice",required:true,options:[option("normal","Normales","Normal",0),option("loose","Blandas","Loose",2),option("watery","Acuosas","Watery",3)]}
+    ]
+  },
+  rdai: {
+    validationNotes: {
+      es: "RDAI clásico de seis componentes: tres dominios de sibilancias (0-8) y tres de retracciones (0-9), total 0-17. La tabla completa se verificó frente a literatura open-access que reproduce el instrumento. PedsCore no impone bandas terapéuticas.",
+      en: "Classic six-component RDAI: three wheezing domains (0-8) and three retraction domains (0-9), total 0-17. The complete table was verified against open-access literature reproducing the instrument. PedsCore does not impose treatment bands."
+    },
+    inputs: [
+      {id:"wheeze_expiration",label:{es:"Sibilancias en espiración",en:"Expiratory wheezing"},type:"single_choice",required:true,options:[option("none","Ausentes","None",0),option("end","Solo al final","End expiration",1),option("half","Mitad de la espiración","Half expiration",2),option("three_quarters","Tres cuartos","Three quarters",3),option("all","Toda la espiración","All expiration",4)]},
+      {id:"wheeze_inspiration",label:{es:"Sibilancias en inspiración",en:"Inspiratory wheezing"},type:"single_choice",required:true,options:[option("none","Ausentes","None",0),option("part","Parte de la inspiración","Part inspiration",1),option("all","Toda la inspiración","All inspiration",2)]},
+      {id:"wheeze_location",label:{es:"Distribución de sibilancias",en:"Wheezing location"},type:"single_choice",required:true,options:[option("none","Ausentes","None",0),option("segmental","Segmentarias","Segmental",1),option("diffuse","Difusas","Diffuse",2)]},
+      {id:"retraction_supraclavicular",label:{es:"Retracción supraclavicular",en:"Supraclavicular retractions"},type:"single_choice",required:true,options:[option("none","Ausente","None",0),option("mild","Leve","Mild",1),option("moderate","Moderada","Moderate",2),option("marked","Marcada","Marked",3)]},
+      {id:"retraction_intercostal",label:{es:"Retracción intercostal",en:"Intercostal retractions"},type:"single_choice",required:true,options:[option("none","Ausente","None",0),option("mild","Leve","Mild",1),option("moderate","Moderada","Moderate",2),option("marked","Marcada","Marked",3)]},
+      {id:"retraction_subcostal",label:{es:"Retracción subcostal",en:"Subcostal retractions"},type:"single_choice",required:true,options:[option("none","Ausente","None",0),option("mild","Leve","Mild",1),option("moderate","Moderada","Moderate",2),option("marked","Marcada","Marked",3)]}
+    ]
+  },
+  snappii: {
+    validationNotes: {
+      es: "SNAPPE-II de nueve variables para gravedad neonatal, usando los peores valores de las primeras 12 horas. PedsCore reproduce únicamente la lógica numérica publicada y no genera una predicción individual ni recomendaciones de limitación de soporte.",
+      en: "Nine-variable SNAPPE-II neonatal severity score using the worst values from the first 12 hours. PedsCore reproduces only the published numeric logic and does not generate an individual prediction or limitation-of-support recommendations."
+    },
+    inputs: [
+      {id:"mean_bp_mmhg",label:{es:"PAM más baja",en:"Lowest mean blood pressure"},type:"number",required:true,unit:"mmHg",min:0,max:150,step:1},
+      {id:"lowest_temp_c",label:{es:"Temperatura más baja",en:"Lowest temperature"},type:"number",required:true,unit:"°C",min:25,max:42,step:0.1},
+      {id:"pao2_fio2_ratio",label:{es:"Relación PaO₂/FiO₂ (convención SNAPPE-II)",en:"PaO₂/FiO₂ ratio (SNAPPE-II convention)"},type:"number",required:true,min:0,max:10,step:0.01},
+      {id:"lowest_ph",label:{es:"pH sérico más bajo",en:"Lowest serum pH"},type:"number",required:true,min:6,max:8,step:0.01},
+      booleanInput("multiple_seizures",{es:"Convulsiones múltiples",en:"Multiple seizures"}),
+      {id:"urine_output_ml_kg_h",label:{es:"Diuresis",en:"Urine output"},type:"number",required:true,unit:"mL/kg/h",min:0,max:20,step:0.01},
+      {id:"apgar_5min",label:{es:"Apgar a los 5 minutos",en:"5-minute Apgar"},type:"number",required:true,min:0,max:10,step:1},
+      {id:"birth_weight_g",label:{es:"Peso al nacer",en:"Birth weight"},type:"number",required:true,unit:"g",min:200,max:7000,step:1},
+      booleanInput("sga_below_3rd_percentile",{es:"Pequeño para edad gestacional <P3",en:"Small for gestational age <3rd percentile"})
     ]
   },
   modified_bell_nec: {
@@ -5558,7 +5604,7 @@ const targetExpansionSurfaces: ClinicalToolMetadata[] = [
   referenceSurface({ id:"pvas", slug:"pvas", shortName:"PVAS", nameEs:"Escala pediátrica de actividad de vasculitis", nameEn:"Paediatric Vasculitis Activity Score", category:"neurology", subcategory:"systemic_vasculitis", type:"scale", populationEs:"Niños con vasculitis sistémica", populationEn:"Children with systemic vasculitis", descriptionEs:"Escala de referencia para actividad de vasculitis pediátrica.", descriptionEn:"Reference scale for pediatric vasculitis activity.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"pednihss", slug:"pednihss", shortName:"PedNIHSS", nameEs:"Escala pediátrica NIH de ictus", nameEn:"Pediatric NIH Stroke Scale", category:"neurology", subcategory:"stroke", type:"scale", populationEs:"Niños con sospecha o diagnóstico de ictus", populationEn:"Children with suspected or diagnosed stroke", descriptionEs:"Escala de referencia para gravedad neurológica en ictus pediátrico.", descriptionEn:"Reference scale for neurologic severity in pediatric stroke.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"modified_bell_nec", slug:"modified-bell-nec", shortName:"Bell", nameEs:"Estadificación de Bell modificada para NEC", nameEn:"Modified Bell Staging for NEC", category:"neonatology", subcategory:"necrotizing_enterocolitis", type:"scale", populationEs:"Recién nacidos con sospecha de enterocolitis necrosante", populationEn:"Newborns with suspected necrotizing enterocolitis", descriptionEs:"Marco de estadificación de referencia para enterocolitis necrosante.", descriptionEn:"Reference staging framework for necrotizing enterocolitis.", evidenceLevel:"clinical_practice_guideline", regulatoryRisk:"high" }),
-  referenceSurface({ id:"snappii", slug:"snappe-ii", shortName:"SNAPPE-II", nameEs:"SNAPPE-II", nameEn:"SNAPPE-II", category:"neonatology", subcategory:"neonatal_severity", type:"score", populationEs:"Recién nacidos críticamente enfermos", populationEn:"Critically ill newborns", descriptionEs:"Puntaje de referencia para gravedad y riesgo en neonatología; no predice un desenlace individual.", descriptionEn:"Reference score for neonatal severity and risk; it does not predict an individual outcome.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
+  referenceSurface({ id:"snappii", slug:"snappe-ii", shortName:"SNAPPE-II", nameEs:"SNAPPE-II", nameEn:"SNAPPE-II", category:"neonatology", subcategory:"neonatal_severity", type:"score", populationEs:"Recién nacidos ingresados en UCI neonatal según la cohorte publicada", populationEn:"Newborns admitted to NICU according to the published cohort", descriptionEs:"Score neonatal de nueve variables para gravedad y riesgo poblacional durante las primeras 12 horas.", descriptionEn:"Nine-variable neonatal score for population-level severity and risk during the first 12 hours.", evidenceLevel:"external_validation_study", regulatoryRisk:"high", references:[{id:"snappe2_open_table",title:"SNAPPE-II in predicting mortality and morbidity in NICU",year:2015,journalOrPublisher:"Journal of Clinical and Diagnostic Research",url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC4625304/",evidenceLevel:"external_validation_study",sourceType:"journal_article",accessType:"open_access",notes:"Open-access table reproduces all nine SNAPPE-II variables and point weights.",appliesTo:["snappii"],priority:1}] }),
   referenceSurface({ id:"crib_ii", slug:"crib-ii", shortName:"CRIB II", nameEs:"CRIB II", nameEn:"CRIB II", category:"neonatology", subcategory:"neonatal_severity", type:"score", populationEs:"Recién nacidos prematuros según criterios publicados", populationEn:"Preterm newborns meeting published criteria", descriptionEs:"Puntaje de referencia para riesgo neonatal en prematuros.", descriptionEn:"Reference score for neonatal risk in preterm infants.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"nsofa", slug:"nsofa", shortName:"nSOFA", nameEs:"nSOFA", nameEn:"nSOFA", category:"neonatology", subcategory:"neonatal_sepsis", type:"score", populationEs:"Recién nacidos con sospecha de sepsis", populationEn:"Newborns with suspected sepsis", descriptionEs:"Puntaje de referencia de disfunción orgánica neonatal asociada a sepsis.", descriptionEn:"Reference score for neonatal sepsis-associated organ dysfunction.", evidenceLevel:"external_validation_study", regulatoryRisk:"high" }),
   referenceSurface({ id:"ispad_dka", slug:"ispad-pediatric-dka-severity", shortName:"ISPAD DKA", nameEs:"Gravedad de cetoacidosis diabética pediátrica ISPAD", nameEn:"ISPAD Pediatric DKA Severity", category:"intensive_care", subcategory:"diabetic_ketoacidosis", type:"clinical_rule", populationEs:"Niños y adolescentes con cetoacidosis diabética", populationEn:"Children and adolescents with diabetic ketoacidosis", descriptionEs:"Marco de referencia para gravedad de cetoacidosis diabética pediátrica según ISPAD.", descriptionEn:"ISPAD reference framework for pediatric diabetic-ketoacidosis severity.", evidenceLevel:"clinical_practice_guideline", regulatoryRisk:"high" }),
@@ -5638,7 +5684,7 @@ export const clinicalTools: ClinicalToolMetadata[] = [
   makeTool("modified_tal", "modified-tal", "Tal", "Escala de Tal modificada", "Modified Tal Score", "respiratory", "bronchiolitis", "score", "Lactantes y niños pequeños con bronquiolitis o dificultad respiratoria obstructiva", "Infants and young children with bronchiolitis or obstructive respiratory distress", "Escala clínica de 0-12 basada en frecuencia respiratoria ajustada por edad, sibilancias/crepitantes, retracciones y saturación de oxígeno.", "0-12 clinical score based on age-adjusted respiratory rate, wheeze/crackles, retractions, and oxygen saturation.", "pending_validation", "external_validation_study", "medium", { es: "Variante modificada trazada a SEUP 2024 y validación publicada.", en: "Modified variant traced to SEUP 2024 and published validation." }),
   makeTool("taussig_croup", "taussig-croup-score", "Taussig", "Escala de Taussig para laringitis", "Taussig Croup Score", "respiratory", "croup", "score", "Niños con laringitis aguda/crup", "Children with acute croup", "Escala clínica de 0-15 para valorar gravedad mediante estridor, entrada de aire, color, retracciones y conciencia.", "0-15 clinical severity score using stridor, air entry, color, retractions, and consciousness.", "pending_validation", "original_derivation_study", "medium", { es: "Tabla clínica trazada a Taussig 1975 y SEUP 2024.", en: "Clinical table traced to Taussig 1975 and SEUP 2024." }),
   makeTool("pram", "pram", "PRAM", "Pediatric Respiratory Assessment Measure", "Pediatric Respiratory Assessment Measure", "respiratory", "asthma_wheezing", "score", "Ninos de 2 a menos de 18 anos con exacerbacion de asma aguda", "Children aged 2 to under 18 years with an acute asthma exacerbation", "Mide de forma descriptiva la gravedad de una exacerbacion de asma aguda y su cambio en evaluaciones seriadas.", "Descriptively measures acute asthma exacerbation severity and change across serial assessments.", "ready_for_implementation", "high", "medium", pramQaValidationNotes),
-  makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Ninos con bronquiolitis", "Children with bronchiolitis", "Evalua sibilancias y retracciones en bronquiolitis.", "Assesses wheezing and retractions in bronchiolitis.", "pending_validation", "pending_primary_source", "medium", rdaiValidationNotes),
+  makeTool("rdai", "rdai", "RDAI", "Respiratory Distress Assessment Instrument", "Respiratory Distress Assessment Instrument", "respiratory", "bronchiolitis", "score", "Lactantes y niños pequeños con sibilancias/bronquiolitis según población publicada", "Infants and young children with wheezing/bronchiolitis according to the published population", "RDAI 0-17 para cuantificar sibilancias y retracciones.", "RDAI 0-17 to quantify wheezing and retractions.", "implemented", "original_derivation_study", "medium", rdaiValidationNotes),
   makeTool("brosjod", "brosjod", "BROSJOD", "BROSJOD", "BROSJOD", "respiratory", "bronchiolitis", "score", "Lactantes con bronquiolitis", "Infants with bronchiolitis", "Escala de bronquiolitis identificada en recomendaciones.", "Bronchiolitis scale identified in recommendations.", "pending_validation", "external_validation_study", "medium", brosjodValidationNotes),
   makeTool("pass", "pass", "PASS", "Pediatric Asthma Severity Score", "Pediatric Asthma Severity Score", "respiratory", "asthma", "score", "Ninos de 1 a 18 anos con exacerbacion aguda de asma", "Children aged 1 to 18 years with acute asthma exacerbation", "PASS original de Gorelick: tres dominios clinicos, total 0-6.", "Original Gorelick PASS: three clinical domains, total 0-6.", "implemented", "original_derivation_study", "medium", passValidationNotes),
   makeTool("risc", "risc", "RISC", "RISC", "RISC", "respiratory", "pneumonia", "score", "Ninos con neumonia", "Children with pneumonia", "Score de gravedad de neumonia identificado en recomendaciones.", "Pneumonia severity score identified in recommendations.", "coming_soon", "pending_verification", "medium", baseValidationNotes.future),
