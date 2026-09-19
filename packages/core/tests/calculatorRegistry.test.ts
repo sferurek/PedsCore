@@ -38,11 +38,12 @@ describe("calculator registry", () => {
       "garcia_alix_ners",
       "cdc_growth_percentiles",
       "strongkids",
-      "visual_analogue_scale"
+      "visual_analogue_scale",
+      "step_by_step"
     ]);
     expect(implementedCalculatorToolIds).toContain("flacc");
     expect(getImplementedTools().map((tool) => tool.id)).not.toContain("flacc");
-    expect(getImplementedTools()).toHaveLength(37);
+    expect(getImplementedTools()).toHaveLength(38);
   });
 
   it("calculates through the dispatcher", () => {
