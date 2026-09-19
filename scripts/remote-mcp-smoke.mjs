@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 // M3 contract deployment verification: simulation tool contracts must be publicly listed.
+// M3 full public end-to-end verification.
 
 const baseUrl = (process.env.MCP_REMOTE_BASE_URL ?? process.argv[2] ?? "").replace(/\/$/, "");
 if (!baseUrl) {
