@@ -788,7 +788,7 @@ describe("WHO growth scaffold", () => {
 
     expect(tool?.slug).toBe("who-growth");
     expect(tool?.implementationStatus).toBe("implemented");
-    expect(tool?.calculationStatus).not.toBe("active");
+    expect(tool?.calculationStatus).toBe("active");
     expect(tool?.inputs?.map((input) => input.id)).toEqual([
       "sex",
       "who_age_input_mode",
@@ -804,7 +804,7 @@ describe("WHO growth scaffold", () => {
       "measurement_mode",
       "head_circumference_cm"
     ]);
-    expect(tool?.validationNotes.en).toContain("central WHO Growth engine");
+    expect(tool?.validationNotes.en).toContain("Complete WHO Growth engine");
     expect(tool?.validationNotes.en).toContain("separate license");
   });
 
