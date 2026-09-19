@@ -36,7 +36,6 @@ import { modifiedTalCalculator, taussigCroupCalculator } from "./respiratoryScor
 import { passAsthmaCalculator, riscCalculator } from "./respiratoryRisk.js";
 import { mriscCalculator, gorelickDehydrationCalculator } from "./additionalOpenTools.js";
 import { ckidU25Calculator, kdigoPediatricCalculator, prifleCalculator } from "./renalOpen.js";
-import { pelod2Calculator, pim3Calculator, prism4Calculator } from "./criticalCareScores.js";
 import { phoenixSepsisCalculator } from "./phoenixSepsis.js";
 import { parcCalculator } from "./parc.js";
 import { bacterialMeningitisScoreCalculator } from "./infectionOpen.js";
@@ -89,9 +88,6 @@ const calculators = [
   gorelickDehydrationCalculator,
   prifleCalculator,
   kdigoPediatricCalculator,
-  pelod2Calculator,
-  prism4Calculator,
-  pim3Calculator,
   phoenixSepsisCalculator,
   parcCalculator,
   bacterialMeningitisScoreCalculator,
