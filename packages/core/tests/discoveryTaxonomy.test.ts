@@ -57,15 +57,15 @@ describe("clinical discovery taxonomy", () => {
       (metadata) => metadata.surfaceStatus
     );
 
-    expect(statuses.filter((status) => status === "active")).toHaveLength(120);
+    expect(statuses.filter((status) => status === "active")).toHaveLength(121);
     expect(statuses.filter((status) => status === "draft")).toHaveLength(0);
-    expect(statuses.filter((status) => status === "blocked")).toHaveLength(14);
+    expect(statuses.filter((status) => status === "blocked")).toHaveLength(13);
     expect(statuses.filter((status) => status === "deprecated")).toHaveLength(3);
     expect(
       Object.values(toolDiscoveryById).filter(
         (metadata) => metadata.calculationAvailability === "local_active"
       )
-    ).toHaveLength(59);
+    ).toHaveLength(60);
   });
 
   it("keeps rights metadata aligned with the audited rights register", () => {
@@ -75,7 +75,6 @@ describe("clinical discovery taxonomy", () => {
       "brighton_pews",
       "rdai",
       "brosjod",
-      "pyms",
       "cheops",
       "pednihss",
       "crib_ii",
