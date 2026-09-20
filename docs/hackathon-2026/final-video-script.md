@@ -52,7 +52,7 @@ Use the public SIM flow if it is available by recording day. Otherwise use the v
 
 ## 1:48–2:08 — Reproducibility
 
-**Visual:** GitHub PR #43, CI green, remote smoke, MIT license, PR #25.
+**Visual:** GitHub PR #105, CI green, remote smoke, MIT license, PR #25.
 
 **Narration:**
 
