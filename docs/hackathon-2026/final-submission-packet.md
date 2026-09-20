@@ -15,7 +15,7 @@ Prepared for direct transfer into the Amazon Developer Hackathon Devpost form. R
 - AWS Builder Mini Challenge: **No — intentionally not claimed in the current candidate; no qualifying AWS/Kiro integration is evidenced yet**
 - GitHub username: **sferurek**
 - Repository: https://github.com/sferurek/PedsCore
-- Open Source contribution: https://github.com/sferurek/PedsCore/pull/91
+- Open Source contribution: https://github.com/sferurek/PedsCore/pull/105
 - Testing link: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
 - Capability manifest: https://pedscore-ai-mcp-production.up.railway.app/capabilities
 - MCP endpoint: https://pedscore-ai-mcp-production.up.railway.app/mcp
@@ -83,17 +83,17 @@ The model orchestrates. PedsCore and SIM IMV own the clinical logic.
 - Deterministic Apgar 9/10: verified live.
 - Judge console: verified live.
 - Capability manifest: verified live.
-- External smoke run 35334436459 attempt 2: passed.
+- RC3 CI run `35479718827`: passed.
 - Railway MCP production endpoint: successful and remotely verified.
 - SIM production HTTP smoke: passed in CI.
-- Public MCP→SIM end-to-end smoke: passed in GitHub Actions run `35466300736`.
+- Public MCP→SIM end-to-end smoke: passed in GitHub Actions run `35479718824`.
 - SIM school-bus / JumpSTART / patient 01: expected GREEN, `correct=true`, rule `JS-MOB-01`, canonical path returned.
 
 ## Open Source Mini Challenge
 
 ### Contribution URL
 
-https://github.com/sferurek/PedsCore/pull/91
+https://github.com/sferurek/PedsCore/pull/105
 
 ### Repository URL
 
@@ -157,4 +157,4 @@ SIM PR #25 is merged into the simulator main branch. The production SIM deployme
 
 `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`
 
-The strict public MCP → SIM end-to-end smoke passed in GitHub Actions run `35466300736`, completing the public technical path.
+The strict public MCP → SIM end-to-end smoke passed in GitHub Actions run `35479718824`, completing the public technical path.
