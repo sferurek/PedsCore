@@ -30,8 +30,8 @@ jobs:
       - name: Audit before fix
         run: npm audit || true
 
-      - name: Refresh lockfile within declared semver ranges
-        run: npm update --package-lock-only
+      - name: Refresh lockfile from patched package constraints
+        run: npm install --package-lock-only --ignore-scripts
 
       - name: Audit after refresh
         run: npm audit || true
@@ -44,6 +44,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package-lock.json
+          git add package.json package-lock.json
           git commit -m "chore(deps): apply non-breaking npm audit remediation"
           git push
