@@ -6,7 +6,9 @@
     },
     {
       "path": "./apps/web"
+    },
+    {
+      "path": "./apps/mcp-server"
     }
   ]
 }
-
