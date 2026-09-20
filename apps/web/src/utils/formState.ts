@@ -76,6 +76,34 @@ export const getVisibleInputs = (
 ): ToolInput[] =>
   (tool.inputs ?? []).filter((input) => isInputVisible(input, values));
 
+export const clearHiddenInputValues = (
+  tool: ClinicalToolMetadata,
+  values: FormValues
+): FormValues => {
+  let next = { ...values };
+  let changed = true;
+
+  while (changed) {
+    changed = false;
+    for (const input of tool.inputs ?? []) {
+      if (isInputVisible(input, next)) continue;
+      const emptyValue = emptyValueForInput(input);
+      const currentValue = next[input.id] ?? emptyValue;
+      const sameArray =
+        Array.isArray(currentValue) &&
+        Array.isArray(emptyValue) &&
+        currentValue.length === 0 &&
+        emptyValue.length === 0;
+      if (currentValue !== emptyValue && !sameArray) {
+        next[input.id] = emptyValue;
+        changed = true;
+      }
+    }
+  }
+
+  return next;
+};
+
 export const isInputComplete = (
   input: ToolInput,
   value: FormValue
