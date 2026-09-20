@@ -42,7 +42,7 @@ Prompt:
 
 ## 1:18–1:48 — SIM IMV wow moment
 
-Use the public SIM flow if it is available by recording day. Otherwise use the verified production-CI trace and clearly label it as simulator integration evidence.
+Use the verified public MCP → SIM flow. The RC3 remote smoke confirms the production path end-to-end.
 
 **Visual:** school-bus scenario → patient 01 → JumpSTART decision → deterministic feedback.
 
@@ -82,4 +82,4 @@ Use the public SIM flow if it is available by recording day. Otherwise use the v
 - No copyrighted music/footage without permission.
 - No real patient identifiers.
 - Do not claim the optional official Alexa AI CLI deployment unless it is actually completed.
-- Do not claim a public MCP→SIM path unless the public SIM endpoint exists by recording time.
+- Show the verified public MCP→SIM path; RC3 remote smoke run `35479718824` passed all assertions.
