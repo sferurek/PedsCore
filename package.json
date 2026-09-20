@@ -29,6 +29,20 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.11"
+  },
+  "overrides": {
+    "@vitest/mocker": "4.1.11",
+    "baseline-browser-mapping": "2.11.24",
+    "browserslist": "4.29.0",
+    "js-yaml": "4.3.2",
+    "nanoid": "3.3.19",
+    "postcss": "8.5.28",
+    "minimatch@3.1.5": {
+      "brace-expansion": "1.1.21"
+    },
+    "minimatch@10.2.5": {
+      "brace-expansion": "5.0.12"
+    }
   }
 }
