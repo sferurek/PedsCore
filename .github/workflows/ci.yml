@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - hackathon/alexa-mcp-v3
   pull_request:
 
 jobs:
@@ -22,7 +23,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Lint
         run: npm run lint
@@ -39,3 +40,5 @@ jobs:
       - name: SEO audit
         run: npm run seo:check
 
+      - name: Validate Alexa+ manifest
+        run: npm run alexa:validate
