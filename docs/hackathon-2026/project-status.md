@@ -13,7 +13,7 @@ The official rules were rechecked on 2026-09-18. For the Alexa+ primary track, a
 | M2 — Alexa+ primary-track surface | 100% | valid self-hosted MCP path, exact Railway deployment, live judge console, capability manifest, 6 live tools, remote smoke green, manifest/store/compliance package | final video evidence; private Alexa add-on tooling is partner-only and not required |
 | M3 — SIM IMV deterministic MCP integration | 100% | SIM PR #25 merged, Vercel production deployment green, `SIM_IMV_API_URL` configured, strict public MCP→SIM smoke passed (`school-bus` / JumpSTART / patient 01 / GREEN / `JS-MOB-01`) | none |
 | M4 — AWS Builder Mini Challenge | N/A | eligibility reviewed; Cognito/OAuth scaffold is not falsely presented as a qualifying integration | intentionally not entered unless real Kiro Crew/AWS evidence is added |
-| M5 — Open Source Mini Challenge | 98% | public MIT repo, PR #91, reusable deterministic-agent pattern, one-command verification, judging docs/tests/evidence | final Devpost field entry |
+| M5 — Open Source Mini Challenge | 98% | public MIT repo, PR #105, reusable deterministic-agent pattern, one-command verification, judging docs/tests/evidence | final Devpost field entry |
 | M6 — Demo, judging assets, Devpost submission | 78% | evidence matrix, judging quickstart, rules snapshot, Devpost draft, product-feedback draft, live judge-console code, demo script, video shot list | live judge-console capture, final video/upload, final Devpost review and submit |
 
 ## Overall estimate
@@ -39,7 +39,7 @@ Official Alexa AI CLI/add-on tooling is partner-only according to Devpost suppor
 
 ## Critical path from here
 
-1. Keep PR #91 green and mergeable.
+1. Keep PR #105 green and mergeable.
 2. Freeze the verified hackathon release-candidate commit.
 3. Transfer the prepared final fields into Devpost.
 4. Record/upload the final English demo video and complete the final Devpost submission.
