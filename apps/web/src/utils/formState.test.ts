@@ -2,6 +2,7 @@ import { getAllTools, getToolBySlug } from "@peds-core/core";
 import { describe, expect, it } from "vitest";
 import {
   canPrepareResult,
+  clearHiddenInputValues,
   getFirstInputId,
   getInitialFormState,
   getInputSummary,
@@ -136,6 +137,65 @@ describe("form state utilities", () => {
     const visible = getVisibleInputs(tool!, lowHighRiskScreen).map((input) => input.id);
     expect(visible).toContain("crp_mg_l");
     expect(visible).toContain("anc");
+  });
+
+  it("clears stale values from fields that become hidden", () => {
+    const tool = getAllTools().find((item) => item.id === "step_by_step");
+    expect(tool).toBeDefined();
+
+    const values = {
+      ...getInitialFormState(tool!),
+      age_days: 30,
+      fever_without_source: true,
+      well_appearing: true,
+      leukocyturia: false,
+      procalcitonin_ng_ml: 0.2,
+      crp_mg_l: 5,
+      anc: 3000
+    };
+
+    const next = clearHiddenInputValues(tool!, {
+      ...values,
+      leukocyturia: true
+    });
+
+    expect(next.procalcitonin_ng_ml).toBe("");
+    expect(next.crp_mg_l).toBe("");
+    expect(next.anc).toBe("");
+  });
+
+  it("adapts CHALICE and Phoenix to eligibility answers", () => {
+    const chalice = getAllTools().find((item) => item.id === "chalice_tbi");
+    const phoenix = getAllTools().find((item) => item.id === "phoenix_sepsis");
+    expect(chalice).toBeDefined();
+    expect(phoenix).toBeDefined();
+
+    const chaliceInitial = getInitialFormState(chalice!);
+    expect(getVisibleInputs(chalice!, chaliceInitial).map((input) => input.id)).toEqual([
+      "age_years",
+      "head_injury_present"
+    ]);
+    expect(
+      getVisibleInputs(chalice!, { ...chaliceInitial, age_years: 8, head_injury_present: true })
+        .map((input) => input.id)
+    ).toContain("focal_neurology");
+
+    const phoenixInitial = getInitialFormState(phoenix!);
+    expect(getVisibleInputs(phoenix!, phoenixInitial).map((input) => input.id)).toEqual([
+      "age_months",
+      "suspected_infection",
+      "birth_hospitalization_before_discharge",
+      "postconceptional_age_at_least_37_weeks"
+    ]);
+    expect(
+      getVisibleInputs(phoenix!, {
+        ...phoenixInitial,
+        age_months: 36,
+        suspected_infection: true,
+        birth_hospitalization_before_discharge: false,
+        postconceptional_age_at_least_37_weeks: true
+      }).map((input) => input.id)
+    ).toContain("map_mmhg");
   });
 
   it("does not require hidden conditional inputs", () => {
