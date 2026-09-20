@@ -188,6 +188,14 @@ const searchAliasOverrides: Record<string, Record<Language, string[]>> = {
   "bmi-percentile": {
     es: ["IMC percentilado OMS", "percentil IMC OMS", "BMI percentil pediátrico"],
     en: ["WHO BMI percentile", "BMI percentile calculator child", "pediatric BMI percentile"]
+  },
+  sarnat: {
+    es: ["Sarnat clásico", "escala Sarnat", "encefalopatía neonatal Sarnat"],
+    en: ["Classic Sarnat", "Sarnat staging", "neonatal encephalopathy Sarnat"]
+  },
+  "wood-downes-ferres": {
+    es: ["Wood Downes Ferres", "Wood-Downes-Ferrés", "escala bronquiolitis Wood Downes"],
+    en: ["Wood Downes Ferres", "Wood-Downes-Ferres score", "bronchiolitis wheeze score"]
   }
 };
 
@@ -318,6 +326,14 @@ export const getToolSeoProfile = (
     "bmi-percentile": {
       es: "Calculadora de IMC percentilado OMS para pediatría, diferenciada del módulo general de peso y talla y basada en BMI-for-age.",
       en: "WHO pediatric BMI percentile calculator, distinct from the broader weight/height growth module and based on BMI-for-age."
+    },
+    sarnat: {
+      es: "Sarnat clásico para estadificación clínica de encefalopatía neonatal: variante, población, fuente, limitaciones y herramientas relacionadas.",
+      en: "Classic Sarnat staging for neonatal encephalopathy, with exact variant, population, source, limitations and related tools."
+    },
+    "wood-downes-ferres": {
+      es: "Wood-Downes-Ferrés: escala respiratoria pediátrica para bronquiolitis y sibilancias, con variante, población, evidencia y limitaciones.",
+      en: "Wood-Downes-Ferrés pediatric respiratory score for bronchiolitis and wheeze, with variant, population, evidence and limitations."
     }
   };
   const preserveEarlySerpSnippet = tool.slug === "wood-downes-ferres" || tool.slug === "pim2";
