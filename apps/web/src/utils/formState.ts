@@ -80,7 +80,7 @@ export const clearHiddenInputValues = (
   tool: ClinicalToolMetadata,
   values: FormValues
 ): FormValues => {
-  let next = { ...values };
+  const next = { ...values };
   let changed = true;
 
   while (changed) {
