@@ -15,6 +15,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/v1/tools/:id",
+      "destination": "/api/v1/tools?id=:id"
+    },
+    {
       "source": "/api/analytics/countries",
       "destination": "/api/analytics/countries.js"
     },
