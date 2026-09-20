@@ -1,6 +1,6 @@
 # PedsCore
 
-**Evidence-traceable pediatric clinical tools — deterministic where appropriate, explicit about uncertainty, licensing and clinical scope.**
+> **Amazon Developer Hackathon 2026:** the Alexa+ / self-hosted MCP workstream is documented in [HACKATHON_2026.md](HACKATHON_2026.md). RC3 candidate branch: `hackathon/alexa-mcp-v3`. Live judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo\n\n**Evidence-traceable pediatric clinical tools — deterministic where appropriate, explicit about uncertainty, licensing and clinical scope.**
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Production](https://img.shields.io/badge/production-Vercel-blue.svg)](https://peds-core.vercel.app/)
@@ -105,13 +105,16 @@ It checks consistency across:
 CI also runs:
 
 ```bash
-npm ci
+npm install
 npm run lint
 npm run test
 npm run build
 npm run audit:governance
 npm run seo:check
+npm run alexa:validate
 ```
+
+For the hackathon candidate, the equivalent one-command verification is `npm run hackathon:verify`.
 
 A catalog/runtime mismatch is therefore treated as a build failure, not as documentation debt.
 
