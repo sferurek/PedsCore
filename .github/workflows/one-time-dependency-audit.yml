@@ -30,10 +30,10 @@ jobs:
       - name: Audit before fix
         run: npm audit || true
 
-      - name: Apply non-breaking audit fixes to lockfile
-        run: npm audit fix --package-lock-only || true
+      - name: Refresh lockfile within declared semver ranges
+        run: npm update --package-lock-only
 
-      - name: Audit after fix
+      - name: Audit after refresh
         run: npm audit || true
 
       - name: Commit lockfile remediation
