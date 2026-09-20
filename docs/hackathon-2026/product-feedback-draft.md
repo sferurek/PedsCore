@@ -40,3 +40,47 @@ The AWS source-profile setup behaved predictably. The main friction was not AWS 
 ## Open source
 
 The public MIT-licensed contribution model works well for this project because the hackathon additions can be audited against immutable pre-hackathon baselines. Keeping the agent interface, deterministic execution boundary, tests, and evidence in the public repository makes the submission reproducible rather than demo-only.
+
+
+## MCP TypeScript SDK
+
+### What worked well
+
+The SDK made the Streamable HTTP contract and tool registration explicit and testable. Protocol negotiation, tool listing and structured tool calls could be covered with ordinary automated integration tests, which fits deterministic domain software well.
+
+### What could improve
+
+The default localhost-oriented Host protection produced 403 responses when the Express app was placed behind Railway's public reverse proxy. The fix was to configure the MCP Express app for a public bind/host explicitly.
+
+### Suggested improvement
+
+Document public reverse-proxy deployment beside the Streamable HTTP example, including trusted Host/bind configuration and a minimal health-check pattern.
+
+## Railway
+
+### What worked well
+
+Railway provided a simple public HTTPS deployment target for the self-hosted MCP service and has been stable for judge-facing health, MCP, compliance, media and judge-demo endpoints.
+
+### What could improve
+
+Two deployment issues consumed disproportionate time: source branch/SHA resolution did not always match the staged service configuration, and a private-repository service could be created without immediately surfacing that the GitHub App lacked repository authorization.
+
+### Suggested improvements
+
+- Show the resolved Git commit before a deployment starts and fail if it differs from an explicitly requested SHA.
+- Detect inaccessible private repositories during service creation and provide the repository-authorization action immediately.
+
+## Vercel
+
+### What worked well
+
+The existing SIM IMV Vercel deployment made it possible to expose the narrow deterministic simulator bridge without moving the simulator into the MCP service. Git-based production deployment and the public HTTPS endpoint were straightforward to validate from external CI.
+
+### What could improve
+
+For judge-facing integrations, deployment provenance should stay easy to map from the public endpoint back to the exact Git commit used for the deterministic backend.
+
+### Suggested improvement
+
+Keep commit/deployment provenance prominent in deployment metadata and API-accessible verification surfaces, particularly when one deployed service is an upstream dependency of another.
