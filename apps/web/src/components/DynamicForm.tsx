@@ -4,6 +4,7 @@ import { atlas } from "../i18n/atlas";
 import { translations } from "../i18n/translations";
 import type { FormValue, FormValues } from "../utils/formState";
 import {
+  clearHiddenInputValues,
   getFirstInputId,
   getInitialFormState,
   getInputSummary,
@@ -73,7 +74,8 @@ export function DynamicForm({
     shouldAdvance = false
   ) => {
     const inputId = input.id;
-    const nextValues = { ...values, [inputId]: value };
+    const rawNextValues = { ...values, [inputId]: value };
+    const nextValues = clearHiddenInputValues(tool, rawNextValues);
     setValues(nextValues);
     onStateChange(nextValues);
     advanceAfterInput(input, nextValues, shouldAdvance);
