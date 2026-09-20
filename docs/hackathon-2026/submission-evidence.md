@@ -7,8 +7,8 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 | Existing project baseline recorded | `docs/hackathon-2026/baseline.md` | Verified |
 | Public OSS repository | https://github.com/sferurek/PedsCore | Verified |
 | MIT license present | root `LICENSE`; GitHub detects SPDX `MIT` | Verified |
-| Hackathon work isolated | `hackathon/alexa-mcp-v2`; `hackathon/alexa-sim` | Verified |
-| Public contribution URL | PedsCore PR #91 | Verified |
+| Hackathon work isolated | `hackathon/alexa-mcp-v3`; `hackathon/alexa-sim` | Verified |
+| Public contribution URL | PedsCore PR #105 | Verified |
 | MCP Streamable HTTP server | `apps/mcp-server/` | Verified |
 | MCP 2025-11-25 negotiation | protocol tests + remote smoke | Verified |
 | Clinical tool discovery | `search_clinical_tools` | Verified |
@@ -30,7 +30,7 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 | Alexa+ private add-on tooling | Devpost support confirmation dated 18 Sep 2026 | Partner-only; intentionally not a submission dependency |
 | AWS Cognito code path | `infra/aws/cognito-alexa-mcp.yaml` | Implemented, not provisioned |
 | AWS Builder Mini Challenge | actual useful deployed AWS integration + write-up | Not yet claimed |
-| Open Source Mini Challenge | public MIT repo + PR #91 contribution | Ready, final submission wording pending |
+| Open Source Mini Challenge | public MIT repo + PR #105 contribution | Ready, final submission wording pending |
 | Friction log | `docs/hackathon-2026/friction-log.md` | Active |
 
 ## Current key URLs
