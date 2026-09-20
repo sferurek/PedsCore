@@ -7,7 +7,7 @@ on:
       - main
   push:
     branches:
-      - hackathon/alexa-mcp-v2
+      - hackathon/alexa-mcp-v3
       - main
     paths:
       - "apps/mcp-server/**"
