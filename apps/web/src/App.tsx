@@ -7,8 +7,6 @@ import { AboutPage } from "./routes/AboutPage";
 import { CategoryPage } from "./routes/CategoryPage";
 import { ContributePage } from "./routes/ContributePage";
 import { DisclaimerPage } from "./routes/DisclaimerPage";
-import { EvidencePage } from "./routes/EvidencePage";
-import { GlobalStatsPage } from "./routes/GlobalStatsPage";
 import { HomePage } from "./routes/HomePage";
 import { NotFoundPage } from "./routes/NotFoundPage";
 import { TopicHubPage } from "./routes/TopicHubPage";
@@ -32,6 +30,15 @@ const ToolPage = lazy(() =>
 
 const PramPilotPage = lazy(() =>
   import("./routes/PramPilotPage").then((module) => ({ default: module.PramPilotPage }))
+);
+
+
+const EvidencePage = lazy(() =>
+  import("./routes/EvidencePage").then((module) => ({ default: module.EvidencePage }))
+);
+
+const GlobalStatsPage = lazy(() =>
+  import("./routes/GlobalStatsPage").then((module) => ({ default: module.GlobalStatsPage }))
 );
 
 export function App() {
@@ -160,11 +167,19 @@ export function App() {
     }
 
     if (route.kind === "evidence") {
-      return <EvidencePage language={language} />;
+      return (
+        <Suspense fallback={null}>
+          <EvidencePage language={language} />
+        </Suspense>
+      );
     }
 
     if (route.kind === "stats") {
-      return <GlobalStatsPage language={language} />;
+      return (
+        <Suspense fallback={null}>
+          <GlobalStatsPage language={language} />
+        </Suspense>
+      );
     }
 
     if (route.kind === "disclaimer") {
