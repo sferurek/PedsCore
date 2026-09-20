@@ -68,7 +68,7 @@ Evidence:
 - public MIT repository
 - immutable pre-hackathon baseline
 - dedicated hackathon branch
-- public PR #91
+- public PR #105
 - reusable MCP/domain-boundary pattern
 - tests, remote smoke scripts, judging docs, and friction log
 
