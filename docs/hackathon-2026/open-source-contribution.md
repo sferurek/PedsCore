@@ -3,7 +3,7 @@
 ## Contribution URL
 
 Primary contribution:
-- https://github.com/sferurek/PedsCore/pull/91
+- https://github.com/sferurek/PedsCore/pull/105
 
 Repository:
 - https://github.com/sferurek/PedsCore
@@ -58,7 +58,7 @@ The contribution includes:
 - manifest validation;
 - live media/compliance endpoint validation;
 - simulator bridge unit/HTTP tests;
-- a strict public MCP→SIM deterministic smoke, verified in GitHub Actions run `35466300736`.
+- a strict public MCP→SIM deterministic smoke, verified in GitHub Actions run `35479718824`.
 
 ## Why it matters
 

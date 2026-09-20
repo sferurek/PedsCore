@@ -42,4 +42,4 @@ Use these entries in the optional Devpost friction-log fields. They are selected
 
 ## Verified resolution evidence
 
-The final strict public smoke is GitHub Actions run `35466300736`: MCP 2025-11-25, six tools, Apgar 9/10, and SIM `school-bus` / patient `01` / expected `GREEN` / `correct=true` / rule `JS-MOB-01`, with all assertions passing.
+The final strict public smoke is GitHub Actions run `35479718824`: MCP 2025-11-25, six tools, Apgar 9/10, and SIM `school-bus` / patient `01` / expected `GREEN` / `correct=true` / rule `JS-MOB-01`, with all assertions passing.

@@ -1,5 +1,13 @@
 # Final manual-action checklist
 
+**Frozen technical candidate:** RC3 `fa26c90b1bbf12b422b0cf2990e0c6743f4acb0b`  
+**Release branch:** `release/amazon-hackathon-2026-rc3`  
+**Canonical contribution PR:** #105  
+**CI:** `35479718827` — SUCCESS  
+**Remote MCP smoke:** `35479718824` — SUCCESS  
+**Devpost deadline shown on 20 Sep 2026:** 23 October 2026, 12:00 PM PDT
+
+
 Everything in this file is intentionally limited to actions that cannot be completed safely or legitimately without the developer/submitter.
 
 ## Required before final submission
