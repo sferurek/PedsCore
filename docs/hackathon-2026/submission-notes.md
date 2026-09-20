@@ -35,7 +35,7 @@ The strongest demo arc is:
 - three clinical MCP tools;
 - three SIM IMV MCP tool contracts;
 - simulator-side deterministic bridge merged from SIM PR #25 and deployed on Vercel;
-- public MIT-licensed OSS contribution on PedsCore PR #91.
+- public MIT-licensed OSS contribution on PedsCore PR #105.
 
 ## Eligibility and external blockers
 
@@ -49,15 +49,14 @@ SIM PR #25 has been merged into the simulator `main` branch and the resulting pr
 
 - demo video under the allowed duration;
 - final screenshots / image gallery;
-- final strict remote MCP→SIM smoke output;
-- final friction log review;
+- final human review/paste of the prepared friction-log entries;
 - project testing link: `https://pedscore-ai-mcp-production.up.railway.app/judge-demo` after final live verification;
 - final feature-request / developer-feedback answers.
 
 ## Rule for final write-up
 
-Do not claim Alexa simulator behavior, deployed AWS services, end-to-end SIM remote execution, or other features until they are demonstrable in code or a live/test environment.
+Do not claim official Alexa simulator behavior or deployed AWS services unless they are actually demonstrated. The self-hosted MCP and public MCP→SIM paths are already verified.
 
 ## Reconciliation status · 2026-09-19
 
-The final hackathon workstream was rebuilt from the then-current PedsCore `main` and opened as PR #91, avoiding the historical divergence of the original hackathon branch. This PR preserves current clinical catalog, governance, SEO and accessibility work while adding the MCP/Alexa+ submission layer.
+The final hackathon workstream was rebuilt cleanly from current PedsCore `main` as PR #105. RC3 is frozen at `fa26c90b1bbf12b422b0cf2990e0c6743f4acb0b`; CI run `35479718827` and remote MCP smoke run `35479718824` are green. RC3 preserves current clinical catalog, governance, SEO and accessibility work while adding the MCP/Alexa+ submission layer.
