@@ -5446,6 +5446,188 @@ type ReferenceSurfaceSeed = {
   references?: Reference[];
 };
 
+
+const externalReferenceSurfaceReferences: Record<string, Reference[]> = {
+  wong_baker_faces: [{
+    id: "wong_baker_official",
+    title: "Wong-Baker FACES Foundation — official scale home",
+    url: "https://wongbakerfaces.org/",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  greulich_pyle: [{
+    id: "greulich_pyle_nlm_catalog",
+    title: "Radiographic Atlas of Skeletal Development of the Hand and Wrist",
+    url: "https://www.ncbi.nlm.nih.gov/nlmcatalog/71860",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  tw3: [{
+    id: "tw3_canary_validation",
+    title: "The Validation of the Tanner–Whitehouse 3 Method for Radiological Bone Assessments in a Pediatric Population from the Canary Islands",
+    doi: "10.3390/osteology5010006",
+    url: "https://www.mdpi.com/2673-4036/5/1/6",
+    evidenceLevel: "external_validation_study"
+  }],
+  humpty_dumpty_2: [{
+    id: "humpty_dumpty_original",
+    title: "The Humpty Dumpty Falls Scale: a case-control study",
+    doi: "10.1111/j.1744-6155.2008.00166.x",
+    pmid: "19161572",
+    url: "https://pubmed.ncbi.nlm.nih.gov/19161572/",
+    evidenceLevel: "original_derivation_study"
+  }],
+  mchat_rf: [{
+    id: "mchat_rf_official",
+    title: "Official M-CHAT-R/F",
+    url: "https://www.mchatscreen.com/",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  hjhs_21: [{
+    id: "hjhs_21_wfh",
+    title: "Hemophilia Joint Health Score (HJHS) — World Federation of Hemophilia",
+    url: "https://elearning.wfh.org/resource/hemophilia-joint-health-score-hjhs/",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  jumpstart: [{
+    id: "jumpstart_hhs",
+    title: "JumpSTART Pediatric Triage Algorithm — CHEMM, U.S. HHS",
+    url: "https://www.chemm.hhs.gov/incident-primer/triage/jumpstart-triage",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  salt_triage: [{
+    id: "salt_hhs",
+    title: "SALT Mass Casualty Triage Algorithm — CHEMM, U.S. HHS",
+    url: "https://chemm-cms.beam.hhs.gov/incident-primer/triage/salt-triage",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  peld: [{
+    id: "peld_optn",
+    title: "PELD Calculator — OPTN / HRSA",
+    url: "https://www.hrsa.gov/optn/data-calculators/allocation-calculators/peld-calculator",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  jadas10: [{
+    id: "jadas10_acr_2021",
+    title: "Definition and Validation of the American College of Rheumatology 2021 JADAS10 Cutoffs",
+    pmid: "34582120",
+    url: "https://pubmed.ncbi.nlm.nih.gov/34582120/",
+    evidenceLevel: "external_validation_study"
+  }],
+  cjadas10: [{
+    id: "cjadas10_acr_2021",
+    title: "Definition and Validation of the American College of Rheumatology 2021 cJADAS10 Cutoffs",
+    pmid: "34582120",
+    url: "https://pubmed.ncbi.nlm.nih.gov/34582120/",
+    evidenceLevel: "external_validation_study"
+  }],
+  pvas: [{
+    id: "pvas_original",
+    title: "Disease activity assessment in childhood vasculitis: development and preliminary validation of the Paediatric Vasculitis Activity Score",
+    doi: "10.1136/annrheumdis-2012-202111",
+    pmid: "23100606",
+    url: "https://pubmed.ncbi.nlm.nih.gov/23100606/",
+    evidenceLevel: "original_derivation_study"
+  }],
+  ispad_dka: [{
+    id: "ispad_dka_2022",
+    title: "ISPAD clinical practice consensus guidelines 2022: Diabetic ketoacidosis and hyperglycemic hyperosmolar state",
+    doi: "10.1111/pedi.13406",
+    pmid: "36250645",
+    url: "https://pubmed.ncbi.nlm.nih.gov/36250645/",
+    evidenceLevel: "clinical_practice_guideline"
+  }],
+  c_act: [{
+    id: "c_act_original",
+    title: "Development and cross-sectional validation of the Childhood Asthma Control Test",
+    doi: "10.1016/j.jaci.2006.12.662",
+    pmid: "17353040",
+    url: "https://pubmed.ncbi.nlm.nih.gov/17353040/",
+    evidenceLevel: "original_derivation_study"
+  }],
+  track: [{
+    id: "track_original",
+    title: "Test for respiratory and asthma control in kids (TRACK): a caregiver-completed questionnaire for preschool-aged children",
+    doi: "10.1016/j.jaci.2009.01.058",
+    pmid: "19348922",
+    url: "https://pubmed.ncbi.nlm.nih.gov/19348922/",
+    evidenceLevel: "original_derivation_study"
+  }],
+  asq: [{
+    id: "asq3_official",
+    title: "Ages & Stages Questionnaires, Third Edition (ASQ-3)",
+    url: "https://agesandstages.com/products-pricing/asq3/",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  crafft_21: [{
+    id: "crafft_21_official",
+    title: "CRAFFT 2.1 — official instrument site",
+    url: "https://crafft.org/get-the-crafft/",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  phq9_adolescent: [{
+    id: "phq9a_nimh",
+    title: "PHQ-9 modified for Adolescents (PHQ-A) — NIMH",
+    url: "https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials/asq-tool/phq-9-modified-for-adolescents-phq-a",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  gad7_adolescent: [{
+    id: "gad7_adolescent_validation",
+    title: "The Generalized Anxiety Disorder 7-item scale in adolescents with generalized anxiety disorder: Signal detection and validation",
+    pmid: "29069107",
+    url: "https://pubmed.ncbi.nlm.nih.gov/29069107/",
+    evidenceLevel: "external_validation_study"
+  }],
+  scoff: [{
+    id: "scoff_development",
+    title: "SCOFF, the development of an eating disorder screening questionnaire",
+    doi: "10.1002/eat.20679",
+    pmid: "19343793",
+    url: "https://pubmed.ncbi.nlm.nih.gov/19343793/",
+    evidenceLevel: "original_derivation_study"
+  }],
+  vanderbilt: [{
+    id: "vanderbilt_chadd",
+    title: "NICHQ Vanderbilt Assessment Scales — CHADD clinical tools",
+    url: "https://chadd.org/for-professionals/clinical-practice-tools-quick-links/",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  chaq: [{
+    id: "chaq_original",
+    title: "Measurement of health status in children with juvenile rheumatoid arthritis",
+    doi: "10.1002/art.1780371209",
+    url: "https://oml.eular.org/oml_search_results_details.cfm?action=All+information&id=216",
+    evidenceLevel: "original_derivation_study"
+  }],
+  pedmidas: [{
+    id: "pedmidas_grading",
+    title: "Development of a patient-based grading scale for PedMIDAS",
+    doi: "10.1111/j.1468-2982.2004.00757.x",
+    pmid: "15377315",
+    url: "https://pubmed.ncbi.nlm.nih.gov/15377315/",
+    evidenceLevel: "external_validation_study"
+  }],
+  scared: [{
+    id: "scared_original",
+    title: "The Screen for Child Anxiety Related Emotional Disorders (SCARED): scale construction and psychometric characteristics",
+    pmid: "9100430",
+    url: "https://pubmed.ncbi.nlm.nih.gov/9100430/",
+    evidenceLevel: "original_derivation_study"
+  }],
+  psc: [{
+    id: "psc_mass_general",
+    title: "Pediatric Symptom Checklist — Massachusetts General Hospital",
+    url: "https://www.massgeneral.org/assets/mgh/pdf/psychiatry/psc/psc-english.pdf",
+    evidenceLevel: "official_manual_or_institutional_protocol"
+  }],
+  acq: [{
+    id: "acq_original",
+    title: "Development and validation of a questionnaire to measure asthma control",
+    doi: "10.1034/j.1399-3003.1999.14d29.x",
+    pmid: "10573240",
+    url: "https://pubmed.ncbi.nlm.nih.gov/10573240/",
+    evidenceLevel: "original_derivation_study"
+  }]
+};
+
 const referenceSurface = (seed: ReferenceSurfaceSeed): ClinicalToolMetadata =>
   makeTool(
     seed.id,
@@ -5467,13 +5649,14 @@ const referenceSurface = (seed: ReferenceSurfaceSeed): ClinicalToolMetadata =>
       es: "Superficie clínica de referencia activa. No reproduce localmente matrices, formularios ni instrucciones operativas protegidas.",
       en: "Active clinical reference surface. It does not reproduce protected matrices, forms, or operational instructions locally."
     },
-    seed.references ?? [
-      docRef(
-        `${seed.id}_master_plan`,
-        `PedsCore Clinical Master Implementation Plan v12: ${seed.nameEn}`,
-        seed.evidenceLevel
-      )
-    ]
+    seed.references ??
+      externalReferenceSurfaceReferences[seed.id] ?? [
+        docRef(
+          `${seed.id}_master_plan`,
+          `PedsCore Clinical Master Implementation Plan v12: ${seed.nameEn}`,
+          seed.evidenceLevel
+        )
+      ]
   );
 
 const priorityExpansionSurfaces: ClinicalToolMetadata[] = [
