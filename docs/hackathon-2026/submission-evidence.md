@@ -15,18 +15,18 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 | Structured tool metadata | `get_clinical_tool` | Verified |
 | Deterministic score execution | `calculate_clinical_score` | Verified |
 | Public HTTPS MCP endpoint | `https://pedscore-ai-mcp-production.up.railway.app/mcp` | Verified |
-| External MCP remote smoke | GitHub Actions run `35334436459` attempt 2 | Verified |
+| External MCP remote smoke | GitHub Actions run `35479718824` | Verified |
 | Deterministic remote Apgar 9/10 | remote smoke evidence | Verified |
-| Live judge console | `/judge-demo`; remote smoke run `35334436459` | Verified |
+| Live judge console | `/judge-demo`; remote smoke run `35479718824` | Verified |
 | Capability manifest | `/capabilities`; 6 tools, protocol 2025-11-25 | Verified |
 | Alexa+ manifest | `alexa-addon/addon-package/addon.json` | Verified locally / CI |
 | Alexa+ store asset dimensions | remote PNG IHDR validation | Verified |
 | Privacy / terms URLs | Railway HTTPS endpoints | Verified |
 | SIM IMV deterministic adapter | SIM PR #25 + CI run `35333822459` | Verified |
-| SIM MCP contracts | 6-tool remote `tools/list` in run `35334436459` | Verified live |
+| SIM MCP contracts | 6-tool remote `tools/list` in run `35479718824` | Verified live |
 | SIM production HTTP contract | CI run `35333822459`: production Next.js server + deterministic smoke | Verified |
 | Public SIM bridge endpoint | `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`; Vercel deployment status success | Verified |
-| End-to-end public MCP → SIM flow | GitHub Actions `Hackathon MCP Remote Smoke` run `35466300736` | Verified: `school-bus` → patient `01` → GREEN → `JS-MOB-01`, `correct=true` |
+| End-to-end public MCP → SIM flow | GitHub Actions `Hackathon MCP Remote Smoke` run `35479718824` | Verified: `school-bus` → patient `01` → GREEN → `JS-MOB-01`, `correct=true` |
 | Alexa+ private add-on tooling | Devpost support confirmation dated 18 Sep 2026 | Partner-only; intentionally not a submission dependency |
 | AWS Cognito code path | `infra/aws/cognito-alexa-mcp.yaml` | Implemented, not provisioned |
 | AWS Builder Mini Challenge | actual useful deployed AWS integration + write-up | Not yet claimed |
@@ -36,7 +36,7 @@ This is the judge-facing evidence index. Claims are marked **Verified** only whe
 ## Current key URLs
 
 - Repository: https://github.com/sferurek/PedsCore
-- Hackathon PR: https://github.com/sferurek/PedsCore/pull/91
+- Hackathon PR: https://github.com/sferurek/PedsCore/pull/105
 - SIM PR: https://github.com/sferurek/pedscore-triage-sim/pull/25
 - MCP endpoint: https://pedscore-ai-mcp-production.up.railway.app/mcp
 - Health: https://pedscore-ai-mcp-production.up.railway.app/health
