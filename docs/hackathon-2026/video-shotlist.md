@@ -57,7 +57,7 @@ Narration:
 ## 1:55–2:15 — Open source and reproducibility
 
 Visual:
-- GitHub PR #91
+- GitHub PR #105
 - MIT license
 - tests
 - remote smoke workflow
@@ -79,6 +79,6 @@ Before recording, obtain:
 - final green CI screenshots;
 - public MCP health / remote smoke evidence;
 - SIM remote bridge capture;
-- GitHub PR #91 and merged SIM PR #25;
+- GitHub PR #105 and merged SIM PR #25;
 - no real patient data;
 - no unsupported claims.
