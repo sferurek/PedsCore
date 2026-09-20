@@ -8,7 +8,7 @@ PedsCore existed before the hackathon. The immutable pre-hackathon baselines are
 
 - PedsCore baseline: `069eb6ad4626829f5d8c0bee53f4a28af163ffe4`
 - SIM IMV baseline: `3d0311cd82df42c88500b6b0e931a3df3e213b59`
-- PedsCore hackathon branch: `hackathon/alexa-mcp-v2`
+- PedsCore hackathon branch: `hackathon/alexa-mcp-v3`
 - SIM hackathon branch: `hackathon/alexa-sim`
 
 ## What changed during the hackathon
