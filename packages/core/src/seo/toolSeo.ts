@@ -123,13 +123,17 @@ const titleOverrides: Record<string, LocalizedText> = {
   "pediatric-glasgow-coma-scale": { es: "Glasgow pediátrico — Escala de coma | PedsCore", en: "Pediatric Glasgow Coma Scale (GCS) | PedsCore" },
   "phoenix-sepsis": { es: "Criterios Phoenix — Sepsis pediátrica | PedsCore", en: "Phoenix Sepsis Criteria — Pediatric Sepsis | PedsCore" },
   pim2: { es: "Calculadora PIM2 — Mortalidad pediátrica | PedsCore", en: "PIM2 Calculator — Pediatric Mortality Risk | PedsCore" },
+  comfortneo: { es: "COMFORTneo — Dolor y sedación neonatal | PedsCore", en: "COMFORTneo — Neonatal Pain & Sedation | PedsCore" },
+  "garcia-alix-ne-rs": { es: "Escala García-Alix NE-RS — Encefalopatía neonatal | PedsCore", en: "García-Alix NE-RS — Neonatal Encephalopathy | PedsCore" },
   pim3: { es: "Calculadora PIM3 — Mortalidad pediátrica | PedsCore", en: "PIM3 Calculator — Pediatric Mortality Risk | PedsCore" },
   pipp: { es: "Escala PIPP — Dolor en prematuros | PedsCore", en: "PIPP Scale — Premature Infant Pain Profile | PedsCore" },
   "pipp-r": { es: "Escala PIPP-R — Dolor en prematuros | PedsCore", en: "PIPP-R Scale — Premature Infant Pain Profile | PedsCore" },
   "asthma-control-questionnaire": { es: "ACQ — Cuestionario de control del asma | PedsCore", en: "Asthma Control Questionnaire (ACQ) | PedsCore" },
   headsss: { es: "HEADSSS — Entrevista del adolescente | PedsCore", en: "HEADSSS Adolescent Interview | PedsCore" },
   pedmidas: { es: "PedMIDAS — Discapacidad por migraña pediátrica | PedsCore", en: "PedMIDAS Score — Pediatric Migraine Disability | PedsCore" },
-  "orbegozo-growth-percentiles": { es: "Tablas Orbegozo — Percentiles de crecimiento | PedsCore", en: "Orbegozo Growth Charts — Pediatric Percentiles | PedsCore" }
+  "orbegozo-growth-percentiles": { es: "Tablas Orbegozo — Percentiles de crecimiento | PedsCore", en: "Orbegozo Growth Charts — Pediatric Percentiles | PedsCore" },
+  "who-growth-percentiles": { es: "Percentiles OMS — Peso, talla e IMC pediátrico | PedsCore", en: "WHO Growth Percentiles — Weight, Height & BMI | PedsCore" },
+  "bmi-percentile": { es: "IMC percentilado OMS — Calculadora pediátrica | PedsCore", en: "WHO BMI Percentile Calculator — Pediatric BMI | PedsCore" }
 };
 
 const searchAliasOverrides: Record<string, Record<Language, string[]>> = {
@@ -160,6 +164,38 @@ const searchAliasOverrides: Record<string, Record<Language, string[]>> = {
   "phoenix-sepsis": {
     es: ["criterios Phoenix sepsis pediátrica", "criterios Phoenix sepsis"],
     en: ["Phoenix criteria pediatric sepsis", "Phoenix sepsis criteria", "Phoenix criteria sepsis"]
+  },
+  pim2: {
+    es: ["pim 2 calculadora", "calculadora PIM2", "Pediatric Index of Mortality 2"],
+    en: ["PIM2 calculator", "Pediatric Index of Mortality 2", "PIM 2 score"]
+  },
+  comfortneo: {
+    es: ["comfortneo", "COMFORTneo escala", "dolor sedación neonatal"],
+    en: ["COMFORTneo", "COMFORTneo scale", "neonatal pain sedation score"]
+  },
+  "garcia-alix-ne-rs": {
+    es: ["garcia alix escala", "escala García-Alix", "García-Alix NE-RS"],
+    en: ["Garcia Alix scale", "García-Alix NE-RS", "neonatal encephalopathy rating scale"]
+  },
+  pedmidas: {
+    es: ["pedmidas score", "PedMIDAS", "discapacidad migraña pediátrica"],
+    en: ["PedMIDAS score", "Pediatric Migraine Disability Assessment", "migraine disability children"]
+  },
+  "who-growth-percentiles": {
+    es: ["calculadora percentiles OMS", "percentiles OMS", "peso talla IMC OMS"],
+    en: ["WHO growth percentiles", "WHO percentile calculator", "WHO weight height BMI percentiles"]
+  },
+  "bmi-percentile": {
+    es: ["IMC percentilado OMS", "percentil IMC OMS", "BMI percentil pediátrico"],
+    en: ["WHO BMI percentile", "BMI percentile calculator child", "pediatric BMI percentile"]
+  },
+  sarnat: {
+    es: ["Sarnat clásico", "escala Sarnat", "encefalopatía neonatal Sarnat"],
+    en: ["Classic Sarnat", "Sarnat staging", "neonatal encephalopathy Sarnat"]
+  },
+  "wood-downes-ferres": {
+    es: ["Wood Downes Ferres", "Wood-Downes-Ferrés", "escala bronquiolitis Wood Downes"],
+    en: ["Wood Downes Ferres", "Wood-Downes-Ferres score", "bronchiolitis wheeze score"]
   }
 };
 
@@ -266,8 +302,42 @@ export const getToolSeoProfile = (
   ].map((value) => value.trim()).filter(Boolean))].slice(0, 8);
   const baseDescription = tool.description[language] || tool.description.en;
   const population = tool.population[language] || tool.population.en;
+  const descriptionOverrides: Record<string, LocalizedText> = {
+    pim2: {
+      es: "Calculadora PIM2 (Pediatric Index of Mortality 2): ficha clínica de riesgo de mortalidad en UCI pediátrica, población, evidencia y estado de validación.",
+      en: "PIM2 calculator (Pediatric Index of Mortality 2): pediatric ICU mortality-risk tool with population, evidence and validation status."
+    },
+    comfortneo: {
+      es: "COMFORTneo: escala neonatal de dolor y sedación en cuidados intensivos, con población, evidencia, limitaciones y acceso a la fuente.",
+      en: "COMFORTneo neonatal pain and sedation scale for intensive care, with population, evidence, limitations and source access."
+    },
+    "garcia-alix-ne-rs": {
+      es: "Escala García-Alix NE-RS para valoración estructurada de encefalopatía neonatal, con fuente original, población, evidencia y limitaciones.",
+      en: "García-Alix NE-RS for structured neonatal encephalopathy assessment, with original source, population, evidence and limitations."
+    },
+    pedmidas: {
+      es: "PedMIDAS: escala de discapacidad por migraña pediátrica para niños y adolescentes, con evidencia, población y acceso a la fuente original.",
+      en: "PedMIDAS pediatric migraine disability score for children and adolescents, with evidence, population and original-source access."
+    },
+    "who-growth-percentiles": {
+      es: "Percentiles OMS de crecimiento pediátrico: acceso a peso, talla e IMC por edad con estándares WHO 2006 y referencia 5-19 años.",
+      en: "WHO pediatric growth percentiles for weight, height and BMI by age using WHO 2006 standards and the 5-19 year reference."
+    },
+    "bmi-percentile": {
+      es: "Calculadora de IMC percentilado OMS para pediatría, diferenciada del módulo general de peso y talla y basada en BMI-for-age.",
+      en: "WHO pediatric BMI percentile calculator, distinct from the broader weight/height growth module and based on BMI-for-age."
+    },
+    sarnat: {
+      es: "Sarnat clásico para estadificación clínica de encefalopatía neonatal: variante, población, fuente, limitaciones y herramientas relacionadas.",
+      en: "Classic Sarnat staging for neonatal encephalopathy, with exact variant, population, source, limitations and related tools."
+    },
+    "wood-downes-ferres": {
+      es: "Wood-Downes-Ferrés: escala respiratoria pediátrica para bronquiolitis y sibilancias, con variante, población, evidencia y limitaciones.",
+      en: "Wood-Downes-Ferrés pediatric respiratory score for bronchiolitis and wheeze, with variant, population, evidence and limitations."
+    }
+  };
   const preserveEarlySerpSnippet = tool.slug === "wood-downes-ferres" || tool.slug === "pim2";
-  const description = tool.id === "who_growth_module"
+  const description = descriptionOverrides[tool.slug]?.[language] ?? (tool.id === "who_growth_module"
     ? (language === "es"
       ? "Módulo WHO Growth con datos oficiales OMS, gráficas SVG imprimibles, percentiles escritos y punto del paciente."
       : "WHO Growth module with official WHO growth data, printable SVG charts, written percentiles and patient point.")
@@ -276,7 +346,7 @@ export const getToolSeoProfile = (
           ? `${fullName}: ${baseDescription} ${tool.calculationStatus === "active" && !preserveEarlySerpSnippet ? "Cálculo activo. " : ""}Población: ${population}. ${preserveEarlySerpSnippet ? "Evidencia y estado de validación" : "Evidencia trazable"} en PedsCore.`
           : `${fullName}: ${baseDescription} ${tool.calculationStatus === "active" && !preserveEarlySerpSnippet ? "Active calculation. " : ""}Population: ${population}. ${preserveEarlySerpSnippet ? "Evidence and validation status" : "Traceable evidence"} in PedsCore.`,
         158
-      );
+      ));
   return { title, description, primaryTerm: fullName, topic, aliases };
 };
 

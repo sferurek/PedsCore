@@ -93,6 +93,43 @@ const topicHubs = {
   }
 };
 
+const featuredCategoryToolIds = {
+  intensive_care: ["pim2", "pim3", "prism_iv", "pelod_2", "psofa", "phoenix_sepsis"],
+  neonatology: ["comfortneo", "garcia_alix_ners", "sarnat", "modified_sarnat_nichd", "who_growth_percentiles"],
+  neurology: ["pedmidas", "pediatric_glasgow_coma_scale"],
+  respiratory: ["wood_downes_ferres", "pram", "pass"],
+  growth_nutrition: ["who_growth_percentiles", "bmi_percentile", "cdc_growth_percentiles", "who_growth_module"],
+  emergency: ["pecarn_tbi_under_2", "pecarn_tbi_2_or_more", "catch_tbi", "chalice_tbi", "step_by_step"]
+};
+
+const categoryIntentCopy = {
+  intensive_care: {
+    es: "Incluye scores pronósticos y de disfunción orgánica como PIM2, PIM3, PRISM IV, PELOD-2, pSOFA y Phoenix. Cada ficha mantiene por separado finalidad, población, momento de recogida y limitaciones.",
+    en: "Includes prognostic and organ-dysfunction tools such as PIM2, PIM3, PRISM IV, PELOD-2, pSOFA and Phoenix. Each page keeps purpose, population, sampling window and limitations explicit."
+  },
+  neonatology: {
+    es: "Reúne escalas de transición, encefalopatía, dolor/sedación, ictericia y crecimiento neonatal. Sarnat, García-Alix y COMFORTneo se enlazan con su variante y evidencia para evitar tratar instrumentos distintos como equivalentes.",
+    en: "Covers transition, encephalopathy, pain/sedation, jaundice and neonatal growth. Sarnat, García-Alix and COMFORTneo are linked with exact variant and evidence so distinct instruments are not treated as equivalent."
+  },
+  neurology: {
+    es: "Incluye valoración de conciencia, ictus y discapacidad por migraña. PedMIDAS se presenta como instrumento específico de discapacidad relacionada con migraña, diferenciado de escalas de intensidad o diagnóstico.",
+    en: "Includes consciousness, stroke and migraine-disability assessment. PedMIDAS is presented specifically as a migraine-disability instrument, distinct from headache-intensity or diagnostic tools."
+  },
+  respiratory: {
+    es: "Agrupa escalas de asma, bronquiolitis, sibilancias, crup y dificultad respiratoria. PRAM, PASS y Wood-Downes-Ferrés se muestran con su población y contexto para evitar intercambiar escalas no equivalentes.",
+    en: "Groups asthma, bronchiolitis, wheeze, croup and respiratory-distress tools. PRAM, PASS and Wood-Downes-Ferres are shown with population and setting so non-equivalent scores are not interchanged."
+  },
+  growth_nutrition: {
+    es: "Distingue el módulo general de percentiles OMS de herramientas específicas como IMC-para-la-edad. Esta separación ayuda a resolver búsquedas de percentiles de peso/talla frente a búsquedas específicas de IMC pediátrico.",
+    en: "Separates the broad WHO growth-percentile module from focused tools such as BMI-for-age. This distinguishes weight/height percentile intent from pediatric BMI percentile intent."
+  },
+  emergency: {
+    es: "Reúne reglas para TCE, lactante febril, deshidratación, apendicitis, shock y triaje. PECARN, CATCH y CHALICE conservan criterios de entrada y exclusión propios y no se presentan como reglas intercambiables.",
+    en: "Covers head injury, febrile infants, dehydration, appendicitis, shock and triage. PECARN, CATCH and CHALICE retain their own entry and exclusion criteria and are not presented as interchangeable rules."
+  }
+};
+
+
 
 const escapeHtml = (value) => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 
@@ -201,6 +238,9 @@ export const renderStaticBody = (seo, tools) => {
   if (category) {
     const info = getCategorySeoProfile(category, language);
     const items = seo.categoryTools ?? [];
+    const featuredIds = featuredCategoryToolIds[category] ?? [];
+    const featuredItems = featuredIds.map((id) => tools.find((item) => item.id === id)).filter(Boolean);
+    const intentCopy = categoryIntentCopy[category]?.[language];
     return `<main class="seo-static-fallback">
       <nav aria-label="${isEs ? "Ruta de navegación" : "Breadcrumbs"}">${internalLink(homeUrl, "PedsCore")} › <span>${escapeHtml(info.name)}</span></nav>
       <h1>${escapeHtml(info.name)}</h1>
@@ -208,6 +248,8 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? `Esta colección reúne ${items.length} herramientas pediátricas relacionadas con ${escapeHtml(info.name.toLowerCase())}, con acceso a descripciones clínicas, estado de validación, referencias y herramientas de cálculo cuando están activas.`
         : `This collection brings together ${items.length} pediatric tools related to ${escapeHtml(info.name.toLowerCase())}, including clinical descriptions, validation status, references and calculators when active.`}</p>
+      ${intentCopy ? `<p>${escapeHtml(intentCopy)}</p>` : ""}
+      ${featuredItems.length ? `<h2>${isEs ? "Herramientas destacadas" : "Featured tools"}</h2><ul>${featuredItems.map((item) => `<li>${internalLink(`/${language}/tools/${item.slug}`, localized(item.name, language))}</li>`).join("")}</ul>` : ""}
       <h2>${isEs ? "Cómo utilizar esta categoría" : "How to use this category"}</h2>
       <p>${isEs
         ? "Las herramientas se agrupan por área clínica para facilitar su descubrimiento, pero cada ficha conserva su propia población, finalidad, nivel de evidencia y limitaciones. Antes de aplicar una escala o calculadora, revisa la variante exacta, el contexto asistencial y el estado de implementación que aparece en su página."
@@ -358,6 +400,11 @@ export const renderStaticBody = (seo, tools) => {
       <p>${isEs
         ? "No envíes nombres, fechas de nacimiento, historias clínicas, imágenes identificables ni ningún otro dato real de pacientes. Los ejemplos deben ser ficticios o estar completamente anonimizados y ser innecesarios para identificar a una persona."
         : "Do not submit names, dates of birth, medical records, identifiable images or any other real patient data. Examples should be fictional or fully anonymized and unnecessary for identifying any person."}</p>
+      <h2>${isEs ? "Revisión clínica independiente" : "Independent clinical review"}</h2>
+      <p>${isEs
+        ? "Los pediatras y otros profesionales con experiencia relevante pueden revisar una implementación concreta contra su fuente primaria. PedsCore separa esa revisión humana de la auditoría técnica y conserva el commit, fecha, fuentes y resultado para que la revisión sea reproducible."
+        : "Pediatricians and other relevant clinicians can review a specific implementation against its primary source. PedsCore keeps that human review separate from technical audit and records commit, date, sources and outcome so the review remains reproducible."}</p>
+      <p><a href="https://github.com/sferurek/PedsCore/blob/main/docs/TIER_A_EXTERNAL_REVIEW_PACK.md">${isEs ? "Paquete de revisión clínica Tier A" : "Tier A clinical review pack"}</a></p>
       <h2>${isEs ? "También puedes ayudar sin escribir código" : "You can also help without writing code"}</h2>
       <p>${isEs
         ? "Son útiles los avisos sobre enlaces rotos, traducciones ambiguas, problemas de accesibilidad, diferencias entre versiones de una escala, fuentes que faltan o situaciones en las que una ficha podría inducir a interpretar demasiado el resultado."
