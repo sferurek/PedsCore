@@ -24,16 +24,13 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Audit before fix
+      - name: Audit current lockfile
         run: npm audit || true
 
-      - name: Refresh lockfile from patched package constraints
-        run: npm install --package-lock-only --ignore-scripts
+      - name: Regenerate lockfile from patched package constraints
+        run: npm install --package-lock-only --ignore-scripts --legacy-peer-deps
 
-      - name: Audit after refresh
+      - name: Audit after remediation
         run: npm audit || true
 
       - name: Commit lockfile remediation
