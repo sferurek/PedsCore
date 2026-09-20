@@ -15,3 +15,5 @@ export * from "./discovery/toolDiscovery.js";
 export * from "./seo/toolSeo.js";
 
 export * from "./review/clinicalReview.js";
+
+export * from "./mcp/index.js";
