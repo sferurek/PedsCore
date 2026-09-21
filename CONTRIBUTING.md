@@ -81,3 +81,18 @@ npm run seo:check
 ## Clinical Safety Language
 
 Avoid language that implies PedsCore diagnoses, certifies, validates clinical care, recommends treatment or replaces professional judgment. Use clear traceability and limitation wording.
+
+
+## Vercel Build Cost Policy
+
+PedsCore minimizes Vercel builds to preserve included Pro build credit.
+
+- Do not trigger or force a Vercel deployment for documentation-only, test-only, mobile parity fixture, or other non-web changes.
+- Vercel builds are required when changes can affect the production web artifact, including `apps/web/**`, runtime clinical source under `packages/core/src/**`, dependency manifests/lockfiles, `vercel.json`, or the Vercel ignore script itself.
+- Prefer GitHub Actions for validation of test-only/mobile-only work.
+- Batch related web-facing changes into fewer PRs/deployments where practical.
+- Use `.vercel-force-deploy` or `.vercel-redeploy` only when an explicit rebuild is operationally necessary.
+- Do not redeploy an already validated artifact merely to promote it; prefer promotion/reuse where applicable.
+- If the impact of a change on the web artifact is uncertain, build rather than skip.
+
+The repository-level decision is implemented by `scripts/vercel-ignore-build.mjs` through `vercel.json#ignoreCommand`.
