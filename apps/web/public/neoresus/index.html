@@ -863,8 +863,8 @@ function render(){
   $('cordBadge').className='pill '+(S.cord?'':'ok');
   $('ventBadge').textContent=S.first==null?'Sin VPPI':(S.effectiveAt==null?'VPPI sin expansión':'VPPI eficaz');
   $('ventBadge').className='pill '+(S.effectiveAt!=null?'ok':S.first!=null?'warn':'');
-  $('toneBadge').textContent=!S.running?'Tono no valorado':(S.apnea?'Tono disminuido':'Tono en mejoría');
-  $('toneBadge').className='pill '+(!S.apnea?'ok':'warn');
+  $('toneBadge').textContent=S.startPerf==null?'Tono no valorado':(S.apnea?'Tono disminuido':'Tono en mejoría');
+  $('toneBadge').className='pill '+(S.startPerf==null?'warn':(!S.apnea?'ok':'warn'));
 
   if(S.ppv && S.effectiveAt==null) $('maskVisual').className='maskVisual on leak';
   if(S.effectiveAt!=null) $('maskVisual').className='maskVisual on sealed';
