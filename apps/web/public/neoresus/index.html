@@ -316,7 +316,7 @@ button.danger{
 .card p{color:#486176;line-height:1.55}
 .rows{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(5,1fr);
   gap:10px;
 }
 .rows div{
@@ -439,7 +439,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
 </style></head><body>
 <div class="app">
   <header>
-    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.4</span></div>
+    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.5</span></div>
     <div class="status">39+2 sem · Simulación en tiempo real</div>
     <div class="clock" id="clock">00:00</div>
   </header>
@@ -488,7 +488,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
       <span class="status" id="status">Gold standard clínico: GRN-SENeo 2026</span>
     </div>
 
-    <div class="grid" style="grid-template-columns:repeat(11,minmax(78px,1fr))">
+    <div class="grid" style="grid-template-columns:repeat(12,minmax(76px,1fr))">
       <button class="primary" id="startBtn" onclick="openBriefing()">Briefing / iniciar</button>
       <button onclick="act('stim')">Estimular</button>
       <button onclick="act('clamp')">Pinzar cordón</button>
@@ -500,6 +500,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
       <button class="primary" id="startVentBtn" onclick="act('startVent')">Iniciar VPPI</button>
       <button id="correctBtn" onclick="act('correct')" disabled>Corregir ventilación</button>
       <button class="danger" onclick="act('compress')">Compresiones</button>
+      <button id="finishBtn" onclick="requestFinish()">Finalizar caso</button>
     </div>
 
     <div class="ppv">
@@ -534,15 +535,28 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
   </div>
 </div>
 
+<div class="briefingModal" id="finishModal">
+  <div class="briefingCard" style="width:min(620px,94vw)">
+    <span class="tag">Finalizar caso</span>
+    <h1>¿Quieres terminar la simulación ahora?</h1>
+    <p>Se conservarán todas las acciones realizadas y el debriefing mostrará hasta dónde llegaste, incluyendo decisiones pendientes y tiempos.</p>
+    <div class="briefActions">
+      <button onclick="closeFinishModal()">Continuar caso</button>
+      <button class="primary" onclick="finishCase('manual')">Finalizar y ver debrief</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="modal">
   <div class="card">
     <button style="float:right" onclick="closeDebrief()">Cerrar</button>
-    <h2>Debriefing · S1 Alpha 0.4</h2>
+    <h2>Debriefing · S1 Alpha 0.5</h2>
     <div class="rows">
       <div><small>Primera VPPI</small><b id="d1">—</b></div>
       <div><small>VPPI eficaz</small><b id="d2">—</b></div>
       <div><small>FC &gt;100</small><b id="d3">—</b></div>
       <div><small>Tiempo hasta VPPI eficaz</small><b id="d4">—</b></div>
+      <div><small>Finalización</small><b id="d5">—</b></div>
     </div>
 
     <div class="debriefGrid">
@@ -557,6 +571,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
     </div>
 
     <p><b>Referencia:</b> GRN-SENeo 2026. Para este RN ≥35 semanas, FiO₂ inicial 0,21. Ante apnea o FC &lt;100 se prioriza ventilación; si persiste FC &lt;100, se debe asegurar/corregir la ventilación antes de escalar.</p>
+    <p><b>Política de finalización:</b> el alumno puede finalizar en cualquier momento. S1 también termina automáticamente al alcanzar su objetivo docente (ventilación eficaz + FC &gt;100 + respiración espontánea mantenida durante una breve ventana de confirmación) o al llegar a 5:00 min. El límite de 5 minutos y la ventana de confirmación son parámetros operativos del simulador, no recomendaciones clínicas.</p>
     <p><b>Diseño de interacción:</b> en el caso principal la VPPI se ha simplificado deliberadamente para priorizar razonamiento clínico y secuencia de actuación. El entrenamiento manual de frecuencia, regularidad, pausas y técnica se conserva como concepto de minijuego independiente.</p>
     <p><b>Supuestos operativos del simulador:</b> adquisición ECG 4 s y señal de SpO₂ 8 s. Son tiempos de interfaz/simulación, no recomendaciones SeNeo.</p>
   </div>
@@ -575,10 +590,13 @@ const S = {
   sealCorrected:false, correctionAt:null,
   effectiveAt:null, hr100:null, recoveredAt:null,
   compressions:false,
+  finished:false, finishReason:null, finishedAt:null,
   errors:[], notes:[], events:[]
 };
 
 let loop = null;
+const SIM_MAX_SEC = 300; // operational simulation limit, not a clinical guideline
+const PEDAGOGICAL_RECOVERY_HOLD_SEC = 5; // operational confirmation window after recovery
 const $ = id => document.getElementById(id);
 
 function fmt(x){
@@ -609,6 +627,7 @@ function reset(){
     chest:'unknown',chestCheckedAt:null,
     sealCorrected:false,correctionAt:null,effectiveAt:null,
     hr100:null,recoveredAt:null,compressions:false,
+    finished:false,finishReason:null,finishedAt:null,
     errors:[],notes:[],events:[]
   });
   $('timeline').innerHTML='';
@@ -629,7 +648,7 @@ function start(){
   render();
 }
 function updateClock(){
-  if(!S.running) return;
+  if(!S.running || S.finished) return;
   S.t = Math.floor(nowRel());
   while(S.lastProcessedSec < S.t){
     S.lastProcessedSec++;
@@ -676,6 +695,17 @@ function processSecond(sec){
     $('baby').classList.add('good','spontaneous');
     $('sceneNote').textContent='Respira espontáneamente · tono en mejoría';
     add('Recupera respiración espontánea','milestone');
+  }
+
+  // Pedagogical endpoint: ventilation corrected, HR recovered and spontaneous breathing sustained.
+  if(!S.finished && S.recoveredAt!=null && S.hr>=100 && sec-S.recoveredAt>=PEDAGOGICAL_RECOVERY_HOLD_SEC){
+    finishCase('pedagogical');
+    return;
+  }
+
+  // Hard cap for the exercise. This is an operational simulation setting, not SeNeo guidance.
+  if(!S.finished && sec>=SIM_MAX_SEC){
+    finishCase('timeout');
   }
 }
 
@@ -774,6 +804,32 @@ function act(a){
   render();
 }
 
+function requestFinish(){
+  if(!S.running || S.finished) return;
+  $('finishModal').classList.add('on');
+}
+function closeFinishModal(){ $('finishModal').classList.remove('on'); }
+
+function finishCase(reason){
+  if(S.finished) return;
+  closeFinishModal();
+  S.finished=true;
+  S.finishReason=reason;
+  S.finishedAt=S.t;
+  S.running=false;
+  if(loop){ clearInterval(loop); loop=null; }
+
+  const labels={
+    manual:'Finalización manual por el alumno',
+    pedagogical:'Punto docente alcanzado',
+    timeout:'Tiempo máximo de simulación alcanzado'
+  };
+  add(labels[reason] || 'Caso finalizado','milestone');
+  $('sceneNote').textContent=labels[reason] || 'Caso finalizado';
+  render();
+  debrief();
+}
+
 function render(){
   $('clock').textContent=fmt(S.t);
 
@@ -814,10 +870,13 @@ function render(){
   if(S.effectiveAt!=null) $('maskVisual').className='maskVisual on sealed';
 
   $('correctBtn').disabled=!(S.ppv && S.chest==='absent');
-  $('startVentBtn').disabled=!S.running || S.ppv;
-  $('status').textContent=S.running
-    ? (S.effectiveAt==null?'Reloj clínico activo · prioriza decisiones y secuencia':'Reloj activo · VPPI eficaz establecida')
-    : 'Gold standard clínico: GRN-SENeo 2026';
+  $('startVentBtn').disabled=!S.running || S.ppv || S.finished;
+  $('finishBtn').disabled=!S.running || S.finished;
+  $('status').textContent=S.finished
+    ? ('Caso finalizado · '+(S.finishReason==='pedagogical'?'punto docente alcanzado':S.finishReason==='timeout'?'tiempo máximo alcanzado':'finalización manual'))
+    : S.running
+      ? (S.effectiveAt==null?'Reloj clínico activo · prioriza decisiones y secuencia':'Reloj activo · VPPI eficaz establecida')
+      : 'Gold standard clínico: GRN-SENeo 2026';
 }
 
 function li(text){ return '<li>'+text+'</li>'; }
@@ -828,6 +887,8 @@ function debrief(){
   $('d2').textContent=S.effectiveAt==null?'—':fmt(S.effectiveAt);
   $('d3').textContent=S.hr100==null?'—':fmt(S.hr100);
   $('d4').textContent=(S.first!=null&&S.effectiveAt!=null)?(S.effectiveAt-S.first)+' s':'—';
+  const finishLabels={manual:'Manual',pedagogical:'Punto docente',timeout:'Tiempo máximo'};
+  $('d5').textContent=S.finishReason?finishLabels[S.finishReason]:'En curso';
 
   const clinical=[];
   if(S.stimAt!=null){
@@ -843,6 +904,14 @@ function debrief(){
   }
   clinical.push(li(S.hr100==null?'FC no superó 100 lpm durante el registro.':'FC >100 a '+fmt(S.hr100)+'.'));
   clinical.push(li(S.recoveredAt==null?'Respiración espontánea no recuperada todavía.':'Respiración espontánea recuperada a '+fmt(S.recoveredAt)+'.'));
+  if(S.finished){
+    const finishText = S.finishReason==='pedagogical'
+      ? 'Caso cerrado automáticamente al alcanzar el punto docente: VPPI eficaz, FC >100 y respiración espontánea mantenida.'
+      : S.finishReason==='timeout'
+        ? 'Caso cerrado al alcanzar el límite operativo de '+SIM_MAX_SEC+' s.'
+        : 'Caso finalizado manualmente por el alumno.';
+    clinical.push(li(finishText+' Tiempo final: '+fmt(S.finishedAt)+'.'));
+  }
   if(S.errors.length){
     clinical.push(...S.errors.map(e=>li('Oportunidad de mejora: '+e)));
   } else {
