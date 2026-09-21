@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "test": "npm run build -w @peds-core/core && npm run prebuild -w @peds-core/web && vitest run",
     "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web && npm run build -w @peds-core/mcp-server",
+    "mobile:bundle": "npm run build -w @peds-core/core && node scripts/export-mobile-clinical-bundle.mjs",
     "seo:check": "npm run seo:check -w @peds-core/web",
     "audit:governance": "node scripts/verify-governance.mjs",
     "seo:indexnow": "npm run seo:indexnow -w @peds-core/web",

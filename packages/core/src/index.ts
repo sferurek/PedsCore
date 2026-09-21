@@ -17,3 +17,5 @@ export * from "./seo/toolSeo.js";
 export * from "./review/clinicalReview.js";
 
 export * from "./mcp/index.js";
+
+export * from "./mobile/clinicalBundle.js";
