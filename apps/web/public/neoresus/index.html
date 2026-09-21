@@ -439,7 +439,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
 </style></head><body>
 <div class="app">
   <header>
-    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.3</span></div>
+    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.4</span></div>
     <div class="status">39+2 sem · Simulación en tiempo real</div>
     <div class="clock" id="clock">00:00</div>
   </header>
@@ -497,20 +497,20 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
       <button onclick="act('spo2')">SpO₂ preductal</button>
       <button onclick="act('fio2up')">FiO₂ +10%</button>
       <button onclick="act('fio2down')">FiO₂ −10%</button>
-      <button onclick="act('chest')">Comprobar tórax</button>
+      <button class="primary" id="startVentBtn" onclick="act('startVent')">Iniciar VPPI</button>
       <button id="correctBtn" onclick="act('correct')" disabled>Corregir ventilación</button>
       <button class="danger" onclick="act('compress')">Compresiones</button>
     </div>
 
     <div class="ppv">
       <div>
-        <b>VPPI manual</b>
-        <div class="status">clic / ESPACIO = 1 insuflación</div>
+        <b>Ventilación simplificada</b>
+        <div class="status">El caso evalúa decisiones y tiempos; la técnica manual pasa a minijuego independiente.</div>
       </div>
-      <button class="inflate" id="inflateBtn" onclick="inflate()">INSUFLAR</button>
-      <div class="stat"><small>Frecuencia 10 s</small><b id="rate">—</b></div>
-      <div class="stat"><small>Mediana</small><b id="median">—</b></div>
-      <div class="stat"><small>Insuflaciones</small><b id="count">0</b></div>
+      <button id="chestBtn" onclick="act('chest')">Comprobar tórax</button>
+      <div class="stat"><small>Estado VPPI</small><b id="ventState">No iniciada</b></div>
+      <div class="stat"><small>VPPI ineficaz</small><b id="ineffectiveTime">—</b></div>
+      <div class="stat"><small>VPPI eficaz</small><b id="effectiveTime">—</b></div>
       <button onclick="debrief()">Debrief</button>
     </div>
   </section>
@@ -537,12 +537,12 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
 <div class="modal" id="modal">
   <div class="card">
     <button style="float:right" onclick="closeDebrief()">Cerrar</button>
-    <h2>Debriefing · S1 Alpha 0.3</h2>
+    <h2>Debriefing · S1 Alpha 0.4</h2>
     <div class="rows">
       <div><small>Primera VPPI</small><b id="d1">—</b></div>
       <div><small>VPPI eficaz</small><b id="d2">—</b></div>
       <div><small>FC &gt;100</small><b id="d3">—</b></div>
-      <div><small>Frecuencia mediana</small><b id="d4">—</b></div>
+      <div><small>Tiempo hasta VPPI eficaz</small><b id="d4">—</b></div>
     </div>
 
     <div class="debriefGrid">
@@ -551,13 +551,13 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
         <ul class="debriefList" id="clinicalDebrief"></ul>
       </div>
       <div class="debriefBox">
-        <h4>VPPI y tiempos</h4>
+        <h4>Ventilación y tiempos</h4>
         <ul class="debriefList" id="ppvDebrief"></ul>
       </div>
     </div>
 
     <p><b>Referencia:</b> GRN-SENeo 2026. Para este RN ≥35 semanas, FiO₂ inicial 0,21. Ante apnea o FC &lt;100 se prioriza ventilación; si persiste FC &lt;100, se debe asegurar/corregir la ventilación antes de escalar.</p>
-    <p><b>Nota internacional:</b> el artículo español 2026 disponible no explicita la frecuencia manual exacta de VPPI. En esta alpha, 30–60/min se usa como <em>perfil técnico contextual AHA/AAP 2025</em> para analizar ritmo, no como una cifra atribuida a SeNeo. ERC 2025 usa 30–40/min tras inflar los pulmones.</p>
+    <p><b>Diseño de interacción:</b> en el caso principal la VPPI se ha simplificado deliberadamente para priorizar razonamiento clínico y secuencia de actuación. El entrenamiento manual de frecuencia, regularidad, pausas y técnica se conserva como concepto de minijuego independiente.</p>
     <p><b>Supuestos operativos del simulador:</b> adquisición ECG 4 s y señal de SpO₂ 8 s. Son tiempos de interfaz/simulación, no recomendaciones SeNeo.</p>
   </div>
 </div>
@@ -570,7 +570,7 @@ const S = {
   spo2Mode:'none', spo2RequestedAt:null,
   fio2:.21,
   cord:false, clampAt:null, stimAt:null,
-  ppv:false, taps:[], first:null,
+  ppv:false, first:null,
   chest:'unknown', chestCheckedAt:null,
   sealCorrected:false, correctionAt:null,
   effectiveAt:null, hr100:null, recoveredAt:null,
@@ -605,7 +605,7 @@ function reset(){
     hrMode:'hidden',ecgRequestedAt:null,
     spo2Mode:'none',spo2RequestedAt:null,
     fio2:.21,cord:false,clampAt:null,stimAt:null,
-    ppv:false,taps:[],first:null,
+    ppv:false,first:null,
     chest:'unknown',chestCheckedAt:null,
     sealCorrected:false,correctionAt:null,effectiveAt:null,
     hr100:null,recoveredAt:null,compressions:false,
@@ -638,45 +638,8 @@ function updateClock(){
   render();
 }
 
-function recentTaps(windowSec=3){
-  const n = nowRel();
-  return S.taps.filter(x => x > n-windowSec && x <= n);
-}
-function intervalRates(){
-  if(S.taps.length < 2) return [];
-  return S.taps.slice(1).map((v,i)=>{
-    const dt=v-S.taps[i];
-    return dt>0 ? 60/dt : Infinity;
-  });
-}
-function currentRate(){
-  const n=nowRel();
-  const r=S.taps.filter(x=>x>n-10 && x<=n);
-  if(r.length<2) return null;
-  const span=Math.max(.001,r[r.length-1]-r[0]);
-  return Math.round(((r.length-1)/span)*60);
-}
-function med(){
-  const r=intervalRates().filter(Number.isFinite).sort((a,b)=>a-b);
-  if(!r.length) return null;
-  const m=Math.floor(r.length/2);
-  return r.length%2?r[m]:(r[m-1]+r[m])/2;
-}
-function inRangePct(low=30,high=60){
-  const r=intervalRates().filter(Number.isFinite);
-  if(!r.length) return null;
-  return Math.round(r.filter(v=>v>=low&&v<=high).length/r.length*100);
-}
-function longestPause(){
-  if(S.taps.length<2) return null;
-  return Math.max(...S.taps.slice(1).map((v,i)=>v-S.taps[i]));
-}
-function cadenceAdequate(){
-  const r=currentRate();
-  return r!=null && r>=30 && r<=60 && recentTaps(3).length>=1;
-}
 function activeEffectiveVentilation(){
-  return S.sealCorrected && S.effectiveAt!=null && recentTaps(3).length>=1;
+  return S.ppv && S.sealCorrected && S.effectiveAt!=null;
 }
 
 function processSecond(sec){
@@ -697,13 +660,8 @@ function processSecond(sec){
   }
 
   if(S.apnea && activeEffectiveVentilation()){
-    if(cadenceAdequate()){
-      if(sec>0 && sec%2===0) S.hr=Math.min(132,S.hr+4);
-      if(sec>0 && sec%3===0) S.spo2=Math.min(94,S.spo2+2);
-    } else {
-      // Correct seal but poor/paused cadence: no automatic recovery.
-      if(sec>0 && sec%10===0) S.hr=Math.max(50,S.hr-1);
-    }
+    if(sec>0 && sec%2===0) S.hr=Math.min(132,S.hr+4);
+    if(sec>0 && sec%3===0) S.spo2=Math.min(94,S.spo2+2);
   }
 
   if(S.hr>=100 && S.hr100==null){
@@ -711,7 +669,7 @@ function processSecond(sec){
     add('La FC supera 100 lpm','milestone');
   }
 
-  if(S.hr>=118 && S.effectiveAt!=null && sec-S.effectiveAt>=10 && cadenceAdequate() && S.apnea){
+  if(S.hr>=118 && S.effectiveAt!=null && sec-S.effectiveAt>=10 && S.apnea){
     S.apnea=false;
     S.tone='improving';
     S.recoveredAt=sec;
@@ -775,10 +733,20 @@ function act(a){
     add('Reduce FiO₂ a '+Math.round(S.fio2*100)+'%');
   }
 
+  if(a==='startVent'){
+    if(!S.ppv){
+      S.ppv=true;
+      S.first=S.t;
+      S.chest='absent';
+      $('maskVisual').className='maskVisual on leak';
+      add('Inicia VPPI · inicialmente sin expansión torácica','milestone');
+    }
+  }
+
   if(a==='chest'){
     S.chestCheckedAt=S.t;
     if(S.ppv){
-      S.chest = S.sealCorrected && recentTaps(3).length ? 'present' : 'absent';
+      S.chest = S.sealCorrected ? 'present' : 'absent';
     } else {
       S.chest='unknown';
     }
@@ -789,9 +757,10 @@ function act(a){
     if(!(S.ppv && S.chest==='absent')) return;
     S.sealCorrected=true;
     S.correctionAt=S.t;
-    S.chest='unknown';
+    S.effectiveAt=S.t;
+    S.chest='present';
     $('maskVisual').className='maskVisual on sealed';
-    add('Corrige posición/sellado de mascarilla');
+    add('Corrige posición/sellado · VPPI eficaz con expansión torácica','milestone');
   }
 
   if(a==='compress'){
@@ -800,34 +769,6 @@ function act(a){
     if(S.hr>=60 || S.effectiveAt==null){
       S.errors.push('Compresiones iniciadas antes de completar la secuencia indicada.');
     }
-  }
-
-  render();
-}
-
-function inflate(){
-  if(!S.running) return;
-  const tap=nowRel();
-
-  if(S.first==null){
-    S.first=S.t;
-    S.ppv=true;
-    S.chest='absent';
-    $('maskVisual').className='maskVisual on leak';
-    add('Inicia VPPI · no se aprecia expansión torácica','milestone');
-  }
-
-  S.taps.push(tap);
-  if(S.sealCorrected){
-    $('baby').classList.remove('inflatePulse');
-    void $('baby').offsetWidth;
-    $('baby').classList.add('inflatePulse');
-  }
-
-  if(S.sealCorrected && S.effectiveAt==null){
-    S.effectiveAt=S.t;
-    S.chest='present';
-    add('Primera insuflación eficaz tras corrección · expansión torácica presente','milestone');
   }
 
   render();
@@ -858,11 +799,9 @@ function render(){
   $('resp').textContent=S.apnea?'APNEA':'ESPONTÁNEA';
   $('chest').textContent=S.chest==='unknown'?'NO VALORADA':(S.chest==='present'?'PRESENTE':'AUSENTE');
 
-  $('count').textContent=S.taps.length;
-  const cr=currentRate();
-  $('rate').textContent=cr==null?'—':cr+'/min';
-  const m=med();
-  $('median').textContent=m==null?'—':Math.round(m)+'/min';
+  $('ventState').textContent=S.first==null?'No iniciada':(S.effectiveAt==null?'Sin expansión':'Eficaz');
+  $('ineffectiveTime').textContent=(S.first!=null && S.effectiveAt==null)?(S.t-S.first)+' s':(S.first!=null&&S.effectiveAt!=null?(S.effectiveAt-S.first)+' s':'—');
+  $('effectiveTime').textContent=S.effectiveAt==null?'—':(S.t-S.effectiveAt)+' s';
 
   $('cordBadge').textContent=S.cord?'Cordón pinzado':'Cordón íntegro';
   $('cordBadge').className='pill '+(S.cord?'':'ok');
@@ -875,9 +814,9 @@ function render(){
   if(S.effectiveAt!=null) $('maskVisual').className='maskVisual on sealed';
 
   $('correctBtn').disabled=!(S.ppv && S.chest==='absent');
-  $('inflateBtn').disabled=!S.running;
+  $('startVentBtn').disabled=!S.running || S.ppv;
   $('status').textContent=S.running
-    ? (S.effectiveAt==null?'Reloj clínico activo · fisiología evoluciona en tiempo real':'Reloj activo · VPPI eficaz sólo si continúan las insuflaciones')
+    ? (S.effectiveAt==null?'Reloj clínico activo · prioriza decisiones y secuencia':'Reloj activo · VPPI eficaz establecida')
     : 'Gold standard clínico: GRN-SENeo 2026';
 }
 
@@ -888,8 +827,7 @@ function debrief(){
   $('d1').textContent=S.first==null?'—':fmt(S.first);
   $('d2').textContent=S.effectiveAt==null?'—':fmt(S.effectiveAt);
   $('d3').textContent=S.hr100==null?'—':fmt(S.hr100);
-  const m=med();
-  $('d4').textContent=m==null?'—':Math.round(m)+'/min';
+  $('d4').textContent=(S.first!=null&&S.effectiveAt!=null)?(S.effectiveAt-S.first)+' s':'—';
 
   const clinical=[];
   if(S.stimAt!=null){
@@ -913,32 +851,24 @@ function debrief(){
   $('clinicalDebrief').innerHTML=clinical.join('');
 
   const ppv=[];
-  const pct=inRangePct();
-  const lp=longestPause();
-  ppv.push(li('Insuflaciones registradas: '+S.taps.length+'.'));
-  ppv.push(li('La expansión torácica visual sólo se anima tras conseguir un sellado eficaz; la animación es una ayuda docente, no una medida cuantitativa de volumen corriente.'));
-  ppv.push(li('Frecuencia mediana: '+(m==null?'sin datos suficientes':Math.round(m)+'/min')+'.'));
-  ppv.push(li('Intervalos dentro de 30–60/min (contexto AHA/AAP 2025): '+(pct==null?'sin datos suficientes':pct+'%')+'.'));
-  ppv.push(li('Pausa máxima entre insuflaciones: '+(lp==null?'sin datos suficientes':lp.toFixed(1)+' s')+'.'));
+  ppv.push(li(S.first==null?'No se inició VPPI.':'VPPI iniciada a '+fmt(S.first)+'.'));
+  ppv.push(li(S.effectiveAt==null?'No se consiguió ventilación eficaz.':'Ventilación eficaz a '+fmt(S.effectiveAt)+'.'));
+  if(S.first!=null && S.effectiveAt!=null){
+    ppv.push(li('Tiempo con VPPI ineficaz antes de la corrección: '+(S.effectiveAt-S.first)+' s.'));
+  }
   if(S.chestCheckedAt!=null && S.first!=null){
     ppv.push(li('Comprobación del tórax: '+Math.max(0,S.chestCheckedAt-S.first)+' s después de iniciar VPPI.'));
   } else if(S.first!=null) {
     ppv.push(li('No se registró comprobación activa de expansión torácica.'));
   }
   if(S.correctionAt!=null && S.chestCheckedAt!=null){
-    ppv.push(li('Corrección de ventilación: '+Math.max(0,S.correctionAt-S.chestCheckedAt)+' s tras detectar expansión ausente.'));
+    ppv.push(li('Corrección: '+Math.max(0,S.correctionAt-S.chestCheckedAt)+' s tras detectar ausencia de expansión.'));
   }
+  ppv.push(li('La técnica manual de frecuencia/ritmo no se evalúa en este caso; se reserva para un minijuego específico.'));
   $('ppvDebrief').innerHTML=ppv.join('');
 }
 
 function closeDebrief(){ $('modal').classList.remove('on'); }
-
-document.addEventListener('keydown', e=>{
-  if(e.code==='Space' && !$('modal').classList.contains('on')){
-    e.preventDefault();
-    inflate();
-  }
-});
 
 render();
 </script>
