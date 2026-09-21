@@ -222,7 +222,11 @@ const fixtureSeeds: FixtureSeed[] = [
   { id: "strongkids-moderate", toolId: "strongkids", input: { poor_nutritional_status:false, high_risk_disease:true, reduced_intake_or_losses:true, weight_loss_or_poor_gain:false } },
   { id: "step-by-step-pct-high", toolId: "step_by_step", input: { age_days:30, fever_without_source:true, well_appearing:true, leukocyturia:false, procalcitonin_ng_ml:0.5, crp_mg_l:10, anc:5000 } },
   { id: "cries-moderate", toolId: "cries", input: { crying:"crying_2", oxygen:"oxygen_2", vital_signs:"vital_1", expression:"expression_0", sleeplessness:"sleep_0" } },
-  { id: "nips-intermediate", toolId: "nips", input: { facial_expression:"grimace", cry:"whimper", breathing_patterns:"altered", arms:"relaxed", legs:"relaxed", state_of_arousal:"asleep_or_awake" } }
+  { id: "nips-intermediate", toolId: "nips", input: { facial_expression:"grimace", cry:"whimper", breathing_patterns:"altered", arms:"relaxed", legs:"relaxed", state_of_arousal:"asleep_or_awake" } },
+  { id: "dubowitz-zero", toolId: "dubowitz", input: { posture:0, square_window:0, ankle_dorsiflexion:0, arm_recoil:0, leg_recoil:0, popliteal_angle:0, heel_to_ear:0, scarf_sign:0, head_lag:0, ventral_suspension:0, edema:0, skin_texture:0, skin_color:0, skin_opacity:0, lanugo:0, plantar_creases:0, nipple_formation:0, breast_size:0, ear_form:0, ear_firmness:0, genitals:0 } },
+  { id: "cdc-growth-male-24", toolId: "cdc_growth_percentiles", input: { sex:"male", age_months:24, weight_kg:12.388147609, stature_cm:86.45220101 } },
+  { id: "cdc-growth-female-120", toolId: "cdc_growth_percentiles", input: { sex:"female", age_months:120, weight_kg:32, stature_cm:138 } },
+  { id: "prism4-baseline", toolId: "prism_iv", input: { first_picu_admission_this_hospitalization:true, prism_iv_sampling_window_confirmed:true, cardiac_intervention_under_3_months:false, cardiac_postintervention_window_confirmed:false, age_days:366, admission_source:"other", cpr_within_24h:false, cancer:false, low_risk_primary_system:false, systolic_bp_mmhg:100, heart_rate:100, temperature_c:37, gcs:15, pupil_status:"reactive", ph_lowest:7.35, ph_highest:7.45, total_co2_lowest_mmol_l:20, total_co2_highest_mmol_l:25, paco2_mmhg:40, pao2_mmhg:100, glucose_mg_dl:100, potassium_mmol_l:4, creatinine_mg_dl:0.5, bun_mg_dl:10, wbc_per_mm3:8000, platelets_per_mm3:250000, pt_seconds:12, ptt_seconds:30 } }
 ];
 
 export const createMobileParityFixtureBundle = ({
