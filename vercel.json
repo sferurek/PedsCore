@@ -34,5 +34,6 @@
       "source": "/((?!api/|assets/).*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "ignoreCommand": "node scripts/vercel-ignore-build.mjs"
 }
