@@ -23,7 +23,8 @@
     "alexa:validate": "node scripts/validate-alexa-manifest.mjs",
     "hackathon:verify": "npm run lint && npm run test && npm run build && npm run audit:governance && npm run seo:check && npm run alexa:validate",
     "hackathon:smoke:remote": "node scripts/remote-mcp-smoke.mjs",
-    "mobile:fixtures": "npm run build -w @peds-core/core && node scripts/export-mobile-parity-fixtures.mjs"
+    "mobile:fixtures": "npm run build -w @peds-core/core && node scripts/export-mobile-parity-fixtures.mjs",
+    "mobile:runtime": "npm run build -w @peds-core/core && node scripts/export-mobile-clinical-runtime.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
@@ -38,6 +39,7 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.1",
     "vite": "^6.3.5",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "esbuild": "^0.28.2"
   }
 }
