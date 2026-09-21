@@ -145,7 +145,14 @@ const fixtureSeeds: FixtureSeed[] = [
       serum_creatinine: 0.4,
       creatinine_unit: "mg_dl"
     }
-  }
+  },
+  { id: "silverman-andersen-zero", toolId: "silverman_andersen", input: { thoracoabdominal_movement: 0, intercostal_retractions: 0, xiphoid_retraction: 0, nasal_flaring: 0, expiratory_grunt: 0 } },
+  { id: "silverman-andersen-moderate", toolId: "silverman_andersen", input: { thoracoabdominal_movement: 2, intercostal_retractions: 2, xiphoid_retraction: 1, nasal_flaring: 0, expiratory_grunt: 0 } },
+  { id: "ballard-grid-anchor", toolId: "ballard", input: { posture: 4, square_window: 4, arm_recoil: 4, popliteal_angle: 5, scarf_sign: 4, heel_to_ear: 4, skin: 5, lanugo: 4, plantar_surface: 4, breast: 4, eye_ear: 4, genitals: 4 } },
+  { id: "cries-zero", toolId: "cries", input: { crying: "crying_0", oxygen: "oxygen_0", vital_signs: "vital_0", expression: "expression_0", sleeplessness: "sleep_0" } },
+  { id: "cries-severe", toolId: "cries", input: { crying: "crying_2", oxygen: "oxygen_2", vital_signs: "vital_2", expression: "expression_2", sleeplessness: "sleep_2" } },
+  { id: "westley-croup-zero", toolId: "westley_croup", input: { level_of_consciousness: "normal", cyanosis: "absent", stridor: "absent", air_entry: "normal", retractions: "none" } },
+  { id: "westley-croup-moderate", toolId: "westley_croup", input: { level_of_consciousness: "normal", cyanosis: "absent", stridor: "at_rest", air_entry: "decreased", retractions: "moderate" } }
 ];
 
 export const createMobileParityFixtureBundle = ({
