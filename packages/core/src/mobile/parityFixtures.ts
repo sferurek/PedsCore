@@ -152,7 +152,15 @@ const fixtureSeeds: FixtureSeed[] = [
   { id: "cries-zero", toolId: "cries", input: { crying: "crying_0", oxygen: "oxygen_0", vital_signs: "vital_0", expression: "expression_0", sleeplessness: "sleep_0" } },
   { id: "cries-severe", toolId: "cries", input: { crying: "crying_2", oxygen: "oxygen_2", vital_signs: "vital_2", expression: "expression_2", sleeplessness: "sleep_2" } },
   { id: "westley-croup-zero", toolId: "westley_croup", input: { level_of_consciousness: "normal", cyanosis: "absent", stridor: "absent", air_entry: "normal", retractions: "none" } },
-  { id: "westley-croup-moderate", toolId: "westley_croup", input: { level_of_consciousness: "normal", cyanosis: "absent", stridor: "at_rest", air_entry: "decreased", retractions: "moderate" } }
+  { id: "westley-croup-moderate", toolId: "westley_croup", input: { level_of_consciousness: "normal", cyanosis: "absent", stridor: "at_rest", air_entry: "decreased", retractions: "moderate" } },
+  { id: "bedside-pews-normal", toolId: "bedside_pews", input: { age_months: 24, heart_rate: 100, systolic_bp: 100, capillary_refill: "crt_lt3", respiratory_rate: 30, respiratory_effort: "effort_normal", oxygen_saturation: 98, oxygen_therapy: "oxygen_room_air" } },
+  { id: "bedside-pews-extreme", toolId: "bedside_pews", input: { age_months: 24, heart_rate: 180, systolic_bp: 60, capillary_refill: "crt_ge3", respiratory_rate: 75, respiratory_effort: "effort_severe", oxygen_saturation: 85, oxygen_therapy: "oxygen_high" } },
+  { id: "clinical-dehydration-zero", toolId: "clinical_dehydration_scale", input: { general_appearance: 0, eyes: 0, mucous_membranes: 0, tears: 0 } },
+  { id: "clinical-dehydration-moderate", toolId: "clinical_dehydration_scale", input: { general_appearance: 2, eyes: 2, mucous_membranes: 0, tears: 0 } },
+  { id: "pas-low-risk", toolId: "pediatric_appendicitis_score", input: { right_iliac_fossa_tenderness: "absent", cough_percussion_hopping_tenderness: "absent", anorexia: "absent", fever: "absent", nausea_or_vomiting: "absent", pain_migration: "absent", leukocytosis: "absent", neutrophilia: "absent" } },
+  { id: "pas-high-risk", toolId: "pediatric_appendicitis_score", input: { right_iliac_fossa_tenderness: "present", cough_percussion_hopping_tenderness: "present", anorexia: "present", fever: "present", nausea_or_vomiting: "present", pain_migration: "present", leukocytosis: "present", neutrophilia: "present" } },
+  { id: "nips-zero", toolId: "nips", input: { facial_expression: "relaxed", cry: "absent", breathing_patterns: "regular", arms: "relaxed", legs: "relaxed", state_of_arousal: "asleep_or_awake" } },
+  { id: "nips-maximum", toolId: "nips", input: { facial_expression: "grimace", cry: "vigorous", breathing_patterns: "altered", arms: "flexed_or_extended", legs: "flexed_or_extended", state_of_arousal: "agitated" } }
 ];
 
 export const createMobileParityFixtureBundle = ({
