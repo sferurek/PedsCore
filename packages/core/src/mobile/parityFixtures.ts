@@ -80,6 +80,71 @@ const fixtureSeeds: FixtureSeed[] = [
       crp_mg_l: 20.1,
       anc: 10000
     }
+  },
+  {
+    id: "apgar-perfect-five-minutes",
+    toolId: "apgar",
+    input: {
+      assessment_time: "five_minutes",
+      heart_rate: 2,
+      respiratory_effort: 2,
+      muscle_tone: 2,
+      reflex_irritability: 2,
+      color: 2
+    }
+  },
+  {
+    id: "apgar-missing-domain",
+    toolId: "apgar",
+    input: {
+      assessment_time: "one_minute",
+      heart_rate: 2,
+      respiratory_effort: 2,
+      muscle_tone: 2,
+      reflex_irritability: 2
+    }
+  },
+  {
+    id: "strongkids-low-risk",
+    toolId: "strongkids",
+    input: {
+      poor_nutritional_status: false,
+      high_risk_disease: false,
+      reduced_intake_or_losses: false,
+      weight_loss_or_poor_gain: false
+    }
+  },
+  {
+    id: "strongkids-high-risk",
+    toolId: "strongkids",
+    input: {
+      poor_nutritional_status: true,
+      high_risk_disease: true,
+      reduced_intake_or_losses: true,
+      weight_loss_or_poor_gain: true
+    }
+  },
+  {
+    id: "ckid-u25-creatinine",
+    toolId: "ckid_u25",
+    input: {
+      age_years: 10,
+      sex: "male",
+      height_cm: 140,
+      serum_creatinine: 0.7,
+      creatinine_unit: "mg_dl"
+    }
+  },
+  {
+    id: "ckid-u25-invalid-age",
+    toolId: "ckid_u25",
+    input: {
+      age_years: 0.5,
+      sex: "female",
+      height_cm: 70,
+      serum_creatinine: 0.4,
+      creatinine_unit: "mg_dl"
+    }
   }
 ];
 
