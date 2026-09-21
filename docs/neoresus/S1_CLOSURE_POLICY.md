@@ -18,7 +18,9 @@ S1 can end in three ways:
    - Effective ventilation has been achieved.
    - Heart rate is >100 bpm.
    - Spontaneous breathing has recovered.
-   - Recovery remains present for a short confirmation window before the case closes.
+   - The learner has performed a post-recovery reassessment.
+   - Ventilatory support has been adjusted/withdrawn appropriately.
+   - The recovered state remains present for a short confirmation window before the case closes.
    - In Alpha 0.5 this confirmation window is 5 s and is an operational simulation assumption, not a guideline-defined interval.
 
 3. **Maximum duration**
@@ -35,6 +37,8 @@ Every finish mode must preserve:
 - time to effective PPV;
 - time to HR >100;
 - time to spontaneous breathing;
+- post-recovery reassessment;
+- support adjustment/withdrawal;
 - errors and unresolved actions;
 - FiO2 and monitoring decisions.
 
