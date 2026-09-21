@@ -251,7 +251,7 @@ button.danger{
 }
 .ppv{
   display:grid;
-  grid-template-columns:180px 150px repeat(4,1fr);
+  grid-template-columns:190px 135px 1fr 1fr 1fr 115px 125px 95px;
   gap:9px;
   align-items:center;
   border:1px solid var(--blue-200);
@@ -436,10 +436,55 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
 .briefItem small{display:block;color:var(--muted);margin-bottom:5px}.briefItem b{color:var(--blue-900)}
 .briefActions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
 @media(max-width:900px){.briefGrid{grid-template-columns:1fr}}
+
+.actionLegend{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.legendItem{display:inline-flex;align-items:center;gap:6px;font-size:10px;color:var(--muted);font-weight:750}
+.legendDot{width:9px;height:9px;border-radius:999px;display:inline-block}
+.action-btn{position:relative;overflow:hidden}
+.action-btn.assessment{background:linear-gradient(180deg,#f7fbff,#e7f2fb);border-color:#bcd7ea;color:#24527d}
+.action-btn.ventilation{background:linear-gradient(180deg,#f4fbfa,#e1f3ef);border-color:#b8ded4;color:#2d6f61}
+.action-btn.monitoring{background:linear-gradient(180deg,#fbf8ff,#eee6fa);border-color:#d5c7ec;color:#664c91}
+.action-btn.oxygen{background:linear-gradient(180deg,#f4fcff,#e2f5fa);border-color:#bfe3ec;color:#2d7285}
+.action-btn.circulation{background:linear-gradient(180deg,#fff8f6,#f9e6e1);border-color:#edc8bf;color:#9a5549}
+.action-btn.control{background:linear-gradient(180deg,#fbfbfb,#f0f2f4);border-color:#d7dce1;color:#52606d}
+.action-btn:disabled{filter:saturate(.7)}
+.actionLock{
+  display:none;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--blue-200);
+  border-radius:10px;background:#fff;margin-bottom:9px;color:var(--blue-800);font-size:11px;font-weight:750
+}
+.actionLock.on{display:flex}
+.actionProgress{flex:1;height:7px;background:#edf3f6;border-radius:999px;overflow:hidden}
+.actionProgress>span{display:block;height:100%;width:0;background:linear-gradient(90deg,#6e9fc7,#4e9d88);transition:width .08s linear}
+.observationHint{
+  position:absolute;right:20px;bottom:18px;max-width:270px;
+  background:rgba(255,255,255,.90);border:1px solid var(--blue-200);
+  border-radius:12px;padding:10px 12px;color:#476579;font-size:12px;line-height:1.35;
+  box-shadow:0 10px 28px rgba(51,87,114,.08);z-index:2
+}
+.vitalPulse{transition:color .2s ease}
+.timelineGraph{margin:15px 0 4px;border:1px solid var(--blue-200);border-radius:14px;padding:13px;background:#fbfdff}
+.timelineGraph h4{margin:0 0 10px;color:var(--blue-900)}
+.timelineRow{display:grid;grid-template-columns:58px 12px 1fr;gap:8px;align-items:start;padding:7px 0}
+.timelineMarker{width:10px;height:10px;border-radius:50%;margin-top:3px;background:#6e9fc7;box-shadow:0 0 0 4px #edf5fa}
+.timelineMarker.good{background:#4e9d88}.timelineMarker.warn{background:#c6a044}.timelineMarker.bad{background:#c75b66}
+.timelineLabel{font-size:12px;color:#405b70;line-height:1.35}
+.decisionCards{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
+.decisionCard{border:1px solid var(--blue-200);border-radius:13px;padding:12px;background:#fff}
+.decisionCard b{color:var(--blue-900)}.decisionCard p{margin:5px 0 0;font-size:12px}
+.preflightTimer{font-size:26px;font-weight:850;color:var(--blue-900);font-variant-numeric:tabular-nums}
+.preflightGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.preflightItem{border:1px solid var(--blue-200);border-radius:14px;padding:12px;background:linear-gradient(180deg,#fbfdff,#f2f7fa)}
+.preflightItem .itemTop{display:flex;justify-content:space-between;gap:8px;align-items:start}
+.preflightItem small{color:var(--muted)}
+.preflightItem.ok{background:#f0faf6;border-color:#bddfd4}
+.preflightItem.issue{background:#fff8f2;border-color:#efcfbf}
+.preflightItem button{margin-top:9px;width:100%}
+.preflightFooter{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:14px}
+@media(max-width:900px){.preflightGrid{grid-template-columns:1fr 1fr}}
 </style></head><body>
 <div class="app">
   <header>
-    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.5</span></div>
+    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.6</span></div>
     <div class="status">39+2 sem · Simulación en tiempo real</div>
     <div class="clock" id="clock">00:00</div>
   </header>
@@ -470,6 +515,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
         </div>
       </div>
       <div class="sceneNote" id="sceneNote">Revisa el briefing antes del nacimiento</div>
+      <div class="observationHint" id="observationHint">Observación: aún no ha comenzado el caso.</div>
     </section>
 
     <aside class="right">
@@ -478,7 +524,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
       <div class="metric"><small>SpO₂ preductal</small><b id="spo2">—</b><small id="spo2hint">sin monitor</small></div>
       <div class="metric"><small>FiO₂</small><b id="fio2">21%</b><small>RN ≥35 sem · referencia SeNeo: 21%</small></div>
       <div class="metric"><small>Respiración</small><b class="wide" id="resp">—</b></div>
-      <div class="metric"><small>Expansión torácica</small><b class="wide" id="chest">NO VALORADA</b></div>
+      <div class="metric"><small>Expansión torácica observada</small><b class="wide" id="chest">NO VALORADA</b></div>
     </aside>
   </main>
 
@@ -488,19 +534,32 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
       <span class="status" id="status">Gold standard clínico: GRN-SENeo 2026</span>
     </div>
 
+    <div class="actionLegend">
+      <span class="legendItem"><i class="legendDot" style="background:#bcd7ea"></i>Valoración</span>
+      <span class="legendItem"><i class="legendDot" style="background:#b8ded4"></i>Ventilación</span>
+      <span class="legendItem"><i class="legendDot" style="background:#d5c7ec"></i>Monitorización</span>
+      <span class="legendItem"><i class="legendDot" style="background:#bfe3ec"></i>Oxígeno</span>
+      <span class="legendItem"><i class="legendDot" style="background:#edc8bf"></i>Circulación</span>
+    </div>
+    <div class="actionLock" id="actionLock">
+      <span id="actionLockText">Acción en curso</span>
+      <div class="actionProgress"><span id="actionProgressFill"></span></div>
+      <span id="actionLockTime">0 s</span>
+    </div>
+
     <div class="grid" style="grid-template-columns:repeat(12,minmax(76px,1fr))">
-      <button class="primary" id="startBtn" onclick="openBriefing()">Briefing / iniciar</button>
-      <button onclick="act('stim')">Estimular</button>
-      <button onclick="act('clamp')">Pinzar cordón</button>
-      <button onclick="act('hr')">Evaluar FC</button>
-      <button onclick="act('ecg')">ECG</button>
-      <button onclick="act('spo2')">SpO₂ preductal</button>
-      <button onclick="act('fio2up')">FiO₂ +10%</button>
-      <button onclick="act('fio2down')">FiO₂ −10%</button>
-      <button class="primary" id="startVentBtn" onclick="act('startVent')">Iniciar VPPI</button>
-      <button id="correctBtn" onclick="act('correct')" disabled>Corregir ventilación</button>
-      <button class="danger" onclick="act('compress')">Compresiones</button>
-      <button id="finishBtn" onclick="requestFinish()">Finalizar caso</button>
+      <button class="action-btn control" id="startBtn" onclick="openBriefing()">Briefing / iniciar</button>
+      <button class="action-btn assessment" data-action="stim" onclick="runAction('stim')">Estimular</button>
+      <button class="action-btn assessment" data-action="clamp" onclick="runAction('clamp')">Pinzar cordón</button>
+      <button class="action-btn assessment" data-action="hr" onclick="runAction('hr')">Evaluar FC</button>
+      <button class="action-btn monitoring" data-action="ecg" onclick="runAction('ecg')">ECG</button>
+      <button class="action-btn monitoring" data-action="spo2" onclick="runAction('spo2')">SpO₂ preductal</button>
+      <button class="action-btn oxygen" data-action="fio2up" onclick="runAction('fio2up')">FiO₂ +10%</button>
+      <button class="action-btn oxygen" data-action="fio2down" onclick="runAction('fio2down')">FiO₂ −10%</button>
+      <button class="action-btn ventilation" id="startVentBtn" data-action="startVent" onclick="runAction('startVent')">Iniciar VPPI</button>
+      <button class="action-btn ventilation" id="correctBtn" data-action="correct" onclick="runAction('correct')" disabled>Corregir ventilación</button>
+      <button class="action-btn circulation" data-action="compress" onclick="runAction('compress')">Compresiones</button>
+      <button class="action-btn control" id="finishBtn" onclick="requestFinish()">Finalizar caso</button>
     </div>
 
     <div class="ppv">
@@ -508,13 +567,35 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
         <b>Ventilación simplificada</b>
         <div class="status">El caso evalúa decisiones y tiempos; la técnica manual pasa a minijuego independiente.</div>
       </div>
-      <button id="chestBtn" onclick="act('chest')">Comprobar tórax</button>
+      <button class="action-btn ventilation" id="chestBtn" data-action="chest" onclick="runAction('chest')">Comprobar tórax</button>
       <div class="stat"><small>Estado VPPI</small><b id="ventState">No iniciada</b></div>
       <div class="stat"><small>VPPI ineficaz</small><b id="ineffectiveTime">—</b></div>
       <div class="stat"><small>VPPI eficaz</small><b id="effectiveTime">—</b></div>
+      <button class="action-btn assessment" id="reassessBtn" data-action="reassess" onclick="runAction('reassess')">Reevaluar</button>
+      <button class="action-btn ventilation" id="stopVentBtn" data-action="stopVent" onclick="runAction('stopVent')" disabled>Suspender VPPI</button>
       <button onclick="debrief()">Debrief</button>
     </div>
   </section>
+</div>
+
+<div class="briefingModal" id="preflightModal">
+  <div class="briefingCard" style="width:min(980px,96vw)">
+    <span class="tag">Revisión de cuna · entrenamiento sistemático</span>
+    <h1>Comprueba el puesto de reanimación antes del nacimiento</h1>
+    <p>Dispones de hasta <b>2 minutos</b> para revisar el material. En esta versión puede existir una incidencia oculta. El tiempo es un parámetro operativo del simulador, no una recomendación clínica.</p>
+    <div style="display:flex;justify-content:space-between;gap:14px;align-items:end">
+      <div><small class="status">Tiempo restante</small><div class="preflightTimer" id="preflightTimer">02:00</div></div>
+      <div class="status" id="preflightStatus">Revisa cada elemento antes de comenzar.</div>
+    </div>
+    <div class="preflightGrid" id="preflightGrid"></div>
+    <div class="preflightFooter">
+      <span class="status">La revisión queda registrada en el debriefing.</span>
+      <div class="briefActions" style="margin:0">
+        <button onclick="skipPreflight()">Omitir revisión</button>
+        <button class="primary" id="completePreflightBtn" onclick="completePreflight()">Completar revisión</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="briefingModal" id="briefingModal">
@@ -530,7 +611,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
     <p class="status">Modo actual: simulación en tiempo real. Durante el caso no aparecerán avisos de “correcto/incorrecto”; las decisiones se analizarán después.</p>
     <div class="briefActions">
       <button onclick="closeBriefing()">Cancelar</button>
-      <button class="primary" onclick="beginCase()">Comenzar nacimiento</button>
+      <button class="primary" onclick="openPreflight()">Revisar cuna antes del nacimiento</button>
     </div>
   </div>
 </div>
@@ -550,7 +631,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
 <div class="modal" id="modal">
   <div class="card">
     <button style="float:right" onclick="closeDebrief()">Cerrar</button>
-    <h2>Debriefing · S1 Alpha 0.5</h2>
+    <h2>Debriefing · S1 Alpha 0.6</h2>
     <div class="rows">
       <div><small>Primera VPPI</small><b id="d1">—</b></div>
       <div><small>VPPI eficaz</small><b id="d2">—</b></div>
@@ -558,6 +639,12 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
       <div><small>Tiempo hasta VPPI eficaz</small><b id="d4">—</b></div>
       <div><small>Finalización</small><b id="d5">—</b></div>
     </div>
+
+    <div class="timelineGraph">
+      <h4>Línea temporal del caso</h4>
+      <div id="timelineGraph"></div>
+    </div>
+    <div class="decisionCards" id="decisionCards"></div>
 
     <div class="debriefGrid">
       <div class="debriefBox">
