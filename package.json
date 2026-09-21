@@ -22,7 +22,8 @@
     "start": "npm run start -w @peds-core/mcp-server",
     "alexa:validate": "node scripts/validate-alexa-manifest.mjs",
     "hackathon:verify": "npm run lint && npm run test && npm run build && npm run audit:governance && npm run seo:check && npm run alexa:validate",
-    "hackathon:smoke:remote": "node scripts/remote-mcp-smoke.mjs"
+    "hackathon:smoke:remote": "node scripts/remote-mcp-smoke.mjs",
+    "mobile:fixtures": "npm run build -w @peds-core/core && node scripts/export-mobile-parity-fixtures.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",
