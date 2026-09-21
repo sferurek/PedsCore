@@ -658,237 +658,333 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
     </div>
 
     <p><b>Referencia:</b> GRN-SENeo 2026. Para este RN ≥35 semanas, FiO₂ inicial 0,21. Ante apnea o FC &lt;100 se prioriza ventilación; si persiste FC &lt;100, se debe asegurar/corregir la ventilación antes de escalar.</p>
-    <p><b>Política de finalización:</b> el alumno puede finalizar en cualquier momento. S1 también termina automáticamente al alcanzar su objetivo docente (ventilación eficaz + FC &gt;100 + respiración espontánea mantenida durante una breve ventana de confirmación) o al llegar a 5:00 min. El límite de 5 minutos y la ventana de confirmación son parámetros operativos del simulador, no recomendaciones clínicas.</p>
+    <p><b>Política de finalización:</b> el alumno puede finalizar en cualquier momento. S1 también termina automáticamente al alcanzar su objetivo docente (ventilación eficaz + FC &gt;100 + respiración espontánea + reevaluación + ajuste/retirada del soporte, mantenidos durante una breve ventana de confirmación) o al llegar a 5:00 min. El límite de 5 minutos y la ventana de confirmación son parámetros operativos del simulador, no recomendaciones clínicas.</p>
     <p><b>Diseño de interacción:</b> en el caso principal la VPPI se ha simplificado deliberadamente para priorizar razonamiento clínico y secuencia de actuación. El entrenamiento manual de frecuencia, regularidad, pausas y técnica se conserva como concepto de minijuego independiente.</p>
     <p><b>Supuestos operativos del simulador:</b> adquisición ECG 4 s y señal de SpO₂ 8 s. Son tiempos de interfaz/simulación, no recomendaciones SeNeo.</p>
   </div>
 </div>
 
 <script>
+const ACTIONS = {
+  stim:{label:'Estimulación táctil',duration:3},
+  clamp:{label:'Pinzamiento del cordón',duration:4},
+  hr:{label:'Evaluación de FC',duration:4},
+  ecg:{label:'Colocación de ECG',duration:5},
+  spo2:{label:'Colocación de SpO₂ preductal',duration:5},
+  fio2up:{label:'Ajuste de FiO₂',duration:2},
+  fio2down:{label:'Ajuste de FiO₂',duration:2},
+  startVent:{label:'Inicio de VPPI',duration:3},
+  chest:{label:'Valoración de expansión torácica',duration:3},
+  correct:{label:'Corrección de ventilación',duration:4},
+  compress:{label:'Inicio de compresiones',duration:3},
+  reassess:{label:'Reevaluación clínica',duration:4},
+  stopVent:{label:'Retirada de VPPI',duration:3}
+};
+
+const SIM_MAX_SEC = 300; // operational simulation limit, not a clinical guideline
+const PEDAGOGICAL_RECOVERY_HOLD_SEC = 5; // operational confirmation window
+const PREFLIGHT_MAX_SEC = 120; // operational training time, not a clinical guideline
+
+const PREFLIGHT_ITEMS = [
+  {id:'heat',name:'Fuente de calor',ok:'Calor radiante operativo.',issue:'Fuente de calor no activada.'},
+  {id:'vent',name:'Dispositivo de ventilación',ok:'Circuito conectado y operativo.',issue:'Circuito del dispositivo desconectado.'},
+  {id:'mask',name:'Mascarilla neonatal',ok:'Tamaño adecuado disponible.',issue:'Sólo hay una mascarilla de tamaño inadecuado preparada.'},
+  {id:'suction',name:'Aspiración',ok:'Sistema conectado y con vacío.',issue:'Aspiración sin vacío.'},
+  {id:'spo2',name:'Pulsioximetría',ok:'Sensor neonatal disponible.',issue:'Sensor neonatal no conectado al cable.'},
+  {id:'airway',name:'Vía aérea avanzada',ok:'Laringoscopio y material comprobados.',issue:'Laringoscopio sin alimentación funcional.'}
+];
+
 const S = {
-  running:false, startPerf:null, t:0, lastProcessedSec:-1,
+  running:false, finished:false, finishReason:null, finishedAt:null,
+  startPerf:null, lastFramePerf:null, t:0,
   hr:82, spo2:58, apnea:true, tone:'reduced',
   hrMode:'hidden', ecgRequestedAt:null,
   spo2Mode:'none', spo2RequestedAt:null,
   fio2:.21,
   cord:false, clampAt:null, stimAt:null,
   ppv:false, first:null,
-  chest:'unknown', chestCheckedAt:null,
-  sealCorrected:false, correctionAt:null,
-  effectiveAt:null, hr100:null, recoveredAt:null,
+  internalChest:'none', observedChest:'unknown', chestCheckedAt:null,
+  sealCorrected:false, correctionAt:null, effectiveAt:null,
+  hr100:null, recoveredAt:null, reassessedAfterRecoveryAt:null, supportAdjustedAt:null,
   compressions:false,
-  finished:false, finishReason:null, finishedAt:null,
+  actionLock:null,
   errors:[], notes:[], events:[]
 };
 
-let loop = null;
-const SIM_MAX_SEC = 300; // operational simulation limit, not a clinical guideline
-const PEDAGOGICAL_RECOVERY_HOLD_SEC = 5; // operational confirmation window after recovery
+const PRE = {
+  started:false,startPerf:null,remaining:PREFLIGHT_MAX_SEC,loop:null,
+  issueId:null,reviewed:{},fixed:{},skipped:false,completed:false,summary:null
+};
+
+let raf = null;
 const $ = id => document.getElementById(id);
 
 function fmt(x){
   if(x == null) return '—';
-  x = Math.max(0, Math.floor(x));
-  return String(Math.floor(x/60)).padStart(2,'0') + ':' + String(x%60).padStart(2,'0');
+  x=Math.max(0,Math.floor(x));
+  return String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0');
 }
-function nowRel(){
-  return S.startPerf == null ? 0 : (performance.now() - S.startPerf)/1000;
+function nowRel(){ return S.startPerf==null?0:(performance.now()-S.startPerf)/1000; }
+function add(text,kind='action'){
+  const ev={t:S.t,text,kind}; S.events.push(ev);
+  const d=document.createElement('div'); d.className='event';
+  d.innerHTML='<span class="t">'+fmt(ev.t)+'</span>'+text;
+  $('timeline').appendChild(d); $('timeline').scrollTop=$('timeline').scrollHeight;
 }
-function add(text, kind='action'){
-  const ev = {t:S.t, text, kind};
-  S.events.push(ev);
-  const d = document.createElement('div');
-  d.className = 'event';
-  d.innerHTML = '<span class="t">'+fmt(ev.t)+'</span>'+text;
-  $('timeline').appendChild(d);
-  $('timeline').scrollTop = $('timeline').scrollHeight;
+function approach(current,target,tau,dt){
+  if(dt<=0) return current;
+  const alpha=1-Math.exp(-dt/Math.max(.1,tau));
+  return current+(target-current)*alpha;
 }
-function reset(){
+function resetCase(){
   Object.assign(S,{
-    running:true,startPerf:performance.now(),t:0,lastProcessedSec:-1,
+    running:true,finished:false,finishReason:null,finishedAt:null,
+    startPerf:performance.now(),lastFramePerf:performance.now(),t:0,
     hr:82,spo2:58,apnea:true,tone:'reduced',
     hrMode:'hidden',ecgRequestedAt:null,
     spo2Mode:'none',spo2RequestedAt:null,
     fio2:.21,cord:false,clampAt:null,stimAt:null,
     ppv:false,first:null,
-    chest:'unknown',chestCheckedAt:null,
+    internalChest:'none',observedChest:'unknown',chestCheckedAt:null,
     sealCorrected:false,correctionAt:null,effectiveAt:null,
-    hr100:null,recoveredAt:null,compressions:false,
-    finished:false,finishReason:null,finishedAt:null,
+    hr100:null,recoveredAt:null,reassessedAfterRecoveryAt:null,supportAdjustedAt:null,
+    compressions:false,actionLock:null,
     errors:[],notes:[],events:[]
   });
   $('timeline').innerHTML='';
   $('baby').classList.remove('good','spontaneous','inflatePulse');
   $('maskVisual').className='maskVisual';
   $('cordLine').classList.remove('clamped');
+  $('observationHint').textContent='Observación: RN sin respiración efectiva.';
 }
 function openBriefing(){ $('briefingModal').classList.add('on'); }
 function closeBriefing(){ $('briefingModal').classList.remove('on'); }
-function beginCase(){ closeBriefing(); start(); }
+
+function initPreflight(){
+  if(PRE.loop) clearInterval(PRE.loop);
+  PRE.started=true; PRE.startPerf=performance.now(); PRE.remaining=PREFLIGHT_MAX_SEC;
+  PRE.issueId=PREFLIGHT_ITEMS[Math.floor(Math.random()*PREFLIGHT_ITEMS.length)].id;
+  PRE.reviewed={}; PRE.fixed={}; PRE.skipped=false; PRE.completed=false; PRE.summary=null;
+  renderPreflight();
+  PRE.loop=setInterval(()=>{
+    PRE.remaining=Math.max(0,PREFLIGHT_MAX_SEC-Math.floor((performance.now()-PRE.startPerf)/1000));
+    $('preflightTimer').textContent=fmt(PRE.remaining);
+    if(PRE.remaining<=0){ clearInterval(PRE.loop); PRE.loop=null; completePreflight(true); }
+  },250);
+}
+function openPreflight(){
+  closeBriefing();
+  $('preflightModal').classList.add('on');
+  initPreflight();
+}
+function renderPreflight(){
+  const grid=$('preflightGrid');
+  grid.innerHTML=PREFLIGHT_ITEMS.map(item=>{
+    const reviewed=!!PRE.reviewed[item.id];
+    const isIssue=item.id===PRE.issueId;
+    const fixed=!!PRE.fixed[item.id];
+    const cls=!reviewed?'':(isIssue&&!fixed?' issue':' ok');
+    let state='Pendiente';
+    if(reviewed) state=isIssue&&!fixed?'Incidencia detectada':'Comprobado';
+    const body=!reviewed?'Pulsa revisar para comprobarlo.':(isIssue&&!fixed?item.issue:item.ok);
+    const button=!reviewed
+      ? '<button onclick="reviewPreflight(\''+item.id+'\')">Revisar</button>'
+      : (isIssue&&!fixed?'<button onclick="fixPreflight(\''+item.id+'\')">Corregir incidencia</button>':'');
+    return '<div class="preflightItem'+cls+'"><div class="itemTop"><b>'+item.name+'</b><small>'+state+'</small></div><div class="status" style="margin-top:6px">'+body+'</div>'+button+'</div>';
+  }).join('');
+  const reviewedCount=Object.keys(PRE.reviewed).length;
+  const unresolved=PRE.issueId && PRE.reviewed[PRE.issueId] && !PRE.fixed[PRE.issueId];
+  $('preflightStatus').textContent=reviewedCount+'/6 elementos revisados'+(unresolved?' · incidencia pendiente':'');
+}
+function reviewPreflight(id){ PRE.reviewed[id]=true; renderPreflight(); }
+function fixPreflight(id){ PRE.fixed[id]=true; renderPreflight(); }
+function finalizePreflightSummary(mode){
+  const reviewedCount=Object.keys(PRE.reviewed).length;
+  const issueFound=!!PRE.reviewed[PRE.issueId];
+  const issueFixed=!!PRE.fixed[PRE.issueId];
+  PRE.summary={mode,reviewedCount,issueId:PRE.issueId,issueFound,issueFixed,timeUsed:PREFLIGHT_MAX_SEC-PRE.remaining};
+}
+function skipPreflight(){
+  PRE.skipped=true; finalizePreflightSummary('skipped');
+  if(PRE.loop){clearInterval(PRE.loop);PRE.loop=null;}
+  $('preflightModal').classList.remove('on'); start();
+}
+function completePreflight(auto=false){
+  PRE.completed=true; finalizePreflightSummary(auto?'timeout':'completed');
+  if(PRE.loop){clearInterval(PRE.loop);PRE.loop=null;}
+  $('preflightModal').classList.remove('on'); start();
+}
 
 function start(){
-  reset();
+  resetCase();
   add('Nacimiento · no llora · apnea · tono disminuido','milestone');
   $('sceneNote').textContent='No llora · apnea · tono disminuido';
-  if(loop) clearInterval(loop);
-  loop = setInterval(updateClock, 200);
-  render();
-}
-function updateClock(){
-  if(!S.running || S.finished) return;
-  S.t = Math.floor(nowRel());
-  while(S.lastProcessedSec < S.t){
-    S.lastProcessedSec++;
-    processSecond(S.lastProcessedSec);
+  if(PRE.summary){
+    add('Revisión previa: '+PRE.summary.reviewedCount+'/6 elementos revisados'+(PRE.summary.issueFixed?' · incidencia corregida':PRE.summary.issueFound?' · incidencia no corregida':''));
   }
+  if(raf) cancelAnimationFrame(raf);
+  raf=requestAnimationFrame(frame);
   render();
 }
 
 function activeEffectiveVentilation(){
-  return S.ppv && S.sealCorrected && S.effectiveAt!=null;
+  return S.ppv && S.sealCorrected && S.effectiveAt!=null && S.supportAdjustedAt==null;
 }
-
-function processSecond(sec){
-  // Monitor acquisition: explicit operational simulation assumptions.
-  if(S.ecgRequestedAt!=null && S.hrMode==='acquiring' && sec-S.ecgRequestedAt>=4){
-    S.hrMode='exact';
-    add('ECG: señal disponible · FC '+Math.round(S.hr)+' lpm','milestone');
+function updatePhysiology(dt){
+  let hrTarget, spo2Target, hrTau, spo2Tau;
+  if(activeEffectiveVentilation()){
+    hrTarget=128; spo2Target=Math.min(95,91+(S.fio2-.21)*5); hrTau=5.5; spo2Tau=12;
+  } else if(!S.apnea){
+    hrTarget=124; spo2Target=Math.min(95,92+(S.fio2-.21)*4); hrTau=10; spo2Tau=18;
+  } else {
+    hrTarget=58; spo2Target=50; hrTau=45; spo2Tau=75;
   }
-  if(S.spo2RequestedAt!=null && S.spo2Mode==='acquiring' && sec-S.spo2RequestedAt>=8){
-    S.spo2Mode='visible';
-    add('SpO₂ preductal: señal disponible','milestone');
-  }
-
-  // Trend-based physiology. No claim of validated beat-by-beat prediction.
-  if(S.apnea && !activeEffectiveVentilation()){
-    if(sec>0 && sec%8===0) S.hr=Math.max(45,S.hr-2);
-    if(sec>0 && sec%15===0) S.spo2=Math.max(45,S.spo2-1);
-  }
-
-  if(S.apnea && activeEffectiveVentilation()){
-    if(sec>0 && sec%2===0) S.hr=Math.min(132,S.hr+4);
-    if(sec>0 && sec%3===0) S.spo2=Math.min(94,S.spo2+2);
-  }
+  S.hr=approach(S.hr,hrTarget,hrTau,dt);
+  S.spo2=approach(S.spo2,spo2Target,spo2Tau,dt);
 
   if(S.hr>=100 && S.hr100==null){
-    S.hr100=sec;
-    add('La FC supera 100 lpm','milestone');
+    S.hr100=S.t; add('La FC supera 100 lpm','milestone');
   }
-
-  if(S.hr>=118 && S.effectiveAt!=null && sec-S.effectiveAt>=10 && S.apnea){
-    S.apnea=false;
-    S.tone='improving';
-    S.recoveredAt=sec;
+  if(S.apnea && S.effectiveAt!=null && activeEffectiveVentilation() && S.hr>=112 && S.t-S.effectiveAt>=10){
+    S.apnea=false; S.tone='improving'; S.recoveredAt=S.t;
     $('baby').classList.add('good','spontaneous');
     $('sceneNote').textContent='Respira espontáneamente · tono en mejoría';
+    $('observationHint').textContent='Observación: aparecen movimientos respiratorios espontáneos.';
     add('Recupera respiración espontánea','milestone');
   }
-
-  // Pedagogical endpoint: ventilation corrected, HR recovered and spontaneous breathing sustained.
-  if(!S.finished && S.recoveredAt!=null && S.hr>=100 && sec-S.recoveredAt>=PEDAGOGICAL_RECOVERY_HOLD_SEC){
-    finishCase('pedagogical');
-    return;
+}
+function updateAcquisition(){
+  if(S.ecgRequestedAt!=null && S.hrMode==='acquiring' && S.t-S.ecgRequestedAt>=4){
+    S.hrMode='exact'; add('ECG: señal disponible','milestone');
   }
-
-  // Hard cap for the exercise. This is an operational simulation setting, not SeNeo guidance.
-  if(!S.finished && sec>=SIM_MAX_SEC){
-    finishCase('timeout');
+  if(S.spo2RequestedAt!=null && S.spo2Mode==='acquiring' && S.t-S.spo2RequestedAt>=8){
+    S.spo2Mode='visible'; add('SpO₂ preductal: señal disponible','milestone');
   }
+}
+function checkEndpoint(){
+  if(S.finished) return;
+  const endpointReady=S.recoveredAt!=null && S.hr>=100 && S.reassessedAfterRecoveryAt!=null && S.supportAdjustedAt!=null;
+  if(endpointReady){
+    const anchor=Math.max(S.recoveredAt,S.reassessedAfterRecoveryAt,S.supportAdjustedAt);
+    if(S.t-anchor>=PEDAGOGICAL_RECOVERY_HOLD_SEC){ finishCase('pedagogical'); return; }
+  }
+  if(S.t>=SIM_MAX_SEC) finishCase('timeout');
+}
+function frame(ts){
+  if(!S.running || S.finished) return;
+  const dt=Math.min(.25,Math.max(0,(ts-S.lastFramePerf)/1000));
+  S.lastFramePerf=ts; S.t=Math.floor(nowRel());
+  updatePhysiology(dt); updateAcquisition(); updateActionLock(ts); checkEndpoint(); render();
+  if(S.running && !S.finished) raf=requestAnimationFrame(frame);
+}
+
+function canAction(a){
+  if(!S.running || S.finished) return false;
+  if(S.actionLock) return false;
+  if(a==='startVent') return !S.ppv;
+  if(a==='correct') return S.ppv && S.observedChest==='absent' && !S.sealCorrected;
+  if(a==='stopVent') return S.ppv && S.supportAdjustedAt==null;
+  if(a==='chest') return S.ppv;
+  if(a==='clamp') return !S.cord;
+  if(a==='ecg') return S.ecgRequestedAt==null;
+  if(a==='spo2') return S.spo2RequestedAt==null;
+  return true;
+}
+function runAction(a){
+  if(!canAction(a)) return;
+  const cfg=ACTIONS[a];
+  S.actionLock={action:a,label:cfg.label,duration:cfg.duration,startPerf:performance.now(),endPerf:performance.now()+cfg.duration*1000};
+  $('actionLock').classList.add('on');
+  $('actionLockText').textContent=cfg.label+' en curso';
+  updateActionAvailability();
+}
+function updateActionLock(nowPerf){
+  if(!S.actionLock) return;
+  const lock=S.actionLock;
+  const elapsed=(nowPerf-lock.startPerf)/1000;
+  const pct=Math.min(100,elapsed/lock.duration*100);
+  $('actionProgressFill').style.width=pct+'%';
+  $('actionLockTime').textContent=Math.max(0,Math.ceil((lock.endPerf-nowPerf)/1000))+' s';
+  if(nowPerf>=lock.endPerf){
+    const action=lock.action; S.actionLock=null;
+    $('actionLock').classList.remove('on'); $('actionProgressFill').style.width='0%';
+    act(action); updateActionAvailability();
+  }
+}
+function updateActionAvailability(){
+  document.querySelectorAll('[data-action]').forEach(btn=>{
+    btn.disabled=!canAction(btn.dataset.action);
+  });
+  $('finishBtn').disabled=!S.running || S.finished;
 }
 
 function act(a){
-  if(!S.running) return;
+  if(!S.running || S.finished) return;
 
   if(a==='stim'){
     if(S.stimAt==null) S.stimAt=S.t;
-    add('Inicia estimulación táctil');
-    $('sceneNote').textContent='Estimulación táctil · persiste apnea';
+    add('Estimulación táctil realizada');
+    $('sceneNote').textContent='Persiste apnea tras estimulación';
+    $('observationHint').textContent='Observación: persiste ausencia de respiración efectiva.';
   }
-
   if(a==='clamp'){
-    if(S.cord) return;
-    S.cord=true; S.clampAt=S.t;
-    $('cordLine').classList.add('clamped');
-    add('Pinza el cordón');
-    const stimDuration = S.stimAt==null ? 0 : S.clampAt-S.stimAt;
-    if(S.apnea && stimDuration<30){
-      S.errors.push('Pinzamiento antes de completar 30 s de estimulación en este RN no vigoroso.');
-    }
+    S.cord=true; S.clampAt=S.t; $('cordLine').classList.add('clamped'); add('Pinza el cordón');
+    const stimDuration=S.stimAt==null?0:S.clampAt-S.stimAt;
+    if(S.apnea && stimDuration<30) S.errors.push('Pinzamiento antes de completar 30 s de estimulación en este RN no vigoroso.');
   }
-
   if(a==='hr'){
-    S.hrMode='qual';
-    add('Evalúa FC: '+(S.hr<100?'<100':'≥100')+' lpm');
+    S.hrMode='qual'; add('Evalúa FC: '+(S.hr<100?'<100':'≥100')+' lpm');
   }
-
   if(a==='ecg'){
-    if(S.ecgRequestedAt==null){
-      S.ecgRequestedAt=S.t;
-      S.hrMode='acquiring';
-      add('Coloca ECG · adquiriendo señal');
-    }
+    S.ecgRequestedAt=S.t; S.hrMode='acquiring'; add('Coloca ECG · adquiriendo señal');
   }
-
   if(a==='spo2'){
-    if(S.spo2RequestedAt==null){
-      S.spo2RequestedAt=S.t;
-      S.spo2Mode='acquiring';
-      add('Coloca pulsioxímetro preductal · adquiriendo señal');
-    }
+    S.spo2RequestedAt=S.t; S.spo2Mode='acquiring'; add('Coloca pulsioxímetro preductal · adquiriendo señal');
   }
-
   if(a==='fio2up'){
-    S.fio2=Math.min(1, +(S.fio2+.10).toFixed(2));
-    add('Aumenta FiO₂ a '+Math.round(S.fio2*100)+'%');
-    if(S.apnea && S.effectiveAt==null){
-      S.errors.push('Aumentó FiO₂ antes de conseguir ventilación eficaz.');
-    }
+    S.fio2=Math.min(1,+(S.fio2+.10).toFixed(2)); add('Aumenta FiO₂ a '+Math.round(S.fio2*100)+'%');
+    if(S.apnea && S.effectiveAt==null) S.errors.push('Aumentó FiO₂ antes de conseguir ventilación eficaz.');
   }
-
   if(a==='fio2down'){
-    S.fio2=Math.max(.21, +(S.fio2-.10).toFixed(2));
-    add('Reduce FiO₂ a '+Math.round(S.fio2*100)+'%');
+    S.fio2=Math.max(.21,+(S.fio2-.10).toFixed(2)); add('Reduce FiO₂ a '+Math.round(S.fio2*100)+'%');
   }
-
   if(a==='startVent'){
-    if(!S.ppv){
-      S.ppv=true;
-      S.first=S.t;
-      S.chest='absent';
-      $('maskVisual').className='maskVisual on leak';
-      add('Inicia VPPI · inicialmente sin expansión torácica','milestone');
-    }
+    S.ppv=true; S.first=S.t; S.internalChest='absent'; S.observedChest='unknown';
+    $('maskVisual').className='maskVisual on';
+    add('Inicia VPPI','milestone');
+    $('sceneNote').textContent='VPPI en curso';
+    $('observationHint').textContent='Marcador visual provisional: el tórax no muestra movimiento con las insuflaciones.';
   }
-
   if(a==='chest'){
     S.chestCheckedAt=S.t;
-    if(S.ppv){
-      S.chest = S.sealCorrected ? 'present' : 'absent';
-    } else {
-      S.chest='unknown';
-    }
-    add('Comprueba tórax: '+(S.chest==='present'?'expansión presente':S.chest==='absent'?'sin expansión':'sin VPPI activa'));
+    S.observedChest=S.internalChest;
+    add('Comprueba tórax: '+(S.observedChest==='present'?'expansión presente':'sin expansión'));
   }
-
   if(a==='correct'){
-    if(!(S.ppv && S.chest==='absent')) return;
-    S.sealCorrected=true;
-    S.correctionAt=S.t;
-    S.effectiveAt=S.t;
-    S.chest='present';
-    $('maskVisual').className='maskVisual on sealed';
-    add('Corrige posición/sellado · VPPI eficaz con expansión torácica','milestone');
+    S.sealCorrected=true; S.correctionAt=S.t; S.effectiveAt=S.t; S.internalChest='present';
+    $('maskVisual').className='maskVisual on';
+    add('Corrige posición/sellado de mascarilla','milestone');
+    $('sceneNote').textContent='Ventilación corregida';
+    $('observationHint').textContent='Marcador visual provisional: ahora se aprecia movimiento torácico con la ventilación.';
   }
-
   if(a==='compress'){
-    S.compressions=true;
-    add('Inicia compresiones');
-    if(S.hr>=60 || S.effectiveAt==null){
-      S.errors.push('Compresiones iniciadas antes de completar la secuencia indicada.');
-    }
+    S.compressions=true; add('Inicia compresiones');
+    if(S.hr>=60 || S.effectiveAt==null) S.errors.push('Compresiones iniciadas antes de completar la secuencia indicada.');
   }
-
-  render();
+  if(a==='reassess'){
+    add('Reevaluación: FC '+Math.round(S.hr)+' lpm · '+(S.apnea?'sin respiración espontánea':'respiración espontánea'));
+    if(S.recoveredAt!=null) S.reassessedAfterRecoveryAt=S.t;
+    if(S.ppv) S.observedChest=S.internalChest;
+  }
+  if(a==='stopVent'){
+    S.supportAdjustedAt=S.t; S.ppv=false; S.internalChest='none'; S.observedChest='unknown';
+    $('maskVisual').className='maskVisual';
+    add('Suspende VPPI y continúa observación','milestone');
+    $('sceneNote').textContent=S.apnea?'VPPI suspendida · persiste apnea':'Respiración espontánea · observación';
+    $('observationHint').textContent=S.apnea?'Observación: no hay respiración espontánea efectiva.':'Observación: respiración espontánea mantenida.';
+    if(S.apnea) S.errors.push('VPPI suspendida antes de recuperar respiración espontánea.');
+  }
+  updateActionAvailability(); render();
 }
 
 function requestFinish(){
@@ -896,78 +992,85 @@ function requestFinish(){
   $('finishModal').classList.add('on');
 }
 function closeFinishModal(){ $('finishModal').classList.remove('on'); }
-
 function finishCase(reason){
   if(S.finished) return;
-  closeFinishModal();
-  S.finished=true;
-  S.finishReason=reason;
-  S.finishedAt=S.t;
-  S.running=false;
-  if(loop){ clearInterval(loop); loop=null; }
-
-  const labels={
-    manual:'Finalización manual por el alumno',
-    pedagogical:'Punto docente alcanzado',
-    timeout:'Tiempo máximo de simulación alcanzado'
-  };
-  add(labels[reason] || 'Caso finalizado','milestone');
-  $('sceneNote').textContent=labels[reason] || 'Caso finalizado';
-  render();
-  debrief();
+  closeFinishModal(); S.finished=true; S.finishReason=reason; S.finishedAt=S.t; S.running=false;
+  if(raf){ cancelAnimationFrame(raf); raf=null; }
+  const labels={manual:'Finalización manual por el alumno',pedagogical:'Punto docente alcanzado',timeout:'Tiempo máximo de simulación alcanzado'};
+  add(labels[reason]||'Caso finalizado','milestone');
+  $('sceneNote').textContent=labels[reason]||'Caso finalizado';
+  $('observationHint').textContent='Caso finalizado · revisa el debriefing.';
+  render(); debrief();
 }
 
 function render(){
   $('clock').textContent=fmt(S.t);
+  if(S.hrMode==='hidden'){ $('hr').textContent='?'; $('hrhint').textContent='no evaluada'; }
+  else if(S.hrMode==='qual'){ $('hr').textContent=S.hr<100?'<100':'≥100'; $('hrhint').textContent='evaluación clínica'; }
+  else if(S.hrMode==='acquiring'){ $('hr').textContent='…'; $('hrhint').textContent='ECG adquiriendo señal'; }
+  else { $('hr').textContent=Math.round(S.hr); $('hrhint').textContent='lpm · ECG'; }
 
-  if(S.hrMode==='hidden'){
-    $('hr').textContent='?'; $('hrhint').textContent='no evaluada';
-  } else if(S.hrMode==='qual'){
-    $('hr').textContent=S.hr<100?'<100':'≥100'; $('hrhint').textContent='evaluación clínica';
-  } else if(S.hrMode==='acquiring'){
-    $('hr').textContent='…'; $('hrhint').textContent='ECG adquiriendo señal';
-  } else {
-    $('hr').textContent=Math.round(S.hr); $('hrhint').textContent='lpm · ECG';
-  }
-
-  if(S.spo2Mode==='none'){
-    $('spo2').textContent='—'; $('spo2hint').textContent='sin monitor';
-  } else if(S.spo2Mode==='acquiring'){
-    $('spo2').textContent='…'; $('spo2hint').textContent='adquiriendo señal';
-  } else {
-    $('spo2').textContent=Math.round(S.spo2)+'%'; $('spo2hint').textContent='señal preductal';
-  }
+  if(S.spo2Mode==='none'){ $('spo2').textContent='—'; $('spo2hint').textContent='sin monitor'; }
+  else if(S.spo2Mode==='acquiring'){ $('spo2').textContent='…'; $('spo2hint').textContent='adquiriendo señal'; }
+  else { $('spo2').textContent=Math.round(S.spo2)+'%'; $('spo2hint').textContent='señal preductal'; }
 
   $('fio2').textContent=Math.round(S.fio2*100)+'%';
   $('resp').textContent=S.apnea?'APNEA':'ESPONTÁNEA';
-  $('chest').textContent=S.chest==='unknown'?'NO VALORADA':(S.chest==='present'?'PRESENTE':'AUSENTE');
+  $('chest').textContent=S.observedChest==='unknown'?'NO VALORADA':(S.observedChest==='present'?'PRESENTE':'AUSENTE');
 
-  $('ventState').textContent=S.first==null?'No iniciada':(S.effectiveAt==null?'Sin expansión':'Eficaz');
-  $('ineffectiveTime').textContent=(S.first!=null && S.effectiveAt==null)?(S.t-S.first)+' s':(S.first!=null&&S.effectiveAt!=null?(S.effectiveAt-S.first)+' s':'—');
-  $('effectiveTime').textContent=S.effectiveAt==null?'—':(S.t-S.effectiveAt)+' s';
+  $('ventState').textContent=S.first==null?'No iniciada':(S.effectiveAt==null?'En curso':'Corregida');
+  $('ineffectiveTime').textContent=S.first==null?'—':(S.effectiveAt==null?(S.t-S.first)+' s':(S.effectiveAt-S.first)+' s');
+  $('effectiveTime').textContent=S.effectiveAt==null?'—':(S.supportAdjustedAt==null?(S.t-S.effectiveAt)+' s':(S.supportAdjustedAt-S.effectiveAt)+' s');
 
   $('cordBadge').textContent=S.cord?'Cordón pinzado':'Cordón íntegro';
   $('cordBadge').className='pill '+(S.cord?'':'ok');
-  $('ventBadge').textContent=S.first==null?'Sin VPPI':(S.effectiveAt==null?'VPPI sin expansión':'VPPI eficaz');
-  $('ventBadge').className='pill '+(S.effectiveAt!=null?'ok':S.first!=null?'warn':'');
+  $('ventBadge').textContent=S.first==null?'Sin VPPI':(S.supportAdjustedAt!=null?'VPPI retirada':S.effectiveAt==null?'VPPI en curso':'VPPI corregida');
+  $('ventBadge').className='pill '+(S.supportAdjustedAt!=null||S.effectiveAt!=null?'ok':'');
   $('toneBadge').textContent=S.startPerf==null?'Tono no valorado':(S.apnea?'Tono disminuido':'Tono en mejoría');
   $('toneBadge').className='pill '+(S.startPerf==null?'warn':(!S.apnea?'ok':'warn'));
 
-  if(S.ppv && S.effectiveAt==null) $('maskVisual').className='maskVisual on leak';
-  if(S.effectiveAt!=null) $('maskVisual').className='maskVisual on sealed';
-
-  $('correctBtn').disabled=!(S.ppv && S.chest==='absent');
-  $('startVentBtn').disabled=!S.running || S.ppv || S.finished;
-  $('finishBtn').disabled=!S.running || S.finished;
+  updateActionAvailability();
   $('status').textContent=S.finished
-    ? ('Caso finalizado · '+(S.finishReason==='pedagogical'?'punto docente alcanzado':S.finishReason==='timeout'?'tiempo máximo alcanzado':'finalización manual'))
-    : S.running
-      ? (S.effectiveAt==null?'Reloj clínico activo · prioriza decisiones y secuencia':'Reloj activo · VPPI eficaz establecida')
-      : 'Gold standard clínico: GRN-SENeo 2026';
+    ? 'Caso finalizado · '+(S.finishReason==='pedagogical'?'punto docente alcanzado':S.finishReason==='timeout'?'tiempo máximo alcanzado':'finalización manual')
+    : S.actionLock
+      ? 'Acción en curso · el resto de acciones permanece bloqueado'
+      : S.running
+        ? (S.recoveredAt==null?'Reloj clínico activo · interpreta la respuesta del RN':'Recuperación en curso · reevaluar y ajustar soporte')
+        : 'Gold standard clínico: GRN-SENeo 2026';
 }
 
 function li(text){ return '<li>'+text+'</li>'; }
-
+function markerClass(ev){
+  if(/recupera|supera 100|correg/i.test(ev.text)) return 'good';
+  if(/compresiones|antes|no corregida/i.test(ev.text)) return 'bad';
+  if(/sin expansión|ineficaz|adquiriendo/i.test(ev.text)) return 'warn';
+  return '';
+}
+function buildTimelineGraph(){
+  $('timelineGraph').innerHTML=S.events.map(ev=>
+    '<div class="timelineRow"><b>'+fmt(ev.t)+'</b><span class="timelineMarker '+markerClass(ev)+'"></span><div class="timelineLabel">'+ev.text+'</div></div>'
+  ).join('');
+}
+function decisionCard(title,action,consequence,reference,interpretation){
+  return '<div class="decisionCard"><b>'+title+'</b>'+
+    '<p><strong>Tu actuación:</strong> '+action+'</p>'+
+    '<p><strong>Qué ocurrió:</strong> '+consequence+'</p>'+
+    '<p><strong>Referencia:</strong> '+reference+'</p>'+
+    '<p><strong>Interpretación:</strong> '+interpretation+'</p></div>';
+}
+function buildDecisionCards(){
+  const prep=PRE.summary
+    ? (PRE.summary.mode==='skipped'?'Omitiste la revisión previa.':'Revisaste '+PRE.summary.reviewedCount+'/6 elementos en '+PRE.summary.timeUsed+' s'+(PRE.summary.issueFixed?' y corregiste la incidencia detectada.':PRE.summary.issueFound?' pero quedó una incidencia sin corregir.':'.'))
+    : 'No hay registro de revisión previa.';
+  const vent=S.first==null?'No iniciaste VPPI.':'Iniciaste VPPI a '+fmt(S.first)+(S.chestCheckedAt!=null?', comprobaste expansión a '+fmt(S.chestCheckedAt):' sin registrar comprobación de expansión')+(S.effectiveAt!=null?' y corregiste la ventilación a '+fmt(S.effectiveAt)+'.':'.');
+  const recovery=S.recoveredAt==null?'No se alcanzó recuperación respiratoria.':'La FC y la respiración mejoraron tras establecer ventilación eficaz; recuperación espontánea a '+fmt(S.recoveredAt)+'.';
+  const cards=[
+    decisionCard('Preparación',prep,'La preparación queda registrada antes de iniciar el reloj clínico.','SeNeo 2026 incluye preparación/briefing protocolizados en nacimientos de riesgo.','La revisión sistemática reduce la probabilidad de descubrir fallos de material durante la reanimación.'),
+    decisionCard('Ventilación',vent,S.effectiveAt==null?'La FC no muestra una recuperación sostenida sin ventilación eficaz.':recovery,'Ante apnea o FC <100 se prioriza ventilación; si persiste FC <100 debe corregirse la ventilación antes de escalar.','La respuesta fisiológica del RN es el feedback principal; el simulador no muestra una etiqueta de “correcto”.'),
+    decisionCard('Recuperación',S.reassessedAfterRecoveryAt!=null?'Reevaluaste tras la recuperación a '+fmt(S.reassessedAfterRecoveryAt)+'.':'No consta reevaluación posterior a la recuperación.',S.supportAdjustedAt!=null?'Ajustaste el soporte y retiraste VPPI a '+fmt(S.supportAdjustedAt)+'.':'El soporte no fue retirado/ajustado antes del cierre.','El endpoint docente de S1 exige reconocer la recuperación y ajustar soporte.','El cierre del caso no depende sólo de que suba la FC: también de reconocer el nuevo estado clínico.')
+  ];
+  $('decisionCards').innerHTML=cards.join('');
+}
 function debrief(){
   $('modal').classList.add('on');
   $('d1').textContent=S.first==null?'—':fmt(S.first);
@@ -976,54 +1079,33 @@ function debrief(){
   $('d4').textContent=(S.first!=null&&S.effectiveAt!=null)?(S.effectiveAt-S.first)+' s':'—';
   const finishLabels={manual:'Manual',pedagogical:'Punto docente',timeout:'Tiempo máximo'};
   $('d5').textContent=S.finishReason?finishLabels[S.finishReason]:'En curso';
+  buildTimelineGraph(); buildDecisionCards();
 
   const clinical=[];
-  if(S.stimAt!=null){
-    const stimToClamp=S.clampAt==null?null:S.clampAt-S.stimAt;
-    clinical.push(li('Estimulación iniciada a '+fmt(S.stimAt)+(stimToClamp==null?' · cordón aún no pinzado':' · '+stimToClamp+' s hasta pinzamiento.')));
-  } else {
-    clinical.push(li('No se registró estimulación táctil inicial.'));
+  if(PRE.summary){
+    clinical.push(li('Revisión previa: '+PRE.summary.reviewedCount+'/6 elementos · '+PRE.summary.timeUsed+' s'+(PRE.summary.issueFixed?' · incidencia corregida':PRE.summary.issueFound?' · incidencia no corregida':'')+'.'));
   }
+  clinical.push(li(S.stimAt==null?'No se registró estimulación táctil.':'Estimulación iniciada a '+fmt(S.stimAt)+'.'));
   clinical.push(li(S.first==null?'No se inició VPPI.':'VPPI iniciada a '+fmt(S.first)+'.'));
   clinical.push(li(S.effectiveAt==null?'No se consiguió VPPI eficaz.':'VPPI eficaz a '+fmt(S.effectiveAt)+'.'));
-  if(S.first!=null && S.effectiveAt!=null){
-    clinical.push(li('Tiempo con VPPI ineficaz antes de corrección efectiva: '+(S.effectiveAt-S.first)+' s.'));
-  }
   clinical.push(li(S.hr100==null?'FC no superó 100 lpm durante el registro.':'FC >100 a '+fmt(S.hr100)+'.'));
-  clinical.push(li(S.recoveredAt==null?'Respiración espontánea no recuperada todavía.':'Respiración espontánea recuperada a '+fmt(S.recoveredAt)+'.'));
-  if(S.finished){
-    const finishText = S.finishReason==='pedagogical'
-      ? 'Caso cerrado automáticamente al alcanzar el punto docente: VPPI eficaz, FC >100 y respiración espontánea mantenida.'
-      : S.finishReason==='timeout'
-        ? 'Caso cerrado al alcanzar el límite operativo de '+SIM_MAX_SEC+' s.'
-        : 'Caso finalizado manualmente por el alumno.';
-    clinical.push(li(finishText+' Tiempo final: '+fmt(S.finishedAt)+'.'));
-  }
-  if(S.errors.length){
-    clinical.push(...S.errors.map(e=>li('Oportunidad de mejora: '+e)));
-  } else {
-    clinical.push(li('Sin errores de secuencia registrados por las reglas actuales.'));
-  }
+  clinical.push(li(S.recoveredAt==null?'Respiración espontánea no recuperada.':'Respiración espontánea recuperada a '+fmt(S.recoveredAt)+'.'));
+  clinical.push(li(S.reassessedAfterRecoveryAt==null?'No se registró reevaluación tras la recuperación.':'Reevaluación tras recuperación a '+fmt(S.reassessedAfterRecoveryAt)+'.'));
+  clinical.push(li(S.supportAdjustedAt==null?'No se registró retirada/ajuste de VPPI.':'VPPI retirada a '+fmt(S.supportAdjustedAt)+'.'));
+  if(S.finished) clinical.push(li('Finalización: '+(S.finishReason==='pedagogical'?'punto docente':S.finishReason==='timeout'?'tiempo máximo':'manual')+' a '+fmt(S.finishedAt)+'.'));
+  if(S.errors.length) clinical.push(...S.errors.map(e=>li('Oportunidad de mejora: '+e)));
+  else clinical.push(li('Sin errores de secuencia registrados por las reglas actuales.'));
   $('clinicalDebrief').innerHTML=clinical.join('');
 
   const ppv=[];
   ppv.push(li(S.first==null?'No se inició VPPI.':'VPPI iniciada a '+fmt(S.first)+'.'));
-  ppv.push(li(S.effectiveAt==null?'No se consiguió ventilación eficaz.':'Ventilación eficaz a '+fmt(S.effectiveAt)+'.'));
-  if(S.first!=null && S.effectiveAt!=null){
-    ppv.push(li('Tiempo con VPPI ineficaz antes de la corrección: '+(S.effectiveAt-S.first)+' s.'));
-  }
-  if(S.chestCheckedAt!=null && S.first!=null){
-    ppv.push(li('Comprobación del tórax: '+Math.max(0,S.chestCheckedAt-S.first)+' s después de iniciar VPPI.'));
-  } else if(S.first!=null) {
-    ppv.push(li('No se registró comprobación activa de expansión torácica.'));
-  }
-  if(S.correctionAt!=null && S.chestCheckedAt!=null){
-    ppv.push(li('Corrección: '+Math.max(0,S.correctionAt-S.chestCheckedAt)+' s tras detectar ausencia de expansión.'));
-  }
-  ppv.push(li('La técnica manual de frecuencia/ritmo no se evalúa en este caso; se reserva para un minijuego específico.'));
+  if(S.chestCheckedAt!=null && S.first!=null) ppv.push(li('Comprobación del tórax: '+Math.max(0,S.chestCheckedAt-S.first)+' s después de iniciar VPPI.'));
+  else if(S.first!=null) ppv.push(li('No se registró comprobación activa de expansión torácica.'));
+  if(S.correctionAt!=null && S.chestCheckedAt!=null) ppv.push(li('Corrección: '+Math.max(0,S.correctionAt-S.chestCheckedAt)+' s tras observar ausencia de expansión.'));
+  if(S.first!=null&&S.effectiveAt!=null) ppv.push(li('Tiempo total con ventilación ineficaz: '+(S.effectiveAt-S.first)+' s.'));
+  ppv.push(li('La técnica manual de frecuencia/ritmo se reserva para el minijuego específico.'));
   $('ppvDebrief').innerHTML=ppv.join('');
 }
-
 function closeDebrief(){ $('modal').classList.remove('on'); }
 
 render();
