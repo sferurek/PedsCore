@@ -336,6 +336,460 @@ button.danger{
   .grid{grid-template-columns:repeat(5,1fr)}
   .app{grid-template-rows:60px minmax(0,1fr) 280px}
 }
-</style></head><body><div class="app"><header><div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.1</span></div><div class="status">39+2 sem · Aprendizaje</div><div class="clock" id="clock">00:00</div></header><main><aside class="left"><h3>EVOLUCIÓN</h3><div class="timeline" id="timeline"></div></aside><section class="scene"><div id="baby" class="baby"></div><div class="sceneNote" id="sceneNote">Pulsa “Iniciar caso”</div></section><aside class="right"><h3>MONITORIZACIÓN</h3><div class="metric"><small>FC</small><b id="hr">?</b></div><div class="metric"><small>SpO₂ preductal</small><b id="spo2">—</b><small id="spo2hint">sin monitor</small></div><div class="metric"><small>FiO₂</small><b id="fio2">21%</b></div><div class="metric"><small>Respiración</small><b class="wide" id="resp">—</b></div><div class="metric"><small>Expansión torácica</small><b class="wide" id="chest">NO VALORADA</b></div></aside></main><section class="actions"><div class="actionTop"><strong>¿Qué haces ahora?</strong><span class="status" id="status">Gold standard clínico: GRN-SENeo 2026</span></div><div class="grid"><button class="primary" onclick="start()">Iniciar caso</button><button onclick="act('stim')">Estimular</button><button onclick="act('clamp')">Pinzar cordón</button><button onclick="act('hr')">Evaluar FC</button><button onclick="act('ecg')">ECG</button><button onclick="act('spo2')">SpO₂ preductal</button><button onclick="act('chest')">Comprobar tórax</button><button onclick="act('correct')">Corregir ventilación</button><button class="danger" onclick="act('compress')">Compresiones</button></div><div class="ppv"><div><b>VPPI manual</b><div class="status">clic / espacio = insuflación</div></div><button class="inflate" onclick="inflate()">INSUFLAR</button><div class="stat"><small>Frecuencia 10 s</small><b id="rate">—</b></div><div class="stat"><small>Mediana</small><b id="median">—</b></div><div class="stat"><small>Insuflaciones</small><b id="count">0</b></div><button onclick="debrief()">Debrief</button></div></section></div><div class="modal" id="modal"><div class="card"><button style="float:right" onclick="closeDebrief()">Cerrar</button><h2>Debriefing · S1</h2><div class="rows"><div><small>Primera VPPI</small><b id="d1">—</b></div><div><small>VPPI eficaz</small><b id="d2">—</b></div><div><small>FC &gt;100</small><b id="d3">—</b></div><div><small>Frecuencia mediana</small><b id="d4">—</b></div></div><h3 style="margin-top:18px">Análisis</h3><p id="analysis">Aún no hay datos suficientes.</p><p><b>Referencia:</b> GRN-SENeo 2026. Para este RN ≥35 semanas, FiO₂ inicial 0,21. Ante apnea o FC &lt;100 se prioriza ventilación; si persiste FC &lt;100, se debe asegurar/corregir la ventilación antes de escalar.</p><p><b>Nota internacional:</b> la frecuencia manual exacta de VPPI no está explicitada en el artículo español 2026 disponible. AHA/AAP 2025 usa 30–60/min y ERC 2025 30–40/min tras inflar los pulmones.</p></div></div><script>
-const S={running:false,t:0,hr:82,spo2:58,hrMode:'hidden',spo2Mode:'none',fio2:.21,apnea:true,ppv:false,effective:false,chest:'unknown',cord:false,taps:[],first:null,effectiveAt:null,hr100:null,errors:[]};let timer=null;function fmt(x){x=Math.floor(x);return String(Math.floor(x/60)).padStart(2,'0')+':'+String(x%60).padStart(2,'0')}function add(x){const d=document.createElement('div');d.className='event';d.innerHTML='<span class="t">'+fmt(S.t)+'</span>'+x;timeline.appendChild(d);timeline.scrollTop=timeline.scrollHeight}function start(){Object.assign(S,{running:true,t:0,hr:82,spo2:58,hrMode:'hidden',spo2Mode:'none',fio2:.21,apnea:true,ppv:false,effective:false,chest:'unknown',cord:false,taps:[],first:null,effectiveAt:null,hr100:null,errors:[]});timeline.innerHTML='';add('Nacimiento · no llora · apnea · tono disminuido');sceneNote.textContent='No llora · apnea · tono disminuido';if(timer)clearInterval(timer);timer=setInterval(tick,1000);render()}function tick(){if(!S.running)return;S.t++;const last=S.taps.at(-1);const recent=last!=null&&(performance.now()/1000-last)<3;if(S.apnea&&!S.effective&&S.t%8===0)S.hr=Math.max(45,S.hr-2);if(S.effective&&S.ppv&&recent){if(S.t%2===0)S.hr=Math.min(132,S.hr+4);if(S.t%3===0)S.spo2=Math.min(92,S.spo2+2);if(S.hr>=100&&S.hr100==null){S.hr100=S.t;add('La FC supera 100 lpm')}if(S.hr>=118){S.apnea=false;baby.classList.add('good');sceneNote.textContent='Respira · tono en mejoría'}}render()}function act(a){if(!S.running)return;if(a==='stim')add('Estimulación táctil');if(a==='clamp'){S.cord=true;add('Pinza el cordón');if(S.t<30)S.errors.push('Pinzamiento precoz respecto a la vía de referencia del caso')}if(a==='hr'){S.hrMode='qual';add('Evalúa FC: '+(S.hr<100?'<100':'≥100'))}if(a==='ecg'){S.hrMode='exact';add('Coloca ECG')}if(a==='spo2'){S.spo2Mode='visible';add('Coloca SpO₂ preductal')}if(a==='chest'){S.chest=S.effective?'present':'absent';add('Comprueba tórax: '+(S.chest==='present'?'expansión presente':'sin expansión'))}if(a==='correct'){if(S.first!=null){S.effective=true;S.effectiveAt=S.t;S.chest='present';add('Corrige posición/sellado · expansión torácica presente')}}if(a==='compress'){add('Inicia compresiones');if(!S.effective||S.hr>=60)S.errors.push('Compresiones antes de completar la secuencia indicada')}render()}function inflate(){if(!S.running)return;if(S.first==null){S.first=S.t;S.ppv=true;S.effective=false;S.chest='absent';add('Inicia VPPI · primera fase ineficaz')}S.taps.push(performance.now()/1000);render()}function rates(){if(S.taps.length<2)return[];return S.taps.slice(1).map((v,i)=>60/(v-S.taps[i]))}function med(){const r=rates().sort((a,b)=>a-b);if(!r.length)return null;const m=Math.floor(r.length/2);return r.length%2?r[m]:(r[m-1]+r[m])/2}function render(){clock.textContent=fmt(S.t);hr.textContent=S.hrMode==='exact'?S.hr:(S.hrMode==='qual'?(S.hr<100?'<100':'≥100'):'?');spo2.textContent=S.spo2Mode==='visible'?S.spo2+'%':'—';spo2hint.textContent=S.spo2Mode==='visible'?'señal disponible':'sin monitor';fio2.textContent=Math.round(S.fio2*100)+'%';resp.textContent=S.apnea?'APNEA':'ESPONTÁNEA';chest.textContent=S.chest==='unknown'?'NO VALORADA':(S.chest==='present'?'PRESENTE':'AUSENTE');count.textContent=S.taps.length;const now=performance.now()/1000;const recent=S.taps.filter(x=>x>now-10);rate.textContent=recent.length>=2?Math.round(recent.length*6)+'/min':'—';const m=med();median.textContent=m?Math.round(m)+'/min':'—'}function debrief(){modal.classList.add('on');d1.textContent=S.first==null?'—':fmt(S.first);d2.textContent=S.effectiveAt==null?'—':fmt(S.effectiveAt);d3.textContent=S.hr100==null?'—':fmt(S.hr100);const m=med();d4.textContent=m?Math.round(m)+'/min':'—';analysis.textContent=(S.errors.length?S.errors.join(' · '):'Sin errores de secuencia registrados')+(S.effectiveAt!=null?' · Ventilación eficaz conseguida.':' · Ventilación eficaz no conseguida todavía.')}function closeDebrief(){modal.classList.remove('on')}document.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();inflate()}});render();
-</script></body></html>
+
+button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
+.signal{font-size:10px;color:var(--blue-600);font-weight:700}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;background:var(--blue-100);border:1px solid var(--blue-200);color:var(--blue-700);font-size:10px;font-weight:750}
+.pill.ok{background:var(--mint);border-color:#bfe2d7;color:#3f7f6f}
+.pill.warn{background:#fff8e2;border-color:#f0dfaa;color:#8d7025}
+.debriefGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.debriefBox{border:1px solid var(--blue-200);background:#fbfdff;border-radius:13px;padding:13px}
+.debriefBox h4{margin:0 0 8px;color:var(--blue-900);font-size:13px}
+.debriefList{margin:0;padding-left:18px;color:#486176;font-size:12px;line-height:1.55}
+@media(max-width:900px){.debriefGrid{grid-template-columns:1fr}}
+</style></head><body>
+<div class="app">
+  <header>
+    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.2</span></div>
+    <div class="status">39+2 sem · Simulación en tiempo real</div>
+    <div class="clock" id="clock">00:00</div>
+  </header>
+
+  <main>
+    <aside class="left">
+      <h3>EVOLUCIÓN</h3>
+      <div class="timeline" id="timeline"></div>
+    </aside>
+
+    <section class="scene">
+      <div id="baby" class="baby"></div>
+      <div class="sceneNote" id="sceneNote">Pulsa “Iniciar caso”</div>
+    </section>
+
+    <aside class="right">
+      <h3>MONITORIZACIÓN</h3>
+      <div class="metric"><small>FC</small><b id="hr">?</b><small id="hrhint">no evaluada</small></div>
+      <div class="metric"><small>SpO₂ preductal</small><b id="spo2">—</b><small id="spo2hint">sin monitor</small></div>
+      <div class="metric"><small>FiO₂</small><b id="fio2">21%</b><small>RN ≥35 sem · referencia SeNeo: 21%</small></div>
+      <div class="metric"><small>Respiración</small><b class="wide" id="resp">—</b></div>
+      <div class="metric"><small>Expansión torácica</small><b class="wide" id="chest">NO VALORADA</b></div>
+    </aside>
+  </main>
+
+  <section class="actions">
+    <div class="actionTop">
+      <strong>¿Qué haces ahora?</strong>
+      <span class="status" id="status">Gold standard clínico: GRN-SENeo 2026</span>
+    </div>
+
+    <div class="grid" style="grid-template-columns:repeat(11,minmax(78px,1fr))">
+      <button class="primary" id="startBtn" onclick="start()">Iniciar caso</button>
+      <button onclick="act('stim')">Estimular</button>
+      <button onclick="act('clamp')">Pinzar cordón</button>
+      <button onclick="act('hr')">Evaluar FC</button>
+      <button onclick="act('ecg')">ECG</button>
+      <button onclick="act('spo2')">SpO₂ preductal</button>
+      <button onclick="act('fio2up')">FiO₂ +10%</button>
+      <button onclick="act('fio2down')">FiO₂ −10%</button>
+      <button onclick="act('chest')">Comprobar tórax</button>
+      <button id="correctBtn" onclick="act('correct')" disabled>Corregir ventilación</button>
+      <button class="danger" onclick="act('compress')">Compresiones</button>
+    </div>
+
+    <div class="ppv">
+      <div>
+        <b>VPPI manual</b>
+        <div class="status">clic / ESPACIO = 1 insuflación</div>
+      </div>
+      <button class="inflate" id="inflateBtn" onclick="inflate()">INSUFLAR</button>
+      <div class="stat"><small>Frecuencia 10 s</small><b id="rate">—</b></div>
+      <div class="stat"><small>Mediana</small><b id="median">—</b></div>
+      <div class="stat"><small>Insuflaciones</small><b id="count">0</b></div>
+      <button onclick="debrief()">Debrief</button>
+    </div>
+  </section>
+</div>
+
+<div class="modal" id="modal">
+  <div class="card">
+    <button style="float:right" onclick="closeDebrief()">Cerrar</button>
+    <h2>Debriefing · S1 Alpha 0.2</h2>
+    <div class="rows">
+      <div><small>Primera VPPI</small><b id="d1">—</b></div>
+      <div><small>VPPI eficaz</small><b id="d2">—</b></div>
+      <div><small>FC &gt;100</small><b id="d3">—</b></div>
+      <div><small>Frecuencia mediana</small><b id="d4">—</b></div>
+    </div>
+
+    <div class="debriefGrid">
+      <div class="debriefBox">
+        <h4>Secuencia clínica</h4>
+        <ul class="debriefList" id="clinicalDebrief"></ul>
+      </div>
+      <div class="debriefBox">
+        <h4>VPPI y tiempos</h4>
+        <ul class="debriefList" id="ppvDebrief"></ul>
+      </div>
+    </div>
+
+    <p><b>Referencia:</b> GRN-SENeo 2026. Para este RN ≥35 semanas, FiO₂ inicial 0,21. Ante apnea o FC &lt;100 se prioriza ventilación; si persiste FC &lt;100, se debe asegurar/corregir la ventilación antes de escalar.</p>
+    <p><b>Nota internacional:</b> el artículo español 2026 disponible no explicita la frecuencia manual exacta de VPPI. En esta alpha, 30–60/min se usa como <em>perfil técnico contextual AHA/AAP 2025</em> para analizar ritmo, no como una cifra atribuida a SeNeo. ERC 2025 usa 30–40/min tras inflar los pulmones.</p>
+    <p><b>Supuestos operativos del simulador:</b> adquisición ECG 4 s y señal de SpO₂ 8 s. Son tiempos de interfaz/simulación, no recomendaciones SeNeo.</p>
+  </div>
+</div>
+
+<script>
+const S = {
+  running:false, startPerf:null, t:0, lastProcessedSec:-1,
+  hr:82, spo2:58, apnea:true, tone:'reduced',
+  hrMode:'hidden', ecgRequestedAt:null,
+  spo2Mode:'none', spo2RequestedAt:null,
+  fio2:.21,
+  cord:false, clampAt:null, stimAt:null,
+  ppv:false, taps:[], first:null,
+  chest:'unknown', chestCheckedAt:null,
+  sealCorrected:false, correctionAt:null,
+  effectiveAt:null, hr100:null, recoveredAt:null,
+  compressions:false,
+  errors:[], notes:[], events:[]
+};
+
+let loop = null;
+const $ = id => document.getElementById(id);
+
+function fmt(x){
+  if(x == null) return '—';
+  x = Math.max(0, Math.floor(x));
+  return String(Math.floor(x/60)).padStart(2,'0') + ':' + String(x%60).padStart(2,'0');
+}
+function nowRel(){
+  return S.startPerf == null ? 0 : (performance.now() - S.startPerf)/1000;
+}
+function add(text, kind='action'){
+  const ev = {t:S.t, text, kind};
+  S.events.push(ev);
+  const d = document.createElement('div');
+  d.className = 'event';
+  d.innerHTML = '<span class="t">'+fmt(ev.t)+'</span>'+text;
+  $('timeline').appendChild(d);
+  $('timeline').scrollTop = $('timeline').scrollHeight;
+}
+function reset(){
+  Object.assign(S,{
+    running:true,startPerf:performance.now(),t:0,lastProcessedSec:-1,
+    hr:82,spo2:58,apnea:true,tone:'reduced',
+    hrMode:'hidden',ecgRequestedAt:null,
+    spo2Mode:'none',spo2RequestedAt:null,
+    fio2:.21,cord:false,clampAt:null,stimAt:null,
+    ppv:false,taps:[],first:null,
+    chest:'unknown',chestCheckedAt:null,
+    sealCorrected:false,correctionAt:null,effectiveAt:null,
+    hr100:null,recoveredAt:null,compressions:false,
+    errors:[],notes:[],events:[]
+  });
+  $('timeline').innerHTML='';
+  $('baby').classList.remove('good');
+}
+function start(){
+  reset();
+  add('Nacimiento · no llora · apnea · tono disminuido','milestone');
+  $('sceneNote').textContent='No llora · apnea · tono disminuido';
+  if(loop) clearInterval(loop);
+  loop = setInterval(updateClock, 200);
+  render();
+}
+function updateClock(){
+  if(!S.running) return;
+  S.t = Math.floor(nowRel());
+  while(S.lastProcessedSec < S.t){
+    S.lastProcessedSec++;
+    processSecond(S.lastProcessedSec);
+  }
+  render();
+}
+
+function recentTaps(windowSec=3){
+  const n = nowRel();
+  return S.taps.filter(x => x > n-windowSec && x <= n);
+}
+function intervalRates(){
+  if(S.taps.length < 2) return [];
+  return S.taps.slice(1).map((v,i)=>{
+    const dt=v-S.taps[i];
+    return dt>0 ? 60/dt : Infinity;
+  });
+}
+function currentRate(){
+  const n=nowRel();
+  const r=S.taps.filter(x=>x>n-10 && x<=n);
+  if(r.length<2) return null;
+  const span=Math.max(.001,r[r.length-1]-r[0]);
+  return Math.round(((r.length-1)/span)*60);
+}
+function med(){
+  const r=intervalRates().filter(Number.isFinite).sort((a,b)=>a-b);
+  if(!r.length) return null;
+  const m=Math.floor(r.length/2);
+  return r.length%2?r[m]:(r[m-1]+r[m])/2;
+}
+function inRangePct(low=30,high=60){
+  const r=intervalRates().filter(Number.isFinite);
+  if(!r.length) return null;
+  return Math.round(r.filter(v=>v>=low&&v<=high).length/r.length*100);
+}
+function longestPause(){
+  if(S.taps.length<2) return null;
+  return Math.max(...S.taps.slice(1).map((v,i)=>v-S.taps[i]));
+}
+function cadenceAdequate(){
+  const r=currentRate();
+  return r!=null && r>=30 && r<=60 && recentTaps(3).length>=1;
+}
+function activeEffectiveVentilation(){
+  return S.sealCorrected && S.effectiveAt!=null && recentTaps(3).length>=1;
+}
+
+function processSecond(sec){
+  // Monitor acquisition: explicit operational simulation assumptions.
+  if(S.ecgRequestedAt!=null && S.hrMode==='acquiring' && sec-S.ecgRequestedAt>=4){
+    S.hrMode='exact';
+    add('ECG: señal disponible · FC '+Math.round(S.hr)+' lpm','milestone');
+  }
+  if(S.spo2RequestedAt!=null && S.spo2Mode==='acquiring' && sec-S.spo2RequestedAt>=8){
+    S.spo2Mode='visible';
+    add('SpO₂ preductal: señal disponible','milestone');
+  }
+
+  // Trend-based physiology. No claim of validated beat-by-beat prediction.
+  if(S.apnea && !activeEffectiveVentilation()){
+    if(sec>0 && sec%8===0) S.hr=Math.max(45,S.hr-2);
+    if(sec>0 && sec%15===0) S.spo2=Math.max(45,S.spo2-1);
+  }
+
+  if(S.apnea && activeEffectiveVentilation()){
+    if(cadenceAdequate()){
+      if(sec>0 && sec%2===0) S.hr=Math.min(132,S.hr+4);
+      if(sec>0 && sec%3===0) S.spo2=Math.min(94,S.spo2+2);
+    } else {
+      // Correct seal but poor/paused cadence: no automatic recovery.
+      if(sec>0 && sec%10===0) S.hr=Math.max(50,S.hr-1);
+    }
+  }
+
+  if(S.hr>=100 && S.hr100==null){
+    S.hr100=sec;
+    add('La FC supera 100 lpm','milestone');
+  }
+
+  if(S.hr>=118 && S.effectiveAt!=null && sec-S.effectiveAt>=10 && cadenceAdequate() && S.apnea){
+    S.apnea=false;
+    S.tone='improving';
+    S.recoveredAt=sec;
+    $('baby').classList.add('good');
+    $('sceneNote').textContent='Respira · tono en mejoría';
+    add('Recupera respiración espontánea','milestone');
+  }
+}
+
+function act(a){
+  if(!S.running) return;
+
+  if(a==='stim'){
+    if(S.stimAt==null) S.stimAt=S.t;
+    add('Inicia estimulación táctil');
+  }
+
+  if(a==='clamp'){
+    if(S.cord) return;
+    S.cord=true; S.clampAt=S.t;
+    add('Pinza el cordón');
+    const stimDuration = S.stimAt==null ? 0 : S.clampAt-S.stimAt;
+    if(S.apnea && stimDuration<30){
+      S.errors.push('Pinzamiento antes de completar 30 s de estimulación en este RN no vigoroso.');
+    }
+  }
+
+  if(a==='hr'){
+    S.hrMode='qual';
+    add('Evalúa FC: '+(S.hr<100?'<100':'≥100')+' lpm');
+  }
+
+  if(a==='ecg'){
+    if(S.ecgRequestedAt==null){
+      S.ecgRequestedAt=S.t;
+      S.hrMode='acquiring';
+      add('Coloca ECG · adquiriendo señal');
+    }
+  }
+
+  if(a==='spo2'){
+    if(S.spo2RequestedAt==null){
+      S.spo2RequestedAt=S.t;
+      S.spo2Mode='acquiring';
+      add('Coloca pulsioxímetro preductal · adquiriendo señal');
+    }
+  }
+
+  if(a==='fio2up'){
+    S.fio2=Math.min(1, +(S.fio2+.10).toFixed(2));
+    add('Aumenta FiO₂ a '+Math.round(S.fio2*100)+'%');
+    if(S.apnea && S.effectiveAt==null){
+      S.errors.push('Aumentó FiO₂ antes de conseguir ventilación eficaz.');
+    }
+  }
+
+  if(a==='fio2down'){
+    S.fio2=Math.max(.21, +(S.fio2-.10).toFixed(2));
+    add('Reduce FiO₂ a '+Math.round(S.fio2*100)+'%');
+  }
+
+  if(a==='chest'){
+    S.chestCheckedAt=S.t;
+    if(S.ppv){
+      S.chest = S.sealCorrected && recentTaps(3).length ? 'present' : 'absent';
+    } else {
+      S.chest='unknown';
+    }
+    add('Comprueba tórax: '+(S.chest==='present'?'expansión presente':S.chest==='absent'?'sin expansión':'sin VPPI activa'));
+  }
+
+  if(a==='correct'){
+    if(!(S.ppv && S.chest==='absent')) return;
+    S.sealCorrected=true;
+    S.correctionAt=S.t;
+    S.chest='unknown';
+    add('Corrige posición/sellado de mascarilla');
+  }
+
+  if(a==='compress'){
+    S.compressions=true;
+    add('Inicia compresiones');
+    if(S.hr>=60 || S.effectiveAt==null){
+      S.errors.push('Compresiones iniciadas antes de completar la secuencia indicada.');
+    }
+  }
+
+  render();
+}
+
+function inflate(){
+  if(!S.running) return;
+  const tap=nowRel();
+
+  if(S.first==null){
+    S.first=S.t;
+    S.ppv=true;
+    S.chest='absent';
+    add('Inicia VPPI · no se aprecia expansión torácica','milestone');
+  }
+
+  S.taps.push(tap);
+
+  if(S.sealCorrected && S.effectiveAt==null){
+    S.effectiveAt=S.t;
+    S.chest='present';
+    add('Primera insuflación eficaz tras corrección · expansión torácica presente','milestone');
+  }
+
+  render();
+}
+
+function render(){
+  $('clock').textContent=fmt(S.t);
+
+  if(S.hrMode==='hidden'){
+    $('hr').textContent='?'; $('hrhint').textContent='no evaluada';
+  } else if(S.hrMode==='qual'){
+    $('hr').textContent=S.hr<100?'<100':'≥100'; $('hrhint').textContent='evaluación clínica';
+  } else if(S.hrMode==='acquiring'){
+    $('hr').textContent='…'; $('hrhint').textContent='ECG adquiriendo señal';
+  } else {
+    $('hr').textContent=Math.round(S.hr); $('hrhint').textContent='lpm · ECG';
+  }
+
+  if(S.spo2Mode==='none'){
+    $('spo2').textContent='—'; $('spo2hint').textContent='sin monitor';
+  } else if(S.spo2Mode==='acquiring'){
+    $('spo2').textContent='…'; $('spo2hint').textContent='adquiriendo señal';
+  } else {
+    $('spo2').textContent=Math.round(S.spo2)+'%'; $('spo2hint').textContent='señal preductal';
+  }
+
+  $('fio2').textContent=Math.round(S.fio2*100)+'%';
+  $('resp').textContent=S.apnea?'APNEA':'ESPONTÁNEA';
+  $('chest').textContent=S.chest==='unknown'?'NO VALORADA':(S.chest==='present'?'PRESENTE':'AUSENTE');
+
+  $('count').textContent=S.taps.length;
+  const cr=currentRate();
+  $('rate').textContent=cr==null?'—':cr+'/min';
+  const m=med();
+  $('median').textContent=m==null?'—':Math.round(m)+'/min';
+
+  $('correctBtn').disabled=!(S.ppv && S.chest==='absent');
+  $('inflateBtn').disabled=!S.running;
+  $('status').textContent=S.running
+    ? (S.effectiveAt==null?'Reloj clínico activo · fisiología evoluciona en tiempo real':'Reloj activo · VPPI eficaz sólo si continúan las insuflaciones')
+    : 'Gold standard clínico: GRN-SENeo 2026';
+}
+
+function li(text){ return '<li>'+text+'</li>'; }
+
+function debrief(){
+  $('modal').classList.add('on');
+  $('d1').textContent=S.first==null?'—':fmt(S.first);
+  $('d2').textContent=S.effectiveAt==null?'—':fmt(S.effectiveAt);
+  $('d3').textContent=S.hr100==null?'—':fmt(S.hr100);
+  const m=med();
+  $('d4').textContent=m==null?'—':Math.round(m)+'/min';
+
+  const clinical=[];
+  if(S.stimAt!=null){
+    const stimToClamp=S.clampAt==null?null:S.clampAt-S.stimAt;
+    clinical.push(li('Estimulación iniciada a '+fmt(S.stimAt)+(stimToClamp==null?' · cordón aún no pinzado':' · '+stimToClamp+' s hasta pinzamiento.')));
+  } else {
+    clinical.push(li('No se registró estimulación táctil inicial.'));
+  }
+  clinical.push(li(S.first==null?'No se inició VPPI.':'VPPI iniciada a '+fmt(S.first)+'.'));
+  clinical.push(li(S.effectiveAt==null?'No se consiguió VPPI eficaz.':'VPPI eficaz a '+fmt(S.effectiveAt)+'.'));
+  if(S.first!=null && S.effectiveAt!=null){
+    clinical.push(li('Tiempo con VPPI ineficaz antes de corrección efectiva: '+(S.effectiveAt-S.first)+' s.'));
+  }
+  clinical.push(li(S.hr100==null?'FC no superó 100 lpm durante el registro.':'FC >100 a '+fmt(S.hr100)+'.'));
+  clinical.push(li(S.recoveredAt==null?'Respiración espontánea no recuperada todavía.':'Respiración espontánea recuperada a '+fmt(S.recoveredAt)+'.'));
+  if(S.errors.length){
+    clinical.push(...S.errors.map(e=>li('Oportunidad de mejora: '+e)));
+  } else {
+    clinical.push(li('Sin errores de secuencia registrados por las reglas actuales.'));
+  }
+  $('clinicalDebrief').innerHTML=clinical.join('');
+
+  const ppv=[];
+  const pct=inRangePct();
+  const lp=longestPause();
+  ppv.push(li('Insuflaciones registradas: '+S.taps.length+'.'));
+  ppv.push(li('Frecuencia mediana: '+(m==null?'sin datos suficientes':Math.round(m)+'/min')+'.'));
+  ppv.push(li('Intervalos dentro de 30–60/min (contexto AHA/AAP 2025): '+(pct==null?'sin datos suficientes':pct+'%')+'.'));
+  ppv.push(li('Pausa máxima entre insuflaciones: '+(lp==null?'sin datos suficientes':lp.toFixed(1)+' s')+'.'));
+  if(S.chestCheckedAt!=null && S.first!=null){
+    ppv.push(li('Comprobación del tórax: '+Math.max(0,S.chestCheckedAt-S.first)+' s después de iniciar VPPI.'));
+  } else if(S.first!=null) {
+    ppv.push(li('No se registró comprobación activa de expansión torácica.'));
+  }
+  if(S.correctionAt!=null && S.chestCheckedAt!=null){
+    ppv.push(li('Corrección de ventilación: '+Math.max(0,S.correctionAt-S.chestCheckedAt)+' s tras detectar expansión ausente.'));
+  }
+  $('ppvDebrief').innerHTML=ppv.join('');
+}
+
+function closeDebrief(){ $('modal').classList.remove('on'); }
+
+document.addEventListener('keydown', e=>{
+  if(e.code==='Space' && !$('modal').classList.contains('on')){
+    e.preventDefault();
+    inflate();
+  }
+});
+
+render();
+</script>
+</body></html>
