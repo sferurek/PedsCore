@@ -347,10 +347,99 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
 .debriefBox h4{margin:0 0 8px;color:var(--blue-900);font-size:13px}
 .debriefList{margin:0;padding-left:18px;color:#486176;font-size:12px;line-height:1.55}
 @media(max-width:900px){.debriefGrid{grid-template-columns:1fr}}
+
+.sceneTop{
+  position:absolute;top:16px;left:18px;right:18px;display:flex;justify-content:space-between;gap:8px;z-index:3
+}
+.sceneBadges{display:flex;gap:7px;flex-wrap:wrap}
+.baby{
+  display:grid;
+  place-items:center;
+  overflow:visible;
+}
+.baby::after{content:none}
+.newborn{
+  position:relative;
+  width:100%;
+  height:100%;
+  transform:rotate(-2deg);
+}
+.head{
+  position:absolute;
+  width:26%;
+  aspect-ratio:1;
+  border-radius:50%;
+  left:7%;
+  top:23%;
+  background:linear-gradient(145deg,#ecc0b3,#d99289);
+  box-shadow:inset -8px -8px 18px rgba(111,62,55,.08);
+}
+.faceDot{position:absolute;width:7%;aspect-ratio:1;border-radius:50%;background:#6f4943;opacity:.55;top:42%}
+.eye1{left:28%}.eye2{left:57%}
+.mouth{
+  position:absolute;left:39%;top:65%;width:23%;height:7%;
+  border-bottom:2px solid rgba(111,73,67,.52);border-radius:50%
+}
+.torso{
+  position:absolute;
+  width:51%;
+  height:49%;
+  left:27%;
+  top:27%;
+  border-radius:46% 52% 48% 45%;
+  background:linear-gradient(145deg,#e8b6aa,#d78f87);
+  box-shadow:inset -10px -10px 24px rgba(111,62,55,.08);
+  transform-origin:48% 62%;
+}
+.arm,.leg{
+  position:absolute;background:linear-gradient(145deg,#e8b6aa,#d78f87);
+  border-radius:999px;transform-origin:10% 50%;
+  opacity:.97
+}
+.arm{width:31%;height:10%;left:55%;top:33%;transform:rotate(18deg)}
+.leg{width:35%;height:12%;left:54%;top:64%;transform:rotate(-12deg)}
+.cordLine{
+  position:absolute;left:47%;top:65%;width:35%;height:4px;
+  background:#a78cc5;border-radius:999px;transform:rotate(20deg);
+  box-shadow:0 0 0 1px rgba(120,94,153,.08)
+}
+.cordLine.clamped{opacity:.36;filter:grayscale(.35)}
+.maskVisual{
+  position:absolute;
+  left:15%;top:36%;
+  width:19%;height:22%;
+  border:3px solid rgba(79,134,179,.72);
+  border-radius:50%;
+  background:rgba(221,239,249,.38);
+  opacity:0;transition:.2s;z-index:5
+}
+.maskVisual.on{opacity:1}
+.maskVisual.leak{border-color:#d98a92;box-shadow:0 0 0 5px rgba(217,138,146,.10)}
+.maskVisual.sealed{border-color:#67a995;box-shadow:0 0 0 5px rgba(103,169,149,.12)}
+.baby.spontaneous .torso{animation:spontaneousBreath 1.3s ease-in-out infinite}
+.baby.inflatePulse .torso{animation:manualInflation .28s ease-out 1}
+@keyframes spontaneousBreath{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.055) scaleX(1.015)}}
+@keyframes manualInflation{0%{transform:scale(1)}55%{transform:scaleY(1.075) scaleX(1.025)}100%{transform:scale(1)}}
+.briefingModal{
+  position:fixed;inset:0;background:rgba(33,62,84,.24);backdrop-filter:blur(14px);
+  display:none;place-items:center;padding:28px;z-index:20
+}
+.briefingModal.on{display:grid}
+.briefingCard{
+  width:min(860px,94vw);background:#fffdfa;border:1px solid var(--blue-200);
+  border-radius:24px;padding:26px;box-shadow:0 34px 100px rgba(43,78,105,.24)
+}
+.briefingCard h1{margin:4px 0 8px;color:var(--blue-900);font-size:28px;letter-spacing:-.03em}
+.briefingCard p{color:#486176;line-height:1.55}
+.briefGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.briefItem{background:linear-gradient(180deg,#fbfdff,#f1f7fb);border:1px solid var(--blue-200);border-radius:14px;padding:13px}
+.briefItem small{display:block;color:var(--muted);margin-bottom:5px}.briefItem b{color:var(--blue-900)}
+.briefActions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+@media(max-width:900px){.briefGrid{grid-template-columns:1fr}}
 </style></head><body>
 <div class="app">
   <header>
-    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.2</span></div>
+    <div><span class="brand">PedsCore NeoResus</span> <span class="tag">S1 Alpha 0.3</span></div>
     <div class="status">39+2 sem · Simulación en tiempo real</div>
     <div class="clock" id="clock">00:00</div>
   </header>
@@ -362,8 +451,25 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
     </aside>
 
     <section class="scene">
-      <div id="baby" class="baby"></div>
-      <div class="sceneNote" id="sceneNote">Pulsa “Iniciar caso”</div>
+      <div class="sceneTop">
+        <div class="sceneBadges">
+          <span class="pill" id="cordBadge">Cordón íntegro</span>
+          <span class="pill" id="ventBadge">Sin VPPI</span>
+        </div>
+        <span class="pill warn" id="toneBadge">Tono no valorado</span>
+      </div>
+      <div id="baby" class="baby">
+        <div class="newborn">
+          <div class="head">
+            <span class="faceDot eye1"></span><span class="faceDot eye2"></span><span class="mouth"></span>
+          </div>
+          <div class="torso"></div>
+          <div class="arm"></div><div class="leg"></div>
+          <div class="cordLine" id="cordLine"></div>
+          <div class="maskVisual" id="maskVisual"></div>
+        </div>
+      </div>
+      <div class="sceneNote" id="sceneNote">Revisa el briefing antes del nacimiento</div>
     </section>
 
     <aside class="right">
@@ -383,7 +489,7 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
     </div>
 
     <div class="grid" style="grid-template-columns:repeat(11,minmax(78px,1fr))">
-      <button class="primary" id="startBtn" onclick="start()">Iniciar caso</button>
+      <button class="primary" id="startBtn" onclick="openBriefing()">Briefing / iniciar</button>
       <button onclick="act('stim')">Estimular</button>
       <button onclick="act('clamp')">Pinzar cordón</button>
       <button onclick="act('hr')">Evaluar FC</button>
@@ -410,10 +516,28 @@ button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none}
   </section>
 </div>
 
+<div class="briefingModal" id="briefingModal">
+  <div class="briefingCard">
+    <span class="tag">Briefing preparto</span>
+    <h1>RN de 39+2 semanas · parto vaginal</h1>
+    <p>Gestación sin malformaciones conocidas, líquido amniótico claro y sin datos previos que anticipen una reanimación avanzada. Tu objetivo es liderar la estabilización desde el nacimiento. El reloj clínico empezará al pulsar <b>Comenzar nacimiento</b>.</p>
+    <div class="briefGrid">
+      <div class="briefItem"><small>Contexto</small><b>39+2 semanas</b><div class="status">Parto vaginal · líquido claro</div></div>
+      <div class="briefItem"><small>Preparación</small><b>Calor · ventilación · monitorización</b><div class="status">Material disponible en sala</div></div>
+      <div class="briefItem"><small>Plan de cordón</small><b>Debe decidirse antes del nacimiento</b><div class="status">SeNeo 2026 como referencia del caso</div></div>
+    </div>
+    <p class="status">Modo actual: simulación en tiempo real. Durante el caso no aparecerán avisos de “correcto/incorrecto”; las decisiones se analizarán después.</p>
+    <div class="briefActions">
+      <button onclick="closeBriefing()">Cancelar</button>
+      <button class="primary" onclick="beginCase()">Comenzar nacimiento</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="modal">
   <div class="card">
     <button style="float:right" onclick="closeDebrief()">Cerrar</button>
-    <h2>Debriefing · S1 Alpha 0.2</h2>
+    <h2>Debriefing · S1 Alpha 0.3</h2>
     <div class="rows">
       <div><small>Primera VPPI</small><b id="d1">—</b></div>
       <div><small>VPPI eficaz</small><b id="d2">—</b></div>
@@ -488,8 +612,14 @@ function reset(){
     errors:[],notes:[],events:[]
   });
   $('timeline').innerHTML='';
-  $('baby').classList.remove('good');
+  $('baby').classList.remove('good','spontaneous','inflatePulse');
+  $('maskVisual').className='maskVisual';
+  $('cordLine').classList.remove('clamped');
 }
+function openBriefing(){ $('briefingModal').classList.add('on'); }
+function closeBriefing(){ $('briefingModal').classList.remove('on'); }
+function beginCase(){ closeBriefing(); start(); }
+
 function start(){
   reset();
   add('Nacimiento · no llora · apnea · tono disminuido','milestone');
@@ -585,8 +715,8 @@ function processSecond(sec){
     S.apnea=false;
     S.tone='improving';
     S.recoveredAt=sec;
-    $('baby').classList.add('good');
-    $('sceneNote').textContent='Respira · tono en mejoría';
+    $('baby').classList.add('good','spontaneous');
+    $('sceneNote').textContent='Respira espontáneamente · tono en mejoría';
     add('Recupera respiración espontánea','milestone');
   }
 }
@@ -597,11 +727,13 @@ function act(a){
   if(a==='stim'){
     if(S.stimAt==null) S.stimAt=S.t;
     add('Inicia estimulación táctil');
+    $('sceneNote').textContent='Estimulación táctil · persiste apnea';
   }
 
   if(a==='clamp'){
     if(S.cord) return;
     S.cord=true; S.clampAt=S.t;
+    $('cordLine').classList.add('clamped');
     add('Pinza el cordón');
     const stimDuration = S.stimAt==null ? 0 : S.clampAt-S.stimAt;
     if(S.apnea && stimDuration<30){
@@ -658,6 +790,7 @@ function act(a){
     S.sealCorrected=true;
     S.correctionAt=S.t;
     S.chest='unknown';
+    $('maskVisual').className='maskVisual on sealed';
     add('Corrige posición/sellado de mascarilla');
   }
 
@@ -680,10 +813,16 @@ function inflate(){
     S.first=S.t;
     S.ppv=true;
     S.chest='absent';
+    $('maskVisual').className='maskVisual on leak';
     add('Inicia VPPI · no se aprecia expansión torácica','milestone');
   }
 
   S.taps.push(tap);
+  if(S.sealCorrected){
+    $('baby').classList.remove('inflatePulse');
+    void $('baby').offsetWidth;
+    $('baby').classList.add('inflatePulse');
+  }
 
   if(S.sealCorrected && S.effectiveAt==null){
     S.effectiveAt=S.t;
@@ -724,6 +863,16 @@ function render(){
   $('rate').textContent=cr==null?'—':cr+'/min';
   const m=med();
   $('median').textContent=m==null?'—':Math.round(m)+'/min';
+
+  $('cordBadge').textContent=S.cord?'Cordón pinzado':'Cordón íntegro';
+  $('cordBadge').className='pill '+(S.cord?'':'ok');
+  $('ventBadge').textContent=S.first==null?'Sin VPPI':(S.effectiveAt==null?'VPPI sin expansión':'VPPI eficaz');
+  $('ventBadge').className='pill '+(S.effectiveAt!=null?'ok':S.first!=null?'warn':'');
+  $('toneBadge').textContent=!S.running?'Tono no valorado':(S.apnea?'Tono disminuido':'Tono en mejoría');
+  $('toneBadge').className='pill '+(!S.apnea?'ok':'warn');
+
+  if(S.ppv && S.effectiveAt==null) $('maskVisual').className='maskVisual on leak';
+  if(S.effectiveAt!=null) $('maskVisual').className='maskVisual on sealed';
 
   $('correctBtn').disabled=!(S.ppv && S.chest==='absent');
   $('inflateBtn').disabled=!S.running;
@@ -767,6 +916,7 @@ function debrief(){
   const pct=inRangePct();
   const lp=longestPause();
   ppv.push(li('Insuflaciones registradas: '+S.taps.length+'.'));
+  ppv.push(li('La expansión torácica visual sólo se anima tras conseguir un sellado eficaz; la animación es una ayuda docente, no una medida cuantitativa de volumen corriente.'));
   ppv.push(li('Frecuencia mediana: '+(m==null?'sin datos suficientes':Math.round(m)+'/min')+'.'));
   ppv.push(li('Intervalos dentro de 30–60/min (contexto AHA/AAP 2025): '+(pct==null?'sin datos suficientes':pct+'%')+'.'));
   ppv.push(li('Pausa máxima entre insuflaciones: '+(lp==null?'sin datos suficientes':lp.toFixed(1)+' s')+'.'));
