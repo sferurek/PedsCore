@@ -949,11 +949,17 @@ function act(a){
     S.fio2=Math.max(.21,+(S.fio2-.10).toFixed(2)); add('Reduce FiO₂ a '+Math.round(S.fio2*100)+'%');
   }
   if(a==='startVent'){
-    S.ppv=true; S.first=S.t; S.internalChest='absent'; S.observedChest='unknown';
+    S.ppv=true;
+    if(S.first==null) S.first=S.t;
+    S.supportAdjustedAt=null;
+    S.internalChest=S.sealCorrected?'present':'absent';
+    S.observedChest='unknown';
     $('maskVisual').className='maskVisual on';
-    add('Inicia VPPI','milestone');
+    add(S.effectiveAt==null?'Inicia VPPI':'Reinicia VPPI','milestone');
     $('sceneNote').textContent='VPPI en curso';
-    $('observationHint').textContent='Marcador visual provisional: el tórax no muestra movimiento con las insuflaciones.';
+    $('observationHint').textContent=S.internalChest==='present'
+      ? 'Marcador visual provisional: se aprecia movimiento torácico con la ventilación.'
+      : 'Marcador visual provisional: el tórax no muestra movimiento con las insuflaciones.';
   }
   if(a==='chest'){
     S.chestCheckedAt=S.t;
@@ -961,7 +967,7 @@ function act(a){
     add('Comprueba tórax: '+(S.observedChest==='present'?'expansión presente':'sin expansión'));
   }
   if(a==='correct'){
-    S.sealCorrected=true; S.correctionAt=S.t; S.effectiveAt=S.t; S.internalChest='present';
+    S.sealCorrected=true; S.correctionAt=S.t; S.effectiveAt=S.t; S.internalChest='present'; S.observedChest='unknown';
     $('maskVisual').className='maskVisual on';
     add('Corrige posición/sellado de mascarilla','milestone');
     $('sceneNote').textContent='Ventilación corregida';
