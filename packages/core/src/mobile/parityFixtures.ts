@@ -202,7 +202,31 @@ const fixtureSeeds: FixtureSeed[] = [
   { id: "nsofa-zero", toolId: "nsofa", input: { intubated:false,spo2_percent:95,fio2_fraction:0.21,inotrope_count:0,systemic_steroids:false,platelets_10e3_ul:150 } },
   { id: "nsofa-cardiovascular", toolId: "nsofa", input: { intubated:false,spo2_percent:95,fio2_fraction:0.21,inotrope_count:2,systemic_steroids:true,platelets_10e3_ul:150 } },
   { id: "snappe2-zero", toolId: "snappii", input: { mean_bp_mmhg:35,lowest_temp_c:36,pao2_mmhg:90,fio2_percent:30,lowest_ph:7.3,multiple_seizures:false,urine_output_ml_kg_h:1.2,apgar_5min:8,birth_weight_g:1200,sga_below_3rd_percentile:false } },
-  { id: "snappe2-oxygen", toolId: "snappii", input: { mean_bp_mmhg:35,lowest_temp_c:36,pao2_mmhg:8.7,fio2_percent:30,lowest_ph:7.3,multiple_seizures:false,urine_output_ml_kg_h:1.2,apgar_5min:8,birth_weight_g:1200,sga_below_3rd_percentile:false } }
+  { id: "snappe2-oxygen", toolId: "snappii", input: { mean_bp_mmhg:35,lowest_temp_c:36,pao2_mmhg:8.7,fio2_percent:30,lowest_ph:7.3,multiple_seizures:false,urine_output_ml_kg_h:1.2,apgar_5min:8,birth_weight_g:1200,sga_below_3rd_percentile:false } },
+  { id: "modified-sarnat-zero", toolId: "modified_sarnat_nichd", input: { level_of_consciousness:0, spontaneous_activity:0, posture:0, tone:0, primitive_reflexes:0, autonomic_system:0 } },
+  { id: "modified-sarnat-severe", toolId: "modified_sarnat_nichd", input: { level_of_consciousness:3, spontaneous_activity:3, posture:3, tone:3, primitive_reflexes:3, autonomic_system:3 } },
+  { id: "thompson-zero", toolId: "thompson_hie", input: { tone:0, consciousness:0, seizures:0, posture:0, moro:0, grasp:0, suck:0, respiration:0, fontanelle:0 } },
+  { id: "thompson-severe", toolId: "thompson_hie", input: { tone:3, consciousness:3, seizures:2, posture:3, moro:2, grasp:2, suck:2, respiration:3, fontanelle:2 } },
+  { id: "vas-37mm", toolId: "visual_analogue_scale", input: { pain_vas_mm:37 } },
+  { id: "vas-100mm", toolId: "visual_analogue_scale", input: { pain_vas_mm:100 } },
+  { id: "wood-downes-zero", toolId: "wood_downes_ferres", input: { wheezing:"none", retractions:"none", air_entry:"good_symmetric", respiratory_rate:"under_30", heart_rate:"under_120", cyanosis:"absent" } },
+  { id: "wood-downes-max", toolId: "wood_downes_ferres", input: { wheezing:"inspiration_and_expiration", retractions:"nasal_flaring", air_entry:"silent_chest", respiratory_rate:"over_60", heart_rate:"over_120", cyanosis:"present" } },
+  { id: "revised-schwartz-female", toolId: "revised_schwartz", input: { height_cm:140, serum_creatinine:1, creatinine_unit:"mg_dl", cystatin_c_mg_l:1.8, bun_mg_dl:30, sex:"female" } },
+  { id: "revised-schwartz-male", toolId: "revised_schwartz", input: { height_cm:140, serum_creatinine:88.4, creatinine_unit:"umol_l", cystatin_c_mg_l:1.8, bun_mg_dl:30, sex:"male" } },
+  { id: "qtc-fridericia-60", toolId: "qtc_fridericia", input: { qt_ms:380, heart_rate_bpm:60 } },
+  { id: "qtc-fridericia-120", toolId: "qtc_fridericia", input: { qt_ms:380, heart_rate_bpm:120 } },
+  { id: "qtc-framingham-60", toolId: "qtc_framingham", input: { qt_ms:380, heart_rate_bpm:60 } },
+  { id: "qtc-framingham-120", toolId: "qtc_framingham", input: { qt_ms:380, heart_rate_bpm:120 } },
+  { id: "qtc-hodges-60", toolId: "qtc_hodges", input: { qt_ms:380, heart_rate_bpm:60 } },
+  { id: "qtc-hodges-120", toolId: "qtc_hodges", input: { qt_ms:380, heart_rate_bpm:120 } },
+  { id: "strongkids-moderate", toolId: "strongkids", input: { poor_nutritional_status:false, high_risk_disease:true, reduced_intake_or_losses:true, weight_loss_or_poor_gain:false } },
+  { id: "step-by-step-pct-high", toolId: "step_by_step", input: { age_days:30, fever_without_source:true, well_appearing:true, leukocyturia:false, procalcitonin_ng_ml:0.5, crp_mg_l:10, anc:5000 } },
+  { id: "cries-moderate", toolId: "cries", input: { crying:"crying_2", oxygen:"oxygen_2", vital_signs:"vital_1", expression:"expression_0", sleeplessness:"sleep_0" } },
+  { id: "nips-intermediate", toolId: "nips", input: { facial_expression:"grimace", cry:"whimper", breathing_patterns:"altered", arms:"relaxed", legs:"relaxed", state_of_arousal:"asleep_or_awake" } },
+  { id: "dubowitz-zero", toolId: "dubowitz", input: { posture:0, square_window:0, ankle_dorsiflexion:0, arm_recoil:0, leg_recoil:0, popliteal_angle:0, heel_to_ear:0, scarf_sign:0, head_lag:0, ventral_suspension:0, edema:0, skin_texture:0, skin_color:0, skin_opacity:0, lanugo:0, plantar_creases:0, nipple_formation:0, breast_size:0, ear_form:0, ear_firmness:0, genitals:0 } },
+  { id: "cdc-growth-male-24", toolId: "cdc_growth_percentiles", input: { sex:"male", age_months:24, weight_kg:12.388147609, stature_cm:86.45220101 } },
+  { id: "cdc-growth-female-120", toolId: "cdc_growth_percentiles", input: { sex:"female", age_months:120, weight_kg:32, stature_cm:138 } },
+  { id: "prism4-baseline", toolId: "prism_iv", input: { first_picu_admission_this_hospitalization:true, prism_iv_sampling_window_confirmed:true, cardiac_intervention_under_3_months:false, cardiac_postintervention_window_confirmed:false, age_days:366, admission_source:"other", cpr_within_24h:false, cancer:false, low_risk_primary_system:false, systolic_bp_mmhg:100, heart_rate:100, temperature_c:37, gcs:15, pupil_status:"reactive", ph_lowest:7.35, ph_highest:7.45, total_co2_lowest_mmol_l:20, total_co2_highest_mmol_l:25, paco2_mmhg:40, pao2_mmhg:100, glucose_mg_dl:100, potassium_mmol_l:4, creatinine_mg_dl:0.5, bun_mg_dl:10, wbc_per_mm3:8000, platelets_per_mm3:250000, pt_seconds:12, ptt_seconds:30 } }
 ];
 
 export const createMobileParityFixtureBundle = ({
