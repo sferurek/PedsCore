@@ -31,7 +31,7 @@
       "destination": "/api/v1/tools.js?id=:id"
     },
     {
-      "source": "/((?!api/|assets/).*)",
+      "source": "/((?!api/|assets/|neoresus/).*)",
       "destination": "/index.html"
     }
   ]
