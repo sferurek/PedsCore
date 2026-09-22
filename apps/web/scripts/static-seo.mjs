@@ -90,6 +90,125 @@ const topicHubs = {
       intro: "These tools are not equivalent. PRAM targets acute asthma exacerbation, while other variants were developed for different respiratory contexts."
     },
     toolIds: ["pram", "pass", "wood_downes_ferres"]
+  },
+  "pediatric-febrile-infant-tools": {
+    es: {
+      title: "Lactante febril: Step-by-Step, PECARN y Yale | PedsCore",
+      description: "Herramientas para lactante y niño febril: Step-by-Step, PECARN Febrile Infant, Yale y Bacterial Meningitis Score, con población y evidencia.",
+      intro: "Estas herramientas responden a preguntas clínicas diferentes y usan rangos de edad, variables y desenlaces distintos. Comprueba siempre la población exacta y los criterios de exclusión."
+    },
+    en: {
+      title: "Febrile Infant Tools: Step-by-Step, PECARN and Yale | PedsCore",
+      description: "Febrile infant and child tools including Step-by-Step, PECARN Febrile Infant, Yale and Bacterial Meningitis Score, with population and evidence.",
+      intro: "These tools answer different clinical questions and use different age ranges, variables and outcomes. Always verify the exact population and exclusion criteria."
+    },
+    toolIds: ["step_by_step", "pecarn_febrile_infant", "yos", "bacterial_meningitis_score"]
+  },
+  "pediatric-intensive-care-scores": {
+    es: {
+      title: "Scores de UCI pediátrica: PIM, PRISM, PELOD y pSOFA | PedsCore",
+      description: "Compara PIM2/PIM3, PRISM IV, PELOD-2, pSOFA y Phoenix en cuidados intensivos pediátricos, con finalidad, población y limitaciones.",
+      intro: "Los scores pronósticos, de disfunción orgánica y de sepsis no son intercambiables. El momento de recogida, la población y el objetivo de cada herramienta condicionan su interpretación."
+    },
+    en: {
+      title: "Pediatric ICU Scores: PIM, PRISM, PELOD and pSOFA | PedsCore",
+      description: "Compare PIM2/PIM3, PRISM IV, PELOD-2, pSOFA and Phoenix in pediatric intensive care, including purpose, population and limitations.",
+      intro: "Prognostic, organ-dysfunction and sepsis scores are not interchangeable. Sampling window, population and intended purpose determine how each tool should be interpreted."
+    },
+    toolIds: ["pim2", "pim3", "prism_iv", "pelod_2", "psofa", "phoenix_sepsis"]
+  },
+  "pediatric-kidney-function-aki-tools": {
+    es: {
+      title: "Función renal y lesión renal aguda pediátrica | PedsCore",
+      description: "Calculadoras y criterios pediátricos de función renal y LRA: Bedside Schwartz, CKiD U25, pRIFLE y KDIGO, con alcance y limitaciones.",
+      intro: "La estimación de filtrado glomerular y la clasificación de lesión renal aguda miden constructos distintos. Revisa unidades, edad, creatinina basal y criterios temporales antes de comparar resultados."
+    },
+    en: {
+      title: "Pediatric Kidney Function and AKI Tools | PedsCore",
+      description: "Pediatric kidney function and AKI tools: Bedside Schwartz, CKiD U25, pRIFLE and KDIGO, with scope, inputs and limitations.",
+      intro: "Estimated glomerular filtration and acute kidney injury staging measure different constructs. Review units, age, baseline creatinine and time criteria before comparing results."
+    },
+    toolIds: ["bedside_schwartz", "revised_schwartz", "ckid_u25", "prifle", "kdigo_pediatric"]
+  },
+  "preterm-pediatric-growth-tools": {
+    es: {
+      title: "Percentiles y crecimiento pediátrico: Fenton, OMS y CDC | PedsCore",
+      description: "Herramientas de crecimiento pediátrico y neonatal: Fenton 2025, percentiles OMS, CDC, IMC y perímetro cefálico, con población y rango de edad.",
+      intro: "Las referencias de crecimiento dependen de edad gestacional o cronológica, sexo, variable antropométrica y población de referencia. Selecciona el estándar correspondiente antes de interpretar un percentil."
+    },
+    en: {
+      title: "Pediatric Growth Charts: Fenton, WHO and CDC | PedsCore",
+      description: "Pediatric and neonatal growth tools including Fenton 2025, WHO and CDC percentiles, BMI and head circumference, with population and age range.",
+      intro: "Growth references depend on gestational or chronological age, sex, anthropometric measure and reference population. Select the appropriate standard before interpreting a percentile."
+    },
+    toolIds: ["fenton_2025_growth", "who_growth_percentiles", "who_growth_module", "cdc_growth_percentiles", "bmi_percentile", "head_circumference_percentile"]
+  },
+  "pediatric-croup-scores": {
+    es: {
+      title: "Escalas de crup pediátrico: Taussig y Westley | PedsCore",
+      description: "Compara Taussig Croup Score y Westley Croup Score para valorar gravedad del crup pediátrico, con componentes, interpretación y evidencia.",
+      intro: "Taussig y Westley no deben asumirse equivalentes. Revisa los componentes, la versión implementada y el contexto clínico antes de interpretar la puntuación."
+    },
+    en: {
+      title: "Pediatric Croup Scores: Taussig and Westley | PedsCore",
+      description: "Compare Taussig Croup Score and Westley Croup Score for pediatric croup severity, including components, interpretation and evidence.",
+      intro: "Taussig and Westley should not be assumed equivalent. Review components, implemented version and clinical context before interpreting the score."
+    },
+    toolIds: ["taussig_croup", "westley_croup"]
+  }
+};
+
+
+const toolIntentOverrides = {
+  "dubowitz": {
+    es: {
+      title: "Escala de Dubowitz — Edad gestacional neonatal | PedsCore",
+      description: "Calculadora de Dubowitz para estimación de edad gestacional neonatal, con puntuación, fórmula publicada, referencias y limitaciones."
+    },
+    en: {
+      title: "Dubowitz Score — Neonatal Gestational Age | PedsCore",
+      description: "Dubowitz neonatal gestational age calculator with scoring, published equation, references and implementation limitations."
+    }
+  },
+  "taussig-croup-score": {
+    es: {
+      title: "Taussig Croup Score — Escala de crup pediátrico | PedsCore",
+      description: "Calculadora Taussig Croup Score para gravedad del crup pediátrico, con criterios, puntuación, interpretación y referencias."
+    },
+    en: {
+      title: "Taussig Croup Score — Pediatric Croup Severity | PedsCore",
+      description: "Taussig Croup Score calculator for pediatric croup severity, with criteria, scoring, interpretation and references."
+    }
+  },
+  "fenton-2025-preterm-growth": {
+    es: {
+      title: "Fenton 2025 — Percentiles de crecimiento prematuro | PedsCore",
+      description: "Percentiles Fenton 2025 para crecimiento del prematuro, con peso, longitud y perímetro cefálico según edad postmenstrual y sexo."
+    },
+    en: {
+      title: "Fenton 2025 — Preterm Growth Percentiles | PedsCore",
+      description: "Fenton 2025 preterm growth percentiles for weight, length and head circumference by postmenstrual age and sex."
+    }
+  },
+  "modified-tal": {
+    es: {
+      title: "Escala TAL modificada — Bronquiolitis pediátrica | PedsCore",
+      description: "Calculadora de la escala TAL modificada para gravedad respiratoria pediátrica, con criterios, puntuación, interpretación y evidencia."
+    },
+    en: {
+      title: "Modified TAL Score — Pediatric Respiratory Severity | PedsCore",
+      description: "Modified TAL score calculator for pediatric respiratory severity, with criteria, scoring, interpretation and evidence."
+    }
+  },
+  "wood-downes-ferres": {
+    es: {
+      title: "Wood-Downes-Ferrés — Dificultad respiratoria | PedsCore",
+      description: "Calculadora Wood-Downes-Ferrés para dificultad respiratoria pediátrica, con criterios, puntuación, interpretación y referencias."
+    },
+    en: {
+      title: "Wood-Downes-Ferres Score — Respiratory Severity | PedsCore",
+      description: "Wood-Downes-Ferres respiratory severity score with criteria, scoring, interpretation and references."
+    }
   }
 };
 
@@ -433,8 +552,9 @@ export const getStaticSeo = (pathname, tools) => {
   const topicTools = topic ? topicHubs[topic].toolIds.map((id) => tools.find((item) => item.id === id)).filter(Boolean) : [];
   const key = !section ? "home" : section === "stats" ? "stats" : section === "categories" ? "categories" : section;
   const [defaultTitle, description] = staticSeo[key]?.[language] ?? staticSeo.home[language];
+  const toolIntentOverride = tool ? toolIntentOverrides[tool.slug]?.[language] : null;
   const title = tool
-    ? getToolSeoProfile(tool, language).title
+    ? (toolIntentOverride?.title || getToolSeoProfile(tool, language).title)
     : category
       ? `${getCategorySeoProfile(category, language).name} | ${language === "es" ? "Pediatría" : "Pediatrics"} | PedsCore`
       : topic
@@ -446,7 +566,7 @@ export const getStaticSeo = (pathname, tools) => {
     ? `${getCategorySeoProfile(category, language).description} ${categoryTools.length} ${language === "es" ? "herramientas disponibles en PedsCore." : "tools available in PedsCore."}`
     : description;
   const finalDescription = tool
-    ? getToolSeoProfile(tool, language).description
+    ? (toolIntentOverride?.description || getToolSeoProfile(tool, language).description)
     : topic
       ? topicHubs[topic][language].description
       : categoryDescription;
@@ -473,6 +593,8 @@ export const renderSeoHead = (template, seo) => {
         inLanguage: seo.language,
         isPartOf: { "@id": `${baseUrl}/#website` },
         publisher: { "@id": `${baseUrl}/#organization` },
+        author: { "@id": `${baseUrl}/#organization` },
+        dateModified: "2026-09-22",
         ...(seo.tool ? { mainEntity: { "@type": "MedicalEntity", name: seo.tool.name[seo.language] || seo.tool.name.en } } : {})
       },
       {
