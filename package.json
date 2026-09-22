@@ -6,13 +6,14 @@
   "workspaces": [
     "packages/core",
     "apps/web",
-    "apps/mcp-server"
+    "apps/mcp-server",
+    "apps/neoresus"
   ],
   "scripts": {
     "dev": "npm run dev -w @peds-core/web",
     "lint": "eslint .",
     "test": "npm run build -w @peds-core/core && npm run prebuild -w @peds-core/web && vitest run",
-    "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web && npm run build -w @peds-core/mcp-server",
+    "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web && npm run build -w @peds-core/mcp-server && npm run build:neoresus && node scripts/copy-neoresus.mjs",
     "mobile:bundle": "npm run build -w @peds-core/core && node scripts/export-mobile-clinical-bundle.mjs",
     "seo:check": "npm run seo:check -w @peds-core/web",
     "audit:governance": "node scripts/verify-governance.mjs",
@@ -24,7 +25,10 @@
     "hackathon:verify": "npm run lint && npm run test && npm run build && npm run audit:governance && npm run seo:check && npm run alexa:validate",
     "hackathon:smoke:remote": "node scripts/remote-mcp-smoke.mjs",
     "mobile:fixtures": "npm run build -w @peds-core/core && node scripts/export-mobile-parity-fixtures.mjs",
-    "mobile:runtime": "npm run build -w @peds-core/core && node scripts/export-mobile-clinical-runtime.mjs"
+    "mobile:runtime": "npm run build -w @peds-core/core && node scripts/export-mobile-clinical-runtime.mjs",
+    "dev:neoresus": "npm run dev -w @neoresus/app",
+    "test:neoresus": "npm run test -w @neoresus/app",
+    "build:neoresus": "npm run build -w @neoresus/app"
   },
   "devDependencies": {
     "@eslint/js": "^9.28.0",

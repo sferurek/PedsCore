@@ -11,6 +11,11 @@
       "source": "/en/tools/modified-finnegan",
       "destination": "/en/tools/fnass-21",
       "permanent": true
+    },
+    {
+      "source": "/neoresus",
+      "destination": "/neoresus/",
+      "permanent": false
     }
   ],
   "rewrites": [

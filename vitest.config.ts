@@ -5,7 +5,8 @@ export default defineConfig({
     include: [
       "packages/core/tests/**/*.test.ts",
       "apps/web/src/**/*.test.{ts,tsx}",
-      "api/**/*.test.js"
+      "api/**/*.test.js",
+      "apps/neoresus/tests/**/*.test.ts"
     ],
     globals: false
   }
