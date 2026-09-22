@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - hackathon/alexa-mcp-v3
+      - neoresus-s1-alpha
   pull_request:
 
 jobs:
@@ -33,6 +34,12 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Install browser for NeoResus
+        run: npx playwright install --with-deps chromium
+
+      - name: NeoResus browser tests
+        run: npm run test:e2e -w @neoresus/app
 
       - name: Governance audit
         run: npm run audit:governance
