@@ -114,6 +114,8 @@ for (const url of sitemapUrls) {
 }
 if (canonicalUrls.size !== sitemapUrls.length) throw new Error("Duplicate canonical URLs detected");
 if ((sitemap.match(/xhtml:link rel="alternate"/g) ?? []).length < sitemapUrls.length) throw new Error("Sitemap alternates are incomplete");
+if ((sitemap.match(/hreflang="x-default"/g) ?? []).length !== sitemapUrls.length) throw new Error("Every sitemap URL must expose x-default");
+if ((sitemap.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g) ?? []).length !== sitemapUrls.length) throw new Error("Every sitemap URL must expose a valid lastmod");
 if (categoryTitles.size !== indexableCategories.length * 2 || categoryDescriptions.size !== indexableCategories.length * 2) throw new Error("Category metadata is not unique across language routes");
 if (toolRouteCount !== expectedToolRouteCount) throw new Error(`Expected ${expectedToolRouteCount} localized tool routes, found: ${toolRouteCount}`);
 if (toolTitlesByLanguage.es.size !== toolRouteCount / 2 || toolTitlesByLanguage.en.size !== toolRouteCount / 2) throw new Error("Tool SEO titles are not unique within each language");
@@ -136,25 +138,47 @@ if (urlCount !== expectedSeoEntries.length) {
 
 const headInjuryHubEs = await read("es/topics/pediatric-head-injury-rules/index.html");
 const neonatalPainHubEn = await read("en/topics/neonatal-pain-scales/index.html");
+const febrileHubEs = await read("es/topics/pediatric-febrile-infant-tools/index.html");
+const picuHubEn = await read("en/topics/pediatric-intensive-care-scores/index.html");
+const renalHubEs = await read("es/topics/pediatric-kidney-function-aki-tools/index.html");
+const growthHubEn = await read("en/topics/preterm-pediatric-growth-tools/index.html");
+const croupHubEs = await read("es/topics/pediatric-croup-scores/index.html");
 assertIncludes(headInjuryHubEs, '"@type":"CollectionPage"', "head injury topic schema");
 assertIncludes(headInjuryHubEs, "PECARN", "head injury topic content");
 assertIncludes(neonatalPainHubEn, '"@type":"ItemList"', "neonatal pain topic item list");
 assertIncludes(neonatalPainHubEn, "NIPS", "neonatal pain topic content");
+assertIncludes(febrileHubEs, "Step-by-Step", "febrile infant topic content");
+assertIncludes(picuHubEn, "PRISM", "PICU topic content");
+assertIncludes(renalHubEs, "pRIFLE", "kidney/AKI topic content");
+assertIncludes(growthHubEn, "Fenton", "growth topic content");
+assertIncludes(croupHubEs, "Taussig", "croup topic content");
 
 const pim2Es = await read("es/tools/pim2/index.html");
 const pippEs = await read("es/tools/pipp/index.html");
 const nipsEn = await read("en/tools/nips/index.html");
+const dubowitzEs = await read("es/tools/dubowitz/index.html");
+const taussigEs = await read("es/tools/taussig-croup-score/index.html");
+const fentonEn = await read("en/tools/fenton-2025-preterm-growth/index.html");
+const modifiedTalEs = await read("es/tools/modified-tal/index.html");
+const woodDownesEn = await read("en/tools/wood-downes-ferres/index.html");
 const homeEs = await read("es/index.html");
 const aboutEs = await read("es/about/index.html");
 const evidenceEn = await read("en/evidence/index.html");
 assertIncludes(pim2Es, "<title>Calculadora PIM2 — Mortalidad pediátrica | PedsCore</title>", "PIM2 intent title");
 assertIncludes(pippEs, "<title>Escala PIPP — Dolor en prematuros | PedsCore</title>", "PIPP intent title");
 assertIncludes(nipsEn, "<title>NIPS Pain Scale — Neonatal Pain Assessment | PedsCore</title>", "NIPS intent title");
+assertIncludes(dubowitzEs, "<title>Escala de Dubowitz — Edad gestacional neonatal | PedsCore</title>", "Dubowitz query-led title");
+assertIncludes(taussigEs, "<title>Taussig Croup Score — Escala de crup pediátrico | PedsCore</title>", "Taussig query-led title");
+assertIncludes(fentonEn, "<title>Fenton 2025 — Preterm Growth Percentiles | PedsCore</title>", "Fenton 2025 query-led title");
+assertIncludes(modifiedTalEs, "<title>Escala TAL modificada — Bronquiolitis pediátrica | PedsCore</title>", "Modified TAL query-led title");
+assertIncludes(woodDownesEn, "<title>Wood-Downes-Ferres Score — Respiratory Severity | PedsCore</title>", "Wood-Downes query-led title");
 assertIncludes(homeEs, "<title>PedsCore — herramientas clínicas pediátricas</title>", "Spanish home title");
 assertIncludes(homeEs, "Cómo se construye PedsCore", "home trust content");
 assertIncludes(aboutEs, "Qué puede auditarse públicamente", "about trust content");
 assertIncludes(evidenceEn, "Source policy", "evidence trust content");
 assertIncludes(pim2Es, '"@type":"MedicalWebPage"', "tool medical schema");
 assertIncludes(pim2Es, '"@type":"Organization"', "organization schema");
+assertIncludes(pim2Es, '"author":{"@id":"https://peds-core.vercel.app/#organization"}', "organization author schema");
+assertIncludes(pim2Es, '"dateModified":"2026-09-22"', "dateModified schema");
 
-console.log(`SEO P2 check passed. ${urlCount} sitemap URLs; ${toolRouteCount} localized tool routes; ${indexableCategories.length * 2} category hubs; trust content, citation entities, compact metadata, favicon and medical schema validated.`);
+console.log(`Advanced SEO check passed. ${urlCount} sitemap URLs; ${toolRouteCount} localized tool routes; ${indexableCategories.length * 2} category hubs; expanded topic clusters, lastmod, x-default, query-led metadata and medical schema validated.`);

@@ -4,6 +4,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   getCanonicalSeoEntries,
   productionBaseUrl,
+  seoContentLastmod,
   toCanonicalUrl
 } from "./seo-routes.mjs";
 
@@ -24,9 +25,9 @@ ${urls
   .map(
     (entry) => {
       const alternateLinks = entry.path.startsWith("/es") || entry.path.startsWith("/en")
-        ? `    <xhtml:link rel="alternate" hreflang="${entry.path.startsWith("/es") ? "es" : "en"}" href="${baseUrl}${entry.path}" />\n    <xhtml:link rel="alternate" hreflang="${entry.path.startsWith("/es") ? "en" : "es"}" href="${baseUrl}${localizedPath(entry.path)}" />\n`
-        : "";
-      return `  <url>\n    <loc>${toCanonicalUrl(entry.path)}</loc>\n${alternateLinks}    <changefreq>${entry.changefreq}</changefreq>\n    <priority>${entry.priority}</priority>\n  </url>`;
+        ? `    <xhtml:link rel="alternate" hreflang="${entry.path.startsWith("/es") ? "es" : "en"}" href="${baseUrl}${entry.path}" />\n    <xhtml:link rel="alternate" hreflang="${entry.path.startsWith("/es") ? "en" : "es"}" href="${baseUrl}${localizedPath(entry.path)}" />\n    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/" />\n`
+        : `    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/" />\n`;
+      return `  <url>\n    <loc>${toCanonicalUrl(entry.path)}</loc>\n${alternateLinks}    <lastmod>${seoContentLastmod}</lastmod>\n    <changefreq>${entry.changefreq}</changefreq>\n    <priority>${entry.priority}</priority>\n  </url>`;
     }
   )
   .join("\n")}

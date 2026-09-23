@@ -1,4 +1,5 @@
 export const productionBaseUrl = "https://peds-core.vercel.app";
+export const seoContentLastmod = "2026-09-22";
 
 export const indexableCategories = [
   "neonatology",
@@ -21,7 +22,12 @@ const topicSlugs = [
   "pediatric-head-injury-rules",
   "neonatal-pain-scales",
   "neonatal-encephalopathy-scores",
-  "pediatric-asthma-wheeze-scores"
+  "pediatric-asthma-wheeze-scores",
+  "pediatric-febrile-infant-tools",
+  "pediatric-intensive-care-scores",
+  "pediatric-kidney-function-aki-tools",
+  "preterm-pediatric-growth-tools",
+  "pediatric-croup-scores"
 ];
 
 const staticPaths = [
