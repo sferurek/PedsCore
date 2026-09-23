@@ -43,6 +43,17 @@ assertIncludes(sitemap, "https://peds-core.vercel.app/en/categories/cardiology",
 assertIncludes(robots, "Sitemap: https://peds-core.vercel.app/sitemap.xml", "robots.txt");
 assertIncludes(robots, "Disallow: /api/", "robots.txt API exclusion");
 
+const vercelConfig = JSON.parse(await readFile(resolve(repoRoot, "vercel.json"), "utf8"));
+if (vercelConfig.cleanUrls !== true) throw new Error("Vercel cleanUrls must remain enabled to collapse .html duplicates");
+if (vercelConfig.trailingSlash !== false) throw new Error("Vercel trailingSlash must remain disabled to collapse slash duplicates");
+const canonicalRedirects = vercelConfig.redirects ?? [];
+if (!canonicalRedirects.some((rule) => rule.source === "/PedsCore" && rule.destination === "/" && rule.permanent === true)) {
+  throw new Error("Missing permanent redirect from legacy /PedsCore root");
+}
+if (!canonicalRedirects.some((rule) => rule.source === "/PedsCore/:path*" && rule.destination === "/:path*" && rule.permanent === true)) {
+  throw new Error("Missing permanent redirect from legacy /PedsCore paths");
+}
+
 const routeFiles = [
   "es/tools/who-growth/index.html",
   "en/tools/who-growth/index.html",
