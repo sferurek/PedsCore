@@ -3,6 +3,16 @@
   "outputDirectory": "apps/web/dist",
   "redirects": [
     {
+      "source": "/PedsCore",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/PedsCore/:path*",
+      "destination": "/:path*",
+      "permanent": true
+    },
+    {
       "source": "/es/tools/modified-finnegan",
       "destination": "/es/tools/fnass-21",
       "permanent": true
@@ -34,5 +44,7 @@
       "source": "/((?!api/|assets/).*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
