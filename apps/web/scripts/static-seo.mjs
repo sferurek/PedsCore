@@ -182,7 +182,7 @@ const toolIntentOverrides = {
   },
   "fenton-2025-preterm-growth": {
     es: {
-      title: "Fenton 2025 — Percentiles de crecimiento prematuro | PedsCore",
+      title: "Fenton 2025 — Crecimiento prematuro | PedsCore",
       description: "Percentiles Fenton 2025 para crecimiento del prematuro, con peso, longitud y perímetro cefálico según edad postmenstrual y sexo."
     },
     en: {
@@ -196,7 +196,7 @@ const toolIntentOverrides = {
       description: "Calculadora de la escala TAL modificada para gravedad respiratoria pediátrica, con criterios, puntuación, interpretación y evidencia."
     },
     en: {
-      title: "Modified TAL Score — Pediatric Respiratory Severity | PedsCore",
+      title: "Modified TAL Score — Pediatric Severity | PedsCore",
       description: "Modified TAL score calculator for pediatric respiratory severity, with criteria, scoring, interpretation and evidence."
     }
   },
