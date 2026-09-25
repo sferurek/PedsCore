@@ -209,6 +209,66 @@ const toolIntentOverrides = {
       title: "Wood-Downes-Ferres Score — Respiratory Severity | PedsCore",
       description: "Wood-Downes-Ferres respiratory severity score with criteria, scoring, interpretation and references."
     }
+  },
+  "qtc-fridericia": {
+    es: {
+      title: "QTc Fridericia — Calculadora ECG pediátrica | PedsCore",
+      description: "Calculadora QTc con fórmula de Fridericia para ECG pediátrico, con fórmula, unidades, interpretación y referencias."
+    },
+    en: {
+      title: "QTc Fridericia Calculator — Pediatric ECG | PedsCore",
+      description: "QTc Fridericia calculator for pediatric ECG, with formula, units, interpretation and references."
+    }
+  },
+  "qtc-bazett": {
+    es: {
+      title: "QTc Bazett — Calculadora ECG pediátrica | PedsCore",
+      description: "Calculadora QTc con fórmula de Bazett para ECG pediátrico, con fórmula, unidades, interpretación y referencias."
+    },
+    en: {
+      title: "QTc Bazett Calculator — Pediatric ECG | PedsCore",
+      description: "QTc Bazett calculator for pediatric ECG, with formula, units, interpretation and references."
+    }
+  },
+  "comfortneo": {
+    es: {
+      title: "COMFORTneo — Dolor y sedación neonatal | PedsCore",
+      description: "Escala COMFORTneo para valoración de dolor y sedación neonatal, con población, componentes, interpretación y evidencia."
+    },
+    en: {
+      title: "COMFORTneo — Neonatal Pain and Sedation | PedsCore",
+      description: "COMFORTneo neonatal pain and sedation assessment with population, components, interpretation and evidence."
+    }
+  },
+  "scoff": {
+    es: {
+      title: "SCOFF — Cribado de trastornos alimentarios | PedsCore",
+      description: "Cuestionario SCOFF para cribado de trastornos de la conducta alimentaria, con población, interpretación y referencias."
+    },
+    en: {
+      title: "SCOFF Questionnaire — Eating Disorder Screening | PedsCore",
+      description: "SCOFF questionnaire for eating disorder screening, with population, interpretation and references."
+    }
+  },
+  "pcdai": {
+    es: {
+      title: "PCDAI — Actividad de Crohn pediátrico | PedsCore",
+      description: "PCDAI para valorar actividad de enfermedad de Crohn pediátrica, con componentes, puntuación, interpretación y evidencia."
+    },
+    en: {
+      title: "PCDAI — Pediatric Crohn Disease Activity Index | PedsCore",
+      description: "PCDAI for pediatric Crohn disease activity, with components, scoring, interpretation and evidence."
+    }
+  },
+  "chalice-tbi": {
+    es: {
+      title: "CHALICE — Regla de TCE pediátrico | PedsCore",
+      description: "Regla CHALICE para traumatismo craneal pediátrico, con criterios, población, limitaciones y referencias."
+    },
+    en: {
+      title: "CHALICE Rule — Pediatric Head Injury | PedsCore",
+      description: "CHALICE pediatric head injury rule with criteria, population, limitations and references."
+    }
   }
 };
 
