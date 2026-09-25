@@ -55,6 +55,18 @@ function CalculatedResult({ language, result, tool }: CalculatedResultProps) {
   const [copied, setCopied] = useState(false);
   const primaryValue = result.score ?? result.value;
   const valueLabel = result.score !== undefined ? t.result.score : t.result.value;
+  const primaryText =
+    primaryValue !== undefined
+      ? `${primaryValue}${result.unit ? ` ${result.unit}` : ""}`
+      : result.classification?.[language] ??
+        result.interpretation?.label[language] ??
+        t.result.noInterpretation;
+  const primaryEyebrow =
+    primaryValue !== undefined
+      ? valueLabel
+      : result.classification
+        ? t.result.classification
+        : t.result.interpretation;
 
   const copyResult = async () => {
     if (typeof navigator === "undefined" || !navigator.clipboard?.writeText) return;
@@ -75,63 +87,74 @@ function CalculatedResult({ language, result, tool }: CalculatedResultProps) {
 
   return (
     <div className="calculated-result">
-      <div className="result-copy-row">
-        <button className="secondary-action result-copy-button" type="button" onClick={() => void copyResult()}>
+      <div className="result-hero">
+        <div className="result-hero-copy">
+          <span className="result-kicker">{primaryEyebrow}</span>
+          <strong className="result-primary-value">{primaryText}</strong>
+          {result.maxScore !== undefined ? (
+            <span className="result-max-score">
+              {t.result.maxScore}: {result.maxScore}
+            </span>
+          ) : null}
+          {result.label ? (
+            <span className="result-supporting-label">{result.label[language]}</span>
+          ) : null}
+        </div>
+        <button
+          className="secondary-action result-copy-button"
+          type="button"
+          onClick={() => void copyResult()}
+        >
           {copied
             ? (language === "es" ? "✓ Copiado" : "✓ Copied")
             : (language === "es" ? "Copiar resultado" : "Copy result")}
         </button>
-        <small>
-          {language === "es"
-            ? "Copia solo resultado, interpretación y fuente; no copia los datos introducidos."
-            : "Copies only the result, interpretation and source; entered clinical values are not copied."}
-        </small>
       </div>
-      {primaryValue !== undefined ? (
-        <div className="result-value">
-          <span>{valueLabel}</span>
-          <strong>
-            {primaryValue}
-            {result.unit ? ` ${result.unit}` : ""}
-          </strong>
-          {result.maxScore !== undefined ? (
-            <p>
-              {t.result.maxScore}: {result.maxScore}
-            </p>
-          ) : null}
-          {result.label ? <p>{result.label[language]}</p> : null}
-        </div>
-      ) : null}
-      {result.classification ? (
-        <div>
-          <h3>{t.result.classification}</h3>
-          <p>{result.classification[language]}</p>
-        </div>
-      ) : null}
-      <div>
-        <h3>{t.result.interpretation}</h3>
-        <p>
-          {result.interpretation
-            ? result.interpretation.label[language]
-            : t.result.noInterpretation}
-        </p>
-        {result.interpretation?.description ? (
-          <p>{result.interpretation.description[language]}</p>
+
+      <p className="result-privacy-note">
+        {language === "es"
+          ? "Copia solo resultado, interpretación y fuente; no copia los datos introducidos."
+          : "Copies only the result, interpretation and source; entered clinical values are not copied."}
+      </p>
+
+      <div className="result-detail-grid">
+        {result.classification ? (
+          <section className="result-detail-card result-classification-card">
+            <span className="result-detail-label">{t.result.classification}</span>
+            <strong className="result-detail-emphasis">{result.classification[language]}</strong>
+          </section>
         ) : null}
+
+        <section className="result-detail-card result-interpretation-card">
+          <span className="result-detail-label">{t.result.interpretation}</span>
+          <strong className="result-detail-emphasis">
+            {result.interpretation
+              ? result.interpretation.label[language]
+              : t.result.noInterpretation}
+          </strong>
+          {result.interpretation?.description ? (
+            <p>{result.interpretation.description[language]}</p>
+          ) : null}
+        </section>
       </div>
+
       {result.warnings.length > 0 ? (
-        <div>
-          <h3>{t.result.warnings}</h3>
+        <section className="result-alert-card">
+          <div className="result-alert-heading">
+            <span aria-hidden="true">!</span>
+            <h3>{t.result.warnings}</h3>
+          </div>
           <ul className="warning-list">
             {result.warnings.map((warning) => (
               <li key={warning.id}>{warning.message[language]}</li>
             ))}
           </ul>
-        </div>
+        </section>
       ) : null}
+
       {result.criteriaMatched ? (
-        <div>
-          <h3>{t.result.criteriaMatched}</h3>
+        <section className="result-detail-card result-criteria-card">
+          <span className="result-detail-label">{t.result.criteriaMatched}</span>
           {result.criteriaMatched.length > 0 ? (
             <ul className="warning-list neutral">
               {result.criteriaMatched.map((criterion) => (
@@ -141,10 +164,11 @@ function CalculatedResult({ language, result, tool }: CalculatedResultProps) {
           ) : (
             <p>{t.result.noCriteriaMatched}</p>
           )}
-        </div>
+        </section>
       ) : null}
+
       {result.trace.length > 0 ? (
-        <details className="calculation-trace">
+        <details className="calculation-trace result-trace-card">
           <summary>{language === "es" ? "Cómo se ha calculado" : "How this was calculated"}</summary>
           <p>
             {language === "es"
@@ -172,3 +196,4 @@ function CalculatedResult({ language, result, tool }: CalculatedResultProps) {
     </div>
   );
 }
+
