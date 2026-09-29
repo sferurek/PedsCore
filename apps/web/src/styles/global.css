@@ -5431,3 +5431,266 @@ td {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* RESULT-PANEL-REDESIGN: high-visibility clinical output without changing calculation logic. */
+.clinical-result-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(97, 141, 190, 0.34);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 92% 4%, rgba(67, 137, 224, 0.12), transparent 28%),
+    linear-gradient(155deg, #ffffff 0%, #f7fbff 58%, #eef6ff 100%);
+  box-shadow: 0 22px 60px rgba(22, 72, 125, 0.12);
+}
+
+.clinical-result-card::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(180deg, #1f6fce, #50a7ea 55%, #2a8279);
+  content: "";
+}
+
+.clinical-result-card > h2 {
+  color: #173754;
+  font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+  letter-spacing: -0.02em;
+}
+
+.calculated-result {
+  gap: 0.9rem;
+  margin-top: 0.85rem;
+}
+
+.result-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  min-height: 9.5rem;
+  padding: clamp(1.15rem, 3vw, 1.65rem);
+  border: 1px solid rgba(82, 142, 202, 0.28);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(118, 190, 255, 0.22), transparent 36%),
+    linear-gradient(135deg, #0f3155 0%, #174a7f 58%, #146a76 100%);
+  color: #ffffff;
+  box-shadow: 0 16px 36px rgba(19, 63, 110, 0.18);
+}
+
+.result-hero-copy {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.result-kicker,
+.result-detail-label {
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.result-kicker {
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.result-primary-value {
+  display: block;
+  max-width: 100%;
+  color: #ffffff;
+  font-size: clamp(3.25rem, 9vw, 6.5rem);
+  font-weight: 950;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+
+.result-max-score {
+  width: max-content;
+  max-width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.28rem 0.58rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.result-supporting-label {
+  margin-top: 0.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(1rem, 2vw, 1.18rem);
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.result-hero .result-copy-button {
+  min-width: 9.5rem;
+  border-color: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+}
+
+.result-hero .result-copy-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.result-privacy-note {
+  margin: -0.1rem 0 0 !important;
+  color: #607783 !important;
+  font-size: 0.79rem;
+  line-height: 1.45 !important;
+}
+
+.result-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.result-detail-card,
+.result-alert-card,
+.result-trace-card {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid rgba(167, 195, 220, 0.62);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.84);
+}
+
+.result-detail-card {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.result-detail-label {
+  color: #5a7484;
+}
+
+.result-detail-emphasis {
+  color: #153f67;
+  font-size: clamp(1.15rem, 2.7vw, 1.5rem);
+  font-weight: 900;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+
+.result-detail-card p,
+.result-alert-card p {
+  margin: 0;
+  color: #526c7a;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.result-classification-card {
+  background: linear-gradient(145deg, rgba(232, 244, 255, 0.96), rgba(255, 255, 255, 0.95));
+}
+
+.result-interpretation-card {
+  background: linear-gradient(145deg, rgba(236, 249, 246, 0.96), rgba(255, 255, 255, 0.95));
+}
+
+.result-alert-card {
+  border-color: rgba(213, 158, 60, 0.35);
+  background: linear-gradient(145deg, #fff9ec, #fffdf8);
+}
+
+.result-alert-heading {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-bottom: 0.55rem;
+}
+
+.result-alert-heading > span {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 999px;
+  background: #a96f17;
+  color: #ffffff;
+  font-weight: 950;
+}
+
+.result-alert-heading h3 {
+  color: #68470f;
+}
+
+.result-criteria-card {
+  grid-column: 1 / -1;
+}
+
+.result-trace-card {
+  background: rgba(248, 251, 254, 0.9);
+}
+
+.result-trace-card summary {
+  color: #234d70;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.result-trace-card[open] summary {
+  margin-bottom: 0.75rem;
+}
+
+.result-trace-card .trace-list div {
+  border-bottom-color: rgba(170, 196, 216, 0.58);
+}
+
+.result-trace-card dt {
+  color: #5d7483;
+}
+
+.result-trace-card dd {
+  color: #173b5a;
+  font-weight: 750;
+}
+
+.clinical-result-card .warning-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  line-height: 1.48;
+}
+
+@media (max-width: 719px) {
+  .clinical-result-card {
+    border-radius: 16px;
+  }
+
+  .result-hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  .result-primary-value {
+    font-size: clamp(3rem, 18vw, 5rem);
+    line-height: 0.94;
+  }
+
+  .result-hero .result-copy-button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .result-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-detail-emphasis {
+    font-size: 1.2rem;
+  }
+}
+
