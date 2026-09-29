@@ -5528,3 +5528,62 @@ td {
     width: 100%;
   }
 }
+
+
+/* FOOTER-CONTRAST-2026-09-29: unify footer cards and badges for legibility. */
+.site-footer .footer-support,
+.site-footer .footer-notes span {
+  border: 1px solid rgba(119, 175, 219, 0.34);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(77, 153, 218, 0.14), transparent 38%),
+    linear-gradient(135deg, #102f4c 0%, #153d61 100%);
+  color: #f7fbff;
+  box-shadow: 0 8px 20px rgba(0, 18, 34, 0.18);
+}
+
+.site-footer .footer-support {
+  width: min(100%, 720px);
+}
+
+.site-footer .footer-support strong,
+.site-footer .footer-support p {
+  color: #f7fbff;
+}
+
+.site-footer .footer-support p {
+  color: rgba(247, 251, 255, 0.88);
+}
+
+.site-footer .footer-notes {
+  gap: 0.55rem;
+}
+
+.site-footer .footer-notes span {
+  padding: 0.38rem 0.72rem;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.site-footer .footer-support-link {
+  border-color: rgba(255, 255, 255, 0.42);
+  background: #f7fbff;
+  color: #123b5d;
+}
+
+.site-footer .footer-support-link:hover {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #0d3150;
+}
+
+@media (max-width: 719px) {
+  .site-footer .footer-support {
+    width: 100%;
+  }
+
+  .site-footer .footer-notes span {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+}
