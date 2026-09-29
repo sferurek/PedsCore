@@ -59,6 +59,22 @@ export function AboutPage({ language }: AboutPageProps) {
             : "A tool is not activated as a calculator until its logic, sources and conditions of use are sufficiently defined and tested. Pages may remain visible as references while local calculation stays blocked or pending."}
         </p>
       </section>
+      <section className="content-panel subtle-panel support-pedscore-panel">
+        <h2>{language === "es" ? "Apoya PedsCore" : "Support PedsCore"}</h2>
+        <p>
+          {language === "es"
+            ? "PedsCore es gratuito y de código abierto. Si te resulta útil, puedes ayudar a sostener el alojamiento, el mantenimiento y el desarrollo continuo del proyecto."
+            : "PedsCore is free and open source. If you find it useful, you can help support hosting, maintenance and continued development."}
+        </p>
+        <a
+          className="primary-link support-pedscore-link"
+          href="https://github.com/sponsors/sferurek"
+          rel="noreferrer"
+          target="_blank"
+        >
+          {language === "es" ? "Apoyar en GitHub" : "Sponsor on GitHub"}
+        </a>
+      </section>
       <section className="content-panel subtle-panel">
         <h2>{language === "es" ? "Citar y enlazar PedsCore" : "Cite and link PedsCore"}</h2>
         <p>
