@@ -44,6 +44,22 @@ export function ContributePage({ language }: ContributePageProps) {
             : "Reports about broken links, ambiguous translations, accessibility, score-version differences, missing sources or wording that could encourage over-interpretation are also useful."}
         </p>
       </div>
+      <div className="content-panel subtle-panel support-pedscore-panel">
+        <h2>{language === "es" ? "Apoya PedsCore" : "Support PedsCore"}</h2>
+        <p>
+          {language === "es"
+            ? "Si PedsCore te resulta útil, puedes apoyar su mantenimiento mediante GitHub Sponsors. Todas las herramientas clínicas siguen siendo gratuitas y de código abierto."
+            : "If PedsCore is useful to you, you can support its maintenance through GitHub Sponsors. All clinical tools remain free and open source."}
+        </p>
+        <a
+          className="primary-link support-pedscore-link"
+          href="https://github.com/sponsors/sferurek"
+          rel="noreferrer"
+          target="_blank"
+        >
+          {language === "es" ? "Apoyar en GitHub" : "Sponsor on GitHub"}
+        </a>
+      </div>
       <div className="link-row">
         <a
           className="primary-link"

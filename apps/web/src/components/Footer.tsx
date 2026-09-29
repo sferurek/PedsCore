@@ -100,6 +100,24 @@ export function Footer({ language, navigate, minimal = false }: FooterProps) {
         <p>{t.pages.disclaimerBody}</p>
       </div>
       <FooterUsageSummary language={language} navigate={navigate} />
+      <aside className="footer-support" aria-label={language === "es" ? "Apoya PedsCore" : "Support PedsCore"}>
+        <div>
+          <strong>{language === "es" ? "Apoya PedsCore" : "Support PedsCore"}</strong>
+          <p>
+            {language === "es"
+              ? "PedsCore es gratuito y de código abierto. Si te resulta útil, puedes ayudar a mantener el alojamiento, el mantenimiento y el desarrollo continuo."
+              : "PedsCore is free and open source. If you find it useful, you can help support hosting, maintenance and continued development."}
+          </p>
+        </div>
+        <a
+          className="footer-support-link"
+          href="https://github.com/sponsors/sferurek"
+          rel="noreferrer"
+          target="_blank"
+        >
+          {language === "es" ? "Apoyar en GitHub" : "Sponsor on GitHub"}
+        </a>
+      </aside>
       <div className="footer-notes">
         <span>{t.footer.mit}</span>
         <span>{t.footer.whoLicense}</span>

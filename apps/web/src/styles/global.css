@@ -5431,3 +5431,68 @@ td {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* SUPPORT-PEDSCORE: intentionally subtle OSS sponsorship treatment. */
+.footer-support {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(132, 166, 198, 0.34);
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(248, 251, 255, 0.92), rgba(243, 249, 248, 0.9));
+}
+
+.footer-support strong {
+  display: block;
+  margin-bottom: 0.18rem;
+  color: #1c4666;
+  font-size: 0.95rem;
+}
+
+.footer-support p {
+  max-width: 48rem;
+  margin: 0;
+  color: #617581;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.footer-support-link,
+.support-pedscore-link {
+  flex: 0 0 auto;
+  min-height: 2.35rem;
+  padding: 0.48rem 0.78rem;
+  border: 1px solid rgba(53, 104, 151, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #214f73;
+  font-size: 0.84rem;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.footer-support-link:hover,
+.support-pedscore-link:hover {
+  border-color: rgba(53, 104, 151, 0.52);
+  background: #ffffff;
+}
+
+.support-pedscore-panel {
+  background: linear-gradient(145deg, #fbfdff, #f7fbfa);
+}
+
+@media (max-width: 719px) {
+  .footer-support {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .footer-support-link {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
