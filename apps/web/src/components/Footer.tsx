@@ -105,8 +105,8 @@ export function Footer({ language, navigate, minimal = false }: FooterProps) {
           <strong>{language === "es" ? "Apoya PedsCore" : "Support PedsCore"}</strong>
           <p>
             {language === "es"
-              ? "PedsCore es gratuito y de código abierto. Si te resulta útil, puedes ayudar a mantener el alojamiento, el mantenimiento y el desarrollo continuo."
-              : "PedsCore is free and open source. If you find it useful, you can help support hosting, maintenance and continued development."}
+              ? "PedsCore es gratuito y de código abierto. Si te resulta útil, puedes ayudar a sostener su mantenimiento y desarrollo."
+              : "PedsCore is free and open source. If you find it useful, you can help support its maintenance and continued development."}
           </p>
         </div>
         <a
