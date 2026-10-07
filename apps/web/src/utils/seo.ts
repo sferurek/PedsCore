@@ -6,7 +6,7 @@ import { toBrowserPath } from "./routes";
 import { categoryLabels } from "../i18n/translations";
 import { getSeoTopicHub } from "./topicHubs";
 
-const siteUrl = "https://peds-core.vercel.app";
+const siteUrl = "https://pedscore.app";
 
 interface SeoMetadata {
   title: string;
