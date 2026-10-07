@@ -87,6 +87,7 @@ export function Footer({ language, navigate, minimal = false }: FooterProps) {
               <button className="text-link" type="button" onClick={() => navigate(makePath(language, "evidence"))}>{t.nav.evidence}</button>
             </>
           ) : null}
+          <a href="mailto:info@pedscore.app">info@pedscore.app</a>
           <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">GitHub</a>
         </nav>
       </footer>
@@ -132,6 +133,7 @@ export function Footer({ language, navigate, minimal = false }: FooterProps) {
             <button className="text-link" type="button" onClick={() => navigate(makePath(language, "disclaimer"))}>{t.nav.disclaimer}</button>
           </>
         ) : null}
+        <a href="mailto:info@pedscore.app">info@pedscore.app</a>
         <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">{t.common.github}</a>
         <a href="https://github.com/sferurek/PedsCore" rel="noreferrer" target="_blank">{t.ossSupport.viewSourceButton}</a>
       </div>
