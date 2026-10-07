@@ -1,6 +1,6 @@
 import { getCategorySeoProfile, getReferenceUrl, getSemanticRelatedTools, getToolSeoProfile, indexableSeoCategories } from "../../../packages/core/dist/index.js";
 
-const baseUrl = "https://peds-core.vercel.app";
+const baseUrl = "https://pedscore.app";
 
 const staticSeo = {
   home: {
