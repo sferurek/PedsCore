@@ -14,7 +14,7 @@ const distTemplate = await readFile(distIndexPath, "utf8");
 const sitemap = await readFile(publicSitemapPath, "utf8");
 const { getAllTools } = await import(pathToFileURL(resolve(repoRoot, "packages/core/dist/index.js")).href);
 
-const baseUrl = "https://peds-core.vercel.app";
+const baseUrl = "https://pedscore.app";
 const urlEntries = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)]
   .map((match) => match[1])
   .filter((loc) => loc.startsWith(baseUrl));
