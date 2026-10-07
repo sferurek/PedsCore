@@ -3,7 +3,7 @@
 **Herramientas clínicas pediátricas y neonatales open source con trazabilidad de evidencia.**
 
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-green.svg)](LICENSE)
-[![Producción](https://img.shields.io/badge/web-Vercel-blue.svg)](https://peds-core.vercel.app/)
+[![Producción](https://img.shields.io/badge/web-Vercel-blue.svg)](https://pedscore.app/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6.svg)](https://www.typescriptlang.org/)
 [![CI](https://github.com/sferurek/PedsCore/actions/workflows/ci.yml/badge.svg)](https://github.com/sferurek/PedsCore/actions/workflows/ci.yml)
 [![Alpha](https://img.shields.io/badge/estado-alpha-orange.svg)](docs/releases/v0.1.0-alpha.md)
@@ -11,7 +11,7 @@
 
 PedsCore es una biblioteca clínica bilingüe para pediatría y neonatología con catálogo estructurado, discovery clínico, motores de cálculo deterministas, trazabilidad de evidencia, gobernanza de derechos y límites de seguridad explícitos. No es sólo una colección de calculadoras: modela qué puede calcularse localmente, qué debe permanecer como referencia externa y por qué.
 
-**Producción:** https://peds-core.vercel.app/
+**Producción:** https://pedscore.app/
 
 ## Estado actual · 19 de septiembre de 2026
 
