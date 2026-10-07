@@ -8,7 +8,7 @@ import {
 
 export const indexNowConfig = {
   endpoint: "https://api.indexnow.org/indexnow",
-  host: "peds-core.vercel.app",
+  host: "pedscore.app",
   key: "5845ab92b382405cbba356bf63969310",
   keyLocation: `${productionBaseUrl}/5845ab92b382405cbba356bf63969310.txt`
 };
