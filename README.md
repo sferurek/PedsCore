@@ -3,7 +3,7 @@
 > **Amazon Developer Hackathon 2026:** the Alexa+ / self-hosted MCP workstream is documented in [HACKATHON_2026.md](HACKATHON_2026.md). RC3 candidate branch: `hackathon/alexa-mcp-v3`. Live judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo\n\n**Evidence-traceable pediatric clinical tools — deterministic where appropriate, explicit about uncertainty, licensing and clinical scope.**
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Production](https://img.shields.io/badge/production-Vercel-blue.svg)](https://peds-core.vercel.app/)
+[![Production](https://img.shields.io/badge/production-Vercel-blue.svg)](https://pedscore.app/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6.svg)](https://www.typescriptlang.org/)
 [![CI](https://github.com/sferurek/PedsCore/actions/workflows/ci.yml/badge.svg)](https://github.com/sferurek/PedsCore/actions/workflows/ci.yml)
 [![Public alpha](https://img.shields.io/badge/status-public%20alpha-orange.svg)](docs/releases/v0.1.0-alpha.md)
@@ -11,7 +11,7 @@
 
 > **PedsCore is not just a calculator collection.** It is a bilingual clinical knowledge layer for pediatrics and neonatology: catalog, discovery metadata, deterministic calculation engines, evidence traceability, rights/reuse governance, safety boundaries, clinical review workflow and an indexable public web product.
 
-**Production:** https://peds-core.vercel.app/  
+**Production:** https://pedscore.app/  
 **Languages:** Spanish / English  
 **Primary audience:** healthcare professionals, educators, reviewers and contributors
 

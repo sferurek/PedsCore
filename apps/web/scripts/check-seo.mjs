@@ -30,17 +30,17 @@ if (indexNowKey !== "5845ab92b382405cbba356bf63969310") {
 
 assertIncludes(indexHtml, "PedsCore — open-source pediatric and neonatal clinical tools", "index.html");
 assertIncludes(indexHtml, "PedsCore provides open-source pediatric and neonatal clinical tools", "index.html");
-assertIncludes(indexHtml, "https://peds-core.vercel.app/", "index.html canonical/metadata");
+assertIncludes(indexHtml, "https://pedscore.app/", "index.html canonical/metadata");
 assertIncludes(indexHtml, "application/ld+json", "index.html structured data");
 assertIncludes(indexHtml, '<link rel="icon" href="/favicon.svg"', "index.html favicon");
-assertIncludes(sitemap, "https://peds-core.vercel.app/es/tools/apgar", "sitemap.xml");
-assertIncludes(sitemap, "https://peds-core.vercel.app/en/tools/apgar", "sitemap.xml");
-assertIncludes(sitemap, "https://peds-core.vercel.app/es/tools/who-growth", "sitemap.xml");
-assertIncludes(sitemap, "https://peds-core.vercel.app/es/stats/global", "sitemap.xml");
-assertIncludes(sitemap, "https://peds-core.vercel.app/en/stats/global", "sitemap.xml");
-assertIncludes(sitemap, "https://peds-core.vercel.app/es/categories/cardiology", "sitemap.xml category");
-assertIncludes(sitemap, "https://peds-core.vercel.app/en/categories/cardiology", "sitemap.xml category");
-assertIncludes(robots, "Sitemap: https://peds-core.vercel.app/sitemap.xml", "robots.txt");
+assertIncludes(sitemap, "https://pedscore.app/es/tools/apgar", "sitemap.xml");
+assertIncludes(sitemap, "https://pedscore.app/en/tools/apgar", "sitemap.xml");
+assertIncludes(sitemap, "https://pedscore.app/es/tools/who-growth", "sitemap.xml");
+assertIncludes(sitemap, "https://pedscore.app/es/stats/global", "sitemap.xml");
+assertIncludes(sitemap, "https://pedscore.app/en/stats/global", "sitemap.xml");
+assertIncludes(sitemap, "https://pedscore.app/es/categories/cardiology", "sitemap.xml category");
+assertIncludes(sitemap, "https://pedscore.app/en/categories/cardiology", "sitemap.xml category");
+assertIncludes(robots, "Sitemap: https://pedscore.app/sitemap.xml", "robots.txt");
 assertIncludes(robots, "Disallow: /api/", "robots.txt API exclusion");
 
 const vercelConfig = JSON.parse(await readFile(resolve(repoRoot, "vercel.json"), "utf8"));
@@ -84,7 +84,7 @@ for (const url of sitemapUrls) {
   if (!routeHtml.includes(`<link rel="canonical" href="${url}"`)) throw new Error(`Canonical mismatch: ${url}`);
   if (!routeHtml.includes("hreflang=\"es\"") || !routeHtml.includes("hreflang=\"en\"")) throw new Error(`Missing reciprocal hreflang: ${url}`);
   if (!/<h1>[^<]+<\/h1>/.test(routeHtml)) throw new Error(`Missing crawlable H1: ${url}`);
-  if (!routeHtml.includes('"logo":"https://peds-core.vercel.app/favicon.svg"')) throw new Error(`Missing Organization logo schema: ${url}`);
+  if (!routeHtml.includes('"logo":"https://pedscore.app/favicon.svg"')) throw new Error(`Missing Organization logo schema: ${url}`);
   if (!routeHtml.includes('class="seo-static-fallback"')) throw new Error(`Missing static SEO body: ${url}`);
   const bodyMatch = routeHtml.match(/<div id="root">([\s\S]*?)<\/body>/);
   const bodyText = (bodyMatch?.[1] ?? "").replace(/<[^>]+>/g, " ").replace(/&[^;]+;/g, " ").replace(/\s+/g, " ").trim();
@@ -99,7 +99,7 @@ for (const url of sitemapUrls) {
     toolRouteCount++;
     if (bodyWordCount < 220) throw new Error(`Tool editorial content too thin (${bodyWordCount} words): ${url}`);
     if (!routeHtml.includes('"@type":"MedicalWebPage"')) throw new Error(`Missing MedicalWebPage schema: ${url}`);
-    if (!routeHtml.includes('"@id":"https://peds-core.vercel.app/#organization"')) throw new Error(`Missing publisher organization schema: ${url}`);
+    if (!routeHtml.includes('"@id":"https://pedscore.app/#organization"')) throw new Error(`Missing publisher organization schema: ${url}`);
     const encodedTitle = routeHtml.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
     const title = encodedTitle
       .replaceAll("&amp;", "&")
@@ -201,7 +201,7 @@ assertIncludes(aboutEs, "Qué puede auditarse públicamente", "about trust conte
 assertIncludes(evidenceEn, "Source policy", "evidence trust content");
 assertIncludes(pim2Es, '"@type":"MedicalWebPage"', "tool medical schema");
 assertIncludes(pim2Es, '"@type":"Organization"', "organization schema");
-assertIncludes(pim2Es, '"author":{"@id":"https://peds-core.vercel.app/#organization"}', "organization author schema");
+assertIncludes(pim2Es, '"author":{"@id":"https://pedscore.app/#organization"}', "organization author schema");
 assertIncludes(pim2Es, '"dateModified":"2026-09-22"', "dateModified schema");
 
 console.log(`Advanced SEO check passed. ${urlCount} sitemap URLs; ${toolRouteCount} localized tool routes; ${indexableCategories.length * 2} category hubs; expanded topic clusters, lastmod, x-default, query-led metadata and medical schema validated.`);

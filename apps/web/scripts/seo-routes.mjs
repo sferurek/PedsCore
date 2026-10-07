@@ -1,4 +1,4 @@
-export const productionBaseUrl = "https://peds-core.vercel.app";
+export const productionBaseUrl = "https://pedscore.app";
 export const seoContentLastmod = "2026-09-22";
 
 export const indexableCategories = [

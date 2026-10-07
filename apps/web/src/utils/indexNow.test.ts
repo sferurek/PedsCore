@@ -16,17 +16,17 @@ const testDir = dirname(fileURLToPath(import.meta.url));
 
 describe("IndexNow submission", () => {
   it("uses the production host and key location", () => {
-    expect(indexNowConfig.host).toBe("peds-core.vercel.app");
+    expect(indexNowConfig.host).toBe("pedscore.app");
     expect(indexNowConfig.keyLocation).toBe(
-      "https://peds-core.vercel.app/5845ab92b382405cbba356bf63969310.txt"
+      "https://pedscore.app/5845ab92b382405cbba356bf63969310.txt"
     );
   });
 
   it("derives URLs from the canonical SEO route source", () => {
     const urls = getCanonicalIndexNowUrls(tools);
-    expect(urls).toContain("https://peds-core.vercel.app/es/tools/pram");
-    expect(urls).toContain("https://peds-core.vercel.app/en/categories/cardiology");
-    expect(urls.every((url: string) => url.startsWith("https://peds-core.vercel.app/"))).toBe(true);
+    expect(urls).toContain("https://pedscore.app/es/tools/pram");
+    expect(urls).toContain("https://pedscore.app/en/categories/cardiology");
+    expect(urls.every((url: string) => url.startsWith("https://pedscore.app/"))).toBe(true);
   });
 
   it("matches every URL currently generated in the sitemap", async () => {
@@ -39,12 +39,12 @@ describe("IndexNow submission", () => {
   it("rejects preview, API and non-canonical URLs", () => {
     const canonicalUrls = getCanonicalIndexNowUrls(tools);
     expect(() => validateIndexNowUrls(["https://peds-core-preview.vercel.app/es"], canonicalUrls)).toThrow();
-    expect(() => validateIndexNowUrls(["https://peds-core.vercel.app/api/stats"], canonicalUrls)).toThrow();
-    expect(() => validateIndexNowUrls(["https://peds-core.vercel.app/assets/app.js"], canonicalUrls)).toThrow();
+    expect(() => validateIndexNowUrls(["https://pedscore.app/api/stats"], canonicalUrls)).toThrow();
+    expect(() => validateIndexNowUrls(["https://pedscore.app/assets/app.js"], canonicalUrls)).toThrow();
   });
 
   it("builds one batch payload", () => {
-    const urls = ["https://peds-core.vercel.app/es", "https://peds-core.vercel.app/en"];
+    const urls = ["https://pedscore.app/es", "https://pedscore.app/en"];
     expect(buildIndexNowPayload(urls)).toEqual({
       host: indexNowConfig.host,
       key: indexNowConfig.key,
@@ -55,7 +55,7 @@ describe("IndexNow submission", () => {
 
   it("reports accepted responses without calling the real API", async () => {
     const fetchMock = vi.fn().mockResolvedValue({ status: 202 });
-    await expect(submitIndexNow(["https://peds-core.vercel.app/es"], fetchMock)).resolves.toEqual({
+    await expect(submitIndexNow(["https://pedscore.app/es"], fetchMock)).resolves.toEqual({
       status: 202,
       success: true,
       urlCount: 1

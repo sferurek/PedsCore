@@ -9,7 +9,7 @@ describe("public launch repository documentation", () => {
   it("keeps README launch facts and safe wording", () => {
     const readme = read("README.md");
 
-    expect(readme).toContain("https://peds-core.vercel.app/");
+    expect(readme).toContain("https://pedscore.app/");
     expect(readme).toContain("Implemented clinical products | **64**");
     expect(readme).toContain("WHO Growth and CDC Growth are operational");
     expect(readme).toContain("clinical%20data-not%20stored");
