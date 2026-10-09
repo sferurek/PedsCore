@@ -11,6 +11,17 @@
 
 PedsCore es una biblioteca clínica bilingüe para pediatría y neonatología con catálogo estructurado, discovery clínico, motores de cálculo deterministas, trazabilidad de evidencia, gobernanza de derechos y límites de seguridad explícitos. No es sólo una colección de calculadoras: modela qué puede calcularse localmente, qué debe permanecer como referencia externa y por qué.
 
+## Fundador e identidad del proyecto
+
+- **Fundador y responsable del mantenimiento:** [Sergio Fernández Ureña](https://github.com/sferurek), médico especialista en Pediatría en Las Palmas de Gran Canaria, España.
+- **Perfil profesional:** [LinkedIn](https://www.linkedin.com/in/sergiofernandezurena/)
+- **Web oficial:** https://pedscore.app/
+- **Contacto:** info@pedscore.app
+- **Inicio del desarrollo público:** [2 de junio de 2026](https://github.com/sferurek/PedsCore/commit/0e1ccdfd7337817e12017a82b965cfe087ea0d26) (primer commit público del repositorio; no es una fecha de constitución empresarial).
+
+PedsCore es una iniciativa independiente, autofinanciada y de código abierto. Su desarrollo y mantenimiento pueden verificarse en el historial público de este repositorio. La web, el repositorio y el correo de contacto identifican el mismo proyecto.
+---
+
 **Producción:** https://pedscore.app/
 
 ## Estado actual · 19 de septiembre de 2026

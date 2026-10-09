@@ -12,6 +12,46 @@ export function AboutPage({ language }: AboutPageProps) {
     <section className="info-page">
       <h1>{t.pages.aboutTitle}</h1>
       <p>{t.pages.aboutBody}</p>
+      <section className="content-panel subtle-panel" aria-labelledby="project-origin-heading">
+        <h2 id="project-origin-heading">
+          {language === "es" ? "Fundador y origen del proyecto" : "Founder and project origins"}
+        </h2>
+        <p>
+          {language === "es"
+            ? "PedsCore es una iniciativa independiente, autofinanciada y de código abierto de software clínico fundada y mantenida por "
+            : "PedsCore is an independent, self-funded, open-source clinical software initiative founded and maintained by "}
+          <a href="https://github.com/sferurek" rel="noreferrer" target="_blank">
+            Sergio Fernández Ureña
+          </a>
+          {language === "es"
+            ? ", médico especialista en Pediatría en Las Palmas de Gran Canaria, España."
+            : ", a pediatrician based in Las Palmas de Gran Canaria, Spain."}
+        </p>
+        <p>
+          {language === "es" ? "Perfil profesional: " : "Professional profile: "}
+          <a href="https://www.linkedin.com/in/sergiofernandezurena/" rel="noreferrer" target="_blank">
+            LinkedIn
+          </a>
+          {" · "}
+          {language === "es" ? "Contacto del proyecto: " : "Project contact: "}
+          <a href="mailto:info@pedscore.app">info@pedscore.app</a>
+        </p>
+        <p>
+          {language === "es"
+            ? "El desarrollo público está documentado en GitHub desde el "
+            : "Public development is documented on GitHub since "}
+          <a
+            href="https://github.com/sferurek/PedsCore/commit/0e1ccdfd7337817e12017a82b965cfe087ea0d26"
+            rel="noreferrer"
+            target="_blank"
+          >
+            {language === "es" ? "2 de junio de 2026" : "June 2, 2026"}
+          </a>
+          {language === "es"
+            ? ", fecha del primer commit del repositorio. Esta fecha corresponde al inicio del historial público del software, no a una constitución societaria."
+            : ", the date of the repository's first commit. This documents the public software history, not a company incorporation date."}
+        </p>
+      </section>
       <div className="info-grid">
         <article>
           <h2>{t.pages.coreTitle}</h2>
