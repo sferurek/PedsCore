@@ -128,7 +128,10 @@ for (let attempt = 1; attempt <= 30; attempt += 1) {
       const html = await result.response.text();
       if (
         path === "/judge-demo" &&
-        (!html.includes("Judge Console") ||
+        (!(
+          html.includes("Judge Console") ||
+          html.includes("PedsCore AI — Live MCP Experience")
+        ) ||
           !html.includes("search_clinical_tools") ||
           !html.includes("calculate_clinical_score") ||
           !html.includes("start_simulation_case"))
