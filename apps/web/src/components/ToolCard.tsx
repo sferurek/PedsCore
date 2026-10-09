@@ -98,13 +98,17 @@ export function ToolCard({ language, navigate, tool }: ToolCardProps) {
       </dl>
 
       <div className="tool-card-actions">
-        <button
+        <a
           className="card-action"
-          type="button"
-          onClick={() => navigate(makePath(language, "tools", tool.slug))}
+          href={makePath(language, "tools", tool.slug)}
+          onClick={(event) => {
+            if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+            event.preventDefault();
+            navigate(makePath(language, "tools", tool.slug));
+          }}
         >
           {t.common.openTool}
-        </button>
+        </a>
         <button
           aria-label={favorite
             ? (language === "es" ? "Quitar de favoritos" : "Remove from favorites")

@@ -1833,6 +1833,10 @@ h2 {
 }
 
 .card-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   width: max-content;
   max-width: 100%;
   padding: 0.65rem 0.9rem;

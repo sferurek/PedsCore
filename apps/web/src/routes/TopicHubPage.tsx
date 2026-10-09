@@ -1,5 +1,6 @@
 import { getTool, getToolDiscovery, getToolSeoProfile } from "@peds-core/core";
 import type { Language } from "../utils/language";
+import { evidenceLabels } from "../i18n/translations";
 import type { SeoTopicHub } from "../utils/topicHubs";
 
 interface TopicHubPageProps {
@@ -100,7 +101,7 @@ export function TopicHubPage({ hub, language, navigate }: TopicHubPageProps) {
                     </td>
                     <td>{tool.population[language] || tool.population.en}</td>
                     <td>{availability}</td>
-                    <td>{tool.evidenceLevel.replaceAll("_", " ")}</td>
+                    <td>{evidenceLabels[tool.evidenceLevel][language]}</td>
                   </tr>
                 );
               })}
