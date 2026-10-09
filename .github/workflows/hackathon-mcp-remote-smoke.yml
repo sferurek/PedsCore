@@ -5,6 +5,13 @@ on:
   pull_request:
     branches:
       - main
+    # This is a live Railway MCP integration check, not a general web-app check.
+    # Run on PRs changing MCP contracts or this smoke script only.
+    # Other PedsCore UI/catalog changes are covered by the main CI workflow.
+    paths:
+      - "apps/mcp-server/**"
+      - "packages/core/src/mcp/**"
+      - "scripts/remote-mcp-smoke.mjs"
   push:
     branches:
       - hackathon/alexa-mcp-v3
@@ -12,7 +19,6 @@ on:
     paths:
       - "apps/mcp-server/**"
       - "packages/core/src/mcp/**"
-      - ".github/workflows/hackathon-mcp-remote-smoke.yml"
       - "scripts/remote-mcp-smoke.mjs"
 
 permissions:

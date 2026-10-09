@@ -12,11 +12,44 @@ import { GlobalStatsPage } from "./GlobalStatsPage";
 import { HomePage } from "./HomePage";
 import { ToolPage } from "./ToolPage";
 import { ToolReviewPanel } from "../components/ToolReviewPanel";
+import { ToolCard } from "../components/ToolCard";
+import { TopicHubPage } from "./TopicHubPage";
+import { getSeoTopicHub } from "../utils/topicHubs";
 import { ToolsPage } from "./ToolsPage";
 
 const noopNavigate = () => undefined;
 
 describe("public product web polish", () => {
+  it("exposes calculator jump, unambiguous clinical status and no initial form errors", () => {
+    const pecarn = getToolBySlug("pecarn-tbi-under-2");
+    expect(pecarn).toBeDefined();
+    const html = renderToString(<ToolPage language="es" tool={pecarn!} navigate={noopNavigate} />);
+    expect(html).toContain('href="#calculator"');
+    expect(html).toContain("Ir al cálculo");
+    expect(html).toContain('id="calculator"');
+    expect(html).not.toContain('class="field-error"');
+    expect(html).not.toContain("requiere trazado final contra fuentes primarias antes de activar calculo");
+    expect(html).toContain("revisión clínica externa independiente");
+  });
+
+  it("uses semantic links for home quick access and tool cards", () => {
+    const home = renderToString(<HomePage language="es" navigate={noopNavigate} />);
+    expect(home).toMatch(/atlas-popular-chips[^]*?<a href="\/es\/tools\//);
+    const pram = getToolBySlug("pram");
+    expect(pram).toBeDefined();
+    const card = renderToString(<ToolCard language="es" tool={pram!} navigate={noopNavigate} />);
+    expect(card).toContain('href="/es/tools/pram"');
+    expect(card).toContain('class="card-action"');
+  });
+
+  it("localizes evidence labels in the Spanish head-injury hub", () => {
+    const hub = getSeoTopicHub("pediatric-head-injury-rules");
+    expect(hub).toBeDefined();
+    const html = renderToString(<TopicHubPage hub={hub!} language="es" navigate={noopNavigate} />);
+    expect(html).not.toContain("original_derivation_study");
+    expect(html).not.toContain(">high<");
+  });
+
   it("renders keyboard skip navigation", () => {
     const html = renderToString(
       <Layout

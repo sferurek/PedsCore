@@ -46,5 +46,10 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "git": {
+    "deploymentEnabled": {
+      "fix/instinct-audit-20261009": false
+    }
+  }
 }

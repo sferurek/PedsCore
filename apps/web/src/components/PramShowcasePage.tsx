@@ -125,7 +125,7 @@ export function PramShowcasePage({
                 value={typeof values[ageInput.id] === "number" ? values[ageInput.id] as number : ""}
                 onChange={(event) => update(ageInput.id, event.target.value === "" ? null : Number(event.target.value))}
               />
-              <small>{ageInput.unit ?? (language === "es" ? "años" : "years")}</small>
+              <small>{language === "es" && ageInput.unit === "years" ? "años" : ageInput.unit ?? (language === "es" ? "años" : "years")}</small>
             </div>
           </label>
         ) : null}

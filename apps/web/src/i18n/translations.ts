@@ -231,9 +231,9 @@ export const translations = {
       description: "Descripción",
       pending: "Pendiente de validación",
       interpretationPending:
-        "La tabla de interpretación está pendiente de validación.",
+        "Esta ficha no publica una tabla de interpretación por rangos. Consulta el resultado, las fuentes y el estado de revisión; su ausencia no determina si el cálculo está activo.",
       scoringPending:
-        "La tabla de variables y puntuación está pendiente de validación."
+        "Esta ficha no publica una tabla de desglose por variables. Consulta los criterios del formulario, las referencias y el estado de revisión de la herramienta."
     },
     pages: {
       aboutTitle: "Sobre PedsCore",
@@ -498,9 +498,9 @@ export const translations = {
       description: "Description",
       pending: "Pending validation",
       interpretationPending:
-        "The interpretation table is pending validation.",
+        "This page does not publish an interpretation-by-range table. Check the result, sources and review status; a missing table does not establish whether calculation is active.",
       scoringPending:
-        "The variables and scoring table is pending validation."
+        "This page does not publish a variable-by-variable scoring table. Check the form criteria, references and review status of this tool."
     },
     pages: {
       aboutTitle: "About PedsCore",
