@@ -24,7 +24,7 @@ export const translations = {
     ossSupport: {
       ariaLabel: "Apoya el proyecto PedsCore",
       message:
-        "PedsCore es un proyecto de código abierto y sin ánimo de lucro. Si te resulta útil, puedes apoyar su desarrollo dejando una estrella o un comentario en GitHub.",
+        "PedsCore es un proyecto independiente, autofinanciado y de código abierto. Si te resulta útil, puedes apoyar su desarrollo dejando una estrella o un comentario en GitHub.",
       starButton: "Dar una estrella en GitHub",
       feedbackButton: "Comentarios e incidencias",
       viewSourceButton: "Ver código fuente"
@@ -292,7 +292,7 @@ export const translations = {
     ossSupport: {
       ariaLabel: "Open-source support",
       message:
-        "PedsCore is a non-profit open-source project. If you find it useful, you can support its development by starring the repository or leaving feedback on GitHub.",
+        "PedsCore is an independent, self-funded open-source project. If you find it useful, you can support its development by starring the repository or leaving feedback on GitHub.",
       starButton: "Star on GitHub",
       feedbackButton: "Feedback / Issues",
       viewSourceButton: "View source"

@@ -18,14 +18,23 @@ export function AboutPage({ language }: AboutPageProps) {
         </h2>
         <p>
           {language === "es"
-            ? "PedsCore es una iniciativa independiente de software clínico de código abierto fundada y mantenida por "
-            : "PedsCore is an independent, open-source clinical software initiative founded and maintained by "}
+            ? "PedsCore es una iniciativa independiente, autofinanciada y de código abierto de software clínico fundada y mantenida por "
+            : "PedsCore is an independent, self-funded, open-source clinical software initiative founded and maintained by "}
           <a href="https://github.com/sferurek" rel="noreferrer" target="_blank">
             Sergio Fernández Ureña
           </a>
           {language === "es"
             ? ", médico especialista en Pediatría en Las Palmas de Gran Canaria, España."
             : ", a pediatrician based in Las Palmas de Gran Canaria, Spain."}
+        </p>
+        <p>
+          {language === "es" ? "Perfil profesional: " : "Professional profile: "}
+          <a href="https://www.linkedin.com/in/sergiofernandezurena/" rel="noreferrer" target="_blank">
+            LinkedIn
+          </a>
+          {" · "}
+          {language === "es" ? "Contacto del proyecto: " : "Project contact: "}
+          <a href="mailto:info@pedscore.app">info@pedscore.app</a>
         </p>
         <p>
           {language === "es"

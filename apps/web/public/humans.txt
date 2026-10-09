@@ -1,6 +1,12 @@
 PedsCore
-
-Maintainer: Sergio Fernández
-GitHub: https://github.com/sferurek/PedsCore
+Official website: https://pedscore.app/
+Founder and maintainer: Sergio Fernández Ureña
+Role: Pediatrician, Las Palmas de Gran Canaria, Spain
+GitHub profile: https://github.com/sferurek
+LinkedIn: https://www.linkedin.com/in/sergiofernandezurena/
+Source repository: https://github.com/sferurek/PedsCore
+Project contact: info@pedscore.app
+Public development since: 2026-06-02 (first repository commit)
+First commit: https://github.com/sferurek/PedsCore/commit/0e1ccdfd7337817e12017a82b965cfe087ea0d26
 License: MIT code, third-party data under their own terms
 Purpose: Open-source pediatric and neonatal clinical tools with evidence traceability
