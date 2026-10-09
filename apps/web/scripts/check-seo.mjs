@@ -180,6 +180,7 @@ const pcdaiEs = await read("es/tools/pcdai/index.html");
 const chaliceEn = await read("en/tools/chalice-tbi/index.html");
 const homeEs = await read("es/index.html");
 const aboutEs = await read("es/about/index.html");
+const aboutEn = await read("en/about/index.html");
 const evidenceEn = await read("en/evidence/index.html");
 assertIncludes(pim2Es, "<title>Calculadora PIM2 — Mortalidad pediátrica | PedsCore</title>", "PIM2 intent title");
 assertIncludes(pippEs, "<title>Escala PIPP — Dolor en prematuros | PedsCore</title>", "PIPP intent title");
@@ -198,6 +199,14 @@ assertIncludes(chaliceEn, "<title>CHALICE Rule — Pediatric Head Injury | PedsC
 assertIncludes(homeEs, "<title>PedsCore — herramientas clínicas pediátricas</title>", "Spanish home title");
 assertIncludes(homeEs, "Cómo se construye PedsCore", "home trust content");
 assertIncludes(aboutEs, "Qué puede auditarse públicamente", "about trust content");
+for (const [html, label] of [[aboutEs, "es/about"], [aboutEn, "en/about"]]) {
+  assertIncludes(html, "Sergio Fernández Ureña", `${label} founder visible without JavaScript`);
+  assertIncludes(html, "https://www.linkedin.com/in/sergiofernandezurena/", `${label} LinkedIn`);
+  assertIncludes(html, "0e1ccdfd7337817e12017a82b965cfe087ea0d26", `${label} first public commit`);
+  assertIncludes(html, '"@type":"Person"', `${label} Person schema`);
+  assertIncludes(html, '"founder":{"@id":"https://pedscore.app/#founder"}', `${label} Organization founder reference`);
+  assertIncludes(html, '"author":{"@id":"https://pedscore.app/#founder"}', `${label} about author reference`);
+}
 assertIncludes(evidenceEn, "Source policy", "evidence trust content");
 assertIncludes(pim2Es, '"@type":"MedicalWebPage"', "tool medical schema");
 assertIncludes(pim2Es, '"@type":"Organization"', "organization schema");

@@ -497,6 +497,19 @@ export const renderStaticBody = (seo, tools) => {
       <nav aria-label="${isEs ? "Ruta de navegación" : "Breadcrumbs"}">${internalLink(homeUrl, "PedsCore")} › <span>${isEs ? "Sobre PedsCore" : "About PedsCore"}</span></nav>
       <h1>${isEs ? "Sobre PedsCore" : "About PedsCore"}</h1>
       <p>${escapeHtml(seo.description)}</p>
+      <h2>${isEs ? "Fundador e inicio documentado" : "Founder and documented start"}</h2>
+      <p>${isEs
+        ? "PedsCore es una iniciativa independiente, autofinanciada y de código abierto fundada y mantenida por "
+        : "PedsCore is an independent, self-funded, open-source initiative founded and maintained by "}
+        <a href="https://github.com/sferurek">Sergio Fernández Ureña</a>, ${isEs ? "médico especialista en Pediatría en Las Palmas de Gran Canaria, España." : "a pediatrician based in Las Palmas de Gran Canaria, Spain."}
+      </p>
+      <p>${isEs ? "Desarrollo público documentado desde el " : "Public development documented since "}
+        <a href="https://github.com/sferurek/PedsCore/commit/0e1ccdfd7337817e12017a82b965cfe087ea0d26">${isEs ? "2 de junio de 2026" : "June 2, 2026"}</a>.
+        ${isEs ? "Es la fecha del primer commit público, no una fecha de constitución empresarial." : "This is the first public commit date, not a company incorporation date."}
+      </p>
+      <p>${isEs ? "Perfil profesional: " : "Professional profile: "}<a href="https://www.linkedin.com/in/sergiofernandezurena/">LinkedIn</a> ·
+        ${isEs ? "Contacto del proyecto: " : "Project contact: "}<a href="mailto:info@pedscore.app">info@pedscore.app</a>
+      </p>
       <h2>${isEs ? "Proyecto clínico abierto" : "Open clinical project"}</h2>
       <p>${isEs
         ? "PedsCore es un proyecto de código abierto para profesionales sanitarios, docentes y colaboradores. Reúne herramientas pediátricas y neonatales con una separación explícita entre catálogo, evidencia, implementación y disponibilidad clínica."
@@ -635,6 +648,7 @@ export const getStaticSeo = (pathname, tools) => {
 
 export const renderSeoHead = (template, seo) => {
   const alternateLanguage = seo.language === "es" ? "en" : "es";
+  const isAbout = new URL(seo.url).pathname.endsWith("/about");
   const normalizedTitle = String(seo.title ?? "")
     .replaceAll("&amp;", "&")
     .replaceAll("&lt;", "<")
@@ -653,8 +667,8 @@ export const renderSeoHead = (template, seo) => {
         inLanguage: seo.language,
         isPartOf: { "@id": `${baseUrl}/#website` },
         publisher: { "@id": `${baseUrl}/#organization` },
-        author: { "@id": `${baseUrl}/#organization` },
-        dateModified: "2026-09-22",
+        author: { "@id": `${baseUrl}/#${isAbout ? "founder" : "organization"}` },
+        dateModified: isAbout ? "2026-10-09" : "2026-09-22",
         ...(seo.tool ? { mainEntity: { "@type": "MedicalEntity", name: seo.tool.name[seo.language] || seo.tool.name.en } } : {})
       },
       {
@@ -671,7 +685,18 @@ export const renderSeoHead = (template, seo) => {
         name: "PedsCore",
         url: `${baseUrl}/`,
         logo: `${baseUrl}/favicon.svg`,
-        sameAs: ["https://github.com/sferurek/PedsCore"]
+        sameAs: ["https://github.com/sferurek/PedsCore"],
+        founder: { "@id": `${baseUrl}/#founder` }
+      },
+      {
+        "@type": "Person",
+        "@id": `${baseUrl}/#founder`,
+        name: "Sergio Fernández Ureña",
+        url: "https://www.linkedin.com/in/sergiofernandezurena/",
+        sameAs: [
+          "https://github.com/sferurek",
+          "https://www.linkedin.com/in/sergiofernandezurena/"
+        ]
       },
       {
         "@type": "BreadcrumbList",
