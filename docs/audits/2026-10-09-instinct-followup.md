@@ -30,5 +30,14 @@ Review the diff; run non-build checks; subsequently perform clinician UX tests a
 - TypeScript core and web: `tsc --noEmit` passed (web checked with temporary source-level path aliases; no generated artifacts).
 - 18 of 18 web-polish tests passed, including three added regression tests, using a temporary Vitest source alias without compiling the application.
 - `git diff --check`: passed.
-- `npm ci` could not run because the **pre-existing** `package-lock.json` does not match current package/workspace requirements (`apps/mcp-server`, `esbuild`). Dependencies were installed locally without scripts and without changing the lockfile. This separate dependency-consistency issue remains open.
+- Initial `npm ci` failed because the original lockfile did not reflect `apps/mcp-server` and the declared `esbuild` version. **Follow-up completed:** regenerated `package-lock.json` with `npm install --package-lock-only --ignore-scripts --no-audit --no-fund`; a clean `npm ci --ignore-scripts --no-audit --no-fund --prefer-offline` then succeeded. The lockfile changed without changing dependency manifests or invoking installation scripts.
 - No deployment, remote push, code build or Vercel change was performed.
+
+## Local visual and interaction review (2026-10-09 follow-up)
+
+- Started Vite in development mode using a **temporary source alias** for `@peds-core/core` rather than generating the core or web production build. No Vercel build or deployment was triggered.
+- Opened PECARN <2, PRAM and the Spanish home page using Chrome 155. Captured desktop and mobile screenshots in untracked local `review-screenshots/`.
+- Chrome DevTools Protocol **mobile emulation at 390 × 844** reported `window.innerWidth === document.documentElement.scrollWidth === 390` for PECARN, PRAM and the home page, with no horizontal overflow. A cropped initial `--window-size` headless screenshot was a viewport artifact, not a responsive layout bug.
+- PECARN live interaction: 0 required-field messages on initial render, 1 message after attempting to advance a blank numeric field, 0 again after Reset. The calculator anchor updates the URL to `#calculator` and scrolls toward the form.
+- A separate, temporary development preview is available **only over the user's Tailscale network** at `http://100.79.139.70:4180/es`. Its lifetime is tied to the local development process, not Vercel.
+- No automated clinical validation or external clinician review was performed. No push/PR/merge/deploy was performed.
