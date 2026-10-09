@@ -41,3 +41,11 @@ Review the diff; run non-build checks; subsequently perform clinician UX tests a
 - PECARN live interaction: 0 required-field messages on initial render, 1 message after attempting to advance a blank numeric field, 0 again after Reset. The calculator anchor updates the URL to `#calculator` and scrolls toward the form.
 - A separate, temporary development preview is available **only over the user's Tailscale network** at `http://100.79.139.70:4180/es`. Its lifetime is tied to the local development process, not Vercel.
 - No automated clinical validation or external clinician review was performed. No push/PR/merge/deploy was performed.
+
+## Railway MCP CI investigation (same-day follow-up)
+
+- The main PR CI passed on GitHub Actions, but `Hackathon MCP Remote Smoke` failed on 2026-10-09 with a `Judge Console` literal-content assertion, after the live `/judge-demo` returned different copy (`PedsCore AI — Live MCP Experience`). All three MCP tool identifiers checked by that assertion were present in the live HTML; `/health` returned OK. This single failure does **not** establish an MCP outage.
+- Read-only Railway inspection confirmed that `pedscore-ai-mcp-production.up.railway.app` is served from **`hackathon/alexa-mcp-v2`**, last deployed **2026-09-20** (deployment `c144d871-0314-4d13-a8dc-603aa03abe6b`). The current repository's smoke expects a newer Judge Console contract. The remote deployment has **not** been changed.
+- Tracked the deployment/test version discrepancy in [GitHub issue #140](https://github.com/sferurek/PedsCore/issues/140). Do not loosen the content check merely to make the workflow green without independent end-to-end MCP verification.
+- Scoped `.github/workflows/hackathon-mcp-remote-smoke.yml` pull-request triggers to changes under `apps/mcp-server/**`, `packages/core/src/mcp/**` and `scripts/remote-mcp-smoke.mjs`. Manual `workflow_dispatch` remains available. The push trigger continues to run on MCP code changes. This prevents **unrelated web/UI changes** from depending on the independently deployed Railway service.
+- Deployment/migration of Railway, including switching from v2, requires a separate release decision.
