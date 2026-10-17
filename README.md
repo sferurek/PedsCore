@@ -1,6 +1,10 @@
 # PedsCore
 
-> **Amazon Developer Hackathon 2026:** the Alexa+ / self-hosted MCP workstream is documented in [HACKATHON_2026.md](HACKATHON_2026.md). RC3 candidate branch: `hackathon/alexa-mcp-v3`. Live judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo\n\n**Evidence-traceable pediatric clinical tools — deterministic where appropriate, explicit about uncertainty, licensing and clinical scope.**
+> **Railway-free review:** [Local reproduction guide](docs/hackathon-2026/local-demo.md). Run the real MCP judge console locally; the optional SIM tools use the existing Vercel bridge. Historical hosted URLs below are not required for local review. The demo video still needs recording/upload.
+
+> **Amazon Developer Hackathon 2026:** the Alexa+ / self-hosted MCP workstream is documented in [HACKATHON_2026.md](HACKATHON_2026.md). Start the judge console using the [local reproduction guide](docs/hackathon-2026/local-demo.md). No Railway account or hosted MCP endpoint is required.
+
+**Evidence-traceable pediatric clinical tools — deterministic where appropriate, explicit about uncertainty, licensing and clinical scope.**
 
 [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Production](https://img.shields.io/badge/production-Vercel-blue.svg)](https://pedscore.app/)

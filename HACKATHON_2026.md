@@ -1,5 +1,7 @@
 # PedsCore — Amazon Developer Hackathon 2026
 
+> **Railway-free review:** [Local reproduction guide](docs/hackathon-2026/local-demo.md). Run the real MCP judge console locally; the optional SIM tools use the existing Vercel bridge. Historical hosted URLs below are not required for local review. The demo video still needs recording/upload.
+
 This is the public entry point for the hackathon-specific work added to the existing PedsCore project.
 
 ## Baseline
@@ -62,18 +64,17 @@ Simulation:
 - `get_patient_findings`
 - `submit_triage_decision`
 
-## Live MCP endpoint
+## Reproduce locally (primary judging path)
 
-- Judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
-- Capability manifest: https://pedscore-ai-mcp-production.up.railway.app/capabilities
-- MCP: https://pedscore-ai-mcp-production.up.railway.app/mcp
-- Health: https://pedscore-ai-mcp-production.up.railway.app/health
-- Privacy: https://pedscore-ai-mcp-production.up.railway.app/privacy
-- Terms: https://pedscore-ai-mcp-production.up.railway.app/terms
+Follow the [local reproduction guide](docs/hackathon-2026/local-demo.md). After `npm ci`, run `npm run hackathon:local -- --with-sim` and open http://127.0.0.1:3001/judge-demo. The same local service exposes `/capabilities`, `/mcp`, `/health`, `/privacy`, and `/terms`.
 
-The public MCP runtime exposes the clinical and simulation tool contracts. The production MCP service is configured against the deployed SIM IMV bridge at `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`; failures remain fail-closed rather than fabricating simulation results.
+Clinical tools execute locally. SIM calls use the existing Vercel bridge; failures remain fail-closed. No Railway service is required. Publish the guide and a demo video as the submission's review materials.
 
-## Current validation state
+## Historical hosted evidence
+
+The original Railway deployment was `https://pedscore-ai-mcp-production.up.railway.app`. Historical remote checks below document the implementation at that time, not a promise of continued hosting. Use the local guide for review.
+
+## Historical validation state
 
 Verified:
 - MCP `2025-11-25`;

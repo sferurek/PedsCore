@@ -1,5 +1,7 @@
 # Final submission packet
 
+> **Railway-free review:** [Local reproduction guide](local-demo.md). Run the real MCP judge console locally; the optional SIM tools use the existing Vercel bridge. Historical hosted URLs below are not required for local review. The demo video still needs recording/upload.
+
 Prepared for direct transfer into the Amazon Developer Hackathon Devpost form. Re-check only fields that depend on the final video or optional integrations.
 
 ## Identity
@@ -16,9 +18,10 @@ Prepared for direct transfer into the Amazon Developer Hackathon Devpost form. R
 - GitHub username: **sferurek**
 - Repository: https://github.com/sferurek/PedsCore
 - Open Source contribution: https://github.com/sferurek/PedsCore/pull/105
-- Testing link: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
-- Capability manifest: https://pedscore-ai-mcp-production.up.railway.app/capabilities
-- MCP endpoint: https://pedscore-ai-mcp-production.up.railway.app/mcp
+- Testing/reproduction link: https://github.com/sferurek/PedsCore/blob/main/docs/hackathon-2026/local-demo.md
+- Demo video: pending recording/upload (required before submission)
+- Local capability manifest after startup: http://127.0.0.1:3001/capabilities
+- Local MCP endpoint after startup: http://127.0.0.1:3001/mcp
 
 ## Short description
 
@@ -32,7 +35,7 @@ The project exposes the existing PedsCore clinical catalog and calculator regist
 
 During the hackathon, the architecture was extended to SIM IMV, a pediatric mass-casualty triage simulator. The MCP layer can start a synthetic scenario, retrieve learner-visible findings, and accept a learner's triage category. The language model does not decide whether the answer is correct: the simulator's existing JumpSTART, SALT, PTT, or MITT engine returns the canonical category, rule/path, and teaching feedback.
 
-The public judge console performs real MCP calls against the deployed service and exposes raw traces for verification.
+The locally runnable judge console performs real MCP calls against the local service and exposes raw traces for verification.
 
 ## Significant updates made during the hackathon
 
@@ -74,7 +77,7 @@ PedsCore agent-safe tools
 
 The model orchestrates. PedsCore and SIM IMV own the clinical logic.
 
-## Technical evidence
+## Historical technical evidence (hosted availability is not guaranteed)
 
 - Public self-hosted MCP server: verified.
 - MCP protocol 2025-11-25: verified.
@@ -138,7 +141,7 @@ Pending human recording/upload.
 Prepared assets:
 - `docs/hackathon-2026/final-video-script.md`
 - `docs/hackathon-2026/video-shotlist.md`
-- live judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
+- local judge console: http://127.0.0.1:3001/judge-demo (after following the local reproduction guide)
 
 Requirements:
 - English;

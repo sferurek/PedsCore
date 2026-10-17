@@ -1,5 +1,7 @@
 # Judging quickstart
 
+> **Railway-free review:** [Local reproduction guide](local-demo.md). Run the real MCP judge console locally; the optional SIM tools use the existing Vercel bridge. Historical hosted URLs below are not required for local review. The demo video still needs recording/upload.
+
 This page gives reviewers the shortest path to understand and verify the hackathon work.
 
 ## 1. Understand the safety boundary
@@ -19,25 +21,11 @@ MCP tool selection
 
 The model does not invent score arithmetic or the canonical triage answer.
 
-## 2. Verify the public MCP service
+## 2. Start and verify the local MCP service
 
-Judge console:
+Follow [local-demo.md](local-demo.md), including the explicit `--with-sim` option for the full six-tool demo. Open http://127.0.0.1:3001/judge-demo after startup. `/capabilities`, `/mcp`, and `/health` are on the same local origin.
 
-`https://pedscore-ai-mcp-production.up.railway.app/judge-demo`
-
-Capability manifest:
-
-`https://pedscore-ai-mcp-production.up.railway.app/capabilities`
-
-MCP endpoint:
-
-`https://pedscore-ai-mcp-production.up.railway.app/mcp`
-
-Health:
-
-`https://pedscore-ai-mcp-production.up.railway.app/health`
-
-The judge console performs real MCP calls against the public service. The capability manifest exposes the protocol target, transport, six tool contracts, deterministic boundaries, and whether the optional SIM backend is remotely configured.
+The console performs real MCP calls against the local service. Clinical tools run locally; SIM uses the existing Vercel synthetic-simulation bridge. No Railway account or hosted MCP endpoint is required.
 
 ## 3. Inspect the implementation
 
@@ -86,7 +74,7 @@ A learner may submit a triage category conversationally, but correctness is comp
 
 Devpost support confirmed that the private Alexa+ Category SDK / MCP Toolkit / add-on tooling is restricted to selected Amazon partners. PedsCore therefore uses the explicitly permitted self-hosted MCP route and does not claim an official partner-only Alexa add-on deployment.
 
-The SIM bridge is no longer an external blocker: PR #25 is merged, Vercel production deployment is green, Railway MCP is configured to call it, and the strict remote MCP→SIM smoke passed.
+Historical integration evidence: SIM PR #25 merged and the remote MCP→SIM smoke passed. For current review, the local startup command configures the Vercel bridge explicitly; verify availability with the smoke command.
 
 ## 7. Reproduce the repository validation
 
@@ -100,7 +88,7 @@ npm run hackathon:verify
 To run the public MCP smoke against a base URL:
 
 ```bash
-MCP_REMOTE_BASE_URL=https://pedscore-ai-mcp-production.up.railway.app npm run hackathon:smoke:remote
+npm run hackathon:smoke:remote -- http://127.0.0.1:3001
 ```
 
 The smoke validates protocol negotiation, the six tool contracts, deterministic Apgar output, judge/compliance/media surfaces, and the full public SIM path: `school-bus` → patient `01` → submitted `GREEN` → expected `GREEN` → `correct=true` → rule `JS-MOB-01`.
