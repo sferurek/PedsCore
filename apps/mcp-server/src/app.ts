@@ -216,7 +216,7 @@ export const createPedsCoreMcpServer = (): McpServer => {
 };
 
 export const createPedsCoreMcpApp = (options?: { authConfig?: AuthConfig }) => {
-  const app = createMcpExpressApp({ host: "0.0.0.0" });
+  const app = createMcpExpressApp({ host: process.env.HOST ?? "0.0.0.0" });
   const authConfig = options?.authConfig ?? loadAuthConfig();
   validateAuthConfig(authConfig);
   const authMiddleware = createBearerAuthMiddleware(authConfig);

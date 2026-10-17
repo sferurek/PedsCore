@@ -1,5 +1,7 @@
 # PedsCore AI MCP Server
 
+> **Railway-free review:** [Local reproduction guide](../../docs/hackathon-2026/local-demo.md). Run the real MCP judge console locally; the optional SIM tools use the existing Vercel bridge. Historical hosted URLs below are not required for local review. The demo video still needs recording/upload.
+
 Hackathon-specific MCP server for **PedsCore AI — Pediatric Clinical Learning with Alexa+**.
 
 ## Transport

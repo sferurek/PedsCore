@@ -74,6 +74,8 @@ describe("hackathon judge console", () => {
     expect(html).toContain("calculate_clinical_score");
     expect(html).toContain("start_simulation_case");
     expect(html).toContain('fetch("/mcp"');
+    expect(html).toContain("locally or remotely");
+    expect(html).not.toContain("up.railway.app");
     expect(html).toContain("9/10");
   });
 

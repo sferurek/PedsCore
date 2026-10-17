@@ -1,4 +1,4 @@
-name: Hackathon MCP Remote Smoke
+name: Hackathon MCP Smoke
 
 on:
   workflow_dispatch:
@@ -23,11 +23,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
-      MCP_REMOTE_BASE_URL: https://pedscore-ai-mcp-production.up.railway.app
+      MCP_REMOTE_BASE_URL: http://127.0.0.1:3001
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-      - name: Wait for and validate Railway MCP endpoint
-        run: node scripts/remote-mcp-smoke.mjs
+          node-version: 24
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify local MCP and public synthetic SIM bridge
+        shell: bash
+        run: |
+          npm run hackathon:local -- --with-sim > /tmp/pedscore-mcp.log 2>&1 &
+          server=$!
+          trap 'kill -TERM "$server" 2>/dev/null || true; cat /tmp/pedscore-mcp.log' EXIT
+          node scripts/remote-mcp-smoke.mjs
