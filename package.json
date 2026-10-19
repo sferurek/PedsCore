@@ -29,7 +29,7 @@
     "test:mcp": "npm run build -w @peds-core/core && vitest run --config vitest.mcp.config.ts"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
+    "@eslint/js": "^10.0.1",
     "@types/node": "^25.9.1",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
