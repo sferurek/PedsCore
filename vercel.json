@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build -w @peds-core/core && npm run build -w @peds-core/mcp-server",
+  "buildCommand": "npm run build -w @peds-core/core && npm run build -w @peds-core/mcp-server && mkdir -p dist",
   "rewrites": [
     {
       "source": "/(.*)",
@@ -11,5 +11,6 @@
     "api/index.ts": {
       "maxDuration": 30
     }
-  }
+  },
+  "outputDirectory": "dist"
 }
