@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build -w @peds-core/core && npm run build -w @peds-core/mcp-server && mkdir -p dist",
+  "buildCommand": "npm run build -w @peds-core/core && npm run build -w @peds-core/mcp-server && mkdir -p dist && printf '<!doctype html><title>PedsCore AI MCP</title>' > dist/index.html",
   "rewrites": [
     {
       "source": "/(.*)",
