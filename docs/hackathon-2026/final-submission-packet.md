@@ -15,10 +15,10 @@ Prepared for direct transfer into the Amazon Developer Hackathon Devpost form. R
 - AWS Builder Mini Challenge: **No — intentionally not claimed in the current candidate; no qualifying AWS/Kiro integration is evidenced yet**
 - GitHub username: **sferurek**
 - Repository: https://github.com/sferurek/PedsCore
-- Open Source contribution: https://github.com/sferurek/PedsCore/pull/91
-- Testing link: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
-- Capability manifest: https://pedscore-ai-mcp-production.up.railway.app/capabilities
-- MCP endpoint: https://pedscore-ai-mcp-production.up.railway.app/mcp
+- Open Source contribution: https://github.com/sferurek/PedsCore/pull/105
+- Testing link: https://pedscore-ai-mcp.vercel.app/judge-demo
+- Capability manifest: https://pedscore-ai-mcp.vercel.app/capabilities
+- MCP endpoint: https://pedscore-ai-mcp.vercel.app/mcp
 
 ## Short description
 
@@ -42,7 +42,7 @@ PedsCore existed before the submission period. The hackathon-specific work added
 - a self-hosted Streamable HTTP MCP server;
 - MCP 2025-11-25 negotiation;
 - clinical discovery, metadata, and deterministic calculation tools;
-- public Railway deployment and independent remote smoke testing;
+- public Vercel deployment and independent remote smoke testing;
 - Alexa+ manifest, store assets, privacy/terms pages, and validation tooling;
 - a live judge console and machine-readable capability manifest;
 - optional OAuth/Cognito protection scaffolding;
@@ -84,7 +84,7 @@ The model orchestrates. PedsCore and SIM IMV own the clinical logic.
 - Judge console: verified live.
 - Capability manifest: verified live.
 - External smoke run 35334436459 attempt 2: passed.
-- Railway MCP production endpoint: successful and remotely verified.
+- Vercel MCP production endpoint: protocol 2025-11-25 and all six MCP calls independently verified on 23 October 2026.
 - SIM production HTTP smoke: passed in CI.
 - Public MCP→SIM end-to-end smoke: passed in GitHub Actions run `35466300736`.
 - SIM school-bus / JumpSTART / patient 01: expected GREEN, `correct=true`, rule `JS-MOB-01`, canonical path returned.
@@ -133,12 +133,12 @@ Include them because the rules state that friction logs can receive up to a 10% 
 
 ## Demo video
 
-Pending human recording/upload.
+A 2:46 live-browser screencast with English narration was rendered on 23 October 2026; public YouTube or Vimeo publication remains to be confirmed.
 
 Prepared assets:
 - `docs/hackathon-2026/final-video-script.md`
 - `docs/hackathon-2026/video-shotlist.md`
-- live judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
+- live judge console: https://pedscore-ai-mcp.vercel.app/judge-demo
 
 Requirements:
 - English;
