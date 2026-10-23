@@ -136,7 +136,7 @@ Include them because the rules state that friction logs can receive up to a 10% 
 
 ## Demo video
 
-Pending human recording/upload.
+Live demonstration video prepared; public YouTube/Vimeo upload is required before submission.
 
 Prepared assets:
 - `docs/hackathon-2026/final-video-script.md`

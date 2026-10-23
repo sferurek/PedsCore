@@ -72,7 +72,7 @@ Clinical tools execute locally. SIM calls use the existing Vercel bridge; failur
 
 ## Historical hosted evidence
 
-The original Railway deployment was `https://pedscore-ai-mcp-production.up.railway.app`. Historical remote checks below document the implementation at that time, not a promise of continued hosting. Use the local guide for review.
+The original Railway deployment was `https://pedscore-ai-mcp.vercel.app`. Historical remote checks below document the implementation at that time, not a promise of continued hosting. Use the local guide for review.
 
 ## Historical validation state
 
