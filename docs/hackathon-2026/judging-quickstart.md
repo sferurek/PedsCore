@@ -23,19 +23,19 @@ The model does not invent score arithmetic or the canonical triage answer.
 
 Judge console:
 
-`https://pedscore-ai-mcp-production.up.railway.app/judge-demo`
+`https://pedscore-ai-mcp.vercel.app/judge-demo`
 
 Capability manifest:
 
-`https://pedscore-ai-mcp-production.up.railway.app/capabilities`
+`https://pedscore-ai-mcp.vercel.app/capabilities`
 
 MCP endpoint:
 
-`https://pedscore-ai-mcp-production.up.railway.app/mcp`
+`https://pedscore-ai-mcp.vercel.app/mcp`
 
 Health:
 
-`https://pedscore-ai-mcp-production.up.railway.app/health`
+`https://pedscore-ai-mcp.vercel.app/health`
 
 The judge console performs real MCP calls against the public service. The capability manifest exposes the protocol target, transport, six tool contracts, deterministic boundaries, and whether the optional SIM backend is remotely configured.
 
@@ -86,7 +86,7 @@ A learner may submit a triage category conversationally, but correctness is comp
 
 Devpost support confirmed that the private Alexa+ Category SDK / MCP Toolkit / add-on tooling is restricted to selected Amazon partners. PedsCore therefore uses the explicitly permitted self-hosted MCP route and does not claim an official partner-only Alexa add-on deployment.
 
-The SIM bridge is no longer an external blocker: PR #25 is merged, Vercel production deployment is green, Railway MCP is configured to call it, and the strict remote MCP→SIM smoke passed.
+The SIM bridge is no longer an external blocker: PR #25 is merged, Vercel production deployment is green, Vercel MCP is configured to call it, and the strict remote MCP→SIM smoke passed.
 
 ## 7. Reproduce the repository validation
 
@@ -100,7 +100,11 @@ npm run hackathon:verify
 To run the public MCP smoke against a base URL:
 
 ```bash
-MCP_REMOTE_BASE_URL=https://pedscore-ai-mcp-production.up.railway.app npm run hackathon:smoke:remote
+MCP_REMOTE_BASE_URL=https://pedscore-ai-mcp.vercel.app npm run hackathon:smoke:remote
 ```
 
 The smoke validates protocol negotiation, the six tool contracts, deterministic Apgar output, judge/compliance/media surfaces, and the full public SIM path: `school-bus` → patient `01` → submitted `GREEN` → expected `GREEN` → `correct=true` → rule `JS-MOB-01`.
+
+## 8. Vercel deployment, October 23
+
+The live public endpoints moved from Railway to `https://pedscore-ai-mcp.vercel.app`. The isolated deployment branch is `deploy/vercel-mcp-hackathon`. All six MCP tools were exercised successfully against Vercel, including Apgar 9/10 and JumpSTART GREEN / correct / JS-MOB-01. The domain `mcp.pedscore.app` may be used only once TLS is confirmed; the Vercel URL above is the canonical working judge link.
