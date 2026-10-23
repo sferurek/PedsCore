@@ -64,12 +64,12 @@ Simulation:
 
 ## Live MCP endpoint
 
-- Judge console: https://pedscore-ai-mcp-production.up.railway.app/judge-demo
-- Capability manifest: https://pedscore-ai-mcp-production.up.railway.app/capabilities
-- MCP: https://pedscore-ai-mcp-production.up.railway.app/mcp
-- Health: https://pedscore-ai-mcp-production.up.railway.app/health
-- Privacy: https://pedscore-ai-mcp-production.up.railway.app/privacy
-- Terms: https://pedscore-ai-mcp-production.up.railway.app/terms
+- Judge console: https://pedscore-ai-mcp.vercel.app/judge-demo
+- Capability manifest: https://pedscore-ai-mcp.vercel.app/capabilities
+- MCP: https://pedscore-ai-mcp.vercel.app/mcp
+- Health: https://pedscore-ai-mcp.vercel.app/health
+- Privacy: https://pedscore-ai-mcp.vercel.app/privacy
+- Terms: https://pedscore-ai-mcp.vercel.app/terms
 
 The public MCP runtime exposes the clinical and simulation tool contracts. The production MCP service is configured against the deployed SIM IMV bridge at `https://pedscore-triage-sim.vercel.app/api/hackathon/sim`; failures remain fail-closed rather than fabricating simulation results.
 
