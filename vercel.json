@@ -1,26 +1,15 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "apps/web/dist",
-  "redirects": [
-    {
-      "source": "/es/tools/modified-finnegan",
-      "destination": "/es/tools/fnass-21",
-      "permanent": true
-    },
-    {
-      "source": "/en/tools/modified-finnegan",
-      "destination": "/en/tools/fnass-21",
-      "permanent": true
-    }
-  ],
+  "version": 2,
+  "buildCommand": "npm run build -w @peds-core/core && npm run build -w @peds-core/mcp-server",
   "rewrites": [
     {
-      "source": "/api/analytics/countries",
-      "destination": "/api/analytics/countries.js"
-    },
-    {
-      "source": "/((?!api/|assets/).*)",
-      "destination": "/index.html"
+      "source": "/(.*)",
+      "destination": "/api"
     }
-  ]
+  ],
+  "functions": {
+    "api/index.ts": {
+      "maxDuration": 30
+    }
+  }
 }
