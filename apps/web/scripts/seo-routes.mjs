@@ -1,6 +1,22 @@
 export const productionBaseUrl = "https://pedscore.app";
 export const seoContentLastmod = "2026-09-22";
 
+// Significant runtime topic content/link changes released in #173.
+// Keep this editorial date independent of build time and unrelated routes.
+const novemberTopicUpdates = new Set([
+  "neonatal-encephalopathy-scores",
+  "pediatric-febrile-infant-tools",
+  "pediatric-intensive-care-scores",
+  "pediatric-kidney-function-aki-tools",
+  "preterm-pediatric-growth-tools",
+  "pediatric-croup-scores"
+]);
+
+export const getSeoLastmod = (path) => {
+  const topic = path.match(/^\/(?:es|en)\/topics\/([^/]+)$/)?.[1];
+  return novemberTopicUpdates.has(topic) ? "2026-11-05" : seoContentLastmod;
+};
+
 export const indexableCategories = [
   "neonatology",
   "respiratory",
@@ -62,7 +78,8 @@ export const getCanonicalSeoEntries = (tools) => {
     { path: `/en/tools/${tool.slug}`, priority: "0.7", changefreq: "monthly" }
   ]);
 
-  return [...staticPaths, ...categoryPaths, ...topicPaths, ...toolPaths];
+  return [...staticPaths, ...categoryPaths, ...topicPaths, ...toolPaths]
+    .map((entry) => ({ ...entry, lastmod: getSeoLastmod(entry.path) }));
 };
 
 export const toCanonicalUrl = (path) =>
