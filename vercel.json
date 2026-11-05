@@ -56,7 +56,8 @@
       "fix/pim3-category-validation-20261105": false,
       "docs/sprint-international-seo-20261105": false,
       "release/november-sprint-20261105": false,
-      "fix/vite-security-patch-20261105": false
+      "fix/vite-security-patch-20261105": false,
+      "fix/compatible-security-updates-20261105": false
     }
   }
 }
