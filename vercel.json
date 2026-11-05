@@ -57,7 +57,11 @@
       "docs/sprint-international-seo-20261105": false,
       "release/november-sprint-20261105": false,
       "fix/vite-security-patch-20261105": false,
-      "fix/compatible-security-updates-20261105": false
+      "fix/compatible-security-updates-20261105": false,
+      "fix/popular-tools-analytics-20261105": false,
+      "seo/current-audit-followup-20261105": false,
+      "seo/gorelick-intent-20261105": false,
+      "sprint/night-quality-20261107": false
     }
   }
 }
