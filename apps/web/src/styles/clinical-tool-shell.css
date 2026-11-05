@@ -473,7 +473,7 @@
 }
 
 /* Recovered result cards must remain legible inside the dark clinical shell. */
-.atlas-pram-frame .clinical-result-card .result-privacy-note {
+.atlas-pram-frame .clinical-result-card .calculated-result .result-privacy-note {
   color: #e8f3f8 !important;
   font-size: 14px;
   line-height: 1.5 !important;
@@ -502,4 +502,11 @@
 .atlas-pram-frame .clinical-result-card .result-trace-card dt,
 .atlas-pram-frame .clinical-result-card .result-trace-card dd {
   color: #173754;
+}
+
+.atlas-pram-frame .clinical-result-card .result-trace-card summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
 }
