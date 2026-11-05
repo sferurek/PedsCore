@@ -46,5 +46,10 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "git": {
+    "deploymentEnabled": {
+      "fix/pim3-category-validation-20261105": false
+    }
+  }
 }
