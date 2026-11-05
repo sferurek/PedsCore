@@ -46,5 +46,10 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "git": {
+    "deploymentEnabled": {
+      "fix/p0-seo-topic-parity-20261105": false
+    }
+  }
 }
