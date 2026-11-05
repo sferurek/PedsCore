@@ -8,7 +8,7 @@ The supplied chat URL opened, but all assistant responses reported “No se ha p
 
 ## P0 already prepared, verified rather than duplicated
 
-- [#167](https://github.com/sferurek/PedsCore/pull/167), draft, mergeable: recovery of #136; nine runtime topic hubs and 18 ES/EN routes. Exact head `54ce454c0c1be787276e0b663e4dce3da941df13`. [CI success](https://github.com/sferurek/PedsCore/actions/runs/42020062303), [MCP smoke success](https://github.com/sferurek/PedsCore/actions/runs/42020061978).
+- [#167](https://github.com/sferurek/PedsCore/pull/167), draft, mergeable: recovery of #136; nine runtime topic hubs and 18 ES/EN routes. Initial head `54ce454c0c1be787276e0b663e4dce3da941df13`. A follow-up enables `.test.js` collection: its SEO parity suite was otherwise silently excluded by the Vitest include pattern. [CI success](https://github.com/sferurek/PedsCore/actions/runs/42020062303), [MCP smoke success](https://github.com/sferurek/PedsCore/actions/runs/42020061978).
 - [#168](https://github.com/sferurek/PedsCore/pull/168), draft, mergeable: deterministic `npm ci`. Exact head `5efa3a2bfebc42f123be9332998b45240f85993b`. [CI success](https://github.com/sferurek/PedsCore/actions/runs/42020898789), [MCP smoke success](https://github.com/sferurek/PedsCore/actions/runs/42020898772).
 - #136 remains open; do not close until replacement is accepted. Production hydration remains unfixed until an authorized release.
 
@@ -20,9 +20,9 @@ Do not import stale lockfile, old workflow, algorithm, or evidence-status change
 
 ## Validation and browser limits
 
-Local Chromium review at 390×844: both languages for PRISM IV, PELOD-2, PIM3, pSOFA, Phoenix and PRAM; all 12 route shells rendered their H1 and had document width 390px, with no initial field errors. PRAM's recovered calculator link was added after that initial pass and checked separately. PECARN ES: jump, empty continuation, valid age advancement and reset tested. PRAM EN: synthetic age 6, confirmed stable room-air measurement, SpO2 98%, absent retractions/scalene contraction/wheeze and normal air entry yielded 0/Mild. Switching to ES cleared form state and localized the page. Source-backed clinical desk review is [recorded separately](2026-11-05-five-priority-tools.md); it is not independent clinical sign-off.
+Local Chromium review at 390×844: both languages for PRISM IV, PELOD-2, PIM3, pSOFA, Phoenix and PRAM; all 12 route shells rendered their H1 and had document width 390px, with no initial field errors. PRAM's recovered calculator link starts at supporting inputs and was checked separately. Browser review of populated results found dark-shell contrast and English age-unit wording defects; both were corrected and retested. PECARN ES: jump, empty continuation, valid age advancement and reset tested. PELOD-2 EN: all 12 inputs completed, score 0 and model probability 0.13% visible separately without overflow. PRAM EN: synthetic age 6, confirmed stable room-air measurement, SpO2 98%, absent retractions/scalene contraction/wheeze and normal air entry yielded 0/Mild. Switching to ES cleared form state and localized the page. Source-backed clinical desk review is [recorded separately](2026-11-05-five-priority-tools.md); it is not independent clinical sign-off.
 
-Validation: 85 test files / 617 tests passed; web TypeScript (no emit), ESLint and governance passed (137 catalog entries, 61 local-active surfaces). Generated sitemap is test preparation and is not included in this UI PR. The production SEO checker consumes a full dist and is delegated to necessary CI builds; local Vite review does not prove prerendered HTML or hosting redirects.
+Validation: 86 test files / 619 tests passed; web TypeScript (no emit), ESLint and governance passed (137 catalog entries, 61 local-active surfaces). Generated sitemap is test preparation and is not included in this UI PR. The production SEO checker consumes a full dist and is delegated to necessary CI builds; local Vite review does not prove prerendered HTML or hosting redirects.
 
 ## P2
 

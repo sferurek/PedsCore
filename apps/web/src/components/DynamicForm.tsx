@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ClinicalToolMetadata, ToolInput } from "@peds-core/core";
+import { localizeInputUnit } from "../utils/inputUnits";
 import { atlas } from "../i18n/atlas";
 import { translations } from "../i18n/translations";
 import type { FormValue, FormValues } from "../utils/formState";
@@ -273,7 +274,7 @@ function FormField({
                     }
                   }}
                 />
-                {input.unit ? <span>{input.unit}</span> : null}
+                {input.unit ? <span>{localizeInputUnit(input.unit, language)}</span> : null}
               </label>
               <button className="form-continue" type="button" onClick={onContinue}>
                 {t.form.continue}
