@@ -37,6 +37,7 @@ export function DynamicForm({
   const t = translations[language];
   const initialState = useMemo(() => getInitialFormState(tool), [tool]);
   const [values, setValues] = useState<FormValues>(initialState);
+  const [attemptedIds, setAttemptedIds] = useState<string[]>([]);
   const [openInputId, setOpenInputId] = useState<string | null>(() =>
     getFirstInputId(tool)
   );
@@ -47,6 +48,7 @@ export function DynamicForm({
 
   useEffect(() => {
     setValues(initialState);
+    setAttemptedIds([]);
     setOpenInputId(getFirstInputId(tool));
     onStateChange(initialState);
   }, [initialState, onStateChange, tool]);
@@ -56,9 +58,12 @@ export function DynamicForm({
     nextValues: FormValues,
     shouldAdvance: boolean
   ) => {
-    if (!shouldAdvance || !isInputComplete(input, nextValues[input.id] ?? null)) {
+    if (!shouldAdvance) return;
+    if (!isInputComplete(input, nextValues[input.id] ?? null)) {
+      setAttemptedIds((ids) => ids.includes(input.id) ? ids : [...ids, input.id]);
       return;
     }
+    setAttemptedIds((ids) => ids.filter((id) => id !== input.id));
 
     const nextInputId = getNextIncompleteInputId(tool, nextValues, input.id);
     setOpenInputId(nextInputId);
@@ -77,6 +82,7 @@ export function DynamicForm({
     const rawNextValues = { ...values, [inputId]: value };
     const nextValues = clearHiddenInputValues(tool, rawNextValues);
     setValues(nextValues);
+    setAttemptedIds((ids) => ids.filter((id) => id !== inputId));
     onStateChange(nextValues);
     advanceAfterInput(input, nextValues, shouldAdvance);
   };
@@ -92,7 +98,7 @@ export function DynamicForm({
 
   return (
     <section className="content-panel">
-      <div className="atlas-form-heading clinical-surface-heading"><h2>{t.form.title}</h2><button type="button" onClick={() => { setValues(initialState); setOpenInputId(getFirstInputId(tool)); onStateChange(initialState); }}>{atlas[language].reset}</button></div>
+      <div className="atlas-form-heading clinical-surface-heading"><h2>{t.form.title}</h2><button type="button" onClick={() => { setValues(initialState); setAttemptedIds([]); setOpenInputId(getFirstInputId(tool)); onStateChange(initialState); }}>{atlas[language].reset}</button></div>
       <p className="muted">{t.form.privacyNote}</p>
       {adaptiveFlow ? (
         <p className="muted adaptive-form-note">
@@ -105,7 +111,7 @@ export function DynamicForm({
         {visibleInputs.map((input, index) => (
           <FormField
             input={input}
-            isMissing={missingRequiredIds.has(input.id)}
+            isMissing={attemptedIds.includes(input.id) && missingRequiredIds.has(input.id)}
             isOpen={openInputId === input.id}
             key={input.id}
             language={language}
@@ -199,7 +205,9 @@ function FormField({
         <div className="accordion-content">
           {fieldDescription ? <p>{fieldDescription}</p> : null}
           {input.type === "single_choice" ? (
-            <div className="option-grid" role="group" aria-labelledby={`label-${input.id}`}>
+            <div className="option-grid" role="group" aria-labelledby={`label-${input.id}`}
+              aria-invalid={isMissing || undefined}
+              aria-describedby={isMissing ? `error-${input.id}` : undefined}>
               {input.options?.map((option) => (
                 <label
                   className={
@@ -221,7 +229,9 @@ function FormField({
             </div>
           ) : null}
           {input.type === "boolean" ? (
-            <div className="boolean-toggle" role="group" aria-labelledby={`label-${input.id}`}>
+            <div className="boolean-toggle" role="group" aria-labelledby={`label-${input.id}`}
+              aria-invalid={isMissing || undefined}
+              aria-describedby={isMissing ? `error-${input.id}` : undefined}>
               <button
                 aria-pressed={value === false}
                 className={value === false ? "selected" : ""}
@@ -245,6 +255,8 @@ function FormField({
               <label className="number-input">
                 <input
                   aria-labelledby={`label-${input.id}`}
+              aria-invalid={isMissing || undefined}
+              aria-describedby={isMissing ? `error-${input.id}` : undefined}
                   max={input.max}
                   min={input.min}
                   placeholder={input.placeholder?.[language]}
@@ -273,6 +285,8 @@ function FormField({
               <label className="number-input">
                 <input
                   aria-labelledby={`label-${input.id}`}
+              aria-invalid={isMissing || undefined}
+              aria-describedby={isMissing ? `error-${input.id}` : undefined}
                   placeholder={input.placeholder?.[language]}
                   type="text"
                   value={typeof value === "string" ? value : ""}
@@ -293,6 +307,8 @@ function FormField({
           {input.type === "select" ? (
             <select
               aria-labelledby={`label-${input.id}`}
+              aria-invalid={isMissing || undefined}
+              aria-describedby={isMissing ? `error-${input.id}` : undefined}
               value={typeof value === "string" ? value : ""}
               onChange={(event) => onChange(event.target.value, true)}
             >
@@ -305,7 +321,9 @@ function FormField({
             </select>
           ) : null}
           {input.type === "multi_select" ? (
-            <div className="option-grid" role="group" aria-labelledby={`label-${input.id}`}>
+            <div className="option-grid" role="group" aria-labelledby={`label-${input.id}`}
+              aria-invalid={isMissing || undefined}
+              aria-describedby={isMissing ? `error-${input.id}` : undefined}>
               {input.options?.map((option) => {
                 const currentValues = Array.isArray(value) ? value : [];
                 return (
@@ -330,7 +348,7 @@ function FormField({
               </button>
             </div>
           ) : null}
-          {isMissing ? <p className="field-error">{t.form.requiredMessage}</p> : null}
+          {isMissing ? <p className="field-error" id={`error-${input.id}`} role="alert">{t.form.requiredMessage}</p> : null}
         </div>
       ) : null}
     </section>

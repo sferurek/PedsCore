@@ -9,11 +9,17 @@ export const formatClinicalResultForClipboard = (
   const lines: string[] = [tool.name[language]];
   const primaryValue = result.score ?? result.value;
 
+  const primaryUnit = result.score !== undefined && result.value !== undefined ? undefined : result.unit;
+
   if (primaryValue !== undefined) {
     const label = result.score !== undefined
       ? (language === "es" ? "Puntuación" : "Score")
       : (language === "es" ? "Valor" : "Value");
-    lines.push(`${label}: ${primaryValue}${result.unit ? ` ${result.unit}` : ""}${result.maxScore !== undefined ? ` / ${result.maxScore}` : ""}`);
+    lines.push(`${label}: ${primaryValue}${primaryUnit ? ` ${primaryUnit}` : ""}${result.maxScore !== undefined ? ` / ${result.maxScore}` : ""}`);
+  }
+
+  if (result.score !== undefined && result.value !== undefined) {
+    lines.push(`${result.label?.[language] ?? (language === "es" ? "Valor" : "Value")}: ${result.value}${result.unit ? ` ${result.unit}` : ""}`);
   }
 
   if (result.classification) {
@@ -46,7 +52,7 @@ export const formatClinicalResultForClipboard = (
     lines.push(`${language === "es" ? "Fuente" : "Source"}: ${source}`);
   }
 
-  lines.push(`PedsCore · https://peds-core.vercel.app/${language}/tools/${tool.slug}`);
+  lines.push(`PedsCore · https://pedscore.app/${language}/tools/${tool.slug}`);
   lines.push(
     language === "es"
       ? "Resultado informativo; no sustituye la valoración clínica ni los protocolos locales."

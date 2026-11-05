@@ -385,7 +385,10 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
   padding-top:14px;
 }
 .tools-discovery-page .card-action {
-  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  min-height: 44px;
   border-radius: var(--radius-sm);
 }
 
@@ -826,18 +829,22 @@ main { max-width:var(--container-clinical); width:calc(100% - 48px); margin:auto
   gap:8px;
   margin-top:12px;
 }
-.atlas-popular-chips button {
-  min-height:30px;
-  padding:5px 10px;
+.atlas-popular-chips a {
+  display:inline-flex;
+  align-items:center;
+  min-height:44px;
+  padding:9px 12px;
   border:1px solid rgba(199,214,226,.42);
   border-radius:999px;
   background:rgba(7,24,39,.30);
   color:var(--text-on-dark-muted);
-  font-size:10px;
+  font-size:12px;
   font-weight:600;
+  text-decoration:none;
   transition:background var(--motion-fast),border-color var(--motion-fast),color var(--motion-fast),transform var(--motion-fast);
 }
-.atlas-popular-chips button:hover {
+.atlas-popular-chips a:hover,
+.atlas-popular-chips a:focus-visible {
   transform:translateY(-1px);
   background:rgba(143,194,255,.15);
   border-color:rgba(143,194,255,.58);

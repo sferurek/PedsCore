@@ -102,6 +102,7 @@ export function PramShowcasePage({
 
   return (
     <ClinicalToolShell
+      showCalculatorJump
       favorite={favorite}
       language={language}
       navigate={navigate}
@@ -112,7 +113,7 @@ export function PramShowcasePage({
       title="PRAM Score"
       tool={tool}
     >
-      <section className="pram-supporting-inputs">
+      <section className="pram-supporting-inputs" id="calculator">
         {ageInput ? (
           <label>
             <span>{ageInput.label[language]}</span>
@@ -125,7 +126,7 @@ export function PramShowcasePage({
                 value={typeof values[ageInput.id] === "number" ? values[ageInput.id] as number : ""}
                 onChange={(event) => update(ageInput.id, event.target.value === "" ? null : Number(event.target.value))}
               />
-              <small>{ageInput.unit ?? (language === "es" ? "años" : "years")}</small>
+              <small>{language === "es" && ageInput.unit === "years" ? "años" : ageInput.unit ?? (language === "es" ? "años" : "years")}</small>
             </div>
           </label>
         ) : null}
@@ -164,7 +165,7 @@ export function PramShowcasePage({
       </section>
 
       <div className="pram-workspace">
-        <section className="pram-calculator-card" id="calculator">
+        <section className="pram-calculator-card">
           <header>
             <div><span className="pram-section-icon">✎</span><h2>{language === "es" ? "Calculadora PRAM" : "PRAM calculator"}</h2></div>
             <button type="button" onClick={reset}>↻ {language === "es" ? "Limpiar todo" : "Reset all"}</button>

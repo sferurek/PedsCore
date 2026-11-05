@@ -159,7 +159,8 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   };
 
   const handleShare = async () => {
-    const url = window.location.href;
+    // Share only the canonical page URL: never propagate query strings or form state.
+    const url = new URL(makePath(language, "tools", tool.slug), "https://pedscore.app").toString();
     try {
       if (navigator.share) {
         await navigator.share({ title: tool.name[language], url });
@@ -179,6 +180,7 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
       navigate={navigate}
       onFavorite={handleFavorite}
       onShare={handleShare}
+      showCalculatorJump={hasActiveCalculation}
       primaryResult={hasActiveCalculation
         ? (language === "es" ? "Resultado calculado e interpretación clínica" : "Calculated result and clinical interpretation")
         : (language === "es" ? "Referencia clínica" : "Clinical reference")}
