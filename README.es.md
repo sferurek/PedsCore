@@ -1,5 +1,7 @@
 # PedsCore
 
+[English](README.md) · [Español](README.es.md)
+
 **Herramientas clínicas pediátricas y neonatales open source con trazabilidad de evidencia.**
 
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-green.svg)](LICENSE)
@@ -10,6 +12,12 @@
 [![Sin almacenamiento de datos clínicos](https://img.shields.io/badge/datos%20cl%C3%ADnicos-no%20almacenados-0f766e.svg)](DISCLAIMER.md)
 
 PedsCore es una biblioteca clínica bilingüe para pediatría y neonatología con catálogo estructurado, discovery clínico, motores de cálculo deterministas, trazabilidad de evidencia, gobernanza de derechos y límites de seguridad explícitos. No es sólo una colección de calculadoras: modela qué puede calcularse localmente, qué debe permanecer como referencia externa y por qué.
+
+## Colaboración clínica y docente internacional
+
+Consulta la [presentación internacional y propuesta de piloto para LITFL / Medmastery](docs/PEDSCORE_INTERNATIONAL_COLLABORATION.md), el [programa de revisión clínica](docs/CLINICAL_REVIEW_PROGRAM.md) y la [conciliación de fuentes PELOD-2 / pSOFA](docs/audits/2026-11-05-clinical-source-followup.md). Buscamos revisión clínica nominal, revisión terminológica ES/EN y actividades docentes con casos sintéticos; no se afirma aval institucional ni validación clínica independiente.
+
+Las mejoras del sprint de noviembre están preparadas en PR en borrador, pendientes de autorización para fusionar y desplegar. Las cifras del repositorio no prueban que esas mejoras estén publicadas.
 
 ## Fundador e identidad del proyecto
 
@@ -24,7 +32,7 @@ PedsCore es una iniciativa independiente, autofinanciada y de código abierto. S
 
 **Producción:** https://pedscore.app/
 
-## Estado actual · 19 de septiembre de 2026
+## Estado del repositorio · 5 de noviembre de 2026
 
 - **137** herramientas/superficies clínicas catalogadas.
 - **134** superficies activas.
@@ -33,6 +41,7 @@ PedsCore es una iniciativa independiente, autofinanciada y de código abierto. S
 - **64** herramientas marcadas como producto clínico implementado.
 - **61** superficies con cálculo local activo en los metadatos de discovery.
 - Las herramientas con derechos limitados permanecen accesibles mediante referencia oficial/original, sin reproducir contenido protegido.
+- **335** URL en el sitemap generado; **18** rutas de nueve temas en ES/EN.
 - Crecimiento OMS y CDC operativos.
 - Web ES/EN desplegada en Vercel.
 - Sin login ni persistencia de datos clínicos.
@@ -115,7 +124,7 @@ Consulta [DISCLAIMER.md](DISCLAIMER.md).
 
 ## Búsqueda, descubrimiento y SEO
 
-La aplicación incluye Finder clínico, navegación por categorías, páginas ES/EN individuales, canonical SEO, sitemap/hreflang, rutas estáticas/prerenderizadas, IndexNow y monitorización con Google Search Console.
+La aplicación incluye Finder clínico, navegación por categorías, páginas ES/EN individuales, canonical SEO, sitemap/hreflang, rutas estáticas/prerenderizadas e integración con buscadores. La cobertura real depende del acceso y la actualidad de los datos de Search Console. El [informe SEO de noviembre](docs/audits/2026-11-05-search-console-and-seo.md) documenta la discrepancia del sitemap en la propiedad antigua; no certifica la indexación de `pedscore.app`.
 
 Consulta [docs/SEO_CHECKLIST.md](docs/SEO_CHECKLIST.md).
 

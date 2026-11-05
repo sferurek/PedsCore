@@ -1,8 +1,8 @@
 # PedsCore
 
-> **Railway-free review:** [Local reproduction guide](docs/hackathon-2026/local-demo.md). Run the real MCP judge console locally; the optional SIM tools use the existing Vercel bridge. Historical hosted URLs below are not required for local review. The demo video still needs recording/upload.
+[English](README.md) · [Español](README.es.md)
 
-> **Amazon Developer Hackathon 2026:** the Alexa+ / self-hosted MCP workstream is documented in [HACKATHON_2026.md](HACKATHON_2026.md). Start the judge console using the [local reproduction guide](docs/hackathon-2026/local-demo.md). No Railway account or hosted MCP endpoint is required.
+
 
 **Evidence-traceable pediatric clinical tools — deterministic where appropriate, explicit about uncertainty, licensing and clinical scope.**
 
@@ -14,6 +14,12 @@
 [![Clinical data](https://img.shields.io/badge/clinical%20data-not%20stored-0f766e.svg)](DISCLAIMER.md)
 
 > **PedsCore is not just a calculator collection.** It is a bilingual clinical knowledge layer for pediatrics and neonatology: catalog, discovery metadata, deterministic calculation engines, evidence traceability, rights/reuse governance, safety boundaries, clinical review workflow and an indexable public web product.
+
+## For international clinical and educational collaborators
+
+Start with the [international briefing and draft LITFL / Medmastery pilot proposal](docs/PEDSCORE_INTERNATIONAL_COLLABORATION.md), the [clinical review program](docs/CLINICAL_REVIEW_PROGRAM.md), and the [PELOD-2 / pSOFA source follow-up](docs/audits/2026-11-05-clinical-source-followup.md). We welcome named clinical review, ES/EN terminology review and synthetic teaching pilots. No institutional endorsement or independent clinical sign-off is implied.
+
+November sprint changes are prepared in draft PRs [#167](https://github.com/sferurek/PedsCore/pull/167), [#168](https://github.com/sferurek/PedsCore/pull/168), [#169](https://github.com/sferurek/PedsCore/pull/169), [#170](https://github.com/sferurek/PedsCore/pull/170) and [#171](https://github.com/sferurek/PedsCore/pull/171). Repository/generator counts below do not mean those changes have been released. Merge and deployment remain subject to maintainer authorization.
 
 ## Founder and project identity
 
@@ -32,7 +38,7 @@ PedsCore is an independent, bootstrapped, open-source clinical software initiati
 
 ---
 
-## Current production snapshot · 19 September 2026
+## Repository snapshot · 5 November 2026
 
 | Metric | Current state |
 | --- | ---: |
@@ -43,7 +49,7 @@ PedsCore is an independent, bootstrapped, open-source clinical software initiati
 | Local-planned entries | **0** |
 | Implemented clinical products | **64** |
 | Active local-calculation surfaces | **61** |
-| Sitemap URLs | **325** |
+| Generated sitemap URLs | **335** |
 | Clinical data persisted | **0** |
 
 WHO Growth and CDC Growth are operational. Rights-limited instruments remain clinically discoverable through authoritative external references rather than dead-end pages.
@@ -117,10 +123,10 @@ It checks consistency across:
 
 **catalog ↔ discovery metadata ↔ calculator registry ↔ reuse status ↔ external references**
 
-CI also runs:
+Validation commands (the deterministic CI install change is prepared in #168):
 
 ```bash
-npm install
+npm ci
 npm run lint
 npm run test
 npm run build
@@ -290,12 +296,19 @@ The production web application includes:
 - tool/category/topic structured data;
 - generated sitemap;
 - technical SEO audit;
-- Google Search Console monitoring;
-- full-sitemap indexing tracker.
+- Search Console integration, subject to property access and data freshness.
+
+The [November SEO/Search Console audit](docs/audits/2026-11-05-search-console-and-seo.md) records a legacy-property sitemap mismatch. Canonical `pedscore.app` indexing is not yet established by that property. No active full-sitemap tracker is claimed without verified access.
 
 SEO checks are derived from the live catalog rather than hard-coded route totals.
 
 ---
+
+## Developer and hackathon resources
+
+> **Railway-free review:** [Local reproduction guide](docs/hackathon-2026/local-demo.md). Run the real MCP judge console locally; the optional SIM tools use the existing Vercel bridge. Historical hosted URLs below are not required for local review. The demo video still needs recording/upload.
+
+> **Amazon Developer Hackathon 2026:** the Alexa+ / self-hosted MCP workstream is documented in [HACKATHON_2026.md](HACKATHON_2026.md). Start the judge console using the [local reproduction guide](docs/hackathon-2026/local-demo.md). No Railway account or hosted MCP endpoint is required.
 
 ## Contributing
 
