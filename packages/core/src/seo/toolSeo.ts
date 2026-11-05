@@ -94,6 +94,10 @@ const topicLabels: Record<string, LocalizedText> = {
 };
 
 const titleOverrides: Record<string, LocalizedText> = {
+  "gorelick-dehydration": {
+    es: "Escala de Gorelick: deshidratación, 10 signos | PedsCore",
+    en: "Gorelick Dehydration Scale: 10-Sign Calculator | PedsCore"
+  },
   apgar: { es: "Test de Apgar — Calculadora neonatal | PedsCore", en: "Apgar Score Calculator — Newborn Assessment | PedsCore" },
   "silverman-andersen": { es: "Silverman-Andersen — Dificultad respiratoria | PedsCore", en: "Silverman-Andersen Score — Respiratory Distress | PedsCore" },
   ballard: { es: "New Ballard Score — Edad gestacional | PedsCore", en: "New Ballard Score — Gestational Age | PedsCore" },
@@ -303,6 +307,10 @@ export const getToolSeoProfile = (
   const baseDescription = tool.description[language] || tool.description.en;
   const population = tool.population[language] || tool.population.en;
   const descriptionOverrides: Record<string, LocalizedText> = {
+    "gorelick-dehydration": {
+      es: "Escala de Gorelick de 10 signos: calculadora 0–10 para valorar deshidratación en niños de 1 mes a 5 años. Población, límites y fuente original.",
+      en: "Gorelick 10-sign dehydration calculator, scored 0–10, for children aged 1 month to 5 years. Population, limitations and original source."
+    },
     pim2: {
       es: "Calculadora PIM2 (Pediatric Index of Mortality 2): ficha clínica de riesgo de mortalidad en UCI pediátrica, población, evidencia y estado de validación.",
       en: "PIM2 calculator (Pediatric Index of Mortality 2): pediatric ICU mortality-risk tool with population, evidence and validation status."
