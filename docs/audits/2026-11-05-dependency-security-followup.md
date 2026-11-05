@@ -27,7 +27,7 @@ Fresh audit: after #179, 18 package findings (7 high, 11 moderate); after this b
 
 Clean offline `npm ci`, the full core/web/API suite, lint and MCP suite are checked. Two MCP auth integration cases send small, local gzip requests: a valid compressed RPC must still receive 401 without a token; trailing bytes after compressed JSON must not terminate the process, and a subsequent health check must succeed. These tests exercise the real SDK/Express parser path. No exploit or load test was sent to production.
 
-Raw audit/test evidence remains in the task workspace: `security-after-audit.json`, `security-runtime-audit.json`, `security-tests.log`, `security-mcp-tests.log`. Build/governance/SEO and MCP smoke are verified by GitHub checks instead of another local production build.
+Raw audit/test evidence remains in the task workspace: `security-after-audit.json`, `security-runtime-audit.json`, `security-tests.log`, `security-mcp-tests.log`. The required GitHub CI now explicitly runs the MCP auth/protocol suite, so these regression cases execute in future pull requests too. Build/governance/SEO are checked remotely instead of another local production build. The separate public SIM bridge smoke workflow is filtered to PRs targeting main and does not automatically run for this stacked branch; no success for that separate workflow is claimed.
 
 ## Release boundaries and blockers
 
