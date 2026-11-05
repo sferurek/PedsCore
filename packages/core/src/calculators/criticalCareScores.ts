@@ -180,6 +180,23 @@ export const pim3Calculator: CalculatorDefinition = {
       };
     }
 
+    // Only published/catalogued categories have defined regression coefficients.
+    // Unknown strings must not silently select the reference-category coefficient.
+    if (
+      !["none", "cardiac_bypass", "cardiac_no_bypass", "noncardiac"].includes(procedure) ||
+      !["none", "very_high", "high", "low"].includes(riskGroup)
+    ) {
+      return {
+        toolId: tool.id,
+        warnings: [warning(
+          "invalid_pim3_categories",
+          "Selecciona categorías válidas de procedimiento y riesgo diagnóstico antes de calcular PIM3.",
+          "Select valid procedure and diagnostic-risk categories before calculating PIM3."
+        )],
+        trace: []
+      };
+    }
+
     const baseExcess = baseExcessUnknown ? 0 : baseExcessEntered;
     const sbp = sbpUnknown ? 120 : sbpEntered;
     const oxygenTerm =
