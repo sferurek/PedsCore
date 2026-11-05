@@ -46,5 +46,10 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "git": {
+    "deploymentEnabled": {
+      "docs/sprint-international-seo-20261105": false
+    }
+  }
 }
