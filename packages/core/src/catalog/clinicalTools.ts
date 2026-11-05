@@ -2385,8 +2385,8 @@ const brosjodValidationNotes: LocalizedText = {
 };
 
 const gorelickValidationNotes: LocalizedText = {
-  es: "Sprint 1: fuente Gorelick dehydration localizada con DOI/PMID, pero la tabla completa y la eleccion 4 frente a 10 items no quedan suficientemente trazadas desde una fuente reutilizable. No se implementa; queda bloqueada por seleccion de variante y tabla.",
-  en: "Sprint 1: Gorelick dehydration source located with DOI/PMID, but the complete table and 4-item versus 10-item choice are not sufficiently traced from a reusable source. It is not implemented; it remains blocked by variant selection and table review."
+  es: "PedsCore implementa la versión de 10 signos, con puntuación 0–10, para niños de 1 mes a 5 años. El estudio original también describe una variante abreviada de 4 signos: no intercambies sus puntos de corte. El resultado no mide un déficit exacto ni prescribe rehidratación. La referencia enlaza al resumen original; esta actualización editorial no acredita una revisión clínica independiente ni resuelve la revisión de la tabla completa y sus permisos de reutilización.",
+  en: "PedsCore implements the 10-sign version, scored 0–10, for children aged 1 month to 5 years. The original study also describes a shortened 4-sign version: do not interchange their cutoffs. The result does not measure an exact fluid deficit or prescribe rehydration. The reference links to the original abstract; this editorial update does not establish independent clinical review or resolve review of the full table and its reuse permissions."
 };
 
 const revisedSchwartzReadyNotes: LocalizedText = {
