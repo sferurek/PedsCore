@@ -76,7 +76,7 @@ const topicHubs = {
       description: "Compare Classic Sarnat, Modified Sarnat/NICHD, Thompson HIE and García-Alix approaches to neonatal encephalopathy assessment.",
       intro: "These tools describe related but non-identical constructs and assessment windows. A score alone should not be converted into a treatment decision."
     },
-    toolIds: ["sarnat", "modified_sarnat_nichd", "thompson_hie", "garcia_alix_ne_rs"]
+    toolIds: ["sarnat", "modified_sarnat_nichd", "thompson_hie", "garcia_alix_ners"]
   },
   "pediatric-asthma-wheeze-scores": {
     es: {

@@ -55,7 +55,7 @@ export const seoTopicHubs: SeoTopicHub[] = [
       es: "Las escalas describen constructos y momentos de evaluación relacionados pero no idénticos. La puntuación no debe convertirse por sí sola en una decisión terapéutica; revisa la versión y el contexto clínico de cada ficha.",
       en: "These tools describe related but non-identical constructs and assessment windows. A score alone should not be converted into a treatment decision; review each tool's version and clinical context."
     },
-    toolIds: ["sarnat", "modified_sarnat_nichd", "thompson_hie", "garcia_alix_ne_rs"]
+    toolIds: ["sarnat", "modified_sarnat_nichd", "thompson_hie", "garcia_alix_ners"]
   },
   {
     slug: "pediatric-asthma-wheeze-scores",

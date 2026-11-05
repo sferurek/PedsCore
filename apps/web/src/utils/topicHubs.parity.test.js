@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import { getAllTools, getTool } from "@peds-core/core";
+import { getStaticSeo, renderStaticBody } from "../../scripts/static-seo.mjs";
 import { seoTopicHubs, getSeoTopicHub } from "./topicHubs";
 import { parseRoute } from "./routes";
 import { getCanonicalSeoEntries } from "../../scripts/seo-routes.mjs";
@@ -23,6 +25,14 @@ describe("runtime vs generated SEO topic routes", () => {
       expect(hub?.description[locale], path).toBeTruthy();
       const alternate = parsed.withLanguage(locale === "es" ? "en" : "es");
       expect(localePaths(locale === "es" ? "en" : "es"), alternate).toContain(alternate);
+    }
+  });
+
+  it.each(["es", "en"])("keeps every %s static tool link aligned with runtime", (locale) => {
+    const tools = getAllTools();
+    for (const hub of seoTopicHubs) {
+      const body = renderStaticBody(getStaticSeo(`/${locale}/topics/${hub.slug}`, tools), tools);
+      for (const id of hub.toolIds) expect(body, `${hub.slug}: ${id}`).toContain(`/${locale}/tools/${getTool(id).slug}`);
     }
   });
 
