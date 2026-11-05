@@ -471,3 +471,42 @@
     min-width:520px;
   }
 }
+
+/* Recovered result cards must remain legible inside the dark clinical shell. */
+.atlas-pram-frame .clinical-result-card .calculated-result .result-privacy-note {
+  color: #e8f3f8 !important;
+  font-size: 14px;
+  line-height: 1.5 !important;
+}
+.atlas-pram-frame .clinical-result-card .calculated-result > .result-detail-grid {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+}
+.atlas-pram-frame .clinical-result-card .result-detail-card,
+.atlas-pram-frame .clinical-result-card .result-detail-card h3,
+.atlas-pram-frame .clinical-result-card .result-detail-card p {
+  color: #173754;
+}
+.atlas-pram-frame .clinical-result-card .result-alert-card,
+.atlas-pram-frame .clinical-result-card .result-alert-card h3,
+.atlas-pram-frame .clinical-result-card .result-alert-card .warning-list {
+  color: #513d13;
+}
+.atlas-pram-frame .clinical-result-card .result-detail-card p,
+.atlas-pram-frame .clinical-result-card .result-alert-card .warning-list {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.atlas-pram-frame .clinical-result-card .result-trace-card dt,
+.atlas-pram-frame .clinical-result-card .result-trace-card dd {
+  color: #173754;
+}
+
+.atlas-pram-frame .clinical-result-card .result-trace-card summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+}

@@ -15,6 +15,7 @@ type ClinicalToolShellProps = PropsWithChildren<{
   relatedTools: ClinicalToolMetadata[];
   title?: string;
   primaryResult?: string;
+  showCalculatorJump?: boolean;
 }>;
 
 export function ClinicalToolShell({
@@ -27,6 +28,7 @@ export function ClinicalToolShell({
   relatedTools,
   title,
   primaryResult,
+  showCalculatorJump = false,
   children
 }: ClinicalToolShellProps) {
   const discovery = getToolDiscovery(tool.id);
@@ -58,9 +60,16 @@ export function ClinicalToolShell({
                 <span className="pram-clinical-badge">✓ {language === "es" ? "Herramienta clínica" : "Clinical tool"}</span>
               </div>
               <p>{tool.description[language]}</p>
-              <a className="pram-evidence-jump" href="#evidence">
-                {language === "es" ? "Evidencia y referencias" : "Evidence and references"} ↓
-              </a>
+              <div className="pram-jump-links">
+                {showCalculatorJump ? (
+                  <a className="pram-calculator-jump" href="#calculator">
+                    {language === "es" ? "Ir al cálculo ↓" : "Go to calculator ↓"}
+                  </a>
+                ) : null}
+                <a className="pram-evidence-jump" href="#evidence">
+                  {language === "es" ? "Evidencia y referencias" : "Evidence and references"} ↓
+                </a>
+              </div>
             </div>
             <div className="pram-hero-actions">
               <button className={favorite ? "pram-pill-button is-active" : "pram-pill-button"} onClick={onFavorite} type="button" aria-pressed={favorite}>

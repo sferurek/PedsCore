@@ -250,13 +250,18 @@ export function HomePage({ language, navigate }: HomePageProps) {
         <div className="atlas-hero-inner"><div className="atlas-hero-copy"><p className="eyebrow">{a.eyebrow}</p><h1>{a.title}<br /><span>{a.future}</span></h1><p>{a.lead}</p><SearchCommand language={language} navigate={navigate} />
           <div className="atlas-popular-chips" aria-label={language === "es" ? "Accesos rápidos a herramientas" : "Quick tool access"}>
             {popularTools.map((tool) => (
-              <button
-                type="button"
+              <a
+                href={makePath(language, "tools", tool.slug)}
                 key={tool.id}
-                onClick={() => { trackHomeNavigation("home_quick_tool", tool.id); navigate(makePath(language, "tools", tool.slug)); }}
+                onClick={(event) => {
+                  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                  event.preventDefault();
+                  trackHomeNavigation("home_quick_tool", tool.id);
+                  navigate(makePath(language, "tools", tool.slug));
+                }}
               >
                 {tool.shortName || tool.name[language]}
-              </button>
+              </a>
             ))}
           </div></div><p className="atlas-hero-note">{a.note.split(". ").map((part, index) => <span key={part}>{part}{index === 0 ? "." : ""}</span>)}</p>
         <div className="atlas-gateways">{(["tools", "learn", "sim", "live"] as const).map((product, i) => <a className={`atlas-gateway atlas-${product}`} key={product} href={product === "sim" ? PEDSCORE_SIM_URL : `#${product}`}><div><span className="atlas-product-icon"><Icon name={product} /></span><strong>{a.productLabels[product]}</strong><Icon name="arrow" /></div><p>{a.capabilities[i][0]}</p><small>{product === "tools" ? <><b>{surfaceStats.available}</b> {t.home.availableMetric} · <b>{surfaceStats.localCalculations}</b> {t.home.implementedMetric}</> : product === "sim" ? a.openSim : a.soon}</small></a>)}</div></div>

@@ -5371,8 +5371,8 @@ const baseValidationNotes: Record<
   LocalizedText
 > = {
   ready: {
-    es: "Variables, rangos o reglas descritos en la documentacion del proyecto; requiere trazado final contra fuentes primarias antes de activar calculo.",
-    en: "Variables, ranges, or rules are described in project documentation; final tracing against primary sources is required before active calculation."
+    es: "Variables, rangos o reglas documentados en el proyecto. Consulta las fuentes y el estado de revisión de la ficha; un cálculo activo no implica una revisión clínica externa independiente.",
+    en: "Variables, ranges or rules are documented in the project. Check the cited sources and review status on the page; an active calculation does not imply independent external clinical review."
   },
   pending: {
     es: "Ficha catalogada. Requiere validacion de variante, variables, rangos, puntos de corte o fuente primaria antes de implementar calculo.",
