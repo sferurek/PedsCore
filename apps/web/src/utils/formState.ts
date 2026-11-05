@@ -1,4 +1,5 @@
 import type { ClinicalToolMetadata, ToolInput } from "@peds-core/core";
+import { localizeInputUnit } from "./inputUnits";
 import type { Language } from "./language";
 
 export type FormValue = string | number | boolean | string[] | null;
@@ -205,7 +206,8 @@ export const getInputSummary = (
   }
 
   if (input.type === "number") {
-    return `${value}${input.unit ? ` ${input.unit}` : ""}`;
+    const unit = localizeInputUnit(input.unit, language);
+    return `${value}${unit ? ` ${unit}` : ""}`;
   }
 
   if (input.type === "multi_select" && Array.isArray(value)) {

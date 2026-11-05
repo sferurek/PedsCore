@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pim3Calculator } from "../src/index.js";
+import { getToolBySlug, pim3Calculator } from "../src/index.js";
 
 const unknownReference = {
   both_pupils_fixed: false,
@@ -43,6 +43,32 @@ describe("PIM3 equation/reference checks", () => {
     expect(traceValue(result, "oxygen_term")).toBe(1.6);
     expect(traceValue(result, "pim3_logit")).toBe(4.0063);
     expect(result.value).toBe(98.21);
+  });
+
+  it.each([
+    { procedure_category: "INVALID" },
+    { diagnosis_risk_group: "INVALID" },
+    { procedure_category: "", diagnosis_risk_group: "" },
+    { diagnosis_risk_group: "HIGH" }
+  ])("rejects unsupported category strings without producing a probability: %j", (invalid) => {
+    const result = pim3Calculator.calculate({ ...unknownReference, ...invalid });
+    expect(result.value).toBeUndefined();
+    expect(result.score).toBeUndefined();
+    expect(result.warnings[0]?.id).toBe("invalid_pim3_categories");
+    expect(result.trace).toEqual([]);
+  });
+
+  it("retains every catalogued category combination", () => {
+    const tool = getToolBySlug("pim3")!;
+    const procedures = tool.inputs!.find(input => input.id === "procedure_category")!.options!;
+    const risks = tool.inputs!.find(input => input.id === "diagnosis_risk_group")!.options!;
+    for (const { id: procedure_category } of procedures) {
+      for (const { id: diagnosis_risk_group } of risks) {
+        const result = pim3Calculator.calculate({ ...unknownReference, procedure_category, diagnosis_risk_group });
+        expect(result.value).toBeTypeOf("number");
+        expect(result.warnings.some(warning => warning.id === "invalid_pim3_categories")).toBe(false);
+      }
+    }
   });
 
   it("applies procedure and diagnosis coefficients in the expected direction", () => {

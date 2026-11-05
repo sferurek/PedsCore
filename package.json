@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "npm run dev -w @peds-core/web",
     "lint": "eslint .",
-    "test": "npm run build -w @peds-core/core && npm run prebuild -w @peds-core/web && vitest run",
+    "test": "npm run build -w @peds-core/core && npm run prebuild -w @peds-core/web && vitest run && node --test scripts/tests/vercel-ignore-build.test.mjs",
     "build": "npm run build -w @peds-core/core && npm run build -w @peds-core/web && npm run build -w @peds-core/mcp-server",
     "mobile:bundle": "npm run build -w @peds-core/core && node scripts/export-mobile-clinical-bundle.mjs",
     "seo:check": "npm run seo:check -w @peds-core/web",

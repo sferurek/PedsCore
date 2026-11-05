@@ -46,5 +46,16 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "ignoreCommand": "node scripts/vercel-ignore-build.mjs",
+  "git": {
+    "deploymentEnabled": {
+      "fix/p0-seo-topic-parity-20261105": false,
+      "sprint/p2-build-costs-20261105": false,
+      "sprint/p1-clinical-ux-20261105": false,
+      "fix/pim3-category-validation-20261105": false,
+      "docs/sprint-international-seo-20261105": false,
+      "release/november-sprint-20261105": false
+    }
+  }
 }
