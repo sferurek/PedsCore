@@ -92,3 +92,22 @@
     background-position:67% 14%;
   }
 }
+
+/* Direct access to active clinical calculators, without hiding clinical context. */
+.atlas-pram-frame .pram-jump-links { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:10px; }
+.atlas-pram-frame .pram-calculator-jump {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:9px 16px;
+  border-radius:10px;
+  background:#0e5872;
+  color:#fff;
+  font-size:13px;
+  font-weight:750;
+  text-decoration:none;
+}
+.atlas-pram-frame .pram-calculator-jump:hover,
+.atlas-pram-frame .pram-calculator-jump:focus-visible { background:#073b50; color:#fff; }
+.atlas-pram-frame #calculator { scroll-margin-top:80px; }

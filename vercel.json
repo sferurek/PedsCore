@@ -46,5 +46,10 @@
     }
   ],
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "git": {
+    "deploymentEnabled": {
+      "sprint/p1-clinical-ux-20261105": false
+    }
+  }
 }
