@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ClinicalToolMetadata, ToolInput } from "@peds-core/core";
 import { localizeInputUnit } from "../utils/inputUnits";
 import { atlas } from "../i18n/atlas";
@@ -42,6 +42,12 @@ export function DynamicForm({
   const [openInputId, setOpenInputId] = useState<string | null>(() =>
     getFirstInputId(tool)
   );
+  const pendingFocusId = useRef<string | null>(null);
+  useEffect(() => {
+    if (pendingFocusId.current === null) return;
+    document.getElementById(`trigger-${pendingFocusId.current}`)?.focus();
+    pendingFocusId.current = null;
+  }, [openInputId]);
   const validation = validateForm(tool, values);
   const missingRequiredIds = new Set(validation.missingRequiredInputIds);
   const visibleInputs = getVisibleInputs(tool, values);
@@ -67,6 +73,7 @@ export function DynamicForm({
     setAttemptedIds((ids) => ids.filter((id) => id !== input.id));
 
     const nextInputId = getNextIncompleteInputId(tool, nextValues, input.id);
+    pendingFocusId.current = nextInputId;
     setOpenInputId(nextInputId);
 
     if (!nextInputId && validateForm(tool, nextValues).isComplete) {
@@ -184,6 +191,8 @@ function FormField({
     >
       <button
         aria-expanded={isOpen}
+        aria-controls={isOpen ? `content-${input.id}` : undefined}
+        id={`trigger-${input.id}`}
         className="accordion-trigger"
         type="button"
         onClick={onToggle}
@@ -203,7 +212,7 @@ function FormField({
         </span>
       </button>
       {isOpen ? (
-        <div className="accordion-content">
+        <div className="accordion-content" id={`content-${input.id}`}>
           {fieldDescription ? <p>{fieldDescription}</p> : null}
           {input.type === "single_choice" ? (
             <div className="option-grid" role="group" aria-labelledby={`label-${input.id}`}
@@ -349,7 +358,13 @@ function FormField({
               </button>
             </div>
           ) : null}
-          {isMissing ? <p className="field-error" id={`error-${input.id}`} role="alert">{t.form.requiredMessage}</p> : null}
+          {isMissing ? (
+            <p className="field-error" id={`error-${input.id}`} role="alert">
+              {input.type === "number"
+                ? `${language === "es" ? "Introduce un número válido." : "Enter a valid number."}${input.min !== undefined ? ` ${language === "es" ? "Mínimo" : "Minimum"}: ${input.min}.` : ""}${input.max !== undefined ? ` ${language === "es" ? "Máximo" : "Maximum"}: ${input.max}.` : ""}`
+                : t.form.requiredMessage}
+            </p>
+          ) : null}
         </div>
       ) : null}
     </section>

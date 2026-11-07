@@ -25,7 +25,7 @@ export const ResultPanel = forwardRef<HTMLElement, ResultPanelProps>(
       : null;
 
   return (
-    <section className="content-panel result-panel clinical-result-card" ref={ref} aria-live="polite" aria-atomic="true">
+    <section className="content-panel result-panel clinical-result-card" ref={ref} tabIndex={-1} aria-live="polite" aria-atomic="true">
       <h2>{t.result.title}</h2>
       {tool.implementationStatus !== "implemented" ? (
         <p>{t.result.inactiveCalculation}</p>
@@ -59,7 +59,7 @@ function CalculatedResult({ language, result, tool }: CalculatedResultProps) {
   const valueLabel = result.score !== undefined ? t.result.score : t.result.value;
   const primaryText =
     primaryValue !== undefined
-      ? `${primaryValue}${primaryUnit ? ` ${primaryUnit}` : ""}`
+      ? String(primaryValue)
       : result.classification?.[language] ??
         result.interpretation?.label[language] ??
         t.result.noInterpretation;
@@ -93,6 +93,7 @@ function CalculatedResult({ language, result, tool }: CalculatedResultProps) {
         <div className="result-hero-copy">
           <span className="result-kicker">{primaryEyebrow}</span>
           <strong className={primaryValue === undefined ? "result-primary-value result-primary-text" : "result-primary-value"}>{primaryText}</strong>
+          {primaryValue !== undefined && primaryUnit ? <span className="result-primary-unit">{primaryUnit}</span> : null}
           {result.maxScore !== undefined ? (
             <span className="result-max-score">
               {t.result.maxScore}: {result.maxScore}

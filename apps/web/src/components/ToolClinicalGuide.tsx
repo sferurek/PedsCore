@@ -108,7 +108,7 @@ export function ToolClinicalGuide({
           <h3>{language === "es" ? "Cuándo usarla" : "When to use"}</h3>
           <p>{tool.population[language]}</p>
           <div className="clinical-guide-tags">
-            {[...problems, ...functions, ...settings].slice(0, 7).map((item) => (
+            {[...new Set([...problems, ...functions, ...settings])].slice(0, 7).map((item) => (
               <span key={item}>{item}</span>
             ))}
           </div>
