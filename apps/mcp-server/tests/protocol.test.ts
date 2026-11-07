@@ -184,8 +184,9 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
 
   it.each([
     { toolId: "apgar", input: { assessment_time: "five_minutes", heart_rate: 0.5, respiratory_effort: 2, muscle_tone: 2, reflex_irritability: 2, color: 1 } },
-    { toolId: "pediatric_appendicitis_score", input: { right_iliac_fossa_tenderness: 2, cough_percussion_hopping_tenderness: 2, anorexia: 2, fever: 1, nausea_or_vomiting: 1, pain_migration: 1, leukocytosis: 1, neutrophilia: 1 } }
-  ])("returns a validation warning for unsupported numeric points through MCP: $toolId", async ({ toolId, input }) => {
+    { toolId: "pediatric_appendicitis_score", input: { right_iliac_fossa_tenderness: 2, cough_percussion_hopping_tenderness: 2, anorexia: 2, fever: 1, nausea_or_vomiting: 1, pain_migration: 1, leukocytosis: 1, neutrophilia: 1 } },
+    { toolId: "bacterial_meningitis_score", input: { age_days: 180, csf_wbc: 50, csf_rbc: 0, antibiotics_before_lp: false, critical_illness: false, immunosuppression: false, cns_device_or_recent_neurosurgery: false, other_bacterial_infection: false, csf_gram_positive: false, csf_anc: -1, csf_protein_mg_dl: 40, peripheral_anc: 5000, seizure: false } }
+  ])("returns a validation warning for unsupported numeric input through MCP: $toolId", async ({ toolId, input }) => {
     const { response, payload } = await rpc({
       jsonrpc: "2.0", id: 10, method: "tools/call",
       params: { name: "calculate_clinical_score", arguments: { toolId, input } }
@@ -194,7 +195,7 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     const result = payload.result?.structuredContent?.result;
     expect(result?.toolId).toBe(toolId);
     expect(result?.score).toBeUndefined();
-    expect(result?.warnings).toContainEqual(expect.objectContaining({ id: "invalid_score_input" }));
+    expect(result?.warnings).toContainEqual(expect.objectContaining({ id: toolId === "bacterial_meningitis_score" ? "invalid_bms_inputs" : "invalid_score_input" }));
   });
 
   it("fails closed when the SIM bridge is not configured", async () => {
