@@ -62,7 +62,8 @@
       "fix/popular-tools-analytics-20261105": false,
       "seo/current-audit-followup-20261105": false,
       "sprint/night-quality-20261107": false,
-      "fix/discrete-score-inputs-20261107": false
+      "fix/discrete-score-inputs-20261107": false,
+      "fix/search-command-accessibility-20261107": false
     }
   }
 }
