@@ -51,6 +51,23 @@ export const psofaCalculator: CalculatorDefinition = {
       gcs===null || creatinine===null || (pf===null && sf===null)){
       return {toolId:tool.id,warnings:[warning("missing_psofa_inputs","Faltan variables necesarias para calcular pSOFA.","Required variables for pSOFA are missing.")],trace:[]};
     }
+    const ratios: Array<[string, number | null]> = [["pao2_fio2_ratio", pf], ["spo2_fio2_ratio", sf]];
+    const isSupplied = (value: unknown) => value !== undefined && value !== null &&
+      (typeof value !== "string" || value.trim() !== "");
+    const malformedRatios = ratios
+      .filter(([inputId, value]) => isSupplied(input[inputId]) && value === null)
+      .map(([inputId]) => inputId);
+    if (malformedRatios.length) {
+      return {
+        toolId: tool.id,
+        warnings: [warning(
+          "invalid_psofa_inputs",
+          "Un cociente de oxigenación introducido no es un número válido. Revisa el valor y sus unidades antes de calcular pSOFA.",
+          "A supplied oxygenation ratio is not a valid number. Review its value and units before calculating pSOFA."
+        )],
+        trace: malformedRatios.map((inputId) => ({ inputId, value: input[inputId] }))
+      };
+    }
     if(ageMonths<0 || platelets<0 || bilirubin<0 || map<0 || dopamine<0 || epinephrine<0 || norepinephrine<0 ||
       !Number.isInteger(gcs) || gcs<3 || gcs>15 || creatinine<0 || (pf!==null && pf<0) || (sf!==null && sf<0)){
       return {toolId:tool.id,warnings:[warning("invalid_psofa_inputs","Revisa unidades y valores antes de calcular pSOFA.","Review units and values before calculating pSOFA.")],trace:[]};

@@ -218,6 +218,23 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     expect(payload.result?.structuredContent?.result?.warnings).toContainEqual(expect.objectContaining({ id: invalidId[toolId] }));
   });
 
+  it("does not silently replace a malformed supplied pSOFA ratio with the alternate measurement", async () => {
+    const fixtures = JSON.parse(readFileSync(new URL("../../../packages/core/tests/fixtures/gcs-valid-baseline-20261107.json", import.meta.url), "utf8")) as {
+      tools: Array<{ toolId: string; input: Record<string, unknown> }>
+    };
+    const base = fixtures.tools.find((item) => item.toolId === "psofa")!.input;
+    const { response, payload } = await rpc({
+      jsonrpc: "2.0", id: 12, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: {
+        toolId: "psofa", input: { ...base, gcs: 15, pao2_fio2_ratio: "INVALID", spo2_fio2_ratio: 292 }
+      } }
+    });
+    expect(response.ok).toBe(true);
+    expect(payload.result?.structuredContent?.result?.toolId).toBe("psofa");
+    expect(payload.result?.structuredContent?.result?.score).toBeUndefined();
+    expect(payload.result?.structuredContent?.result?.warnings).toContainEqual(expect.objectContaining({ id: "invalid_psofa_inputs" }));
+  });
+
   it("fails closed when the SIM bridge is not configured", async () => {
     const previous = process.env.SIM_IMV_API_URL;
     delete process.env.SIM_IMV_API_URL;
