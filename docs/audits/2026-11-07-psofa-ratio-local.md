@@ -1,5 +1,7 @@
 # Local-only pSOFA supplied-ratio guard — 7 November 2026
 
+> Update, 7 November: Sergio confirmed that the hackathon entry was not made and authorized continuation. The initial local-only precaution below is historical. These changes are now included in the draft integration branch `sprint/night-verified-candidate-20261107`; see [the consolidated review](2026-11-07-consolidated-candidate.md). No merge or deployment is authorized.
+
 **No push, no PR, no deployment.** This follow-up is kept in `audit/night-local-candidate-20261107`, after the coordinator's unverified Devpost/material-scope notice. No general freeze or completed entry is asserted; linked repository/demo materials remain unchanged pending clarification.
 
 ## Reproduced input-contract issue

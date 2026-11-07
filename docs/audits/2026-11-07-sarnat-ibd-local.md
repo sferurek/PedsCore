@@ -1,5 +1,7 @@
 # Local-only Modified Sarnat adapter and IBD laboratory guards
 
+> Update, 7 November: Sergio confirmed that the hackathon entry was not made and authorized continuation. The initial local-only precaution below is historical. These changes are now included in the draft integration branch `sprint/night-verified-candidate-20261107`; see [the consolidated review](2026-11-07-consolidated-candidate.md). No merge or deployment is authorized.
+
 7 November 2026. These changes remain local on `audit/night-local-candidate-20261107`. No push, PR update, merge or deployment follows the coordinator's uncertain Devpost/material-scope notice. A completed hackathon entry or blanket freeze is not asserted.
 
 ## Modified Sarnat: actual form IDs were not accepted

@@ -65,7 +65,8 @@
       "fix/discrete-score-inputs-20261107": false,
       "fix/search-command-accessibility-20261107": false,
       "audit/gcs-input-contract-local-20261107": false,
-      "audit/night-local-candidate-20261107": false
+      "audit/night-local-candidate-20261107": false,
+      "sprint/night-verified-candidate-20261107": false
     }
   }
 }
