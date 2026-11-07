@@ -670,3 +670,16 @@ describe("clinical tools catalog", () => {
     }
   });
 });
+
+describe("calculation availability notes", () => {
+  it("does not publish the generic pending-calculation notice for registered active tools", () => {
+    const active = getAllTools().filter((tool) => tool.calculationStatus === "active");
+    expect(active.length).toBeGreaterThan(0);
+    for (const tool of active) {
+      expect(tool.calculationNotes?.en ?? "", tool.id).not.toContain("Automatic calculation remains inactive");
+      expect(tool.calculationNotes?.es ?? "", tool.id).not.toContain("El calculo automatico permanece inactivo");
+    }
+    const bedside = active.find((tool) => tool.id === "bedside_schwartz")!;
+    expect(bedside.calculationNotes?.en).toContain("does not establish independent clinical review");
+  });
+});

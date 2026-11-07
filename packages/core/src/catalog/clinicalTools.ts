@@ -2254,6 +2254,11 @@ const pendingCalculationNotes: LocalizedText = {
   en: "Form prepared for review. Automatic calculation remains inactive until traceability, primary source, and clinical tests are complete."
 };
 
+const activeCalculationNotes: LocalizedText = {
+  es: "Cálculo local activo. Revisa la variante, las fuentes y las limitaciones de esta ficha. La disponibilidad técnica no acredita una revisión clínica independiente ni sustituye el juicio clínico.",
+  en: "Local calculation is active. Review this page's variant, sources and limitations. Technical availability does not establish independent clinical review or replace clinical judgement."
+};
+
 const woodDownesValidationNotes: LocalizedText = {
   es: "Bloque BRONCHIOLITIS-IMPLEMENTATION-1: decision maintainer aplicada para la variante Wood-Downes-Ferres clasica de 6 dominios. Salida descriptiva, informativa y trazable; no define conducta clinica ni sustituye protocolos locales.",
   en: "Block BRONCHIOLITIS-IMPLEMENTATION-1: maintainer decision applied for the classic six-domain Wood-Downes-Ferres variant. Output is descriptive, informational, and traceable; it does not define clinical conduct or replace local protocols."
@@ -5359,6 +5364,9 @@ const tool = (seed: ToolSeed): ClinicalToolMetadata => {
         ? "not_implemented_due_to_licensing"
         : seed.implementationStatus,
     ...(calculationStatus ? { calculationStatus } : {}),
+    ...(calculationStatus === "active" && metadata.calculationNotes === pendingCalculationNotes
+      ? { calculationNotes: activeCalculationNotes }
+      : {}),
     references,
     sourceTrace: metadata.sourceTrace ?? references,
     disclaimerRequired: true,

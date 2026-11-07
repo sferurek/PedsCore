@@ -136,7 +136,10 @@ export function ToolPage({ language, tool, navigate }: ToolPageProps) {
   };
 
   const handleFormComplete = () => {
-    scrollToResults();
+    window.requestAnimationFrame(() => {
+      scrollToResults();
+      resultPanelRef.current?.focus({ preventScroll: true });
+    });
 
     if (completedToolIdRef.current === tool.id) {
       return;

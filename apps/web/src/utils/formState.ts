@@ -118,10 +118,11 @@ export const isInputComplete = (
   }
 
   if (input.type === "number") {
-    const numericValue =
-      typeof value === "number" ? value : Number.parseFloat(String(value));
+    const numericValue = typeof value === "number"
+      ? value
+      : typeof value === "string" && value.trim() !== "" ? Number(value) : NaN;
 
-    if (Number.isNaN(numericValue)) {
+    if (!Number.isFinite(numericValue)) {
       return false;
     }
 
