@@ -19,6 +19,19 @@ export const apgarCalculator: CalculatorDefinition = {
       return missingResult(tool.id, requiredInputIds);
     }
 
+    const assessmentTimes = tool.inputs?.find((field) => field.id === "assessment_time")?.options;
+    if (!assessmentTimes?.some((option) => option.id === input.assessment_time)) {
+      return {
+        toolId: tool.id,
+        warnings: [warning(
+          "invalid_apgar_assessment_time",
+          "El tiempo de evaluación no pertenece a las opciones disponibles de esta implementación de Apgar.",
+          "Assessment time is not one of this Apgar implementation's available options."
+        )],
+        trace: [{ inputId: "assessment_time", value: input.assessment_time }]
+      };
+    }
+
     const trace = [];
     const scores: number[] = [];
     for (const inputId of inputIds) {

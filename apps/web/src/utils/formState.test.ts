@@ -106,6 +106,22 @@ describe("form state utilities", () => {
     ).toBe(false);
   });
 
+  it.each([NaN, Infinity, -Infinity, "Infinity", "1e309", "5mg", "3.5.2", " ", true, ["5"]])(
+    "does not complete a required numeric field from malformed/non-finite value %j",
+    (value) => {
+      const tool = getToolBySlug("bedside-schwartz")!;
+      const input = { ...tool.inputs!.find((item) => item.type === "number")!, min: undefined, max: undefined };
+      expect(isInputComplete(input, value)).toBe(false);
+      const numericOnly = { ...tool, inputs: [input] };
+      expect(canPrepareResult(numericOnly, { [input.id]: value })).toBe(false);
+    }
+  );
+
+  it.each([0, "0", 3.5, "3.5", "1e2"])("preserves finite numeric completion for %j", (value) => {
+    const input = getToolBySlug("bedside-schwartz")!.inputs!.find((item) => item.type === "number")!;
+    expect(isInputComplete({ ...input, min: undefined, max: undefined }, value)).toBe(true);
+  });
+
   it("hides conditional inputs until all visibility conditions are met", () => {
     const tool = getAllTools().find((item) => item.id === "step_by_step");
     expect(tool).toBeDefined();

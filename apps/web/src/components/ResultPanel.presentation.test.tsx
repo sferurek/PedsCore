@@ -21,6 +21,15 @@ describe("clinical result presentation", () => {
     expect(html).toContain(language === "es" ? "modelo pronóstico poblacional" : "population-level PICU prognostic model");
   });
 
+  it.each(["es", "en"] as const)("keeps a long clinical unit visible without enlarging it as the numeric value in %s", (language) => {
+    const tool = getToolBySlug("bedside-schwartz")!;
+    const html = renderToStaticMarkup(<ResultPanel language={language} tool={tool}
+      values={{ height_cm: 150, serum_creatinine: 0.8, creatinine_unit: "mg_dl" }} />);
+    expect(html).toContain('class="result-primary-value">77.4</strong>');
+    expect(html).toContain('class="result-primary-unit">mL/min/1.73 m2</span>');
+    expect(html).not.toContain('class="result-primary-value">77.4 mL/');
+  });
+
   it.each(["es", "en"] as const)("copies both outputs without input values in %s", (language) => {
     const tool = getToolBySlug("pelod-2")!;
     const text = formatClinicalResultForClipboard(language, tool, {

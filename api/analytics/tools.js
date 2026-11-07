@@ -2,7 +2,7 @@ const defaultCacheSeconds = 1800;
 const maxCacheSeconds = 21600;
 const vercelApiUrl = "https://api.vercel.com";
 
-const toIsoDate = (timestamp) => new Date(timestamp).toISOString().slice(0, 10);
+const toIsoDate = (timestamp) => new Date(timestamp).toISOString();
 
 const getConfig = (env = process.env) => {
   const accessToken = env.VERCEL_ACCESS_TOKEN ?? env.VERCEL_TOKEN;
@@ -55,7 +55,7 @@ const fetchVercelJson = async (url, accessToken) => {
 };
 
 const normalizePath = (row) =>
-  [row?.path, row?.key, row?.name, row?.x].find(
+  [row?.requestPath, row?.path, row?.key, row?.name, row?.x].find(
     (value) => typeof value === "string" && value.startsWith("/")
   );
 
@@ -80,7 +80,12 @@ export const normalizePopularToolRows = (rows, limit = 5) => {
     const match = path.match(/^\/(?:es|en)\/tools\/([^/?#]+)\/?$/);
     if (!match) continue;
 
-    const slug = decodeURIComponent(match[1]);
+    let slug;
+    try {
+      slug = decodeURIComponent(match[1]);
+    } catch {
+      continue;
+    }
     totals.set(slug, (totals.get(slug) ?? 0) + normalizeCount(row));
   }
 
@@ -133,8 +138,9 @@ export default async function handler(req, res) {
       toVercelUrl(config, "/v1/query/web-analytics/visits/aggregate", {
         since,
         until,
-        by: "path",
-        limit: 500
+        by: "requestPath",
+        limit: 100,
+        filter: "startswith(requestPath, '/es/tools/') or startswith(requestPath, '/en/tools/')"
       }),
       config.accessToken
     );

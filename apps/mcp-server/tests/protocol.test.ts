@@ -1,4 +1,6 @@
+import { getTool } from "@peds-core/core";
 import { createServer } from "node:http";
+import { readFileSync } from "node:fs";
 import type { AddressInfo } from "node:net";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createPedsCoreMcpApp } from "../src/app.js";
@@ -180,6 +182,78 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
       maxScore: 10,
       warnings: []
     });
+  });
+
+  it.each([
+    { toolId: "apgar", warningId: "invalid_score_input", input: { assessment_time: "five_minutes", heart_rate: 0.5, respiratory_effort: 2, muscle_tone: 2, reflex_irritability: 2, color: 1 } },
+    { toolId: "pediatric_appendicitis_score", warningId: "invalid_score_input", input: { right_iliac_fossa_tenderness: 2, cough_percussion_hopping_tenderness: 2, anorexia: 2, fever: 1, nausea_or_vomiting: 1, pain_migration: 1, leukocytosis: 1, neutrophilia: 1 } },
+    { toolId: "bacterial_meningitis_score", warningId: "invalid_bms_inputs", input: { age_days: 180, csf_wbc: 2000, csf_rbc: 0, antibiotics_before_lp: false, critical_illness: false, immunosuppression: false, cns_device_or_recent_neurosurgery: false, other_bacterial_infection: false, csf_gram_positive: false, csf_anc: -1, csf_protein_mg_dl: 40, peripheral_anc: 5000, seizure: false } },
+    { toolId: "phoenix_sepsis", warningId: "invalid_phoenix_inputs", input: { age_months: 60, suspected_infection: true, birth_hospitalization_before_discharge: false, postconceptional_age_at_least_37_weeks: true, any_respiratory_support: false, invasive_mechanical_ventilation: false, lactate_mmol_l: "INVALID" } },
+    { toolId: "apgar", warningId: "invalid_apgar_assessment_time", input: { assessment_time: "INVALID", heart_rate: 2, respiratory_effort: 2, muscle_tone: 2, reflex_irritability: 2, color: 2 } }
+  ])("returns a validation warning through MCP: $toolId ($warningId)", async ({ toolId, input, warningId }) => {
+    const { response, payload } = await rpc({
+      jsonrpc: "2.0", id: 10, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: { toolId, input } }
+    });
+    expect(response.ok).toBe(true);
+    const result = payload.result?.structuredContent?.result;
+    expect(result?.toolId).toBe(toolId);
+    expect(result?.score).toBeUndefined();
+    expect(result?.warnings).toContainEqual(expect.objectContaining({ id: warningId }));
+  });
+
+  it.each((JSON.parse(readFileSync(new URL("../../../packages/core/tests/fixtures/gcs-valid-baseline-20261107.json", import.meta.url), "utf8")) as {
+    tools: Array<{ toolId: string; input: Record<string, unknown> }>
+  }).tools)("rejects fractional GCS through MCP without returning a score: $toolId", async ({ toolId, input }) => {
+    const { response, payload } = await rpc({
+      jsonrpc: "2.0", id: 11, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: { toolId, input: { ...input, gcs: 7.5 } } }
+    });
+    expect(response.ok).toBe(true);
+    expect(payload.result?.structuredContent?.result?.toolId).toBe(toolId);
+    expect(payload.result?.structuredContent?.result?.score).toBeUndefined();
+    const invalidId: Record<string, string> = {
+      pelod_2: "invalid_pelod2_inputs", prism_iv: "invalid_prism4_inputs",
+      psofa: "invalid_psofa_inputs", phoenix_sepsis: "invalid_phoenix_inputs"
+    };
+    expect(payload.result?.structuredContent?.result?.warnings).toContainEqual(expect.objectContaining({ id: invalidId[toolId] }));
+  });
+
+  it("does not silently replace a malformed supplied pSOFA ratio with the alternate measurement", async () => {
+    const fixtures = JSON.parse(readFileSync(new URL("../../../packages/core/tests/fixtures/gcs-valid-baseline-20261107.json", import.meta.url), "utf8")) as {
+      tools: Array<{ toolId: string; input: Record<string, unknown> }>
+    };
+    const base = fixtures.tools.find((item) => item.toolId === "psofa")!.input;
+    const { response, payload } = await rpc({
+      jsonrpc: "2.0", id: 12, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: {
+        toolId: "psofa", input: { ...base, gcs: 15, pao2_fio2_ratio: "INVALID", spo2_fio2_ratio: 292 }
+      } }
+    });
+    expect(response.ok).toBe(true);
+    expect(payload.result?.structuredContent?.result?.toolId).toBe("psofa");
+    expect(payload.result?.structuredContent?.result?.score).toBeUndefined();
+    expect(payload.result?.structuredContent?.result?.warnings).toContainEqual(expect.objectContaining({ id: "invalid_psofa_inputs" }));
+  });
+
+  it.each(["normal", "severe"])("accepts actual Modified Sarnat form IDs through MCP: %s", async (category) => {
+    const input = Object.fromEntries(getTool("modified_sarnat_nichd").inputs!.map((field) => [field.id, category]));
+    const { response, payload } = await rpc({ jsonrpc: "2.0", id: 13, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: { toolId: "modified_sarnat_nichd", input } } });
+    expect(response.ok).toBe(true);
+    expect(payload.result?.structuredContent?.result?.score).toBe(category === "normal" ? 0 : 18);
+  });
+
+  it.each(["pcdai", "wpcdai"])("rejects negative ESR through MCP: %s", async (toolId) => {
+    const input: Record<string, unknown> = { esr_mm_h: -1, albumin_g_dl: 4 };
+    for (const field of getTool(toolId).inputs ?? []) {
+      if (field.options?.length) input[field.id] = [...field.options].sort((a, b) => (a.score ?? 0) - (b.score ?? 0))[0]!.id;
+    }
+    const { response, payload } = await rpc({ jsonrpc: "2.0", id: 14, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: { toolId, input } } });
+    expect(response.ok).toBe(true);
+    expect(payload.result?.structuredContent?.result?.score).toBeUndefined();
+    expect(payload.result?.structuredContent?.result?.warnings).toContainEqual(expect.objectContaining({ id: `invalid_${toolId}_inputs` }));
   });
 
   it("fails closed when the SIM bridge is not configured", async () => {

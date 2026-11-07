@@ -1,9 +1,11 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { getAllTools, getTool } from "@peds-core/core";
 import { getStaticSeo, renderStaticBody } from "../../scripts/static-seo.mjs";
 import { seoTopicHubs, getSeoTopicHub } from "./topicHubs";
 import { parseRoute } from "./routes";
 import { getCanonicalSeoEntries } from "../../scripts/seo-routes.mjs";
+
+afterEach(() => vi.useRealTimers());
 
 describe("runtime vs generated SEO topic routes", () => {
   const generated = getCanonicalSeoEntries([]);
@@ -47,5 +49,23 @@ describe("runtime vs generated SEO topic routes", () => {
 
   it("keeps an unknown topic outside the registered runtime hubs", () => {
     expect(getSeoTopicHub("unknown-topic-for-regression")).toBeUndefined();
+  });
+
+  it("keeps sitemap freshness tied to the released content change rather than the build clock", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2027-03-01T12:00:00Z"));
+    const entries = getCanonicalSeoEntries([{ slug: "synthetic-unmodified-tool" }]);
+    const changed = entries.filter((entry) => entry.lastmod === "2026-11-05");
+    expect(changed).toHaveLength(12);
+    for (const entry of changed) {
+      expect(entry.path).toMatch(/^\/(es|en)\/topics\//);
+      const alternate = entry.path.startsWith("/es/")
+        ? entry.path.replace(/^\/es\//, "/en/")
+        : entry.path.replace(/^\/en\//, "/es/");
+      expect(entries.find(({ path }) => path === alternate)?.lastmod).toBe(entry.lastmod);
+    }
+    expect(entries.find(({ path }) => path === "/en/tools/synthetic-unmodified-tool")?.lastmod).toBe("2026-09-22");
+    expect(entries.find(({ path }) => path === "/es/about")?.lastmod).toBe("2026-09-22");
+    expect(entries.every(({ lastmod }) => /^\d{4}-\d{2}-\d{2}$/.test(lastmod))).toBe(true);
   });
 });

@@ -5669,6 +5669,15 @@ td {
   text-wrap: balance;
 }
 
+.result-primary-unit {
+  display: block;
+  color: #ffffff;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 750;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
 .result-max-score {
   width: max-content;
   max-width: 100%;

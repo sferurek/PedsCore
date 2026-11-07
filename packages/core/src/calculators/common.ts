@@ -42,16 +42,18 @@ export const getNumericScore = (
   inputId: string
 ): number | null => {
   const value = input[inputId];
+  const options = tool.inputs?.find((toolInput) => toolInput.id === inputId)?.options;
 
   if (typeof value === "number") {
-    return Number.isFinite(value) ? value : null;
+    if (!Number.isFinite(value)) return null;
+    // Numeric API inputs must use the same points as the descriptor options.
+    // Do not impose an integer rule: some instruments legitimately use fractions.
+    const hasScoredOptions = options?.some((option) => typeof option.score === "number");
+    return !hasScoredOptions || options?.some((option) => option.score === value) ? value : null;
   }
 
   if (typeof value === "string") {
-    const optionScore = tool.inputs
-      ?.find((toolInput) => toolInput.id === inputId)
-      ?.options?.find((option) => option.id === value)?.score;
-
+    const optionScore = options?.find((option) => option.id === value)?.score;
     return typeof optionScore === "number" ? optionScore : null;
   }
 
@@ -131,8 +133,8 @@ export const invalidScoreResult = (
   warnings: [
     warning(
       "invalid_score_input",
-      "Cada campo de puntuacion debe tener un valor entre 0 y 2.",
-      "Each scoring field must have a value between 0 and 2."
+      "Usa una puntuación definida entre las opciones de este campo.",
+      "Use a score defined among this field's options."
     )
   ],
   trace: [{ inputId, value }]
