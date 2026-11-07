@@ -54,6 +54,30 @@ export const phoenixSepsisCalculator: CalculatorDefinition = {
       };
     }
 
+    const optionalNumbers: Array<[string, number | null]> = [
+      ["fio2_fraction", fio2], ["pao2_mmhg", pao2], ["spo2_percent", spo2],
+      ["vasoactive_count", vasoactiveCount], ["lactate_mmol_l", lactate], ["map_mmhg", map],
+      ["platelets_10e3_ul", platelets], ["inr", inr], ["d_dimer_mg_l_feu", dDimer],
+      ["fibrinogen_mg_dl", fibrinogen], ["gcs", gcs]
+    ];
+    const isSupplied = (value: unknown) => value !== undefined && value !== null &&
+      (typeof value !== "string" || value.trim() !== "");
+    const malformedIds = optionalNumbers
+      .filter(([inputId, value]) => isSupplied(input[inputId]) && value === null)
+      .map(([inputId]) => inputId);
+    if (isSupplied(input.both_pupils_fixed) && pupilsFixed === null) malformedIds.push("both_pupils_fixed");
+    if (malformedIds.length) {
+      return {
+        toolId: tool.id,
+        warnings: [warning(
+          "invalid_phoenix_inputs",
+          "Un dato introducido no es válido. Revisa el valor, las unidades y el tipo de respuesta antes de calcular Phoenix.",
+          "A supplied value is invalid. Review its value, units and response type before calculating Phoenix."
+        )],
+        trace: malformedIds.map((inputId) => ({ inputId, value: input[inputId] }))
+      };
+    }
+
     if (
       ageMonths < 0 || ageMonths >= 216 ||
       (fio2 !== null && (fio2 <= 0 || fio2 > 1)) ||
