@@ -44,6 +44,23 @@ export const bacterialMeningitisScoreCalculator: CalculatorDefinition = {
       };
     }
 
+    const negativeLabIds = ["csf_wbc", "csf_rbc", "csf_anc", "csf_protein_mg_dl", "peripheral_anc"]
+      .filter((inputId) => {
+        const value = getNumber(input, inputId);
+        return value !== null && value < 0;
+      });
+    if (negativeLabIds.length) {
+      return {
+        toolId: tool.id,
+        warnings: [warning(
+          "invalid_bms_inputs",
+          "Los recuentos celulares y las proteínas del LCR no pueden ser negativos. Revisa los valores y las unidades.",
+          "Cell counts and CSF protein cannot be negative. Review the values and units."
+        )],
+        trace: negativeLabIds.map((inputId) => ({ inputId, value: input[inputId] }))
+      };
+    }
+
     const outsideValidatedPopulation =
       ageDays < 29 ||
       csfWbc < 10 ||
