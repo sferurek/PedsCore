@@ -55,7 +55,8 @@
       "sprint/p1-clinical-ux-20261105": false,
       "fix/pim3-category-validation-20261105": false,
       "docs/sprint-international-seo-20261105": false,
-      "release/november-sprint-20261105": false
+      "release/november-sprint-20261105": false,
+      "fix/discrete-score-inputs-20261107": false
     }
   }
 }
