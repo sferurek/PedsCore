@@ -1,3 +1,4 @@
+import { getTool } from "@peds-core/core";
 import { createServer } from "node:http";
 import { readFileSync } from "node:fs";
 import type { AddressInfo } from "node:net";
@@ -233,6 +234,26 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     expect(payload.result?.structuredContent?.result?.toolId).toBe("psofa");
     expect(payload.result?.structuredContent?.result?.score).toBeUndefined();
     expect(payload.result?.structuredContent?.result?.warnings).toContainEqual(expect.objectContaining({ id: "invalid_psofa_inputs" }));
+  });
+
+  it.each(["normal", "severe"])("accepts actual Modified Sarnat form IDs through MCP: %s", async (category) => {
+    const input = Object.fromEntries(getTool("modified_sarnat_nichd").inputs!.map((field) => [field.id, category]));
+    const { response, payload } = await rpc({ jsonrpc: "2.0", id: 13, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: { toolId: "modified_sarnat_nichd", input } } });
+    expect(response.ok).toBe(true);
+    expect(payload.result?.structuredContent?.result?.score).toBe(category === "normal" ? 0 : 18);
+  });
+
+  it.each(["pcdai", "wpcdai"])("rejects negative ESR through MCP: %s", async (toolId) => {
+    const input: Record<string, unknown> = { esr_mm_h: -1, albumin_g_dl: 4 };
+    for (const field of getTool(toolId).inputs ?? []) {
+      if (field.options?.length) input[field.id] = [...field.options].sort((a, b) => (a.score ?? 0) - (b.score ?? 0))[0]!.id;
+    }
+    const { response, payload } = await rpc({ jsonrpc: "2.0", id: 14, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: { toolId, input } } });
+    expect(response.ok).toBe(true);
+    expect(payload.result?.structuredContent?.result?.score).toBeUndefined();
+    expect(payload.result?.structuredContent?.result?.warnings).toContainEqual(expect.objectContaining({ id: `invalid_${toolId}_inputs` }));
   });
 
   it("fails closed when the SIM bridge is not configured", async () => {

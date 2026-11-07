@@ -23,6 +23,12 @@ export const wpcdaiCalculator: CalculatorDefinition = {
     if([pain,wellbeing,stools,weight,perirectal,eim].some(v=>v===null)||esr===null||albumin===null){
       return {toolId:tool.id,warnings:[warning("missing_wpcdai","Faltan componentes para calcular wPCDAI.","Components are missing for wPCDAI.")],trace:[]};
     }
+    if(esr<0||albumin<0){
+      return {toolId:tool.id,warnings:[warning("invalid_wpcdai_inputs","La VSG y la albúmina no pueden ser negativas.","ESR and albumin cannot be negative.")],trace:[
+        ...(esr<0?[{inputId:"esr_mm_h",value:esr}]:[]),
+        ...(albumin<0?[{inputId:"albumin_g_dl",value:albumin}]:[])
+      ]};
+    }
     const esrPts=esr<20?0:esr<=50?7.5:15;
     const albuminPts=albumin>=3.5?0:albumin>=3.1?10:20;
     const score=(pain??0)+(wellbeing??0)+(stools??0)+(weight??0)+(perirectal??0)+(eim??0)+esrPts+albuminPts;

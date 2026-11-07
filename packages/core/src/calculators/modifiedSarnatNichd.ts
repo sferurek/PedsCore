@@ -1,4 +1,4 @@
-import { getNumber, getTool, missingResult, warning } from "./common.js";
+import { getNumber, getNumericScore, getTool, missingResult, warning } from "./common.js";
 import type { CalculatorDefinition } from "./common.js";
 
 const categoryIds = [
@@ -30,7 +30,7 @@ export const modifiedSarnatNichdCalculator: CalculatorDefinition = {
     const trace = [];
 
     for (const inputId of categoryIds) {
-      const value = getNumber(input, inputId);
+      const value = getNumericScore(tool, input, inputId) ?? getNumber(input, inputId);
       if (value === null || !Number.isInteger(value) || value < 0 || value > 3) {
         return {
           toolId: tool.id,
