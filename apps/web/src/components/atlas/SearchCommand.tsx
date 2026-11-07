@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { getAllTools } from "@peds-core/core";
 import { atlas } from "../../i18n/atlas";
 import { ToolStatusBadge } from "../ToolStatusBadge";
@@ -30,6 +30,8 @@ const toolSearchText = (tool: ReturnType<typeof getAllTools>[number], language: 
 
 export function SearchCommand({ language, navigate, compact = false, nav = false }: { language: Language; navigate: (path: string) => void; compact?: boolean; nav?: boolean }) {
   const t = atlas[language];
+  const inputId = useId();
+  const hasGlobalShortcut = compact || nav;
   const dialog = useRef<HTMLDialogElement>(null);
   const searchInput = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
@@ -40,7 +42,7 @@ export function SearchCommand({ language, navigate, compact = false, nav = false
   };
 
   useEffect(() => {
-    if (!compact) return;
+    if (!hasGlobalShortcut) return;
     const shortcut = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key === "k") {
         event.preventDefault();
@@ -49,7 +51,7 @@ export function SearchCommand({ language, navigate, compact = false, nav = false
     };
     window.addEventListener("keydown", shortcut);
     return () => window.removeEventListener("keydown", shortcut);
-  }, [compact]);
+  }, [hasGlobalShortcut]);
 
   const normalizedQuery = fold(query.trim());
   const results = getAllTools()
@@ -59,8 +61,8 @@ export function SearchCommand({ language, navigate, compact = false, nav = false
   return <>
     <button className={nav ? "atlas-nav-search" : compact ? "atlas-icon-button" : "atlas-search-launch"} aria-label={t.searchLabel} onClick={open} type="button"><Icon name="search" />{nav ? <span>{t.search}</span> : !compact ? <><span>{t.search}</span><Icon name="arrow" /></> : null}</button>
     <dialog className="atlas-search-dialog" ref={dialog} aria-label={t.searchLabel} onClick={event => { if (event.target === event.currentTarget) dialog.current?.close(); }}>
-      <div className="atlas-dialog-heading"><label htmlFor={compact ? "nav-search" : "hero-search"}>{t.searchLabel}</label><button className="atlas-icon-button" type="button" aria-label={t.close} onClick={() => dialog.current?.close()}><Icon name="close" /></button></div>
-      <input ref={searchInput} id={compact ? "nav-search" : "hero-search"} type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={t.search} />
+      <div className="atlas-dialog-heading"><label htmlFor={inputId}>{t.searchLabel}</label><button className="atlas-icon-button" type="button" aria-label={t.close} onClick={() => dialog.current?.close()}><Icon name="close" /></button></div>
+      <input ref={searchInput} id={inputId} type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={t.search} />
       <div className="atlas-search-results" aria-live="polite">{results.length ? results.map(tool => <button type="button" key={tool.id} onClick={() => {
         trackUsageEvent("navigation_used", makePath(language), language, {
           searchScope: "command_palette",
