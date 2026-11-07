@@ -1,4 +1,5 @@
 import { createServer } from "node:http";
+import { readFileSync } from "node:fs";
 import type { AddressInfo } from "node:net";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createPedsCoreMcpApp } from "../src/app.js";
@@ -198,6 +199,23 @@ describe("PedsCore MCP Streamable HTTP protocol", () => {
     expect(result?.toolId).toBe(toolId);
     expect(result?.score).toBeUndefined();
     expect(result?.warnings).toContainEqual(expect.objectContaining({ id: warningId }));
+  });
+
+  it.each((JSON.parse(readFileSync(new URL("../../../packages/core/tests/fixtures/gcs-valid-baseline-20261107.json", import.meta.url), "utf8")) as {
+    tools: Array<{ toolId: string; input: Record<string, unknown> }>
+  }).tools)("rejects fractional GCS through MCP without returning a score: $toolId", async ({ toolId, input }) => {
+    const { response, payload } = await rpc({
+      jsonrpc: "2.0", id: 11, method: "tools/call",
+      params: { name: "calculate_clinical_score", arguments: { toolId, input: { ...input, gcs: 7.5 } } }
+    });
+    expect(response.ok).toBe(true);
+    expect(payload.result?.structuredContent?.result?.toolId).toBe(toolId);
+    expect(payload.result?.structuredContent?.result?.score).toBeUndefined();
+    const invalidId: Record<string, string> = {
+      pelod_2: "invalid_pelod2_inputs", prism_iv: "invalid_prism4_inputs",
+      psofa: "invalid_psofa_inputs", phoenix_sepsis: "invalid_phoenix_inputs"
+    };
+    expect(payload.result?.structuredContent?.result?.warnings).toContainEqual(expect.objectContaining({ id: invalidId[toolId] }));
   });
 
   it("fails closed when the SIM bridge is not configured", async () => {

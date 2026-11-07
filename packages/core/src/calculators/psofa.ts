@@ -52,7 +52,7 @@ export const psofaCalculator: CalculatorDefinition = {
       return {toolId:tool.id,warnings:[warning("missing_psofa_inputs","Faltan variables necesarias para calcular pSOFA.","Required variables for pSOFA are missing.")],trace:[]};
     }
     if(ageMonths<0 || platelets<0 || bilirubin<0 || map<0 || dopamine<0 || epinephrine<0 || norepinephrine<0 ||
-      gcs<3 || gcs>15 || creatinine<0 || (pf!==null && pf<0) || (sf!==null && sf<0)){
+      !Number.isInteger(gcs) || gcs<3 || gcs>15 || creatinine<0 || (pf!==null && pf<0) || (sf!==null && sf<0)){
       return {toolId:tool.id,warnings:[warning("invalid_psofa_inputs","Revisa unidades y valores antes de calcular pSOFA.","Review units and values before calculating pSOFA.")],trace:[]};
     }
 

@@ -90,7 +90,7 @@ export const phoenixSepsisCalculator: CalculatorDefinition = {
       (inr !== null && inr < 0) ||
       (dDimer !== null && dDimer < 0) ||
       (fibrinogen !== null && fibrinogen < 0) ||
-      (gcs !== null && (gcs < 3 || gcs > 15))
+      (gcs !== null && (!Number.isInteger(gcs) || gcs < 3 || gcs > 15))
     ) {
       return {
         toolId: tool.id,

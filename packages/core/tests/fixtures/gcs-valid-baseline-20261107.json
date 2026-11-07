@@ -1,0 +1,868 @@
+{
+  "sourceCommit": "efd6450dba56bc74d46fc96243c25703642355cb",
+  "tools": [
+    {
+      "toolId": "pelod_2",
+      "input": {
+        "age_months": 60,
+        "both_pupils_fixed": false,
+        "lactate_mmol_l": 1,
+        "map_mmhg": 80,
+        "creatinine_umol_l": 50,
+        "pao2_mmhg": 100,
+        "fio2_fraction": 0.21,
+        "paco2_mmhg": 40,
+        "invasive_ventilation": false,
+        "wbc_10e9_l": 5,
+        "platelets_10e9_l": 200
+      },
+      "outputs": [
+        {
+          "gcs": 3,
+          "score": 4,
+          "value": 0.87,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 4",
+            "en": "PELOD-2 4"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 4,
+          "score": 4,
+          "value": 0.87,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 4",
+            "en": "PELOD-2 4"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 5,
+          "score": 1,
+          "value": 0.22,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 1",
+            "en": "PELOD-2 1"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 6,
+          "score": 1,
+          "value": 0.22,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 1",
+            "en": "PELOD-2 1"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 7,
+          "score": 1,
+          "value": 0.22,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 1",
+            "en": "PELOD-2 1"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 8,
+          "score": 1,
+          "value": 0.22,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 1",
+            "en": "PELOD-2 1"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 9,
+          "score": 1,
+          "value": 0.22,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 1",
+            "en": "PELOD-2 1"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 10,
+          "score": 1,
+          "value": 0.22,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 1",
+            "en": "PELOD-2 1"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 11,
+          "score": 0,
+          "value": 0.13,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 0",
+            "en": "PELOD-2 0"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 12,
+          "score": 0,
+          "value": 0.13,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 0",
+            "en": "PELOD-2 0"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 13,
+          "score": 0,
+          "value": 0.13,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 0",
+            "en": "PELOD-2 0"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 14,
+          "score": 0,
+          "value": 0.13,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 0",
+            "en": "PELOD-2 0"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        },
+        {
+          "gcs": 15,
+          "score": 0,
+          "value": 0.13,
+          "maxScore": 33,
+          "classification": {
+            "es": "PELOD-2 0",
+            "en": "PELOD-2 0"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "pelod2_worst_values"
+          ]
+        }
+      ]
+    },
+    {
+      "toolId": "prism_iv",
+      "input": {
+        "first_picu_admission_this_hospitalization": true,
+        "prism_iv_sampling_window_confirmed": true,
+        "cardiac_intervention_under_3_months": false,
+        "cardiac_postintervention_window_confirmed": false,
+        "age_days": 366,
+        "admission_source": "other",
+        "cpr_within_24h": false,
+        "cancer": false,
+        "low_risk_primary_system": false,
+        "systolic_bp_mmhg": 100,
+        "heart_rate": 100,
+        "temperature_c": 37,
+        "pupil_status": "reactive",
+        "ph_lowest": 7.35,
+        "ph_highest": 7.45,
+        "total_co2_lowest_mmol_l": 20,
+        "total_co2_highest_mmol_l": 25,
+        "paco2_mmhg": 40,
+        "pao2_mmhg": 100,
+        "glucose_mg_dl": 100,
+        "potassium_mmol_l": 4,
+        "creatinine_mg_dl": 0.5,
+        "bun_mg_dl": 10,
+        "wbc_per_mm3": 8000,
+        "platelets_per_mm3": 250000,
+        "pt_seconds": 12,
+        "ptt_seconds": 30
+      },
+      "outputs": [
+        {
+          "gcs": 3,
+          "score": 5,
+          "value": 0.82,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 4,
+          "score": 5,
+          "value": 0.82,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 5,
+          "score": 5,
+          "value": 0.82,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 6,
+          "score": 5,
+          "value": 0.82,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 7,
+          "score": 5,
+          "value": 0.82,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 8,
+          "score": 0,
+          "value": 0.31,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 9,
+          "score": 0,
+          "value": 0.31,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 10,
+          "score": 0,
+          "value": 0.31,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 11,
+          "score": 0,
+          "value": 0.31,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 12,
+          "score": 0,
+          "value": 0.31,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 13,
+          "score": 0,
+          "value": 0.31,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 14,
+          "score": 0,
+          "value": 0.31,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        },
+        {
+          "gcs": 15,
+          "score": 0,
+          "value": 0.31,
+          "maxScore": null,
+          "classification": {
+            "es": "PRISM IV",
+            "en": "PRISM IV"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "population_level_prognosis",
+            "prism4_collection_window"
+          ]
+        }
+      ]
+    },
+    {
+      "toolId": "psofa",
+      "input": {
+        "age_months": 120,
+        "pao2_fio2_ratio": 400,
+        "respiratory_support": false,
+        "platelets_10e3_ul": 150,
+        "bilirubin_mg_dl": 1.1,
+        "map_mmhg": 65,
+        "dopamine_mcg_kg_min": 0,
+        "dobutamine_any_dose": false,
+        "epinephrine_mcg_kg_min": 0,
+        "norepinephrine_mcg_kg_min": 0,
+        "creatinine_mg_dl": 0.6
+      },
+      "outputs": [
+        {
+          "gcs": 3,
+          "score": 4,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 4/24",
+            "en": "pSOFA 4/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 4,
+          "score": 4,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 4/24",
+            "en": "pSOFA 4/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 5,
+          "score": 4,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 4/24",
+            "en": "pSOFA 4/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 6,
+          "score": 3,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 3/24",
+            "en": "pSOFA 3/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 7,
+          "score": 3,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 3/24",
+            "en": "pSOFA 3/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 8,
+          "score": 3,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 3/24",
+            "en": "pSOFA 3/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 9,
+          "score": 3,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 3/24",
+            "en": "pSOFA 3/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 10,
+          "score": 2,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 2/24",
+            "en": "pSOFA 2/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 11,
+          "score": 2,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 2/24",
+            "en": "pSOFA 2/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 12,
+          "score": 2,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 2/24",
+            "en": "pSOFA 2/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 13,
+          "score": 1,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 1/24",
+            "en": "pSOFA 1/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 14,
+          "score": 1,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 1/24",
+            "en": "pSOFA 1/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        },
+        {
+          "gcs": 15,
+          "score": 0,
+          "value": null,
+          "maxScore": 24,
+          "classification": {
+            "es": "pSOFA 0/24",
+            "en": "pSOFA 0/24"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "psofa_context"
+          ]
+        }
+      ]
+    },
+    {
+      "toolId": "phoenix_sepsis",
+      "input": {
+        "age_months": 60,
+        "suspected_infection": true,
+        "birth_hospitalization_before_discharge": false,
+        "postconceptional_age_at_least_37_weeks": true,
+        "any_respiratory_support": false,
+        "invasive_mechanical_ventilation": false
+      },
+      "outputs": [
+        {
+          "gcs": 3,
+          "score": 1,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 4,
+          "score": 1,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 5,
+          "score": 1,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 6,
+          "score": 1,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 7,
+          "score": 1,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 8,
+          "score": 1,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 9,
+          "score": 1,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 10,
+          "score": 1,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 11,
+          "score": 0,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 12,
+          "score": 0,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 13,
+          "score": 0,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 14,
+          "score": 0,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        },
+        {
+          "gcs": 15,
+          "score": 0,
+          "value": null,
+          "maxScore": 13,
+          "classification": {
+            "es": "No cumple el umbral Phoenix de sepsis con los datos disponibles",
+            "en": "Does not meet the Phoenix sepsis threshold with available data"
+          },
+          "interpretationId": null,
+          "warningIds": [
+            "phoenix_not_screening",
+            "phoenix_first_24h",
+            "phoenix_partial_data"
+          ]
+        }
+      ]
+    }
+  ]
+}

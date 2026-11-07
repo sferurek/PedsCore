@@ -81,7 +81,7 @@ export const pelod2Calculator: CalculatorDefinition = {
     }
 
     if (
-      ageMonths < 0 || gcs < 3 || gcs > 15 || lactate < 0 || map < 0 ||
+      ageMonths < 0 || !Number.isInteger(gcs) || gcs < 3 || gcs > 15 || lactate < 0 || map < 0 ||
       creatinine < 0 || pao2 <= 0 || fio2 <= 0 || fio2 > 1 ||
       paco2 < 0 || wbc < 0 || platelets < 0
     ) {
@@ -386,7 +386,7 @@ export const prism4Calculator: CalculatorDefinition = {
     }
 
     if (
-      ageDays < 0 || sbp < 0 || hr < 0 || gcs < 3 || gcs > 15 ||
+      ageDays < 0 || sbp < 0 || hr < 0 || !Number.isInteger(gcs) || gcs < 3 || gcs > 15 ||
       phLowest <= 0 || phHighest <= 0 || phLowest > phHighest ||
       totalCo2Lowest < 0 || totalCo2Highest < 0 || totalCo2Lowest > totalCo2Highest ||
       paco2 < 0 || pao2 < 0 ||

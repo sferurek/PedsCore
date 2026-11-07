@@ -63,7 +63,9 @@
       "seo/current-audit-followup-20261105": false,
       "sprint/night-quality-20261107": false,
       "fix/discrete-score-inputs-20261107": false,
-      "fix/search-command-accessibility-20261107": false
+      "fix/search-command-accessibility-20261107": false,
+      "audit/gcs-input-contract-local-20261107": false,
+      "audit/night-local-candidate-20261107": false
     }
   }
 }
